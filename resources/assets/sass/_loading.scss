@@ -1,0 +1,11 @@
+.loading-wrap {
+  position: relative;
+  min-height: 400px;
+
+  &__spinner {
+    position: absolute 0;
+    width: 52px;
+    height: 52px;
+    margin: auto;
+  }
+}
