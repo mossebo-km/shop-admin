@@ -20,11 +20,11 @@ export default class ModalBuilder {
             ${this.options.message}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary js-modal-close">Закрыть</button>
             ${this.options.onConfirm ?
-              '<button type="button" class="btn btn-primary js-modal-confirm">Confirm</button>' :
+              '<button type="button" class="btn btn-primary js-modal-confirm">Подтвердить</button>' :
               ''
             }
+            <button type="button" class="btn btn-secondary js-modal-close">Закрыть</button>
           </div>
         </div>
       </div>
@@ -62,7 +62,7 @@ export default class ModalBuilder {
 
     setTimeout(() => {
       this.$modal.modal('toggle')
-    }, 1000);
+    });
   }
 }
 

@@ -8346,7 +8346,7 @@ var ModalBuilder = function () {
       var _this = this;
 
       var elTemp = document.createElement('div');
-      elTemp.innerHTML = '<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">\n      <div class="modal-dialog ' + (this.options.centered ? 'modal-dialog-centered' : '') + '" role="document">\n        <div class="modal-content">\n          <div class="modal-header">\n            <h2 class="modal-title">' + this.options.title + '</h2>\n          </div>\n          <div class="modal-body">\n            ' + this.options.message + '\n          </div>\n          <div class="modal-footer">\n            <button type="button" class="btn btn-secondary js-modal-close">\u0417\u0430\u043A\u0440\u044B\u0442\u044C</button>\n            ' + (this.options.onConfirm ? '<button type="button" class="btn btn-primary js-modal-confirm">Confirm</button>' : '') + '\n          </div>\n        </div>\n      </div>\n    </div>';
+      elTemp.innerHTML = '<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">\n      <div class="modal-dialog ' + (this.options.centered ? 'modal-dialog-centered' : '') + '" role="document">\n        <div class="modal-content">\n          <div class="modal-header">\n            <h2 class="modal-title">' + this.options.title + '</h2>\n          </div>\n          <div class="modal-body">\n            ' + this.options.message + '\n          </div>\n          <div class="modal-footer">\n            ' + (this.options.onConfirm ? '<button type="button" class="btn btn-primary js-modal-confirm">Подтвердить</button>' : '') + '\n            <button type="button" class="btn btn-secondary js-modal-close">\u0417\u0430\u043A\u0440\u044B\u0442\u044C</button>\n          </div>\n        </div>\n      </div>\n    </div>';
 
       elTemp.querySelector('.js-modal-close').addEventListener('click', function () {
         if (typeof _this.options.onClose === 'function') {
@@ -8385,7 +8385,7 @@ var ModalBuilder = function () {
 
       setTimeout(function () {
         _this3.$modal.modal('toggle');
-      }, 1000);
+      });
     }
   }]);
 
@@ -8527,6 +8527,11 @@ var render = function() {
                               href: "javascript:void(0)",
                               "data-toggle": "tooltip",
                               title: "Delete"
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.onRemove(product.id)
+                              }
                             }
                           },
                           [_c("i", { staticClass: "fa fa-times" })]

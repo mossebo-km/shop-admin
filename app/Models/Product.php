@@ -16,4 +16,13 @@ class Product extends ModelI18
     {
         return $this->morphMany(Price::class, 'item');
     }
+
+    public function delete()
+    {
+        return \DB::transaction(function () {
+            $this->prices()->delete();
+
+            return parent::delete();
+        });
+    }
 }

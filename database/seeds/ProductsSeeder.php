@@ -32,6 +32,64 @@ class ProductsSeeder extends Seeder
                     'meta_description' => 'Стул обыкновенный, больше сказать нечего.',
                 ]
             ]
+        ],
+        [
+            'code' => 'stol',
+            'quantity' => 1,
+            'is_popular' => true,
+            'is_new' => true,
+
+            'i18' => [
+                'ru' => [
+                    'title' => 'Стол необыкновенный',
+                    'description' => '<p>Стол обыкновенный, больше сказать нечего.</p>',
+                    'meta_title' => 'Стол необыкновенный',
+                    'meta_description' => 'Стол необыкновенный, больше сказать нечего.',
+                ]
+            ]
+        ],
+        [
+            'code' => 'lampa',
+            'quantity' => 1,
+            'is_popular' => false,
+            'is_new' => false,
+
+            'i18' => [
+                'ru' => [
+                    'title' => 'Лампа',
+                    'description' => '<p>Лампа электрическая.</p>',
+                    'meta_title' => 'Лампа электрическая',
+                    'meta_description' => 'Лампа электрическая.',
+                ]
+            ]
+        ],
+        [
+            'code' => 'vaza',
+            'quantity' => 1,
+            'is_popular' => true,
+
+            'i18' => [
+                'ru' => [
+                    'title' => 'Ваза китайская',
+                    'description' => '<p>Ваза китайская времен династии Си Цзиньпиня.</p>',
+                    'meta_title' => 'Ваза китайская',
+                    'meta_description' => 'Ваза китайская времен династии Си Цзиньпиня.',
+                ]
+            ]
+        ],
+        [
+            'code' => 'shkaf',
+            'quantity' => 1,
+            'is_popular' => false,
+
+            'i18' => [
+                'ru' => [
+                    'title' => 'Шкаф',
+                    'description' => '<p>Шкаф для одежды.</p>',
+                    'meta_title' => 'Шкаф',
+                    'meta_description' => 'Шкаф для одежды.',
+                ]
+            ]
         ]
     ];
 

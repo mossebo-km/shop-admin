@@ -38,6 +38,10 @@ class Price extends Model
 
     public function display()
     {
+        $currency = Currency::cached($this->currency_code);
+
+        dd($currency);
+
         extract($this->currency->toArray(), EXTR_OVERWRITE);
         $price = number_format($this->value, $precision, $decimal_separator, $decimal_separator);
 

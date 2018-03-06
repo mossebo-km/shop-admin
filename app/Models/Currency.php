@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Redis;
 
 class Currency extends Model
 {
@@ -20,5 +21,24 @@ class Currency extends Model
     public function prices()
     {
         return $this->hasMany(Price::class, 'currency_code', 'code');
+    }
+
+    public static function cached($currencyCode)
+    {
+        if (! ($result = Redis::get("currency:$currencyCode"))) {
+            $currencies = self::get();
+
+            Redis::pipeline(function ($pipe) use ($table) {
+                foreach ($currencies as $key => $currency) {
+                    $pipe->set("currency:{$currencies->code}", $currency);
+
+                    if ($currency->code == $currencyCode) {
+                        $result = $currency;
+                    }
+                }
+            });
+        }
+
+        return $result;
     }
 }

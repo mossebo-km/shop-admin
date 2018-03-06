@@ -138,7 +138,7 @@
               <div class="btn-group btn-group-xs">
                 <toggle v-on:change="product.onChage" :checked="product.enabled"></toggle>
                 <a href="page_ecom_product_edit.html" data-toggle="tooltip" title="Edit" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-                <a href="javascript:void(0)" data-toggle="tooltip" title="Delete" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                <a href="javascript:void(0)" data-toggle="tooltip" title="Delete" class="btn btn-xs btn-danger" v-on:click="onRemove(product.id)"><i class="fa fa-times"></i></a>
               </div>
             </td>
           </tr>

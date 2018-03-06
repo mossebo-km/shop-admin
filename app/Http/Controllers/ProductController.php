@@ -4,30 +4,41 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Price;
 
 class ProductController extends Controller
 {
     public function index()
     {
-      try {
-        $products = Product::all();
+        try {
+            $products = Product::all();
 
-        foreach ($products as $key => $item) {
-          $prices = [];
+            $productsIds = array_reduce($products->toArray(), function($carry, $item) {
+                $carry[] = $item['id'];
+                return $carry;
+            }, []);
 
-          foreach ($item->prices()->get() as $price) {
-            // dd($price->display());
-            $prices[$price->price_type_id] = $price->display();
-          }
 
-          $products[$key]['prices'] = $prices;
+            $prices = Price::whereIn('item_id', $productsIds)->where('item_type', 'App\Models\Product')->get();
+
+            foreach ($products as $key => $product) {
+                $productPrices = [];
+
+                foreach ($prices as $priceKey => $price) {
+                    if ($product->id !== $price->item_id) continue;
+
+                    $productPrices[$price->price_type_id] = $price->display();
+                    $prices->forget($priceKey);
+                }
+
+                $products[$key]['prices'] = $productPrices;
+            }
+        } catch (\Exception $e) {
+            dd($e);
         }
 
-        return $products;
-      } catch (\Exception $e) {
-        dd($e);
-      }
 
+        return $products;
     }
 
     public function show(Product $product)
@@ -61,7 +72,12 @@ class ProductController extends Controller
 
     public function delete(Request $request, Product $product)
     {
-        $product->delete();
+        try {
+            $product->delete();
+        } catch (\Exception $e) {
+            dd($e);
+        }
+
 
         return response()->json(null, 204);
     }
