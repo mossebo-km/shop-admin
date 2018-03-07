@@ -24,7 +24,7 @@ class CreateCurrenciesTable extends Migration
         echo "Create Currencies\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
-            $table->char('code', 5)->primary()->index();
+            $table->char('code', 3)->primary()->index();
             $table->string('name');
             $table->string('symbol');
             $table->tinyInteger('precision');

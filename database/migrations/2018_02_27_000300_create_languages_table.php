@@ -28,7 +28,7 @@ class CreateLanguagesTable extends Migration
             $table->string('name');
             $table->string('image')->nullable();
 
-            $table->char('currency_code', 5)->nullable();
+            $table->char('currency_code', 3)->nullable();
             $table->foreign('currency_code')->references('code')->on(Config::get('migrations.Currencies'))->onDelete('set null');
 
             $table->boolean('default')->default(0);

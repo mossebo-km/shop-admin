@@ -14,7 +14,7 @@
     </transition>
 
     <transition name="fade">
-      <div v-if="!loading" class="loading-wrap__content">
+      <div class="loading-wrap__content">
         <slot></slot>
       </div>
     </transition>

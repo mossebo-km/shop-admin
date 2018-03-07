@@ -20,3 +20,18 @@
 #page-content {
   min-height: calc(100vh - 50px);
 }
+
+.modal-dialog-centered {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  height: 100%;
+
+  & .modal-content {
+    width: 100%;
+  }
+}
+
+.switch span {
+  vertical-align: bottom;
+}

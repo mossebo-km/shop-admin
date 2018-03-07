@@ -1,21 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Base;
 
-use Illuminate\Database\Eloquent\Model;
 use Config;
-use DB;
 
-class ModelI18 extends Model
+class BaseModelI18 extends BaseModel
 {
-    protected $tableIdentif;
     protected $translateTableName;
     protected $translateRelationField;
 
     public function __construct(array $attributes = []) {
         parent::__construct($attributes);
 
-        $this->table = Config::get("migrations.{$this->tableIdentif}");
         $this->translateTableName = Config::get("migrations.{$this->tableIdentif}I18");
     }
 

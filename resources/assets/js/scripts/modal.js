@@ -11,7 +11,7 @@ export default class ModalBuilder {
   build() {
     var elTemp = document.createElement('div')
     elTemp.innerHTML = `<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog ${this.options.centered ? 'modal-dialog-centered' : ''}" role="document">
+      <div class="modal-dialog${this.options.centered ? ' modal-dialog-centered' : ''}" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h2 class="modal-title">${this.options.title}</h2>

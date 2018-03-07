@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "bootstrap": "^3.3.7",
+        "bootstrap-vue": "^2.0.0-rc.1",
         "css-mqpacker": "^6.0.2",
         "noty": "^3.2.0-beta",
         "postcss-cssnext": "^3.1.0",

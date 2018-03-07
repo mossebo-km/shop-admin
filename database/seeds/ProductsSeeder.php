@@ -105,20 +105,25 @@ class ProductsSeeder extends Seeder
         $productsTable = DB::table(Config::get('migrations.Products'));
         $productsI18Table = DB::table(Config::get('migrations.ProductsI18'));
 
-        foreach ($this->data as $product) {
-            $translations = $product['i18'];
-            unset($product['i18']);
+        for ($i = 1; $i < 11; $i++) {
+            foreach ($this->data as $product) {
+                $product['code'] .= "-$i";
 
-            $product['created_at'] = Carbon\Carbon::now()->toDateTimeString();
-            $product['updated_at'] = Carbon\Carbon::now()->toDateTimeString();
+                $translations = $product['i18'];
+                unset($product['i18']);
 
-            $id = $productsTable->insertGetId($product);
+                $product['created_at'] = Carbon\Carbon::now()->toDateTimeString();
+                $product['updated_at'] = Carbon\Carbon::now()->toDateTimeString();
 
-            foreach ($translations as $languageCode => $productI18) {
-                $productI18['product_id'] = $id;
-                $productI18['language_code'] = $languageCode;
+                $id = $productsTable->insertGetId($product);
 
-                $productsI18Table->insert($productI18);
+                foreach ($translations as $languageCode => $productI18) {
+                    $productI18['title'] .= " №$i";
+                    $productI18['product_id'] = $id;
+                    $productI18['language_code'] = $languageCode;
+
+                    $productsI18Table->insert($productI18);
+                }
             }
         }
     }

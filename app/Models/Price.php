@@ -2,21 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\CurrenciesHandler;
 
-class Price extends Model
+class Price extends Base\BaseModel
 {
+    protected $tableIdentif = 'Prices';
+
     protected $fillable = [
         'item_type', 'item_id', 'currency_code', 'price_type_id', 'value'
     ];
-
-    public function __construct(Array $attr = [])
-    {
-        parent::__construct($attr);
-
-        $this->table = \Config::get('migrations.Prices');
-    }
-
 
     public function item()
     {
@@ -36,13 +30,12 @@ class Price extends Model
     }
 
 
-    public function display()
+    public function formattedPrice()
     {
-        $currency = Currency::cached($this->currency_code);
+        $currency = CurrenciesHandler::getCollection()->where('code', $this->currency_code)->first()->toArray();
 
-        dd($currency);
+        extract($currency, EXTR_OVERWRITE);
 
-        extract($this->currency->toArray(), EXTR_OVERWRITE);
         $price = number_format($this->value, $precision, $decimal_separator, $decimal_separator);
 
         $price = str_replace(('.' . str_pad('', $precision, '0')), '', $price);

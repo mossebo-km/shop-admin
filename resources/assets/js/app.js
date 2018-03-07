@@ -38,7 +38,7 @@ $.ajaxSetup({
 // полноценный конструктор, так и просто объект с настройками компонента
 // Вложенные пути будут рассмотрены далее.
 const routes = [
-  { path: '/products', component: ProductsTable }
+  { path: '/products', component: ProductsTable },
 ]
 
 // 3. Создаём экземпляр роутера с опцией `routes`

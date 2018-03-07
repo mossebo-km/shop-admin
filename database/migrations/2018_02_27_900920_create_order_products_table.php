@@ -35,7 +35,7 @@ class CreateOrderProductsTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->integer('price')->unsigned()->index();
-            $table->char('currency_code', 5)->unsigned();
+            $table->char('currency_code', 3)->unsigned();
             $table->foreign('currency_code')->references('code')->on(Config::get('migrations.Currencies'));
             $table->integer('quantity')->unsigned();
             $table->string('image_path')->nullable();

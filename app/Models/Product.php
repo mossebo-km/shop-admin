@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Product extends ModelI18
+class Product extends Base\BaseModelI18
 {
     protected $tableIdentif = 'Products';
     protected $translateRelationField = 'product_id';
@@ -24,5 +22,10 @@ class Product extends ModelI18
 
             return parent::delete();
         });
+    }
+
+    public function url()
+    {
+        return "/products/{$this->code}";
     }
 }

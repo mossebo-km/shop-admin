@@ -28,7 +28,7 @@ class CreatePricesTable extends Migration
             $table->string('item_type');
             $table->integer('item_id')->unsigned();
 
-            $table->char('currency_code', 5);
+            $table->char('currency_code', 3);
             $table->foreign('currency_code')->references('code')->on(Config::get('migrations.Currencies'))->onDelete('cascade');
 
             $table->integer('price_type_id')->unsigned();

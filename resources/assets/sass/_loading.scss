@@ -1,11 +1,21 @@
 .loading-wrap {
   position: relative;
-  min-height: 400px;
+  min-height: 200px;
 
   &__spinner {
     position: absolute 0;
     width: 52px;
     height: 52px;
     margin: auto;
+    z-index: 2;
+  }
+
+  &:not(.loaded) {
+    &::before {
+      content: '';
+      position: absolute 0;
+      background-color: rgba(255, 255, 255, .5);
+      z-index: 1;
+    }
   }
 }
