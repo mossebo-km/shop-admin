@@ -1,5 +1,6 @@
 import VueRouter from 'vue-router'
 import ProductsTable from './components/ProductsTable.vue'
+import ProductEdit from './components/ProductEdit.vue'
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -19,7 +20,7 @@ Vue.use(VueRouter);
  */
 
 // Vue.component('products-table', require('./components/ProductsTable.vue'));
-Vue.component('shop-quick-nav', require('./components/ShopQuickNav.vue'));
+// Vue.component('shop-quick-nav', require('./components/ShopQuickNav.vue'));
 
 // const app = new Vue({
 //     el: '#app',
@@ -39,6 +40,7 @@ $.ajaxSetup({
 // Вложенные пути будут рассмотрены далее.
 const routes = [
   { path: '/products', component: ProductsTable },
+  { path: '/products/:id', component: ProductEdit, props: true },
 ]
 
 // 3. Создаём экземпляр роутера с опцией `routes`

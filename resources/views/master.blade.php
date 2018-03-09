@@ -115,9 +115,7 @@
 
                         <!-- Page content -->
                         <div id="page-content">
-                            <div class="block full">
-                                <router-view></router-view>
-                            </div>
+                            <router-view></router-view>
                         </div>
                         <!-- END Page Content -->
 
@@ -140,6 +138,8 @@
         {{-- <script src="js/vendor/jquery.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
         <script src="js/plugins.js"></script> --}}
+
+        <script src="//cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
         <script src="js/app.js"></script>
 
         @yield('scripts')

@@ -28,12 +28,12 @@ class ProductController extends Controller
         'random'
     ];
 
-    protected $dataCollector;
+    // protected $dataCollector;
 
-    public function __construct(ProductDataAdminCollector $dataCollector)
-    {
-        $this->dataCollector = $dataCollector;
-    }
+    // public function __construct(ProductDataAdminCollector $dataCollector)
+    // {
+    //     $this->dataCollector = $dataCollector;
+    // }
 
     public function index(Request $request)
     {
@@ -45,7 +45,7 @@ class ProductController extends Controller
 
         $productsIds = array_column($products->toArray(), 'id');
 
-        $prices = Price::whereIn('item_id', $productsIds)->where('item_type', 'App\Models\Product')->get();
+        $prices = Price::whereIn('item_id', $productsIds)->where('item_type', 'product')->get();
 
         foreach ($products as $key => $product) {
             $productPrices = [];
@@ -83,7 +83,13 @@ class ProductController extends Controller
 
         extract($params, EXTR_OVERWRITE);
 
-        $pagination = Product::orderBy($sortBy, $sortType)->paginate($perPage, null, null, $currentPage);
+        $query = Product::orderBy($sortBy, $sortType);
+
+        if ($search) {
+            $query = $query->where(\DB::raw('lower(title)'), 'like', "%" . mb_strtolower($search) . "%");
+        }
+
+        $pagination = $query->paginate($perPage, null, null, $currentPage);
 
         if ($pagination->isEmpty() && $currentPage > 1) {
             $currentPage = round($pagination->total() / $perPage);
@@ -108,14 +114,21 @@ class ProductController extends Controller
             'sortBy',
             'sortType',
             'perPage',
-            'currentPage'
+            'currentPage',
+            'search'
         ];
 
         foreach ($existingParams as $paramName) {
             $methodName = '_prepareParam' . ucfirst($paramName);
 
             if (method_exists($this, $methodName)) {
-                $result[$paramName] = call_user_func([$this, $methodName], $params[$paramName] ?: null);
+                $result[$paramName] = call_user_func([$this, $methodName], isset($params[$paramName]) ? $params[$paramName] : null);
+            }
+            elseif (isset($params[$paramName])) {
+                $result[$paramName] = $params[$paramName];
+            }
+            else {
+                $result[$paramName] = null;
             }
         }
 
@@ -173,9 +186,6 @@ class ProductController extends Controller
     {
         return $currentPage <= 0 ? 1 : $currentPage;
     }
-
-
-
 
 
 

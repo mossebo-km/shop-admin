@@ -32,6 +32,7 @@ class CreateProductsTable extends Migration
             $table->integer('bought')->unsigned()->default(0);
             $table->boolean('is_new')->index()->default(0);
             $table->boolean('is_popular')->index()->default(0);
+            $table->boolean('is_payable')->index()->default(0);
             $table->time('sale_time')->nullable()->unsigned();
             $table->boolean('enabled')->index()->default(1);
             $table->timestamps();

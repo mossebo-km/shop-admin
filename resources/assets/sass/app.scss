@@ -10,6 +10,7 @@
 @import 'noty';
 @import 'loading';
 @import 'animations';
+@import 'select2';
 
 .navbar-laravel {
   background-color: #fff;
@@ -34,4 +35,9 @@
 
 .switch span {
   vertical-align: bottom;
+}
+
+.block-title-control {
+  float: right;
+  padding: 3px 15px;
 }

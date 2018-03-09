@@ -27,6 +27,7 @@
         "postcss-custom-media": "^6.0.0",
         "postcss-short-font-size": "^4.0.0",
         "postcss-short-position": "^3.0.0",
+        "select2": "^4.0.6-rc.1",
         "vue-router": "^3.0.1"
     }
 }

@@ -1,15 +1,47 @@
+<script>
+  export default {
+    props: ['active'],
+    data() {
+      return {
+        links: [
+          {
+            url: '/categories',
+            icon: 'gi-list',
+            title: 'Категории'
+          },
+          {
+            url: '/products',
+            icon: 'gi-shopping_bag',
+            title: 'Товары'
+          },
+          {
+            url: '/orders',
+            icon: 'gi-shop_window',
+            title: 'Заказы'
+          },
+          {
+            url: '/customers',
+            icon: 'gi-user',
+            title: 'Покупатели'
+          },
+        ]
+      }
+    },
+    methods: {
+      isActive(item) {
+        return item.url.replace('/', '') === this.active;
+      }
+    }
+  }
+
+</script>
+
 <template>
-    <div class="content-header">
-        <ul class="nav-horizontal text-center">
-            <li>
-                <router-link to="/orders"><i class="gi gi-shop_window"></i> Заказы</router-link>
-            </li>
-            <li>
-                <router-link to="/products"><i class="gi gi-shopping_bag"></i> Товары</router-link>
-            </li>
-            <li>
-                <router-link to="/customers"><i class="gi gi-user"></i> Покупатели</router-link>
-            </li>
-        </ul>
-    </div>
+  <div class="content-header">
+    <ul class="nav-horizontal text-center">
+      <li v-for="(item, index) in links" :class="{ active: isActive(item) }">
+        <router-link :to="item.url"><i :class="['gi', item.icon]"></i> {{ item.title }}</router-link>
+      </li>
+    </ul>
+  </div>
 </template>

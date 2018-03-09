@@ -160,6 +160,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+
+        /*
+            Mossebo
+        */
+
+        App\Providers\MorphServiceProvider::class,
     ],
 
     /*

@@ -24,7 +24,7 @@ class PricesSeeder extends Seeder
                 $price = $defaultPrice;
 
                 $data = [
-                    'item_type' => 'App\Models\Product',
+                    'item_type' => 'product',
                     'item_id' => $product->id,
                     'price_type_id' => $priceType->id,
                     'currency_code' => 'RUB',
