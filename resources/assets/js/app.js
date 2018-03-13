@@ -1,4 +1,6 @@
 import VueRouter from 'vue-router'
+import CategoriesTable from './components/CategoriesTable.vue'
+import CategoryEdit from './components/CategoryEdit.vue'
 import ProductsTable from './components/ProductsTable.vue'
 import ProductEdit from './components/ProductEdit.vue'
 
@@ -39,6 +41,8 @@ $.ajaxSetup({
 // полноценный конструктор, так и просто объект с настройками компонента
 // Вложенные пути будут рассмотрены далее.
 const routes = [
+  { path: '/categories', component: CategoriesTable },
+  { path: '/categories/:id', component: CategoryEdit, props: true },
   { path: '/products', component: ProductsTable },
   { path: '/products/:id', component: ProductEdit, props: true },
 ]

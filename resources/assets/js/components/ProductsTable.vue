@@ -4,18 +4,19 @@
   import Loading from './Loading.vue'
   import SearchInput from './SearchInput.vue'
   import noty from '../scripts/noty.js'
-  import ModalBuilder from '../scripts/modal.js'
+  import Core from '../core'
+
   import bTable from 'bootstrap-vue/es/components/table/table'
   import bPagination from 'bootstrap-vue/es/components/pagination/pagination'
   import bFormSelect from 'bootstrap-vue/es/components/form-select/form-select'
+  import bModal from 'bootstrap-vue/es/components/modal/modal'
+
 
   export default {
     name: 'products-table',
     data () {
       return {
         loading: false,
-        post: null,
-        error: null,
         sortBy: 'id',
         sortDesc: false,
         currentPage: 1,
@@ -43,7 +44,7 @@
           },
           {
             key: 'created_at',
-            label: 'Добавлен',
+            label: 'Дата добавления',
             sortable: true,
             class: 'text-center hidden-xs'
           },
@@ -61,25 +62,17 @@
         ]
       }
     },
-    watch: {
-      '$route': 'fetchItems'
-    },
     methods: {
       /*
-        Загрузка списка товаров.
+        Загрузка списка.
       */
 
       fetchItems ({currentPage, perPage, sortBy, sortDesc}) {
-        if (typeof this.fetchRequestCancel === 'function') {
-          this.fetchRequestCancel()
-        }
-
-        this.error = this.post = null
+        this.abortRequest()
         this.loading = true
 
-        let promise = axios.get('/api' + this.$route.path, {
+        this.fetchItemsRequest = new Core.requestHandler('get', `/api${this.$route.path}`, {
           responseType: 'json',
-          cancelToken: new axios.CancelToken(c => this.fetchRequestCancel = c),
           params: {
             currentPage,
             perPage,
@@ -89,30 +82,41 @@
           }
         })
 
-        return promise.then(response => {
+        return new Promise((resolve, reject) => {
+          this.fetchItemsRequest
+            .success(response => {
+              const data = response.data;
+
+              this.totalRows = parseInt(data.totalRows)
+              this.currentPage = parseInt(data.currentPage) || 1
+              this.perPage = parseInt(data.perPage)
+
+              const items = data.items || []
+
+              resolve(items.map(item => {
+                return {
+                  ...item,
+                  url: '/products/' + item.id,
+                }
+              }))
+            })
+            .any(() => {
+              this.abortRequest()
+            })
+        });
+      },
+
+
+      /*
+        Отмена запроса.
+      */
+
+      abortRequest() {
+        if (this.fetchItemsRequest) {
           this.loading = false
-          this.fetchRequestCancel = false
-
-          const items = response.data.items || []
-
-          this.totalRows = parseInt(response.data.totalRows)
-          this.currentPage = parseInt(response.data.currentPage) || 1
-          this.perPage = parseInt(response.data.perPage)
-
-          return (items.map(item => {
-            return {
-              ...item,
-              url: '/products/' + item.id,
-              onChage: (status) => {
-                this.onStatusChange(item.id, status)
-              }
-            }
-          }))
-        })
-        .catch(error => {
-          if (error.constructor.name === 'Cancel') return
-          core.requestErrorHandler(error);
-        })
+          this.fetchItemsRequest.abort()
+          this.fetchItemsRequest = false;
+        }
       },
 
 
@@ -120,12 +124,8 @@
         Смена статуса товара.
       */
 
-      onStatusChange(id, status) {
-        axios.get(`/api/products/${id}/status`)
-          .then(function (response) {
-            noty(response.data.message, {type: 'success'})
-          })
-          .catch(core.requestErrorHandler)
+      onStatusChange(id) {
+        new Core.requestHandler('get', `/api/products/${id}/status`)
       },
 
 
@@ -136,19 +136,15 @@
       onRemove(id) {
         var _ = this;
 
-        new ModalBuilder({
-          title: 'Удаление товара',
-          message: 'Вы действительно хотите удалить товар?',
-          centered: true,
-          onConfirm: () => {
-            axios.delete(`/api/products/${id}`)
-              .then(function (response) {
-                noty(response.data.message, {type: 'success'})
-                _.$refs.table.refresh()
-              })
-              .catch(core.requestErrorHandler)
-          }
-        }).show()
+        this.toRemoveId = id
+        this.$refs.removeModal.show()
+      },
+
+      onRemoveConfirm() {
+        new Core.requestHandler('delete', `/api/products/${this.toRemoveId}`)
+          .success(() => {
+            this.$refs.table.refresh()
+          })
       },
 
       onSortingChanged(ctx) {
@@ -156,9 +152,10 @@
       },
 
       onSearch(phrase) {
-        ctx.currentPage = 1
-        this.searchPhrase = phrase
-        this.$refs.table.refresh()
+        if (this.searchPhrase != phrase) {
+          this.searchPhrase = phrase
+          this.$refs.table.refresh()
+        }
       },
     },
 
@@ -184,6 +181,7 @@
       'b-table': bTable,
       'b-pagination': bPagination,
       'b-form-select': bFormSelect,
+      'b-modal': bModal,
       'search-input': SearchInput
     },
 
@@ -201,11 +199,7 @@
 
     <div class="block full">
       <div class="block-title">
-        <h2><strong>Товары</strong></h2>
-      </div>
-
-      <div v-if="error" class="error">
-        {{ error }}
+        <h1><strong>Товары</strong></h1>
       </div>
 
       <loading :loading="loading">
@@ -232,49 +226,46 @@
               </div>
             </div>
 
-              <b-table show-empty
-                     stacked="md"
-                     ref="table"
-                     :sort-by.sync="sortBy"
-                     :sort-desc.sync="sortDesc"
-                     :items="fetchItems"
-                     :fields="fields"
-                     :busy.sync="loading"
-                     :current-page="currentPage"
-                     :per-page="perPage"
-                     @sort-changed="onSortingChanged"
-                     class="table table-vcenter table-condensed table-bordered dataTable no-footer">
+            <b-table show-empty
+                   stacked="md"
+                   ref="table"
+                   :sort-by.sync="sortBy"
+                   :sort-desc.sync="sortDesc"
+                   :items="fetchItems"
+                   :fields="fields"
+                   :busy.sync="loading"
+                   :current-page="currentPage"
+                   :per-page="perPage"
+                   @sort-changed="onSortingChanged"
+                   empty-text="Список товаров пуст."
+                   empty-filtered-text="Товары с такими параметрами не найдены."
+                   class="table table-vcenter table-condensed table-hover table-bordered dataTable no-footer">
 
-                <template slot="id" slot-scope="product">
-                  <router-link v-bind:to="product.item.url"><strong>PID.{{ product.item.id }}</strong></router-link>
-                </template>
+              <template slot="id" slot-scope="product">
+                <router-link v-bind:to="product.item.url"><strong>PID.{{ product.item.id }}</strong></router-link>
+              </template>
 
 
-                <template slot="title" slot-scope="product">
-                  <router-link v-bind:to="product.item.url">{{ product.item.title }} #{{ product.item.id }}</router-link>
-                </template>
+              <template slot="title" slot-scope="product">
+                <router-link v-bind:to="product.item.url">{{ product.item.title }} #{{ product.item.id }}</router-link>
+              </template>
 
-                <template slot="price" slot-scope="product">
-                  <strong>{{ product.item.prices[4] }}</strong>
-                </template>
+              <template slot="price" slot-scope="product">
+                <strong>{{ product.item.prices[4] }}</strong>
+              </template>
 
-                <template slot="created_at" slot-scope="product">
-                  <strong>{{ product.item.updated_at }}</strong>
-                </template>
+              <template slot="created_at" slot-scope="product">
+                {{ product.item.created_at }}
+              </template>
 
-                <template slot="created_at" slot-scope="product">
-                  {{ product.item.updated_at }}
-                </template>
+              <template slot="enabled" slot-scope="product">
+                <toggle @change="onStatusChange(product.item.id)" :checked="product.item.enabled" :key="product.item.id"></toggle>
+              </template>
 
-                <template slot="enabled" slot-scope="product">
-                  <toggle v-on:change="product.item.onChage" :checked="product.item.enabled" :key="product.item.id"></toggle>
-                </template>
-
-                <template slot="controls" slot-scope="product">
-                  <a href="javascript:void(0)" data-toggle="tooltip" title="Delete" class="btn btn-danger" v-on:click="onRemove(product.item.id)"><i class="fa fa-times"></i></a>
-                </template>
-              </b-table>
-
+              <template slot="controls" slot-scope="product">
+                <a href="javascript:void(0)" data-toggle="tooltip" title="Удалить" class="btn btn-danger" @click="onRemove(product.item.id)"><i class="fa fa-times"></i></a>
+              </template>
+            </b-table>
 
             <div class="row" v-if="showPagination">
               <div class="col-sm-5 hidden-xs">
@@ -295,7 +286,17 @@
         </div>
       </loading>
     </div>
+
+    <b-modal id="removeModal"
+      ref="removeModal"
+      title="Удаление товара"
+      title-tag="h3"
+      centered
+      ok-title="Удалить"
+      cancel-title="Отмена"
+      hide-header-close
+      @ok="onRemoveConfirm">
+      Вы действительно хотите удалить товар?
+    </b-modal>
   </div>
-
 </template>
-

@@ -11,6 +11,7 @@
 @import 'loading';
 @import 'animations';
 @import 'select2';
+@import 'table';
 
 .navbar-laravel {
   background-color: #fff;
@@ -40,4 +41,17 @@
 .block-title-control {
   float: right;
   padding: 3px 15px;
+}
+
+.fade.d-block {
+  display: block !important;
+}
+
+.fade.show {
+  opacity: 1;
+}
+
+.btn-expand {
+  padding: 6px 7px 5px 8px;
+  margin-right: 5px;
 }

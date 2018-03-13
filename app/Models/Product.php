@@ -28,4 +28,22 @@ class Product extends Base\BaseModelI18
     {
         return "/products/{$this->code}";
     }
+
+    public function categoryProducts()
+    {
+        return $this->hasMany(CategoryProducts::class, 'product_id');
+    }
+
+
+    public function categories()
+    {
+        return $this->hasManyThrough(
+            CategoryProducts::class,
+            Category::class,
+            'category_id',
+            'product_id',
+            'id',
+            'id'
+        );
+    }
 }

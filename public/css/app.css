@@ -1251,6 +1251,180 @@
   border-color: #5897fb;
 }
 
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: transparent;
+}
+
+.table-cell {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+  border-top: 1px solid #ddd;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.table-cell.text-center {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.table-cell-empty {
+  width: 100% !important;
+}
+
+.table-head .table-cell {
+  vertical-align: bottom;
+  border-bottom: 2px solid #ddd;
+}
+
+caption + .table-head > .table-row:first-child > .table-cell,
+colgroup + .table-head > .table-row:first-child > .table-cell,
+.table-head:first-child > .table-row:first-child > .table-cell {
+  border-top: 0;
+}
+
+.table-condensed .table-cell {
+  padding: 5px;
+}
+
+.table-bordered {
+  border: 1px solid #ddd;
+}
+
+.table-bordered .table-cell {
+  border: 1px solid #ddd;
+  border-style: solid;
+  border-color: #ddd;
+  border-width: 0 1px 1px 0;
+}
+
+.table-bordered .table-cell:last-child {
+  border-right-width: 0;
+}
+
+.table-bordered .table-row:last-child .table-cell {
+  border-bottom-width: 0;
+}
+
+.table-bordered .table-head .table-row:last-child .table-cell {
+  border-bottom-width: 2px;
+}
+
+.table-row + .table-group .table-row:last-child .table-cell {
+  border-bottom-width: 1px;
+}
+
+.table-hover .table-group .table-row:hover .table-cell {
+  background-color: #f5f5f5;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  min-height: 0.01%;
+}
+
+.table-head .table-cell {
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.table-head,
+.table-group {
+  display: block;
+}
+
+.table-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.table-level-1 .lev {
+  padding-left: 25px !important;
+}
+
+.table-level-1 .table-cell {
+  background-color: #fafafa;
+}
+
+.table-level-2 .lev {
+  padding-left: 45px !important;
+}
+
+.table-level-2 .table-cell {
+  background-color: #f0f0f0;
+}
+
+.table-level-3 .lev {
+  padding-left: 65px !important;
+}
+
+.table-level-3 .table-cell {
+  background-color: #fff5f5;
+}
+
+.table-level-4 .lev {
+  padding-left: 85px !important;
+}
+
+.table-level-4 .table-cell {
+  background-color: #fffafa;
+}
+
+.table-level-5 .lev {
+  padding-left: 105px !important;
+}
+
+.table-level-5 .table-cell {
+  background-color: #ffffff;
+}
+
+.table-level-1:not(.expanded),
+.table-level-2:not(.expanded),
+.table-level-3:not(.expanded),
+.table-level-4:not(.expanded),
+.table-level-5:not(.expanded) {
+  display: none;
+}
+
+.table-categories {
+  min-width: 1024px;
+}
+
+.table-categories .table-row {
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.table-categories .table-cell {
+  width: 15%;
+}
+
+.table-categories .table-cell:nth-child(1) {
+  width: 7%;
+}
+
+.table-categories .table-cell:nth-child(2) {
+  width: 33%;
+}
+
 .navbar-laravel {
   background-color: #fff;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .04);
@@ -1284,4 +1458,17 @@
 .block-title-control {
   float: right;
   padding: 3px 15px;
+}
+
+.fade.d-block {
+  display: block !important;
+}
+
+.fade.show {
+  opacity: 1;
+}
+
+.btn-expand {
+  padding: 6px 7px 5px 8px;
+  margin-right: 5px;
 }

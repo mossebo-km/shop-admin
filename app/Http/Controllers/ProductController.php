@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models as Models;
 use App\Models\Product;
-use App\Models\Price;
 use App\Http\Collectors\Admin\ProductDataAdminCollector;
 
 class ProductController extends Controller
@@ -45,7 +45,7 @@ class ProductController extends Controller
 
         $productsIds = array_column($products->toArray(), 'id');
 
-        $prices = Price::whereIn('item_id', $productsIds)->where('item_type', 'product')->get();
+        $prices = Models\Price::whereIn('item_id', $productsIds)->where('item_type', 'product')->get();
 
         foreach ($products as $key => $product) {
             $productPrices = [];
@@ -188,18 +188,86 @@ class ProductController extends Controller
     }
 
 
-
-
-
-
-
-
-
-
     public function show(Product $product)
     {
+        $this->_connectPrices($product);
+        $this->_connectCategories($product);
+        $this->_connectImages($product);
+
+        $data = [
+            'product' => $product,
+            'categories' => $this->_getCategories(),
+            'currencies' => $this->_getCurrencies(),
+        ];
+
         return $product;
     }
+
+    /*
+        Подключение связанных с продуктом категорий.
+    */
+
+    protected function _connectPrices(Product &$product)
+    {
+        $prices = [];
+
+        foreach ($product->prices() as $price) {
+            $prices[] = [
+                'formatted'     => $price->formattedPrice(),
+                'value'         => $price->value,
+                'price_type_id' => $price->price_type_id,
+                'currency_code' => $price->currency_code
+            ];
+        }
+
+        $product['prices'] = $prices;
+    }
+
+    /*
+        Подключение связанных с продуктом цен.
+    */
+
+    protected function _connectCategories(Product &$product)
+    {
+        $categories = [];
+
+        foreach ($product->categoryProducts() as $relation) {
+            $categories[] = $relation->category_id;
+        }
+
+        $product['categories'] = $categories;
+    }
+
+
+    /*
+        Подключение связанных с продуктом изображений.
+    */
+
+    protected function _connectImages(Product &$product)
+    {
+        return [];
+    }
+
+
+    /*
+        Подключение связанных с продуктом категорий.
+    */
+
+    protected function _getCategories()
+    {
+        return [];
+    }
+
+
+    /*
+        Получение всех цен.
+    */
+
+    protected function _getCurrencies()
+    {
+        return CurrenciesHandler::getCollection()->toArray();
+    }
+
 
     public function status(Product $product)
     {
@@ -207,6 +275,7 @@ class ProductController extends Controller
         $product->save();
 
         return response()->json([
+            'status' => 'success',
             'message' => $product->enabled ? "Товар #{$product->id} показан." : "Товар #{$product->id} скрыт."
         ], 201);
     }
@@ -230,6 +299,7 @@ class ProductController extends Controller
         $product->delete();
 
         return response()->json([
+            'status' => 'success',
             'message' => "Товар #{$product->id} был удален."
         ], 200);
     }

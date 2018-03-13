@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Redis;
-
 class Currency extends Base\BaseModel
 {
     protected $tableIdentif = 'Currencies';

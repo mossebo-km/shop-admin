@@ -19,7 +19,37 @@ class CategoriesSeeder extends Seeder
                     'meta_description' => 'Замечательные стулья на любой вкус.',
                 ]
             ]
-        ]
+        ],
+        [
+            'parent_id' => 1,
+            'slug' => 'tables',
+            'enabled' => true,
+            'position' => 1,
+
+            'i18' => [
+                'ru' => [
+                    'title' => 'Столы',
+                    'description' => '<p>Замечательные столы на любой вкус.</p>',
+                    'meta_title' => 'Столы',
+                    'meta_description' => 'Замечательные столы на любой вкус.',
+                ]
+            ]
+        ],
+        [
+            'parent_id' => 0,
+            'slug' => 'lights',
+            'enabled' => true,
+            'position' => 2,
+
+            'i18' => [
+                'ru' => [
+                    'title' => 'Свет',
+                    'description' => '<p>Замечательные лампы, торшеры и светильники на любой вкус.</p>',
+                    'meta_title' => 'Свет',
+                    'meta_description' => 'Замечательные лампы, торшеры и светильники на любой вкус.',
+                ]
+            ]
+        ],
     ];
 
     /**

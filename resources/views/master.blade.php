@@ -139,6 +139,12 @@
         <script src="js/vendor/bootstrap.min.js"></script>
         <script src="js/plugins.js"></script> --}}
 
+        <script>
+            window.config = {
+                interactionKey: "{{ \App\Http\Controllers\DataController::getRelevantKey() }}"
+            }
+        </script>
+
         <script src="//cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
         <script src="js/app.js"></script>
 

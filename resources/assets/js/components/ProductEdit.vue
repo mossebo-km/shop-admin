@@ -3,7 +3,7 @@
   import 'select2'
 
   import ShopQuickNav from './ShopQuickNav.vue'
-  import Core from '../scripts/core'
+  import Core from '../core'
   import Loading from './Loading.vue'
 
   export default {
@@ -12,6 +12,7 @@
     data() {
       return {
         loading: false,
+        data: null,
         languages: [
           {
             code: 'en',
@@ -41,6 +42,9 @@
             title: 'Свет'
           },
         ],
+        prices: [
+
+        ],
         product: {
           code: '',
           sku: 'stul',
@@ -61,6 +65,13 @@
           images: [
 
           ],
+          categories: [2, 3],
+
+          prices: [
+            {
+
+            }
+          ]
         }
       }
     },
@@ -84,12 +95,53 @@
         }
 
         return build(this.categories);
-      }
+      },
+
+      fetchData () {
+        if (typeof this.fetchRequestCancel === 'function') {
+          this.fetchRequestCancel()
+        }
+
+        this.error = this.post = null
+        this.loading = true
+
+        let promise = axios.get('/api' + this.$route.path, {
+          responseType: 'json',
+          cancelToken: new axios.CancelToken(c => this.fetchRequestCancel = c),
+        })
+
+        return promise.then(response => {
+          console.log(response);
+          this.loading = false
+          this.fetchRequestCancel = false
+
+          // const items = response.data.items || []
+
+          // this.totalRows = parseInt(response.data.totalRows)
+          // this.currentPage = parseInt(response.data.currentPage) || 1
+          // this.perPage = parseInt(response.data.perPage)
+
+          // return (items.map(item => {
+          //   return {
+          //     ...item,
+          //     url: '/products/' + item.id,
+          //     onChage: (status) => {
+          //       this.onStatusChange(item.id, status)
+          //     }
+          //   }
+          // }))
+        })
+        .catch(error => {
+          if (error.constructor.name === 'Cancel') return
+          Core.requestErrorHandler(error)
+        })
+      },
     },
 
     mounted() {
       Core.contentEditor.init('ckeditor')
-      $('.select2').select2();
+      $('.select2').select2()
+      this.fetchData()
     },
 
     beforeDestroy() {
@@ -132,7 +184,7 @@ $table->primary(['product_id', 'language_code'])->index();
     <shop-quick-nav active="products"></shop-quick-nav>
 
     <div class="block-title">
-      <h2><strong>Редактирование товара #{{ this.id }}</strong></h2>
+      <h1><strong>Редактирование товара #{{ this.id }}</strong></h1>
 
       <div class="block-title-control">
         <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-floppy-o"></i> Сохранить</button>
