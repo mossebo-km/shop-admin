@@ -6,17 +6,13 @@ import dataHandler from './dataHandler.js'
 export default {
   contentEditor: {
     init(query) {
-      CKEDITOR.replaceAll( query, )
+      CKEDITOR.replaceAll( query )
     },
     destroy() {
       if (CKEDITOR.instances.myInstanceName) {
         CKEDITOR.instances.myInstanceName.destroy()
       }
     }
-  },
-
-  getDataPack(labels) {
-
   },
 
   runCallback(callback) {

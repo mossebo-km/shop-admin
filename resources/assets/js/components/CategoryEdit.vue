@@ -118,6 +118,10 @@
     mounted() {
       this.fetchData()
     },
+
+    beforeDestroy() {
+      this.abortRequest()
+    }
   }
 </script>
 

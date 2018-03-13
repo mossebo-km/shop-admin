@@ -27,6 +27,10 @@
       $el.on('select2:select', e => {
         this.$emit('update:activeOption', e.params.data.id)
       })
+    },
+
+    beforeDestroy() {
+      $(this.$el).select2('destroy')
     }
   }
 </script>

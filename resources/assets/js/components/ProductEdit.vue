@@ -111,7 +111,7 @@
         })
 
         return promise.then(response => {
-          console.log(response);
+          // console.log(response);
           this.loading = false
           this.fetchRequestCancel = false
 

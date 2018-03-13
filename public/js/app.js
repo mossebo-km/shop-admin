@@ -26694,7 +26694,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
 
       return promise.then(function (response) {
-        console.log(response);
+        // console.log(response);
         _this.loading = false;
         _this.fetchRequestCancel = false;
 
@@ -67375,6 +67375,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   mounted: function mounted() {
     this.fetchData();
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.abortRequest();
   }
 });
 
@@ -67774,7 +67777,6 @@ if (false) {
     }
   },
 
-  getDataPack: function getDataPack(labels) {},
   runCallback: function runCallback(callback) {
     if (typeof callback === 'function') {
       callback.apply(callback, Array.prototype.slice.call(arguments, 1));
@@ -68219,6 +68221,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     $el.on('select2:select', function (e) {
       _this2.$emit('update:activeOption', e.params.data.id);
     });
+  },
+  beforeDestroy: function beforeDestroy() {
+    $(this.$el).select2('destroy');
   }
 });
 
