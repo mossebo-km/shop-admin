@@ -1,8 +1,11 @@
+import Vue from 'vue'
 import VueRouter from 'vue-router'
+import VeeValidate from 'vee-validate'
 import CategoriesTable from './components/CategoriesTable.vue'
 import CategoryEdit from './components/CategoryEdit.vue'
 import ProductsTable from './components/ProductsTable.vue'
 import ProductEdit from './components/ProductEdit.vue'
+
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -12,8 +15,11 @@ import ProductEdit from './components/ProductEdit.vue'
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+window.Vue = Vue;
 Vue.use(VueRouter);
+Vue.use(VeeValidate, {fieldsBagName: 'formFields'});
+
+window.CKEDITOR_BASEPATH = '/js/vendor/ckeditor/';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -42,7 +48,17 @@ $.ajaxSetup({
 // Вложенные пути будут рассмотрены далее.
 const routes = [
   { path: '/categories', component: CategoriesTable },
-  { path: '/categories/:id', component: CategoryEdit, props: true },
+
+  { path: '/categories/create', component: CategoryEdit, props: { type: 'create' } },
+
+  { path: '/categories/:id', component: CategoryEdit, props: route => {
+    return {
+      ...route.params,
+      type: 'edit'
+    }
+  } },
+
+
   { path: '/products', component: ProductsTable },
   { path: '/products/:id', component: ProductEdit, props: true },
 ]

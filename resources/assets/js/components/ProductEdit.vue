@@ -231,8 +231,6 @@ $table->primary(['product_id', 'language_code'])->index();
         </div>
       </div>
 
-
-
       <div class="col-lg-6">
         <div class="block">
           <div class="block-title">

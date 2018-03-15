@@ -4,13 +4,29 @@
   export default {
     name: 'categories-table-tree',
     props: ['tree', 'level', 'onStatusChange', 'onRemove', 'parentId'],
+    data() {
+      return {
+        expanded: []
+      }
+    },
     components: {
       'toggle': Toggle,
     },
     methods: {
-      expand(id) {
-        document.querySelector(`#table-group-${id}`).classList.toggle('expanded');
+      expand(categoryId) {
+        const index = this.expanded.indexOf(categoryId)
+
+        if (index === -1) {
+          this.expanded.push(categoryId)
+        }
+        else {
+          this.expanded.splice(index, 1)
+        }
       },
+
+      isExpanded(categoryId) {
+        return this.expanded.indexOf(categoryId) !== -1
+      }
     }
   }
 </script>
@@ -22,14 +38,15 @@
 
       <div class="table-row">
         <div class="table-cell text-center">
-          <router-link v-bind:to="'/categories/' + category.id"><strong>CID.{{ category.id }}</strong></router-link>
+          <router-link v-bind:to="'/categories/' + category.id"><strong>{{ category.id }}</strong></router-link>
         </div>
 
         <div class="table-cell lev">
-          <span v-if="category.sub" @click="expand(category.id)" class="btn btn-primary btn-expand">
-            <i class="fa fa-plus"></i>
+          <span v-if="category.sub" @click="expand(category.id)" :class="`btn btn-primary btn-expand${isExpanded(category.id) ? ' btn-alt' : ''}`">
+            <i class="fa fa-plus" v-if="!isExpanded(category.id)"></i>
+            <i class="fa fa-minus" v-else="isExpanded(category.id)"></i>
           </span>
-          <router-link v-bind:to="'/categories/' + category.id"><strong>{{ category.title }} #{{ category.id }}</strong></router-link>
+          <router-link v-bind:to="'/categories/' + category.id"><strong>{{ category.title }}</strong></router-link>
         </div>
 
         <div class="table-cell">
@@ -52,7 +69,7 @@
         </div>
       </div>
 
-      <categories-table-tree v-if="category.sub"
+      <categories-table-tree v-if="category.sub" v-show="isExpanded(category.id)"
         :tree="category.sub"
         :level="parseInt(level) + 1"
         :onStatusChange="onStatusChange"

@@ -9,33 +9,45 @@ const availableMessageTypes = [
 ]
 
 export default class request {
-  constructor(method = 'get', url, params = {}) {
+  constructor(method = 'get', url, data = {}, configParams = {}) {
     this.isCrashed = false
     this.status = 'crashed'
     this.callbacks = []
     this.fetchRequestCancel = false
     this.isDone = false
 
-    if (method === 'get') {
-      params = {
-        params: params
-      }
+    let config = {
+      method: method,
+      url: url,
     }
 
-    axios[method](url, {
-      ...params,
-      cancelToken: new axios.CancelToken(c => this.fetchRequestCancel = c)
-    })
+    if (['post', 'put', 'patch'].indexOf(method) !== -1) {
+      config.data = data
+    }
+    else {
+      config.params = data
+    }
+
+    config = {
+      ...config,
+      ...configParams
+    }
+
+    axios.request(config)
       .then(response => {
         this._handleResponse(response)
       })
       .catch(error => {
         if (error.constructor.name === 'Cancel') return
 
-        this.status = 'crashed'
-
-        Core.notify('Техническая ошибка. Обратитесь к разработчикам.', {type: 'error'})
-        console.log(error)
+        if (error.response.status === 404) {
+          this.status = 'error'
+          this.response = error.response
+        }
+        else {
+          this.status = 'crashed'
+          Core.notify('Техническая ошибка. Обратитесь к разработчикам.', {type: 'error'})
+        }
 
         this._done()
       })
@@ -57,10 +69,16 @@ export default class request {
       const data = response.data
 
       if (data.redirect) {
-        window.location.href = data.redirect
+        let redirect = data.redirect
+
+        if (redirect.indexOf('/') === 0) {
+          redirect = `/#${redirect}`
+        }
+
+        window.location.href = redirect
       }
 
-      this.status = data.status || 'error'
+      this.status = data.status || 'success'
 
       if ('message' in data) {
         if (availableMessageTypes.indexOf(this.status) === -1) return
@@ -88,7 +106,7 @@ export default class request {
 
   success(callback) {
     this._onDone(() => {
-      if (this.status !== 'fail' && this.status !== 'crashed') {
+      if (this.status !== 'error' && this.status !== 'crashed') {
         Core.runCallback(callback, this.response)
       }
     })
@@ -98,7 +116,7 @@ export default class request {
 
   fail(callback) {
     this._onDone(() => {
-      if (this.status === 'fail') {
+      if (this.status === 'error') {
         Core.runCallback(callback, this.response)
       }
     })
@@ -106,7 +124,7 @@ export default class request {
     return this
   }
 
-  crashed(callback) {
+  crash(callback) {
     this._onDone(() => {
       if (this.status !== 'crashed') return
 

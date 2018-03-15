@@ -14,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-
+        \Validator::extend('trim', function($attribute, $value) {
+            return empty($value) ? true : trim($value);
+        });
     }
 
     /**

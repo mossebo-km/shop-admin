@@ -1,7 +1,6 @@
 <script>
   import ShopQuickNav from './ShopQuickNav.vue'
   import Loading from './Loading.vue'
-  import noty from '../scripts/noty.js'
   import Core from '../core'
   import Sortable from 'jquery-ui-sortable-npm'
   import CategoriesTableTree from './CategoriesTableTree'
@@ -152,6 +151,10 @@
     <div class="block full">
       <div class="block-title">
         <h1><strong>Категории</strong></h1>
+
+        <div class="block-title-control">
+          <router-link to="/categories/create" class="btn btn-sm btn-success active"><i class="fa fa-plus-circle"></i> Создать</router-link>
+        </div>
       </div>
 
       <loading :loading="loading">

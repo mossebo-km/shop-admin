@@ -15,9 +15,14 @@ class BaseModelI18 extends BaseModel
         $this->translateTableName = Config::get("migrations.{$this->tableIdentif}I18");
     }
 
-    public function newQuery()
+    public function i18()
     {
-        return self::connectTranslate('ru', parent::newQuery());
+        return $this->hasMany(get_class($this) . 'I18', $this->translateRelationField);
+    }
+
+    public static function withTranslate($languageCode = null)
+    {
+        return self::connectTranslate($languageCode ?: 'ru');
     }
 
     protected static function connectTranslate($languageCode, $query = false)

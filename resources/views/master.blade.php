@@ -145,7 +145,7 @@
             }
         </script>
 
-        <script src="//cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
+        <script src="/js/vendor/ckeditor/ckeditor.js"></script>
         <script src="js/app.js"></script>
 
         @yield('scripts')

@@ -55,3 +55,39 @@
   padding: 6px 7px 5px 8px;
   margin-right: 5px;
 }
+
+
+.has-error .cke {
+  border-color: #e74c3c;
+  background-color: #ffffff;
+}
+
+.has-error .cke:focus {
+  border-color: #c0392b;
+}
+
+.has-warning .cke {
+  border-color: #e67e22;
+  background-color: #ffffff;
+}
+
+.has-warning .cke:focus {
+  border-color: #b3621b;
+}
+
+.has-success .cke {
+  border-color: #27ae60;
+  background-color: #ffffff;
+}
+
+.has-success .cke:focus {
+  border-color: #166638;
+}
+
+
+.in-space {
+  position: absolute;
+  left: -100000px;
+  top: -100000px;
+  opacity: 0;
+}

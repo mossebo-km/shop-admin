@@ -6,18 +6,29 @@
   import Core from '../core'
   import Loading from './Loading.vue'
   import TreeSelect from './TreeSelect.vue'
+  import CKEditor from './CKEditor.vue'
+  import LanguagePicker from './LanguagePicker.vue'
+  import { Validator } from 'vee-validate'
+
+  import bModal from 'bootstrap-vue/es/components/modal/modal'
 
   export default {
     name: 'category-edit',
-    props: ['id'],
+    props: ['id', 'type'],
     data() {
       return {
-        type: 'create',
         loading: true,
-        languages: null,
+        languages: [],
+        activeLanguageCode: null,
         categories: null,
-        category: null
+        category: null,
+        validationErrors: [],
+        saveDisabled: false,
       }
+    },
+
+    watch: {
+      '$route': 'fetchData'
     },
 
     methods: {
@@ -30,7 +41,19 @@
           .then(data => {
             if (!this.fetchInProcess) return
 
-            this.languages = data['languages'].filter(language => !!language.enabled)
+            let languages = []
+
+            data['languages'].forEach(language => {
+              if (language.enabled) {
+                languages.push(language)
+              }
+
+              if (language.default) {
+                this.activeLanguageCode = language.code
+              }
+            })
+
+            this.languages = languages
             this.categories = data['categories-tree']
 
             if (this.type === 'create') {
@@ -41,7 +64,17 @@
 
             this.fetchRequest = new Core.requestHandler('get', `/api${this.$route.path}`)
               .success(response => {
-                this.category = response.data.category
+                let category = response.data.category
+
+                this.initEmptyTranslates(category)
+
+                this.category = category
+              })
+              .fail(response => {
+                if (response.status === 404) {
+                  Core.notify('Категория не найдена.', {type: 'error'})
+                  this.$router.push('/categories')
+                }
               })
               .any(() => {
                 this.abortRequest()
@@ -60,10 +93,6 @@
           this.fetchRequest.abort()
           this.fetchRequest = false;
         }
-      },
-
-      activeLanguageCode() {
-        return 'ru'
       },
 
       getValue(sections) {
@@ -87,37 +116,141 @@
       },
 
       initEmptyCategory() {
-        this.category = {
+        let category = {
           parent_id: 0,
           slug: '',
           enabled: true,
           i18: {},
         }
 
+        this.initEmptyTranslates(category)
+
+        this.category = category
+      },
+
+      initEmptyTranslates(category, languageCode) {
+        category = category || {i18: {}};
+
         this.languages.forEach(language => {
-          this.category.i18[language.code] = {
-            title: '',
-            description: '',
-            meta_title: '',
-            meta_description: ''
+          if (! (language.code in category.i18)) {
+            category.i18[language.code] = {
+              title: '',
+              description: '',
+              meta_title: '',
+              meta_description: ''
+            }
           }
         })
       },
 
-      buildCategorySelect() {
-        return ''
+      onSave() {
+        this.saveDisabled = true
+
+        this.$validator.validateAll()
+          .then(result => {
+            if (!result) {
+              this.saveDisabled = false
+              this.$refs.validationModal.show()
+            }
+            else {
+              const data = {
+                ... this.category
+              }
+
+              if (this.type === 'create') {
+                this.fetchRequest = new Core.requestHandler('post', "/api/categories", data)
+              }
+
+              if (this.type === 'edit') {
+                this.fetchRequest = new Core.requestHandler('put', `/api${this.$route.path}`, data)
+              }
+
+              this.fetchRequest
+                .fail(response => {
+                  if (response.data.errors) {
+                    this.setValidationErrors(response.data.errors)
+                  }
+
+                  this.$refs.validationModal.show()
+                })
+                .any(() => {
+                  this.saveDisabled = false
+                })
+            }
+          });
       },
+
+
+      /*
+        Нажатие на кнопку удаления записи.
+      */
+
+      onRemove() {
+        var _ = this;
+
+        if (this.type !== 'edit') return
+
+        this.$refs.removeModal.show()
+      },
+
+
+      /*
+        При подтвержении удаления записи.
+      */
+
+      onRemoveConfirm() {
+        new Core.requestHandler('delete', `/api/categories/${this.category.id}`)
+          .success(() => {
+            this.$router.push('/categories')
+          })
+      },
+
+      setValidationErrors(errors = {}) {
+        for (let fieldName in errors) {
+          if (this.errors.has(fieldName)) {
+            this.errors.remove(fieldName)
+          }
+
+          this.errors.add(fieldName, errors[fieldName])
+        }
+      },
+
+      onSlugAutocomplete() {
+        this.category.slug = Core.makeUrl(this.category.i18[this.activeLanguageCode].title)
+      }
     },
 
     components: {
       'shop-quick-nav': ShopQuickNav,
       'loading': Loading,
-      'tree-select': TreeSelect
+      'tree-select': TreeSelect,
+      'ckeditor': CKEditor,
+      'language-picker': LanguagePicker,
+      'b-modal': bModal
+    },
+
+    created() {
+      this.fieldName = ''
+      Validator.extend('slug_exist', {
+        getMessage: field => `Категория с таким slug уже существует.`,
+        validate: slug => new Promise(resolve => {
+          let params = {slug}
+
+          if (this.type === 'edit') {
+            params.id = this.category.id
+          }
+
+          new Core.requestHandler('get', `/api/categories/slug`, params)
+            .success(() => resolve( {valid: true} ))
+            .fail(() => resolve( {valid: false} ))
+        })
+      })
     },
 
     mounted() {
       this.fetchData()
     },
+
 
     beforeDestroy() {
       this.abortRequest()
@@ -130,8 +263,22 @@
     <shop-quick-nav active="categories"></shop-quick-nav>
 
     <div class="block full">
-      <div class="block-title">
+      <div class="block-title" v-if="type === 'create'">
+        <h1><strong>Создание категории</strong></h1>
+
+        <div class="block-title-control">
+          <a href="javascript:void(0);" class="btn btn-sm btn-success active" @click="onSave" :disabled="saveDisabled"><i class="fa fa-plus-circle"></i> Создать</a>
+        </div>
+      </div>
+
+      <div class="block-title" v-if="type === 'edit'">
         <h1><strong>Редактирование категории #{{ this.id }}</strong></h1>
+
+        <div class="block-title-control">
+          <a href="javascript:void(0);" class="btn btn-sm btn-primary active" @click="onSave" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Сохранить</a>
+
+          <a href="javascript:void(0);" class="btn btn-sm btn-danger active" @click="onRemove" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Удалить</a>
+        </div>
       </div>
 
       <loading :loading="loading">
@@ -139,39 +286,51 @@
 
           <div class="col-lg-6">
             <div class="block">
-              <div class="block-title">
+              <div class="block-title clearfix">
                 <h2><i class="fa fa-globe"></i> <strong>Языковая</strong> информация</h2>
-              </div>
 
-              <div class="form-horizontal form-bordered">
-                <div class="form-group">
-                  <label class="col-md-3 control-label" :for="`title-${activeLanguageCode()}`">Название товара</label>
-                  <div class="col-md-9">
-                    <input type="text" :id="`title-${activeLanguageCode()}`" :name="`title[${activeLanguageCode()}]`" :value="getValue(`product.i18.${activeLanguageCode()}.title`)" class="form-control">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-md-3 control-label" :for="`description-${activeLanguageCode()}`">Описание</label>
-                  <div class="col-md-9">
-                    <textarea :title="`description-${activeLanguageCode()}`" :name="`description[${activeLanguageCode()}]`" class="ckeditor">{{ getValue(`product.i18.${activeLanguageCode()}.description`) }}</textarea>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-md-3 control-label" :for="`meta-title-${activeLanguageCode()}`">Мета-заголовок</label>
-                  <div class="col-md-9">
-                    <input type="text" :id="`meta-title-${activeLanguageCode()}`" :name="`meta_title[${activeLanguageCode()}]`" :value="getValue(`product.i18.${activeLanguageCode()}.meta_title`)" class="form-control">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-md-3 control-label" :for="`meta-description-${activeLanguageCode()}`">Мета-описание</label>
-                  <div class="col-md-9">
-                    <textarea :id="`meta-description-${activeLanguageCode()}`" :name="`meta-description[${activeLanguageCode()}]`" class="form-control">{{ getValue(`product.i18.${activeLanguageCode()}.meta_description`) }}</textarea>
-                  </div>
+                <div class="block-options pull-right">
+                  <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode"></language-picker>
                 </div>
               </div>
+
+              <template v-for="language in languages">
+                <div :class="`form-horizontal form-bordered${activeLanguageCode === language.code ? '' : ' in-space'}`" :key="language.code">
+
+                  <div :class="`form-group${errors.has(`i18.${language.code}.title`) ? ' has-error' : ''}`">
+                    <label class="col-md-3 control-label" :for="`title-${language.code}`">Название товара <span class="text-danger">*</span></label>
+                    <div class="col-md-9">
+                      <input type="text" class="form-control" :id="`title-${language.code}`" v-model="category.i18[language.code].title" :name="`i18.${language.code}.title`" v-validate="'required|max:255'">
+                      <span v-show="errors.has(`i18.${language.code}.title`)" class="help-block">{{ errors.first(`i18.${language.code}.title`) }}</span>
+                    </div>
+                  </div>
+
+                  <div :class="`form-group${errors.has(`i18.${language.code}.description`) ? ' has-error' : ''}`">
+                    <label class="col-md-3 control-label" :for="`description-${language.code}`">Описание</label>
+                    <div class="col-md-9">
+                      <ckeditor :id="`description-${language.code}`" :content.sync="category.i18[language.code].description" :name="`i18.${language.code}.description`" />
+                      <span v-show="errors.has(`i18.${language.code}.description`)" class="help-block">{{ errors.first(`i18.${language.code}.description`) }}</span>
+                    </div>
+                  </div>
+
+                  <div :class="`form-group${errors.has(`i18.${language.code}.meta_title`) ? ' has-error' : ''}`">
+                    <label class="col-md-3 control-label" :for="`title-${language.code}`">Мета-заголовок</label>
+                    <div class="col-md-9">
+                      <input type="text" class="form-control" :id="`title-${language.code}`" v-model="category.i18[language.code].meta_title" :name="`i18.${language.code}.meta_title`" v-validate="'max:255'">
+                      <span v-show="errors.has(`i18.${language.code}.meta_title`)" class="help-block">{{ errors.first(`i18.${language.code}.meta_title`) }}</span>
+                    </div>
+                  </div>
+
+                  <div :class="`form-group${errors.has(`i18.${language.code}.meta_description`) ? ' has-error' : ''}`">
+                    <label class="col-md-3 control-label" :for="`title-${language.code}`">Мета-описание</label>
+                    <div class="col-md-9">
+                      <textarea class="form-control" :id="`meta-description-${language.code}`" v-model="category.i18[language.code].meta_description" :name="`i18.${language.code}.meta_description`" v-validate="'max:65000'"></textarea>
+                      <span v-show="errors.has(`i18.${language.code}.meta_description`)" class="help-block">{{ errors.first(`i18.${language.code}.meta_description`) }}</span>
+                    </div>
+                  </div>
+                </div>
+              </template>
+
             </div>
           </div>
 
@@ -183,20 +342,23 @@
 
               <div class="form-horizontal form-bordered">
 
-                <div class="form-group">
-                  <label class="col-md-3 control-label" for="slug">Slug</label>
+                <div :class="`form-group${errors.has('slug') ? ' has-error' : ''}`">
+                  <label class="col-md-3 control-label" for="slug">Slug <span class="text-danger">*</span></label>
                   <div class="col-md-9">
-                    <input type="text" id="slug" class="form-control" v-model="category.slug">
+                    <div class="input-group">
+                      <input type="text" id="slug" class="form-control" v-model="category.slug" name="slug" v-validate="'required|min:3|max:255|slug_exist'" required>
+                      <a class="btn input-group-addon" @click="onSlugAutocomplete"><i class="fa fa-refresh"></i> Автозаполнение</a>
+                    </div>
+
+                    <span v-show="errors.has('slug')" class="help-block">{{ errors.first('slug') }}</span>
                   </div>
                 </div>
 
-
                 <div class="form-group">
-                    <label class="col-md-3 control-label" for="parent_id">Категория</label>
-                    <div class="col-md-8">
-                      <tree-select :options="categories" :activeOption.sync="category.parent_id"></tree-select>
-                      <!-- <select id="parent_id" class="select2" data-placeholder="Choose Category.." v-html="buildCategorySelect()" style="width:100%"></select> -->
-                    </div>
+                  <label class="col-md-3 control-label" for="parent_id">Родительская категория</label>
+                  <div class="col-md-8">
+                    <tree-select :options="categories" :activeOption.sync="category.parent_id" :disabled="category.id || false" placeholder="Выберите категорию"></tree-select>
+                  </div>
                 </div>
 
                 <div class="form-group">
@@ -208,12 +370,49 @@
                   </div>
                 </div>
 
+                <div class="form-group" v-if="category.created_at">
+                  <label class="col-md-3 control-label">Дата создания</label>
+                  <div class="col-md-9">
+                    <p class="form-control-static">{{ category.created_at }}</p>
+                  </div>
+                </div>
+
+                <div class="form-group" v-if="category.updated_at">
+                  <label class="col-md-3 control-label">Последнее изменение</label>
+                  <div class="col-md-9">
+                    <p class="form-control-static">{{ category.updated_at }}</p>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
         </div>
       </loading>
     </div>
+
+    <b-modal id="validationModal"
+      ref="validationModal"
+      title="Ошибка валидации"
+      title-tag="h3"
+      centered
+      ok-title="Ок"
+      ok-only
+      hide-header-close>
+      Проверьте правильность заполнения формы!
+    </b-modal>
+
+    <b-modal id="removeModal"
+      ref="removeModal"
+      title="Удаление категории"
+      title-tag="h3"
+      centered
+      ok-title="Удалить"
+      cancel-title="Отмена"
+      hide-header-close
+      @ok="onRemoveConfirm">
+      Вы действительно хотите удалить категорию?
+    </b-modal>
   </div>
 </template>
 

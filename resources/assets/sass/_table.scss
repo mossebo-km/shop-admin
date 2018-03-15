@@ -133,16 +133,6 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
   background-color: #ffffff;
 }
 
-.table-level-1,
-.table-level-2,
-.table-level-3,
-.table-level-4,
-.table-level-5 {
-  &:not(.expanded) {
-    display: none;
-  }
-}
-
 
 
 .table-categories {

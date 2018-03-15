@@ -1396,14 +1396,6 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
   background-color: #ffffff;
 }
 
-.table-level-1:not(.expanded),
-.table-level-2:not(.expanded),
-.table-level-3:not(.expanded),
-.table-level-4:not(.expanded),
-.table-level-5:not(.expanded) {
-  display: none;
-}
-
 .table-categories {
   min-width: 1024px;
 }
@@ -1471,4 +1463,38 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
 .btn-expand {
   padding: 6px 7px 5px 8px;
   margin-right: 5px;
+}
+
+.has-error .cke {
+  border-color: #e74c3c;
+  background-color: #ffffff;
+}
+
+.has-error .cke:focus {
+  border-color: #c0392b;
+}
+
+.has-warning .cke {
+  border-color: #e67e22;
+  background-color: #ffffff;
+}
+
+.has-warning .cke:focus {
+  border-color: #b3621b;
+}
+
+.has-success .cke {
+  border-color: #27ae60;
+  background-color: #ffffff;
+}
+
+.has-success .cke:focus {
+  border-color: #166638;
+}
+
+.in-space {
+  position: absolute;
+  left: -100000px;
+  top: -100000px;
+  opacity: 0;
 }

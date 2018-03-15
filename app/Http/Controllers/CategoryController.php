@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models as Models;
 use App\Models\Category;
 use App\Http\Collectors\Admin\ProductDataAdminCollector;
+use Validator;
 
 class CategoryController extends Controller
 {
@@ -26,6 +27,29 @@ class CategoryController extends Controller
 
 
     /*
+        Отображение категории.
+    */
+
+    public function show(Category $category)
+    {
+        $data = $category->toArray();
+
+        $data['i18'] = [];
+
+        foreach ($category->i18()->get() as $item) {
+            $languageCode = $item['language_code'];
+            unset($item['language_code']);
+
+            $data['i18'][$languageCode] = $item;
+        }
+
+        return [
+            'category' => $data
+        ];
+    }
+
+
+    /*
         Изменение статуса.
     */
 
@@ -40,16 +64,94 @@ class CategoryController extends Controller
         ], 201);
     }
 
-
     /*
-        Создание категории.
+        Проверка существования slug.
     */
 
-    public function store()
+    public function slugExist(Request $request)
     {
-        $category = Category::create($request->all());
+        return response()->json([
+            'status' => $this->_slugExist($request->input('slug'), $request->input('id')) ? 'error' : 'success'
+        ]);
+    }
 
-        return response()->json($category, 201);
+
+    /*
+        Проверка существования slug.
+    */
+
+    private function _slugExist($slug, $excludedId = false)
+    {
+        $query = Category::where('slug', $slug);
+
+        if ($excludedId !== false) {
+            $query->where('id', '!=', $excludedId);
+        }
+
+        return $query->exists();
+    }
+
+    /*
+        Проверка существования категории
+    */
+
+    private function _categoryExist($id)
+    {
+        if ($id === 0) return true;
+
+        return Category::where('id', $id)->exists();
+    }
+
+
+    /*
+        Сборных подходящих данных.
+    */
+
+    private function getFillableData($data)
+    {
+        $fillable = (new Category())->getFillable();
+
+        return array_filter($data, function($key) use($fillable){
+            return in_array($key, $fillable);
+        }, ARRAY_FILTER_USE_KEY);
+    }
+
+
+    /*
+        Обработка запроса на создание категории.
+    */
+
+    public function store(Request $request)
+    {
+        /*
+            Потому что я могу.
+        */
+
+        return $this->handleIncomingData($request->all(), 'create', function($data) {
+            try {
+                $category = \DB::transaction(function() use($data) {
+                    $category = new Category($this->getFillableData($data));
+                    $category->save();
+
+                    $this->setTranslates($category, $data['i18']);
+
+                    return $category;
+                });
+            }
+            catch (\Exception $e) {
+                // dd($e);
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Техническая ошибка (100). Обратитесь к разработчикам.'
+                ], 500);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Категория успешно создана.',
+                'redirect' => "/categories/{$category->id}"
+            ], 200);
+        });
     }
 
 
@@ -57,11 +159,139 @@ class CategoryController extends Controller
         Изменение категории.
     */
 
-    public function update(Category $category)
+    public function update(Request $request)
     {
-        $category->update($request->all());
+        return $this->handleIncomingData($request->all(), 'update', function($data) {
+            $category = Category::where('id', $data['id'])->first();
 
-        return response()->json($category, 200);
+            if (! ($category && $category->exists())) {
+                // Если удалена - редиректим на список.
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Категория была удалена до внесения изменений.',
+                    'redirect' => '/categories'
+                ]);
+            }
+
+            try {
+                \DB::transaction(function() use($category, $data) {
+                    $category->update($this->getFillableData($data));
+                    $this->setTranslates($category, $data['i18']);
+
+                    // return $category;
+                });
+            }
+            catch (\Exception $e) {
+                // dd($e);
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Техническая ошибка (101). Обратитесь к разработчикам.'
+                ], 500);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Категория успешно изменена.',
+            ], 200);
+        });
+    }
+
+    public function handleIncomingData($data, $type = 'create', $callback)
+    {
+        try {
+            $errors = $this->findDataErrors($data, $type);
+        } catch (\Exception $e) {
+            // dd($e);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Техническая ошибка (102). Обратитесь к разработчикам.'
+            ], 500);
+        }
+
+        if ($errors) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $errors
+            ], 200);
+        }
+
+        if (is_callable($callback)) {
+            return call_user_func($callback, $data);
+        }
+
+        return $data;
+    }
+
+
+    /*
+        Валидация данных категории.
+    */
+
+    public function findDataErrors($data, $type = 'update')
+    {
+        if ($type === 'create') {
+            Validator::extend('slugAvailable', function ($attribute, $value) {
+                return !$this->_slugExist($value);
+            });
+        }
+
+        Validator::extend('categoryExist', function ($attribute, $value) {
+            return $this->_categoryExist($value);
+        });
+
+        $rules = [
+            'slug' => "bail|trim|required|between:3,255" . ($type === 'create' ? '|slugAvailable' : ''),
+            'enabled' => 'boolean',
+            'parent_id' => 'bail|integer|categoryExist',
+        ];
+
+        $languages = Models\Language::where('enabled', 1)->get();
+
+        foreach ($languages as $language) {
+            if (!isset($data['i18'][$language['code']])) {
+                if ($language['default']) {
+                    throw new Exception("Отсутствует перевод категории для основного языка: {$language['code']}", 1);
+                }
+
+                continue;
+            }
+
+            $rules["i18.{$language['code']}.title"]            = 'bail|trim|required|max:255';
+            $rules["i18.{$language['code']}.description"]      = 'bail|trim|max:65000';
+            $rules["i18.{$language['code']}.meta_title"]       = 'bail|trim|max:255';
+            $rules["i18.{$language['code']}.meta_description"] = 'bail|trim|max:65000';
+        }
+
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            $errors = [];
+
+            foreach ($validator->errors()->messages() as $fieldName => $messages) {
+                $errors[$fieldName] = $messages[0];
+            }
+
+            return $errors;
+        }
+
+        return false;
+    }
+
+
+    protected function setTranslates(Category $category, Array $translates = [])
+    {
+        foreach ($translates as $languageCode => $i18Data) {
+            $i18Data = array_filter($i18Data, function($element) {
+                return $element !== null;
+            });
+
+            $i18Data['language_code'] = $languageCode;
+
+            $translate = new Models\CategoryI18($i18Data);
+
+            $category->i18()->where('language_code', $languageCode)->delete();
+            $category->i18()->save($translate);
+        }
     }
 
 
@@ -86,7 +316,7 @@ class CategoryController extends Controller
 
     public static function all()
     {
-        return self::$categories ?: self::$categories = Category::orderBy('position', 'asc')->get()->toArray();
+        return self::$categories ?: self::$categories = Category::withTranslate()->orderBy('position', 'asc')->get()->toArray();
     }
 
 
@@ -171,25 +401,5 @@ class CategoryController extends Controller
             'status' => 'success',
             'message' => "Позиция сохранена."
         ], 201);
-    }
-
-
-    /*
-        Отображение категории.
-    */
-
-    public function show(Category $category)
-    {
-        // $this->_connectPrices($product);
-        // $this->_connectCategories($product);
-        // $this->_connectImages($product);
-
-        // $data = [
-        //     'product' => $product,
-        //     'categories' => $this->_getCategories(),
-        //     'currencies' => $this->_getCurrencies(),
-        // ];
-
-        return $category;
     }
 }

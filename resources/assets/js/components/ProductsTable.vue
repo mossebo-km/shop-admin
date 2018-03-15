@@ -3,7 +3,6 @@
   import Toggle from './Toggle.vue'
   import Loading from './Loading.vue'
   import SearchInput from './SearchInput.vue'
-  import noty from '../scripts/noty.js'
   import Core from '../core'
 
   import bTable from 'bootstrap-vue/es/components/table/table'
