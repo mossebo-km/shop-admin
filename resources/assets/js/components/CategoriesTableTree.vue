@@ -32,7 +32,7 @@
 </script>
 
 <template>
-  <div :class="'ui-sortable table-group table-level-' + level" :id="'table-group-' + (parentId || 0)">
+  <div :class="'ui-sortable table-group table-level-' + level">
     <div v-for="(category, key) in tree" class="ui-sortable-handle">
       <input type="hidden" :value="category.id" name="ids">
 
@@ -54,10 +54,6 @@
             <strong>{{ category.slug }}</strong>
             <i class="fa fa-external-link"></i>
           </a>
-        </div>
-
-        <div class="table-cell">
-          {{ category.created_at }}
         </div>
 
         <div class="table-cell text-center">

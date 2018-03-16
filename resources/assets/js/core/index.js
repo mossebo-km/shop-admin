@@ -1,8 +1,9 @@
 import notify from './notify.js'
-import requestHandler from './requestHandler.js'
+import requestHandler from './tRequest.js'
 import storage from './storage.js'
 import dataHandler from './dataHandler.js'
 import transliteration from './transliteration'
+import queueHandler from './queueHandler'
 
 export default {
   runCallback(callback) {
@@ -19,9 +20,21 @@ export default {
   requestHandler,
   storage,
   dataHandler,
+  queueHandler,
 
   transliteration,
   makeUrl(string) {
     return this.transliteration(string.toLowerCase().replace('_', '-').replace(/\s/g, '-'), true)
-  }
+  },
+
+  // uniqueId (idStrLen = 16) {
+  //   let idStr = (Math.floor((Math.random() * 25)) + 10).toString(36) + "_"
+  //   idStr += (new Date()).getTime().toString(36) + "_"
+
+  //   do {
+  //     idStr += (Math.floor((Math.random() * 35))).toString(36)
+  //   } while (idStr.length < idStrLen)
+
+  //   return (idStr);
+  // }
 }

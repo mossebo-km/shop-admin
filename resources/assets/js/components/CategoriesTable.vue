@@ -173,9 +173,6 @@
                   Slug
                 </div>
                 <div class="table-cell">
-                  Количество товаров
-                </div>
-                <div class="table-cell">
                   Статус
                 </div>
                 <div class="table-cell"></div>

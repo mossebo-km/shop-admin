@@ -4,6 +4,10 @@
     props: ['options', 'activeOption', 'placeholder', 'disabled'],
     methods: {
       buildCategorySelect() {
+        if (! this.options) {
+          return ''
+        }
+
         let disabledItemsIds = [];
 
         if (this.disabled) {

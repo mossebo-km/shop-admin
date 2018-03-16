@@ -16,10 +16,18 @@ class DataController extends Controller
 
     public static function getRelevantKey()
     {
-        // \Cache::flush();
+        // todo: Добавить отдельное кэширование для каждого типа данных.
+
         return \Cache::remember(self::$cacheKey, 18000, function () {
             return md5(uniqid());
         });
+    }
+
+    public static function clearCache($dataType)
+    {
+        // todo: Добавить отчистку кэша по типу данных.
+
+        \Cache::flush();
     }
 
     public function relevantKey()

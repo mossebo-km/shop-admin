@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Events as Events;
 use App\Models as Models;
 use App\Models\Category;
 use App\Http\Collectors\Admin\ProductDataAdminCollector;
@@ -32,6 +33,13 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
+        return [
+            'category' => $this->_prepareBeforeShow($category)
+        ];
+    }
+
+    private function _prepareBeforeShow(Category $category)
+    {
         $data = $category->toArray();
 
         $data['i18'] = [];
@@ -43,9 +51,7 @@ class CategoryController extends Controller
             $data['i18'][$languageCode] = $item;
         }
 
-        return [
-            'category' => $data
-        ];
+        return $data;
     }
 
 
@@ -97,7 +103,7 @@ class CategoryController extends Controller
 
     private function _categoryExist($id)
     {
-        if ($id === 0) return true;
+        if ((int)$id === 0) return true;
 
         return Category::where('id', $id)->exists();
     }
@@ -146,10 +152,17 @@ class CategoryController extends Controller
                 ], 500);
             }
 
+            /*
+
+            */
+
+            \Event::fire(new Events\CategoryCreate($category));
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Категория успешно создана.',
-                'redirect' => "/categories/{$category->id}"
+                'redirect' => "/categories/{$category->id}",
+                'category' => $this->_prepareBeforeShow($category)
             ], 200);
         });
     }
@@ -177,8 +190,6 @@ class CategoryController extends Controller
                 \DB::transaction(function() use($category, $data) {
                     $category->update($this->getFillableData($data));
                     $this->setTranslates($category, $data['i18']);
-
-                    // return $category;
                 });
             }
             catch (\Exception $e) {
@@ -189,9 +200,12 @@ class CategoryController extends Controller
                 ], 500);
             }
 
+            \Event::fire(new Events\CategoryUpdated($category));
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Категория успешно изменена.',
+                'category' => $this->_prepareBeforeShow($category)
             ], 200);
         });
     }

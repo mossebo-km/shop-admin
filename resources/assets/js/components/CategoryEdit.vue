@@ -20,7 +20,7 @@
         loading: true,
         languages: [],
         activeLanguageCode: null,
-        categories: null,
+        categories: [],
         category: null,
         validationErrors: [],
         saveDisabled: false,
@@ -28,182 +28,217 @@
     },
 
     watch: {
-      '$route': 'fetchData'
+      '$route': ['clearQueue', 'fetchData']
     },
 
     methods: {
-      fetchData() {
-        this.abortRequest()
-        this.loading = true
-        this.fetchInProcess = true
+      /*
+        Взаимодействие с сервером.
+      */
 
-        Core.dataHandler.get(['categories-tree', 'languages'])
-          .then(data => {
-            if (!this.fetchInProcess) return
+        /*
+          Загрузка данных.
+        */
 
-            let languages = []
+        fetchData() {
+          this.loading = true
+          this.fetchMainData()
 
-            data['languages'].forEach(language => {
-              if (language.enabled) {
-                languages.push(language)
-              }
-
-              if (language.default) {
-                this.activeLanguageCode = language.code
-              }
-            })
-
-            this.languages = languages
-            this.categories = data['categories-tree']
-
-            if (this.type === 'create') {
+          if (this.type === 'create') {
+            this.dataQueue.add(() => new Promise(resolve => {
               this.initEmptyCategory()
-              this.abortRequest()
-              return
-            }
-
-            this.fetchRequest = new Core.requestHandler('get', `/api${this.$route.path}`)
-              .success(response => {
-                let category = response.data.category
-
-                this.initEmptyTranslates(category)
-
-                this.category = category
-              })
-              .fail(response => {
-                if (response.status === 404) {
-                  Core.notify('Категория не найдена.', {type: 'error'})
-                  this.$router.push('/categories')
-                }
-              })
-              .any(() => {
-                this.abortRequest()
-              })
-          })
-      },
-
-      abortRequest() {
-        this.loading = false
-
-        if (this.fetchInProcess) {
-          this.fetchInProcess = false
-        }
-
-        if (this.fetchRequest) {
-          this.fetchRequest.abort()
-          this.fetchRequest = false;
-        }
-      },
-
-      getValue(sections) {
-        if (this.type === 'create') {
-          return ''
-        }
-
-        let result = this.category || {}
-
-        sections = sections.split('.')
-
-        for (let i = 0; i < sections.length; i++) {
-          if (typeof result[sections[i]] === 'undefined') {
-            return ''
+              resolve()
+            }))
           }
 
-          result = result[sections[i]]
-        }
+          if (this.type === 'edit') {
+            this.fetchCategory()
+          }
 
-        return result
-      },
+          this.dataQueue.add(() => new Promise(resolve => {
+            this.loading = false
+            resolve()
+          }))
+        },
 
-      initEmptyCategory() {
-        let category = {
-          parent_id: 0,
-          slug: '',
-          enabled: true,
-          i18: {},
-        }
 
+          /*
+            Загрузка данных, необходимых тратата и все такое.
+          */
+
+          fetchMainData() {
+            this.dataQueue.add(() => new Promise (resolve => {
+              Core.dataHandler.get(['categories-tree', 'languages'])
+                .then(data => {
+                  let languages = []
+
+                  data['languages'].forEach(language => {
+                    if (language.enabled) {
+                      languages.push(language)
+                    }
+
+                    if (language.default) {
+                      this.activeLanguageCode = language.code
+                    }
+                  })
+
+                  this.languages = languages
+                  this.categories = data['categories-tree']
+                  resolve()
+                })
+            }))
+          },
+
+
+          /*
+            Загрузка данных категории с сервера.
+          */
+
+          fetchCategory() {
+            this.dataQueue.add(new Core.requestHandler('get', `/api${this.$route.path}`))
+              .onDone()
+                .success(this.pullCategoryFromResponse)
+                .fail(response => {
+                  if (response.status === 404 && this.type === 'edit') {
+                    Core.notify('Категория не найдена.', {type: 'error'})
+                    this.$router.push('/categories')
+                  }
+                })
+          },
+
+
+          /*
+            Сохранение категории
+          */
+
+          onSave() {
+            this.saveDisabled = true
+            this.$validator.validateAll()
+              .then(result => {
+                if (!result) {
+                  this.saveDisabled = false
+                  this.$refs.validationModal.show()
+                }
+                else {
+                  const data = {
+                    ... this.category
+                  }
+
+                  let request;
+
+                  if (this.type === 'create') {
+                    request = new Core.requestHandler('post', "/api/categories", data)
+                  }
+
+                  if (this.type === 'edit') {
+                    request = new Core.requestHandler('put', `/api${this.$route.path}`, data)
+                  }
+
+                  this.saveQueue.add(request)
+                    .onDone()
+                      .success(this.pullCategoryFromResponse)
+                      .fail(response => {
+                        if (response.data.errors) {
+                          this.setValidationErrors(response.data.errors)
+                          this.$refs.validationModal.show()
+                        }
+                      })
+                      .any(() => {
+                        this.saveDisabled = false
+                      })
+                }
+              });
+          },
+
+
+
+      /*
+        Вытаскиваем данные категории из ответа сервера.
+      */
+
+      pullCategoryFromResponse(response) {
+        let category = response.data.category
         this.initEmptyTranslates(category)
-
         this.category = category
       },
 
-      initEmptyTranslates(category, languageCode) {
-        category = category || {i18: {}};
 
-        this.languages.forEach(language => {
-          if (! (language.code in category.i18)) {
-            category.i18[language.code] = {
-              title: '',
-              description: '',
-              meta_title: '',
-              meta_description: ''
-            }
+
+      /*
+        Инициализация пустой модели данных.
+      */
+
+        /*
+          Основные данные категории.
+        */
+
+        initEmptyCategory() {
+          let category = {
+            parent_id: 0,
+            slug: '',
+            enabled: true,
+            i18: {},
           }
-        })
-      },
 
-      onSave() {
-        this.saveDisabled = true
+          this.initEmptyTranslates(category)
 
-        this.$validator.validateAll()
-          .then(result => {
-            if (!result) {
-              this.saveDisabled = false
-              this.$refs.validationModal.show()
+          this.category = category
+        },
+
+        /*
+          Переводы категории.
+        */
+
+        initEmptyTranslates(category, languageCode) {
+          category = category || {i18: {}};
+
+          this.languages.forEach(language => {
+            if (! (language.code in category.i18)) {
+              category.i18[language.code] = {
+                title: '',
+                description: '',
+                meta_title: '',
+                meta_description: ''
+              }
             }
-            else {
-              const data = {
-                ... this.category
-              }
-
-              if (this.type === 'create') {
-                this.fetchRequest = new Core.requestHandler('post', "/api/categories", data)
-              }
-
-              if (this.type === 'edit') {
-                this.fetchRequest = new Core.requestHandler('put', `/api${this.$route.path}`, data)
-              }
-
-              this.fetchRequest
-                .fail(response => {
-                  if (response.data.errors) {
-                    this.setValidationErrors(response.data.errors)
-                  }
-
-                  this.$refs.validationModal.show()
-                })
-                .any(() => {
-                  this.saveDisabled = false
-                })
-            }
-          });
-      },
-
-
-      /*
-        Нажатие на кнопку удаления записи.
-      */
-
-      onRemove() {
-        var _ = this;
-
-        if (this.type !== 'edit') return
-
-        this.$refs.removeModal.show()
-      },
-
-
-      /*
-        При подтвержении удаления записи.
-      */
-
-      onRemoveConfirm() {
-        new Core.requestHandler('delete', `/api/categories/${this.category.id}`)
-          .success(() => {
-            this.$router.push('/categories')
           })
-      },
+        },
+
+
+
+      /**
+        Удаление категории
+      */
+
+
+        /*
+          Нажатие на кнопку удаления записи.
+        */
+
+        onRemove() {
+          var _ = this;
+
+          if (this.type !== 'edit') return
+
+          this.$refs.removeModal.show()
+        },
+
+
+        /*
+          При подтвержении удаления записи.
+        */
+
+        onRemoveConfirm() {
+          new Core.requestHandler('delete', `/api/categories/${this.category.id}`)
+            .success(() => {
+              this.$router.push('/categories')
+            })
+        },
+
+
+      /*
+        Установка ошибок валидации, пришедших с сервера
+      */
 
       setValidationErrors(errors = {}) {
         for (let fieldName in errors) {
@@ -215,9 +250,28 @@
         }
       },
 
+
+      /*
+        Автозаполнение slug из заголовка категории.
+      */
+
       onSlugAutocomplete() {
         this.category.slug = Core.makeUrl(this.category.i18[this.activeLanguageCode].title)
-      }
+      },
+
+
+      /*
+        Обработка очередей
+      */
+
+
+        /*
+          Отчистка очереди
+        */
+
+        clearQueue() {
+          this.dataQueue.clear()
+        },
     },
 
     components: {
@@ -230,7 +284,9 @@
     },
 
     created() {
-      this.fieldName = ''
+      this.dataQueue = Core.queueHandler.makeQueue('iteration', 'page-data')
+      this.saveQueue = Core.queueHandler.makeQueue('block', 'page-save')
+
       Validator.extend('slug_exist', {
         getMessage: field => `Категория с таким slug уже существует.`,
         validate: slug => new Promise(resolve => {
@@ -243,6 +299,7 @@
           new Core.requestHandler('get', `/api/categories/slug`, params)
             .success(() => resolve( {valid: true} ))
             .fail(() => resolve( {valid: false} ))
+            .start()
         })
       })
     },
@@ -253,7 +310,7 @@
 
 
     beforeDestroy() {
-      this.abortRequest()
+      this.clearQueue()
     }
   }
 </script>

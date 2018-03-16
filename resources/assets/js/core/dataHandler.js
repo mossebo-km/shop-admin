@@ -27,6 +27,7 @@ export default {
           const key = response.data.key
           resolve(key)
         })
+        .start()
     })
   },
 
@@ -71,6 +72,7 @@ export default {
 
           resolve(this.data)
         })
+        .start()
     })
   }
 }

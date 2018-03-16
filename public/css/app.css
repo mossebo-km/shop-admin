@@ -1304,6 +1304,7 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
 
 .table-bordered {
   border: 1px solid #ddd;
+  border-bottom: 0;
 }
 
 .table-bordered .table-cell {
@@ -1315,10 +1316,6 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
 
 .table-bordered .table-cell:last-child {
   border-right-width: 0;
-}
-
-.table-bordered .table-row:last-child .table-cell {
-  border-bottom-width: 0;
 }
 
 .table-bordered .table-head .table-row:last-child .table-cell {
@@ -1414,7 +1411,7 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
 }
 
 .table-categories .table-cell:nth-child(2) {
-  width: 33%;
+  width: 48%;
 }
 
 .navbar-laravel {

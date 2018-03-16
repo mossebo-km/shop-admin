@@ -43,25 +43,22 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
 
 .table-bordered {
   border: 1px solid #ddd;
-}
+  border-bottom: 0;
 
-.table-bordered .table-cell {
-  border: 1px solid #ddd;
-  border-style: solid;
-  border-color: #ddd;
-  border-width: 0 1px 1px 0;
+  & .table-cell {
+    border: 1px solid #ddd;
+    border-style: solid;
+    border-color: #ddd;
+    border-width: 0 1px 1px 0;
 
-  &:last-child {
-    border-right-width: 0;
+    &:last-child {
+      border-right-width: 0;
+    }
   }
-}
 
-.table-bordered .table-row:last-child .table-cell {
-  border-bottom-width: 0;
-}
-
-.table-bordered .table-head .table-row:last-child .table-cell {
-  border-bottom-width: 2px;
+  & .table-head .table-row:last-child .table-cell {
+    border-bottom-width: 2px;
+  }
 }
 
 .table-row + .table-group .table-row:last-child .table-cell {
@@ -151,6 +148,6 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
   }
 
   & .table-cell:nth-child(2) {
-    width: 33%;
+    width: 48%;
   }
 }

@@ -8,7 +8,7 @@ const availableMessageTypes = [
   'info',
 ]
 
-export default class request {
+export default class tRequest {
   constructor(method = 'get', url, data = {}, configParams = {}) {
     this.isCrashed = false
     this.status = 'crashed'
@@ -28,12 +28,17 @@ export default class request {
       config.params = data
     }
 
-    config = {
+    this.config = {
       ...config,
-      ...configParams
+      ...configParams,
+      cancelToken: new axios.CancelToken(c => this.fetchRequestCancel = c)
     }
 
-    axios.request(config)
+    return this
+  }
+
+  start() {
+    axios.request(this.config)
       .then(response => {
         this._handleResponse(response)
       })
@@ -52,7 +57,7 @@ export default class request {
         this._done()
       })
 
-    return this;
+    return this
   }
 
   abort() {
