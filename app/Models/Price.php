@@ -12,31 +12,35 @@ class Price extends Base\BaseModel
         'item_type', 'item_id', 'currency_code', 'price_type_id', 'value'
     ];
 
-    public function item()
-    {
-        return $this->morphTo();
-    }
-
-
     public function products()
     {
         return $this->morphedByMany(Product::class, 'item');
     }
-
 
     public function currency()
     {
         return $this->belongsTo(Currency::class, 'currency_code', 'code');
     }
 
-
-    public function formattedPrice()
+    public function getCurrency()
     {
-        $currency = CurrenciesHandler::getCollection()->where('code', $this->currency_code)->first()->toArray();
+        if (! $this->currency) {
+            $this->currency = (app()->make('App\Repositories\Currency\CurrencyRepository'))->where('code', $this->currency_code)->first();
+        }
 
-        extract($currency, EXTR_OVERWRITE);
+        return $this->currency;
+    }
 
-        $price = number_format($this->value, $precision, $decimal_separator, $decimal_separator);
+    public function getFormatted()
+    {
+        extract($this->getCurrency()->toArray(), EXTR_OVERWRITE);
+
+        $price = number_format(
+            $this->getValue(),
+            $precision,
+            $decimal_separator,
+            $thousand_separator
+        );
 
         $price = str_replace(('.' . str_pad('', $precision, '0')), '', $price);
 
@@ -48,5 +52,33 @@ class Price extends Base\BaseModel
         }
 
         return $price;
+    }
+
+    public function getValue()
+    {
+        return $this->value / $this->getDivider();
+    }
+
+    /**
+     * @return integer
+     */
+    public function getDivider()
+    {
+        return pow(10, $this->getCurrency()['precision']);
+    }
+
+
+    /**
+     * Так как значение цены хранится в integer, надо добавить используемое в валюте количество знаков после запятой.
+     * @param  Array|array
+     * @return bool
+     */
+    public function save(Array $options = []): bool
+    {
+        if ($this->value) {
+            $this->value = $this->value * $this->getDivider();
+        }
+
+        return parent::save($options);
     }
 }

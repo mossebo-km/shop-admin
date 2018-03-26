@@ -28,8 +28,11 @@ class CreateImagesTable extends Migration
             $table->string('item_type');
             $table->integer('item_id')->unsigned();
             $table->string('path');
+            $table->string('name');
+            $table->string('ext');
             $table->integer('position')->unsigned()->default(0);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index(['item_type', 'item_id']);
         });

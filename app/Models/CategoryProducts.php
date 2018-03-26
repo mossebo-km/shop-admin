@@ -10,6 +10,8 @@ class categoryProducts extends Base\BaseModel
         'category_id', 'product_id'
     ];
 
+    public $timestamps = false;
+
     public function categories()
     {
         return $this->belongsTo(Category::class, 'category_id');

@@ -34,6 +34,7 @@ class CreateSuppliersI18Table extends Migration
             $table->text('description')->nullable();
 
             $table->primary(['supplier_id', 'language_code'])->index();
+            $table->softDeletes();
         });
     }
 

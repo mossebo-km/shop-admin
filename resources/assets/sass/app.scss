@@ -91,3 +91,42 @@
   top: -100000px;
   opacity: 0;
 }
+
+.language-picker {
+  border-radius: 50%;
+  border: 1px solid transparent;
+
+  &.has-error {
+    border-color: #e74c3c;
+  }
+}
+
+.prices-table {
+  table-layout: fixed;
+
+  & th:first-child,
+  & td:first-child {
+    width: 210px;
+  }
+}
+
+.prices-table__type {
+  font-size: 14px;
+}
+
+.prices-table__formatted {
+  background-color: #eaedf1;
+}
+
+
+.dz-icon {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 30px;
+}
+.dropzone .dz-preview .dz-success-mark, .dropzone .dz-preview .dz-error-mark {
+  width: 54px;
+  text-align: center;
+}
+.dropzone .dz-preview.dz-image-preview {
+  background-color: transparent;
+}

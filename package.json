@@ -21,15 +21,20 @@
     "dependencies": {
         "bootstrap": "^3.3.7",
         "bootstrap-vue": "^2.0.0-rc.1",
+        "browser-sync": "^2.23.6",
+        "browser-sync-webpack-plugin": "^2.2.2",
         "css-mqpacker": "^6.0.2",
         "jquery-ui-sortable-npm": "^1.0.0",
+        "magnific-popup": "^1.1.0",
         "noty": "^3.2.0-beta",
         "postcss-cssnext": "^3.1.0",
         "postcss-custom-media": "^6.0.0",
         "postcss-short-font-size": "^4.0.0",
         "postcss-short-position": "^3.0.0",
         "select2": "^4.0.6-rc.1",
+        "select2-bootstrap-theme": "0.1.0-beta.10",
         "vee-validate": "^2.0.5",
-        "vue-router": "^3.0.1"
+        "vue-router": "^3.0.1",
+        "vue2-dropzone": "^3.0.6"
     }
 }

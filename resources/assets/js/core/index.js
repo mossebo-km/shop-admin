@@ -1,5 +1,5 @@
 import notify from './notify.js'
-import requestHandler from './tRequest.js'
+import requestHandler from './apiRequest.js'
 import storage from './storage.js'
 import dataHandler from './dataHandler.js'
 import transliteration from './transliteration'
@@ -23,8 +23,16 @@ export default {
   queueHandler,
 
   transliteration,
+
   makeUrl(string) {
-    return this.transliteration(string.toLowerCase().replace('_', '-').replace(/\s/g, '-'), true)
+    return this.transliteration(string.toLowerCase().replace('_', '-').replace(/\s/g, '-'), true).replace(/[^0-9a-zA-Z\-]+/g, '')
+  },
+
+  trim (str, symbol = ' ') {
+    let before = new RegExp(`${symbol}$`)
+    let after = new RegExp(`^${symbol}`)
+
+    return str.replace(before, '').replace(after, '')
   },
 
   // uniqueId (idStrLen = 16) {

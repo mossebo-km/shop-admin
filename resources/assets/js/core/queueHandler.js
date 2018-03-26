@@ -13,7 +13,7 @@
 */
 
 import Core from './'
-import tRequest from './tRequest'
+import apiRequest from './apiRequest'
 
 const availableTypes = [
   'block',
@@ -109,8 +109,8 @@ export class Queue {
       itemClass = QueueFunction
     }
 
-    if (asyncItem instanceof tRequest) {
-      itemClass = QueueTRequest
+    if (asyncItem instanceof apiRequest) {
+      itemClass = QueueApiRequest
     }
 
     if (! itemClass) {
@@ -241,7 +241,7 @@ class QueueFunction extends QueueItem {
   }
 }
 
-class QueueTRequest extends QueueItem {
+class QueueApiRequest extends QueueItem {
   start() {
     this.asyncItem.any(() => {
       this.__beforeDone()

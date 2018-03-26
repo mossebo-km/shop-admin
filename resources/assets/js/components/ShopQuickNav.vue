@@ -1,6 +1,11 @@
 <script>
   export default {
-    props: ['active'],
+    name: 'shop-quick-nav',
+
+    props: [
+      'active'
+    ],
+
     data() {
       return {
         links: [
@@ -22,11 +27,12 @@
           {
             url: '/customers',
             icon: 'gi-user',
-            title: 'Покупатели'
+            title: 'Клиенты'
           },
         ]
       }
     },
+
     methods: {
       isActive(item) {
         return item.url.replace('/', '') === this.active;

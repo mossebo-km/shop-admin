@@ -29,6 +29,7 @@ class CreateSuppliersTable extends Migration
             $table->string('logotype')->nullable();
             $table->integer('position')->unsigned()->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

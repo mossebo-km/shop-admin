@@ -50,6 +50,7 @@ class Handler extends ExceptionHandler
     {
         // This will replace our 404 response with
         // a JSON response.
+        dd($exception);
         if ($request->wantsJson()) {
             return response()->json([
                 'message' => 'Resource not found'

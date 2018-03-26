@@ -33,6 +33,7 @@ class CreateCurrenciesTable extends Migration
             $table->boolean('swap_currency_symbol')->default(false);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

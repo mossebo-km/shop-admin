@@ -3,8 +3,13 @@ import VueRouter from 'vue-router'
 import VeeValidate from 'vee-validate'
 import CategoriesTable from './components/CategoriesTable.vue'
 import CategoryEdit from './components/CategoryEdit.vue'
+
+import Dashboard from './components/Dashboard.vue'
 import ProductsTable from './components/ProductsTable.vue'
 import ProductEdit from './components/ProductEdit.vue'
+import OrdersTable from './components/OrdersTable.vue'
+import CustomersTable from './components/CustomersTable.vue'
+
 
 
 /**
@@ -47,20 +52,18 @@ $.ajaxSetup({
 // полноценный конструктор, так и просто объект с настройками компонента
 // Вложенные пути будут рассмотрены далее.
 const routes = [
+  { path: '/', component: Dashboard },
   { path: '/categories', component: CategoriesTable },
-
   { path: '/categories/create', component: CategoryEdit, props: { type: 'create' } },
-
-  { path: '/categories/:id', component: CategoryEdit, props: route => {
-    return {
-      ...route.params,
-      type: 'edit'
-    }
-  } },
-
+  { path: '/categories/:id', component: CategoryEdit, props: route => ({...route.params, type: 'edit'}) },
 
   { path: '/products', component: ProductsTable },
-  { path: '/products/:id', component: ProductEdit, props: true },
+  { path: '/products/create', component: ProductEdit, props: { type: 'create' } },
+  { path: '/products/:id', component: ProductEdit, props: route => ({...route.params, type: 'edit'}) },
+
+  { path: '/orders', component: OrdersTable },
+
+  { path: '/customers', component: CustomersTable },
 ]
 
 // 3. Создаём экземпляр роутера с опцией `routes`

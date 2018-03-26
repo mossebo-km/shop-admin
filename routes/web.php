@@ -15,21 +15,16 @@
 //     return view('shop/products/list');
 // });
 
-Route::get('/', 'HomeController@index');
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::any('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/home', function () {
-    return view('master');
+Route::group(['middleware' => ['web', 'admin']], function() {
+    Route::get('/{any}', function () {
+        return view('master');
+    })->where('any', '.*');
 });
 
-Route::get('/boroda', function () {
-    return view('master');
-});
-
-Auth::routes();
-
-Route::get('products', 'ProductController@index');
-
-// Route::get('/home', 'HomeController@index')->name('home');
-
-// Route::get('/home', 'HomeController@index')->name('home');
-// view('home')
+// Route::get('/{any}', function () {
+//     return redirect('/login');
+// })->where('any', '.*');

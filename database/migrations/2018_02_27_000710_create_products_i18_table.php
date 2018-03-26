@@ -37,6 +37,7 @@ class CreateProductsI18Table extends Migration
             $table->text('meta_description')->nullable();
 
             $table->primary(['product_id', 'language_code'])->index();
+            $table->softDeletes();
         });
     }
 

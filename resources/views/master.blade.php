@@ -4,9 +4,9 @@
     <head>
         <meta charset="utf-8">
 
-        <title>ProUI - Responsive Bootstrap Admin Template</title>
+        <title>Mossebo market</title>
 
-        <meta name="description" content="ProUI is a Responsive Bootstrap Admin Template created by pixelcave and published on Themeforest.">
+        <meta name="description" content="">
         <meta name="author" content="pixelcave">
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
@@ -141,7 +141,8 @@
 
         <script>
             window.config = {
-                interactionKey: "{{ \App\Http\Controllers\DataController::getRelevantKey() }}"
+                interactionKey: "{{ \App\Http\Controllers\DataHandler::getRelevantKey() }}",
+                userToken: "{{ Auth::guard('admin.web')->user()->api_token }}"
             }
         </script>
 

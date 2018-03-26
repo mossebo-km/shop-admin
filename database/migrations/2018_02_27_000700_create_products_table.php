@@ -25,8 +25,8 @@ class CreateProductsTable extends Migration
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->increments('id')->index();
-            $table->string('code')->unique()->index(); // внутренний артикул/код товара
-            $table->string('sku')->nullable(); // артикул производителя
+            $table->string('slug')->unique()->index(); // внутренний артикул/код товара
+            $table->string('sku')->unique()->nullable(); // артикул производителя
             $table->integer('quantity')->nullable()->unsigned();
             $table->integer('showed')->unsigned()->default(0);
             $table->integer('bought')->unsigned()->default(0);
@@ -36,6 +36,7 @@ class CreateProductsTable extends Migration
             $table->time('sale_time')->nullable()->unsigned();
             $table->boolean('enabled')->index()->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

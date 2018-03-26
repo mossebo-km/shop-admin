@@ -13,6 +13,7 @@
 
   export default {
     name: 'products-table',
+
     data () {
       return {
         loading: false,
@@ -61,28 +62,29 @@
         ]
       }
     },
+
+    watch: {
+      '$route': [
+        'clearQueue',
+        'fetchItems'
+      ]
+    },
+
     methods: {
       /*
         Загрузка списка.
       */
 
       fetchItems ({currentPage, perPage, sortBy, sortDesc}) {
-        this.abortRequest()
-        this.loading = true
-
-        this.fetchItemsRequest = new Core.requestHandler('get', `/api${this.$route.path}`, {
-          responseType: 'json',
-          params: {
+        return new Promise((resolve, reject) => {
+          this.dataQueue.add(new Core.requestHandler('get', `/api${this.$route.path}`, {
             currentPage,
             perPage,
             sortBy,
             sortType: sortDesc ? 'desc' : 'asc',
             search: this.searchPhrase
-          }
-        })
-
-        return new Promise((resolve, reject) => {
-          this.fetchItemsRequest
+          }))
+            .onDone()
             .success(response => {
               const data = response.data;
 
@@ -99,23 +101,7 @@
                 }
               }))
             })
-            .any(() => {
-              this.abortRequest()
-            })
         });
-      },
-
-
-      /*
-        Отмена запроса.
-      */
-
-      abortRequest() {
-        if (this.fetchItemsRequest) {
-          this.loading = false
-          this.fetchItemsRequest.abort()
-          this.fetchItemsRequest = false;
-        }
       },
 
 
@@ -124,7 +110,7 @@
       */
 
       onStatusChange(id) {
-        new Core.requestHandler('get', `/api/products/${id}/status`)
+        this.statusQueue.add(new Core.requestHandler('get', `/api/products/${id}/status`))
       },
 
 
@@ -141,9 +127,8 @@
 
       onRemoveConfirm() {
         new Core.requestHandler('delete', `/api/products/${this.toRemoveId}`)
-          .success(() => {
-            this.$refs.table.refresh()
-          })
+          .success(() => this.$refs.table.refresh())
+          .start()
       },
 
       onSortingChanged(ctx) {
@@ -155,6 +140,11 @@
           this.searchPhrase = phrase
           this.$refs.table.refresh()
         }
+      },
+
+      clearQueue() {
+        this.dataQueue.clear()
+        this.statusQueue.clear()
       },
     },
 
@@ -184,10 +174,13 @@
       'search-input': SearchInput
     },
 
+    created() {
+      this.dataQueue = Core.queueHandler.makeQueue('break', 'products-data')
+      this.statusQueue = Core.queueHandler.makeQueue('iteration', 'product-status')
+    },
+
     beforeDestroy: function() {
-      if (typeof this.fetchRequestCancel === 'function') {
-        this.fetchRequestCancel()
-      }
+      this.clearQueue()
     }
   }
 </script>
@@ -199,6 +192,10 @@
     <div class="block full">
       <div class="block-title">
         <h1><strong>Товары</strong></h1>
+
+        <div class="block-title-control">
+          <router-link to="/products/create" class="btn btn-sm btn-success active"><i class="fa fa-plus-circle"></i> Создать</router-link>
+        </div>
       </div>
 
       <loading :loading="loading">
@@ -241,12 +238,12 @@
                    class="table table-vcenter table-condensed table-hover table-bordered dataTable no-footer">
 
               <template slot="id" slot-scope="product">
-                <router-link v-bind:to="product.item.url"><strong>PID.{{ product.item.id }}</strong></router-link>
+                <router-link v-bind:to="product.item.url"><strong>{{ product.item.id }}</strong></router-link>
               </template>
 
 
               <template slot="title" slot-scope="product">
-                <router-link v-bind:to="product.item.url">{{ product.item.title }} #{{ product.item.id }}</router-link>
+                <router-link v-bind:to="product.item.url">{{ product.item.title }}</router-link>
               </template>
 
               <template slot="price" slot-scope="product">

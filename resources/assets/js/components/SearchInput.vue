@@ -3,12 +3,22 @@
 
   export default {
     name: 'search-input',
-    props:['phrase', 'keyUpTimeout'],
+
+    props:[
+      'phrase',
+      'keyUpTimeout'
+    ],
+
     data () {
       return {
         searchPhrase: this.phrase || '',
       }
     },
+
+    components : {
+      'b-form-input': bFormInput,
+    },
+
     methods: {
       onSearch(ctx) {
         this.$emit('change', this.searchPhrase)
@@ -21,9 +31,6 @@
         }, this.keyUpTimeout || 300)
       }
     },
-    components : {
-      'b-form-input': bFormInput,
-    }
   }
 </script>
 

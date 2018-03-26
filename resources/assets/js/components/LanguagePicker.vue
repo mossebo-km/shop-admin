@@ -3,7 +3,12 @@
 
   export default {
     name: 'language-picker',
-    props: ['languages', 'activeLanguageCode'],
+
+    props: [
+      'languages',
+      'activeLanguageCode'
+    ],
+
     methods: {
       changeLanguage(code) {
         this.$emit('update:activeLanguageCode', code)

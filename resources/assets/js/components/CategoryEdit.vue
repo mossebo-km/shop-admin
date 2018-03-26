@@ -14,7 +14,12 @@
 
   export default {
     name: 'category-edit',
-    props: ['id', 'type'],
+
+    props: [
+      'id',
+      'type'
+    ],
+
     data() {
       return {
         loading: true,
@@ -28,7 +33,19 @@
     },
 
     watch: {
-      '$route': ['clearQueue', 'fetchData']
+      '$route': [
+        'clearQueue',
+        'fetchData'
+      ]
+    },
+
+    components: {
+      'shop-quick-nav': ShopQuickNav,
+      'loading': Loading,
+      'tree-select': TreeSelect,
+      'ckeditor': CKEditor,
+      'language-picker': LanguagePicker,
+      'b-modal': bModal
     },
 
     methods: {
@@ -157,7 +174,7 @@
       */
 
       pullCategoryFromResponse(response) {
-        let category = response.data.category
+        let category = {... response.data.category}
         this.initEmptyTranslates(category)
         this.category = category
       },
@@ -177,7 +194,6 @@
             parent_id: 0,
             slug: '',
             enabled: true,
-            i18: {},
           }
 
           this.initEmptyTranslates(category)
@@ -189,12 +205,14 @@
           Переводы категории.
         */
 
-        initEmptyTranslates(category, languageCode) {
-          category = category || {i18: {}};
+        initEmptyTranslates(model = {}, languageCode) {
+          if (! ('i18' in model)) {
+            model.i18 = {}
+          }
 
           this.languages.forEach(language => {
-            if (! (language.code in category.i18)) {
-              category.i18[language.code] = {
+            if (! (language.code in model.i18)) {
+              model.i18[language.code] = {
                 title: '',
                 description: '',
                 meta_title: '',
@@ -271,16 +289,8 @@
 
         clearQueue() {
           this.dataQueue.clear()
+          this.saveQueue.clear()
         },
-    },
-
-    components: {
-      'shop-quick-nav': ShopQuickNav,
-      'loading': Loading,
-      'tree-select': TreeSelect,
-      'ckeditor': CKEditor,
-      'language-picker': LanguagePicker,
-      'b-modal': bModal
     },
 
     created() {
@@ -411,19 +421,23 @@
                   </div>
                 </div>
 
-                <div class="form-group">
+                <div :class="`form-group${errors.has('parent_id') ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" for="parent_id">Родительская категория</label>
                   <div class="col-md-8">
-                    <tree-select :options="categories" :activeOption.sync="category.parent_id" :disabled="category.id || false" placeholder="Выберите категорию"></tree-select>
+                    <tree-select :options="categories" :selected.sync="category.parent_id" :disabled="category.id || false" placeholder="Выберите категорию"></tree-select>
+
+                    <span v-show="errors.has('parent_id')" class="help-block">{{ errors.first('parent_id') }}</span>
                   </div>
                 </div>
 
-                <div class="form-group">
+                <div :class="`form-group${errors.has('enabled') ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label">Статус публикации</label>
                   <div class="col-md-9">
                     <label class="switch switch-primary">
                       <input type="checkbox" v-model="category.enabled"><span></span>
                     </label>
+
+                    <span v-show="errors.has('enabled')" class="help-block">{{ errors.first('enabled') }}</span>
                   </div>
                 </div>
 

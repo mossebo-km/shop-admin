@@ -9,44 +9,44 @@
 
   export default {
     name: 'categories-table',
+
     data () {
       return {
         loading: false,
         tree: []
       }
     },
+
     watch: {
-      '$route': 'fetchItems'
+      '$route': [
+        'clearQueue',
+        'fetchItems'
+      ]
     },
+
+    components : {
+      'shop-quick-nav': ShopQuickNav,
+      'loading': Loading,
+      'b-modal': bModal,
+      'categories-table-tree': CategoriesTableTree
+    },
+
     methods: {
       /*
         Загрузка списка.
       */
 
       fetchItems () {
-        this.abortRequest()
         this.loading = true
 
-        this.fetchItemsRequest = new Core.requestHandler('get', `/api${this.$route.path}`)
+        this.dataQueue.add(new Core.requestHandler('get', `/api${this.$route.path}`))
+          .onDone()
           .success(response => {
             this.tree = response.data.tree || []
           })
           .any(() => {
-            this.abortRequest()
+            this.loading = false
           })
-      },
-
-
-      /*
-        Отмена запроса.
-      */
-
-      abortRequest() {
-        if (this.fetchItemsRequest) {
-          this.loading = false
-          this.fetchItemsRequest.abort()
-          this.fetchItemsRequest = false;
-        }
       },
 
 
@@ -55,7 +55,7 @@
       */
 
       onStatusChange(id) {
-        new Core.requestHandler('get', `/api/categories/${id}/status`)
+        this.statusQueue.add(new Core.requestHandler('get', `/api/categories/${id}/status`))
       },
 
 
@@ -78,6 +78,7 @@
       onRemoveConfirm() {
         new Core.requestHandler('delete', `/api/categories/${this.toRemoveId}`)
           .success(this.fetchItems)
+          .start()
       },
 
 
@@ -104,8 +105,13 @@
           ids.push(el.value);
         });
 
-        new Core.requestHandler('post', '/api/categories/sort', {ids})
-      }
+        this.dataQueue.add(new Core.requestHandler('post', '/api/categories/sort', {ids}))
+      },
+
+      clearQueue() {
+        this.dataQueue.clear()
+        this.statusQueue.clear()
+      },
     },
 
     computed: {
@@ -123,11 +129,9 @@
       },
     },
 
-    components : {
-      'shop-quick-nav': ShopQuickNav,
-      'loading': Loading,
-      'b-modal': bModal,
-      'categories-table-tree': CategoriesTableTree
+    created() {
+      this.dataQueue = Core.queueHandler.makeQueue('break', 'categories-data')
+      this.statusQueue = Core.queueHandler.makeQueue('iteration', 'category-status')
     },
 
     mounted() {
@@ -139,7 +143,7 @@
     },
 
     beforeDestroy() {
-      this.abortRequest()
+      this.clearQueue()
     }
   }
 </script>

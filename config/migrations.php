@@ -1,6 +1,7 @@
 <?php
 
 return [
+	'Admins' => 'admins',
 	'Users' => 'users',
 	'PasswordResets' => 'password_resets',
 	'SocialProviders' => 'social_providers',

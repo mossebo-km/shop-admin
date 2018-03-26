@@ -13,6 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         DB::transaction(function() {
             $this->call([
+                RolesSeeder::class,
+                AdminsSeeder::class,
+
                 CurrenciesSeeder::class,
                 LanguagesSeeder::class,
 

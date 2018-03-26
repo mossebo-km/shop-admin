@@ -3,15 +3,25 @@
 
   export default {
     name: 'categories-table-tree',
-    props: ['tree', 'level', 'onStatusChange', 'onRemove', 'parentId'],
+
+    props: [
+      'tree',
+      'level',
+      'onStatusChange',
+      'onRemove',
+      'parentId'
+    ],
+
     data() {
       return {
         expanded: []
       }
     },
+
     components: {
       'toggle': Toggle,
     },
+
     methods: {
       expand(categoryId) {
         const index = this.expanded.indexOf(categoryId)

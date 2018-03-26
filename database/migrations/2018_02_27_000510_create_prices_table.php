@@ -37,6 +37,7 @@ class CreatePricesTable extends Migration
             $table->integer('value')->unsigned();
 
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['item_type', 'item_id', 'currency_code', 'price_type_id']);
 

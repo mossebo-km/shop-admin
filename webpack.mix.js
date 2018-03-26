@@ -23,3 +23,9 @@ mix.js('resources/assets/js/app.js', 'public/js')
       require('css-mqpacker')({sort: true})
     ]
   });
+
+mix.browserSync({
+  proxy: {
+    target: "localhost:8000"
+  }
+});

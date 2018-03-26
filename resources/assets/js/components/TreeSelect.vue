@@ -1,7 +1,22 @@
 <script>
+import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
   export default {
     name: 'tree-select',
-    props: ['options', 'activeOption', 'placeholder', 'disabled'],
+
+    props: [
+      'options',
+      'selected',
+      'placeholder',
+      'disabled',
+      'multiple'
+    ],
+
+    data() {
+      return {
+        rSelected: this.multiple ? this.selected.map(item => item.toString()) : this.selected
+      }
+    },
+
     methods: {
       buildCategorySelect() {
         if (! this.options) {
@@ -47,25 +62,53 @@
 
         let options = [... this.options]
 
-        if (this.placeholder) {
-          options.unshift({
-            id: 0,
-            title: this.placeholder
-          })
-        }
-
         return build(options);
       },
+
+      formatOption(state) {
+        if (!state.id) return state.text
+        return state.text.replace('—', '').trim();
+      }
     },
 
     mounted() {
       const $el = $(this.$el)
-      $el.select2()
-      $el.on('select2:select', e => {
-        this.$emit('update:activeOption', e.params.data.id)
+
+      $el.select2({
+        placeholder: this.placeholder,
+        theme: "bootstrap",
+        templateSelection: this.formatOption
       })
 
-      $el.val(this.activeOption)
+      $el.on('select2:select', e => {
+        if (this.multiple) {
+          this.rSelected.push(e.params.data.id)
+        }
+        else {
+          this.rSelected = e.params.data.id
+        }
+
+        this.$emit('update:selected', this.rSelected)
+      })
+
+      $el.on('select2:unselect', e => {
+        if (this.multiple) {
+          let index = this.rSelected.indexOf(e.params.data.id)
+
+          if (index !== -1) {
+            this.rSelected.splice(index, 1)
+          }
+        }
+        else {
+          this.rSelected = null
+        }
+
+        console.log(this.rSelected)
+
+        this.$emit('update:selected', this.rSelected)
+      })
+
+      $el.val(this.selected)
       $el.trigger('change')
     },
 
@@ -76,5 +119,5 @@
 </script>
 
 <template>
-  <select class="select2" v-html="buildCategorySelect()" style="width:100%"></select>
+  <select class="select2" :multiple="multiple" v-html="buildCategorySelect()" style="width:100%"></select>
 </template>

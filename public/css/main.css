@@ -23,9 +23,6 @@
 =================================================================
 */
 
-/* Include Open Sans font from Google Web Fonts */
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,400italic,600,600italic,700,700italic');
-
 /* Preloader */
 #page-wrapper.page-loading {
     overflow: hidden;
@@ -86,7 +83,7 @@
 
 /* Main Structure */
 body {
-    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #394263;
     font-size: 13px;
     background-color: #222222;
@@ -434,13 +431,13 @@ header.navbar-inverse.navbar-fixed-bottom {
 /* Sidebar Brand + Title */
 .sidebar-brand,
 .sidebar-title {
-    height: 50px;
-    line-height: 50px;
-    padding: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
     margin: 0;
     font-weight: 300;
     font-size: 18px;
-    display: block;
     color: #ffffff;
     background: rgba(0, 0, 0, 0.15);
 }
@@ -1415,6 +1412,16 @@ img.full-bg {
     position: fixed;
     top: 0;
     left: 0;
+}
+
+div.full-bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-position: center center;
+    background-size: cover;
 }
 
 @media screen and (max-width: 1280px) {
@@ -2413,6 +2420,14 @@ textarea.form-control {
     background-color: #ef8a80;
 }
 
+.switch-studio span {
+    border-color: #f7be64;
+}
+
+.switch-studio input:checked + span {
+    background-color: #ffbb1a;
+}
+
 /* Tables */
 .table.table-vcenter th,
 .table.table-vcenter td {
@@ -3248,6 +3263,71 @@ fieldset[disabled] .btn-info.active:focus {
     border-color: #3498db;
     color: #ffffff;
 }
+
+.btn-studio {
+    background-color: #ffbb1a;
+    border-color: #f39c12;
+    color: #ffffff;
+}
+
+.btn-studio.btn-alt {
+    background-color: #ffffff;
+    color: #ffbb1a;
+}
+
+.btn-studio:hover {
+    background-color: #ffb300;
+    border-color: #b3730c;
+    color: #ffffff;
+}
+
+.btn-studio:focus,
+.btn-studio.focus,
+.btn-studio:active,
+.btn-studio:active:hover,
+.btn-studio:active:focus,
+.btn-studio.active,
+.btn-studio.active:hover,
+.btn-studio.active:focus,
+.open .btn-studio.dropdown-toggle,
+.open .btn-studio.dropdown-toggle:hover,
+.open .btn-studio.dropdown-toggle:focus,
+.open .btn-studio.dropdown-toggle.focus {
+    background-color: #ffb300;
+    border-color: #f39c12;
+    color: #ffffff;
+}
+
+.btn-studio.disabled,
+.btn-studio.disabled:hover,
+.btn-studio.disabled:focus,
+.btn-studio.disabled:active,
+.btn-studio.disabled.active,
+.btn-studio[disabled]:hover,
+.btn-studio[disabled]:focus,
+.btn-studio[disabled].focus,
+.btn-studio[disabled]:active,
+.btn-studio[disabled].active,
+.btn-studio[disabled]:active:focus,
+.btn-studio[disabled].active:focus,
+fieldset[disabled] .btn-studio:hover,
+fieldset[disabled] .btn-studio:focus,
+fieldset[disabled] .btn-studio.focus,
+fieldset[disabled] .btn-studio:active,
+fieldset[disabled] .btn-studio.active,
+fieldset[disabled] .btn-studio:active:focus,
+fieldset[disabled] .btn-studio.active:focus {
+    background-color: #ffcf5e;
+    border-color: #f39c12;
+    color: #ffffff;
+}
+
+
+
+
+
+
+
 
 .btn-link,
 .btn-link:hover,

@@ -20,6 +20,18 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CategoryUpdated' => [
             'App\Listeners\CategoryUpdatedListener',
         ],
+
+        'App\Events\ProductCreated' => [
+            'App\Listeners\ProductCreatedListener',
+        ],
+
+        'App\Events\ProductUpdated' => [
+            'App\Listeners\ProductUpdatedListener',
+        ],
+
+        'App\Events\ProductDeleted' => [
+            'App\Listeners\ProductDeletedListener',
+        ],
     ];
 
     /**

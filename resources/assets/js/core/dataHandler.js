@@ -33,7 +33,7 @@ export default {
 
   getFromStorage() {
     return new Promise(resolve => {
-      for (let i = 0; i < this.dataLabels.length; i++) {
+      for (let i = this.dataLabels.length; i >= 0; i--) {
         let label = this.dataLabels[i]
         let fromLocalStorage = Core.storage.get(label)
 

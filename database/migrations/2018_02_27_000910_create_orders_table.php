@@ -43,6 +43,7 @@ class CreateOrdersTable extends Migration
             $table->integer('is_one_click')->unsigned()->index()->default(0);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

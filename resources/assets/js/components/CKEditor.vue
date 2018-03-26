@@ -3,7 +3,14 @@
 
   export default {
     name: 'ckeditor',
-    props: ['id', 'name', 'className', 'content'],
+
+    props: [
+      'id',
+      'name',
+      'className',
+      'content'
+    ],
+
     mounted() {
       this.instance = CKEDITOR.replace( this.$el, {
         extraPlugins: 'divarea',

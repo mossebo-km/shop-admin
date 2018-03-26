@@ -17,15 +17,20 @@ class BaseModelI18 extends BaseModel
 
     public function i18()
     {
-        return $this->hasMany(get_class($this) . 'I18', $this->translateRelationField);
+        return $this->hasMany($this->getI18ModelName(), $this->translateRelationField);
     }
 
     public static function withTranslate($languageCode = null)
     {
-        return self::connectTranslate($languageCode ?: 'ru');
+        return self::addTranslateToQuery($languageCode ?: 'ru');
     }
 
-    protected static function connectTranslate($languageCode, $query = false)
+    public function getI18ModelName()
+    {
+        return get_class($this) . 'I18';
+    }
+
+    protected static function addTranslateToQuery($languageCode, $query = false)
     {
         $instance = new static;
 
@@ -36,5 +41,19 @@ class BaseModelI18 extends BaseModel
         return $query
             ->join($instance->translateTableName, "{$instance->translateTableName}.{$instance->translateRelationField}", '=', "{$instance->table}.id")
             ->where("{$instance->translateTableName}.language_code", '=', $languageCode);
+    }
+
+
+    protected function _saveI18(Array $translates = [])
+    {
+        $i18 = $this->i18();
+        $i18->whereIn('language_code', array_keys($translates))->delete();
+
+        $i18ModelClassName = $this->getI18ModelName();
+
+        foreach ($translates as $languageCode => $i18Data) {
+            $i18Data['language_code'] = $languageCode;
+            $i18->save(new $i18ModelClassName($i18Data));
+        }
     }
 }

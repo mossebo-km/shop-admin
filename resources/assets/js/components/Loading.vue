@@ -1,7 +1,10 @@
 <script>
   export default {
     name: 'loading',
-    props: ['loading'],
+
+    props: [
+      'loading'
+    ],
   }
 </script>
 
