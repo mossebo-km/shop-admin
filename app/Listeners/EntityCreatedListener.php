@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\ProductCreated;
+use App\Events\EntityCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ProductCreatedListener
+class EntityCreatedListener
 {
     /**
      * Create the event listener.
@@ -21,10 +21,10 @@ class ProductCreatedListener
     /**
      * Handle the event.
      *
-     * @param  ProductCreated  $event
+     * @param  EntityCreated  $event
      * @return void
      */
-    public function handle(ProductCreated $event)
+    public function handle(EntityCreated $event)
     {
         //
     }

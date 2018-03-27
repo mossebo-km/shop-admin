@@ -24,6 +24,7 @@ class CreateSuppliersI18Table extends Migration
         echo "Create SuppliersI18\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->integer('supplier_id')->unsigned();
             $table->foreign('supplier_id')->references('id')->on(Config::get('migrations.Suppliers'))->onDelete('cascade');
 

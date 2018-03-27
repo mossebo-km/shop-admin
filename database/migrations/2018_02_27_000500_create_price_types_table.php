@@ -24,9 +24,11 @@ class CreatePriceTypesTable extends Migration
         echo "Create PriceTypes\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->increments('id')->index();
             $table->string('name');
             $table->string('description')->nullable();
+            $table->boolean('enabled')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

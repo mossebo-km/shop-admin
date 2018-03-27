@@ -23,6 +23,7 @@ class ProductEditResource extends JsonResource
             'title'      => $this->title,
             'enabled'    => $this->enabled,
             'created_at' => $this->created_at->format('H:m:i d/m/Y'),
+            'updated_at' => $this->updated_at->format('H:m:i d/m/Y'),
             'images'     => MediaResource::collection($this->getMedia('images')),
             'prices'     => PriceResource::collection($this->prices),
             'categories' => ProductCategoriesResource::collection($this->categoryProducts),

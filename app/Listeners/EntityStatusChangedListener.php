@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\CategoryUpdated;
+use App\Events\EntityStatusChanged;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CategoryUpdatedListener
+class EntityStatusChangedListener
 {
     /**
      * Handle the event.
@@ -14,8 +14,8 @@ class CategoryUpdatedListener
      * @param  CategoryUpdated  $event
      * @return void
      */
-    public function handle(CategoryUpdated $event)
+    public function handle(EntityStatusChanged $event)
     {
-        \App\Http\Controllers\DataController::clearCache('category');
+        \App\Http\Controllers\DataHandler::clearCache();
     }
 }

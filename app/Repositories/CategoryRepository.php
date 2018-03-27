@@ -2,15 +2,24 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repositories\CategoryRepositoryInterface;
+use App\Contracts\Repositories\CategoryRepository as CategoryRepositoryContract;
 
-class CategoryRepository extends RamRepository implements CategoryRepositoryInterface
+class CategoryRepository extends RamRepository implements CategoryRepositoryContract
 {
     protected $model = \App\Models\Category::class;
 
     public function getTree($parentId = 0, $withDisabled = false)
     {
         return $this->_makeTree($parentId, $withDisabled);
+    }
+
+    protected function _getCollection() {
+        return $this->model::withTranslate()->orderBy('position', 'asc')->get();
+    }
+
+    protected function _getCacheKey()
+    {
+        return $this->cacheKey . 'ru';
     }
 
     /**
@@ -37,6 +46,7 @@ class CategoryRepository extends RamRepository implements CategoryRepositoryInte
                 'id' => $category['id'],
                 'parent_id' => $category['parent_id'],
                 'slug' => $category['slug'],
+                'title' => $category['title'],
                 'enabled' => $category['enabled'],
             ];
 

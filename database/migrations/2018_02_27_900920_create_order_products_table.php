@@ -24,18 +24,19 @@ class CreateOrderProductsTable extends Migration
         echo "Create OrderProducts\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->integer('order_id')->unsigned()->index();
             $table->foreign('order_id')->references('id')->on(Config::get('migrations.Orders'))->onDelete('cascade');
 
-            $table->bigInteger('product_id')->unsigned()->index();
-            $table->foreign('product_id')->references('id')->on(Config::get('migrations.Orders'));
+            $table->integer('product_id')->unsigned()->index();
+            $table->foreign('product_id')->references('id')->on(Config::get('migrations.Products'));
 
             $table->text('product_params');
 
             $table->string('title');
             $table->text('description');
             $table->integer('price')->unsigned()->index();
-            $table->char('currency_code', 3)->unsigned();
+            $table->char('currency_code', 3);
             $table->foreign('currency_code')->references('code')->on(Config::get('migrations.Currencies'));
             $table->integer('quantity')->unsigned();
             $table->string('image_path')->nullable();

@@ -24,6 +24,7 @@ class CreateProductsI18Table extends Migration
         echo "Create ProductsI18\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on(Config::get('migrations.Products'))->onDelete('cascade');
 

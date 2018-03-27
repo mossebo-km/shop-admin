@@ -22,11 +22,9 @@ export default class apiRequest {
     }
 
     data = {
-      api_token: window.config.userToken,
+      api_token: Core.getApiToken(),
       ... data
     }
-
-    console.log(data);
 
     if (['post', 'put', 'patch'].indexOf(method) !== -1) {
       config.data = data
@@ -76,7 +74,7 @@ export default class apiRequest {
   _handleResponse(response) {
     this.response = response;
 
-    if (Object.keys(response.data).length !== 0) {
+    if (response && Object.keys(response.data).length !== 0) {
       const data = response.data
 
       if (data.redirect) {

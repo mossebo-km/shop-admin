@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use App\Validation\ValidatorExtend;
 
 class ApiRequest extends Request
 {
@@ -23,5 +22,4 @@ class ApiRequest extends Request
             'errors' => $errors,
         ], 422));
     }
-
 }

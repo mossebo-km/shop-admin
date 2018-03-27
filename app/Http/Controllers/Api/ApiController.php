@@ -21,4 +21,17 @@ class ApiController extends BaseController
             ], 401));
         }
     }
+
+    public function getModel($id)
+    {
+        return static::$modelClass::findOrFail($id);
+    }
+
+    protected function lang($identif, $params = null, $useModelClass = true)
+    {
+        return \Lang::get(
+            "admin." . ($useModelClass ? static::$modelClass . '.' : '') . $identif,
+            $params ?: []
+        );
+    }
 }

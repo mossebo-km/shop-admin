@@ -15,15 +15,6 @@ class CurrenciesSeeder extends Seeder
             'swap_currency_symbol' => true,
         ],
         [
-            'code' => 'EUR',
-            'name' => 'Евро',
-            'symbol' => '€',
-            'precision' => 2,
-            'thousand_separator' => ' ',
-            'decimal_separator' => '.',
-            'swap_currency_symbol' => false,
-        ],
-        [
             'code' => 'USD',
             'name' => 'Доллары',
             'symbol' => '$',
@@ -31,6 +22,17 @@ class CurrenciesSeeder extends Seeder
             'thousand_separator' => ' ',
             'decimal_separator' => '.',
             'swap_currency_symbol' => false,
+            'position' => 1,
+        ],
+        [
+            'code' => 'EUR',
+            'name' => 'Евро',
+            'symbol' => '€',
+            'precision' => 2,
+            'thousand_separator' => ' ',
+            'decimal_separator' => '.',
+            'swap_currency_symbol' => false,
+            'position' => 2,
         ],
 
     ];

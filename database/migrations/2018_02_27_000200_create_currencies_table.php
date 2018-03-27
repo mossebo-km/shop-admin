@@ -24,6 +24,7 @@ class CreateCurrenciesTable extends Migration
         echo "Create Currencies\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->char('code', 3)->primary()->index();
             $table->string('name');
             $table->string('symbol');
@@ -31,6 +32,8 @@ class CreateCurrenciesTable extends Migration
             $table->string('thousand_separator', 64);
             $table->string('decimal_separator', 64);
             $table->boolean('swap_currency_symbol')->default(false);
+            $table->boolean('enabled')->default(0);
+            $table->integer('position')->unsigned()->default(0);
 
             $table->timestamps();
             $table->softDeletes();

@@ -7,10 +7,10 @@ use App\Models;
 class DataHandler
 {
     protected static $repositories = [
-        'categories' => 'App\Interfaces\Repositories\CategoryRepositoryInterface',
-        'currencies' => 'App\Interfaces\Repositories\CurrencyRepositoryInterface',
-        'languages'  => 'App\Interfaces\Repositories\LanguageRepositoryInterface',
-        'prices'     => 'App\Interfaces\Repositories\PriceTypeRepositoryInterface',
+        'categories' => 'App\Contracts\Repositories\CategoryRepository',
+        'currencies' => 'App\Contracts\Repositories\CurrencyRepository',
+        'languages'  => 'App\Contracts\Repositories\LanguageRepository',
+        'price-type' => 'App\Contracts\Repositories\PriceTypeRepository',
     ];
 
     protected static $cacheKey = 'interactionData';
@@ -24,13 +24,13 @@ class DataHandler
     {
         // todo: Добавить отдельное кэширование для каждого типа данных.
 
-        \Cache::flush();
+        // \Cache::flush();
         return \Cache::remember(self::$cacheKey, 18000, function () {
             return md5(uniqid());
         });
     }
 
-    public static function clearCache($dataType)
+    public static function clearCache($dataType = null)
     {
         // todo: Добавить отчистку кэша по типу данных.
 

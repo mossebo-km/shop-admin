@@ -24,6 +24,7 @@ class CreateCategoryProductsTable extends Migration
         echo "Create CategoryProducts\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->increments('id');
 
             $table->integer('category_id')->unsigned();

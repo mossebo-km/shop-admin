@@ -24,6 +24,7 @@ class CreateImagesTable extends Migration
         echo "Create Images\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->increments('id')->index();
             $table->string('item_type');
             $table->integer('item_id')->unsigned();

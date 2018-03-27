@@ -251,6 +251,7 @@
             .success(() => {
               this.$router.push('/categories')
             })
+            .start()
         },
 
 
@@ -344,7 +345,7 @@
         <div class="block-title-control">
           <a href="javascript:void(0);" class="btn btn-sm btn-primary active" @click="onSave" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Сохранить</a>
 
-          <a href="javascript:void(0);" class="btn btn-sm btn-danger active" @click="onRemove" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Удалить</a>
+          <a href="javascript:void(0);" class="btn btn-sm btn-danger active" @click="onRemove" :disabled="saveDisabled">Удалить</a>
         </div>
       </div>
 

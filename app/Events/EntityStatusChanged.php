@@ -2,22 +2,22 @@
 
 namespace App\Events;
 
-use App\Models\Category;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Database\Eloquent\Model;
 
-class CategoryCreated
+class EntityStatusChanged
 {
     use SerializesModels;
 
-    public $category;
+    protected $model;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Category $category)
+    public function __construct(Model $model)
     {
-        $this->$category = $category;
+        $this->model = $model;
     }
 }

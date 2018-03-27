@@ -24,6 +24,7 @@ class CreatePricesTable extends Migration
         echo "Create Prices\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->bigIncrements('id');
             $table->string('item_type');
             $table->integer('item_id')->unsigned();

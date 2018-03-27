@@ -24,6 +24,7 @@ class CreateProductsTable extends Migration
         echo "Create Products\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->increments('id')->index();
             $table->string('slug')->unique()->index(); // внутренний артикул/код товара
             $table->string('sku')->unique()->nullable(); // артикул производителя
@@ -33,7 +34,7 @@ class CreateProductsTable extends Migration
             $table->boolean('is_new')->index()->default(0);
             $table->boolean('is_popular')->index()->default(0);
             $table->boolean('is_payable')->index()->default(0);
-            $table->time('sale_time')->nullable()->unsigned();
+            $table->time('sale_time')->nullable();
             $table->boolean('enabled')->index()->default(1);
             $table->timestamps();
             $table->softDeletes();

@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Models\Media;
+use App\Contracts\Models\CanChangeStatus;
+use App\Support\Traits\Models\StatusChangeable;
+use App\Support\Traits\Models\Sluggable;
 
-class Product extends Base\BaseModelI18 implements HasMedia
+class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
 {
-    use SoftDeletes, HasMediaTrait;
+    use SoftDeletes, HasMediaTrait, StatusChangeable, Sluggable;
 
     /**
      * Идентификатор таблицы.
@@ -253,35 +256,6 @@ class Product extends Base\BaseModelI18 implements HasMedia
                 }
             }
         }
-
-    /**
-     * Проверка доступности slug для таблицы.
-     *
-     * @param  string
-     * @param  mixed
-     * @return bool
-     */
-    public static function slugAvailableForTable(string $slug, $excluded = false): bool
-    {
-        $query = self::where('slug', $slug);
-
-        if ($excluded !== false) {
-            $query->where((new static)->primaryKey, '!=', $excluded);
-        }
-
-        return ! $query->exists();
-    }
-
-    /**
-     * Проверка доступности slug для текущей модели.
-     *
-     * @param  string
-     * @return bool
-     */
-    public function slugAvailableForModel(string $slug): bool
-    {
-        return self::slugAvailableForTable($slug, $this->id);
-    }
 
     /**
      * Получение данных для отправки по api.

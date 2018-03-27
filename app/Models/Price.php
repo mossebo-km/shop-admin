@@ -25,7 +25,7 @@ class Price extends Base\BaseModel
     public function getCurrency()
     {
         if (! $this->currency) {
-            $this->currency = (app()->make('App\Repositories\Currency\CurrencyRepository'))->where('code', $this->currency_code)->first();
+            $this->currency = (app()->make('App\Repositories\CurrencyRepository'))->where('code', $this->currency_code)->first();
         }
 
         return $this->currency;

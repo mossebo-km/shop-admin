@@ -10,23 +10,28 @@
       return {
         links: [
           {
-            url: '/categories',
-            icon: 'gi-list',
-            title: 'Категории'
-          },
-          {
             url: '/products',
-            icon: 'gi-shopping_bag',
+            icon: 'gi gi-shopping_bag',
             title: 'Товары'
           },
           {
+            url: '/categories',
+            icon: 'gi gi-list',
+            title: 'Категории'
+          },
+          {
+            url: '/manufacturers',
+            icon: 'fa fa-industry',
+            title: 'Поставщики'
+          },
+          {
             url: '/orders',
-            icon: 'gi-shop_window',
+            icon: 'gi gi-shop_window',
             title: 'Заказы'
           },
           {
             url: '/customers',
-            icon: 'gi-user',
+            icon: 'gi gi-user',
             title: 'Клиенты'
           },
         ]
@@ -46,7 +51,7 @@
   <div class="content-header">
     <ul class="nav-horizontal text-center">
       <li v-for="(item, index) in links" :class="{ active: isActive(item) }">
-        <router-link :to="item.url"><i :class="['gi', item.icon]"></i> {{ item.title }}</router-link>
+        <router-link :to="item.url"><i :class="item.icon"></i> {{ item.title }}</router-link>
       </li>
     </ul>
   </div>

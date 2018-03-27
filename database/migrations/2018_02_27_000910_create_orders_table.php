@@ -24,12 +24,13 @@ class CreateOrdersTable extends Migration
         echo "Create Orders\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->increments('id');
 
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on(Config::get('migrations.Users'))->onDelete('cascade');
 
-            $table->char('language_code', 2)->unsigned();
+            $table->char('language_code', 2);
             $table->foreign('language_code')->references('code')->on(Config::get('migrations.Languages'));
 
             $table->integer('order_status_id')->unsigned()->index();

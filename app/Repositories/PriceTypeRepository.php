@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repositories\PriceTypeRepositoryInterface;
+use App\Contracts\Repositories\PriceTypeRepository as PriceTypeRepositoryContract;
 
-class PriceTypeRepository extends RamRepository implements PriceTypeRepositoryInterface
+class PriceTypeRepository extends RamRepository implements PriceTypeRepositoryContract
 {
     protected $model = \App\Models\PriceType::class;
 }

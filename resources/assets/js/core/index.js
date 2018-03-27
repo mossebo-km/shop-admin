@@ -35,6 +35,35 @@ export default {
     return str.replace(before, '').replace(after, '')
   },
 
+  formatPrice(value, currency) {
+    let formatted = new Intl.NumberFormat('ru-RU', {
+      style: 'currency',
+      currency: currency.code,
+      maximumFractionDigits: currency.precision
+    })
+
+    value = (value || 0).toString().replace(',', '.')
+
+    return formatted.format(value).replace(',' + ''.padStart(currency.precision, '0'), '')
+  },
+
+  addApiTokenToUrl(url) {
+    if (url.indexOf('?') === -1) {
+      url += '?'
+    }
+    else {
+      url += '&'
+    }
+
+    return url + 'api_token=' + this.getApiToken()
+  },
+
+  getApiToken() {
+    return window.config.userToken
+  },
+
+
+
   // uniqueId (idStrLen = 16) {
   //   let idStr = (Math.floor((Math.random() * 25)) + 10).toString(36) + "_"
   //   idStr += (new Date()).getTime().toString(36) + "_"

@@ -24,6 +24,7 @@ class CreateSettingsTable extends Migration
         echo "Create Settings\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->string('key')->primary()->index();
             $table->text('value');
         });

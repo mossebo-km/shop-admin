@@ -23,9 +23,9 @@ class RepoProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('App\Interfaces\Repositories\CategoryRepositoryInterface', 'App\Repositories\CategoryRepository');
-        $this->app->singleton('App\Interfaces\Repositories\CurrencyRepositoryInterface', 'App\Repositories\CurrencyRepository');
-        $this->app->singleton('App\Interfaces\Repositories\LanguageRepositoryInterface', 'App\Repositories\LanguageRepository');
-        $this->app->singleton('App\Interfaces\Repositories\PriceTypeRepositoryInterface', 'App\Repositories\PriceTypeRepository');
+        $this->app->singleton('App\Contracts\Repositories\CategoryRepository', 'App\Repositories\CategoryRepository');
+        $this->app->singleton('App\Contracts\Repositories\CurrencyRepository', 'App\Repositories\CurrencyRepository');
+        $this->app->singleton('App\Contracts\Repositories\LanguageRepository', 'App\Repositories\LanguageRepository');
+        $this->app->singleton('App\Contracts\Repositories\PriceTypeRepository', 'App\Repositories\PriceTypeRepository');
     }
 }

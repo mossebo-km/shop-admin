@@ -13,24 +13,20 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\CategoryCreated' => [
-            'App\Listeners\CategoryCreatedListener',
+        'App\Events\EntityStatusChanged' => [
+            'App\Listeners\EntityStatusChangedListener',
         ],
 
-        'App\Events\CategoryUpdated' => [
-            'App\Listeners\CategoryUpdatedListener',
+        'App\Events\EntityCreated' => [
+            'App\Listeners\EntityCreatedListener',
         ],
 
-        'App\Events\ProductCreated' => [
-            'App\Listeners\ProductCreatedListener',
+        'App\Events\EntityUpdated' => [
+            'App\Listeners\EntityUpdatedListener',
         ],
 
-        'App\Events\ProductUpdated' => [
-            'App\Listeners\ProductUpdatedListener',
-        ],
-
-        'App\Events\ProductDeleted' => [
-            'App\Listeners\ProductDeletedListener',
+        'App\Events\EntityDeleted' => [
+            'App\Listeners\EntityDeletedListener',
         ],
     ];
 

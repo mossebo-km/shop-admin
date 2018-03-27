@@ -1,5 +1,4 @@
 <script>
-  import $ from 'jquery'
   import 'select2'
   import Vue from 'vue'
 
@@ -11,47 +10,21 @@
   import LanguagePicker from './LanguagePicker.vue'
   import ImagesGallery from './ImagesGallery.vue'
   import { Validator } from 'vee-validate'
-  import magnificPopup from 'magnific-popup'
-
 
   import bModal from 'bootstrap-vue/es/components/modal/modal'
-  import vueDropzone from 'vue2-dropzone'
 
-  Vue.directive('number', {
-    bind(el, binding, vnode) {
-      el.addEventListener('keydown', binding.def.handler);
-    },
-
-    unbind(el, binding, vnode) {
-      el.removeEventListener('input', binding.def.handler);
-    },
-
-    handler(e) {
-      if (event.metaKey) return
-      let charCode = (e.which) ? e.which : e.keyCode
-
-      if (charCode === 32 || (charCode > 57 && charCode !== 188 && charCode !== 190)) {
-        e.preventDefault()
-      }
-      else {
-        let decimalSeparatorPresents = new RegExp(/[\.\,]/).test(e.target.value)
-
-        if ( charCode === 188 && (e.key !== ',' || decimalSeparatorPresents) ) {
-          e.preventDefault()
-        }
-
-        if ( charCode === 190 && (e.key !== '.' || decimalSeparatorPresents) ) {
-          e.preventDefault()
-        }
-      }
-    }
-  });
-
-
-
+  import PricesTable from './PricesTable.vue'
+  import EntityEdit from '../mixins/EntityEdit'
+  import Translatable from '../mixins/Translatable'
+  import DropzoneGallery from './DropzoneGallery.vue'
 
   export default {
     name: 'product-edit',
+
+    mixins: [
+      EntityEdit,
+      Translatable
+    ],
 
     props: [
       'id',
@@ -71,18 +44,6 @@
         validationErrors: [],
         saveDisabled: false,
         hasChanges: false,
-
-        dropzoneOptions: {
-          url: this.prepareUrl(),
-          thumbnailWidth: 150,
-          maxFilesize: 8,
-          addRemoveLinks: true,
-          autoProcessQueue: true,
-          ignoreHiddenFiles: true,
-          dictRemoveFile: 'Удалить',
-          acceptedFiles: 'image/jpeg, image/png',
-          previewTemplate: '<div class=\"dz-preview dz-processing dz-complete dz-image-preview\"><div class=\"dz-image\"><a href=\"javascript:void(0)\" class=\"dz-link\"><img data-dz-thumbnail /><div class=\"dz-details\"><div class=\"dz-size\"><span data-dz-size></span></div><div class=\"dz-filename\"><i class=\"dz-icon fa fa-search\"></i></div></div></a></div><div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div><div class=\"dz-error-message\"><span data-dz-errormessage></span></div><div class=\"dz-success-mark\"><i class=\"dz-icon fa fa-check\"></i></div><div class=\"dz-error-mark\"><i class=\"dz-icon fa fa-warning\"></i><a class=\"dz-remove\" href=\"javascript:void(0);\" data-dz-remove>Удалить</a></div>',
-        }
       }
     },
 
@@ -97,8 +58,9 @@
       'ckeditor': CKEditor,
       LanguagePicker,
       bModal,
-      vueDropzone,
-      ImagesGallery
+      DropzoneGallery,
+      ImagesGallery,
+      PricesTable
     },
 
     methods: {
@@ -115,7 +77,7 @@
 
         if (this.type === 'edit') {
           try {
-            this.fetchProduct()
+            this.fetchEntity()
           }
           catch(e) {
             console.log(e)
@@ -128,14 +90,13 @@
         }))
 
         this.dataQueue.add(() => new Promise(resolve => {
-          this.initDropzone()
           resolve()
         }))
       },
 
       fetchMainData() {
         this.dataQueue.add(() => new Promise (resolve => {
-          Core.dataHandler.get(['categories-tree', 'languages', 'price-types', 'currencies'])
+          Core.dataHandler.get(['categories-tree', 'languages', 'price-type', 'currencies'])
             .then(data => {
               let languages = []
 
@@ -151,115 +112,18 @@
 
               this.languages = languages
               this.categories = data['categories-tree']
-              this.priceTypes = data['price-types']
-              this.currencies = data['currencies']
               resolve()
             })
         }))
       },
 
-      fetchProduct() {
-        this.dataQueue.add(new Core.requestHandler('get', this.prepareUrl()))
-          .onDone()
-            .success(this.pullProductFromResponse)
-            .fail(response => {
-              if (response.status === 404 && this.type === 'edit') {
-                Core.notify('Товар не найден.', {type: 'error'})
-                this.$router.push('/products')
-              }
-            })
-      },
-
-
-      getDropzone() {
-        if (this.$refs.dropzone && this.$refs.dropzone.dropzone) {
-          return this.$refs.dropzone.dropzone
-        }
-
-        return false
-      },
-
-      prepareUrl(segment) {
-        let url = Core.trim(this.$route.path.replace('create', ''), '/')
-
-        if (segment) {
-          url += '/' + Core.trim(segment, '/')
-        }
-
-        return `/api/${url}`
-      },
-
-      initDropzone() {
-        const dropzone = this.getDropzone()
-
-        if (!dropzone) return
-
-        dropzone.options.url = this.prepareUrl('image')
-
-        this.product.images.map(item => {
-          const file = {
-            id: item.id,
-            name: item.original,
-            size: item.size,
-            type: item.type,
-          }
-
-          dropzone.emit('addedfile', file)
-          dropzone.emit("thumbnail", file, item.medium.src)
-          dropzone.emit("processing", file)
-          dropzone.emit("complete", file)
-
-          this.dropzoneMakeGallery(file.previewElement, item.original)
-
-          dropzone.files.push(file)
-        })
-      },
-
-      dropzoneSuccess(file, response, action) {
-        let dropzone = this.getDropzone()
-
-        if (response.status == 'success') {
-          file.id = response.id
-          this.dropzoneMakeGallery(file.previewElement, response.url)
-          dropzone.defaultOptions.success(file)
-          this.hasChanges = true
-        }
-
-        if (response.status == 'error') {
-          dropzone.defaultOptions.error(file, response.message)
-        }
-      },
-
-      dropzoneMakeGallery(item, url) {
-        let elLink = item.querySelector('.dz-link')
-        elLink.href = url
-
-        $('#dropzone').magnificPopup({
-          delegate: '.dz-link',
-          type: 'image',
-          gallery: {
-            enabled:true
-          }
-        });
+      pullModelFromResponse(response) {
+        this.initProduct(response.data.product)
       },
 
 
       collectImagesIds() {
-        if (! (this.type === 'edit' && this.$refs.dropzone)) return null
-
-        return this.$refs.dropzone.dropzone.files.reduce((acc, item) => {
-          acc.push(item.id)
-          return acc
-        }, [])
-      },
-
-
-      /*
-        Вытаскиваем данные товара из ответа сервера.
-      */
-
-      pullProductFromResponse(response) {
-        this.initProduct(response.data.product)
+        return this.getModel().images.map(item => item.id)
       },
 
       /*
@@ -288,12 +152,36 @@
         }
 
         product.categories = data.categories || []
-        product.images = data.images || []
+        product.images = this.initImages(data.images)
         product.i18 = this.initI18(data.i18)
         product.prices = this.initPrices(data.prices)
 
         this.product = product
       },
+
+        initImages(images = []) {
+          return images.map(item => ({
+            id: item.id,
+            name: item.original,
+            size: item.size,
+            type: item.type,
+            thumbnail: item.medium.src
+          }))
+        },
+
+        initPrices(prices = []) {
+          let sorted = {}
+
+          prices.forEach(item => {
+            if (! (item.price_type_id in sorted)) {
+              sorted[item.price_type_id] = {}
+            }
+
+            sorted[item.price_type_id][item.currency_code] = item.value
+          })
+
+          return sorted
+        },
 
         /*
           Переводы товара.
@@ -318,139 +206,15 @@
           return result
         },
 
-        initPrices(data = []) {
-          let result = {}
-          let sorted = {}
-
-          data.forEach(item => {
-            if (! (item.price_type_id in sorted)) {
-              sorted[item.price_type_id] = {}
-            }
-
-            sorted[item.price_type_id][item.currency_code] = item.value
-          })
-
-          this.priceTypes.forEach(priceType => {
-            if (! (priceType.id in result)) {
-              result[priceType.id] = {}
-            }
-
-            this.currencies.forEach(currency => {
-              if (! (currency.code in result[priceType.id])) {
-                result[priceType.id][currency.code] = ''
-
-                if (priceType.id in sorted && currency.code in sorted[priceType.id]) {
-                  result[priceType.id][currency.code] = sorted[priceType.id][currency.code]
-                }
-              }
-            })
-          })
-
-          return result
-        },
-
-      /**
-        Удаление товара
-      */
-
-
-        /*
-          Нажатие на кнопку удаления записи.
-        */
-
-        onRemove() {
-          var _ = this;
-
-          if (this.type !== 'edit') return
-
-          this.$refs.removeModal.show()
-        },
-
-
-        /*
-          При подтвержении удаления записи.
-        */
-
-        onRemoveConfirm() {
-          new Core.requestHandler('delete', this.prepareUrl())
-            .success(() => {
-              this.$router.push('/products')
-            })
-        },
-
-        onSave() {
-          this.saveDisabled = true
-          this.$validator.validateAll()
-            .then(result => {
-              if (!result) {
-                this.saveDisabled = false
-                this.$refs.validationModal.show()
-              }
-              else {
-                const data = {
-                  ... this.product,
-                  images: this.collectImagesIds()
-                }
-
-                let requestType;
-
-                if (this.type === 'create') {
-                  requestType = 'post'
-                }
-
-                if (this.type === 'edit') {
-                  requestType = 'put'
-                }
-
-                const request = new Core.requestHandler(requestType, this.prepareUrl(), data)
-
-                this.saveQueue.add(request)
-                  .onDone()
-                    .success(this.pullProductFromResponse)
-                    .fail(response => {
-                      if (response.data.errors) {
-                        this.setValidationErrors(response.data.errors)
-                        this.$refs.validationModal.show()
-                      }
-                    })
-                    .any(() => {
-                      this.saveDisabled = false
-                    })
-              }
-            });
-        },
-
-      /*
-        Установка ошибок валидации, пришедших с сервера
-        todo: собрать миксин валидации?
-      */
-
-      setValidationErrors(errors = {}) {
-        for (let fieldName in errors) {
-          if (this.errors.has(fieldName)) {
-            this.errors.remove(fieldName)
+        getToSaveData() {
+          return {
+            ... this.getModel(),
+            images: this.collectImagesIds(),
           }
-
-          this.errors.add(fieldName, errors[fieldName])
-        }
-      },
+        },
 
       getModel() {
         return this.product
-      },
-
-      formatPrice(value, currencyCode) {
-        let currency = this.currencies.find(item => item.code === currencyCode)
-
-        let formatted = new Intl.NumberFormat('ru-RU', {
-          style: 'currency',
-          currency: currencyCode,
-          maximumFractionDigits: currency.precision
-        })
-
-        value = (value || 0).toString().replace(',', '.')
-
-        return formatted.format(value).replace(',' + ''.padStart(currency.precision, '0'), '')
       },
 
       /*
@@ -459,11 +223,6 @@
 
       onSlugAutocomplete() {
         this.product.slug = Core.makeUrl(this.product.i18[this.activeLanguageCode].title)
-      },
-
-      clearQueue() {
-        this.dataQueue.clear()
-        this.saveQueue.clear()
       },
 
       reset() {
@@ -495,36 +254,6 @@
           next()
         }
       },
-
-      translatesSwitcherHasError() {
-        let errors = this.errors.items
-
-        for (let j = 0; j < this.languages.length; j ++) {
-          let code = this.languages[j].code
-          for (let i = 0; i < errors.length; i++) {
-            if (errors[i].field.indexOf(`i18.${code}`)) {
-              return true
-            }
-          }
-        }
-
-        return false
-      },
-    },
-
-    created() {
-      this.dataQueue = Core.queueHandler.makeQueue('iteration', 'page-data')
-      this.saveQueue = Core.queueHandler.makeQueue('block', 'page-save')
-
-      Validator.extend('slug_exist', {
-        getMessage: field => `Товар с таким slug уже существует.`,
-        validate: slug => new Promise(resolve => {
-          new Core.requestHandler('post', this.prepareUrl('slug'), {slug})
-            .success(() => resolve( {valid: true} ))
-            .fail(() => resolve( {valid: false} ))
-            .start()
-        })
-      })
     },
 
     mounted() {
@@ -554,7 +283,7 @@
         <h1><strong>Создание товара</strong></h1>
 
         <div class="block-title-control">
-          <a href="javascript:void(0);" class="btn btn-sm btn-success active" @click="onSave" :disabled="saveDisabled"><i class="fa fa-plus-circle"></i> Создать</a>
+          <a href="javascript:void(0);" class="btn btn-sm btn-success active" @click="save" :disabled="saveDisabled"><i class="fa fa-plus-circle"></i> Создать</a>
         </div>
       </div>
 
@@ -562,9 +291,9 @@
         <h1><strong>Редактирование товара #{{ this.id }}</strong></h1>
 
         <div class="block-title-control">
-          <a href="javascript:void(0);" class="btn btn-sm btn-primary active" @click="onSave" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Сохранить</a>
+          <a href="javascript:void(0);" class="btn btn-sm btn-primary active" @click="save" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Сохранить</a>
 
-          <a href="javascript:void(0);" class="btn btn-sm btn-danger active" @click="onRemove" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Удалить</a>
+          <a href="javascript:void(0);" class="btn btn-sm btn-danger active" @click="remove" :disabled="saveDisabled">Удалить</a>
         </div>
       </div>
 
@@ -733,28 +462,7 @@
                 <h2><i class="fa fa-pencil"></i> <strong>Цены</strong></h2>
               </div>
 
-              <div class="table-responsive">
-                <table class="table table-bordered table-striped table-vcenter prices-table">
-                  <thead>
-                    <tr>
-                      <th>Тип</th>
-                      <th v-for="currency in currencies">{{ currency.name }}, {{ currency.code }}</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr v-for="priceType in priceTypes">
-                      <td><span class="prices-table__type">{{ priceType.description }}</span></td>
-                      <td v-for="currency in currencies">
-                        <div class="input-group">
-                          <input type="text" v-model="product.prices[priceType.id][currency.code]" v-number="product.prices[priceType.id][currency.code]" class="form-control">
-                          <span class="input-group-addon prices-table__formatted">{{formatPrice(product.prices[priceType.id][currency.code], currency.code)}}</span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <prices-table :prices="product.prices" :prices.sync="product.prices"></prices-table>
             </div>
           </div>
 
@@ -764,13 +472,10 @@
                 <h2><i class="fa fa-pencil"></i> <strong>Изображения</strong></h2>
               </div>
 
-              <vue-dropzone
+              <dropzone-gallery
                 style="margin-bottom: 20px"
-                ref="dropzone"
-                id="dropzone"
-                @vdropzone-success="dropzoneSuccess"
-                :options="dropzoneOptions"
-                :destroyDropzone="true" />
+                :url="prepareUrl('image')"
+                :images.sync="getModel().images" />
             </div>
           </div>
         </div>
@@ -797,7 +502,7 @@
       ok-title="Удалить"
       cancel-title="Отмена"
       hide-header-close
-      @ok="onRemoveConfirm">
+      @ok="removeConfirm">
       Вы действительно хотите удалить товар?
     </b-modal>
 

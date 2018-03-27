@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repositories\RamRepositoryInterface;
+use App\Contracts\Repositories\RamRepository as RamRepositoryContract;
 
-class RamRepository implements RamRepositoryInterface {
+class RamRepository implements RamRepositoryContract {
 
     protected $collection = null;
 
@@ -21,24 +21,40 @@ class RamRepository implements RamRepositoryInterface {
         }
     }
 
-    public function getCollection() {
+    public function getCollection()
+    {
         if (is_null($this->collection)) {
-            $this->collection = \Cache::remember($this->cacheKey, $this->getCachceMinutes(), function () {
-                return $this->model::all();
+            $this->collection = \Cache::remember($this->_getCacheKey(), $this->_getCachceMinutes(), function(){
+                return $this->_getCollection();
             });
         }
 
         return $this->collection;
     }
 
-    public function getCachceMinutes()
+    public function enabled()
+    {
+        return $this->getCollection()->where('enabled', 1);
+    }
+
+    protected function _getCollection()
+    {
+        return $this->model::all();
+    }
+
+    protected function _getCacheKey()
+    {
+        return $this->cacheKey;
+    }
+
+    protected function _getCachceMinutes()
     {
         return isset($this->cacheMinutes) ? $this->cacheMinutes : config('repository.cache.minutes', 30);
     }
 
     public function clearCache()
     {
-        \Cache::forget($this->cacheKey);
+        \Cache::forget($this->_getCacheKey());
     }
 
     public function __call($name, Array $params)

@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\ProductDeleted;
+use App\Events\EntityDeleted;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ProductDeletedListener
+class EntityDeletedListener
 {
     /**
      * Create the event listener.
@@ -21,10 +21,10 @@ class ProductDeletedListener
     /**
      * Handle the event.
      *
-     * @param  ProductDeleted  $event
+     * @param  EntityDeleted  $event
      * @return void
      */
-    public function handle(ProductDeleted $event)
+    public function handle(EntityDeleted $event)
     {
         //
     }

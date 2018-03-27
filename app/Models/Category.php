@@ -2,8 +2,14 @@
 
 namespace App\Models;
 
+use App\Support\Traits\Models\StatusChangeable;
+use App\Support\Traits\Models\PositionChangeable;
+use App\Support\Traits\Models\Sluggable;
+
 class Category extends Base\BaseModelI18
 {
+    use StatusChangeable, PositionChangeable, Sluggable;
+
     protected $tableIdentif = 'Categories';
     protected $translateRelationField = 'category_id';
 

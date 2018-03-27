@@ -21,7 +21,7 @@ class ProductPolicy
 
     public function update()
     {
-        dd('b');
+        return true;
     }
 
     public function saveFromRequestData()

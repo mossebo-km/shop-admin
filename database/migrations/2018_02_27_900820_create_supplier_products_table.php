@@ -24,6 +24,7 @@ class CreateSupplierProductsTable extends Migration
         echo "Create SupplierProducts\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->increments('id');
 
             $table->integer('supplier_id')->unsigned()->index();

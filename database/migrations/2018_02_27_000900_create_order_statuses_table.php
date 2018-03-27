@@ -24,6 +24,7 @@ class CreateOrderStatusesTable extends Migration
         echo "Create OrderStatuses\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->increments('id')->index();
             $table->string('name');
             $table->string('color', 64);

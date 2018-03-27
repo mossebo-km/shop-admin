@@ -18,9 +18,4 @@ class Language extends Base\BaseModel
     protected $hidden = [
         'deleted_at'
     ];
-
-    public static function enabled()
-    {
-        return self::where('enabled', 1)->get();
-    }
 }

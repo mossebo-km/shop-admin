@@ -4,8 +4,12 @@ namespace App\Http\Requests;
 
 use App\Models as Models;
 use App\Validation\ValidatorExtend;
+use App\Repositories\LanguageRepository;
+use App\Repositories\PriceTypeRepository;
+use App\Repositories\CurrencyRepository;
+use Illuminate\Http\Request;
 
-class ProductSave extends ApiRequest
+class ProductSaveRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +32,7 @@ class ProductSave extends ApiRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(LanguageRepository $languages, PriceTypeRepository $priceTypes, CurrencyRepository $currencies)
     {
         ValidatorExtend::existsModelMany();
 
@@ -36,18 +40,16 @@ class ProductSave extends ApiRequest
             ValidatorExtend::slugAvailable();
         }
 
-        $modelName = '\App\Models\Category';
-
         $rules = [
-            'slug'       => "bail|trim|required|between:3,255" . ($this->isCreate() ? "|slug_available:{$modelName}" : ''),
+            'slug'       => "bail|trim|required|between:3,255" . ($this->isCreate() ? "|slug_available:\App\Models\Product" : ''),
             'enabled'    => 'boolean',
             'is_new'     => 'boolean',
             'is_popular' => 'boolean',
             'is_payable' => 'boolean',
-            'categories' => "bail|exists_model_many:{$modelName}",
+            'categories' => "bail|exists_model_many:\App\Models\Category",
         ];
 
-        foreach (Models\Language::enabled() as $language) {
+        foreach ($languages->enabled() as $language) {
             $rules["i18.{$language['code']}"]                  = "required|array";
             $rules["i18.{$language['code']}.title"]            = 'bail|trim|required|max:255';
             $rules["i18.{$language['code']}.description"]      = 'trim|max:65000';
@@ -55,8 +57,8 @@ class ProductSave extends ApiRequest
             $rules["i18.{$language['code']}.meta_description"] = 'trim|max:65000';
         }
 
-        foreach (Models\PriceType::enabled() as $priceType) {
-            foreach (Models\Currency::enabled() as $currency) {
+        foreach ($priceTypes->enabled() as $priceType) {
+            foreach ($currencies->enabled() as $currency) {
                 $rules["prices.{$priceType->id}.{$currency->code}"] = 'numeric';
             }
         }

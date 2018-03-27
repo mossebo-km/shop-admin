@@ -1,14 +1,21 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VeeValidate from 'vee-validate'
+
+import Dashboard from './components/Dashboard.vue'
+
 import CategoriesTable from './components/CategoriesTable.vue'
 import CategoryEdit from './components/CategoryEdit.vue'
 
-import Dashboard from './components/Dashboard.vue'
 import ProductsTable from './components/ProductsTable.vue'
 import ProductEdit from './components/ProductEdit.vue'
+
 import OrdersTable from './components/OrdersTable.vue'
+
 import CustomersTable from './components/CustomersTable.vue'
+
+import ManufacturersTable from './components/ManufacturersTable.vue'
+import ManufacturerEdit from './components/ManufacturerEdit.vue'
 
 
 
@@ -46,6 +53,7 @@ $.ajaxSetup({
     }
 });
 
+
 // 2. Определение путей
 // Каждый путь должен указывать на компонент
 // "Компонентом" может быть как созданный через `Vue.extend()`
@@ -64,6 +72,10 @@ const routes = [
   { path: '/orders', component: OrdersTable },
 
   { path: '/customers', component: CustomersTable },
+
+  { path: '/manufacturers', component: ManufacturersTable },
+  { path: '/manufacturers/create', component: ManufacturerEdit, props: { type: 'create' } },
+  { path: '/manufacturers/:id', component: ManufacturerEdit, props: route => ({...route.params, type: 'edit'}) },
 ]
 
 // 3. Создаём экземпляр роутера с опцией `routes`

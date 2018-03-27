@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repositories\LanguageRepositoryInterface;
+use App\Contracts\Repositories\LanguageRepository as LanguageRepositoryContract;
 
-class LanguageRepository extends RamRepository implements LanguageRepositoryInterface
+class LanguageRepository extends RamRepository implements LanguageRepositoryContract
 {
     protected $model = \App\Models\Language::class;
 }

@@ -24,6 +24,7 @@ class CreateCategoriesI18Table extends Migration
         echo "Create CategoriesI18\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on(Config::get('migrations.Categories'))->onDelete('cascade');
 
