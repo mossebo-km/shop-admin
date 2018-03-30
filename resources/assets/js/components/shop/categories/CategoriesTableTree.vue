@@ -1,5 +1,5 @@
 <script>
-  import Toggle from '../../Toggle.vue'
+  import Toggle from '../../Toggle'
 
   export default {
     name: 'categories-table-tree',
@@ -48,7 +48,7 @@
 
       <div class="table-row">
         <div class="table-cell text-center">
-          <router-link v-bind:to="'/categories/' + category.id"><strong>{{ category.id }}</strong></router-link>
+          <router-link v-bind:to="'/shop/categories/' + category.id"><strong>{{ category.id }}</strong></router-link>
         </div>
 
         <div class="table-cell lev">
@@ -56,7 +56,7 @@
             <i class="fa fa-plus" v-if="!isExpanded(category.id)"></i>
             <i class="fa fa-minus" v-else="isExpanded(category.id)"></i>
           </span>
-          <router-link v-bind:to="'/categories/' + category.id"><strong>{{ category.title }}</strong></router-link>
+          <router-link v-bind:to="'/shop/categories/' + category.id"><strong>{{ category.title }}</strong></router-link>
         </div>
 
         <div class="table-cell">

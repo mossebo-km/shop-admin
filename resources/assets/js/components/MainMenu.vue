@@ -1,7 +1,6 @@
-
 <script>
   export default {
-    name: "main-menu.vue",
+    name: "main-menu",
 
     render(createElement) {
       let keyCounter = 0

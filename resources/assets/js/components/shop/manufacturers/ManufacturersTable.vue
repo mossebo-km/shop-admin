@@ -1,5 +1,5 @@
 <script>
-  import ShopQuickNav from '../../ShopQuickNav.vue'
+  import ShopQuickNav from '../ShopQuickNav'
 
   export default {
     name: 'manufacturers-table',

@@ -5,7 +5,7 @@
 
   import Core from '../../../core'
   import CategoriesTableTree from './CategoriesTableTree'
-  import ShopQuickNav from '../../ShopQuickNav.vue'
+  import ShopQuickNav from '../ShopQuickNav'
 
 
   export default {
@@ -145,13 +145,13 @@
         <h1><strong>Категории</strong></h1>
 
         <div class="block-title-control">
-          <router-link to="/categories/create" class="btn btn-sm btn-success active"><i class="fa fa-plus-circle"></i> Создать</router-link>
+          <router-link to="/shop/categories/create" class="btn btn-sm btn-success active"><i class="fa fa-plus-circle"></i> Создать</router-link>
         </div>
       </div>
 
       <div class="table-responsive" id="categories-table-page">
 
-        <div class="table table-vcenter table-condensed table-bordered table-hover table-categories dataTable no-footer">
+        <div class="table table-center table-condensed table-bordered table-hover table-categories dataTable no-footer">
           <div class="table-head">
             <div class="table-row">
               <div class="table-cell text-center">

@@ -8,11 +8,11 @@
 
   import Core from '../../../core'
 
-  import ShopQuickNav from '../../ShopQuickNav.vue'
-  import Toggle from '../../Toggle.vue'
-  import Loading from '../../Loading.vue'
-  import SearchInput from '../../SearchInput.vue'
-  import Dropdown from '../../Dropdown.vue'
+  import ShopQuickNav from '../ShopQuickNav'
+  import Toggle from '../../Toggle'
+  import Loading from '../../Loading'
+  import SearchInput from '../../SearchInput'
+  import Dropdown from '../../Dropdown'
 
 
   export default {
@@ -122,7 +122,7 @@
               resolve(items.map(item => {
                 return {
                   ...item,
-                  url: '/products/' + item.id,
+                  url: '/shop/products/' + item.id,
                 }
               }))
             })
@@ -239,7 +239,7 @@
         <h1><strong>Товары</strong></h1>
 
         <div class="block-title-control">
-          <router-link to="/products/create" class="btn btn-sm btn-success active"><i class="fa fa-plus-circle"></i> Создать</router-link>
+          <router-link to="/shop/products/create" class="btn btn-sm btn-success active"><i class="fa fa-plus-circle"></i> Создать</router-link>
         </div>
       </div>
 

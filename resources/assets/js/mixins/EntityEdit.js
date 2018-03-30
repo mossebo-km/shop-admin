@@ -13,6 +13,10 @@ const fetchEntity = function(path) {
   return new Core.requestHandler('get', '/api' + path)
 }
 
+const isCreation = function (path) {
+  return path.indexOf('create') !== -1
+}
+
 export default {
   mixins: [Validation, Base],
   methods: {
@@ -130,7 +134,10 @@ export default {
     const a = new asyncPackageDataCollector()
 
     a.add(() => Core.dataHandler.get(['categories-tree', 'languages']))
-    a.add(fetchEntity(to.path))
+
+    if (!isCreation(to.path)) {
+      a.add(fetchEntity(to.path))
+    }
 
     a.onDone(data => {
       next(vm => {
@@ -142,6 +149,11 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
+    if (isCreation(to.path)) {
+      next()
+      return
+    }
+
     const a = new asyncPackageDataCollector()
 
     a.add(fetchEntity(to.path))

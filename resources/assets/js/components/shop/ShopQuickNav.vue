@@ -10,27 +10,27 @@
       return {
         links: [
           {
-            url: '/products',
+            url: '/shop/products',
             icon: 'gi gi-shopping_bag',
             title: 'Товары'
           },
           {
-            url: '/categories',
+            url: '/shop/categories',
             icon: 'gi gi-list',
             title: 'Категории'
           },
           {
-            url: '/manufacturers',
+            url: '/shop/manufacturers',
             icon: 'fa fa-industry',
             title: 'Поставщики'
           },
           {
-            url: '/orders',
+            url: '/shop/orders',
             icon: 'gi gi-shop_window',
             title: 'Заказы'
           },
           {
-            url: '/customers',
+            url: '/shop/customers',
             icon: 'gi gi-user',
             title: 'Клиенты'
           },
@@ -40,7 +40,7 @@
 
     methods: {
       isActive(item) {
-        return item.url.replace('/', '') === this.active;
+        return item.url.indexOf( this.active ) !== -1
       }
     }
   }

@@ -5,11 +5,11 @@
 
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
-  import ShopQuickNav from '../../ShopQuickNav.vue'
+  import ShopQuickNav from '../ShopQuickNav'
   import Core from '../../../core'
-  import TreeSelect from '../../TreeSelect.vue'
-  import CKEditor from '../../CKEditor.vue'
-  import LanguagePicker from '../../LanguagePicker.vue'
+  import TreeSelect from '../../TreeSelect'
+  import CKEditor from '../../CKEditor'
+  import LanguagePicker from '../../LanguagePicker'
 
   import EntityEdit from '../../../mixins/EntityEdit'
   import Translatable from '../../../mixins/Translatable'
