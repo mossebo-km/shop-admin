@@ -13,6 +13,7 @@ class CurrenciesSeeder extends Seeder
             'thousand_separator' => ' ',
             'decimal_separator' => '.',
             'swap_currency_symbol' => true,
+            'enabled' => 1,
         ],
         [
             'code' => 'USD',
@@ -23,6 +24,7 @@ class CurrenciesSeeder extends Seeder
             'decimal_separator' => '.',
             'swap_currency_symbol' => false,
             'position' => 1,
+            'enabled' => 1,
         ],
         [
             'code' => 'EUR',
@@ -33,6 +35,7 @@ class CurrenciesSeeder extends Seeder
             'decimal_separator' => '.',
             'swap_currency_symbol' => false,
             'position' => 2,
+            'enabled' => 1,
         ],
 
     ];

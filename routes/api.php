@@ -31,33 +31,35 @@ use Illuminate\Http\Request;
 // Route::delete('products/{product}', 'ProductController@delete');
 
 Route::group(['middleware' => 'auth:api'], function () {
-  Route::post('categories/sort', 'Api\CategoryController@positions');
-  Route::get('categories/slug', 'Api\CategoryController@slugAvailable');
+    Route::post('data', 'Api\DataController@get');
+    Route::get('data', 'Api\DataController@get');
+    Route::get('data/relevantKey', 'Api\DataController@relevantKey');
+    Route::get('cache', 'Api\DataController@cache');
 
-  Route::get('categories', 'Api\CategoryController@index');
-  Route::get('categories/{category}', 'Api\CategoryController@show');
-  Route::get('categories/{category}/status', 'Api\CategoryController@status');
-  Route::get('categories/{category}/slug', 'Api\CategoryController@entitySlugAvailable');
-  Route::post('categories', 'Api\CategoryController@store');
-  Route::put('categories/{category}', 'Api\CategoryController@update');
-  Route::delete('categories/{category}', 'Api\CategoryController@delete');
+    Route::group(['prefix' => 'shop'], function () {
+        Route::get('products', 'Api\ProductController@index');
+        Route::post('products', 'Api\ProductController@store');
+        Route::get('products/slug', 'Api\ProductController@slugAvailable');
+
+        Route::get('products/{product}', 'Api\ProductController@show');
+        Route::get('products/{product}/status', 'Api\ProductController@status');
+        Route::get('products/{product}/slug', 'Api\ProductController@entitySlugAvailable');
+        Route::post('products/{product}/image', 'Api\ProductController@imageUpload');
+        Route::put('products/{product}', 'Api\ProductController@update');
+        Route::delete('products/{product}', 'Api\ProductController@delete');
 
 
-  Route::post('data', 'Api\DataController@get');
-  Route::get('data', 'Api\DataController@get');
-  Route::get('data/relevantKey', 'Api\DataController@relevantKey');
+        Route::post('categories/sort', 'Api\CategoryController@positions');
+        Route::get('categories/slug', 'Api\CategoryController@slugAvailable');
 
-
-  Route::get('products', 'Api\ProductController@index');
-  Route::post('products', 'Api\ProductController@store');
-  Route::get('products/slug', 'Api\ProductController@slugAvailable');
-
-  Route::get('products/{product}', 'Api\ProductController@show');
-  Route::get('products/{product}/status', 'Api\ProductController@status');
-  Route::get('products/{product}/slug', 'Api\ProductController@entitySlugAvailable');
-  Route::post('products/{product}/image', 'Api\ProductController@imageUpload');
-  Route::put('products/{product}', 'Api\ProductController@update');
-  Route::delete('products/{product}', 'Api\ProductController@delete');
+        Route::get('categories', 'Api\CategoryController@index');
+        Route::get('categories/{category}', 'Api\CategoryController@show');
+        Route::get('categories/{category}/status', 'Api\CategoryController@status');
+        Route::get('categories/{category}/slug', 'Api\CategoryController@entitySlugAvailable');
+        Route::post('categories', 'Api\CategoryController@store');
+        Route::put('categories/{category}', 'Api\CategoryController@update');
+        Route::delete('categories/{category}', 'Api\CategoryController@delete');
+    });
 });
 
 

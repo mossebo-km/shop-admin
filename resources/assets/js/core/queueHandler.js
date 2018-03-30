@@ -143,6 +143,8 @@ export class Queue {
 }
 
 
+
+
 export class BlockQueue extends Queue {
   add(asyncItem) {
     const item = this.__wrapAsync(asyncItem)
@@ -184,7 +186,7 @@ class QueueItem {
 
   __beforeDone() {
     if (this.onBeforeDone) {
-      this.onBeforeDone()
+      this.onBeforeDone.apply(_, arguments)
     }
   }
 
@@ -198,7 +200,7 @@ class QueueItem {
 
     _.asyncItem().then(function() {
       if (_.status) {
-        _.__beforeDone()
+        _.__beforeDone.apply(_, arguments)
 
         if (typeof _.resolver === 'function') {
           _.resolver.apply(_, arguments)
@@ -219,11 +221,10 @@ class QueueItem {
 class QueueFunction extends QueueItem {
   start() {
     var _ = this
-
     _.asyncItem().then(function() {
-      _.__beforeDone()
+      _.__beforeDone.apply(_, arguments)
       if (typeof _.resolver === 'function') {
-        _.resolver.apply(this, arguments)
+        _.resolver.apply(_, arguments)
       }
     })
   }
@@ -243,8 +244,10 @@ class QueueFunction extends QueueItem {
 
 class QueueApiRequest extends QueueItem {
   start() {
-    this.asyncItem.any(() => {
-      this.__beforeDone()
+    var _ = this
+
+    _.asyncItem.any(function() {
+      _.__beforeDone.call(_, _.asyncItem)
     })
 
     this.asyncItem.start()
@@ -257,5 +260,140 @@ class QueueApiRequest extends QueueItem {
 
   onDone() {
     return this.asyncItem
+  }
+}
+
+
+
+
+export class asyncPackage {
+  constructor() {
+    this.items = []
+    this.handlers = {}
+    this.counter = 0
+  }
+
+  add(asyncItem, handler) {
+
+    let itemClass = false
+
+    if (typeof asyncItem === 'function') {
+      itemClass = QueueFunction
+    }
+
+    if (asyncItem instanceof apiRequest) {
+      itemClass = QueueApiRequest
+    }
+
+    if (! itemClass) {
+      throw new Error("Неизвестный тип запроса.")
+    }
+
+    this.__makeItem(asyncItem, handler, itemClass)
+
+    return this
+  }
+
+  __makeItem(asyncItem, handler, itemClass) {
+    var _ = this
+    let item = new itemClass(asyncItem, function() {
+      _.__makeHandler(item, handler)
+      _.__checkDone()
+    })
+
+    item.__id = _.counter++
+
+    _.items.push(item)
+  }
+
+  __makeHandler(item, handler) {
+    if (handler) {
+      this.handlers[item.__id] = () => new Promise(resolve => {
+        let result = handler.call(handler, item.onDone())
+
+        if (result instanceof Promise) {
+          result.then(() => {
+            resolve()
+          })
+        }
+        else {
+          resolve()
+        }
+      })
+    }
+  }
+
+  __checkDone() {
+    if (--this.counter === 0) {
+      this.__done()
+    }
+  }
+
+  __done() {
+    const queue = new IterationQueue()
+    Object.keys(this.handlers).sort().forEach((index) => {
+      queue.add(() => this.handlers[index]())
+    })
+
+    queue.add(() => new Promise(resolve => {
+      if (typeof this.__onDone === 'function') {
+        this.__resolveOnDone()
+        this.items = undefined
+        this.handlers = undefined
+      }
+    }))
+  }
+
+  __resolveOnDone() {
+    this.__onDone()
+  }
+
+  onDone(callback) {
+    this.__onDone = callback
+  }
+
+  start() {
+    this.items.forEach(item => item.start())
+  }
+}
+
+
+export class asyncPackageDataCollector extends asyncPackage {
+  constructor() {
+    super()
+    this.data = {}
+  }
+
+  __makeItem(asyncItem, handler, itemClass) {
+    var _ = this
+    let item = new itemClass(asyncItem, function(data) {
+      _.__pullData(data)
+      _.__makeHandler(item, handler)
+      _.__checkDone()
+    })
+
+    item.__id = _.counter++
+
+    _.items.push(item)
+  }
+
+  __pullData(response) {
+    if (response instanceof apiRequest) {
+      response.success(response => this.__collectData(response.data))
+    }
+    else if (typeof response === 'object' && response !== null) {
+      this.__collectData(response)
+    }
+  }
+
+  __collectData(data) {
+    this.data = {
+      ... this.data,
+      ... data
+    }
+  }
+
+  __resolveOnDone() {
+    this.__onDone(this.data)
   }
 }

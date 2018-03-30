@@ -130,3 +130,17 @@
 .dropzone .dz-preview.dz-image-preview {
   background-color: transparent;
 }
+
+.dataTables_paginate {
+  float: left;
+}
+
+.dataTables_info,
+.dataTables_length {
+  float: right;
+}
+
+.dataTables_info {
+  padding-top: 9px;
+  margin-right: 10px;
+}

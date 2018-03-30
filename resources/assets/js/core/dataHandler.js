@@ -4,7 +4,7 @@ export default {
   storageKey: 'interactionDataKey',
 
   get(dataLabels) {
-    this.dataLabels = dataLabels
+    this.dataLabels = (dataLabels.lenght === 1 ? [dataLabels] : dataLabels)
     this.data = {}
 
     return this.getRelevantKey()
@@ -37,7 +37,7 @@ export default {
         let label = this.dataLabels[i]
         let fromLocalStorage = Core.storage.get(label)
 
-        if (fromLocalStorage) {
+        if (typeof fromLocalStorage !== 'undefined') {
           this.data[label] = fromLocalStorage
           this.dataLabels.splice(i, 1)
         }
@@ -59,7 +59,13 @@ export default {
         labels: this.dataLabels
       })
         .success(response => {
-          const data = response.data.data
+          let data = response.data.data
+
+          if (this.dataLabels.length === 1) {
+            data = {
+              [this.dataLabels[0]]: data
+            }
+          }
 
           for (let i in data) {
             Core.storage.add(i, data[i])
@@ -67,7 +73,7 @@ export default {
 
           this.data = {
             ... this.data,
-            ... response.data.data
+            ... data
           }
 
           resolve(this.data)

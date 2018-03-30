@@ -2,21 +2,24 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VeeValidate from 'vee-validate'
 
-import Dashboard from './components/Dashboard.vue'
+import Dashboard from './components/shop/Dashboard'
 
-import CategoriesTable from './components/CategoriesTable.vue'
-import CategoryEdit from './components/CategoryEdit.vue'
+import CategoriesTable from './components/shop/categories/CategoriesTable'
+import CategoryEdit from './components/shop/categories/CategoryEdit'
 
-import ProductsTable from './components/ProductsTable.vue'
-import ProductEdit from './components/ProductEdit.vue'
+import ProductsTable from './components/shop/products/ProductsTable'
+import ProductEdit from './components/shop/products/ProductEdit'
 
-import OrdersTable from './components/OrdersTable.vue'
+import OrdersTable from './components/shop/orders/OrdersTable'
 
-import CustomersTable from './components/CustomersTable.vue'
+import CustomersTable from './components/shop/customers/CustomersTable'
 
-import ManufacturersTable from './components/ManufacturersTable.vue'
-import ManufacturerEdit from './components/ManufacturerEdit.vue'
+import ManufacturersTable from './components/shop/manufacturers/ManufacturersTable'
+import ManufacturerEdit from './components/shop/manufacturers/ManufacturerEdit'
 
+import Loading from './components/Loading'
+import ClearCacheBtn from './components/ClearCacheBtn'
+import MainMenu from './components/MainMenu'
 
 
 /**
@@ -61,26 +64,28 @@ $.ajaxSetup({
 // Вложенные пути будут рассмотрены далее.
 const routes = [
   { path: '/', component: Dashboard },
-  { path: '/categories', component: CategoriesTable },
-  { path: '/categories/create', component: CategoryEdit, props: { type: 'create' } },
-  { path: '/categories/:id', component: CategoryEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop', redirect: '/shop/products' },
+  { path: '/shop/categories', component: CategoriesTable },
+  { path: '/shop/categories/create', component: CategoryEdit, props: { type: 'create' } },
+  { path: '/shop/categories/:id', component: CategoryEdit, props: route => ({...route.params, type: 'edit'}) },
 
-  { path: '/products', component: ProductsTable },
-  { path: '/products/create', component: ProductEdit, props: { type: 'create' } },
-  { path: '/products/:id', component: ProductEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/products', component: ProductsTable },
+  { path: '/shop/products/create', component: ProductEdit, props: { type: 'create' } },
+  { path: '/shop/products/:id', component: ProductEdit, props: route => ({...route.params, type: 'edit'}) },
 
-  { path: '/orders', component: OrdersTable },
+  { path: '/shop/orders', component: OrdersTable },
 
-  { path: '/customers', component: CustomersTable },
+  { path: '/shop/customers', component: CustomersTable },
 
-  { path: '/manufacturers', component: ManufacturersTable },
-  { path: '/manufacturers/create', component: ManufacturerEdit, props: { type: 'create' } },
-  { path: '/manufacturers/:id', component: ManufacturerEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/manufacturers', component: ManufacturersTable },
+  { path: '/shop/manufacturers/create', component: ManufacturerEdit, props: { type: 'create' } },
+  { path: '/shop/manufacturers/:id', component: ManufacturerEdit, props: route => ({...route.params, type: 'edit'}) },
 ]
 
 // 3. Создаём экземпляр роутера с опцией `routes`
 // Можно передать и другие опции, но пока не будем усложнять
 const router = new VueRouter({
+  mode: 'history',
   routes // сокращение от `routes: routes`
 })
 
@@ -88,7 +93,35 @@ const router = new VueRouter({
 // Удостоверьтесь, что передали экземпляр роутера в опции `router`,
 // что позволит приложению знать о его наличии
 const app = new Vue({
-  router
+  router,
+  components: {
+    Loading,
+    ClearCacheBtn,
+    MainMenu
+  },
+
+  data() {
+    return {
+      loading: false
+    }
+  },
+
+  methods: {
+    loadingStart() {
+      this.loading = true
+    },
+
+    loadingEnd() {
+      this.loading = false
+    }
+  }
 }).$mount('#app')
 
+router.beforeEach((to, from, next) => {
+  app.loadingStart()
+  next()
+})
 
+router.afterEach((to, from) => {
+  app.loadingEnd()
+})

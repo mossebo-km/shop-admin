@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\Models\Media as BaseMedia;
+use App\MediaLibrary\Models\Media;
 use App\Contracts\Models\CanChangeStatus;
 use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\Sluggable;
@@ -105,7 +106,7 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
      * @param  Media|null
      * @return void
      */
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(BaseMedia $media = null)
     {
         $this->addMediaConversion('thumb')
             ->width(160)
@@ -131,24 +132,6 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
             ->withResponsiveImages()
             ->performOnCollections('images');
     }
-
-    /**
-     * Отсев данных, которые подходят для использования в этой модели.
-     *
-     * todo: В трейт?
-     *
-     * @param  Array
-     * @return Array
-     */
-    private function getFillableData(Array $data): Array
-    {
-        $fillable = $this->getFillable();
-
-        return array_filter($data, function($key) use($fillable){
-            return in_array($key, $fillable);
-        }, ARRAY_FILTER_USE_KEY);
-    }
-
 
     /**
      * Сохранение товара, используя данные, полученные из запроса.
@@ -227,7 +210,7 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
                     $image->delete();
                 }
                 else {
-                    $image->move($this, 'images');
+                    $image = $image->move($this, 'images');
                 }
             }
         }

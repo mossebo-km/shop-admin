@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        // Нужно, чтобы убрать base64svg placeholder из базы
+        $this->app->bind('Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator', 'App\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator');
     }
 }

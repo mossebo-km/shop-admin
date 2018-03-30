@@ -22,7 +22,7 @@ class ProductsTableResource extends JsonResource
             'is_payable' => $this->is_payable,
             'title'      => $this->title,
             'enabled'    => $this->enabled,
-            'prices'     => $this->prices,
+            'prices'     => PriceResource::collection($this->prices),
             'created_at' => $this->created_at->format('H:m:i d/m/Y'),
         ];
     }

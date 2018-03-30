@@ -1,53 +1,42 @@
-import Validation from './Validation'
-import { Validator } from 'vee-validate'
 import Core from '../core'
 
+import Validation from './Validation'
+import Base from './Base'
+
+import { asyncPackageDataCollector } from '../core/queueHandler'
+
+
+/*
+  Загрузка данных модели
+ */
+const fetchEntity = function(path) {
+  return new Core.requestHandler('get', '/api' + path)
+}
+
 export default {
-  mixins: [Validation],
+  mixins: [Validation, Base],
   methods: {
     /*
-      Подготавливает url.
-    */
-    prepareUrl(segment) {
-      let url = Core.trim(this.$route.path.replace('create', ''), '/')
-
-      if (segment) {
-        url += '/' + Core.trim(segment, '/')
-      }
-
-      return `/api/${url}`
-    },
-
-    /*
       Отдает подготовленные для сохранения данные модели.
-    */
+     */
     getToSaveData() {
       return {
-        ... this.getModel()
+        ... this.getEntityModel()
       }
     },
 
-
-
-    fetchEntity() {
-      this.dataQueue.add(new Core.requestHandler('get', this.prepareUrl()))
-        .onDone()
-          .success(this.pullModelFromResponse)
-          .fail(response => {
-            if (response.status === 404 && this.type === 'edit') {
-              Core.notify('Запись не найдена.', {type: 'error'})
-              this.$router.push('/products')
-            }
-          })
+    /*
+      Возврат к списку сущностей
+     */
+    redirectToTable() {
+      let currentPath = this.$route.path
+      let fin = this.$route.path.indexOf('/' + this.id)
+      this.$router.push(currentPath.substr(0, currentPath.length - (currentPath.length - fin)))
     },
 
     /*
-      Вытаскивает данные модели из ответа сервера.
-    */
-    pullModelFromResponse(response) {
-      this.initModel(response.data.model)
-    },
-
+      Сохранение сущности
+     */
     save() {
       this.saveDisabled = true
       this.$validator.validateAll()
@@ -74,7 +63,10 @@ export default {
 
           this.saveQueue.add(request)
             .onDone()
-              .success(this.pullModelFromResponse)
+              .success(response => {
+                this.errors.clear()
+                this.pullModelFromResponse(response)
+              })
               .fail(response => {
                 if (response.data.errors) {
                   this.setValidationErrors(response.data.errors)
@@ -90,7 +82,7 @@ export default {
 
     /*
       Показ модального окна перед удалением записи.
-    */
+     */
     remove() {
       var _ = this;
 
@@ -101,33 +93,68 @@ export default {
 
     /*
       При подтвержении удаления записи.
-    */
+     */
     removeConfirm() {
       new Core.requestHandler('delete', this.prepareUrl())
         .success(() => {
-          this.$router.push('/products')
+          this.redirectToTable()
         })
         .start()
     },
 
+    /*
+      Создание очередей
+     */
+    createQueue() {
+      this.saveQueue = Core.queueHandler.makeQueue('break', 'entity-save')
+    },
+
+    /*
+      Отчистка очередей.
+     */
     clearQueue() {
-      this.dataQueue.clear()
       this.saveQueue.clear()
+    },
+
+    reset() {
+      this.clearQueue()
     },
   },
 
   created() {
-    this.dataQueue = Core.queueHandler.makeQueue('iteration', 'entity-data')
-    this.saveQueue = Core.queueHandler.makeQueue('block', 'entity-save')
+    this.createQueue()
+    this.extendSlugChecker()
+  },
 
-    Validator.extend('slug_exist', {
-      getMessage: field => `Slug занят.`,
-      validate: slug => new Promise(resolve => {
-        new Core.requestHandler('get', this.prepareUrl('slug'), {slug})
-          .success(() => resolve( {valid: true} ))
-          .fail(() => resolve( {valid: false} ))
-          .start()
+  beforeRouteEnter (to, from, next) {
+    const a = new asyncPackageDataCollector()
+
+    a.add(() => Core.dataHandler.get(['categories-tree', 'languages']))
+    a.add(fetchEntity(to.path))
+
+    a.onDone(data => {
+      next(vm => {
+        vm.initData(data)
       })
     })
+
+    a.start()
+  },
+
+  beforeRouteUpdate(to, from, next) {
+    const a = new asyncPackageDataCollector()
+
+    a.add(fetchEntity(to.path))
+
+    a.onDone(data => {
+      this.pullModelFromResponse({data})
+      next()
+    })
+
+    a.start()
+  },
+
+  beforeDestroy() {
+    this.clearQueue()
   },
 }

@@ -28,13 +28,17 @@
       Loading,
     },
 
+    watch: {
+      '$route': 'initPrices'
+    },
+
     methods: {
       fetchMainData() {
         this.loading = true
         Core.dataHandler.get(['price-type', 'currencies'])
           .then(data => {
-            this.priceTypes = data['price-type']
-            this.currencies = data['currencies']
+            this.priceTypes = data['price-type'].filter(item => !!item.enabled).sort((a, b) => a.position - b.position)
+            this.currencies = data['currencies'].filter(item => !!item.enabled).sort((a, b) => a.position - b.position)
             this.initPrices()
             this.loading = false
           })
@@ -78,10 +82,6 @@
     created() {
       this.fetchMainData()
     },
-
-    updated() {
-      // console.log(this.rPrices)
-    }
   }
 </script>
 
@@ -99,7 +99,7 @@
 
         <tbody>
           <tr v-for="priceType in priceTypes">
-            <td><span class="prices-table__type">{{ priceType.description }}</span></td>
+            <td><span class="prices-table__type">{{ priceType.title }}</span></td>
             <td v-for="currency in currencies">
               <div class="input-group">
                 <input type="text" v-model="rPrices[priceType.id][currency.code]" v-number="rPrices[priceType.id][currency.code]" @input="onChange" class="form-control">

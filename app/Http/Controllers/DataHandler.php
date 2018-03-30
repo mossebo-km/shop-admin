@@ -24,7 +24,7 @@ class DataHandler
     {
         // todo: Добавить отдельное кэширование для каждого типа данных.
 
-        // \Cache::flush();
+//        \Cache::flush();
         return \Cache::remember(self::$cacheKey, 18000, function () {
             return md5(uniqid());
         });

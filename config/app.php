@@ -169,6 +169,7 @@ return [
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
         App\Providers\RepoProvider::class,
         App\Providers\AuthServiceProvider::class,
+        App\Providers\MediaLibraryProvider::class,
     ],
 
     /*

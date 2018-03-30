@@ -14,4 +14,21 @@ class BaseModel extends Model
 
         $this->table = Config::get("migrations.{$this->tableIdentif}");
     }
+
+    /**
+     * Отсев данных, которые подходят для использования в этой модели.
+     *
+     * todo: В трейт?
+     *
+     * @param  Array
+     * @return Array
+     */
+    protected function getFillableData(Array $data): Array
+    {
+        $fillable = $this->getFillable();
+
+        return array_filter($data, function($key) use($fillable){
+            return in_array($key, $fillable);
+        }, ARRAY_FILTER_USE_KEY);
+    }
 }

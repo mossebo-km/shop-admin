@@ -27,8 +27,10 @@ class CreatePriceTypesTable extends Migration
             $table->engine = "InnoDB";
             $table->increments('id')->index();
             $table->string('name');
+            $table->string('title')->nullable();
             $table->string('description')->nullable();
             $table->boolean('enabled')->default(0);
+            $table->integer('position')->unsigned()->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

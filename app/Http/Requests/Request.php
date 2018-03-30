@@ -40,7 +40,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Check the proess is approve.
+     * Check the process is approve.
      *
      * @return bool
      **/
@@ -50,7 +50,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Check the proess is verify.
+     * Check the process is verify.
      *
      * @return bool
      **/
@@ -66,7 +66,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Check the proess is verify.
+     * Check the process is verify.
      *
      * @return bool
      **/
@@ -82,7 +82,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Check the proess is verify.
+     * Check the process is verify.
      *
      * @return bool
      **/
@@ -98,7 +98,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Check the proess is store.
+     * Check the process is store.
      *
      * @return bool
      **/
@@ -113,7 +113,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Check the proess is edit.
+     * Check the process is edit.
      *
      * @return bool
      **/
@@ -130,7 +130,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Check the proess is update.
+     * Check the process is update.
      *
      * @return bool
      **/
@@ -147,7 +147,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Check the proess is verify.
+     * Check the process is verify.
      *
      * @return bool
      **/

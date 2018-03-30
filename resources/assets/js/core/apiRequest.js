@@ -50,7 +50,7 @@ export default class apiRequest {
       .catch(error => {
         if (error.constructor.name === 'Cancel') return
 
-        if (! (error.response && 'data' in error.response)) {
+        if (error.response && 'data' in error.response) {
           console.log(error)
           this._handleResponse(error.response)
           return
@@ -110,7 +110,12 @@ export default class apiRequest {
   }
 
   _onDone(callback) {
-    this.callbacks.push(callback)
+    if (this.isDone) {
+      Core.runCallback(callback, this.response)
+    }
+    else {
+      this.callbacks.push(callback)
+    }
   }
 
   success(callback) {

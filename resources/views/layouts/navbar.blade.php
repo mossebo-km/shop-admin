@@ -11,7 +11,7 @@
     'navbar-fixed-bottom'       for a bottom fixed header (fixed sidebars with scroll will be auto initialized, functionality can be found in js/app.js - handleSidebar()))
         'header-fixed-bottom'   has to be added on #page-container only if the class 'navbar-fixed-bottom' was added
 -->
-<header class="navbar navbar-default">
+<header class="navbar navbar-default clearfix">
     <!-- Left Header Navigation -->
     <ul class="nav navbar-nav-custom">
         <!-- Main Sidebar Toggle Button -->

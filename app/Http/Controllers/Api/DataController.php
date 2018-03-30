@@ -32,4 +32,14 @@ class DataController extends ApiController
             'key' => $currentKey
         ], 200);
     }
+
+    public function cache()
+    {
+        DataHandler::clearCache();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Кэш отчищен.'
+        ], 200);
+    }
 }

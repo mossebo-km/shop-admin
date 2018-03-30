@@ -13,41 +13,41 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
 
     data() {
       return {
-        rSelected: this.multiple ? this.selected.map(item => item.toString()) : this.selected
+        rSelected: this.multiple ? this.selected.map(item => item.toString()) : this.selected,
+        buildedOptions: []
       }
     },
 
+    watch: {
+      '$route': 'select'
+    },
+
     methods: {
-      buildCategorySelect() {
+      buildOptions () {
         if (! this.options) {
           return ''
         }
 
-        let disabledItemsIds = [];
+        let disabled = this.disabled || []
 
-        if (this.disabled) {
-          if (this.disabled instanceof Array) {
-            disabledItemsIds = [
-              ... this.disabled
-            ]
-          }
-          else {
-            disabledItemsIds.push(this.disabled)
-          }
+        if (! (disabled instanceof Array)) {
+          disabled = [disabled]
         }
 
-        const build = (list, level = 0, parentId = 0) => {
+        disabled = disabled.map(item => item.toString())
+
+        const build = (list, level = 0, parentId = 0, acc) => {
           if (! list) return ''
 
-          return list.reduce((accumulator, item) => {
+          return list.reduce((acc, item) => {
             let itemDisabled = false
 
-            if (disabledItemsIds.indexOf(item.id) !== -1) {
+            if (disabled.indexOf(item.id.toString()) !== -1) {
               itemDisabled = true
             }
-            else if (disabledItemsIds.indexOf(parentId) !== -1) {
+            else if (disabled.indexOf(parentId.toString()) !== -1) {
               itemDisabled = true
-              disabledItemsIds.push(item.id)
+              disabled.push(item.id.toString())
             }
 
             let pad = ('').padStart(level, '—')
@@ -56,31 +56,56 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
               pad += ' '
             }
 
-            return accumulator + `<option value="${item.id}"${itemDisabled ? ' disabled' : ''}>${pad + item.title}</option>` + build(item.sub, level + 1, item.id)
-          }, '')
+            acc.push({
+              id: item.id,
+              disabled: itemDisabled,
+              title: pad + item.title,
+              selected: this.isSelected(item.id)
+            })
+
+            build(item.sub, level + 1, item.id, acc)
+
+            return acc
+          }, acc || [])
         }
 
-        let options = [... this.options]
+        this.buildedOptions = build(this.options)
+      },
 
-        return build(options);
+      isSelected(id) {
+        if (this.selected instanceof Array) {
+          return this.selected.indexOf(id) !== -1
+        }
+
+        return id === this.selected
       },
 
       formatOption(state) {
         if (!state.id) return state.text
-        return state.text.replace('—', '').trim();
+        return state.text.replace('—', '').trim()
+      },
+
+      select() {
+        this.$$el.val(this.selected)
+        this.$$el.trigger('change')
       }
     },
 
-    mounted() {
-      const $el = $(this.$el)
+    created() {
+      this.buildOptions()
+    },
 
-      $el.select2({
+    mounted() {
+      this.$$el = $(this.$el)
+
+      this.$$el.select2({
+        allowClear: true,
         placeholder: this.placeholder,
         theme: "bootstrap",
         templateSelection: this.formatOption
       })
 
-      $el.on('select2:select', e => {
+      this.$$el.on('select2:select', e => {
         if (this.multiple) {
           this.rSelected.push(e.params.data.id)
         }
@@ -91,7 +116,7 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
         this.$emit('update:selected', this.rSelected)
       })
 
-      $el.on('select2:unselect', e => {
+      this.$$el.on('select2:unselect', e => {
         if (this.multiple) {
           let index = this.rSelected.indexOf(e.params.data.id)
 
@@ -103,21 +128,20 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
           this.rSelected = null
         }
 
-        console.log(this.rSelected)
-
         this.$emit('update:selected', this.rSelected)
       })
 
-      $el.val(this.selected)
-      $el.trigger('change')
+      this.select()
     },
 
     beforeDestroy() {
-      $(this.$el).select2('destroy')
+      $(this.$$el).select2('destroy')
     }
   }
 </script>
 
 <template>
-  <select class="select2" :multiple="multiple" v-html="buildCategorySelect()" style="width:100%"></select>
+  <select class="select2" :multiple="multiple" style="width:100%">
+    <option v-for="option in buildedOptions" :value="option.id" :disabled="option.disabled" :selected="option.selected">{{ option.title }}</option>
+  </select>
 </template>

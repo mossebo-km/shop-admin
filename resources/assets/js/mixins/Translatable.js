@@ -1,10 +1,4 @@
 export default {
-  // data() {
-  //   return [
-  //     languages: []
-  //   ]
-  // },
-
   methods: {
     translatesSwitcherHasError() {
       let errors = this.errors.items

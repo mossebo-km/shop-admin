@@ -25,11 +25,13 @@
             <!-- END User Info -->
 
             <!-- Sidebar Navigation -->
-            <ul class="sidebar-nav">
-                <li>
-                    <a href="/#/products"><i class="fa fa-shopping-bag sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Магазин</span></a>
-                </li>
-            </ul>
+            <main-menu class="sidebar-nav">
+                <a href="/shop"><i class="fa fa-shopping-bag sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Магазин</span></a>
+
+                <clear-cache-btn>
+                    <i class="fa fa-refresh sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide"></span>
+                </clear-cache-btn>
+            </main-menu>
             <!-- END Sidebar Navigation -->
         </div>
         <!-- END Sidebar Content -->

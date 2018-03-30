@@ -14,24 +14,10 @@ class MediaResource extends JsonResource
      */
     public function toArray($request)
     {
-        $data = [
+        return array_merge($this->getImagePathes(), [
             'id'       => $this->id,
             'size'     => $this->size,
             'type'     => $this->mime_type,
-            'original' => $this->getUrl(),
-        ];
-
-        foreach ($this->getMediaConversionNames() as $name) {
-            $conversionImages = $this->responsiveImages($name);
-            $imageUrls = $conversionImages->getUrls();
-
-            $data[$name] = [
-                'src' => $imageUrls[0],
-                'srcset' => $imageUrls[1],
-                'placeholder' => $conversionImages->getPlaceholderSvg(),
-            ];
-        }
-
-        return $data;
+        ]);
     }
 }

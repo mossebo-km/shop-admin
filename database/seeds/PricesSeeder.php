@@ -41,11 +41,11 @@ class PricesSeeder extends Seeder
                 }
 
                 if ($priceType->name === 'franchisee-price') {
-                    $price -= round($price / 10);
+                    $price -= round($price / 30);
                 }
 
                 if ($priceType->name === 'purchase-price') {
-                    $price -= round($price / 30);
+                    $price -= round($price / 10);
                 }
 
                 $data['value'] = round($price) * 1000 * 1000;

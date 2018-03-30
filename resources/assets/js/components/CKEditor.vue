@@ -11,11 +11,16 @@
       'content'
     ],
 
+    watch: {
+      '$route': 'reset'
+    },
+
     mounted() {
       this.instance = CKEDITOR.replace( this.$el, {
         extraPlugins: 'divarea',
         startupFocus : true
       } )
+
       this.instance.on('change', () => {
         this.$emit('update:content', this.instance.getData())
       })
@@ -34,6 +39,10 @@
           this.destroyed = true
         }
       },
+
+      reset() {
+        this.instance.setData(this.content)
+      }
     },
 
     beforeDestroy() {

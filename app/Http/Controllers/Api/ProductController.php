@@ -29,7 +29,7 @@ class ProductController extends ApiController
      * Список товаров с пагинацией.
      *
      * @param  Request
-     * @return Array
+     * @return array
      */
     public function index(Request $request)
     {
@@ -50,7 +50,7 @@ class ProductController extends ApiController
 
             if ($pagination->isEmpty() && $params['currentPage'] > 1) {
                 $currentPage = round($pagination->total() / $params['perPage']);
-                $params['currentPage'] = $this->_prepareParamCurrentPage($currentPage);
+                $params['currentPage'] = $currentPage <= 0 ? 1 : $currentPage;
 
                 $pagination = $this->_makePagination($params);
             }
@@ -62,20 +62,37 @@ class ProductController extends ApiController
         {
             extract($params, EXTR_OVERWRITE);
 
-            $query = Product::withTranslate()->with('prices')->orderBy($sortBy, $sortType);
+            if ($sortBy === 'price') {
+                $pricesTableName = \Config::get('migrations.Prices');
+                $productsI18TableName = \Config::get('migrations.ProductsI18');
+                $productsTableName = \Config::get('migrations.Products');
+
+                $query = Product::withTranslate()
+                    ->select("{$productsTableName}.*", "{$productsI18TableName}.*")
+                    ->leftJoin("{$pricesTableName} as p", function ($join) use($productsTableName, $priceType) {
+                      $join->on('p.item_id', '=', "{$productsTableName}.id")
+                        ->where('p.item_type', 'product')
+                        ->where('p.price_type_id', $priceType)
+                        ->where('p.currency_code', 'RUB');
+                    })
+                    ->orderBy('p.value', $sortType);
+            }
+            else {
+                $query = Product::withTranslate()->orderBy($sortBy, $sortType);
+            }
 
             if ($search) {
                 $query = $query->where(\DB::raw('lower(title)'), 'like', "%" . mb_strtolower($search) . "%");
             }
 
-            return $query->paginate($perPage, null, null, $currentPage);
+            return $query->orderBy('id', $sortType)->with('prices')->paginate($perPage, null, null, $currentPage);
         }
+
 
     /**
      * Данные товара.
-     *
-     * @param  Product
-     * @return Array
+     * @param Product $product
+     * @return array
      */
     public function show(Product $product)
     {
@@ -87,8 +104,8 @@ class ProductController extends ApiController
     /**
      * Сохранение товара.
      *
-     * @param  App\Http\Requests\ProductSaveRequest
-     * @return Response
+     * @param ProductSaveRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(ProductSaveRequest $request)
     {
@@ -113,12 +130,13 @@ class ProductController extends ApiController
         ], 200);
     }
 
+
     /**
      * Изменение товара.
      *
-     * @param  App\Http\Requests\ProductSaveRequest
-     * @param  Product
-     * @return Response
+     * @param ProductSaveRequest $request
+     * @param Product $product
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(ProductSaveRequest $request, Product $product)
     {
@@ -145,9 +163,9 @@ class ProductController extends ApiController
     /**
      * Загрузка изображений для конкретного товара.
      *
-     * @param  Request
-     * @param  Product
-     * @return Response
+     * @param ImageUploadRequest $request
+     * @param Product $product
+     * @return \Illuminate\Http\JsonResponse
      */
     public function imageUpload(ImageUploadRequest $request, Product $product)
     {
@@ -167,7 +185,7 @@ class ProductController extends ApiController
      *
      * Todo: вынести эту хрень куда-нибудь.
      *
-     * @param  File
+     * @param $file
      * @return string
      */
     protected function generateUniqueFilename($file)

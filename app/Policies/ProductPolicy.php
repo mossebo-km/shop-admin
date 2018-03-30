@@ -26,7 +26,6 @@ class ProductPolicy
 
     public function saveFromRequestData()
     {
-        dd('a');
         return false;
     }
 }

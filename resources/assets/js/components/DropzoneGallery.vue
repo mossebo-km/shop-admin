@@ -15,6 +15,10 @@
       }
     },
 
+    watch: {
+      '$route': 'reset'
+    },
+
     data() {
       return {
         innerImages: this.images,
@@ -99,6 +103,11 @@
       sync() {
         this.$emit('update:images', this.getInstance().files)
       },
+
+      reset() {
+        this.$refs.dropzone.removeAllFiles()
+        this.initDropzone()
+      }
     },
 
     mounted() {

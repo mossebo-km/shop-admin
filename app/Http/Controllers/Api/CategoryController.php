@@ -2,32 +2,27 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Events as Events;
-use App\Models as Models;
 use App\Models\Category;
 use Validator;
 use App\Contracts\Repositories\CategoryRepository;
 use App\Http\Requests\CategorySaveRequest;
 use App\Support\Traits\Controllers\StatusChangeable;
-use App\Support\Traits\Controllers\Deleteable;
 use App\Support\Traits\Controllers\Sluggable;
 use App\Support\Traits\Controllers\PositionChangeable;
-
-
 use App\Http\Resources as Resources;
 
 class CategoryController extends ApiController
 {
-    use StatusChangeable, Deleteable, Sluggable, PositionChangeable;
+    use StatusChangeable, Sluggable, PositionChangeable;
 
     protected static $modelClass = Category::class;
 
     /**
      * Список категорий.
      *
-     * @param  Request
-     * @return Array
+     * @param CategoryRepository $categoryRepository
+     * @return array
      */
     public function index(CategoryRepository $categoryRepository)
     {
@@ -40,7 +35,7 @@ class CategoryController extends ApiController
      * Отображение категории.
      *
      * @param  Category
-     * @return Array
+     * @return array
      */
     public function show(Category $category)
     {
@@ -52,8 +47,9 @@ class CategoryController extends ApiController
     /**
      * Создание категории.
      *
-     * @param  CategorySaveRequest
-     * @return Repsonse
+     * @param CategorySaveRequest $request
+     * @param Category $category
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(CategorySaveRequest $request)
     {
@@ -78,17 +74,12 @@ class CategoryController extends ApiController
         ], 200);
     }
 
-
-    /*
-        Изменение категории.
-    */
-
     /**
-     * Создание категории.
+     * Изменение категории.
      *
-     * @param  CategorySaveRequest
-     * @param  Category
-     * @return Repsonse
+     * @param CategorySaveRequest $request
+     * @param Category $category
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(CategorySaveRequest $request, Category $category)
     {
@@ -108,7 +99,22 @@ class CategoryController extends ApiController
         return response()->json([
             'status' => 'success',
             'message' => $this->lang('updated', ['id' => $category->id]),
-            'category' => Resources\CategoryEditResource($category)
+            'category' => new Resources\CategoryEditResource($category)
+        ], 200);
+    }
+
+    public function delete(CategoryRepository $categoryRepository, $id)
+    {
+        $model = $this->getModel($id);
+
+        $model->delete();
+
+        \Event::fire(new Events\EntityDeleted($model));
+
+        return response()->json([
+            'status' => 'success',
+            'message' => $this->lang("deleted", ['id' => $model[$model->getKeyName()]]),
+            'tree' => $categoryRepository->getTree()
         ], 200);
     }
 }

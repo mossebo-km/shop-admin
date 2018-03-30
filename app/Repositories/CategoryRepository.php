@@ -59,4 +59,17 @@ class CategoryRepository extends RamRepository implements CategoryRepositoryCont
 
         return $list;
     }
+
+    public function getAllChildsIds($parentId = 0, &$acc = [])
+    {
+        $childrens = $this->getCollection()->where('parent_id', $parentId)->all();
+
+        foreach ($childrens as $item) {
+            $acc[] = $item->id;
+
+            $this->getAllChildsIds($item->id, $acc);
+        }
+
+        return $acc;
+    }
 }

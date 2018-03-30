@@ -7,7 +7,6 @@ use App\Validation\ValidatorExtend;
 use App\Repositories\LanguageRepository;
 use App\Repositories\PriceTypeRepository;
 use App\Repositories\CurrencyRepository;
-use Illuminate\Http\Request;
 
 class ProductSaveRequest extends ApiRequest
 {
@@ -34,7 +33,7 @@ class ProductSaveRequest extends ApiRequest
      */
     public function rules(LanguageRepository $languages, PriceTypeRepository $priceTypes, CurrencyRepository $currencies)
     {
-        ValidatorExtend::existsModelMany();
+        ValidatorExtend::manyRecordsExists();
 
         if ($this->isCreate()) {
             ValidatorExtend::slugAvailable();
@@ -46,7 +45,7 @@ class ProductSaveRequest extends ApiRequest
             'is_new'     => 'boolean',
             'is_popular' => 'boolean',
             'is_payable' => 'boolean',
-            'categories' => "bail|exists_model_many:\App\Models\Category",
+            'categories' => "bail|many_records_exists:\App\Models\Category",
         ];
 
         foreach ($languages->enabled() as $language) {

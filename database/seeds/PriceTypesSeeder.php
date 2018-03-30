@@ -7,19 +7,31 @@ class PriceTypesSeeder extends Seeder
     private $data = [
         [
             "name" => "old-price",
-            "description" => "Старая цена"
+            "title" => "Старая цена",
+            "description" => "",
+            "enabled" => true,
+            "position" => 3
         ],
         [
             "name" => "retail-price",
-            "description" => "Розничная цена"
+            "title" => "Розничная цена",
+            "description" => "",
+            "enabled" => true,
+            "position" => 0
         ],
         [
             "name" => "franchisee-price",
-            "description" => "Цена для франчайзеров"
+            "title" => "Цена для франчайзеров",
+            "description" => "",
+            "enabled" => true,
+            "position" => 2
         ],
         [
             "name" => "purchase-price",
-            "description" => "Закупочная цена"
+            "title" => "Закупочная цена",
+            "description" => "",
+            "enabled" => true,
+            "position" => 1
         ]
     ];
 

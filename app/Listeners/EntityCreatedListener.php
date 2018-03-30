@@ -9,16 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class EntityCreatedListener
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  EntityCreated  $event
@@ -26,6 +16,6 @@ class EntityCreatedListener
      */
     public function handle(EntityCreated $event)
     {
-        //
+        \App\Http\Controllers\DataHandler::clearCache();
     }
 }

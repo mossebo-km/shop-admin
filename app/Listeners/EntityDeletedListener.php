@@ -9,16 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class EntityDeletedListener
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  EntityDeleted  $event
@@ -26,6 +16,6 @@ class EntityDeletedListener
      */
     public function handle(EntityDeleted $event)
     {
-        //
+        \App\Http\Controllers\DataHandler::clearCache();
     }
 }
