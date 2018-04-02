@@ -190,6 +190,6 @@ class ProductController extends ApiController
      */
     protected function generateUniqueFilename($file)
     {
-        return uniqid('product', true) . '.' .  $file->extension();
+        return str_replace('.', '', uniqid('', true))  . '.' . $file->extension();
     }
 }
