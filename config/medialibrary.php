@@ -1,12 +1,11 @@
 <?php
 
 return [
-
     /*
      * The filesystems on which to store added files and derived images by default. Choose
      * one or more of the filesystems you've configured in config/filesystems.php.
      */
-    'default_filesystem' => 'media',
+    'disk_name' => 'media',
 
     /*
      * The maximum file size of an item in bytes.
@@ -122,7 +121,7 @@ return [
      * The engine that should perform the image conversions.
      * Should be either `gd` or `imagick`.
      */
-    'image_driver' => 'gd',
+    'image_driver' => env('IMAGE_DRIVER', 'gd'),
 
     /*
      * FFMPEG & FFProbe binaries paths, only used if you try to generate video
