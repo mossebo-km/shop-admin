@@ -132,8 +132,8 @@ export default {
 
   beforeRouteEnter (to, from, next) {
     const a = new asyncPackageDataCollector()
-
-    a.add(() => Core.dataHandler.get(['categories-tree', 'languages']))
+    // todo: suppliers должны грузиться только в товарах
+    a.add(() => Core.dataHandler.get(['categories-tree', 'languages', 'suppliers']))
 
     if (!isCreation(to.path)) {
       a.add(fetchEntity(to.path))

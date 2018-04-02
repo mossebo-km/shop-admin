@@ -11,8 +11,11 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
-  .sass('resources/assets/sass/app.scss', 'public/css')
+
+mix.config.publicPath = 'public_html'
+
+mix.js('resources/assets/js/app.js', 'public_html/js')
+  .sass('resources/assets/sass/app.scss', 'public_html/css')
   .options({
     processCssUrls: false,
     postCss: [
@@ -29,3 +32,4 @@ mix.browserSync({
     target: "localhost:8000"
   }
 });
+

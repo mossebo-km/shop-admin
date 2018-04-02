@@ -178,7 +178,7 @@
               <div :class="`form-horizontal form-bordered${activeLanguageCode === language.code ? '' : ' in-space'}`" :key="language.code">
 
                 <div :class="`form-group${errors.has(`i18.${language.code}.title`) ? ' has-error' : ''}`">
-                  <label class="col-md-3 control-label" :for="`title-${language.code}`">Название товара <span class="text-danger">*</span></label>
+                  <label class="col-md-3 control-label" :for="`title-${language.code}`">Название <span class="text-danger">*</span></label>
                   <div class="col-md-9">
                     <input type="text" class="form-control" :id="`title-${language.code}`" v-model="category.i18[language.code].title" :name="`i18.${language.code}.title`" v-validate="'required|max:255'">
                     <span v-show="errors.has(`i18.${language.code}.title`)" class="help-block">{{ errors.first(`i18.${language.code}.title`) }}</span>

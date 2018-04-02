@@ -33,19 +33,21 @@ class ProductSaveRequest extends ApiRequest
      */
     public function rules(LanguageRepository $languages, PriceTypeRepository $priceTypes, CurrencyRepository $currencies)
     {
+        ValidatorExtend::recordExists();
         ValidatorExtend::manyRecordsExists();
 
-        if ($this->isCreate()) {
-            ValidatorExtend::slugAvailable();
-        }
+//        if ($this->isCreate()) {
+//            ValidatorExtend::slugAvailable();
+//        }
 
         $rules = [
-            'slug'       => "bail|trim|required|between:3,255" . ($this->isCreate() ? "|slug_available:\App\Models\Product" : ''),
-            'enabled'    => 'boolean',
-            'is_new'     => 'boolean',
-            'is_popular' => 'boolean',
-            'is_payable' => 'boolean',
-            'categories' => "bail|many_records_exists:\App\Models\Category",
+//            'slug'       => "bail|trim|required|between:3,255" . ($this->isCreate() ? "|slug_available:\App\Models\Product" : ''),
+            'supplier_id' => 'bail|required|integer|record_exists:\App\Models\Supplier',
+            'enabled'     => 'boolean',
+            'is_new'      => 'boolean',
+            'is_popular'  => 'boolean',
+            'is_payable'  => 'boolean',
+            'categories'  => "many_records_exists:\App\Models\Category",
         ];
 
         foreach ($languages->enabled() as $language) {

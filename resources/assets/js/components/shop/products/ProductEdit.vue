@@ -68,6 +68,7 @@
           }
         })
 
+        this.suppliers = data['suppliers'] ? data['suppliers'].map(item => ({id: item.id, title: item.name})) : []
         this.languages = languages
         this.categories = data['categories-tree']
 
@@ -88,8 +89,7 @@
       initEntity(data = {}) {
         let entity = {}
         let defaultFieldsValues = {
-          slug: '',
-          sku: '',
+          supplier_id: 0,
           quantity: 1,
           is_new: false,
           is_popular: false,
@@ -168,14 +168,6 @@
       pullModelFromResponse(response) {
         this.initEntity(response.data.product)
       },
-
-      /*
-        Автозаполнение slug из заголовка категории.
-      */
-
-      onSlugAutocomplete() {
-        this.product.slug = Core.makeUrl(this.product.i18[this.activeLanguageCode].title)
-      },
     },
   }
 </script>
@@ -219,7 +211,7 @@
               <div :class="`form-horizontal form-bordered${activeLanguageCode === language.code ? '' : ' in-space'}`" :key="language.code">
 
                 <div :class="`form-group${errors.has(`i18.${language.code}.title`) ? ' has-error' : ''}`">
-                  <label class="col-md-3 control-label" :for="`title-${language.code}`">Название категории <span class="text-danger">*</span></label>
+                  <label class="col-md-3 control-label" :for="`title-${language.code}`">Название <span class="text-danger">*</span></label>
                   <div class="col-md-9">
                     <input type="text" class="form-control" :id="`title-${language.code}`" v-model="product.i18[language.code].title" :name="`i18.${language.code}.title`" v-validate="'required|max:255'">
                     <span v-show="errors.has(`i18.${language.code}.title`)" class="help-block">{{ errors.first(`i18.${language.code}.title`) }}</span>
@@ -262,16 +254,12 @@
             </div>
 
             <div class="form-horizontal form-bordered">
+              <div :class="`form-group${errors.has('supplier_id') ? ' has-error' : ''}`">
+                <label class="col-md-3 control-label" for="product-supplier">Поставщик <span class="text-danger">*</span></label>
+                <div class="col-md-8">
+                  <tree-select :options="suppliers" :selected.sync="product.supplier_id" placeholder="Выберите поставщика"></tree-select>
 
-              <div :class="`form-group${errors.has('slug') ? ' has-error' : ''}`">
-                <label class="col-md-3 control-label" for="slug">Slug <span class="text-danger">*</span></label>
-                <div class="col-md-9">
-                  <div class="input-group">
-                    <input type="text" id="slug" class="form-control" v-model="product.slug" name="slug" v-validate="'required|min:3|max:255|slug_exist'" required>
-                    <a class="btn input-group-addon" @click="onSlugAutocomplete"><i class="fa fa-refresh"></i> Автозаполнение</a>
-                  </div>
-
-                  <span v-show="errors.has('slug')" class="help-block">{{ errors.first('slug') }}</span>
+                  <span v-show="errors.has('supplier_id')" class="help-block">{{ errors.first('supplier_id') }}</span>
                 </div>
               </div>
 

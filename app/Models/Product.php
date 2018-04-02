@@ -35,7 +35,7 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
      * @var array
      */
     protected $fillable = [
-        'slug', 'sku', 'quiantity', 'showed', 'bought', 'is_new', 'is_popular', 'enabled', 'is_payable'
+        'supplier_id', 'quiantity', 'showed', 'bought', 'is_new', 'is_popular', 'enabled', 'is_payable'
     ];
 
     /**
@@ -73,9 +73,9 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
         );
     }
 
-    public function images()
+    public function supplier()
     {
-        return $this->morphMany(Media::class, 'model');
+        return $this->hasOne(Supplier::class, 'supplier_id');
     }
 
     /**

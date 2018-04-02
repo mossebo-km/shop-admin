@@ -6,7 +6,6 @@ class ProductsSeeder extends Seeder
 {
     private $data = [
         [
-            'slug' => 'taburet',
             'quantity' => 1,
             'is_new' => true,
 
@@ -20,7 +19,6 @@ class ProductsSeeder extends Seeder
             ]
         ],
         [
-            'slug' => 'stul',
             'quantity' => 1,
             'is_popular' => true,
 
@@ -34,7 +32,6 @@ class ProductsSeeder extends Seeder
             ]
         ],
         [
-            'slug' => 'stol',
             'quantity' => 1,
             'is_popular' => true,
             'is_new' => true,
@@ -49,7 +46,6 @@ class ProductsSeeder extends Seeder
             ]
         ],
         [
-            'slug' => 'lampa',
             'quantity' => 1,
             'is_popular' => false,
             'is_new' => false,
@@ -64,7 +60,6 @@ class ProductsSeeder extends Seeder
             ]
         ],
         [
-            'slug' => 'vaza',
             'quantity' => 1,
             'is_popular' => true,
 
@@ -78,7 +73,6 @@ class ProductsSeeder extends Seeder
             ]
         ],
         [
-            'slug' => 'shkaf',
             'quantity' => 1,
             'is_popular' => false,
 
@@ -107,8 +101,6 @@ class ProductsSeeder extends Seeder
 
         for ($i = 1; $i < 11; $i++) {
             foreach ($this->data as $product) {
-                $product['slug'] .= "-$i";
-
                 $translations = $product['i18'];
                 unset($product['i18']);
 

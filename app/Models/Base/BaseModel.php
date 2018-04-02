@@ -18,8 +18,6 @@ class BaseModel extends Model
     /**
      * Отсев данных, которые подходят для использования в этой модели.
      *
-     * todo: В трейт?
-     *
      * @param  Array
      * @return Array
      */

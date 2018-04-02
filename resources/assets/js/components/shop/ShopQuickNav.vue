@@ -20,20 +20,20 @@
             title: 'Категории'
           },
           {
-            url: '/shop/manufacturers',
-            icon: 'fa fa-industry',
+            url: '/shop/suppliers',
+            icon: 'fa fa-truck',
             title: 'Поставщики'
           },
-          {
-            url: '/shop/orders',
-            icon: 'gi gi-shop_window',
-            title: 'Заказы'
-          },
-          {
-            url: '/shop/customers',
-            icon: 'gi gi-user',
-            title: 'Клиенты'
-          },
+          // {
+          //   url: '/shop/orders',
+          //   icon: 'gi gi-shop_window',
+          //   title: 'Заказы'
+          // },
+          // {
+          //   url: '/shop/customers',
+          //   icon: 'gi gi-user',
+          //   title: 'Клиенты'
+          // },
         ]
       }
     },

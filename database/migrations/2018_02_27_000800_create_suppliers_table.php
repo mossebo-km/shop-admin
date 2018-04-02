@@ -26,8 +26,9 @@ class CreateSuppliersTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->increments('id')->index();
-            $table->string('slug')->index();
-            $table->string('logotype')->nullable();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->boolean('enabled')->default(1);
             $table->integer('position')->unsigned()->default(0);
             $table->timestamps();
             $table->softDeletes();

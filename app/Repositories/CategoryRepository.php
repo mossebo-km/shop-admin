@@ -27,7 +27,7 @@ class CategoryRepository extends RamRepository implements CategoryRepositoryCont
      *
      * @param  integer $parentId
      * @param  boolean $withDisabled
-     * @return Array
+     * @return array
      */
     private function _makeTree($parentId = 0, $withDisabled = false)
     {

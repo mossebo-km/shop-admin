@@ -619,6 +619,10 @@
   background-color: transparent;
 }
 
+.table-middle td {
+  vertical-align: middle !important;
+}
+
 .table-cell {
   padding: 8px;
   line-height: 1.42857143;

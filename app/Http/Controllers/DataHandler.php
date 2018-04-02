@@ -84,6 +84,11 @@ class DataHandler
         return self::_getRepository('categories')->getTree(0, true);
     }
 
+    protected static function _getSuppliers()
+    {
+        return Models\Supplier::all();
+    }
+
     protected static function _getRepository($label)
     {
         return app()->make(self::$repositories[$label]);

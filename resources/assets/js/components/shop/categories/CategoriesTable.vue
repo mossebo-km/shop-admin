@@ -1,15 +1,18 @@
 <script>
-  import Sortable from 'jquery-ui-sortable-npm'
-
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
   import Core from '../../../core'
   import CategoriesTableTree from './CategoriesTableTree'
   import ShopQuickNav from '../ShopQuickNav'
 
+  import Base from '../../../mixins/Base'
+  import Sortable from '../../../mixins/Sortable'
+
 
   export default {
     name: 'categories-table',
+
+    mixins: [Base, Sortable],
 
     data () {
       return {
@@ -26,25 +29,21 @@
     methods: {
       /*
         Инициализация списка.
-      */
-      initItems (response) {
+       */
+      initTree (response) {
         this.tree = response.data ? response.data.tree || [] : []
       },
 
-
       /*
-        Смена статуса категории.
-      */
-
-      onStatusChange(id) {
-        this.statusQueue.add(new Core.requestHandler('get', `/api/categories/${id}/status`))
+        Смена статуса записи.
+       */
+      statusChange(id) {
+        this.statusQueue.add(new Core.requestHandler('get', this.prepareUrl(`${id}/status`)))
       },
-
 
       /*
         Нажатие на кнопку удаления записи.
-      */
-
+       */
       onRemove(id) {
         var _ = this;
 
@@ -52,62 +51,21 @@
         this.$refs.removeModal.show()
       },
 
-
       /*
         При подтвержении удаления записи.
-      */
-
+       */
       onRemoveConfirm() {
-        new Core.requestHandler('delete', `/api/categories/${this.toRemoveId}`)
-          .success(response => this.initItems(response))
+        new Core.requestHandler('delete', this.prepareUrl(`${this.toRemoveId}`))
+          .success(response => this.initTree(response))
           .start()
       },
 
-
       /*
-        При обновлении списка записей.
-      */
-
-      onRefresh() {
-        $( ".ui-sortable" ).sortable({
-          nested: true,
-          stop: this.onPositionChange,
-        });
-      },
-
-
-      /*
-        При изменении порядка записей.
-      */
-
-      onPositionChange() {
-        let ids = [];
-
-        [].forEach.call(document.querySelectorAll('[name="ids"]'), el => {
-          ids.push(el.value);
-        });
-
-        this.sortQueue.add(new Core.requestHandler('post', '/api/categories/sort', {ids}))
-      },
-
+        Отчистка очереди
+       */
       clearQueue() {
         this.sortQueue.clear()
         this.statusQueue.clear()
-      },
-    },
-
-    computed: {
-      showedFrom: function() {
-        return (this.currentPage - 1) * this.perPage + 1
-      },
-
-      showedTo: function() {
-        let to = this.currentPage * this.perPage
-        return (to > this.totalRows ? this.totalRows : to)
-      },
-
-      showPagination: function() {
-        return this.perPage < this.totalRows;
       },
     },
 
@@ -117,7 +75,7 @@
     },
 
     updated() {
-      this.onRefresh()
+      this.initSort()
     },
 
     beforeDestroy() {
@@ -128,7 +86,7 @@
         return new Core.requestHandler('get', '/api' + to.path)
           .success(response => {
             next(vm => {
-              vm.initItems(response)
+              vm.initTree(response)
             })
           })
           .start()
@@ -170,7 +128,7 @@
             </div>
           </div>
 
-          <categories-table-tree v-if="tree.length" :tree="tree" level="0" :onStatusChange="onStatusChange" :onRemove="onRemove"></categories-table-tree>
+          <categories-table-tree v-if="tree.length" :tree="tree" level="0" :statusChange="statusChange" :onRemove="onRemove"></categories-table-tree>
 
           <div v-if="!tree.length" class="table-group">
             <div class="table-row">

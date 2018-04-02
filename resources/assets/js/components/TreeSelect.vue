@@ -13,7 +13,7 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
 
     data() {
       return {
-        rSelected: this.multiple ? this.selected.map(item => item.toString()) : this.selected,
+        rSelected: this.initSelected(),
         buildedOptions: []
       }
     },
@@ -23,6 +23,14 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
     },
 
     methods: {
+      initSelected() {
+        if (this.multiple && this.selected instanceof Array) {
+          return this.selected.map(item => item.toString())
+        }
+
+        return this.selected
+      },
+
       buildOptions () {
         if (! this.options) {
           return ''

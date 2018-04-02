@@ -14,9 +14,13 @@
   import SearchInput from '../../SearchInput'
   import Dropdown from '../../Dropdown'
 
+  import Base from '../../../mixins/Base'
+
 
   export default {
     name: 'products-table',
+
+    mixins: [Base],
 
     data () {
       return {
@@ -102,7 +106,7 @@
 
       fetchItems ({currentPage, perPage, sortBy, sortDesc}) {
         return new Promise(resolve => {
-          new Core.requestHandler('get', `/api${this.$route.path}`, {
+          new Core.requestHandler('get', this.prepareUrl(), {
             currentPage,
             perPage,
             sortBy,
@@ -158,8 +162,8 @@
         Смена статуса товара.
       */
 
-      onStatusChange(id) {
-        this.statusQueue.add(new Core.requestHandler('get', `/api/products/${id}/status`))
+      statusChange(id) {
+        this.statusQueue.add(new Core.requestHandler('get', this.prepareUrl(`${id}status`)))
       },
 
 
@@ -175,7 +179,7 @@
       },
 
       onRemoveConfirm() {
-        new Core.requestHandler('delete', `/api/products/${this.toRemoveId}`)
+        new Core.requestHandler('delete', this.prepareUrl(`${this.toRemoveId}`))
           .success(() => this.$refs.table.refresh())
           .start()
       },
@@ -300,7 +304,7 @@
               </template>
 
               <template slot="enabled" slot-scope="product">
-                <toggle @change="onStatusChange(product.item.id)" :checked="product.item.enabled" :key="product.item.id"></toggle>
+                <toggle @change="statusChange(product.item.id)" :checked="product.item.enabled" :key="product.item.id"></toggle>
               </template>
 
               <template slot="controls" slot-scope="product">

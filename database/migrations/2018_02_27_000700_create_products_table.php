@@ -25,9 +25,8 @@ class CreateProductsTable extends Migration
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->increments('id')->index();
-            $table->string('slug')->unique()->index(); // внутренний артикул/код товара
-            $table->string('sku')->unique()->nullable(); // артикул производителя
+            $table->increments('id')->index()->start_from(100000);
+            $table->integer('supplier_id')->nullable();
             $table->integer('quantity')->nullable()->unsigned();
             $table->integer('showed')->unsigned()->default(0);
             $table->integer('bought')->unsigned()->default(0);

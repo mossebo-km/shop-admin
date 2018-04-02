@@ -7,14 +7,15 @@ use App\Models\Category;
 use Validator;
 use App\Contracts\Repositories\CategoryRepository;
 use App\Http\Requests\CategorySaveRequest;
+use App\Support\Traits\Controllers\Deleteable;
 use App\Support\Traits\Controllers\StatusChangeable;
-use App\Support\Traits\Controllers\Sluggable;
 use App\Support\Traits\Controllers\PositionChangeable;
+use App\Support\Traits\Controllers\Sluggable;
 use App\Http\Resources as Resources;
 
 class CategoryController extends ApiController
 {
-    use StatusChangeable, Sluggable, PositionChangeable;
+    use Deleteable, StatusChangeable, Sluggable, PositionChangeable;
 
     protected static $modelClass = Category::class;
 
@@ -48,7 +49,6 @@ class CategoryController extends ApiController
      * Создание категории.
      *
      * @param CategorySaveRequest $request
-     * @param Category $category
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CategorySaveRequest $request)
@@ -100,21 +100,6 @@ class CategoryController extends ApiController
             'status' => 'success',
             'message' => $this->lang('updated', ['id' => $category->id]),
             'category' => new Resources\CategoryEditResource($category)
-        ], 200);
-    }
-
-    public function delete(CategoryRepository $categoryRepository, $id)
-    {
-        $model = $this->getModel($id);
-
-        $model->delete();
-
-        \Event::fire(new Events\EntityDeleted($model));
-
-        return response()->json([
-            'status' => 'success',
-            'message' => $this->lang("deleted", ['id' => $model[$model->getKeyName()]]),
-            'tree' => $categoryRepository->getTree()
         ], 200);
     }
 }

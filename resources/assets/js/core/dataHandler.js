@@ -37,7 +37,7 @@ export default {
         let label = this.dataLabels[i]
         let fromLocalStorage = Core.storage.get(label)
 
-        if (typeof fromLocalStorage !== 'undefined') {
+        if (typeof fromLocalStorage !== 'undefined' && fromLocalStorage !== null) {
           this.data[label] = fromLocalStorage
           this.dataLabels.splice(i, 1)
         }
