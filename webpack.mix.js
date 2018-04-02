@@ -12,10 +12,10 @@ let mix = require('laravel-mix');
  */
 
 
-mix.config.publicPath = 'public_html'
+// mix.config.publicPath = 'public_html'
 
-mix.js('resources/assets/js/app.js', 'public_html/js')
-  .sass('resources/assets/sass/app.scss', 'public_html/css')
+mix.js('resources/assets/js/app.js', 'public/js')
+  .sass('resources/assets/sass/app.scss', 'public/css')
   .options({
     processCssUrls: false,
     postCss: [
