@@ -15,7 +15,7 @@ class AdminsSeeder extends Seeder
             'role_id' => 2,
             'name' => 'Диана Шамонова',
             'email' => 'product@mossebo.market',
-            'password' => '7km&Yt2h'
+            'password' => '731256'
         ],
         [
             'role_id' => 2,

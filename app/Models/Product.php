@@ -210,7 +210,7 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
                     $image->delete();
                 }
                 else {
-                    $image = $image->move($this, 'images');
+                    $image = $image->move($this, 'images', 'media');
                 }
             }
         }
@@ -283,6 +283,6 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
         return $this
             ->addMediaFromUrl($path)
             ->usingFileName($filename)
-            ->toMediaCollection('temp');
+            ->toMediaCollection('temp', 'media');
     }
 }
