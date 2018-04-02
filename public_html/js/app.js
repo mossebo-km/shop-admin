@@ -218,7 +218,7 @@ module.exports = function normalizeComponent (
     var before = new RegExp(symbol + '$');
     var after = new RegExp('^' + symbol);
 
-    return str.replace(before, '').replace(after, '');
+    return str.toString().replace(before, '').replace(after, '');
   },
   formatPrice: function formatPrice(value, currency) {
     var formatted = new Intl.NumberFormat('ru-RU', {
@@ -53563,7 +53563,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     */
 
     statusChange: function statusChange(id) {
-      this.statusQueue.add(new __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].requestHandler('get', this.prepareUrl(id + 'status')));
+      this.statusQueue.add(new __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].requestHandler('get', this.prepareUrl(id + '/status')));
     },
 
 

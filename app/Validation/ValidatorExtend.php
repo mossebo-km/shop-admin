@@ -44,6 +44,10 @@ class ValidatorExtend
      */
     protected static function _manyRecordsExist($modelClassName, $value, $primaryKeyFieldName = null)
     {
+        if (empty($value)) {
+            return true;
+        }
+
         if (is_null($primaryKeyFieldName)) {
             $primaryKeyFieldName = self::_getModelKeyName($modelClassName);
         }

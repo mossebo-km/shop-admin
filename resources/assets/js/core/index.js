@@ -32,7 +32,7 @@ export default {
     let before = new RegExp(`${symbol}$`)
     let after = new RegExp(`^${symbol}`)
 
-    return str.replace(before, '').replace(after, '')
+    return str.toString().replace(before, '').replace(after, '')
   },
 
   formatPrice(value, currency) {

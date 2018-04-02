@@ -163,7 +163,7 @@
       */
 
       statusChange(id) {
-        this.statusQueue.add(new Core.requestHandler('get', this.prepareUrl(`${id}status`)))
+        this.statusQueue.add(new Core.requestHandler('get', this.prepareUrl(`${id}/status`)))
       },
 
 

@@ -47,7 +47,7 @@ class ProductSaveRequest extends ApiRequest
             'is_new'      => 'boolean',
             'is_popular'  => 'boolean',
             'is_payable'  => 'boolean',
-            'categories'  => "many_records_exists:\App\Models\Category",
+            'categories'  => "nullable|many_records_exists:\App\Models\Category",
         ];
 
         foreach ($languages->enabled() as $language) {

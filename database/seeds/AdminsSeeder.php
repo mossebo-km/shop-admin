@@ -9,7 +9,7 @@ class AdminsSeeder extends Seeder
             'role_id' => 1,
             'name' => 'Admin',
             'email' => 'admin@admin.ru',
-            'password' => '654321'
+            'password' => 'h&62g1rvK'
         ],
         [
             'role_id' => 2,
