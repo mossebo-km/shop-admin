@@ -20,7 +20,7 @@ class LanguagesSeeder extends Seeder
             'image' => '',
             'currency_code' => 'USD',
             'default' => 0,
-            'enabled' => 1,
+            'enabled' => 0,
             'position' => 1
         ],
     ];

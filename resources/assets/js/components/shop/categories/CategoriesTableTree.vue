@@ -7,8 +7,8 @@
     props: [
       'tree',
       'level',
-      'onStatusChange',
-      'onRemove',
+      'statusChange',
+      'remove',
       'parentId'
     ],
 
@@ -67,19 +67,19 @@
         </div>
 
         <div class="table-cell text-center">
-          <toggle @change="onStatusChange(category.id)" :checked="category.enabled" :key="category.id"></toggle>
+          <toggle @change="statusChange(category.id)" :checked="category.enabled" :key="category.id"></toggle>
         </div>
 
         <div class="table-cell text-center">
-          <a href="javascript:void(0)" data-toggle="tooltip" title="Удалить" class="btn btn-danger" @click="onRemove(category.id)"><i class="fa fa-times"></i></a>
+          <a href="javascript:void(0)" data-toggle="tooltip" title="Удалить" class="btn btn-danger" @click="remove(category.id)"><i class="fa fa-times"></i></a>
         </div>
       </div>
 
       <categories-table-tree v-if="category.sub" v-show="isExpanded(category.id)"
         :tree="category.sub"
         :level="parseInt(level) + 1"
-        :onStatusChange="onStatusChange"
-        :onRemove="onRemove"
+        :statusChange="statusChange"
+        :remove="remove"
         :parentId="category.id">
       </categories-table-tree>
     </div>

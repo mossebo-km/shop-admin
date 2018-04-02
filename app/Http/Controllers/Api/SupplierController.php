@@ -64,7 +64,7 @@ class SupplierController extends ApiController
         return response()->json([
             'status' => 'success',
             'message' => $this->lang('created', ['id' => $supplier->id]),
-            'redirect' => "/suppliers/{supplier->id}",
+            'redirect' => "/shop/suppliers/{$supplier->id}",
             'supplier' => new SupplierEditResource($supplier)
         ], 200);
     }

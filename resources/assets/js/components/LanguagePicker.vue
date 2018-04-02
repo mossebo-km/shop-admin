@@ -27,7 +27,7 @@
 </script>
 
 <template>
-  <dropdown className="btn-group btn-group-sm language-picker" position="right" :options="languages">
+  <dropdown className="btn-group btn-group-sm language-picker" position="right" :options="languages" v-if="languages.length > 1">
     <template slot="button">
       <span class="btn btn-alt btn-default dropdown-toggle"><span>{{ prettyCode(activeLanguageCode) }}</span></span>
     </template>

@@ -27,6 +27,12 @@
     },
 
     methods: {
+      fetchItems() {
+        new Core.requestHandler('get', this.prepareUrl())
+          .success(response => this.initTree(response))
+          .start()
+      },
+
       /*
         Инициализация списка.
        */
@@ -44,7 +50,7 @@
       /*
         Нажатие на кнопку удаления записи.
        */
-      onRemove(id) {
+      remove(id) {
         var _ = this;
 
         this.toRemoveId = id
@@ -54,11 +60,13 @@
       /*
         При подтвержении удаления записи.
        */
-      onRemoveConfirm() {
+      removeConfirm() {
         new Core.requestHandler('delete', this.prepareUrl(`${this.toRemoveId}`))
-          .success(response => this.initTree(response))
+          .success(() => this.fetchItems())
           .start()
       },
+
+
 
       /*
         Отчистка очереди
@@ -128,7 +136,7 @@
             </div>
           </div>
 
-          <categories-table-tree v-if="tree.length" :tree="tree" level="0" :statusChange="statusChange" :onRemove="onRemove"></categories-table-tree>
+          <categories-table-tree v-if="tree && tree.length" :tree="tree" level="0" :statusChange="statusChange" :remove="remove"></categories-table-tree>
 
           <div v-if="!tree.length" class="table-group">
             <div class="table-row">
@@ -150,7 +158,7 @@
       ok-title="Удалить"
       cancel-title="Отмена"
       hide-header-close
-      @ok="onRemoveConfirm">
+      @ok="removeConfirm">
       Вы действительно хотите удалить категорию?
     </b-modal>
   </div>

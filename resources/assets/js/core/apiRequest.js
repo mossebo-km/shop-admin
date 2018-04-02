@@ -81,7 +81,7 @@ export default class apiRequest {
         let redirect = data.redirect
 
         if (redirect.indexOf('/') === 0) {
-          redirect = `/#${redirect}`
+          redirect = '/' + Core.trim(redirect, '/')
         }
 
         window.location.href = redirect

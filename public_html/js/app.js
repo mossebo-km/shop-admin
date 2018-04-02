@@ -38077,7 +38077,7 @@ var apiRequest = function () {
           var redirect = data.redirect;
 
           if (redirect.indexOf('/') === 0) {
-            redirect = '/#' + redirect;
+            redirect = '/' + __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].trim(redirect, '/');
           }
 
           window.location.href = redirect;
@@ -41905,7 +41905,7 @@ router.beforeEach(function (to, from, next) {
   next();
 });
 
-router.afterEach(function (to, from) {
+router.afterEach(function () {
   app.loadingEnd();
 });
 
@@ -45051,6 +45051,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
+    fetchItems: function fetchItems() {
+      var _this = this;
+
+      new __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].requestHandler('get', this.prepareUrl()).success(function (response) {
+        return _this.initTree(response);
+      }).start();
+    },
+
+
     /*
       Инициализация списка.
      */
@@ -45070,7 +45079,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     /*
       Нажатие на кнопку удаления записи.
      */
-    onRemove: function onRemove(id) {
+    remove: function remove(id) {
       var _ = this;
 
       this.toRemoveId = id;
@@ -45081,11 +45090,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     /*
       При подтвержении удаления записи.
      */
-    onRemoveConfirm: function onRemoveConfirm() {
-      var _this = this;
+    removeConfirm: function removeConfirm() {
+      var _this2 = this;
 
-      new __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].requestHandler('delete', this.prepareUrl('' + this.toRemoveId)).success(function (response) {
-        return _this.initTree(response);
+      new __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].requestHandler('delete', this.prepareUrl('' + this.toRemoveId)).success(function () {
+        return _this2.fetchItems();
       }).start();
     },
 
@@ -48753,7 +48762,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'categories-table-tree',
 
-  props: ['tree', 'level', 'onStatusChange', 'onRemove', 'parentId'],
+  props: ['tree', 'level', 'statusChange', 'remove', 'parentId'],
 
   data: function data() {
     return {
@@ -48963,7 +48972,7 @@ var render = function() {
                   attrs: { checked: category.enabled },
                   on: {
                     change: function($event) {
-                      _vm.onStatusChange(category.id)
+                      _vm.statusChange(category.id)
                     }
                   }
                 })
@@ -48983,7 +48992,7 @@ var render = function() {
                   },
                   on: {
                     click: function($event) {
-                      _vm.onRemove(category.id)
+                      _vm.remove(category.id)
                     }
                   }
                 },
@@ -49005,8 +49014,8 @@ var render = function() {
                 attrs: {
                   tree: category.sub,
                   level: parseInt(_vm.level) + 1,
-                  onStatusChange: _vm.onStatusChange,
-                  onRemove: _vm.onRemove,
+                  statusChange: _vm.statusChange,
+                  remove: _vm.remove,
                   parentId: category.id
                 }
               })
@@ -51434,13 +51443,13 @@ var render = function() {
               [
                 _vm._m(1),
                 _vm._v(" "),
-                _vm.tree.length
+                _vm.tree && _vm.tree.length
                   ? _c("categories-table-tree", {
                       attrs: {
                         tree: _vm.tree,
                         level: "0",
                         statusChange: _vm.statusChange,
-                        onRemove: _vm.onRemove
+                        remove: _vm.remove
                       }
                     })
                   : _vm._e(),
@@ -51468,7 +51477,7 @@ var render = function() {
             "cancel-title": "Отмена",
             "hide-header-close": ""
           },
-          on: { ok: _vm.onRemoveConfirm }
+          on: { ok: _vm.removeConfirm }
         },
         [_vm._v("\n    Вы действительно хотите удалить категорию?\n  ")]
       )
@@ -52309,61 +52318,69 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "dropdown",
-    {
-      attrs: {
-        className: "btn-group btn-group-sm language-picker",
-        position: "right",
-        options: _vm.languages
-      },
-      scopedSlots: _vm._u([
+  return _vm.languages.length > 1
+    ? _c(
+        "dropdown",
         {
-          key: "option",
-          fn: function(ref) {
-            var code = ref.code
-            var name = ref.name
-            return [
-              _c(
-                "li",
-                {
-                  key: code,
-                  class: { active: code === _vm.activeLanguageCode }
-                },
-                [
+          attrs: {
+            className: "btn-group btn-group-sm language-picker",
+            position: "right",
+            options: _vm.languages
+          },
+          scopedSlots: _vm._u([
+            {
+              key: "option",
+              fn: function(ref) {
+                var code = ref.code
+                var name = ref.name
+                return [
                   _c(
-                    "a",
+                    "li",
                     {
-                      attrs: { href: "javascript:void(0)" },
-                      on: {
-                        click: function($event) {
-                          _vm.changeLanguage(code)
-                        }
-                      }
+                      key: code,
+                      class: { active: code === _vm.activeLanguageCode }
                     },
                     [
-                      _vm._v("\n        " + _vm._s(name) + " "),
-                      _c("strong", { staticClass: "pull-right" }, [
-                        _vm._v(_vm._s(_vm.prettyCode(code)))
-                      ])
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "javascript:void(0)" },
+                          on: {
+                            click: function($event) {
+                              _vm.changeLanguage(code)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v("\n        " + _vm._s(name) + " "),
+                          _c("strong", { staticClass: "pull-right" }, [
+                            _vm._v(_vm._s(_vm.prettyCode(code)))
+                          ])
+                        ]
+                      )
                     ]
                   )
                 ]
-              )
-            ]
-          }
-        }
-      ])
-    },
-    [
-      _c("template", { slot: "button" }, [
-        _c("span", { staticClass: "btn btn-alt btn-default dropdown-toggle" }, [
-          _c("span", [_vm._v(_vm._s(_vm.prettyCode(_vm.activeLanguageCode)))])
-        ])
-      ])
-    ],
-    2
-  )
+              }
+            }
+          ])
+        },
+        [
+          _c("template", { slot: "button" }, [
+            _c(
+              "span",
+              { staticClass: "btn btn-alt btn-default dropdown-toggle" },
+              [
+                _c("span", [
+                  _vm._v(_vm._s(_vm.prettyCode(_vm.activeLanguageCode)))
+                ])
+              ]
+            )
+          ])
+        ],
+        2
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -53100,7 +53117,7 @@ var render = function() {
                       },
                       [
                         _c("label", { staticClass: "col-md-3 control-label" }, [
-                          _vm._v("Статус публикации")
+                          _vm._v("Опубликовано")
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
@@ -65570,7 +65587,7 @@ var render = function() {
                       },
                       [
                         _c("label", { staticClass: "col-md-3 control-label" }, [
-                          _vm._v("Статус публикации")
+                          _vm._v("Опубликовано")
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
@@ -66422,6 +66439,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   methods: {
+    fetchList: function fetchList() {
+      var _this = this;
+
+      new __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].requestHandler('get', this.prepareUrl()).success(function (response) {
+        return _this.initList(response);
+      }).start();
+    },
+
+
     /*
       Инициализация списка.
     */
@@ -66456,10 +66482,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     */
 
     removeConfirm: function removeConfirm() {
-      var _this = this;
+      var _this2 = this;
 
-      new __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].requestHandler('delete', this.prepareUrl(this.toRemoveId)).success(function (response) {
-        return _this.initList(response);
+      new __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].requestHandler('delete', this.prepareUrl(this.toRemoveId)).success(function () {
+        return _this2.fetchList();
       }).start();
     },
 
@@ -66571,81 +66597,83 @@ var render = function() {
                   "tbody",
                   [
                     _vm._l(_vm.list, function(supplier) {
-                      return _c("tr", [
-                        _c("td", { staticClass: "text-center" }, [
-                          _c(
-                            "strong",
-                            [
+                      return _vm.list && _vm.list.length
+                        ? _c("tr", [
+                            _c("td", { staticClass: "text-center" }, [
                               _c(
-                                "router-link",
+                                "strong",
+                                [
+                                  _c(
+                                    "router-link",
+                                    {
+                                      attrs: {
+                                        to: "/shop/suppliers/" + supplier.id
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(supplier.id))]
+                                  )
+                                ],
+                                1
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              [
+                                _c(
+                                  "router-link",
+                                  {
+                                    attrs: {
+                                      to: "/shop/suppliers/" + supplier.id
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(supplier.name))]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              { staticClass: "text-center" },
+                              [
+                                _c("toggle", {
+                                  key: supplier.id,
+                                  attrs: { checked: supplier.enabled },
+                                  on: {
+                                    change: function($event) {
+                                      _vm.statusChange(supplier.id)
+                                    }
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "text-center" }, [
+                              _c(
+                                "a",
                                 {
+                                  staticClass: "btn btn-danger",
                                   attrs: {
-                                    href: "/shop/suppliers/" + supplier.id
+                                    href: "javascript:void(0)",
+                                    "data-toggle": "tooltip",
+                                    title: "Удалить"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.remove(supplier.id)
+                                    }
                                   }
                                 },
-                                [_vm._v(_vm._s(supplier.id))]
+                                [_c("i", { staticClass: "fa fa-times" })]
                               )
-                            ],
-                            1
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _c(
-                              "router-link",
-                              {
-                                attrs: {
-                                  href: "/shop/suppliers/" + supplier.id
-                                }
-                              },
-                              [_vm._v(_vm._s(supplier.name))]
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          { staticClass: "text-center" },
-                          [
-                            _c("toggle", {
-                              key: supplier.id,
-                              attrs: { checked: supplier.enabled },
-                              on: {
-                                change: function($event) {
-                                  _vm.statusChange(supplier.id)
-                                }
-                              }
-                            })
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-center" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "btn btn-danger",
-                              attrs: {
-                                href: "javascript:void(0)",
-                                "data-toggle": "tooltip",
-                                title: "Удалить"
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.remove(supplier.id)
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-times" })]
-                          )
-                        ])
-                      ])
+                            ])
+                          ])
+                        : _vm._e()
                     }),
                     _vm._v(" "),
-                    !_vm.list.length
+                    !(_vm.list && _vm.list.length)
                       ? _c("tr", [
                           _c(
                             "td",
@@ -67083,7 +67111,7 @@ var render = function() {
                 },
                 [
                   _c("label", { staticClass: "col-md-3 control-label" }, [
-                    _vm._v("Статус публикации")
+                    _vm._v("Опубликовано")
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-9" }, [

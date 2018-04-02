@@ -244,7 +244,7 @@
               </div>
 
               <div :class="`form-group${errors.has('enabled') ? ' has-error' : ''}`">
-                <label class="col-md-3 control-label">Статус публикации</label>
+                <label class="col-md-3 control-label">Опубликовано</label>
                 <div class="col-md-9">
                   <label class="switch switch-primary">
                     <input type="checkbox" v-model="category.enabled"><span></span>

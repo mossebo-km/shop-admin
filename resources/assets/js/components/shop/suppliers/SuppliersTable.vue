@@ -29,6 +29,12 @@
     },
 
     methods: {
+      fetchList() {
+        new Core.requestHandler('get', this.prepareUrl())
+          .success(response => this.initList(response))
+          .start()
+      },
+
       /*
         Инициализация списка.
       */
@@ -64,7 +70,7 @@
 
       removeConfirm() {
         new Core.requestHandler('delete', this.prepareUrl(this.toRemoveId))
-          .success(response => this.initList(response))
+          .success(() => this.fetchList())
           .start()
       },
 
@@ -151,9 +157,9 @@
           </thead>
 
           <tbody>
-            <tr v-for="supplier in list">
-              <td class="text-center"><strong><router-link :href="`/shop/suppliers/${supplier.id}`">{{ supplier.id }}</router-link></strong></td>
-              <td><router-link :href="`/shop/suppliers/${supplier.id}`">{{ supplier.name }}</router-link></td>
+            <tr v-if="list && list.length" v-for="supplier in list">
+              <td class="text-center"><strong><router-link :to="`/shop/suppliers/${supplier.id}`">{{ supplier.id }}</router-link></strong></td>
+              <td><router-link :to="`/shop/suppliers/${supplier.id}`">{{ supplier.name }}</router-link></td>
               <td class="text-center">
                 <toggle @change="statusChange(supplier.id)" :checked="supplier.enabled" :key="supplier.id"></toggle>
               </td>
@@ -162,7 +168,7 @@
               </td>
             </tr>
 
-            <tr v-if="!list.length">
+            <tr v-if="! (list && list.length)">
               <td class="text-center" colspan="4">Список поставщиков пуст</td>
             </tr>
           </tbody>

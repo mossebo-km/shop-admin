@@ -9,8 +9,26 @@ class AdminsSeeder extends Seeder
             'role_id' => 1,
             'name' => 'Admin',
             'email' => 'admin@admin.ru',
-            'password' => '$2y$10$0maXzm.DSCN8G99R6KGb8eLokqD2rR6b0NfuMtO.7q/PxwoOqZbK2'
-        ]
+            'password' => '654321'
+        ],
+        [
+            'role_id' => 2,
+            'name' => 'Диана Шамонова',
+            'email' => 'product@mossebo.market',
+            'password' => '7km&Yt2h'
+        ],
+        [
+            'role_id' => 2,
+            'name' => 'Екатерина Кожевникова',
+            'email' => 'product7@mossebo.market',
+            'password' => 'js7G2t;0'
+        ],
+        [
+            'role_id' => 2,
+            'name' => 'Мария Нестерова',
+            'email' => 'product8@mossebo.market',
+            'password' => 'ua6%1jaD'
+        ],
     ];
     /**
      * Run the database seeds.
@@ -21,14 +39,13 @@ class AdminsSeeder extends Seeder
     {
         echo "Seeding Admins\r\n";
 
-        $table = DB::table(Config::get('migrations.Admins'));
-
         foreach ($this->data as $row) {
-            $row['created_at'] = Carbon\Carbon::now()->toDateTimeString();
-            $row['updated_at'] = Carbon\Carbon::now()->toDateTimeString();
-            $row['api_token'] = str_random(60);
-
-            $table->insert($row);
+            \App\Models\Admin::create([
+                'name' => $row['name'],
+                'email' => $row['email'],
+                'password' => \Hash::make($row['password']),
+                'api_token' => str_random(60)
+            ]);
         }
     }
 }

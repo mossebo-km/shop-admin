@@ -59,26 +59,26 @@ class CategoriesSeeder extends Seeder
      */
     public function run()
     {
-        echo "Seeding Categories\r\n";
-
-        $categoriesTable = DB::table(Config::get('migrations.Categories'));
-        $categoriesI18Table = DB::table(Config::get('migrations.CategoriesI18'));
-
-        foreach ($this->data as $category) {
-            $translations = $category['i18'];
-            unset($category['i18']);
-
-            $category['created_at'] = Carbon\Carbon::now()->toDateTimeString();
-            $category['updated_at'] = Carbon\Carbon::now()->toDateTimeString();
-
-            $id = $categoriesTable->insertGetId($category);
-
-            foreach ($translations as $languageCode => $categoryI18) {
-                $categoryI18['category_id'] = $id;
-                $categoryI18['language_code'] = $languageCode;
-
-                $categoriesI18Table->insert($categoryI18);
-            }
-        }
+//        echo "Seeding Categories\r\n";
+//
+//        $categoriesTable = DB::table(Config::get('migrations.Categories'));
+//        $categoriesI18Table = DB::table(Config::get('migrations.CategoriesI18'));
+//
+//        foreach ($this->data as $category) {
+//            $translations = $category['i18'];
+//            unset($category['i18']);
+//
+//            $category['created_at'] = Carbon\Carbon::now()->toDateTimeString();
+//            $category['updated_at'] = Carbon\Carbon::now()->toDateTimeString();
+//
+//            $id = $categoriesTable->insertGetId($category);
+//
+//            foreach ($translations as $languageCode => $categoryI18) {
+//                $categoryI18['category_id'] = $id;
+//                $categoryI18['language_code'] = $languageCode;
+//
+//                $categoriesI18Table->insert($categoryI18);
+//            }
+//        }
     }
 }

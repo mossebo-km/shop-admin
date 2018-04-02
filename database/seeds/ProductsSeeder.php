@@ -94,29 +94,29 @@ class ProductsSeeder extends Seeder
      */
     public function run()
     {
-        echo "Seeding Products\r\n";
-
-        $productsTable = DB::table(Config::get('migrations.Products'));
-        $productsI18Table = DB::table(Config::get('migrations.ProductsI18'));
-
-        for ($i = 1; $i < 11; $i++) {
-            foreach ($this->data as $product) {
-                $translations = $product['i18'];
-                unset($product['i18']);
-
-                $product['created_at'] = Carbon\Carbon::now()->toDateTimeString();
-                $product['updated_at'] = Carbon\Carbon::now()->toDateTimeString();
-
-                $id = $productsTable->insertGetId($product);
-
-                foreach ($translations as $languageCode => $productI18) {
-                    $productI18['title'] .= " №$i";
-                    $productI18['product_id'] = $id;
-                    $productI18['language_code'] = $languageCode;
-
-                    $productsI18Table->insert($productI18);
-                }
-            }
-        }
+//         echo "Seeding Products\r\n";
+//
+//         $productsTable = DB::table(Config::get('migrations.Products'));
+//         $productsI18Table = DB::table(Config::get('migrations.ProductsI18'));
+//
+//         for ($i = 1; $i < 11; $i++) {
+//             foreach ($this->data as $product) {
+//                 $translations = $product['i18'];
+//                 unset($product['i18']);
+//
+//                 $product['created_at'] = Carbon\Carbon::now()->toDateTimeString();
+//                 $product['updated_at'] = Carbon\Carbon::now()->toDateTimeString();
+//
+//                 $id = $productsTable->insertGetId($product);
+//
+//                 foreach ($translations as $languageCode => $productI18) {
+//                     $productI18['title'] .= " №$i";
+//                     $productI18['product_id'] = $id;
+//                     $productI18['language_code'] = $languageCode;
+//
+//                     $productsI18Table->insert($productI18);
+//                 }
+//             }
+//         }
     }
 }
