@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\PositionChangeable;
 use App\Support\Traits\Models\Sluggable;
+use App\Support\Traits\Models\RequestSaver;
 
 class Category extends Base\BaseModelI18
 {
-    use StatusChangeable, PositionChangeable, Sluggable;
+    use StatusChangeable, PositionChangeable, Sluggable, RequestSaver;
 
     protected $tableIdentif = 'Categories';
     protected $translateRelationField = 'category_id';
@@ -26,6 +27,8 @@ class Category extends Base\BaseModelI18
     protected $hidden = [
         'deleted_at'
     ];
+
+    protected $needsToSaveFromRequest = ['i18'];
 
     public function categoryProducts()
     {
@@ -50,41 +53,5 @@ class Category extends Base\BaseModelI18
             self::where('parent_id', $this->id)->update(['parent_id' => 0]);
             parent::delete();
         });
-    }
-
-
-    /**
-     * Сохранение товара, используя данные, полученные из запроса.
-     *
-     * @param  Array
-     * @return Product
-     */
-    public function saveFromRequestData(Array $data): self
-    {
-        \DB::transaction(function() use($data) {
-            $fillableData = $this->getFillableData($data);
-
-            $fillableData['parent_id'] = (int) $fillableData['parent_id'];
-
-            if ($this->id) {
-                $this->update($fillableData);
-            }
-            else {
-                $this->fill($this->getFillableData($data))->save();
-            }
-
-            $whatNeedsToSave = ['i18'];
-
-            foreach ($whatNeedsToSave as $stepName) {
-                $methodName = '_save' . ucfirst($stepName);
-                $stepData = isset($data[$stepName]) ? $data[$stepName] : [];
-
-                if (method_exists($this, $methodName)) {
-                    call_user_func([$this, $methodName], $stepData);
-                }
-            }
-        });
-
-        return $this;
     }
 }
