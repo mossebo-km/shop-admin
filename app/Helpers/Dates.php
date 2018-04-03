@@ -1,9 +1,9 @@
 <?php
 
 if (!function_exists('dateFormatFull')) {
-    function dateFormatFull(Carbon\Carbon $date): string
+    function dateFormatFull(Carbon\Carbon $date = null): string
     {
-        return $date->format('d-m-Y H:i:s');
+        return is_null($date) ? '' : $date->format('d-m-Y H:i:s');
     }
 }
 
