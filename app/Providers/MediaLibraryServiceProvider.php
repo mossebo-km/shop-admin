@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class MediaLibraryProvider extends ServiceProvider
+class MediaLibraryServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap services.

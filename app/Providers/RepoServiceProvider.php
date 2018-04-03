@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class RepoProvider extends ServiceProvider
+class RepoServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap services.
