@@ -170,6 +170,7 @@ return [
         App\Providers\RepoProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\MediaLibraryProvider::class,
+        App\Providers\HelpersServiceProvider::class,
     ],
 
     /*
