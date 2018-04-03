@@ -60,7 +60,7 @@ class ProductSaveRequest extends ApiRequest
 
         foreach ($priceTypes->enabled() as $priceType) {
             foreach ($currencies->enabled() as $currency) {
-                $rules["prices.{$priceType->id}.{$currency->code}"] = 'numeric';
+                $rules["prices.{$priceType->id}.{$currency->code}"] = 'nullable|numeric';
             }
         }
 
