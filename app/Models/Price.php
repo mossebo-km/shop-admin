@@ -2,14 +2,27 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Controllers\CurrenciesHandler;
 
 class Price extends Base\BaseModel
 {
+    use SoftDeletes;
+
     protected $tableIdentif = 'Prices';
 
     protected $fillable = [
         'item_type', 'item_id', 'currency_code', 'price_type_id', 'value'
+    ];
+
+    protected $hidden = [
+        'deleted_at'
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
     public function products()
@@ -24,7 +37,7 @@ class Price extends Base\BaseModel
 
     public function getCurrency()
     {
-        return (app()->make('App\Repositories\CurrencyRepository'))->where('code', $this->currency_code)->first();
+        return \Currencies::where('code', $this->currency_code)->first();
     }
 
     public function getFormatted()

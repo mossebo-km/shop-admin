@@ -21,6 +21,12 @@ class Currency extends Base\BaseModel
         'deleted_at'
     ];
 
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
     public function prices()
     {
         return $this->hasMany(Price::class, 'currency_code', 'code');

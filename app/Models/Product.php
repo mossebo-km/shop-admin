@@ -7,13 +7,13 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Models\Media as BaseMedia;
 use App\MediaLibrary\Models\Media;
-use App\Contracts\Models\CanChangeStatus;
 use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\Sluggable;
+use App\Support\Traits\Models\RequestSaver;
 
-class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
+class Product extends Base\BaseModelI18 implements HasMedia
 {
-    use SoftDeletes, HasMediaTrait, StatusChangeable, Sluggable;
+    use SoftDeletes, HasMediaTrait, StatusChangeable, Sluggable, RequestSaver;
 
     /**
      * Идентификатор таблицы.
@@ -53,7 +53,18 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
      * @var array
      */
 
-    protected $dates = ['deleted_at'];
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
+    /**
+     * Какие пункты надо сохранить их полученного запроса.
+     *
+     * @var array
+     */
+    protected $needsToSaveFromRequest = ['i18', 'categories', 'images', 'prices'];
 
     public function prices()
     {
@@ -69,6 +80,32 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
     {
         return $this->hasManyThrough(
             Category::class, CategoryProducts::class,
+            'product_id', 'id'
+        );
+    }
+
+    public function productAttributes()
+    {
+        return $this->hasMany(ProductAttributes::class, 'product_id');
+    }
+
+    public function attributes()
+    {
+        return $this->hasManyThrough(
+            Attribute::class, ProductAttributes::class,
+            'product_id', 'id'
+        );
+    }
+
+    public function productAttributeOptions()
+    {
+        return $this->hasMany(ProductAttributeOptions::class, 'product_id');
+    }
+
+    public function attributeOptions()
+    {
+        return $this->hasManyThrough(
+            AttributeOption::class, ProductAttributeOptions::class,
             'product_id', 'id'
         );
     }
@@ -133,36 +170,7 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
             ->performOnCollections('images');
     }
 
-    /**
-     * Сохранение товара, используя данные, полученные из запроса.
-     *
-     * @param  Array
-     * @return Product
-     */
-    public function saveFromRequestData(Array $data): self
-    {
-        \DB::transaction(function() use($data) {
-            if ($this->id) {
-                $this->update($this->getFillableData($data));
-            }
-            else {
-                $this->fill($this->getFillableData($data))->save();
-            }
 
-            $whatNeedsToSave = ['i18', 'categories', 'images', 'prices'];
-
-            foreach ($whatNeedsToSave as $stepName) {
-                $methodName = '_save' . ucfirst($stepName);
-                $stepData = isset($data[$stepName]) ? $data[$stepName] : [];
-
-                if (method_exists($this, $methodName)) {
-                    call_user_func([$this, $methodName], $stepData);
-                }
-            }
-        });
-
-        return $this;
-    }
 
         /**
          * Сохранение категорий товара.

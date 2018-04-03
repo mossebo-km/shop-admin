@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class ProductI18 extends Base\BaseModel
 {
+    use SoftDeletes;
+
     protected $tableIdentif = 'ProductsI18';
 
     public $timestamps = false;
@@ -21,6 +25,10 @@ class ProductI18 extends Base\BaseModel
      * @var array
      */
     protected $hidden = [
+        'deleted_at'
+    ];
+
+    protected $dates = [
         'deleted_at'
     ];
 }

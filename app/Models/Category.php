@@ -17,6 +17,16 @@ class Category extends Base\BaseModelI18
         'parent_id', 'slug', 'enabled', 'position'
     ];
 
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
+    protected $hidden = [
+        'deleted_at'
+    ];
+
     public function categoryProducts()
     {
         return $this->hasMany(CategoryProducts::class, 'category_id');

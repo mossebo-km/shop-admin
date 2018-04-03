@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-class CategoryI18 extends Base\BaseModel
+class AttributeI18 extends Base\BaseModel
 {
-    protected $tableIdentif = 'CategoriesI18';
+    protected $tableIdentif = 'AttributesI18';
 
     public $timestamps = false;
 
@@ -12,7 +12,7 @@ class CategoryI18 extends Base\BaseModel
     public $incrementing = false;
 
     protected $fillable = [
-        'category_id', 'language_code', 'title', 'description', 'meta_title', 'meta_description'
+        'attribute_id', 'language_code', 'title'
     ];
 
     protected $hidden = [

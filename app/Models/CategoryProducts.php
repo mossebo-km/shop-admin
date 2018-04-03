@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class categoryProducts extends Base\BaseModel
+class CategoryProducts extends Base\BaseModel
 {
     protected $tableIdentif = 'CategoryProducts';
 
