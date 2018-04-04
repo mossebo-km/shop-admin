@@ -72,7 +72,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
 Route::get('products/all', function() {
-    header('Access-Control-Allow-Origin: *.mossebo.market');
+    header('Access-Control-Allow-Origin: *');
     $products = \App\Models\Product::withTranslate()
         ->where('enabled', 1)
         ->with(['prices', 'media'])
