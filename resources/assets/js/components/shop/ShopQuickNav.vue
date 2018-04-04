@@ -16,7 +16,7 @@
           },
           {
             url: '/shop/categories',
-            icon: 'gi gi-list',
+            icon: 'fa fa-folder',
             title: 'Категории'
           },
           {
@@ -24,6 +24,13 @@
             icon: 'fa fa-truck',
             title: 'Поставщики'
           },
+
+          // {
+          //   url: '/shop/attributes',
+          //   icon: 'fa fa-list',
+          //   title: 'Аттрибуты'
+          // },
+
           // {
           //   url: '/shop/orders',
           //   icon: 'gi gi-shop_window',

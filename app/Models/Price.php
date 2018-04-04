@@ -2,13 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Http\Controllers\CurrenciesHandler;
-
 class Price extends Base\BaseModel
 {
-    use SoftDeletes;
-
     protected $tableIdentif = 'Prices';
 
     protected $fillable = [
@@ -79,7 +74,7 @@ class Price extends Base\BaseModel
 
     /**
      * Так как значение цены хранится в integer, надо добавить используемое в валюте количество знаков после запятой.
-     * @param  Array|array
+     * @param  array|array
      * @return bool
      */
     public function save(Array $options = []): bool

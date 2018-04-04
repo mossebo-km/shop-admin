@@ -47,7 +47,7 @@
           el.data.on = {}
         }
 
-        var onClick = el.data.on.click
+        let onClick = el.data.on.click
 
         if (typeof onClick === 'function') {
           el.data.on.click = function() {

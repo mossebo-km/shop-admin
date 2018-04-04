@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use App\Repositories\LanguageRepository;
 use App\Validation\ValidatorExtend;
 
 class CategorySaveRequest extends ApiRequest
@@ -21,10 +19,9 @@ class CategorySaveRequest extends ApiRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @param LanguageRepository $languages
      * @return array
      */
-    public function rules(LanguageRepository $languages)
+    public function rules()
     {
         ValidatorExtend::recordExists();
         ValidatorExtend::parentIdAvailable();
@@ -41,7 +38,7 @@ class CategorySaveRequest extends ApiRequest
             'parent_id' => "bail|nullable|integer|parent_id_available:{$modelName}," . substr($this->formRequest->getPathinfo(), -1),
         ];
 
-        foreach ($languages->enabled() as $language) {
+        foreach (\Languages::enabled() as $language) {
             $rules["i18.{$language['code']}"]                  = "required|array";
             $rules["i18.{$language['code']}.title"]            = 'bail|trim|required|max:255';
             $rules["i18.{$language['code']}.description"]      = 'trim|max:65000';

@@ -19,9 +19,43 @@ const isCreation = function (path) {
 
 export default {
   mixins: [Validation, Base],
+
+  props: [
+    'type',
+  ],
+
   methods: {
-    /*
-      Отдает подготовленные для сохранения данные модели.
+    /**
+     * Возвращает название сущности.
+     *
+     * @return string
+     */
+    getEntityName() {
+      return this.entityName
+    },
+
+    /**
+     * Возвращает модель.
+     *
+     * @return {[type]} [description]
+     */
+    getEntityModel() {
+      return this[this.getEntityName()]
+    },
+
+    /**
+     * Установка данных модели.
+     *
+     * @param data
+     */
+    setEntityData(data = {}) {
+      this[this.entityName] = data
+    },
+
+    /**
+     * Возвращает подготовленные для сохранения данные.
+     *
+     * @returns {{}}
      */
     getToSaveData() {
       return {
@@ -29,8 +63,48 @@ export default {
       }
     },
 
-    /*
-      Возврат к списку сущностей
+    /**
+     * Инициализация данных.
+     *
+     * @param data
+     */
+    initData(data) {
+      this.initEntity(data[this.getEntityName()])
+    },
+
+    /**
+     * Инициализация модели сущности.
+     *
+     * @param data
+     */
+    initEntity(data = {}) {
+      let entity = this.makeEntityBaseData(data)
+
+      this.setEntityData(entity)
+    },
+
+    /**
+     * Инициализация основных данных модели.
+     *
+     * @param data
+     */
+    makeEntityBaseData(data = {}) {
+      let entity = {}
+
+      for (let fieldName in this.defaultFieldsValues) {
+        if (fieldName in data) {
+          entity[fieldName] = data[fieldName]
+        }
+        else {
+          entity[fieldName] = this.defaultFieldsValues[fieldName]
+        }
+      }
+
+      return entity
+    },
+
+    /**
+     * Возврат к списку сущностей.
      */
     redirectToTable() {
       let currentPath = this.$route.path
@@ -38,10 +112,12 @@ export default {
       this.$router.push(currentPath.substr(0, currentPath.length - (currentPath.length - fin)))
     },
 
-    /*
-      Сохранение сущности
+    /**
+     * Сохранение сущности.
      */
     save() {
+      this.errors.clear()
+
       this.saveDisabled = true
       this.$validator.validateAll()
         .then(result => {
@@ -67,10 +143,7 @@ export default {
 
           this.saveQueue.add(request)
             .onDone()
-              .success(response => {
-                this.errors.clear()
-                this.pullModelFromResponse(response)
-              })
+              .success(response => this.pullModelFromResponse(response))
               .fail(response => {
                 if (response.data.errors) {
                   this.setValidationErrors(response.data.errors)
@@ -84,8 +157,17 @@ export default {
         })
     },
 
-    /*
-      Показ модального окна перед удалением записи.
+    /**
+     * Инициализация данных модели, полученных из ответ сервера.
+     *
+     * @param response
+     */
+    pullModelFromResponse(response) {
+      this.initEntity(response.data[this.getEntityName()])
+    },
+
+    /**
+     * Показ модального окна перед удалением записи.
      */
     remove() {
       var _ = this;
@@ -95,8 +177,8 @@ export default {
       this.$refs.removeModal.show()
     },
 
-    /*
-      При подтвержении удаления записи.
+    /**
+     * При подтвержении удаления записи.
      */
     removeConfirm() {
       new Core.requestHandler('delete', this.prepareUrl())
@@ -106,20 +188,23 @@ export default {
         .start()
     },
 
-    /*
-      Создание очередей
+    /**
+     * Создание очередей.
      */
     createQueue() {
       this.saveQueue = Core.queueHandler.makeQueue('break', 'entity-save')
     },
 
-    /*
-      Отчистка очередей.
+    /**
+     * Отчистка очередей.
      */
     clearQueue() {
       this.saveQueue.clear()
     },
 
+    /**
+     * Сброс комонента.
+     */
     reset() {
       this.clearQueue()
     },

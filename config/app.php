@@ -167,9 +167,9 @@ return [
 
         App\Providers\MorphServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
-        App\Providers\RepoProvider::class,
+        App\Providers\RepoServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        App\Providers\MediaLibraryProvider::class,
+        App\Providers\MediaLibraryServiceProvider::class,
         App\Providers\HelpersServiceProvider::class,
     ],
 
@@ -223,6 +223,10 @@ return [
         /*
             Mossebo
         */
+        'Categories' => App\Support\Facades\Categories::class,
+        'Currencies' => App\Support\Facades\Currencies::class,
+        'Languages' => App\Support\Facades\Languages::class,
+        'PriceTypes' => App\Support\Facades\PriceTypes::class,
     ],
 
 ];

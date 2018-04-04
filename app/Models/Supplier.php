@@ -4,12 +4,11 @@ namespace App\Models;
 
 use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\PositionChangeable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Support\Traits\Models\RequestSaver;
 
 class Supplier extends Base\BaseModel
 {
-    use SoftDeletes, StatusChangeable, PositionChangeable, RequestSaver;
+    use StatusChangeable, PositionChangeable, RequestSaver;
 
     protected $tableIdentif = 'Suppliers';
 

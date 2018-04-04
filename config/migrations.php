@@ -56,4 +56,10 @@ return [
 
 	// 'ContentPages' => 'content_pages',
 	// 'ContentPagesI18' => 'content_pages_i18',
+
+    'Attributes' => 'shop_attributes',
+    'AttributesI18' => 'shop_attributes_i18',
+    'AttributeOptions' => 'shop_attribute_options',
+    'ProductAttributes' => 'shop_product_attributes',
+    'ProductAttributeOptions' => 'shop_product_attribute_options',
 ];

@@ -37,7 +37,6 @@ class CreateLanguagesTable extends Migration
             $table->integer('position')->unsigned()->default(0);
 
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

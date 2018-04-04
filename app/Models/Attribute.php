@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\Sluggable;
@@ -10,7 +9,7 @@ use App\Support\Traits\Models\RequestSaver;
 
 class Attribute extends Base\BaseModelI18
 {
-    use SoftDeletes, HasMediaTrait, StatusChangeable, Sluggable, RequestSaver;
+    use HasMediaTrait, StatusChangeable, Sluggable, RequestSaver;
 
     /**
      * Идентификатор таблицы.

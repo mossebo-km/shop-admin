@@ -2,12 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class Language extends Base\BaseModel
 {
-    use SoftDeletes;
-
     protected $tableIdentif = 'Languages';
 
     /**

@@ -59,7 +59,12 @@
         this.images.map(this.addFile)
       },
 
-      addFile(file) {
+      addFiles(files) {
+        files.forEach(file => this.addFile(file, false))
+        this.makeGallery()
+      },
+
+      addFile(file, addToGallery = true) {
         const dropzone = this.getInstance()
 
         dropzone.emit('addedfile', file)
@@ -67,17 +72,22 @@
         dropzone.emit("processing", file)
         dropzone.emit("complete", file)
 
-        this.makeGallery(file.previewElement, file.name)
-
+        file.previewElement.querySelector('.dz-link').href = file.name
         dropzone.files.push(file)
+
+        if (addToGallery) {
+          this.makeGallery()
+        }
       },
 
-      success(file, response, action) {
+      success(file, response) {
         let dropzone = this.getInstance()
 
         if (response.status == 'success') {
           file.id = response.id
-          this.makeGallery(file.previewElement, response.url)
+          file.previewElement.querySelector('.dz-link').href = response.url
+
+          this.makeGallery()
           dropzone.defaultOptions.success(file)
           this.sync()
         }
@@ -87,10 +97,7 @@
         }
       },
 
-      makeGallery(item, url) {
-        let elLink = item.querySelector('.dz-link')
-        elLink.href = url
-
+      makeGallery() {
         $('#dropzone').magnificPopup({
           delegate: '.dz-link',
           type: 'image',

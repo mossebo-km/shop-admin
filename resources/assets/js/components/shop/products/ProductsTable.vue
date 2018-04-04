@@ -96,7 +96,7 @@
 
     methods: {
       initData(data) {
-          this.priceTypes = data['price-type'].filter(item => !!item.enabled).sort((a, b) => a.position - b.position)
+          this.priceTypes = data['price-types'].filter(item => !!item.enabled).sort((a, b) => a.position - b.position)
           this.activePriceType = this.priceTypes[0].id
       },
 
@@ -224,7 +224,7 @@
     },
 
     beforeRouteEnter (to, from, next) {
-      Core.dataHandler.get(['price-type'])
+      Core.dataHandler.get(['price-types'])
         .then(data => {
           next(vm => {
             vm.initData(data)

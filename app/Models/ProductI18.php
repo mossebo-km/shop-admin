@@ -2,12 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class ProductI18 extends Base\BaseModel
 {
-    use SoftDeletes;
-
     protected $tableIdentif = 'ProductsI18';
 
     public $timestamps = false;

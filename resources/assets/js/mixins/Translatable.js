@@ -1,5 +1,23 @@
 export default {
+  data() {
+    return {
+      languages: [],
+      activeLanguageCode: null,
+      defaultTranslatableFieldsValues: {}
+    }
+  },
+
   methods: {
+    initLanguages(languages) {
+      this.languages = languages.filter(language => {
+        if (language.default) {
+          this.activeLanguageCode = language.code
+        }
+
+        return language.enabled
+      })
+    },
+
     translatesSwitcherHasError() {
       let errors = this.errors.items
 
@@ -14,5 +32,19 @@ export default {
 
       return false
     },
+
+    initI18(data = []) {
+      let result = {}
+
+      this.languages.forEach(language => {
+        let existing = data.find(item => language.code === item.language_code) || {}
+
+        result[language.code] = {
+          title: existing.title || ''
+        }
+      })
+
+      return result
+    }
   }
 }

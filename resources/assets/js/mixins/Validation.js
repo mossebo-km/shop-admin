@@ -6,6 +6,7 @@ import Base from './Base'
 
 export default {
   mixins: [Base],
+
   methods: {
     /*
       Установка ошибок валидации, пришедших с сервера

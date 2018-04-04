@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SupplierEditResource extends JsonResource
+class AttributeEditResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +14,6 @@ class SupplierEditResource extends JsonResource
      */
     public function toArray($request)
     {
-        $data = parent::toArray($this);
-        $data['created_at'] = dateFormatFull($this->created_at);
-        $data['updated_at'] = dateFormatFull($this->updated_at);
-
-        return $data;
+        return parent::toArray($request);
     }
 }

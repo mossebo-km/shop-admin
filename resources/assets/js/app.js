@@ -17,6 +17,9 @@ import CustomersTable from './components/shop/customers/CustomersTable'
 import SuppliersTable from './components/shop/suppliers/SuppliersTable'
 import SupplierEdit from './components/shop/suppliers/SupplierEdit'
 
+import AttributesTable from './components/shop/attributes/AttributesTable'
+import AttributeEdit from './components/shop/attributes/AttributeEdit'
+
 import Loading from './components/Loading'
 import ClearCacheBtn from './components/ClearCacheBtn'
 import MainMenu from './components/MainMenu'
@@ -80,6 +83,10 @@ const routes = [
   { path: '/shop/suppliers', component: SuppliersTable },
   { path: '/shop/suppliers/create', component: SupplierEdit, props: { type: 'create' } },
   { path: '/shop/suppliers/:id', component: SupplierEdit, props: route => ({...route.params, type: 'edit'}) },
+
+  { path: '/shop/attributes', component: AttributesTable },
+  { path: '/shop/attributes/create', component: AttributeEdit, props: { type: 'create' } },
+  { path: '/shop/attributes/:id', component: AttributeEdit, props: route => ({...route.params, type: 'edit'}) },
 ]
 
 // 3. Создаём экземпляр роутера с опцией `routes`

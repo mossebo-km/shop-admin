@@ -32,7 +32,6 @@ class CreateAttributesI18Table extends Migration
             $table->foreign('language_code')->references('code')->on(Config::get('migrations.Languages'));
 
             $table->string('title');
-            $table->softDeletes();
         });
     }
 

@@ -1,7 +1,5 @@
 <script>
-  import $ from 'jquery'
   import 'select2'
-  import { Validator } from 'vee-validate'
 
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
@@ -18,122 +16,75 @@
   export default {
     name: 'category-edit',
 
-    mixins: [EntityEdit, Translatable],
+    mixins: [
+      EntityEdit,
+      Translatable
+    ],
 
     props: [
       'id',
-      'type'
     ],
 
     data() {
       return {
-        languages: [],
-        activeLanguageCode: null,
-        categories: [],
+        entityName: 'category',
         category: null,
-        validationErrors: [],
+        categories: [],
         saveDisabled: false,
+
+        defaultFieldsValues: {
+          parent_id: 0,
+          slug: '',
+          enabled: true,
+
+          created_at: null,
+          updated_at: null,
+        },
+
+        defaultTranslatableFieldsValues: {
+          title: '',
+          description: '',
+          meta_title: '',
+          meta_description: ''
+        }
       }
     },
 
     components: {
-      'shop-quick-nav': ShopQuickNav,
-      'tree-select': TreeSelect,
+      ShopQuickNav,
+      TreeSelect,
       'ckeditor': CKEditor,
-      'language-picker': LanguagePicker,
-      'b-modal': bModal
+      LanguagePicker,
+      bModal
     },
 
     methods: {
       initData(data) {
-        let languages = []
-
-        data['languages'].forEach(language => {
-          if (language.enabled) {
-            languages.push(language)
-          }
-
-          if (language.default) {
-            this.activeLanguageCode = language.code
-          }
-        })
-
-        this.languages = languages
+        this.initLanguages(data['languages'] || [])
         this.categories = data['categories-tree']
 
-        this.initEntity(data.category)
-      },
-
-      getToSaveData() {
-        return {
-          ... this.category,
-          // parent_id: this.category.parent_id || 0
-        }
-      },
-
-      /*
-        Вытаскиваем данные категории из ответа сервера.
-      */
-
-      pullModelFromResponse(response) {
-        this.initEntity(response.data.category)
+        this.initEntity(data[this.getEntityName()])
       },
 
       /*
         Инициализация модели данных.
       */
 
-        initEntity(data = {}) {
-          let entity = {}
-          let defaultFieldsValues = {
-            parent_id: 0,
-            slug: '',
-            enabled: true,
-          }
+      initEntity(data = {}) {
+        let entity = this.makeEntityBaseData(data)
 
-          for (let fieldName in defaultFieldsValues) {
-            if (fieldName in data) {
-              entity[fieldName] = data[fieldName]
-            }
-            else {
-              entity[fieldName] = defaultFieldsValues[fieldName]
-            }
-          }
+        entity.i18 = this.initI18(data.i18)
 
-          entity.i18 = this.initI18(data.i18)
-
-          this.category = entity
-        },
-
-        /*
-          Переводы категории.
-        */
-
-        initI18(data = []) {
-          let result = {}
-
-          this.languages.forEach(language => {
-            let existing = data.find(item => language.code === item.language_code) || {}
-
-            let i18 = {
-              title: existing.title || '',
-              description: existing.description || '',
-              meta_title: existing.meta_title || '',
-              meta_description: existing.meta_description || ''
-            }
-
-            result[language.code] = i18
-          })
-
-          return result
-        },
+        this.setEntityData(entity)
+      },
 
       /*
         Автозаполнение slug из заголовка категории.
       */
 
-      onSlugAutocomplete() {
-        this.category.slug = Core.makeUrl(this.category.i18[this.activeLanguageCode].title)
+      slugAutocomplete() {
+        let model = this.getEntityModel()
+        model.slug = Core.makeUrl(model.i18[this.activeLanguageCode].title)
       },
     },
   }
@@ -227,7 +178,7 @@
                 <div class="col-md-9">
                   <div class="input-group">
                     <input type="text" id="slug" class="form-control" v-model="category.slug" name="slug" v-validate="'required|min:3|max:255|slug_exist'" required>
-                    <a class="btn input-group-addon" @click="onSlugAutocomplete"><i class="fa fa-refresh"></i> Автозаполнение</a>
+                    <a class="btn input-group-addon" @click="slugAutocomplete"><i class="fa fa-refresh"></i> Автозаполнение</a>
                   </div>
 
                   <span v-show="errors.has('slug')" class="help-block">{{ errors.first('slug') }}</span>

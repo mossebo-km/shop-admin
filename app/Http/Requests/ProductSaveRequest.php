@@ -2,11 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models as Models;
 use App\Validation\ValidatorExtend;
-use App\Repositories\LanguageRepository;
-use App\Repositories\PriceTypeRepository;
-use App\Repositories\CurrencyRepository;
 
 class ProductSaveRequest extends ApiRequest
 {
@@ -31,7 +27,7 @@ class ProductSaveRequest extends ApiRequest
      *
      * @return array
      */
-    public function rules(LanguageRepository $languages, PriceTypeRepository $priceTypes, CurrencyRepository $currencies)
+    public function rules()
     {
         ValidatorExtend::recordExists();
         ValidatorExtend::manyRecordsExists();
@@ -50,7 +46,7 @@ class ProductSaveRequest extends ApiRequest
             'categories'  => "nullable|many_records_exists:\App\Models\Category",
         ];
 
-        foreach ($languages->enabled() as $language) {
+        foreach (\Languages::enabled() as $language) {
             $rules["i18.{$language['code']}"]                  = "required|array";
             $rules["i18.{$language['code']}.title"]            = 'bail|trim|required|max:255';
             $rules["i18.{$language['code']}.description"]      = 'trim|max:65000';
@@ -58,8 +54,8 @@ class ProductSaveRequest extends ApiRequest
             $rules["i18.{$language['code']}.meta_description"] = 'trim|max:65000';
         }
 
-        foreach ($priceTypes->enabled() as $priceType) {
-            foreach ($currencies->enabled() as $currency) {
+        foreach (\PriceTypes::enabled() as $priceType) {
+            foreach (\Currencies::enabled() as $currency) {
                 $rules["prices.{$priceType->id}.{$currency->code}"] = 'nullable|numeric';
             }
         }
