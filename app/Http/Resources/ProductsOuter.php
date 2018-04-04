@@ -23,7 +23,7 @@ class ProductsOuter extends JsonResource
             'name'      => $this->title,
             'price'     => $price ? $price->value : null,
             'old_price' => $oldPrice ? $oldPrice->value : null,
-            'image'     => $image ? $image->getImagePathes()['small']['src'] : '',
+            'image'     => $image ? $image->getImagePathes()['small']['srcset'] : '',
         ];
     }
 }
