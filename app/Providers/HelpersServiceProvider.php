@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class MediaLibraryProvider extends ServiceProvider
+class HelpersServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap services.
@@ -23,7 +23,8 @@ class MediaLibraryProvider extends ServiceProvider
      */
     public function register()
     {
-        // Нужно, чтобы убрать base64svg placeholder из базы
-        $this->app->bind('Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator', 'App\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator');
+        foreach (glob(app_path() . '/Helpers/*.php') as $filename) {
+            require_once ($filename);
+        }
     }
 }

@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Events as Events;
 use App\Models\Category;
-use Validator;
-use App\Contracts\Repositories\CategoryRepository;
 use App\Http\Requests\CategorySaveRequest;
 use App\Support\Traits\Controllers\Deleteable;
 use App\Support\Traits\Controllers\StatusChangeable;
@@ -22,13 +20,12 @@ class CategoryController extends ApiController
     /**
      * Список категорий.
      *
-     * @param CategoryRepository $categoryRepository
      * @return array
      */
-    public function index(CategoryRepository $categoryRepository)
+    public function index()
     {
         return [
-            'tree' => $categoryRepository->getTree(),
+            'tree' => \Categories::getTree(),
         ];
     }
 
@@ -69,7 +66,7 @@ class CategoryController extends ApiController
         return response()->json([
             'status' => 'success',
             'message' => $this->lang('created', ['id' => $category->id]),
-            'redirect' => "/categories/{$category->id}",
+            'redirect' => "/shop/categories/{$category->id}",
             'category' => new Resources\CategoryEditResource($category)
         ], 200);
     }

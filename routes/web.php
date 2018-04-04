@@ -17,7 +17,10 @@ Route::group(['middleware' => 'web'], function() {
     Route::any('logout', 'Auth\LoginController@logout')->name('logout');
 });
 
+
 Route::group(['middleware' => ['web', 'admin']], function() {
+    Route::get('images', 'TestController@imageConverter');
+
     Route::get('{any}', function () {
         return view('master');
     })->where('any', '.*');

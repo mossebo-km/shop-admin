@@ -1,12 +1,9 @@
 <script>
-  import $ from 'jquery'
   import 'select2'
-  import { Validator } from 'vee-validate'
 
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
   import ShopQuickNav from '../ShopQuickNav'
-  import Core from '../../../core'
   import TreeSelect from '../../TreeSelect'
   import CKEditor from '../../CKEditor'
   import LanguagePicker from '../../LanguagePicker'
@@ -21,65 +18,31 @@
 
     props: [
       'id',
-      'type'
     ],
 
     data() {
       return {
+        entityName: 'supplier',
         supplier: null,
-        validationErrors: [],
         saveDisabled: false,
+
+        defaultFieldsValues: {
+          name: '',
+          description: '',
+          enabled: true,
+
+          created_at: null,
+          updated_at: null,
+        }
       }
     },
 
     components: {
-      'shop-quick-nav': ShopQuickNav,
-      'tree-select': TreeSelect,
+      ShopQuickNav,
+      TreeSelect,
       'ckeditor': CKEditor,
-      'language-picker': LanguagePicker,
-      'b-modal': bModal
-    },
-
-    methods: {
-      initData(data) {
-        this.initEntity(data.supplier)
-      },
-
-      getToSaveData() {
-        return this.supplier
-      },
-
-      /*
-        Вытаскиваем данные категории из ответа сервера.
-      */
-
-      pullModelFromResponse(response) {
-        this.initEntity(response.data.supplier)
-      },
-
-      /*
-        Инициализация модели данных.
-      */
-
-      initEntity(data = {}) {
-        let entity = {}
-        let defaultFieldsValues = {
-          name: '',
-          description: '',
-          enabled: true,
-        }
-
-        for (let fieldName in defaultFieldsValues) {
-          if (fieldName in data) {
-            entity[fieldName] = data[fieldName]
-          }
-          else {
-            entity[fieldName] = defaultFieldsValues[fieldName]
-          }
-        }
-
-        this.supplier = entity
-      },
+      LanguagePicker,
+      bModal
     },
   }
 </script>

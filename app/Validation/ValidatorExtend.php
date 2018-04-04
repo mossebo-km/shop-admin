@@ -84,6 +84,8 @@ class ValidatorExtend
     /**
      * Проверка доступности parent_id.
      *
+     * todo: Либо добавить поддержку других моделей, либо переименовать
+     *
      * @param $modelClassName
      * @param $recordId
      * @param $parentId
@@ -104,7 +106,7 @@ class ValidatorExtend
             return false;
         }
 
-        $childrensIds = app()->make('App\Contracts\Repositories\CategoryRepository')->getAllChildsIds($recordId);
+        $childrensIds = \Categories::getAllChildsIds($recordId);
         $childrensIds[] = $recordId;
 
         return !in_array($parentId, $childrensIds);

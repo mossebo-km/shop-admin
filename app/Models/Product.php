@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Models\Media as BaseMedia;
 use App\MediaLibrary\Models\Media;
-use App\Contracts\Models\CanChangeStatus;
 use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\Sluggable;
+use App\Support\Traits\Models\RequestSaver;
+use Spatie\Image\Manipulations;
 
-class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
+class Product extends Base\BaseModelI18 implements HasMedia
 {
-    use SoftDeletes, HasMediaTrait, StatusChangeable, Sluggable;
+    use HasMediaTrait, StatusChangeable, Sluggable, RequestSaver;
 
     /**
      * Идентификатор таблицы.
@@ -35,7 +35,7 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
      * @var array
      */
     protected $fillable = [
-        'supplier_id', 'quiantity', 'showed', 'bought', 'is_new', 'is_popular', 'enabled', 'is_payable'
+        'supplier_id', 'quantity', 'showed', 'bought', 'is_new', 'is_popular', 'enabled', 'is_payable'
     ];
 
     /**
@@ -53,7 +53,18 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
      * @var array
      */
 
-    protected $dates = ['deleted_at'];
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
+    /**
+     * Какие пункты надо сохранить их полученного запроса.
+     *
+     * @var array
+     */
+    protected $needsToSaveFromRequest = ['i18', 'categories', 'images', 'prices'];
 
     public function prices()
     {
@@ -73,6 +84,32 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
         );
     }
 
+    public function productAttributes()
+    {
+        return $this->hasMany(ProductAttributes::class, 'product_id');
+    }
+
+    public function attributes()
+    {
+        return $this->hasManyThrough(
+            Attribute::class, ProductAttributes::class,
+            'product_id', 'id'
+        );
+    }
+
+    public function productAttributeOptions()
+    {
+        return $this->hasMany(ProductAttributeOptions::class, 'product_id');
+    }
+
+    public function attributeOptions()
+    {
+        return $this->hasManyThrough(
+            AttributeOption::class, ProductAttributeOptions::class,
+            'product_id', 'id'
+        );
+    }
+
     public function supplier()
     {
         return $this->hasOne(Supplier::class, 'supplier_id');
@@ -81,7 +118,7 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
     /**
      * Удаление товара.
      *
-     * @return [type] ???
+     * @return bool|null
      */
     public function delete()
     {
@@ -93,7 +130,9 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
     }
 
     /**
-     * @return Адрес товара на сайте.
+     * Адрес товара на сайте.
+     *
+     * @return string
      */
     public function url()
     {
@@ -103,72 +142,40 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
     /**
      * Задает преобразователи изображений.
      *
-     * @param  Media|null
-     * @return void
+     * @param BaseMedia|null $media
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
      */
     public function registerMediaConversions(BaseMedia $media = null)
     {
         $this->addMediaConversion('thumb')
-            ->width(160)
-            ->height(120)
+            ->fit(Manipulations::FIT_MAX, 150, 150)
+            ->background('fff')
             ->withResponsiveImages()
             ->performOnCollections('images');
 
         $this->addMediaConversion('small')
-            ->width(280)
-            ->height(210)
+            ->fit(Manipulations::FIT_MAX, 300, 300)
+            ->background('fff')
             ->withResponsiveImages()
             ->performOnCollections('images');
 
         $this->addMediaConversion('medium')
-            ->width(400)
-            ->height(300)
+            ->fit(Manipulations::FIT_MAX, 600, 600)
+            ->background('fff')
             ->withResponsiveImages()
             ->performOnCollections('images');
 
         $this->addMediaConversion('large')
-            ->width(640)
-            ->height(480)
-            ->withResponsiveImages()
+            ->fit(Manipulations::FIT_MAX, 1920, 1920)
+            ->background('fff')
             ->performOnCollections('images');
     }
 
-    /**
-     * Сохранение товара, используя данные, полученные из запроса.
-     *
-     * @param  Array
-     * @return Product
-     */
-    public function saveFromRequestData(Array $data): self
-    {
-        \DB::transaction(function() use($data) {
-            if ($this->id) {
-                $this->update($this->getFillableData($data));
-            }
-            else {
-                $this->fill($this->getFillableData($data))->save();
-            }
-
-            $whatNeedsToSave = ['i18', 'categories', 'images', 'prices'];
-
-            foreach ($whatNeedsToSave as $stepName) {
-                $methodName = '_save' . ucfirst($stepName);
-                $stepData = isset($data[$stepName]) ? $data[$stepName] : [];
-
-                if (method_exists($this, $methodName)) {
-                    call_user_func([$this, $methodName], $stepData);
-                }
-            }
-        });
-
-        return $this;
-    }
 
         /**
          * Сохранение категорий товара.
          *
-         * @param  Array|array
-         * @return void
+         * @param array $categoryIds
          */
         protected function _saveCategories(Array $categoryIds = [])
         {
@@ -183,8 +190,7 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
         /**
          * Сохранение изображений товара.
          *
-         * @param  Array|array
-         * @return void
+         * @param array $imagesIds
          */
         protected function _saveImages(Array $imagesIds = [])
         {
@@ -210,7 +216,7 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
                     $image->delete();
                 }
                 else {
-                    $image = $image->move($this, 'images', 'media');
+                    $image = $image->move($this, 'images');
                 }
             }
         }
@@ -218,8 +224,7 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
         /**
          * Сохранение цен.
          *
-         * @param  Array|array
-         * @return void
+         * @param array $prices
          */
         protected function _savePrices(Array $prices = [])
         {
@@ -243,10 +248,11 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
     /**
      * Получение данных для отправки по api.
      *
-     * @param  mixed (string || array)
-     * @return Array
+     * @param $id
+     * @param string $needsToConnect
+     * @return array
      */
-    public static function getData($id, $needsToConnect = 'all'): Array
+    public static function getData($id, $needsToConnect = 'all'): array
     {
         if ($needsToConnect === 'all') {
             $needsToConnect = ['i18', 'prices', 'images', 'categories'];
@@ -268,21 +274,22 @@ class Product extends Base\BaseModelI18 implements HasMedia, CanChangeStatus
             }
         }
 
-        return $query->first();
+        return $query->first()->toArray();
     }
 
     /**
      * Добавляет изображение в список неподтвержденных.
      *
-     * @param string
-     * @param string
-     * @return Media obj
+     * @param $path
+     * @param $filename
+     * @return Media
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function addImageToTemp($path, $filename): Media
+    public function addImageToTemp($path, $filename): BaseMedia
     {
         return $this
             ->addMediaFromUrl($path)
             ->usingFileName($filename)
-            ->toMediaCollection('temp', 'media');
+            ->toMediaCollection('temp');
     }
 }

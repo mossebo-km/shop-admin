@@ -23,4 +23,8 @@ class ProductI18 extends Base\BaseModel
     protected $hidden = [
         'deleted_at'
     ];
+
+    protected $dates = [
+        'deleted_at'
+    ];
 }

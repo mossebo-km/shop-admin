@@ -16,14 +16,13 @@ class ProductsTableResource extends JsonResource
     {
         return [
             'id'         => $this->id,
-            'slug'       => $this->slug,
             'is_new'     => $this->is_new,
             'is_popular' => $this->is_popular,
             'is_payable' => $this->is_payable,
             'title'      => $this->title,
             'enabled'    => $this->enabled,
+            'created_at' => dateFormatFull($this->created_at),
             'prices'     => PriceResource::collection($this->prices),
-            'created_at' => $this->created_at->format('H:m:i d/m/Y'),
         ];
     }
 }

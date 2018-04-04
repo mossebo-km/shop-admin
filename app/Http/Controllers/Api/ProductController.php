@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Models as Models;
 use App\Events as Events;
 use App\Http\Resources as Resources;
 use App\Models\Product;
-use Validator;
-use App\Validation\ValidatorExtend;
 use App\Http\Requests\ProductSaveRequest;
 use App\Http\Requests\ImageUploadRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -190,6 +187,7 @@ class ProductController extends ApiController
      */
     protected function generateUniqueFilename($file)
     {
-        return str_replace('.', '', uniqid('', true))  . '.' . $file->extension();
+//        . $file->extension()
+        return str_replace('.', '', uniqid('', true))  . '.jpg';
     }
 }

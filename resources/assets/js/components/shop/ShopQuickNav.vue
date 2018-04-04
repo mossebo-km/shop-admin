@@ -14,16 +14,25 @@
             icon: 'gi gi-shopping_bag',
             title: 'Товары'
           },
+
           {
             url: '/shop/categories',
-            icon: 'gi gi-list',
+            icon: 'fa fa-folder',
             title: 'Категории'
           },
+
           {
             url: '/shop/suppliers',
             icon: 'fa fa-truck',
             title: 'Поставщики'
           },
+
+          // {
+          //   url: '/shop/attributes',
+          //   icon: 'fa fa-list',
+          //   title: 'Аттрибуты'
+          // },
+
           // {
           //   url: '/shop/orders',
           //   icon: 'gi gi-shop_window',

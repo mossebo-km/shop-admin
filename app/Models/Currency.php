@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class Currency extends Base\BaseModel
 {
     protected $tableIdentif = 'Currencies';
@@ -18,6 +16,12 @@ class Currency extends Base\BaseModel
      * @var array
      */
     protected $hidden = [
+        'deleted_at'
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
         'deleted_at'
     ];
 

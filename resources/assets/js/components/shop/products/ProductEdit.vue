@@ -1,12 +1,9 @@
 <script>
   import 'select2'
-  import Vue from 'vue'
-  import { Validator } from 'vee-validate'
 
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
   import ShopQuickNav from '../ShopQuickNav'
-  import Core from '../../../core'
   import TreeSelect from '../../TreeSelect'
   import CKEditor from '../../CKEditor'
   import LanguagePicker from '../../LanguagePicker'
@@ -27,20 +24,38 @@
 
     props: [
       'id',
-      'type'
     ],
 
     data() {
       return {
-        languages: [],
-        activeLanguageCode: null,
+        entityName: 'product',
+        product: null,
+
         categories: [],
         currencies: [],
         priceTypes: [],
+        suppliers:  [],
 
-        product: null,
-        validationErrors: [],
         saveDisabled: false,
+
+        defaultFieldsValues: {
+          supplier_id: 0,
+          quantity: 1,
+          is_new: false,
+          is_popular: false,
+          is_payable: true,
+          enabled: true,
+
+          created_at: null,
+          updated_at: null,
+        },
+
+        defaultTranslatableFieldsValues: {
+          title: '',
+          description: '',
+          meta_title: '',
+          meta_description: ''
+        }
       }
     },
 
@@ -56,64 +71,52 @@
 
     methods: {
       initData(data) {
-        let languages = []
+        this.initLanguages(data['languages'] || [])
+        this.initSuppliers(data['suppliers'] || [])
 
-        data['languages'].forEach(language => {
-          if (language.enabled) {
-            languages.push(language)
-          }
-
-          if (language.default) {
-            this.activeLanguageCode = language.code
-          }
-        })
-
-        this.suppliers = data['suppliers'] ? data['suppliers'].map(item => ({id: item.id, title: item.name})) : []
-        this.languages = languages
         this.categories = data['categories-tree']
 
-        this.initEntity(data.product)
+        this.initEntity(data[this.getEntityName()])
+      },
+
+      initSuppliers(suppliers) {
+        this.suppliers = !(suppliers instanceof Array) ? [] : suppliers.map(item => ({
+          id: item.id,
+          title: item.name
+        }))
       },
 
       getToSaveData() {
+        let model = this.getEntityModel()
+
         return {
-          ... this.product,
-          images: this.product.images.map(item => item.id),
+          ... model,
+          images: model.images.map(item => item.id),
         }
       },
 
-      /*
-        Основные данные товара.
-      */
-
+      /**
+       * Инициализация модели.
+       *
+       * @param data
+       */
       initEntity(data = {}) {
-        let entity = {}
-        let defaultFieldsValues = {
-          supplier_id: 0,
-          quantity: 1,
-          is_new: false,
-          is_popular: false,
-          is_payable: true,
-          enabled: true,
-        }
-
-        for (let fieldName in defaultFieldsValues) {
-          if (fieldName in data) {
-            entity[fieldName] = data[fieldName]
-          }
-          else {
-            entity[fieldName] = defaultFieldsValues[fieldName]
-          }
-        }
+        let entity = this.makeEntityBaseData(data)
 
         entity.categories = data.categories || []
         entity.images = this.initImages(data.images)
         entity.i18 = this.initI18(data.i18)
         entity.prices = this.initPrices(data.prices)
 
-        this.product = entity
+        this.setEntityData(entity)
       },
 
+        /**
+         * Инициализация картинок.
+         *
+         * @param images
+         * @returns {{id: *, name: *, size: *, type: *, thumbnail: *}[]}
+         */
         initImages(images = []) {
           return images.map(item => ({
             id: item.id,
@@ -124,6 +127,11 @@
           }))
         },
 
+        /**
+         * Инициализация цен.
+         *
+         * @param prices
+         */
         initPrices(prices = []) {
           let sorted = {}
 
@@ -137,37 +145,6 @@
 
           return sorted
         },
-
-        /*
-          Переводы товара.
-        */
-
-        initI18(data = []) {
-          let result = {}
-
-          this.languages.forEach(language => {
-            let existing = data.find(item => language.code === item.language_code) || {}
-
-            let i18 = {
-              title: existing.title || '',
-              description: existing.description || '',
-              meta_title: existing.meta_title || '',
-              meta_description: existing.meta_description || ''
-            }
-
-            result[language.code] = i18
-          })
-
-          return result
-        },
-
-      getEntityModel() {
-        return this.product
-      },
-
-      pullModelFromResponse(response) {
-        this.initEntity(response.data.product)
-      },
     },
   }
 </script>

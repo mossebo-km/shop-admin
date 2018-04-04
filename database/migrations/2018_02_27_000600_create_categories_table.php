@@ -31,7 +31,6 @@ class CreateCategoriesTable extends Migration
             $table->boolean('enabled')->index()->default(1);
             $table->integer('position')->unsigned()->default(0);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

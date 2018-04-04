@@ -32,7 +32,6 @@ class CreatePriceTypesTable extends Migration
             $table->boolean('enabled')->default(0);
             $table->integer('position')->unsigned()->default(0);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

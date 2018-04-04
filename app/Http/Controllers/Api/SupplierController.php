@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Models\Supplier;
 use App\Support\Traits\Controllers\Deleteable;
 use App\Support\Traits\Controllers\StatusChangeable;
@@ -23,7 +22,7 @@ class SupplierController extends ApiController
     public function index()
     {
         return [
-            'list' => self::$modelClass::all(),
+            'list' => SupplierEditResource::collection(self::$modelClass::all()),
         ];
     }
 

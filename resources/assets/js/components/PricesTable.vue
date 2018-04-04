@@ -35,9 +35,9 @@
     methods: {
       fetchMainData() {
         this.loading = true
-        Core.dataHandler.get(['price-type', 'currencies'])
+        Core.dataHandler.get(['price-types', 'currencies'])
           .then(data => {
-            this.priceTypes = data['price-type'].filter(item => !!item.enabled).sort((a, b) => a.position - b.position)
+            this.priceTypes = data['price-types'].filter(item => !!item.enabled).sort((a, b) => a.position - b.position)
             this.currencies = data['currencies'].filter(item => !!item.enabled).sort((a, b) => a.position - b.position)
             this.initPrices()
             this.loading = false

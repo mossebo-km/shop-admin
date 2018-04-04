@@ -14,6 +14,10 @@ class SupplierEditResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data = parent::toArray($this);
+        $data['created_at'] = dateFormatFull($this->created_at);
+        $data['updated_at'] = dateFormatFull($this->updated_at);
+
+        return $data;
     }
 }

@@ -36,7 +36,6 @@ class CreateProductsTable extends Migration
             $table->time('sale_time')->nullable();
             $table->boolean('enabled')->index()->default(1);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
