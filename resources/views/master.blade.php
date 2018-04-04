@@ -37,7 +37,7 @@
         <!-- Modernizr (browser feature detection library) -->
         {{-- <script src="js/vendor/modernizr.min.js"></script> --}}
 
-        <link rel="stylesheet" href="/css/app.css">
+        <link rel="stylesheet" href="{{ mix('/css/app.css')  }}">
 
         @yield('styles')
     </head>
@@ -141,8 +141,10 @@
             }
         </script>
 
-        <script src="/js/vendor/ckeditor/ckeditor.js"></script>
-        <script src="/js/app.js"></script>
+        <script src="/js/vendor/ckeditor/ckeditor.js" defer></script>
+        <script src="{{ mix('/js/manifest.js') }}" defer></script>
+        <script src="{{ mix('/js/vendor.js') }}" defer></script>
+        <script src="{{ mix('/js/app.js') }}" defer></script>
 
         @yield('scripts')
     </body>

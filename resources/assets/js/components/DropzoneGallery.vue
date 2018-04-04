@@ -56,7 +56,7 @@
       },
 
       initDropzone() {
-        this.images.map(this.addFile)
+        this.addFiles(this.images)
       },
 
       addFiles(files) {

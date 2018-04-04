@@ -148,19 +148,19 @@ class Product extends Base\BaseModelI18 implements HasMedia
     public function registerMediaConversions(BaseMedia $media = null)
     {
         $this->addMediaConversion('thumb')
-            ->fit(Manipulations::FIT_MAX, 150, 150)
+            ->fit(Manipulations::FIT_MAX, 80, 80)
             ->background('fff')
             ->withResponsiveImages()
             ->performOnCollections('images');
 
         $this->addMediaConversion('small')
-            ->fit(Manipulations::FIT_MAX, 300, 300)
+            ->fit(Manipulations::FIT_MAX, 200, 200)
             ->background('fff')
             ->withResponsiveImages()
             ->performOnCollections('images');
 
         $this->addMediaConversion('medium')
-            ->fit(Manipulations::FIT_MAX, 600, 600)
+            ->fit(Manipulations::FIT_MAX, 400, 400)
             ->background('fff')
             ->withResponsiveImages()
             ->performOnCollections('images');
