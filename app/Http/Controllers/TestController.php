@@ -8,8 +8,9 @@ class TestController extends Controller
 {
     public function imageConverter()
     {
-        ini_set('max_execution_time', 0); //6 minutes
-        ini_set('request_terminate_timeout', 0); //6 minutes
+        set_time_limit(600);
+        ini_set('max_execution_time', 600); //6 minutes
+        ini_set('request_terminate_timeout', 600); //6 minutes
 
         foreach (Product::all() as $product) {
             $tempImages = $product->getMedia('images') ?: [];
