@@ -14,13 +14,15 @@
   import SearchInput from '../../SearchInput'
   import Dropdown from '../../Dropdown'
 
-  import Base from '../../../mixins/Base'
+  import TablePage from '../../../mixins/TablePage'
 
 
   export default {
     name: 'products-table',
 
-    mixins: [Base],
+    mixins: [
+      TablePage
+    ],
 
     data () {
       return {
@@ -68,8 +70,13 @@
             class: 'text-center'
           },
         ],
+
         priceTypes: [],
-        activePriceType: null
+        activePriceType: null,
+
+        usedMainData: [
+          'price-types'
+        ]
       }
     },
 
@@ -90,14 +97,16 @@
     watch: {
       '$route': [
         'clearQueue',
-        'fetchItems'
       ]
     },
 
     methods: {
-      initData(data) {
-          this.priceTypes = data['price-types'].filter(item => !!item.enabled).sort((a, b) => a.position - b.position)
-          this.activePriceType = this.priceTypes[0].id
+      loadData() {
+        this.fetchMainData()
+          .then(data => {
+            this.initMainData(data)
+            this.activePriceType = this.priceTypes[0].id
+          })
       },
 
       /*
@@ -140,7 +149,7 @@
         this.activePriceType = id
 
         if (this.sortBy === 'price') {
-          this.$refs.table.refresh()
+          this.refreshTable()
         }
       },
 
@@ -157,47 +166,24 @@
         return price.formatted
       },
 
-
-      /*
-        Смена статуса товара.
-      */
-
-      statusChange(id) {
-        this.statusQueue.add(new Core.requestHandler('get', this.prepareUrl(`${id}/status`)))
-      },
-
-
-      /*
-        Удаление товара.
-      */
-
-      onRemove(id) {
-        var _ = this;
-
-        this.toRemoveId = id
-        this.$refs.removeModal.show()
-      },
-
-      onRemoveConfirm() {
-        new Core.requestHandler('delete', this.prepareUrl(`${this.toRemoveId}`))
-          .success(() => this.$refs.table.refresh())
-          .start()
-      },
-
-      onSortingChanged(ctx) {
+      sortingChanged(ctx) {
         ctx.currentPage = 1
       },
 
-      onSearch(phrase) {
+      search(phrase) {
         if (this.searchPhrase != phrase) {
           this.searchPhrase = phrase
-          this.$refs.table.refresh()
+          this.refreshTable()
         }
       },
 
       clearQueue() {
         this.statusQueue.clear()
       },
+
+      refreshTable() {
+        this.$refs.table.refresh()
+      }
     },
 
     computed: {
@@ -221,15 +207,6 @@
 
     beforeDestroy: function() {
       this.clearQueue()
-    },
-
-    beforeRouteEnter (to, from, next) {
-      Core.dataHandler.get(['price-types'])
-        .then(data => {
-          next(vm => {
-            vm.initData(data)
-          })
-        })
     },
   }
 </script>
@@ -261,8 +238,8 @@
                 <div class="dataTables_filter">
                   <label>
                     <div class="input-group">
-                      <search-input placeholder="Поиск" class="form-control" type="search" aria-controls="example-datatable" @change="onSearch" />
-                      <a href="javascript:void(0)" class="input-group-addon" @click="onSearch"><i class="fa fa-search"></i></a>
+                      <search-input placeholder="Поиск" class="form-control" type="search" aria-controls="example-datatable" @change="search" />
+                      <a href="javascript:void(0)" class="input-group-addon" @click="search"><i class="fa fa-search"></i></a>
                     </div>
                   </label>
                 </div>
@@ -281,7 +258,7 @@
               :busy.sync="loading"
               :current-page="currentPage"
               :per-page="perPage"
-              @sort-changed="onSortingChanged"
+              @sort-changed="sortingChanged"
               empty-text="Список товаров пуст."
               empty-filtered-text="Товары с такими параметрами не найдены."
               class="table table-vcenter table-condensed table-hover table-bordered dataTable no-footer">
@@ -308,7 +285,7 @@
               </template>
 
               <template slot="controls" slot-scope="product">
-                <a href="javascript:void(0)" data-toggle="tooltip" title="Удалить" class="btn btn-danger" @click="onRemove(product.item.id)"><i class="fa fa-times"></i></a>
+                <a href="javascript:void(0)" data-toggle="tooltip" title="Удалить" class="btn btn-danger" @click="remove(product.item.id)"><i class="fa fa-times"></i></a>
               </template>
 
               <template slot="HEAD_price" slot-scope="product">
@@ -362,7 +339,8 @@
       ok-title="Удалить"
       cancel-title="Отмена"
       hide-header-close
-      @ok="onRemoveConfirm">
+      @ok="removeConfirm">
+
       Вы действительно хотите удалить товар?
     </b-modal>
   </div>

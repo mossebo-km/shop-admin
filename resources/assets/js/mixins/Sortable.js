@@ -31,4 +31,3 @@ export default {
     this.sortQueue.add(new Core.requestHandler('post', this.prepareUrl('sort'), {ids}))
   },
 }
-

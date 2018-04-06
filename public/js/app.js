@@ -196,11 +196,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__("./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone__ = __webpack_require__("./node_modules/vue2-dropzone/dist/vue2Dropzone.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_dropzone__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_magnific_popup__ = __webpack_require__("./node_modules/magnific-popup/dist/jquery.magnific-popup.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_magnific_popup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_magnific_popup__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone__ = __webpack_require__("./node_modules/vue2-dropzone/dist/vue2Dropzone.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_dropzone__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_magnific_popup__ = __webpack_require__("./node_modules/magnific-popup/dist/jquery.magnific-popup.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_magnific_popup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_magnific_popup__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue_cropperjs__ = __webpack_require__("./node_modules/vue-cropperjs/dist/VueCropper.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue_cropperjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vue_cropperjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_jquery_ui_sortable_npm__ = __webpack_require__("./node_modules/jquery-ui-sortable-npm/jquery-ui-sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_jquery_ui_sortable_npm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_jquery_ui_sortable_npm__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+
+
+
+
+
 
 
 
@@ -219,17 +235,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   watch: {
-    '$route': 'reset'
+    'images': 'refresh'
   },
 
   data: function data() {
     return {
-      innerImages: this.images,
       options: {
-        url: __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].addApiTokenToUrl(this.url),
+        url: __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].addApiTokenToUrl(this.url),
         thumbnailWidth: 150,
         maxFilesize: 8,
-        addRemoveLinks: true,
+        addRemoveLinks: false,
         autoProcessQueue: true,
         ignoreHiddenFiles: true,
         dictDefaultMessage: "Перетащите файлы сюда или нажмите чтобы загрузить",
@@ -245,83 +260,184 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         dictMaxFilesExceeded: "Достигнут лимит количества файлов.",
         acceptedFiles: 'image/jpeg, image/png',
         previewTemplate: '<div class=\"dz-preview dz-processing dz-complete dz-image-preview\"><div class=\"dz-image\"><a href=\"javascript:void(0)\" class=\"dz-link\"><img data-dz-thumbnail /><div class=\"dz-details\"><div class=\"dz-size\"><span data-dz-size></span></div><div class=\"dz-filename\"><i class=\"dz-icon fa fa-search\"></i></div></div></a></div><div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div><div class=\"dz-error-message\"><span data-dz-errormessage></span></div><div class=\"dz-success-mark\"><i class=\"dz-icon fa fa-check\"></i></div><div class=\"dz-error-mark\"><i class=\"dz-icon fa fa-warning\"></i></div>'
-      }
+      },
+
+      toCropImage: null
     };
   },
 
 
   components: {
-    VueDropzone: __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone___default.a
+    VueDropzone: __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone___default.a,
+    VueCropperjs: __WEBPACK_IMPORTED_MODULE_5_vue_cropperjs___default.a,
+    Toggle: __WEBPACK_IMPORTED_MODULE_6__Toggle___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */]
   },
 
   methods: {
     getInstance: function getInstance() {
       return this.$refs.dropzone.dropzone;
     },
-    initDropzone: function initDropzone() {
-      this.addFiles(this.images);
-    },
-    addFiles: function addFiles(files) {
-      var _this = this;
-
-      files.forEach(function (file) {
-        return _this.addFile(file, false);
-      });
-      this.makeGallery();
-    },
-    addFile: function addFile(file) {
-      var addToGallery = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-      var dropzone = this.getInstance();
-
-      dropzone.emit('addedfile', file);
-      dropzone.emit("thumbnail", file, file.thumbnail);
-      dropzone.emit("processing", file);
-      dropzone.emit("complete", file);
-
-      file.previewElement.querySelector('.dz-link').href = file.name;
-      dropzone.files.push(file);
-
-      if (addToGallery) {
-        this.makeGallery();
-      }
-    },
     success: function success(file, response) {
       var dropzone = this.getInstance();
 
-      if (response.status == 'success') {
-        file.id = response.id;
-        file.previewElement.querySelector('.dz-link').href = response.url;
+      dropzone.removeFile(file);
 
-        this.makeGallery();
-        dropzone.defaultOptions.success(file);
-        this.sync();
-      }
-
-      if (response.status == 'error') {
-        dropzone.defaultOptions.error(file, response.message);
-      }
+      this.$emit('update:images', [].concat(_toConsumableArray(this.images), [response.image]));
     },
     makeGallery: function makeGallery() {
-      __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#dropzone').magnificPopup({
-        delegate: '.dz-link',
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this.$refs.gallery).magnificPopup({
+        delegate: '.js-magnific-link',
         type: 'image',
         gallery: {
           enabled: true
         }
       });
     },
-    sync: function sync() {
-      this.$emit('update:images', this.getInstance().files);
+    remove: function remove(image) {
+      image.deleted = true;
+      this.update(image);
+    },
+    recover: function recover(image) {
+      image.deleted = false;
+      this.update(image);
+    },
+    isDeleted: function isDeleted(image) {
+      return image.deleted;
+    },
+    sort: function sort() {
+      var ids = [];
+
+      [].forEach.call(document.querySelectorAll('[name="ids"]'), function (el) {
+        ids.push(el.value);
+      });
+
+      this.images.forEach(function (item) {
+        var index = ids.indexOf(item.id.toString());
+
+        ids[index] = item;
+      });
+
+      this.$emit('update:images', ids);
+    },
+    update: function update(image) {
+      this.$emit('update:images', this.images.map(function (item) {
+        return item.id === image.id ? image : item;
+      }));
+    },
+    getCropperData: function getCropperData() {
+      if (this.cropperData) {
+        var data = this.cropperData;
+        this.cropperData = false;
+        return data;
+      }
+
+      return {};
+    },
+    edit: function edit(image) {
+      if (image.initialImage) {
+        this.cropperData = image.modifications;
+        this.toCropImage = image.initialImage;
+        this.$refs.pictureEditModal.show();
+      } else {
+        this.toCropImage = image;
+        this.$refs.pictureEditModal.show();
+      }
+    },
+    getCropper: function getCropper() {
+      return this.$refs.cropper;
+    },
+    rotateLeft: function rotateLeft() {
+      this.rotate(-1);
+    },
+    rotateRight: function rotateRight() {
+      this.rotate(1);
+    },
+    rotate: function rotate(step) {
+      var cropper = this.getCropper();
+      cropper.rotate(step * 90);
+      cropper.setCropBoxData(cropper.getCropBoxData());
+    },
+    invertX: function invertX() {
+      this.invert('scaleX');
+    },
+    invertY: function invertY() {
+      this.invert('scaleY');
+    },
+    invert: function invert(direction) {
+      var cropper = this.getCropper();
+      cropper[direction](cropper.getData()[direction] === -1 ? 1 : -1);
     },
     reset: function reset() {
-      this.$refs.dropzone.removeAllFiles();
-      this.initDropzone();
+      var _this = this;
+
+      if (this.toCropImage.initialImage) {
+        var image = this.toCropImage.initialImage;
+        this.toCropImage = false;
+        this.$nextTick(function () {
+          _this.toCropImage = image;
+        });
+      } else {
+        this.getCropper().reset();
+      }
+    },
+    pictureEditSave: function pictureEditSave() {
+      var elImg = document.createElement('img');
+      elImg.src = this.toCropImage.original;
+
+      if (!(elImg.width && elImg.height)) {
+        __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].notify('Ошибка обработки изображения.', { type: 'error' });
+        return;
+      }
+
+      var defaultParams = {
+        width: elImg.width,
+        height: elImg.height,
+        rotate: 0,
+        scaleX: 1,
+        scaleY: 1,
+        x: 0,
+        y: 0
+      };
+
+      var cropper = this.getCropper();
+      var src = cropper.getCroppedCanvas().toDataURL();
+
+      var cropperData = cropper.getData();
+      var params = {};
+
+      for (var i in cropperData) {
+        if (cropperData[i] !== defaultParams[i]) {
+          params[i] = cropperData[i];
+        }
+      }
+
+      if (Object.keys(params).length > 0) {
+        if (!this.toCropImage.initialImage) {
+          this.toCropImage.initialImage = _extends({}, this.toCropImage);
+
+          this.toCropImage.original = src;
+          this.toCropImage.small.srcset = src;
+        }
+
+        this.toCropImage.modifications = params;
+        this.update(this.toCropImage);
+      }
+    },
+    clear: function clear() {
+      this.toCropImage = false;
+    },
+    refresh: function refresh() {
+      this.makeGallery();
     }
   },
 
   mounted: function mounted() {
-    this.initDropzone();
+    this.makeGallery();
+
+    __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.ui-sortable').sortable({
+      update: this.sort
+    });
   }
 });
 
@@ -440,7 +556,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   },
 
   watch: {
-    '$route': 'initPrices'
+    'prices': 'initPrices'
   },
 
   methods: {
@@ -581,7 +697,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_select2_bootstrap_theme_dist_select2_bootstrap_css__ = __webpack_require__("./node_modules/select2-bootstrap-theme/dist/select2-bootstrap.css");
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_select2_bootstrap_theme_dist_select2_bootstrap_css__ = __webpack_require__("./node_modules/select2-bootstrap-theme/dist/select2-bootstrap.css");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_select2_bootstrap_theme_dist_select2_bootstrap_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_select2_bootstrap_theme_dist_select2_bootstrap_css__);
 
 
@@ -599,7 +715,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   watch: {
-    '$route': 'select'
+    'options': 'reset'
   },
 
   methods: {
@@ -681,6 +797,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     select: function select() {
       this.$$el.val(this.selected);
       this.$$el.trigger('change');
+    },
+    reset: function reset() {
+      this.buildOptions();
+
+      this.$$el.select2('destroy');
+      this.initSelect2();
+    },
+    initSelect2: function initSelect2() {
+      this.$$el = $(this.$el);
+
+      this.$$el.select2({
+        allowClear: true,
+        placeholder: this.placeholder,
+        theme: "bootstrap",
+        templateSelection: this.formatOption
+      });
     }
   },
 
@@ -690,7 +822,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   mounted: function mounted() {
     var _this2 = this;
 
-    this.$$el = $(this.$el);
+    this.initSelect2();
 
     this.$$el.select2({
       allowClear: true,
@@ -729,6 +861,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     $(this.$$el).select2('destroy');
   }
 });
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -777,6 +910,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: '/shop/suppliers',
         icon: 'fa fa-truck',
         title: 'Поставщики'
+      }, {
+        url: '/shop/attributes',
+        icon: 'fa fa-list',
+        title: 'Аттрибуты'
       }]
     };
   },
@@ -796,15 +933,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ShopQuickNav__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_select2__ = __webpack_require__("./node_modules/select2/dist/js/select2.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_select2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_select2__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ShopQuickNav__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+
+
+
+
+
+
+
+
+
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "attribute-edit",
 
-  // mixins: [EntityEdit, Translatable],
+  mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_EntityEdit__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_Translatable__["a" /* default */]],
 
   props: ['id', 'type'],
 
@@ -822,24 +977,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         layout_class: 'string',
         selectable: false,
         enabled: true
-      }
+      },
+
+      defaultTranslatableFieldsValues: {
+        title: ''
+      },
+
+      usedMainData: ['languages']
     };
   },
 
 
   components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav___default.a
-    // 'tree-select': TreeSelect,
-    // 'ckeditor': CKEditor,
-    // 'language-picker': LanguagePicker,
-    // 'b-modal': bModal
+    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_3__ShopQuickNav___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */]
   },
 
   methods: {
-    /*
-      Инициализация модели данных.
-    */
+    /**
+     * Инициализация данных.
+     */
+    initData: function initData(data) {
+      this.initLanguages(data['languages'] || []);
+      this.initEntity(data[this.getEntityName()]);
+    },
 
+
+    /**
+     * Инициализация модели данных.
+     */
     initEntity: function initEntity() {
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -847,7 +1014,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       entity.i18 = this.initI18(data.i18);
 
-      this.setEnitityData(entity);
+      this.setEntityData(entity);
     }
   }
 });
@@ -859,12 +1026,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ShopQuickNav__);
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "attributes-table",
 
   data: function data() {
     return {};
+  },
+
+
+  components: {
+    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav___default.a
   }
 });
 
@@ -881,7 +1057,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CategoriesTableTree___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__CategoriesTableTree__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_Base__ = __webpack_require__("./resources/assets/js/mixins/Base.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
 
 
@@ -896,72 +1072,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'categories-table',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_Base__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Sortable__["a" /* default */]],
-
-  data: function data() {
-    return {
-      tree: []
-    };
-  },
-
+  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Sortable__["a" /* default */]],
 
   components: {
-    'shop-quick-nav': __WEBPACK_IMPORTED_MODULE_3__ShopQuickNav___default.a,
-    'b-modal': __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    'categories-table-tree': __WEBPACK_IMPORTED_MODULE_2__CategoriesTableTree___default.a
+    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_3__ShopQuickNav___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    CategoriesTableTree: __WEBPACK_IMPORTED_MODULE_2__CategoriesTableTree___default.a
   },
 
   methods: {
-    fetchItems: function fetchItems() {
-      var _this = this;
-
-      new __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].requestHandler('get', this.prepareUrl()).success(function (response) {
-        return _this.initTree(response);
-      }).start();
-    },
-
-
-    /*
-      Инициализация списка.
-     */
-    initTree: function initTree(response) {
-      this.tree = response.data ? response.data.tree || [] : [];
-    },
-
-
-    /*
-      Смена статуса записи.
-     */
-    statusChange: function statusChange(id) {
-      this.statusQueue.add(new __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].requestHandler('get', this.prepareUrl(id + '/status')));
-    },
-
-
-    /*
-      Нажатие на кнопку удаления записи.
-     */
-    remove: function remove(id) {
-      var _ = this;
-
-      this.toRemoveId = id;
-      this.$refs.removeModal.show();
-    },
-
-
-    /*
-      При подтвержении удаления записи.
-     */
-    removeConfirm: function removeConfirm() {
-      var _this2 = this;
-
-      new __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].requestHandler('delete', this.prepareUrl('' + this.toRemoveId)).success(function () {
-        return _this2.fetchItems();
-      }).start();
-    },
-
-
-    /*
-      Отчистка очереди
+    /**
+     * Отчистка очереди.
      */
     clearQueue: function clearQueue() {
       this.sortQueue.clear();
@@ -970,21 +1091,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   created: function created() {
-    this.sortQueue = __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].queueHandler.makeQueue('break', 'category-sort');
-    this.statusQueue = __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].queueHandler.makeQueue('iteration', 'category-status');
+    this.sortQueue = __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].queueHandler.makeQueue('break', 'table-sort');
   },
   updated: function updated() {
     this.initSort();
   },
   beforeDestroy: function beforeDestroy() {
     this.clearQueue();
-  },
-  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    return new __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].requestHandler('get', '/api' + to.path).success(function (response) {
-      next(function (vm) {
-        vm.initTree(response);
-      });
-    }).start();
   }
 });
 
@@ -1078,7 +1191,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       entityName: 'category',
       category: null,
-      categories: [],
+      categoriesTree: [],
       saveDisabled: false,
 
       defaultFieldsValues: {
@@ -1095,7 +1208,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         description: '',
         meta_title: '',
         meta_description: ''
-      }
+      },
+
+      usedMainData: ['categories-tree', 'languages'],
+
+      reloadDataOnSave: true
     };
   },
 
@@ -1109,18 +1226,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
-    initData: function initData(data) {
-      this.initLanguages(data['languages'] || []);
-      this.categories = data['categories-tree'];
-
-      this.initEntity(data[this.getEntityName()]);
-    },
-
-
-    /*
-      Инициализация модели данных.
-    */
-
+    /**
+     * Инициализация модели данных.
+     */
     initEntity: function initEntity() {
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -1132,10 +1240,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
 
-    /*
-      Автозаполнение slug из заголовка категории.
-    */
-
+    /**
+     * Автозаполнение slug из заголовка категории.
+     */
     slugAutocomplete: function slugAutocomplete() {
       var model = this.getEntityModel();
       model.slug = __WEBPACK_IMPORTED_MODULE_3__core__["a" /* default */].makeUrl(model.i18[this.activeLanguageCode].title);
@@ -1235,7 +1342,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       entityName: 'product',
       product: null,
 
-      categories: [],
+      categoriesTree: [],
       currencies: [],
       priceTypes: [],
       suppliers: [],
@@ -1259,7 +1366,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         description: '',
         meta_title: '',
         meta_description: ''
-      }
+      },
+
+      usedMainData: ['categories-tree', 'languages', 'suppliers', 'price-types', 'currencies']
     };
   },
 
@@ -1275,29 +1384,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   },
 
   methods: {
-    initData: function initData(data) {
-      this.initLanguages(data['languages'] || []);
-      this.initSuppliers(data['suppliers'] || []);
-
-      this.categories = data['categories-tree'];
-
-      this.initEntity(data[this.getEntityName()]);
-    },
-    initSuppliers: function initSuppliers(suppliers) {
-      this.suppliers = !(suppliers instanceof Array) ? [] : suppliers.map(function (item) {
-        return {
-          id: item.id,
-          title: item.name
-        };
-      });
-    },
     getToSaveData: function getToSaveData() {
       var model = this.getEntityModel();
 
       return _extends({}, model, {
-        images: model.images.map(function (item) {
-          return item.id;
-        })
+        images: model.images.reduce(function (acc, item) {
+          if (!item.deleted) {
+            acc[item.id] = item.modifications || {};
+          }
+
+          return acc;
+        }, {})
       });
     },
 
@@ -1313,32 +1410,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       var entity = this.makeEntityBaseData(data);
 
       entity.categories = data.categories || [];
-      entity.images = this.initImages(data.images);
+      entity.images = data.images || [];
       entity.i18 = this.initI18(data.i18);
       entity.prices = this.initPrices(data.prices);
 
       this.setEntityData(entity);
-    },
-
-
-    /**
-     * Инициализация картинок.
-     *
-     * @param images
-     * @returns {{id: *, name: *, size: *, type: *, thumbnail: *}[]}
-     */
-    initImages: function initImages() {
-      var images = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-      return images.map(function (item) {
-        return {
-          id: item.id,
-          name: item.original,
-          size: item.size,
-          type: item.type,
-          thumbnail: item.medium.src
-        };
-      });
     },
 
 
@@ -1389,7 +1465,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__SearchInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__SearchInput__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Dropdown__ = __webpack_require__("./resources/assets/js/components/Dropdown.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Dropdown___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__Dropdown__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__mixins_Base__ = __webpack_require__("./resources/assets/js/mixins/Base.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -1412,7 +1488,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'products-table',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_12__mixins_Base__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_12__mixins_TablePage__["a" /* default */]],
 
   data: function data() {
     return {
@@ -1453,8 +1529,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         label: ' ',
         class: 'text-center'
       }],
+
       priceTypes: [],
-      activePriceType: null
+      activePriceType: null,
+
+      usedMainData: ['price-types']
     };
   },
 
@@ -1474,17 +1553,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   },
 
   watch: {
-    '$route': ['clearQueue', 'fetchItems']
+    '$route': ['clearQueue']
   },
 
   methods: {
-    initData: function initData(data) {
-      this.priceTypes = data['price-types'].filter(function (item) {
-        return !!item.enabled;
-      }).sort(function (a, b) {
-        return a.position - b.position;
+    loadData: function loadData() {
+      var _this = this;
+
+      this.fetchMainData().then(function (data) {
+        _this.initMainData(data);
+        _this.activePriceType = _this.priceTypes[0].id;
       });
-      this.activePriceType = this.priceTypes[0].id;
     },
 
 
@@ -1493,7 +1572,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     */
 
     fetchItems: function fetchItems(_ref) {
-      var _this = this;
+      var _this2 = this;
 
       var currentPage = _ref.currentPage,
           perPage = _ref.perPage,
@@ -1501,19 +1580,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
           sortDesc = _ref.sortDesc;
 
       return new Promise(function (resolve) {
-        new __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].requestHandler('get', _this.prepareUrl(), {
+        new __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].requestHandler('get', _this2.prepareUrl(), {
           currentPage: currentPage,
           perPage: perPage,
           sortBy: sortBy,
           sortType: sortDesc ? 'desc' : 'asc',
-          search: _this.searchPhrase,
-          priceType: _this.activePriceType
+          search: _this2.searchPhrase,
+          priceType: _this2.activePriceType
         }).success(function (response) {
           var data = response.data;
 
-          _this.totalRows = parseInt(data.totalRows);
-          _this.currentPage = parseInt(data.currentPage) || 1;
-          _this.perPage = parseInt(data.perPage);
+          _this2.totalRows = parseInt(data.totalRows);
+          _this2.currentPage = parseInt(data.currentPage) || 1;
+          _this2.perPage = parseInt(data.perPage);
 
           var items = data.items || [];
 
@@ -1531,65 +1610,40 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       this.activePriceType = id;
 
       if (this.sortBy === 'price') {
-        this.$refs.table.refresh();
+        this.refreshTable();
       }
     },
     activePriceTypeTitle: function activePriceTypeTitle() {
-      var _this2 = this;
+      var _this3 = this;
 
       var priceType = this.priceTypes.find(function (item) {
-        return item.id == _this2.activePriceType;
+        return item.id == _this3.activePriceType;
       }) || { title: '' };
       return priceType.title;
     },
     getItemPrice: function getItemPrice(item) {
-      var _this3 = this;
+      var _this4 = this;
 
       var price = item.prices.find(function (item) {
-        return item.price_type_id == _this3.activePriceType && item.currency_code == 'RUB';
+        return item.price_type_id == _this4.activePriceType && item.currency_code == 'RUB';
       }) || { formatted: '' };
 
       return price.formatted;
     },
-
-
-    /*
-      Смена статуса товара.
-    */
-
-    statusChange: function statusChange(id) {
-      this.statusQueue.add(new __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].requestHandler('get', this.prepareUrl(id + '/status')));
-    },
-
-
-    /*
-      Удаление товара.
-    */
-
-    onRemove: function onRemove(id) {
-      var _ = this;
-
-      this.toRemoveId = id;
-      this.$refs.removeModal.show();
-    },
-    onRemoveConfirm: function onRemoveConfirm() {
-      var _this4 = this;
-
-      new __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].requestHandler('delete', this.prepareUrl('' + this.toRemoveId)).success(function () {
-        return _this4.$refs.table.refresh();
-      }).start();
-    },
-    onSortingChanged: function onSortingChanged(ctx) {
+    sortingChanged: function sortingChanged(ctx) {
       ctx.currentPage = 1;
     },
-    onSearch: function onSearch(phrase) {
+    search: function search(phrase) {
       if (this.searchPhrase != phrase) {
         this.searchPhrase = phrase;
-        this.$refs.table.refresh();
+        this.refreshTable();
       }
     },
     clearQueue: function clearQueue() {
       this.statusQueue.clear();
+    },
+    refreshTable: function refreshTable() {
+      this.$refs.table.refresh();
     }
   },
 
@@ -1615,14 +1669,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
   beforeDestroy: function beforeDestroy() {
     this.clearQueue();
-  },
-
-  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].dataHandler.get(['price-types']).then(function (data) {
-      next(function (vm) {
-        vm.initData(data);
-      });
-    });
   }
 });
 
@@ -1702,7 +1748,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_Base__ = __webpack_require__("./resources/assets/js/mixins/Base.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Toggle__);
@@ -1719,7 +1765,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'suppliers-table',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_Base__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__["a" /* default */]],
 
   components: {
     ShopQuickNav: __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default.a,
@@ -1727,81 +1773,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     Toggle: __WEBPACK_IMPORTED_MODULE_5__Toggle___default.a
   },
 
-  data: function data() {
-    return {
-      list: []
-    };
-  },
-
-
   methods: {
-    fetchList: function fetchList() {
-      var _this = this;
-
-      new __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].requestHandler('get', this.prepareUrl()).success(function (response) {
-        return _this.initList(response);
-      }).start();
-    },
-
-
-    /*
-      Инициализация списка.
-    */
-    initList: function initList(response) {
-      this.list = response.data ? response.data.list || [] : [];
-    },
-
-
-    /*
-      Смена статуса категории.
-    */
-
-    statusChange: function statusChange(id) {
-      this.statusQueue.add(new __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].requestHandler('get', this.prepareUrl(id + '/status')));
-    },
-
-
-    /*
-      Нажатие на кнопку удаления записи.
-    */
-
-    remove: function remove(id) {
-      var _ = this;
-
-      this.toRemoveId = id;
-      this.$refs.removeModal.show();
-    },
-
-
-    /*
-      При подтвержении удаления записи.
-    */
-
-    removeConfirm: function removeConfirm() {
-      var _this2 = this;
-
-      new __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].requestHandler('delete', this.prepareUrl(this.toRemoveId)).success(function () {
-        return _this2.fetchList();
-      }).start();
-    },
-
-
-    /*
-      При обновлении списка записей.
-    */
-
-    onRefresh: function onRefresh() {
-      $(".ui-sortable").sortable({
-        nested: true,
-        stop: this.onPositionChange
-      });
-    },
-
-
-    /*
-      При изменении порядка записей.
-    */
-
+    /**
+     * При изменении порядка записей.
+     */
     onPositionChange: function onPositionChange() {
       var ids = [];
 
@@ -1811,6 +1786,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.sortQueue.add(new __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].requestHandler('post', this.prepareUrl(), { ids: ids }));
     },
+
+
+    /**
+     *
+     */
     clearQueue: function clearQueue() {
       this.sortQueue.clear();
       this.statusQueue.clear();
@@ -1818,21 +1798,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   created: function created() {
-    this.sortQueue = __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].queueHandler.makeQueue('break', 'category-sort');
-    this.statusQueue = __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].queueHandler.makeQueue('iteration', 'category-status');
+    this.sortQueue = __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].queueHandler.makeQueue('iteration', 'category-sort');
   },
   updated: function updated() {
-    this.onRefresh();
-  },
-  beforeDestroy: function beforeDestroy() {
-    this.clearQueue();
-  },
-  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    return new __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].requestHandler('get', '/api' + to.path).success(function (response) {
-      next(function (vm) {
-        vm.initList(response);
-      });
-    }).start();
+    this.initSort();
   }
 });
 
@@ -6565,6 +6534,3745 @@ function warn(message) {
 
 /***/ }),
 
+/***/ "./node_modules/cropperjs/dist/cropper.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/cropperjs/dist/cropper.css");
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/style-loader/lib/addStyles.js")(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../css-loader/index.js!./cropper.css", function() {
+			var newContent = require("!!../../css-loader/index.js!./cropper.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/cropperjs/dist/cropper.esm.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/*!
+ * Cropper.js v1.3.4
+ * https://github.com/fengyuanchen/cropperjs
+ *
+ * Copyright (c) 2015-2018 Chen Fengyuan
+ * Released under the MIT license
+ *
+ * Date: 2018-03-31T06:49:16.394Z
+ */
+
+var IN_BROWSER = typeof window !== 'undefined';
+var WINDOW = IN_BROWSER ? window : {};
+var NAMESPACE = 'cropper';
+
+// Actions
+var ACTION_ALL = 'all';
+var ACTION_CROP = 'crop';
+var ACTION_MOVE = 'move';
+var ACTION_ZOOM = 'zoom';
+var ACTION_EAST = 'e';
+var ACTION_WEST = 'w';
+var ACTION_SOUTH = 's';
+var ACTION_NORTH = 'n';
+var ACTION_NORTH_EAST = 'ne';
+var ACTION_NORTH_WEST = 'nw';
+var ACTION_SOUTH_EAST = 'se';
+var ACTION_SOUTH_WEST = 'sw';
+
+// Classes
+var CLASS_CROP = NAMESPACE + '-crop';
+var CLASS_DISABLED = NAMESPACE + '-disabled';
+var CLASS_HIDDEN = NAMESPACE + '-hidden';
+var CLASS_HIDE = NAMESPACE + '-hide';
+var CLASS_INVISIBLE = NAMESPACE + '-invisible';
+var CLASS_MODAL = NAMESPACE + '-modal';
+var CLASS_MOVE = NAMESPACE + '-move';
+
+// Data keys
+var DATA_ACTION = 'action';
+var DATA_PREVIEW = 'preview';
+
+// Drag modes
+var DRAG_MODE_CROP = 'crop';
+var DRAG_MODE_MOVE = 'move';
+var DRAG_MODE_NONE = 'none';
+
+// Events
+var EVENT_CROP = 'crop';
+var EVENT_CROP_END = 'cropend';
+var EVENT_CROP_MOVE = 'cropmove';
+var EVENT_CROP_START = 'cropstart';
+var EVENT_DBLCLICK = 'dblclick';
+var EVENT_LOAD = 'load';
+var EVENT_POINTER_DOWN = WINDOW.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
+var EVENT_POINTER_MOVE = WINDOW.PointerEvent ? 'pointermove' : 'touchmove mousemove';
+var EVENT_POINTER_UP = WINDOW.PointerEvent ? 'pointerup pointercancel' : 'touchend touchcancel mouseup';
+var EVENT_READY = 'ready';
+var EVENT_RESIZE = 'resize';
+var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
+var EVENT_ZOOM = 'zoom';
+
+// RegExps
+var REGEXP_ACTIONS = /^(?:e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
+var REGEXP_DATA_URL = /^data:/;
+var REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
+var REGEXP_TAG_NAME = /^(?:img|canvas)$/i;
+
+var DEFAULTS = {
+  // Define the view mode of the cropper
+  viewMode: 0, // 0, 1, 2, 3
+
+  // Define the dragging mode of the cropper
+  dragMode: DRAG_MODE_CROP, // 'crop', 'move' or 'none'
+
+  // Define the aspect ratio of the crop box
+  aspectRatio: NaN,
+
+  // An object with the previous cropping result data
+  data: null,
+
+  // A selector for adding extra containers to preview
+  preview: '',
+
+  // Re-render the cropper when resize the window
+  responsive: true,
+
+  // Restore the cropped area after resize the window
+  restore: true,
+
+  // Check if the current image is a cross-origin image
+  checkCrossOrigin: true,
+
+  // Check the current image's Exif Orientation information
+  checkOrientation: true,
+
+  // Show the black modal
+  modal: true,
+
+  // Show the dashed lines for guiding
+  guides: true,
+
+  // Show the center indicator for guiding
+  center: true,
+
+  // Show the white modal to highlight the crop box
+  highlight: true,
+
+  // Show the grid background
+  background: true,
+
+  // Enable to crop the image automatically when initialize
+  autoCrop: true,
+
+  // Define the percentage of automatic cropping area when initializes
+  autoCropArea: 0.8,
+
+  // Enable to move the image
+  movable: true,
+
+  // Enable to rotate the image
+  rotatable: true,
+
+  // Enable to scale the image
+  scalable: true,
+
+  // Enable to zoom the image
+  zoomable: true,
+
+  // Enable to zoom the image by dragging touch
+  zoomOnTouch: true,
+
+  // Enable to zoom the image by wheeling mouse
+  zoomOnWheel: true,
+
+  // Define zoom ratio when zoom the image by wheeling mouse
+  wheelZoomRatio: 0.1,
+
+  // Enable to move the crop box
+  cropBoxMovable: true,
+
+  // Enable to resize the crop box
+  cropBoxResizable: true,
+
+  // Toggle drag mode between "crop" and "move" when click twice on the cropper
+  toggleDragModeOnDblclick: true,
+
+  // Size limitation
+  minCanvasWidth: 0,
+  minCanvasHeight: 0,
+  minCropBoxWidth: 0,
+  minCropBoxHeight: 0,
+  minContainerWidth: 200,
+  minContainerHeight: 100,
+
+  // Shortcuts of events
+  ready: null,
+  cropstart: null,
+  cropmove: null,
+  cropend: null,
+  crop: null,
+  zoom: null
+};
+
+var TEMPLATE = '<div class="cropper-container" touch-action="none">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-action="e"></span>' + '<span class="cropper-line line-n" data-action="n"></span>' + '<span class="cropper-line line-w" data-action="w"></span>' + '<span class="cropper-line line-s" data-action="s"></span>' + '<span class="cropper-point point-e" data-action="e"></span>' + '<span class="cropper-point point-n" data-action="n"></span>' + '<span class="cropper-point point-w" data-action="w"></span>' + '<span class="cropper-point point-s" data-action="s"></span>' + '<span class="cropper-point point-ne" data-action="ne"></span>' + '<span class="cropper-point point-nw" data-action="nw"></span>' + '<span class="cropper-point point-sw" data-action="sw"></span>' + '<span class="cropper-point point-se" data-action="se"></span>' + '</div>' + '</div>';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+};
+
+/**
+ * Check if the given value is not a number.
+ */
+var isNaN = Number.isNaN || WINDOW.isNaN;
+
+/**
+ * Check if the given value is a number.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is a number, else `false`.
+ */
+function isNumber(value) {
+  return typeof value === 'number' && !isNaN(value);
+}
+
+/**
+ * Check if the given value is undefined.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is undefined, else `false`.
+ */
+function isUndefined(value) {
+  return typeof value === 'undefined';
+}
+
+/**
+ * Check if the given value is an object.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is an object, else `false`.
+ */
+function isObject(value) {
+  return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value !== null;
+}
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+/**
+ * Check if the given value is a plain object.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is a plain object, else `false`.
+ */
+
+function isPlainObject(value) {
+  if (!isObject(value)) {
+    return false;
+  }
+
+  try {
+    var _constructor = value.constructor;
+    var prototype = _constructor.prototype;
+
+
+    return _constructor && prototype && hasOwnProperty.call(prototype, 'isPrototypeOf');
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
+ * Check if the given value is a function.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is a function, else `false`.
+ */
+function isFunction(value) {
+  return typeof value === 'function';
+}
+
+/**
+ * Iterate the given data.
+ * @param {*} data - The data to iterate.
+ * @param {Function} callback - The process function for each element.
+ * @returns {*} The original data.
+ */
+function forEach(data, callback) {
+  if (data && isFunction(callback)) {
+    if (Array.isArray(data) || isNumber(data.length) /* array-like */) {
+        var length = data.length;
+
+        var i = void 0;
+
+        for (i = 0; i < length; i += 1) {
+          if (callback.call(data, data[i], i, data) === false) {
+            break;
+          }
+        }
+      } else if (isObject(data)) {
+      Object.keys(data).forEach(function (key) {
+        callback.call(data, data[key], key, data);
+      });
+    }
+  }
+
+  return data;
+}
+
+/**
+ * Extend the given object.
+ * @param {*} obj - The object to be extended.
+ * @param {*} args - The rest objects which will be merged to the first object.
+ * @returns {Object} The extended object.
+ */
+var assign = Object.assign || function assign(obj) {
+  for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
+
+  if (isObject(obj) && args.length > 0) {
+    args.forEach(function (arg) {
+      if (isObject(arg)) {
+        Object.keys(arg).forEach(function (key) {
+          obj[key] = arg[key];
+        });
+      }
+    });
+  }
+
+  return obj;
+};
+
+var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
+
+/**
+ * Normalize decimal number.
+ * Check out {@link http://0.30000000000000004.com/}
+ * @param {number} value - The value to normalize.
+ * @param {number} [times=100000000000] - The times for normalizing.
+ * @returns {number} Returns the normalized number.
+ */
+function normalizeDecimalNumber(value) {
+  var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100000000000;
+
+  return REGEXP_DECIMALS.test(value) ? Math.round(value * times) / times : value;
+}
+
+var REGEXP_SUFFIX = /^(?:width|height|left|top|marginLeft|marginTop)$/;
+
+/**
+ * Apply styles to the given element.
+ * @param {Element} element - The target element.
+ * @param {Object} styles - The styles for applying.
+ */
+function setStyle(element, styles) {
+  var style = element.style;
+
+
+  forEach(styles, function (value, property) {
+    if (REGEXP_SUFFIX.test(property) && isNumber(value)) {
+      value += 'px';
+    }
+
+    style[property] = value;
+  });
+}
+
+/**
+ * Check if the given element has a special class.
+ * @param {Element} element - The element to check.
+ * @param {string} value - The class to search.
+ * @returns {boolean} Returns `true` if the special class was found.
+ */
+function hasClass(element, value) {
+  return element.classList ? element.classList.contains(value) : element.className.indexOf(value) > -1;
+}
+
+/**
+ * Add classes to the given element.
+ * @param {Element} element - The target element.
+ * @param {string} value - The classes to be added.
+ */
+function addClass(element, value) {
+  if (!value) {
+    return;
+  }
+
+  if (isNumber(element.length)) {
+    forEach(element, function (elem) {
+      addClass(elem, value);
+    });
+    return;
+  }
+
+  if (element.classList) {
+    element.classList.add(value);
+    return;
+  }
+
+  var className = element.className.trim();
+
+  if (!className) {
+    element.className = value;
+  } else if (className.indexOf(value) < 0) {
+    element.className = className + ' ' + value;
+  }
+}
+
+/**
+ * Remove classes from the given element.
+ * @param {Element} element - The target element.
+ * @param {string} value - The classes to be removed.
+ */
+function removeClass(element, value) {
+  if (!value) {
+    return;
+  }
+
+  if (isNumber(element.length)) {
+    forEach(element, function (elem) {
+      removeClass(elem, value);
+    });
+    return;
+  }
+
+  if (element.classList) {
+    element.classList.remove(value);
+    return;
+  }
+
+  if (element.className.indexOf(value) >= 0) {
+    element.className = element.className.replace(value, '');
+  }
+}
+
+/**
+ * Add or remove classes from the given element.
+ * @param {Element} element - The target element.
+ * @param {string} value - The classes to be toggled.
+ * @param {boolean} added - Add only.
+ */
+function toggleClass(element, value, added) {
+  if (!value) {
+    return;
+  }
+
+  if (isNumber(element.length)) {
+    forEach(element, function (elem) {
+      toggleClass(elem, value, added);
+    });
+    return;
+  }
+
+  // IE10-11 doesn't support the second parameter of `classList.toggle`
+  if (added) {
+    addClass(element, value);
+  } else {
+    removeClass(element, value);
+  }
+}
+
+var REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
+
+/**
+ * Transform the given string from camelCase to kebab-case
+ * @param {string} value - The value to transform.
+ * @returns {string} The transformed value.
+ */
+function hyphenate(value) {
+  return value.replace(REGEXP_HYPHENATE, '$1-$2').toLowerCase();
+}
+
+/**
+ * Get data from the given element.
+ * @param {Element} element - The target element.
+ * @param {string} name - The data key to get.
+ * @returns {string} The data value.
+ */
+function getData(element, name) {
+  if (isObject(element[name])) {
+    return element[name];
+  } else if (element.dataset) {
+    return element.dataset[name];
+  }
+
+  return element.getAttribute('data-' + hyphenate(name));
+}
+
+/**
+ * Set data to the given element.
+ * @param {Element} element - The target element.
+ * @param {string} name - The data key to set.
+ * @param {string} data - The data value.
+ */
+function setData(element, name, data) {
+  if (isObject(data)) {
+    element[name] = data;
+  } else if (element.dataset) {
+    element.dataset[name] = data;
+  } else {
+    element.setAttribute('data-' + hyphenate(name), data);
+  }
+}
+
+/**
+ * Remove data from the given element.
+ * @param {Element} element - The target element.
+ * @param {string} name - The data key to remove.
+ */
+function removeData(element, name) {
+  if (isObject(element[name])) {
+    try {
+      delete element[name];
+    } catch (e) {
+      element[name] = undefined;
+    }
+  } else if (element.dataset) {
+    // #128 Safari not allows to delete dataset property
+    try {
+      delete element.dataset[name];
+    } catch (e) {
+      element.dataset[name] = undefined;
+    }
+  } else {
+    element.removeAttribute('data-' + hyphenate(name));
+  }
+}
+
+var REGEXP_SPACES = /\s\s*/;
+var onceSupported = function () {
+  var supported = false;
+
+  if (IN_BROWSER) {
+    var once = false;
+    var listener = function listener() {};
+    var options = Object.defineProperty({}, 'once', {
+      get: function get$$1() {
+        supported = true;
+        return once;
+      },
+
+
+      /**
+       * This setter can fix a `TypeError` in strict mode
+       * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Getter_only}
+       * @param {boolean} value - The value to set
+       */
+      set: function set$$1(value) {
+        once = value;
+      }
+    });
+
+    WINDOW.addEventListener('test', listener, options);
+    WINDOW.removeEventListener('test', listener, options);
+  }
+
+  return supported;
+}();
+
+/**
+ * Remove event listener from the target element.
+ * @param {Element} element - The event target.
+ * @param {string} type - The event type(s).
+ * @param {Function} listener - The event listener.
+ * @param {Object} options - The event options.
+ */
+function removeListener(element, type, listener) {
+  var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
+  var handler = listener;
+
+  type.trim().split(REGEXP_SPACES).forEach(function (event) {
+    if (!onceSupported) {
+      var listeners = element.listeners;
+
+
+      if (listeners && listeners[event] && listeners[event][listener]) {
+        handler = listeners[event][listener];
+        delete listeners[event][listener];
+
+        if (Object.keys(listeners[event]).length === 0) {
+          delete listeners[event];
+        }
+
+        if (Object.keys(listeners).length === 0) {
+          delete element.listeners;
+        }
+      }
+    }
+
+    element.removeEventListener(event, handler, options);
+  });
+}
+
+/**
+ * Add event listener to the target element.
+ * @param {Element} element - The event target.
+ * @param {string} type - The event type(s).
+ * @param {Function} listener - The event listener.
+ * @param {Object} options - The event options.
+ */
+function addListener(element, type, listener) {
+  var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
+  var _handler = listener;
+
+  type.trim().split(REGEXP_SPACES).forEach(function (event) {
+    if (options.once && !onceSupported) {
+      var _element$listeners = element.listeners,
+          listeners = _element$listeners === undefined ? {} : _element$listeners;
+
+
+      _handler = function handler() {
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
+        delete listeners[event][listener];
+        element.removeEventListener(event, _handler, options);
+        listener.apply(element, args);
+      };
+
+      if (!listeners[event]) {
+        listeners[event] = {};
+      }
+
+      if (listeners[event][listener]) {
+        element.removeEventListener(event, listeners[event][listener], options);
+      }
+
+      listeners[event][listener] = _handler;
+      element.listeners = listeners;
+    }
+
+    element.addEventListener(event, _handler, options);
+  });
+}
+
+/**
+ * Dispatch event on the target element.
+ * @param {Element} element - The event target.
+ * @param {string} type - The event type(s).
+ * @param {Object} data - The additional event data.
+ * @returns {boolean} Indicate if the event is default prevented or not.
+ */
+function dispatchEvent(element, type, data) {
+  var event = void 0;
+
+  // Event and CustomEvent on IE9-11 are global objects, not constructors
+  if (isFunction(Event) && isFunction(CustomEvent)) {
+    event = new CustomEvent(type, {
+      detail: data,
+      bubbles: true,
+      cancelable: true
+    });
+  } else {
+    event = document.createEvent('CustomEvent');
+    event.initCustomEvent(type, true, true, data);
+  }
+
+  return element.dispatchEvent(event);
+}
+
+/**
+ * Get the offset base on the document.
+ * @param {Element} element - The target element.
+ * @returns {Object} The offset data.
+ */
+function getOffset(element) {
+  var box = element.getBoundingClientRect();
+
+  return {
+    left: box.left + (window.pageXOffset - document.documentElement.clientLeft),
+    top: box.top + (window.pageYOffset - document.documentElement.clientTop)
+  };
+}
+
+var location = WINDOW.location;
+
+var REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
+
+/**
+ * Check if the given URL is a cross origin URL.
+ * @param {string} url - The target URL.
+ * @returns {boolean} Returns `true` if the given URL is a cross origin URL, else `false`.
+ */
+function isCrossOriginURL(url) {
+  var parts = url.match(REGEXP_ORIGINS);
+
+  return parts && (parts[1] !== location.protocol || parts[2] !== location.hostname || parts[3] !== location.port);
+}
+
+/**
+ * Add timestamp to the given URL.
+ * @param {string} url - The target URL.
+ * @returns {string} The result URL.
+ */
+function addTimestamp(url) {
+  var timestamp = 'timestamp=' + new Date().getTime();
+
+  return url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp;
+}
+
+/**
+ * Get transforms base on the given object.
+ * @param {Object} obj - The target object.
+ * @returns {string} A string contains transform values.
+ */
+function getTransforms(_ref) {
+  var rotate = _ref.rotate,
+      scaleX = _ref.scaleX,
+      scaleY = _ref.scaleY,
+      translateX = _ref.translateX,
+      translateY = _ref.translateY;
+
+  var values = [];
+
+  if (isNumber(translateX) && translateX !== 0) {
+    values.push('translateX(' + translateX + 'px)');
+  }
+
+  if (isNumber(translateY) && translateY !== 0) {
+    values.push('translateY(' + translateY + 'px)');
+  }
+
+  // Rotate should come first before scale to match orientation transform
+  if (isNumber(rotate) && rotate !== 0) {
+    values.push('rotate(' + rotate + 'deg)');
+  }
+
+  if (isNumber(scaleX) && scaleX !== 1) {
+    values.push('scaleX(' + scaleX + ')');
+  }
+
+  if (isNumber(scaleY) && scaleY !== 1) {
+    values.push('scaleY(' + scaleY + ')');
+  }
+
+  var transform = values.length ? values.join(' ') : 'none';
+
+  return {
+    WebkitTransform: transform,
+    msTransform: transform,
+    transform: transform
+  };
+}
+
+/**
+ * Get the max ratio of a group of pointers.
+ * @param {string} pointers - The target pointers.
+ * @returns {number} The result ratio.
+ */
+function getMaxZoomRatio(pointers) {
+  var pointers2 = assign({}, pointers);
+  var ratios = [];
+
+  forEach(pointers, function (pointer, pointerId) {
+    delete pointers2[pointerId];
+
+    forEach(pointers2, function (pointer2) {
+      var x1 = Math.abs(pointer.startX - pointer2.startX);
+      var y1 = Math.abs(pointer.startY - pointer2.startY);
+      var x2 = Math.abs(pointer.endX - pointer2.endX);
+      var y2 = Math.abs(pointer.endY - pointer2.endY);
+      var z1 = Math.sqrt(x1 * x1 + y1 * y1);
+      var z2 = Math.sqrt(x2 * x2 + y2 * y2);
+      var ratio = (z2 - z1) / z1;
+
+      ratios.push(ratio);
+    });
+  });
+
+  ratios.sort(function (a, b) {
+    return Math.abs(a) < Math.abs(b);
+  });
+
+  return ratios[0];
+}
+
+/**
+ * Get a pointer from an event object.
+ * @param {Object} event - The target event object.
+ * @param {boolean} endOnly - Indicates if only returns the end point coordinate or not.
+ * @returns {Object} The result pointer contains start and/or end point coordinates.
+ */
+function getPointer(_ref2, endOnly) {
+  var pageX = _ref2.pageX,
+      pageY = _ref2.pageY;
+
+  var end = {
+    endX: pageX,
+    endY: pageY
+  };
+
+  return endOnly ? end : assign({
+    startX: pageX,
+    startY: pageY
+  }, end);
+}
+
+/**
+ * Get the center point coordinate of a group of pointers.
+ * @param {Object} pointers - The target pointers.
+ * @returns {Object} The center point coordinate.
+ */
+function getPointersCenter(pointers) {
+  var pageX = 0;
+  var pageY = 0;
+  var count = 0;
+
+  forEach(pointers, function (_ref3) {
+    var startX = _ref3.startX,
+        startY = _ref3.startY;
+
+    pageX += startX;
+    pageY += startY;
+    count += 1;
+  });
+
+  pageX /= count;
+  pageY /= count;
+
+  return {
+    pageX: pageX,
+    pageY: pageY
+  };
+}
+
+/**
+ * Check if the given value is a finite number.
+ */
+var isFinite = Number.isFinite || WINDOW.isFinite;
+
+/**
+ * Get the max sizes in a rectangle under the given aspect ratio.
+ * @param {Object} data - The original sizes.
+ * @param {string} [type='contain'] - The adjust type.
+ * @returns {Object} The result sizes.
+ */
+function getAdjustedSizes(_ref4) // or 'cover'
+{
+  var aspectRatio = _ref4.aspectRatio,
+      height = _ref4.height,
+      width = _ref4.width;
+  var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'contain';
+
+  var isValidNumber = function isValidNumber(value) {
+    return isFinite(value) && value > 0;
+  };
+
+  if (isValidNumber(width) && isValidNumber(height)) {
+    var adjustedWidth = height * aspectRatio;
+
+    if (type === 'contain' && adjustedWidth > width || type === 'cover' && adjustedWidth < width) {
+      height = width / aspectRatio;
+    } else {
+      width = height * aspectRatio;
+    }
+  } else if (isValidNumber(width)) {
+    height = width / aspectRatio;
+  } else if (isValidNumber(height)) {
+    width = height * aspectRatio;
+  }
+
+  return {
+    width: width,
+    height: height
+  };
+}
+
+/**
+ * Get the new sizes of a rectangle after rotated.
+ * @param {Object} data - The original sizes.
+ * @returns {Object} The result sizes.
+ */
+function getRotatedSizes(_ref5) {
+  var width = _ref5.width,
+      height = _ref5.height,
+      degree = _ref5.degree;
+
+  degree = Math.abs(degree) % 180;
+
+  if (degree === 90) {
+    return {
+      width: height,
+      height: width
+    };
+  }
+
+  var arc = degree % 90 * Math.PI / 180;
+  var sinArc = Math.sin(arc);
+  var cosArc = Math.cos(arc);
+  var newWidth = width * cosArc + height * sinArc;
+  var newHeight = width * sinArc + height * cosArc;
+
+  return degree > 90 ? {
+    width: newHeight,
+    height: newWidth
+  } : {
+    width: newWidth,
+    height: newHeight
+  };
+}
+
+/**
+ * Get a canvas which drew the given image.
+ * @param {HTMLImageElement} image - The image for drawing.
+ * @param {Object} imageData - The image data.
+ * @param {Object} canvasData - The canvas data.
+ * @param {Object} options - The options.
+ * @returns {HTMLCanvasElement} The result canvas.
+ */
+function getSourceCanvas(image, _ref6, _ref7, _ref8) {
+  var imageAspectRatio = _ref6.aspectRatio,
+      imageNaturalWidth = _ref6.naturalWidth,
+      imageNaturalHeight = _ref6.naturalHeight,
+      _ref6$rotate = _ref6.rotate,
+      rotate = _ref6$rotate === undefined ? 0 : _ref6$rotate,
+      _ref6$scaleX = _ref6.scaleX,
+      scaleX = _ref6$scaleX === undefined ? 1 : _ref6$scaleX,
+      _ref6$scaleY = _ref6.scaleY,
+      scaleY = _ref6$scaleY === undefined ? 1 : _ref6$scaleY;
+  var aspectRatio = _ref7.aspectRatio,
+      naturalWidth = _ref7.naturalWidth,
+      naturalHeight = _ref7.naturalHeight;
+  var _ref8$fillColor = _ref8.fillColor,
+      fillColor = _ref8$fillColor === undefined ? 'transparent' : _ref8$fillColor,
+      _ref8$imageSmoothingE = _ref8.imageSmoothingEnabled,
+      imageSmoothingEnabled = _ref8$imageSmoothingE === undefined ? true : _ref8$imageSmoothingE,
+      _ref8$imageSmoothingQ = _ref8.imageSmoothingQuality,
+      imageSmoothingQuality = _ref8$imageSmoothingQ === undefined ? 'low' : _ref8$imageSmoothingQ,
+      _ref8$maxWidth = _ref8.maxWidth,
+      maxWidth = _ref8$maxWidth === undefined ? Infinity : _ref8$maxWidth,
+      _ref8$maxHeight = _ref8.maxHeight,
+      maxHeight = _ref8$maxHeight === undefined ? Infinity : _ref8$maxHeight,
+      _ref8$minWidth = _ref8.minWidth,
+      minWidth = _ref8$minWidth === undefined ? 0 : _ref8$minWidth,
+      _ref8$minHeight = _ref8.minHeight,
+      minHeight = _ref8$minHeight === undefined ? 0 : _ref8$minHeight;
+
+  var canvas = document.createElement('canvas');
+  var context = canvas.getContext('2d');
+  var maxSizes = getAdjustedSizes({
+    aspectRatio: aspectRatio,
+    width: maxWidth,
+    height: maxHeight
+  });
+  var minSizes = getAdjustedSizes({
+    aspectRatio: aspectRatio,
+    width: minWidth,
+    height: minHeight
+  }, 'cover');
+  var width = Math.min(maxSizes.width, Math.max(minSizes.width, naturalWidth));
+  var height = Math.min(maxSizes.height, Math.max(minSizes.height, naturalHeight));
+
+  // Note: should always use image's natural sizes for drawing as
+  // imageData.naturalWidth === canvasData.naturalHeight when rotate % 180 === 90
+  var destMaxSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: maxWidth,
+    height: maxHeight
+  });
+  var destMinSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: minWidth,
+    height: minHeight
+  }, 'cover');
+  var destWidth = Math.min(destMaxSizes.width, Math.max(destMinSizes.width, imageNaturalWidth));
+  var destHeight = Math.min(destMaxSizes.height, Math.max(destMinSizes.height, imageNaturalHeight));
+  var params = [-destWidth / 2, -destHeight / 2, destWidth, destHeight];
+
+  canvas.width = normalizeDecimalNumber(width);
+  canvas.height = normalizeDecimalNumber(height);
+  context.fillStyle = fillColor;
+  context.fillRect(0, 0, width, height);
+  context.save();
+  context.translate(width / 2, height / 2);
+  context.rotate(rotate * Math.PI / 180);
+  context.scale(scaleX, scaleY);
+  context.imageSmoothingEnabled = imageSmoothingEnabled;
+  context.imageSmoothingQuality = imageSmoothingQuality;
+  context.drawImage.apply(context, [image].concat(toConsumableArray(params.map(function (param) {
+    return Math.floor(normalizeDecimalNumber(param));
+  }))));
+  context.restore();
+  return canvas;
+}
+
+var fromCharCode = String.fromCharCode;
+
+/**
+ * Get string from char code in data view.
+ * @param {DataView} dataView - The data view for read.
+ * @param {number} start - The start index.
+ * @param {number} length - The read length.
+ * @returns {string} The read result.
+ */
+
+function getStringFromCharCode(dataView, start, length) {
+  var str = '';
+  var i = void 0;
+
+  length += start;
+
+  for (i = start; i < length; i += 1) {
+    str += fromCharCode(dataView.getUint8(i));
+  }
+
+  return str;
+}
+
+var REGEXP_DATA_URL_HEAD = /^data:.*,/;
+
+/**
+ * Transform Data URL to array buffer.
+ * @param {string} dataURL - The Data URL to transform.
+ * @returns {ArrayBuffer} The result array buffer.
+ */
+function dataURLToArrayBuffer(dataURL) {
+  var base64 = dataURL.replace(REGEXP_DATA_URL_HEAD, '');
+  var binary = atob(base64);
+  var arrayBuffer = new ArrayBuffer(binary.length);
+  var uint8 = new Uint8Array(arrayBuffer);
+
+  forEach(uint8, function (value, i) {
+    uint8[i] = binary.charCodeAt(i);
+  });
+
+  return arrayBuffer;
+}
+
+/**
+ * Transform array buffer to Data URL.
+ * @param {ArrayBuffer} arrayBuffer - The array buffer to transform.
+ * @param {string} mimeType - The mime type of the Data URL.
+ * @returns {string} The result Data URL.
+ */
+function arrayBufferToDataURL(arrayBuffer, mimeType) {
+  var uint8 = new Uint8Array(arrayBuffer);
+  var data = '';
+
+  // TypedArray.prototype.forEach is not supported in some browsers.
+  forEach(uint8, function (value) {
+    data += fromCharCode(value);
+  });
+
+  return 'data:' + mimeType + ';base64,' + btoa(data);
+}
+
+/**
+ * Get orientation value from given array buffer.
+ * @param {ArrayBuffer} arrayBuffer - The array buffer to read.
+ * @returns {number} The read orientation value.
+ */
+function getOrientation(arrayBuffer) {
+  var dataView = new DataView(arrayBuffer);
+  var orientation = void 0;
+  var littleEndian = void 0;
+  var app1Start = void 0;
+  var ifdStart = void 0;
+
+  // Only handle JPEG image (start by 0xFFD8)
+  if (dataView.getUint8(0) === 0xFF && dataView.getUint8(1) === 0xD8) {
+    var length = dataView.byteLength;
+    var offset = 2;
+
+    while (offset < length) {
+      if (dataView.getUint8(offset) === 0xFF && dataView.getUint8(offset + 1) === 0xE1) {
+        app1Start = offset;
+        break;
+      }
+
+      offset += 1;
+    }
+  }
+
+  if (app1Start) {
+    var exifIDCode = app1Start + 4;
+    var tiffOffset = app1Start + 10;
+
+    if (getStringFromCharCode(dataView, exifIDCode, 4) === 'Exif') {
+      var endianness = dataView.getUint16(tiffOffset);
+
+      littleEndian = endianness === 0x4949;
+
+      if (littleEndian || endianness === 0x4D4D /* bigEndian */) {
+          if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
+            var firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
+
+            if (firstIFDOffset >= 0x00000008) {
+              ifdStart = tiffOffset + firstIFDOffset;
+            }
+          }
+        }
+    }
+  }
+
+  if (ifdStart) {
+    var _length = dataView.getUint16(ifdStart, littleEndian);
+    var _offset = void 0;
+    var i = void 0;
+
+    for (i = 0; i < _length; i += 1) {
+      _offset = ifdStart + i * 12 + 2;
+
+      if (dataView.getUint16(_offset, littleEndian) === 0x0112 /* Orientation */) {
+          // 8 is the offset of the current tag's value
+          _offset += 8;
+
+          // Get the original orientation value
+          orientation = dataView.getUint16(_offset, littleEndian);
+
+          // Override the orientation with its default value
+          dataView.setUint16(_offset, 1, littleEndian);
+          break;
+        }
+    }
+  }
+
+  return orientation;
+}
+
+/**
+ * Parse Exif Orientation value.
+ * @param {number} orientation - The orientation to parse.
+ * @returns {Object} The parsed result.
+ */
+function parseOrientation(orientation) {
+  var rotate = 0;
+  var scaleX = 1;
+  var scaleY = 1;
+
+  switch (orientation) {
+    // Flip horizontal
+    case 2:
+      scaleX = -1;
+      break;
+
+    // Rotate left 180°
+    case 3:
+      rotate = -180;
+      break;
+
+    // Flip vertical
+    case 4:
+      scaleY = -1;
+      break;
+
+    // Flip vertical and rotate right 90°
+    case 5:
+      rotate = 90;
+      scaleY = -1;
+      break;
+
+    // Rotate right 90°
+    case 6:
+      rotate = 90;
+      break;
+
+    // Flip horizontal and rotate right 90°
+    case 7:
+      rotate = 90;
+      scaleX = -1;
+      break;
+
+    // Rotate left 90°
+    case 8:
+      rotate = -90;
+      break;
+
+    default:
+  }
+
+  return {
+    rotate: rotate,
+    scaleX: scaleX,
+    scaleY: scaleY
+  };
+}
+
+var render = {
+  render: function render() {
+    this.initContainer();
+    this.initCanvas();
+    this.initCropBox();
+    this.renderCanvas();
+
+    if (this.cropped) {
+      this.renderCropBox();
+    }
+  },
+  initContainer: function initContainer() {
+    var element = this.element,
+        options = this.options,
+        container = this.container,
+        cropper = this.cropper;
+
+
+    addClass(cropper, CLASS_HIDDEN);
+    removeClass(element, CLASS_HIDDEN);
+
+    var containerData = {
+      width: Math.max(container.offsetWidth, Number(options.minContainerWidth) || 200),
+      height: Math.max(container.offsetHeight, Number(options.minContainerHeight) || 100)
+    };
+
+    this.containerData = containerData;
+
+    setStyle(cropper, {
+      width: containerData.width,
+      height: containerData.height
+    });
+
+    addClass(element, CLASS_HIDDEN);
+    removeClass(cropper, CLASS_HIDDEN);
+  },
+
+
+  // Canvas (image wrapper)
+  initCanvas: function initCanvas() {
+    var containerData = this.containerData,
+        imageData = this.imageData;
+    var viewMode = this.options.viewMode;
+
+    var rotated = Math.abs(imageData.rotate) % 180 === 90;
+    var naturalWidth = rotated ? imageData.naturalHeight : imageData.naturalWidth;
+    var naturalHeight = rotated ? imageData.naturalWidth : imageData.naturalHeight;
+    var aspectRatio = naturalWidth / naturalHeight;
+    var canvasWidth = containerData.width;
+    var canvasHeight = containerData.height;
+
+    if (containerData.height * aspectRatio > containerData.width) {
+      if (viewMode === 3) {
+        canvasWidth = containerData.height * aspectRatio;
+      } else {
+        canvasHeight = containerData.width / aspectRatio;
+      }
+    } else if (viewMode === 3) {
+      canvasHeight = containerData.width / aspectRatio;
+    } else {
+      canvasWidth = containerData.height * aspectRatio;
+    }
+
+    var canvasData = {
+      aspectRatio: aspectRatio,
+      naturalWidth: naturalWidth,
+      naturalHeight: naturalHeight,
+      width: canvasWidth,
+      height: canvasHeight
+    };
+
+    canvasData.left = (containerData.width - canvasWidth) / 2;
+    canvasData.top = (containerData.height - canvasHeight) / 2;
+    canvasData.oldLeft = canvasData.left;
+    canvasData.oldTop = canvasData.top;
+
+    this.canvasData = canvasData;
+    this.limited = viewMode === 1 || viewMode === 2;
+    this.limitCanvas(true, true);
+    this.initialImageData = assign({}, imageData);
+    this.initialCanvasData = assign({}, canvasData);
+  },
+  limitCanvas: function limitCanvas(sizeLimited, positionLimited) {
+    var options = this.options,
+        containerData = this.containerData,
+        canvasData = this.canvasData,
+        cropBoxData = this.cropBoxData;
+    var viewMode = options.viewMode;
+    var aspectRatio = canvasData.aspectRatio;
+
+    var cropped = this.cropped && cropBoxData;
+
+    if (sizeLimited) {
+      var minCanvasWidth = Number(options.minCanvasWidth) || 0;
+      var minCanvasHeight = Number(options.minCanvasHeight) || 0;
+
+      if (viewMode > 1) {
+        minCanvasWidth = Math.max(minCanvasWidth, containerData.width);
+        minCanvasHeight = Math.max(minCanvasHeight, containerData.height);
+
+        if (viewMode === 3) {
+          if (minCanvasHeight * aspectRatio > minCanvasWidth) {
+            minCanvasWidth = minCanvasHeight * aspectRatio;
+          } else {
+            minCanvasHeight = minCanvasWidth / aspectRatio;
+          }
+        }
+      } else if (viewMode > 0) {
+        if (minCanvasWidth) {
+          minCanvasWidth = Math.max(minCanvasWidth, cropped ? cropBoxData.width : 0);
+        } else if (minCanvasHeight) {
+          minCanvasHeight = Math.max(minCanvasHeight, cropped ? cropBoxData.height : 0);
+        } else if (cropped) {
+          minCanvasWidth = cropBoxData.width;
+          minCanvasHeight = cropBoxData.height;
+
+          if (minCanvasHeight * aspectRatio > minCanvasWidth) {
+            minCanvasWidth = minCanvasHeight * aspectRatio;
+          } else {
+            minCanvasHeight = minCanvasWidth / aspectRatio;
+          }
+        }
+      }
+
+      var _getAdjustedSizes = getAdjustedSizes({
+        aspectRatio: aspectRatio,
+        width: minCanvasWidth,
+        height: minCanvasHeight
+      });
+
+      minCanvasWidth = _getAdjustedSizes.width;
+      minCanvasHeight = _getAdjustedSizes.height;
+
+
+      canvasData.minWidth = minCanvasWidth;
+      canvasData.minHeight = minCanvasHeight;
+      canvasData.maxWidth = Infinity;
+      canvasData.maxHeight = Infinity;
+    }
+
+    if (positionLimited) {
+      if (viewMode) {
+        var newCanvasLeft = containerData.width - canvasData.width;
+        var newCanvasTop = containerData.height - canvasData.height;
+
+        canvasData.minLeft = Math.min(0, newCanvasLeft);
+        canvasData.minTop = Math.min(0, newCanvasTop);
+        canvasData.maxLeft = Math.max(0, newCanvasLeft);
+        canvasData.maxTop = Math.max(0, newCanvasTop);
+
+        if (cropped && this.limited) {
+          canvasData.minLeft = Math.min(cropBoxData.left, cropBoxData.left + (cropBoxData.width - canvasData.width));
+          canvasData.minTop = Math.min(cropBoxData.top, cropBoxData.top + (cropBoxData.height - canvasData.height));
+          canvasData.maxLeft = cropBoxData.left;
+          canvasData.maxTop = cropBoxData.top;
+
+          if (viewMode === 2) {
+            if (canvasData.width >= containerData.width) {
+              canvasData.minLeft = Math.min(0, newCanvasLeft);
+              canvasData.maxLeft = Math.max(0, newCanvasLeft);
+            }
+
+            if (canvasData.height >= containerData.height) {
+              canvasData.minTop = Math.min(0, newCanvasTop);
+              canvasData.maxTop = Math.max(0, newCanvasTop);
+            }
+          }
+        }
+      } else {
+        canvasData.minLeft = -canvasData.width;
+        canvasData.minTop = -canvasData.height;
+        canvasData.maxLeft = containerData.width;
+        canvasData.maxTop = containerData.height;
+      }
+    }
+  },
+  renderCanvas: function renderCanvas(changed, transformed) {
+    var canvasData = this.canvasData,
+        imageData = this.imageData;
+
+
+    if (transformed) {
+      var _getRotatedSizes = getRotatedSizes({
+        width: imageData.naturalWidth * Math.abs(imageData.scaleX || 1),
+        height: imageData.naturalHeight * Math.abs(imageData.scaleY || 1),
+        degree: imageData.rotate || 0
+      }),
+          naturalWidth = _getRotatedSizes.width,
+          naturalHeight = _getRotatedSizes.height;
+
+      var width = canvasData.width * (naturalWidth / canvasData.naturalWidth);
+      var height = canvasData.height * (naturalHeight / canvasData.naturalHeight);
+
+      canvasData.left -= (width - canvasData.width) / 2;
+      canvasData.top -= (height - canvasData.height) / 2;
+      canvasData.width = width;
+      canvasData.height = height;
+      canvasData.aspectRatio = naturalWidth / naturalHeight;
+      canvasData.naturalWidth = naturalWidth;
+      canvasData.naturalHeight = naturalHeight;
+      this.limitCanvas(true, false);
+    }
+
+    if (canvasData.width > canvasData.maxWidth || canvasData.width < canvasData.minWidth) {
+      canvasData.left = canvasData.oldLeft;
+    }
+
+    if (canvasData.height > canvasData.maxHeight || canvasData.height < canvasData.minHeight) {
+      canvasData.top = canvasData.oldTop;
+    }
+
+    canvasData.width = Math.min(Math.max(canvasData.width, canvasData.minWidth), canvasData.maxWidth);
+    canvasData.height = Math.min(Math.max(canvasData.height, canvasData.minHeight), canvasData.maxHeight);
+
+    this.limitCanvas(false, true);
+
+    canvasData.left = Math.min(Math.max(canvasData.left, canvasData.minLeft), canvasData.maxLeft);
+    canvasData.top = Math.min(Math.max(canvasData.top, canvasData.minTop), canvasData.maxTop);
+    canvasData.oldLeft = canvasData.left;
+    canvasData.oldTop = canvasData.top;
+
+    setStyle(this.canvas, assign({
+      width: canvasData.width,
+      height: canvasData.height
+    }, getTransforms({
+      translateX: canvasData.left,
+      translateY: canvasData.top
+    })));
+
+    this.renderImage(changed);
+
+    if (this.cropped && this.limited) {
+      this.limitCropBox(true, true);
+    }
+  },
+  renderImage: function renderImage(changed) {
+    var canvasData = this.canvasData,
+        imageData = this.imageData;
+
+    var width = imageData.naturalWidth * (canvasData.width / canvasData.naturalWidth);
+    var height = imageData.naturalHeight * (canvasData.height / canvasData.naturalHeight);
+
+    assign(imageData, {
+      width: width,
+      height: height,
+      left: (canvasData.width - width) / 2,
+      top: (canvasData.height - height) / 2
+    });
+    setStyle(this.image, assign({
+      width: imageData.width,
+      height: imageData.height
+    }, getTransforms(assign({
+      translateX: imageData.left,
+      translateY: imageData.top
+    }, imageData))));
+
+    if (changed) {
+      this.output();
+    }
+  },
+  initCropBox: function initCropBox() {
+    var options = this.options,
+        canvasData = this.canvasData;
+    var aspectRatio = options.aspectRatio;
+
+    var autoCropArea = Number(options.autoCropArea) || 0.8;
+    var cropBoxData = {
+      width: canvasData.width,
+      height: canvasData.height
+    };
+
+    if (aspectRatio) {
+      if (canvasData.height * aspectRatio > canvasData.width) {
+        cropBoxData.height = cropBoxData.width / aspectRatio;
+      } else {
+        cropBoxData.width = cropBoxData.height * aspectRatio;
+      }
+    }
+
+    this.cropBoxData = cropBoxData;
+    this.limitCropBox(true, true);
+
+    // Initialize auto crop area
+    cropBoxData.width = Math.min(Math.max(cropBoxData.width, cropBoxData.minWidth), cropBoxData.maxWidth);
+    cropBoxData.height = Math.min(Math.max(cropBoxData.height, cropBoxData.minHeight), cropBoxData.maxHeight);
+
+    // The width/height of auto crop area must large than "minWidth/Height"
+    cropBoxData.width = Math.max(cropBoxData.minWidth, cropBoxData.width * autoCropArea);
+    cropBoxData.height = Math.max(cropBoxData.minHeight, cropBoxData.height * autoCropArea);
+    cropBoxData.left = canvasData.left + (canvasData.width - cropBoxData.width) / 2;
+    cropBoxData.top = canvasData.top + (canvasData.height - cropBoxData.height) / 2;
+    cropBoxData.oldLeft = cropBoxData.left;
+    cropBoxData.oldTop = cropBoxData.top;
+
+    this.initialCropBoxData = assign({}, cropBoxData);
+  },
+  limitCropBox: function limitCropBox(sizeLimited, positionLimited) {
+    var options = this.options,
+        containerData = this.containerData,
+        canvasData = this.canvasData,
+        cropBoxData = this.cropBoxData,
+        limited = this.limited;
+    var aspectRatio = options.aspectRatio;
+
+
+    if (sizeLimited) {
+      var minCropBoxWidth = Number(options.minCropBoxWidth) || 0;
+      var minCropBoxHeight = Number(options.minCropBoxHeight) || 0;
+      var maxCropBoxWidth = Math.min(containerData.width, limited ? canvasData.width : containerData.width);
+      var maxCropBoxHeight = Math.min(containerData.height, limited ? canvasData.height : containerData.height);
+
+      // The min/maxCropBoxWidth/Height must be less than container's width/height
+      minCropBoxWidth = Math.min(minCropBoxWidth, containerData.width);
+      minCropBoxHeight = Math.min(minCropBoxHeight, containerData.height);
+
+      if (aspectRatio) {
+        if (minCropBoxWidth && minCropBoxHeight) {
+          if (minCropBoxHeight * aspectRatio > minCropBoxWidth) {
+            minCropBoxHeight = minCropBoxWidth / aspectRatio;
+          } else {
+            minCropBoxWidth = minCropBoxHeight * aspectRatio;
+          }
+        } else if (minCropBoxWidth) {
+          minCropBoxHeight = minCropBoxWidth / aspectRatio;
+        } else if (minCropBoxHeight) {
+          minCropBoxWidth = minCropBoxHeight * aspectRatio;
+        }
+
+        if (maxCropBoxHeight * aspectRatio > maxCropBoxWidth) {
+          maxCropBoxHeight = maxCropBoxWidth / aspectRatio;
+        } else {
+          maxCropBoxWidth = maxCropBoxHeight * aspectRatio;
+        }
+      }
+
+      // The minWidth/Height must be less than maxWidth/Height
+      cropBoxData.minWidth = Math.min(minCropBoxWidth, maxCropBoxWidth);
+      cropBoxData.minHeight = Math.min(minCropBoxHeight, maxCropBoxHeight);
+      cropBoxData.maxWidth = maxCropBoxWidth;
+      cropBoxData.maxHeight = maxCropBoxHeight;
+    }
+
+    if (positionLimited) {
+      if (limited) {
+        cropBoxData.minLeft = Math.max(0, canvasData.left);
+        cropBoxData.minTop = Math.max(0, canvasData.top);
+        cropBoxData.maxLeft = Math.min(containerData.width, canvasData.left + canvasData.width) - cropBoxData.width;
+        cropBoxData.maxTop = Math.min(containerData.height, canvasData.top + canvasData.height) - cropBoxData.height;
+      } else {
+        cropBoxData.minLeft = 0;
+        cropBoxData.minTop = 0;
+        cropBoxData.maxLeft = containerData.width - cropBoxData.width;
+        cropBoxData.maxTop = containerData.height - cropBoxData.height;
+      }
+    }
+  },
+  renderCropBox: function renderCropBox() {
+    var options = this.options,
+        containerData = this.containerData,
+        cropBoxData = this.cropBoxData;
+
+
+    if (cropBoxData.width > cropBoxData.maxWidth || cropBoxData.width < cropBoxData.minWidth) {
+      cropBoxData.left = cropBoxData.oldLeft;
+    }
+
+    if (cropBoxData.height > cropBoxData.maxHeight || cropBoxData.height < cropBoxData.minHeight) {
+      cropBoxData.top = cropBoxData.oldTop;
+    }
+
+    cropBoxData.width = Math.min(Math.max(cropBoxData.width, cropBoxData.minWidth), cropBoxData.maxWidth);
+    cropBoxData.height = Math.min(Math.max(cropBoxData.height, cropBoxData.minHeight), cropBoxData.maxHeight);
+
+    this.limitCropBox(false, true);
+
+    cropBoxData.left = Math.min(Math.max(cropBoxData.left, cropBoxData.minLeft), cropBoxData.maxLeft);
+    cropBoxData.top = Math.min(Math.max(cropBoxData.top, cropBoxData.minTop), cropBoxData.maxTop);
+    cropBoxData.oldLeft = cropBoxData.left;
+    cropBoxData.oldTop = cropBoxData.top;
+
+    if (options.movable && options.cropBoxMovable) {
+      // Turn to move the canvas when the crop box is equal to the container
+      setData(this.face, DATA_ACTION, cropBoxData.width >= containerData.width && cropBoxData.height >= containerData.height ? ACTION_MOVE : ACTION_ALL);
+    }
+
+    setStyle(this.cropBox, assign({
+      width: cropBoxData.width,
+      height: cropBoxData.height
+    }, getTransforms({
+      translateX: cropBoxData.left,
+      translateY: cropBoxData.top
+    })));
+
+    if (this.cropped && this.limited) {
+      this.limitCanvas(true, true);
+    }
+
+    if (!this.disabled) {
+      this.output();
+    }
+  },
+  output: function output() {
+    this.preview();
+    dispatchEvent(this.element, EVENT_CROP, this.getData());
+  }
+};
+
+var preview = {
+  initPreview: function initPreview() {
+    var crossOrigin = this.crossOrigin;
+    var preview = this.options.preview;
+
+    var url = crossOrigin ? this.crossOriginUrl : this.url;
+    var image = document.createElement('img');
+
+    if (crossOrigin) {
+      image.crossOrigin = crossOrigin;
+    }
+
+    image.src = url;
+    this.viewBox.appendChild(image);
+    this.viewBoxImage = image;
+
+    if (!preview) {
+      return;
+    }
+
+    var previews = preview;
+
+    if (typeof preview === 'string') {
+      previews = this.element.ownerDocument.querySelectorAll(preview);
+    } else if (preview.querySelector) {
+      previews = [preview];
+    }
+
+    this.previews = previews;
+
+    forEach(previews, function (el) {
+      var img = document.createElement('img');
+
+      // Save the original size for recover
+      setData(el, DATA_PREVIEW, {
+        width: el.offsetWidth,
+        height: el.offsetHeight,
+        html: el.innerHTML
+      });
+
+      if (crossOrigin) {
+        img.crossOrigin = crossOrigin;
+      }
+
+      img.src = url;
+
+      /**
+       * Override img element styles
+       * Add `display:block` to avoid margin top issue
+       * Add `height:auto` to override `height` attribute on IE8
+       * (Occur only when margin-top <= -height)
+       */
+      img.style.cssText = 'display:block;' + 'width:100%;' + 'height:auto;' + 'min-width:0!important;' + 'min-height:0!important;' + 'max-width:none!important;' + 'max-height:none!important;' + 'image-orientation:0deg!important;"';
+
+      el.innerHTML = '';
+      el.appendChild(img);
+    });
+  },
+  resetPreview: function resetPreview() {
+    forEach(this.previews, function (element) {
+      var data = getData(element, DATA_PREVIEW);
+
+      setStyle(element, {
+        width: data.width,
+        height: data.height
+      });
+
+      element.innerHTML = data.html;
+      removeData(element, DATA_PREVIEW);
+    });
+  },
+  preview: function preview() {
+    var imageData = this.imageData,
+        canvasData = this.canvasData,
+        cropBoxData = this.cropBoxData;
+    var cropBoxWidth = cropBoxData.width,
+        cropBoxHeight = cropBoxData.height;
+    var width = imageData.width,
+        height = imageData.height;
+
+    var left = cropBoxData.left - canvasData.left - imageData.left;
+    var top = cropBoxData.top - canvasData.top - imageData.top;
+
+    if (!this.cropped || this.disabled) {
+      return;
+    }
+
+    setStyle(this.viewBoxImage, assign({
+      width: width,
+      height: height
+    }, getTransforms(assign({
+      translateX: -left,
+      translateY: -top
+    }, imageData))));
+
+    forEach(this.previews, function (element) {
+      var data = getData(element, DATA_PREVIEW);
+      var originalWidth = data.width;
+      var originalHeight = data.height;
+      var newWidth = originalWidth;
+      var newHeight = originalHeight;
+      var ratio = 1;
+
+      if (cropBoxWidth) {
+        ratio = originalWidth / cropBoxWidth;
+        newHeight = cropBoxHeight * ratio;
+      }
+
+      if (cropBoxHeight && newHeight > originalHeight) {
+        ratio = originalHeight / cropBoxHeight;
+        newWidth = cropBoxWidth * ratio;
+        newHeight = originalHeight;
+      }
+
+      setStyle(element, {
+        width: newWidth,
+        height: newHeight
+      });
+
+      setStyle(element.getElementsByTagName('img')[0], assign({
+        width: width * ratio,
+        height: height * ratio
+      }, getTransforms(assign({
+        translateX: -left * ratio,
+        translateY: -top * ratio
+      }, imageData))));
+    });
+  }
+};
+
+var events = {
+  bind: function bind() {
+    var element = this.element,
+        options = this.options,
+        cropper = this.cropper;
+
+
+    if (isFunction(options.cropstart)) {
+      addListener(element, EVENT_CROP_START, options.cropstart);
+    }
+
+    if (isFunction(options.cropmove)) {
+      addListener(element, EVENT_CROP_MOVE, options.cropmove);
+    }
+
+    if (isFunction(options.cropend)) {
+      addListener(element, EVENT_CROP_END, options.cropend);
+    }
+
+    if (isFunction(options.crop)) {
+      addListener(element, EVENT_CROP, options.crop);
+    }
+
+    if (isFunction(options.zoom)) {
+      addListener(element, EVENT_ZOOM, options.zoom);
+    }
+
+    addListener(cropper, EVENT_POINTER_DOWN, this.onCropStart = this.cropStart.bind(this));
+
+    if (options.zoomable && options.zoomOnWheel) {
+      addListener(cropper, EVENT_WHEEL, this.onWheel = this.wheel.bind(this));
+    }
+
+    if (options.toggleDragModeOnDblclick) {
+      addListener(cropper, EVENT_DBLCLICK, this.onDblclick = this.dblclick.bind(this));
+    }
+
+    addListener(element.ownerDocument, EVENT_POINTER_MOVE, this.onCropMove = this.cropMove.bind(this));
+    addListener(element.ownerDocument, EVENT_POINTER_UP, this.onCropEnd = this.cropEnd.bind(this));
+
+    if (options.responsive) {
+      addListener(window, EVENT_RESIZE, this.onResize = this.resize.bind(this));
+    }
+  },
+  unbind: function unbind() {
+    var element = this.element,
+        options = this.options,
+        cropper = this.cropper;
+
+
+    if (isFunction(options.cropstart)) {
+      removeListener(element, EVENT_CROP_START, options.cropstart);
+    }
+
+    if (isFunction(options.cropmove)) {
+      removeListener(element, EVENT_CROP_MOVE, options.cropmove);
+    }
+
+    if (isFunction(options.cropend)) {
+      removeListener(element, EVENT_CROP_END, options.cropend);
+    }
+
+    if (isFunction(options.crop)) {
+      removeListener(element, EVENT_CROP, options.crop);
+    }
+
+    if (isFunction(options.zoom)) {
+      removeListener(element, EVENT_ZOOM, options.zoom);
+    }
+
+    removeListener(cropper, EVENT_POINTER_DOWN, this.onCropStart);
+
+    if (options.zoomable && options.zoomOnWheel) {
+      removeListener(cropper, EVENT_WHEEL, this.onWheel);
+    }
+
+    if (options.toggleDragModeOnDblclick) {
+      removeListener(cropper, EVENT_DBLCLICK, this.onDblclick);
+    }
+
+    removeListener(element.ownerDocument, EVENT_POINTER_MOVE, this.onCropMove);
+    removeListener(element.ownerDocument, EVENT_POINTER_UP, this.onCropEnd);
+
+    if (options.responsive) {
+      removeListener(window, EVENT_RESIZE, this.onResize);
+    }
+  }
+};
+
+var handlers = {
+  resize: function resize() {
+    var options = this.options,
+        container = this.container,
+        containerData = this.containerData;
+
+    var minContainerWidth = Number(options.minContainerWidth) || 200;
+    var minContainerHeight = Number(options.minContainerHeight) || 100;
+
+    if (this.disabled || containerData.width <= minContainerWidth || containerData.height <= minContainerHeight) {
+      return;
+    }
+
+    var ratio = container.offsetWidth / containerData.width;
+
+    // Resize when width changed or height changed
+    if (ratio !== 1 || container.offsetHeight !== containerData.height) {
+      var canvasData = void 0;
+      var cropBoxData = void 0;
+
+      if (options.restore) {
+        canvasData = this.getCanvasData();
+        cropBoxData = this.getCropBoxData();
+      }
+
+      this.render();
+
+      if (options.restore) {
+        this.setCanvasData(forEach(canvasData, function (n, i) {
+          canvasData[i] = n * ratio;
+        }));
+        this.setCropBoxData(forEach(cropBoxData, function (n, i) {
+          cropBoxData[i] = n * ratio;
+        }));
+      }
+    }
+  },
+  dblclick: function dblclick() {
+    if (this.disabled || this.options.dragMode === DRAG_MODE_NONE) {
+      return;
+    }
+
+    this.setDragMode(hasClass(this.dragBox, CLASS_CROP) ? DRAG_MODE_MOVE : DRAG_MODE_CROP);
+  },
+  wheel: function wheel(e) {
+    var _this = this;
+
+    var ratio = Number(this.options.wheelZoomRatio) || 0.1;
+    var delta = 1;
+
+    if (this.disabled) {
+      return;
+    }
+
+    e.preventDefault();
+
+    // Limit wheel speed to prevent zoom too fast (#21)
+    if (this.wheeling) {
+      return;
+    }
+
+    this.wheeling = true;
+
+    setTimeout(function () {
+      _this.wheeling = false;
+    }, 50);
+
+    if (e.deltaY) {
+      delta = e.deltaY > 0 ? 1 : -1;
+    } else if (e.wheelDelta) {
+      delta = -e.wheelDelta / 120;
+    } else if (e.detail) {
+      delta = e.detail > 0 ? 1 : -1;
+    }
+
+    this.zoom(-delta * ratio, e);
+  },
+  cropStart: function cropStart(e) {
+    if (this.disabled) {
+      return;
+    }
+
+    var options = this.options,
+        pointers = this.pointers;
+
+    var action = void 0;
+
+    if (e.changedTouches) {
+      // Handle touch event
+      forEach(e.changedTouches, function (touch) {
+        pointers[touch.identifier] = getPointer(touch);
+      });
+    } else {
+      // Handle mouse event and pointer event
+      pointers[e.pointerId || 0] = getPointer(e);
+    }
+
+    if (Object.keys(pointers).length > 1 && options.zoomable && options.zoomOnTouch) {
+      action = ACTION_ZOOM;
+    } else {
+      action = getData(e.target, DATA_ACTION);
+    }
+
+    if (!REGEXP_ACTIONS.test(action)) {
+      return;
+    }
+
+    if (dispatchEvent(this.element, EVENT_CROP_START, {
+      originalEvent: e,
+      action: action
+    }) === false) {
+      return;
+    }
+
+    e.preventDefault();
+
+    this.action = action;
+    this.cropping = false;
+
+    if (action === ACTION_CROP) {
+      this.cropping = true;
+      addClass(this.dragBox, CLASS_MODAL);
+    }
+  },
+  cropMove: function cropMove(e) {
+    var action = this.action;
+
+
+    if (this.disabled || !action) {
+      return;
+    }
+
+    var pointers = this.pointers;
+
+
+    e.preventDefault();
+
+    if (dispatchEvent(this.element, EVENT_CROP_MOVE, {
+      originalEvent: e,
+      action: action
+    }) === false) {
+      return;
+    }
+
+    if (e.changedTouches) {
+      forEach(e.changedTouches, function (touch) {
+        assign(pointers[touch.identifier], getPointer(touch, true));
+      });
+    } else {
+      assign(pointers[e.pointerId || 0], getPointer(e, true));
+    }
+
+    this.change(e);
+  },
+  cropEnd: function cropEnd(e) {
+    if (this.disabled) {
+      return;
+    }
+
+    var action = this.action,
+        pointers = this.pointers;
+
+
+    if (e.changedTouches) {
+      forEach(e.changedTouches, function (touch) {
+        delete pointers[touch.identifier];
+      });
+    } else {
+      delete pointers[e.pointerId || 0];
+    }
+
+    if (!action) {
+      return;
+    }
+
+    e.preventDefault();
+
+    if (!Object.keys(pointers).length) {
+      this.action = '';
+    }
+
+    if (this.cropping) {
+      this.cropping = false;
+      toggleClass(this.dragBox, CLASS_MODAL, this.cropped && this.options.modal);
+    }
+
+    dispatchEvent(this.element, EVENT_CROP_END, {
+      originalEvent: e,
+      action: action
+    });
+  }
+};
+
+var change = {
+  change: function change(e) {
+    var options = this.options,
+        canvasData = this.canvasData,
+        containerData = this.containerData,
+        cropBoxData = this.cropBoxData,
+        pointers = this.pointers;
+    var action = this.action;
+    var aspectRatio = options.aspectRatio;
+    var left = cropBoxData.left,
+        top = cropBoxData.top,
+        width = cropBoxData.width,
+        height = cropBoxData.height;
+
+    var right = left + width;
+    var bottom = top + height;
+    var minLeft = 0;
+    var minTop = 0;
+    var maxWidth = containerData.width;
+    var maxHeight = containerData.height;
+    var renderable = true;
+    var offset = void 0;
+
+    // Locking aspect ratio in "free mode" by holding shift key
+    if (!aspectRatio && e.shiftKey) {
+      aspectRatio = width && height ? width / height : 1;
+    }
+
+    if (this.limited) {
+      minLeft = cropBoxData.minLeft;
+      minTop = cropBoxData.minTop;
+
+      maxWidth = minLeft + Math.min(containerData.width, canvasData.width, canvasData.left + canvasData.width);
+      maxHeight = minTop + Math.min(containerData.height, canvasData.height, canvasData.top + canvasData.height);
+    }
+
+    var pointer = pointers[Object.keys(pointers)[0]];
+    var range = {
+      x: pointer.endX - pointer.startX,
+      y: pointer.endY - pointer.startY
+    };
+    var check = function check(side) {
+      switch (side) {
+        case ACTION_EAST:
+          if (right + range.x > maxWidth) {
+            range.x = maxWidth - right;
+          }
+
+          break;
+
+        case ACTION_WEST:
+          if (left + range.x < minLeft) {
+            range.x = minLeft - left;
+          }
+
+          break;
+
+        case ACTION_NORTH:
+          if (top + range.y < minTop) {
+            range.y = minTop - top;
+          }
+
+          break;
+
+        case ACTION_SOUTH:
+          if (bottom + range.y > maxHeight) {
+            range.y = maxHeight - bottom;
+          }
+
+          break;
+
+        default:
+      }
+    };
+
+    switch (action) {
+      // Move crop box
+      case ACTION_ALL:
+        left += range.x;
+        top += range.y;
+        break;
+
+      // Resize crop box
+      case ACTION_EAST:
+        if (range.x >= 0 && (right >= maxWidth || aspectRatio && (top <= minTop || bottom >= maxHeight))) {
+          renderable = false;
+          break;
+        }
+
+        check(ACTION_EAST);
+        width += range.x;
+
+        if (aspectRatio) {
+          height = width / aspectRatio;
+          top -= range.x / aspectRatio / 2;
+        }
+
+        if (width < 0) {
+          action = ACTION_WEST;
+          width = 0;
+        }
+
+        break;
+
+      case ACTION_NORTH:
+        if (range.y <= 0 && (top <= minTop || aspectRatio && (left <= minLeft || right >= maxWidth))) {
+          renderable = false;
+          break;
+        }
+
+        check(ACTION_NORTH);
+        height -= range.y;
+        top += range.y;
+
+        if (aspectRatio) {
+          width = height * aspectRatio;
+          left += range.y * aspectRatio / 2;
+        }
+
+        if (height < 0) {
+          action = ACTION_SOUTH;
+          height = 0;
+        }
+
+        break;
+
+      case ACTION_WEST:
+        if (range.x <= 0 && (left <= minLeft || aspectRatio && (top <= minTop || bottom >= maxHeight))) {
+          renderable = false;
+          break;
+        }
+
+        check(ACTION_WEST);
+        width -= range.x;
+        left += range.x;
+
+        if (aspectRatio) {
+          height = width / aspectRatio;
+          top += range.x / aspectRatio / 2;
+        }
+
+        if (width < 0) {
+          action = ACTION_EAST;
+          width = 0;
+        }
+
+        break;
+
+      case ACTION_SOUTH:
+        if (range.y >= 0 && (bottom >= maxHeight || aspectRatio && (left <= minLeft || right >= maxWidth))) {
+          renderable = false;
+          break;
+        }
+
+        check(ACTION_SOUTH);
+        height += range.y;
+
+        if (aspectRatio) {
+          width = height * aspectRatio;
+          left -= range.y * aspectRatio / 2;
+        }
+
+        if (height < 0) {
+          action = ACTION_NORTH;
+          height = 0;
+        }
+
+        break;
+
+      case ACTION_NORTH_EAST:
+        if (aspectRatio) {
+          if (range.y <= 0 && (top <= minTop || right >= maxWidth)) {
+            renderable = false;
+            break;
+          }
+
+          check(ACTION_NORTH);
+          height -= range.y;
+          top += range.y;
+          width = height * aspectRatio;
+        } else {
+          check(ACTION_NORTH);
+          check(ACTION_EAST);
+
+          if (range.x >= 0) {
+            if (right < maxWidth) {
+              width += range.x;
+            } else if (range.y <= 0 && top <= minTop) {
+              renderable = false;
+            }
+          } else {
+            width += range.x;
+          }
+
+          if (range.y <= 0) {
+            if (top > minTop) {
+              height -= range.y;
+              top += range.y;
+            }
+          } else {
+            height -= range.y;
+            top += range.y;
+          }
+        }
+
+        if (width < 0 && height < 0) {
+          action = ACTION_SOUTH_WEST;
+          height = 0;
+          width = 0;
+        } else if (width < 0) {
+          action = ACTION_NORTH_WEST;
+          width = 0;
+        } else if (height < 0) {
+          action = ACTION_SOUTH_EAST;
+          height = 0;
+        }
+
+        break;
+
+      case ACTION_NORTH_WEST:
+        if (aspectRatio) {
+          if (range.y <= 0 && (top <= minTop || left <= minLeft)) {
+            renderable = false;
+            break;
+          }
+
+          check(ACTION_NORTH);
+          height -= range.y;
+          top += range.y;
+          width = height * aspectRatio;
+          left += range.y * aspectRatio;
+        } else {
+          check(ACTION_NORTH);
+          check(ACTION_WEST);
+
+          if (range.x <= 0) {
+            if (left > minLeft) {
+              width -= range.x;
+              left += range.x;
+            } else if (range.y <= 0 && top <= minTop) {
+              renderable = false;
+            }
+          } else {
+            width -= range.x;
+            left += range.x;
+          }
+
+          if (range.y <= 0) {
+            if (top > minTop) {
+              height -= range.y;
+              top += range.y;
+            }
+          } else {
+            height -= range.y;
+            top += range.y;
+          }
+        }
+
+        if (width < 0 && height < 0) {
+          action = ACTION_SOUTH_EAST;
+          height = 0;
+          width = 0;
+        } else if (width < 0) {
+          action = ACTION_NORTH_EAST;
+          width = 0;
+        } else if (height < 0) {
+          action = ACTION_SOUTH_WEST;
+          height = 0;
+        }
+
+        break;
+
+      case ACTION_SOUTH_WEST:
+        if (aspectRatio) {
+          if (range.x <= 0 && (left <= minLeft || bottom >= maxHeight)) {
+            renderable = false;
+            break;
+          }
+
+          check(ACTION_WEST);
+          width -= range.x;
+          left += range.x;
+          height = width / aspectRatio;
+        } else {
+          check(ACTION_SOUTH);
+          check(ACTION_WEST);
+
+          if (range.x <= 0) {
+            if (left > minLeft) {
+              width -= range.x;
+              left += range.x;
+            } else if (range.y >= 0 && bottom >= maxHeight) {
+              renderable = false;
+            }
+          } else {
+            width -= range.x;
+            left += range.x;
+          }
+
+          if (range.y >= 0) {
+            if (bottom < maxHeight) {
+              height += range.y;
+            }
+          } else {
+            height += range.y;
+          }
+        }
+
+        if (width < 0 && height < 0) {
+          action = ACTION_NORTH_EAST;
+          height = 0;
+          width = 0;
+        } else if (width < 0) {
+          action = ACTION_SOUTH_EAST;
+          width = 0;
+        } else if (height < 0) {
+          action = ACTION_NORTH_WEST;
+          height = 0;
+        }
+
+        break;
+
+      case ACTION_SOUTH_EAST:
+        if (aspectRatio) {
+          if (range.x >= 0 && (right >= maxWidth || bottom >= maxHeight)) {
+            renderable = false;
+            break;
+          }
+
+          check(ACTION_EAST);
+          width += range.x;
+          height = width / aspectRatio;
+        } else {
+          check(ACTION_SOUTH);
+          check(ACTION_EAST);
+
+          if (range.x >= 0) {
+            if (right < maxWidth) {
+              width += range.x;
+            } else if (range.y >= 0 && bottom >= maxHeight) {
+              renderable = false;
+            }
+          } else {
+            width += range.x;
+          }
+
+          if (range.y >= 0) {
+            if (bottom < maxHeight) {
+              height += range.y;
+            }
+          } else {
+            height += range.y;
+          }
+        }
+
+        if (width < 0 && height < 0) {
+          action = ACTION_NORTH_WEST;
+          height = 0;
+          width = 0;
+        } else if (width < 0) {
+          action = ACTION_SOUTH_WEST;
+          width = 0;
+        } else if (height < 0) {
+          action = ACTION_NORTH_EAST;
+          height = 0;
+        }
+
+        break;
+
+      // Move canvas
+      case ACTION_MOVE:
+        this.move(range.x, range.y);
+        renderable = false;
+        break;
+
+      // Zoom canvas
+      case ACTION_ZOOM:
+        this.zoom(getMaxZoomRatio(pointers), e);
+        renderable = false;
+        break;
+
+      // Create crop box
+      case ACTION_CROP:
+        if (!range.x || !range.y) {
+          renderable = false;
+          break;
+        }
+
+        offset = getOffset(this.cropper);
+        left = pointer.startX - offset.left;
+        top = pointer.startY - offset.top;
+        width = cropBoxData.minWidth;
+        height = cropBoxData.minHeight;
+
+        if (range.x > 0) {
+          action = range.y > 0 ? ACTION_SOUTH_EAST : ACTION_NORTH_EAST;
+        } else if (range.x < 0) {
+          left -= width;
+          action = range.y > 0 ? ACTION_SOUTH_WEST : ACTION_NORTH_WEST;
+        }
+
+        if (range.y < 0) {
+          top -= height;
+        }
+
+        // Show the crop box if is hidden
+        if (!this.cropped) {
+          removeClass(this.cropBox, CLASS_HIDDEN);
+          this.cropped = true;
+
+          if (this.limited) {
+            this.limitCropBox(true, true);
+          }
+        }
+
+        break;
+
+      default:
+    }
+
+    if (renderable) {
+      cropBoxData.width = width;
+      cropBoxData.height = height;
+      cropBoxData.left = left;
+      cropBoxData.top = top;
+      this.action = action;
+      this.renderCropBox();
+    }
+
+    // Override
+    forEach(pointers, function (p) {
+      p.startX = p.endX;
+      p.startY = p.endY;
+    });
+  }
+};
+
+var methods = {
+  // Show the crop box manually
+  crop: function crop() {
+    if (this.ready && !this.cropped && !this.disabled) {
+      this.cropped = true;
+      this.limitCropBox(true, true);
+
+      if (this.options.modal) {
+        addClass(this.dragBox, CLASS_MODAL);
+      }
+
+      removeClass(this.cropBox, CLASS_HIDDEN);
+      this.setCropBoxData(this.initialCropBoxData);
+    }
+
+    return this;
+  },
+
+
+  // Reset the image and crop box to their initial states
+  reset: function reset() {
+    if (this.ready && !this.disabled) {
+      this.imageData = assign({}, this.initialImageData);
+      this.canvasData = assign({}, this.initialCanvasData);
+      this.cropBoxData = assign({}, this.initialCropBoxData);
+      this.renderCanvas();
+
+      if (this.cropped) {
+        this.renderCropBox();
+      }
+    }
+
+    return this;
+  },
+
+
+  // Clear the crop box
+  clear: function clear() {
+    if (this.cropped && !this.disabled) {
+      assign(this.cropBoxData, {
+        left: 0,
+        top: 0,
+        width: 0,
+        height: 0
+      });
+
+      this.cropped = false;
+      this.renderCropBox();
+      this.limitCanvas(true, true);
+
+      // Render canvas after crop box rendered
+      this.renderCanvas();
+      removeClass(this.dragBox, CLASS_MODAL);
+      addClass(this.cropBox, CLASS_HIDDEN);
+    }
+
+    return this;
+  },
+
+
+  /**
+   * Replace the image's src and rebuild the cropper
+   * @param {string} url - The new URL.
+   * @param {boolean} [hasSameSize] - Indicate if the new image has the same size as the old one.
+   * @returns {Cropper} this
+   */
+  replace: function replace(url) {
+    var hasSameSize = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+    if (!this.disabled && url) {
+      if (this.isImg) {
+        this.element.src = url;
+      }
+
+      if (hasSameSize) {
+        this.url = url;
+        this.image.src = url;
+
+        if (this.ready) {
+          this.viewBoxImage.src = url;
+
+          forEach(this.previews, function (element) {
+            element.getElementsByTagName('img')[0].src = url;
+          });
+        }
+      } else {
+        if (this.isImg) {
+          this.replaced = true;
+        }
+
+        this.options.data = null;
+        this.uncreate();
+        this.load(url);
+      }
+    }
+
+    return this;
+  },
+
+
+  // Enable (unfreeze) the cropper
+  enable: function enable() {
+    if (this.ready && this.disabled) {
+      this.disabled = false;
+      removeClass(this.cropper, CLASS_DISABLED);
+    }
+
+    return this;
+  },
+
+
+  // Disable (freeze) the cropper
+  disable: function disable() {
+    if (this.ready && !this.disabled) {
+      this.disabled = true;
+      addClass(this.cropper, CLASS_DISABLED);
+    }
+
+    return this;
+  },
+
+
+  /**
+   * Destroy the cropper and remove the instance from the image
+   * @returns {Cropper} this
+   */
+  destroy: function destroy() {
+    var element = this.element;
+
+
+    if (!getData(element, NAMESPACE)) {
+      return this;
+    }
+
+    if (this.isImg && this.replaced) {
+      element.src = this.originalUrl;
+    }
+
+    this.uncreate();
+    removeData(element, NAMESPACE);
+
+    return this;
+  },
+
+
+  /**
+   * Move the canvas with relative offsets
+   * @param {number} offsetX - The relative offset distance on the x-axis.
+   * @param {number} [offsetY=offsetX] - The relative offset distance on the y-axis.
+   * @returns {Cropper} this
+   */
+  move: function move(offsetX) {
+    var offsetY = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : offsetX;
+    var _canvasData = this.canvasData,
+        left = _canvasData.left,
+        top = _canvasData.top;
+
+
+    return this.moveTo(isUndefined(offsetX) ? offsetX : left + Number(offsetX), isUndefined(offsetY) ? offsetY : top + Number(offsetY));
+  },
+
+
+  /**
+   * Move the canvas to an absolute point
+   * @param {number} x - The x-axis coordinate.
+   * @param {number} [y=x] - The y-axis coordinate.
+   * @returns {Cropper} this
+   */
+  moveTo: function moveTo(x) {
+    var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : x;
+    var canvasData = this.canvasData;
+
+    var changed = false;
+
+    x = Number(x);
+    y = Number(y);
+
+    if (this.ready && !this.disabled && this.options.movable) {
+      if (isNumber(x)) {
+        canvasData.left = x;
+        changed = true;
+      }
+
+      if (isNumber(y)) {
+        canvasData.top = y;
+        changed = true;
+      }
+
+      if (changed) {
+        this.renderCanvas(true);
+      }
+    }
+
+    return this;
+  },
+
+
+  /**
+   * Zoom the canvas with a relative ratio
+   * @param {number} ratio - The target ratio.
+   * @param {Event} _originalEvent - The original event if any.
+   * @returns {Cropper} this
+   */
+  zoom: function zoom(ratio, _originalEvent) {
+    var canvasData = this.canvasData;
+
+
+    ratio = Number(ratio);
+
+    if (ratio < 0) {
+      ratio = 1 / (1 - ratio);
+    } else {
+      ratio = 1 + ratio;
+    }
+
+    return this.zoomTo(canvasData.width * ratio / canvasData.naturalWidth, null, _originalEvent);
+  },
+
+
+  /**
+   * Zoom the canvas to an absolute ratio
+   * @param {number} ratio - The target ratio.
+   * @param {Object} pivot - The zoom pivot point coordinate.
+   * @param {Event} _originalEvent - The original event if any.
+   * @returns {Cropper} this
+   */
+  zoomTo: function zoomTo(ratio, pivot, _originalEvent) {
+    var options = this.options,
+        canvasData = this.canvasData;
+    var width = canvasData.width,
+        height = canvasData.height,
+        naturalWidth = canvasData.naturalWidth,
+        naturalHeight = canvasData.naturalHeight;
+
+
+    ratio = Number(ratio);
+
+    if (ratio >= 0 && this.ready && !this.disabled && options.zoomable) {
+      var newWidth = naturalWidth * ratio;
+      var newHeight = naturalHeight * ratio;
+
+      if (dispatchEvent(this.element, EVENT_ZOOM, {
+        originalEvent: _originalEvent,
+        oldRatio: width / naturalWidth,
+        ratio: newWidth / naturalWidth
+      }) === false) {
+        return this;
+      }
+
+      if (_originalEvent) {
+        var pointers = this.pointers;
+
+        var offset = getOffset(this.cropper);
+        var center = pointers && Object.keys(pointers).length ? getPointersCenter(pointers) : {
+          pageX: _originalEvent.pageX,
+          pageY: _originalEvent.pageY
+        };
+
+        // Zoom from the triggering point of the event
+        canvasData.left -= (newWidth - width) * ((center.pageX - offset.left - canvasData.left) / width);
+        canvasData.top -= (newHeight - height) * ((center.pageY - offset.top - canvasData.top) / height);
+      } else if (isPlainObject(pivot) && isNumber(pivot.x) && isNumber(pivot.y)) {
+        canvasData.left -= (newWidth - width) * ((pivot.x - canvasData.left) / width);
+        canvasData.top -= (newHeight - height) * ((pivot.y - canvasData.top) / height);
+      } else {
+        // Zoom from the center of the canvas
+        canvasData.left -= (newWidth - width) / 2;
+        canvasData.top -= (newHeight - height) / 2;
+      }
+
+      canvasData.width = newWidth;
+      canvasData.height = newHeight;
+      this.renderCanvas(true);
+    }
+
+    return this;
+  },
+
+
+  /**
+   * Rotate the canvas with a relative degree
+   * @param {number} degree - The rotate degree.
+   * @returns {Cropper} this
+   */
+  rotate: function rotate(degree) {
+    return this.rotateTo((this.imageData.rotate || 0) + Number(degree));
+  },
+
+
+  /**
+   * Rotate the canvas to an absolute degree
+   * @param {number} degree - The rotate degree.
+   * @returns {Cropper} this
+   */
+  rotateTo: function rotateTo(degree) {
+    degree = Number(degree);
+
+    if (isNumber(degree) && this.ready && !this.disabled && this.options.rotatable) {
+      this.imageData.rotate = degree % 360;
+      this.renderCanvas(true, true);
+    }
+
+    return this;
+  },
+
+
+  /**
+   * Scale the image on the x-axis.
+   * @param {number} scaleX - The scale ratio on the x-axis.
+   * @returns {Cropper} this
+   */
+  scaleX: function scaleX(_scaleX) {
+    var scaleY = this.imageData.scaleY;
+
+
+    return this.scale(_scaleX, isNumber(scaleY) ? scaleY : 1);
+  },
+
+
+  /**
+   * Scale the image on the y-axis.
+   * @param {number} scaleY - The scale ratio on the y-axis.
+   * @returns {Cropper} this
+   */
+  scaleY: function scaleY(_scaleY) {
+    var scaleX = this.imageData.scaleX;
+
+
+    return this.scale(isNumber(scaleX) ? scaleX : 1, _scaleY);
+  },
+
+
+  /**
+   * Scale the image
+   * @param {number} scaleX - The scale ratio on the x-axis.
+   * @param {number} [scaleY=scaleX] - The scale ratio on the y-axis.
+   * @returns {Cropper} this
+   */
+  scale: function scale(scaleX) {
+    var scaleY = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : scaleX;
+    var imageData = this.imageData;
+
+    var transformed = false;
+
+    scaleX = Number(scaleX);
+    scaleY = Number(scaleY);
+
+    if (this.ready && !this.disabled && this.options.scalable) {
+      if (isNumber(scaleX)) {
+        imageData.scaleX = scaleX;
+        transformed = true;
+      }
+
+      if (isNumber(scaleY)) {
+        imageData.scaleY = scaleY;
+        transformed = true;
+      }
+
+      if (transformed) {
+        this.renderCanvas(true, true);
+      }
+    }
+
+    return this;
+  },
+
+
+  /**
+   * Get the cropped area position and size data (base on the original image)
+   * @param {boolean} [rounded=false] - Indicate if round the data values or not.
+   * @returns {Object} The result cropped data.
+   */
+  getData: function getData$$1() {
+    var rounded = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var options = this.options,
+        imageData = this.imageData,
+        canvasData = this.canvasData,
+        cropBoxData = this.cropBoxData;
+
+    var data = void 0;
+
+    if (this.ready && this.cropped) {
+      data = {
+        x: cropBoxData.left - canvasData.left,
+        y: cropBoxData.top - canvasData.top,
+        width: cropBoxData.width,
+        height: cropBoxData.height
+      };
+
+      var ratio = imageData.width / imageData.naturalWidth;
+
+      forEach(data, function (n, i) {
+        n /= ratio;
+        data[i] = rounded ? Math.round(n) : n;
+      });
+    } else {
+      data = {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+      };
+    }
+
+    if (options.rotatable) {
+      data.rotate = imageData.rotate || 0;
+    }
+
+    if (options.scalable) {
+      data.scaleX = imageData.scaleX || 1;
+      data.scaleY = imageData.scaleY || 1;
+    }
+
+    return data;
+  },
+
+
+  /**
+   * Set the cropped area position and size with new data
+   * @param {Object} data - The new data.
+   * @returns {Cropper} this
+   */
+  setData: function setData$$1(data) {
+    var options = this.options,
+        imageData = this.imageData,
+        canvasData = this.canvasData;
+
+    var cropBoxData = {};
+
+    if (this.ready && !this.disabled && isPlainObject(data)) {
+      var transformed = false;
+
+      if (options.rotatable) {
+        if (isNumber(data.rotate) && data.rotate !== imageData.rotate) {
+          imageData.rotate = data.rotate;
+          transformed = true;
+        }
+      }
+
+      if (options.scalable) {
+        if (isNumber(data.scaleX) && data.scaleX !== imageData.scaleX) {
+          imageData.scaleX = data.scaleX;
+          transformed = true;
+        }
+
+        if (isNumber(data.scaleY) && data.scaleY !== imageData.scaleY) {
+          imageData.scaleY = data.scaleY;
+          transformed = true;
+        }
+      }
+
+      if (transformed) {
+        this.renderCanvas(true, true);
+      }
+
+      var ratio = imageData.width / imageData.naturalWidth;
+
+      if (isNumber(data.x)) {
+        cropBoxData.left = data.x * ratio + canvasData.left;
+      }
+
+      if (isNumber(data.y)) {
+        cropBoxData.top = data.y * ratio + canvasData.top;
+      }
+
+      if (isNumber(data.width)) {
+        cropBoxData.width = data.width * ratio;
+      }
+
+      if (isNumber(data.height)) {
+        cropBoxData.height = data.height * ratio;
+      }
+
+      this.setCropBoxData(cropBoxData);
+    }
+
+    return this;
+  },
+
+
+  /**
+   * Get the container size data.
+   * @returns {Object} The result container data.
+   */
+  getContainerData: function getContainerData() {
+    return this.ready ? assign({}, this.containerData) : {};
+  },
+
+
+  /**
+   * Get the image position and size data.
+   * @returns {Object} The result image data.
+   */
+  getImageData: function getImageData() {
+    return this.sized ? assign({}, this.imageData) : {};
+  },
+
+
+  /**
+   * Get the canvas position and size data.
+   * @returns {Object} The result canvas data.
+   */
+  getCanvasData: function getCanvasData() {
+    var canvasData = this.canvasData;
+
+    var data = {};
+
+    if (this.ready) {
+      forEach(['left', 'top', 'width', 'height', 'naturalWidth', 'naturalHeight'], function (n) {
+        data[n] = canvasData[n];
+      });
+    }
+
+    return data;
+  },
+
+
+  /**
+   * Set the canvas position and size with new data.
+   * @param {Object} data - The new canvas data.
+   * @returns {Cropper} this
+   */
+  setCanvasData: function setCanvasData(data) {
+    var canvasData = this.canvasData;
+    var aspectRatio = canvasData.aspectRatio;
+
+
+    if (this.ready && !this.disabled && isPlainObject(data)) {
+      if (isNumber(data.left)) {
+        canvasData.left = data.left;
+      }
+
+      if (isNumber(data.top)) {
+        canvasData.top = data.top;
+      }
+
+      if (isNumber(data.width)) {
+        canvasData.width = data.width;
+        canvasData.height = data.width / aspectRatio;
+      } else if (isNumber(data.height)) {
+        canvasData.height = data.height;
+        canvasData.width = data.height * aspectRatio;
+      }
+
+      this.renderCanvas(true);
+    }
+
+    return this;
+  },
+
+
+  /**
+   * Get the crop box position and size data.
+   * @returns {Object} The result crop box data.
+   */
+  getCropBoxData: function getCropBoxData() {
+    var cropBoxData = this.cropBoxData;
+
+    var data = void 0;
+
+    if (this.ready && this.cropped) {
+      data = {
+        left: cropBoxData.left,
+        top: cropBoxData.top,
+        width: cropBoxData.width,
+        height: cropBoxData.height
+      };
+    }
+
+    return data || {};
+  },
+
+
+  /**
+   * Set the crop box position and size with new data.
+   * @param {Object} data - The new crop box data.
+   * @returns {Cropper} this
+   */
+  setCropBoxData: function setCropBoxData(data) {
+    var cropBoxData = this.cropBoxData;
+    var aspectRatio = this.options.aspectRatio;
+
+    var widthChanged = void 0;
+    var heightChanged = void 0;
+
+    if (this.ready && this.cropped && !this.disabled && isPlainObject(data)) {
+      if (isNumber(data.left)) {
+        cropBoxData.left = data.left;
+      }
+
+      if (isNumber(data.top)) {
+        cropBoxData.top = data.top;
+      }
+
+      if (isNumber(data.width) && data.width !== cropBoxData.width) {
+        widthChanged = true;
+        cropBoxData.width = data.width;
+      }
+
+      if (isNumber(data.height) && data.height !== cropBoxData.height) {
+        heightChanged = true;
+        cropBoxData.height = data.height;
+      }
+
+      if (aspectRatio) {
+        if (widthChanged) {
+          cropBoxData.height = cropBoxData.width / aspectRatio;
+        } else if (heightChanged) {
+          cropBoxData.width = cropBoxData.height * aspectRatio;
+        }
+      }
+
+      this.renderCropBox();
+    }
+
+    return this;
+  },
+
+
+  /**
+   * Get a canvas drawn the cropped image.
+   * @param {Object} [options={}] - The config options.
+   * @returns {HTMLCanvasElement} - The result canvas.
+   */
+  getCroppedCanvas: function getCroppedCanvas() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    if (!this.ready || !window.HTMLCanvasElement) {
+      return null;
+    }
+
+    var canvasData = this.canvasData;
+
+    var source = getSourceCanvas(this.image, this.imageData, canvasData, options);
+
+    // Returns the source canvas if it is not cropped.
+    if (!this.cropped) {
+      return source;
+    }
+
+    var _getData = this.getData(),
+        initialX = _getData.x,
+        initialY = _getData.y,
+        initialWidth = _getData.width,
+        initialHeight = _getData.height;
+
+    var ratio = source.width / Math.floor(canvasData.naturalWidth);
+
+    if (ratio !== 1) {
+      initialX *= ratio;
+      initialY *= ratio;
+      initialWidth *= ratio;
+      initialHeight *= ratio;
+    }
+
+    var aspectRatio = initialWidth / initialHeight;
+    var maxSizes = getAdjustedSizes({
+      aspectRatio: aspectRatio,
+      width: options.maxWidth || Infinity,
+      height: options.maxHeight || Infinity
+    });
+    var minSizes = getAdjustedSizes({
+      aspectRatio: aspectRatio,
+      width: options.minWidth || 0,
+      height: options.minHeight || 0
+    }, 'cover');
+
+    var _getAdjustedSizes = getAdjustedSizes({
+      aspectRatio: aspectRatio,
+      width: options.width || (ratio !== 1 ? source.width : initialWidth),
+      height: options.height || (ratio !== 1 ? source.height : initialHeight)
+    }),
+        width = _getAdjustedSizes.width,
+        height = _getAdjustedSizes.height;
+
+    width = Math.min(maxSizes.width, Math.max(minSizes.width, width));
+    height = Math.min(maxSizes.height, Math.max(minSizes.height, height));
+
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+
+    canvas.width = normalizeDecimalNumber(width);
+    canvas.height = normalizeDecimalNumber(height);
+
+    context.fillStyle = options.fillColor || 'transparent';
+    context.fillRect(0, 0, width, height);
+
+    var _options$imageSmoothi = options.imageSmoothingEnabled,
+        imageSmoothingEnabled = _options$imageSmoothi === undefined ? true : _options$imageSmoothi,
+        imageSmoothingQuality = options.imageSmoothingQuality;
+
+
+    context.imageSmoothingEnabled = imageSmoothingEnabled;
+
+    if (imageSmoothingQuality) {
+      context.imageSmoothingQuality = imageSmoothingQuality;
+    }
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
+    var sourceWidth = source.width;
+    var sourceHeight = source.height;
+
+    // Source canvas parameters
+    var srcX = initialX;
+    var srcY = initialY;
+    var srcWidth = void 0;
+    var srcHeight = void 0;
+
+    // Destination canvas parameters
+    var dstX = void 0;
+    var dstY = void 0;
+    var dstWidth = void 0;
+    var dstHeight = void 0;
+
+    if (srcX <= -initialWidth || srcX > sourceWidth) {
+      srcX = 0;
+      srcWidth = 0;
+      dstX = 0;
+      dstWidth = 0;
+    } else if (srcX <= 0) {
+      dstX = -srcX;
+      srcX = 0;
+      srcWidth = Math.min(sourceWidth, initialWidth + srcX);
+      dstWidth = srcWidth;
+    } else if (srcX <= sourceWidth) {
+      dstX = 0;
+      srcWidth = Math.min(initialWidth, sourceWidth - srcX);
+      dstWidth = srcWidth;
+    }
+
+    if (srcWidth <= 0 || srcY <= -initialHeight || srcY > sourceHeight) {
+      srcY = 0;
+      srcHeight = 0;
+      dstY = 0;
+      dstHeight = 0;
+    } else if (srcY <= 0) {
+      dstY = -srcY;
+      srcY = 0;
+      srcHeight = Math.min(sourceHeight, initialHeight + srcY);
+      dstHeight = srcHeight;
+    } else if (srcY <= sourceHeight) {
+      dstY = 0;
+      srcHeight = Math.min(initialHeight, sourceHeight - srcY);
+      dstHeight = srcHeight;
+    }
+
+    var params = [srcX, srcY, srcWidth, srcHeight];
+
+    // Avoid "IndexSizeError"
+    if (dstWidth > 0 && dstHeight > 0) {
+      var scale = width / initialWidth;
+
+      params.push(dstX * scale, dstY * scale, dstWidth * scale, dstHeight * scale);
+    }
+
+    // All the numerical parameters should be integer for `drawImage`
+    // https://github.com/fengyuanchen/cropper/issues/476
+    context.drawImage.apply(context, [source].concat(toConsumableArray(params.map(function (param) {
+      return Math.floor(normalizeDecimalNumber(param));
+    }))));
+
+    return canvas;
+  },
+
+
+  /**
+   * Change the aspect ratio of the crop box.
+   * @param {number} aspectRatio - The new aspect ratio.
+   * @returns {Cropper} this
+   */
+  setAspectRatio: function setAspectRatio(aspectRatio) {
+    var options = this.options;
+
+
+    if (!this.disabled && !isUndefined(aspectRatio)) {
+      // 0 -> NaN
+      options.aspectRatio = Math.max(0, aspectRatio) || NaN;
+
+      if (this.ready) {
+        this.initCropBox();
+
+        if (this.cropped) {
+          this.renderCropBox();
+        }
+      }
+    }
+
+    return this;
+  },
+
+
+  /**
+   * Change the drag mode.
+   * @param {string} mode - The new drag mode.
+   * @returns {Cropper} this
+   */
+  setDragMode: function setDragMode(mode) {
+    var options = this.options,
+        dragBox = this.dragBox,
+        face = this.face;
+
+
+    if (this.ready && !this.disabled) {
+      var croppable = mode === DRAG_MODE_CROP;
+      var movable = options.movable && mode === DRAG_MODE_MOVE;
+
+      mode = croppable || movable ? mode : DRAG_MODE_NONE;
+
+      options.dragMode = mode;
+      setData(dragBox, DATA_ACTION, mode);
+      toggleClass(dragBox, CLASS_CROP, croppable);
+      toggleClass(dragBox, CLASS_MOVE, movable);
+
+      if (!options.cropBoxMovable) {
+        // Sync drag mode to crop box when it is not movable
+        setData(face, DATA_ACTION, mode);
+        toggleClass(face, CLASS_CROP, croppable);
+        toggleClass(face, CLASS_MOVE, movable);
+      }
+    }
+
+    return this;
+  }
+};
+
+var AnotherCropper = WINDOW.Cropper;
+
+var Cropper = function () {
+  /**
+   * Create a new Cropper.
+   * @param {Element} element - The target element for cropping.
+   * @param {Object} [options={}] - The configuration options.
+   */
+  function Cropper(element) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    classCallCheck(this, Cropper);
+
+    if (!element || !REGEXP_TAG_NAME.test(element.tagName)) {
+      throw new Error('The first argument is required and must be an <img> or <canvas> element.');
+    }
+
+    this.element = element;
+    this.options = assign({}, DEFAULTS, isPlainObject(options) && options);
+    this.cropped = false;
+    this.disabled = false;
+    this.pointers = {};
+    this.ready = false;
+    this.reloading = false;
+    this.replaced = false;
+    this.sized = false;
+    this.sizing = false;
+    this.init();
+  }
+
+  createClass(Cropper, [{
+    key: 'init',
+    value: function init() {
+      var element = this.element;
+
+      var tagName = element.tagName.toLowerCase();
+      var url = void 0;
+
+      if (getData(element, NAMESPACE)) {
+        return;
+      }
+
+      setData(element, NAMESPACE, this);
+
+      if (tagName === 'img') {
+        this.isImg = true;
+
+        // e.g.: "img/picture.jpg"
+        url = element.getAttribute('src') || '';
+        this.originalUrl = url;
+
+        // Stop when it's a blank image
+        if (!url) {
+          return;
+        }
+
+        // e.g.: "http://example.com/img/picture.jpg"
+        url = element.src;
+      } else if (tagName === 'canvas' && window.HTMLCanvasElement) {
+        url = element.toDataURL();
+      }
+
+      this.load(url);
+    }
+  }, {
+    key: 'load',
+    value: function load(url) {
+      var _this = this;
+
+      if (!url) {
+        return;
+      }
+
+      this.url = url;
+      this.imageData = {};
+
+      var element = this.element,
+          options = this.options;
+
+
+      if (!options.checkOrientation || !window.ArrayBuffer) {
+        this.clone();
+        return;
+      }
+
+      // XMLHttpRequest disallows to open a Data URL in some browsers like IE11 and Safari
+      if (REGEXP_DATA_URL.test(url)) {
+        if (REGEXP_DATA_URL_JPEG.test(url)) {
+          this.read(dataURLToArrayBuffer(url));
+        } else {
+          this.clone();
+        }
+
+        return;
+      }
+
+      var xhr = new XMLHttpRequest();
+
+      this.reloading = true;
+      this.xhr = xhr;
+
+      var done = function done() {
+        _this.reloading = false;
+        _this.xhr = null;
+      };
+
+      xhr.ontimeout = done;
+      xhr.onabort = done;
+      xhr.onerror = function () {
+        done();
+        _this.clone();
+      };
+
+      xhr.onload = function () {
+        done();
+        _this.read(xhr.response);
+      };
+
+      // Bust cache when there is a "crossOrigin" property
+      if (options.checkCrossOrigin && isCrossOriginURL(url) && element.crossOrigin) {
+        url = addTimestamp(url);
+      }
+
+      xhr.open('get', url);
+      xhr.responseType = 'arraybuffer';
+      xhr.withCredentials = element.crossOrigin === 'use-credentials';
+      xhr.send();
+    }
+  }, {
+    key: 'read',
+    value: function read(arrayBuffer) {
+      var options = this.options,
+          imageData = this.imageData;
+
+      var orientation = getOrientation(arrayBuffer);
+      var rotate = 0;
+      var scaleX = 1;
+      var scaleY = 1;
+
+      if (orientation > 1) {
+        this.url = arrayBufferToDataURL(arrayBuffer, 'image/jpeg');
+
+        var _parseOrientation = parseOrientation(orientation);
+
+        rotate = _parseOrientation.rotate;
+        scaleX = _parseOrientation.scaleX;
+        scaleY = _parseOrientation.scaleY;
+      }
+
+      if (options.rotatable) {
+        imageData.rotate = rotate;
+      }
+
+      if (options.scalable) {
+        imageData.scaleX = scaleX;
+        imageData.scaleY = scaleY;
+      }
+
+      this.clone();
+    }
+  }, {
+    key: 'clone',
+    value: function clone() {
+      var element = this.element,
+          url = this.url;
+
+      var crossOrigin = void 0;
+      var crossOriginUrl = void 0;
+
+      if (this.options.checkCrossOrigin && isCrossOriginURL(url)) {
+        crossOrigin = element.crossOrigin;
+
+
+        if (crossOrigin) {
+          crossOriginUrl = url;
+        } else {
+          crossOrigin = 'anonymous';
+
+          // Bust cache when there is not a "crossOrigin" property
+          crossOriginUrl = addTimestamp(url);
+        }
+      }
+
+      this.crossOrigin = crossOrigin;
+      this.crossOriginUrl = crossOriginUrl;
+
+      var image = document.createElement('img');
+
+      if (crossOrigin) {
+        image.crossOrigin = crossOrigin;
+      }
+
+      image.src = crossOriginUrl || url;
+
+      var start = this.start.bind(this);
+      var stop = this.stop.bind(this);
+
+      this.image = image;
+      this.onStart = start;
+      this.onStop = stop;
+
+      if (this.isImg) {
+        if (element.complete) {
+          // start asynchronously to keep `this.cropper` is accessible in `ready` event handler.
+          this.timeout = setTimeout(start, 0);
+        } else {
+          addListener(element, EVENT_LOAD, start, {
+            once: true
+          });
+        }
+      } else {
+        image.onload = start;
+        image.onerror = stop;
+        addClass(image, CLASS_HIDE);
+        element.parentNode.insertBefore(image, element.nextSibling);
+      }
+    }
+  }, {
+    key: 'start',
+    value: function start(event) {
+      var _this2 = this;
+
+      var image = this.isImg ? this.element : this.image;
+
+      if (event) {
+        image.onload = null;
+        image.onerror = null;
+      }
+
+      this.sizing = true;
+
+      var IS_SAFARI = WINDOW.navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(WINDOW.navigator.userAgent);
+      var done = function done(naturalWidth, naturalHeight) {
+        assign(_this2.imageData, {
+          naturalWidth: naturalWidth,
+          naturalHeight: naturalHeight,
+          aspectRatio: naturalWidth / naturalHeight
+        });
+        _this2.sizing = false;
+        _this2.sized = true;
+        _this2.build();
+      };
+
+      // Modern browsers (except Safari)
+      if (image.naturalWidth && !IS_SAFARI) {
+        done(image.naturalWidth, image.naturalHeight);
+        return;
+      }
+
+      var sizingImage = document.createElement('img');
+      var body = document.body || document.documentElement;
+
+      this.sizingImage = sizingImage;
+
+      sizingImage.onload = function () {
+        done(sizingImage.width, sizingImage.height);
+
+        if (!IS_SAFARI) {
+          body.removeChild(sizingImage);
+        }
+      };
+
+      sizingImage.src = image.src;
+
+      // iOS Safari will convert the image automatically
+      // with its orientation once append it into DOM (#279)
+      if (!IS_SAFARI) {
+        sizingImage.style.cssText = 'left:0;' + 'max-height:none!important;' + 'max-width:none!important;' + 'min-height:0!important;' + 'min-width:0!important;' + 'opacity:0;' + 'position:absolute;' + 'top:0;' + 'z-index:-1;';
+        body.appendChild(sizingImage);
+      }
+    }
+  }, {
+    key: 'stop',
+    value: function stop() {
+      var image = this.image;
+
+
+      image.onload = null;
+      image.onerror = null;
+      image.parentNode.removeChild(image);
+      this.image = null;
+    }
+  }, {
+    key: 'build',
+    value: function build() {
+      if (!this.sized || this.ready) {
+        return;
+      }
+
+      var element = this.element,
+          options = this.options,
+          image = this.image;
+
+      // Create cropper elements
+
+      var container = element.parentNode;
+      var template = document.createElement('div');
+
+      template.innerHTML = TEMPLATE;
+
+      var cropper = template.querySelector('.' + NAMESPACE + '-container');
+      var canvas = cropper.querySelector('.' + NAMESPACE + '-canvas');
+      var dragBox = cropper.querySelector('.' + NAMESPACE + '-drag-box');
+      var cropBox = cropper.querySelector('.' + NAMESPACE + '-crop-box');
+      var face = cropBox.querySelector('.' + NAMESPACE + '-face');
+
+      this.container = container;
+      this.cropper = cropper;
+      this.canvas = canvas;
+      this.dragBox = dragBox;
+      this.cropBox = cropBox;
+      this.viewBox = cropper.querySelector('.' + NAMESPACE + '-view-box');
+      this.face = face;
+
+      canvas.appendChild(image);
+
+      // Hide the original image
+      addClass(element, CLASS_HIDDEN);
+
+      // Inserts the cropper after to the current image
+      container.insertBefore(cropper, element.nextSibling);
+
+      // Show the image if is hidden
+      if (!this.isImg) {
+        removeClass(image, CLASS_HIDE);
+      }
+
+      this.initPreview();
+      this.bind();
+
+      options.aspectRatio = Math.max(0, options.aspectRatio) || NaN;
+      options.viewMode = Math.max(0, Math.min(3, Math.round(options.viewMode))) || 0;
+
+      addClass(cropBox, CLASS_HIDDEN);
+
+      if (!options.guides) {
+        addClass(cropBox.getElementsByClassName(NAMESPACE + '-dashed'), CLASS_HIDDEN);
+      }
+
+      if (!options.center) {
+        addClass(cropBox.getElementsByClassName(NAMESPACE + '-center'), CLASS_HIDDEN);
+      }
+
+      if (options.background) {
+        addClass(cropper, NAMESPACE + '-bg');
+      }
+
+      if (!options.highlight) {
+        addClass(face, CLASS_INVISIBLE);
+      }
+
+      if (options.cropBoxMovable) {
+        addClass(face, CLASS_MOVE);
+        setData(face, DATA_ACTION, ACTION_ALL);
+      }
+
+      if (!options.cropBoxResizable) {
+        addClass(cropBox.getElementsByClassName(NAMESPACE + '-line'), CLASS_HIDDEN);
+        addClass(cropBox.getElementsByClassName(NAMESPACE + '-point'), CLASS_HIDDEN);
+      }
+
+      this.render();
+      this.ready = true;
+      this.setDragMode(options.dragMode);
+
+      if (options.autoCrop) {
+        this.crop();
+      }
+
+      this.setData(options.data);
+
+      if (isFunction(options.ready)) {
+        addListener(element, EVENT_READY, options.ready, {
+          once: true
+        });
+      }
+
+      dispatchEvent(element, EVENT_READY);
+    }
+  }, {
+    key: 'unbuild',
+    value: function unbuild() {
+      if (!this.ready) {
+        return;
+      }
+
+      this.ready = false;
+      this.unbind();
+      this.resetPreview();
+      this.cropper.parentNode.removeChild(this.cropper);
+      removeClass(this.element, CLASS_HIDDEN);
+    }
+  }, {
+    key: 'uncreate',
+    value: function uncreate() {
+      var element = this.element;
+
+
+      if (this.ready) {
+        this.unbuild();
+        this.ready = false;
+        this.cropped = false;
+      } else if (this.sizing) {
+        this.sizingImage.onload = null;
+        this.sizing = false;
+        this.sized = false;
+      } else if (this.reloading) {
+        this.xhr.abort();
+      } else if (this.isImg) {
+        if (element.complete) {
+          clearTimeout(this.timeout);
+        } else {
+          removeListener(element, EVENT_LOAD, this.onStart);
+        }
+      } else if (this.image) {
+        this.stop();
+      }
+    }
+
+    /**
+     * Get the no conflict cropper class.
+     * @returns {Cropper} The cropper class.
+     */
+
+  }], [{
+    key: 'noConflict',
+    value: function noConflict() {
+      window.Cropper = AnotherCropper;
+      return Cropper;
+    }
+
+    /**
+     * Change the default options.
+     * @param {Object} options - The new default options.
+     */
+
+  }, {
+    key: 'setDefaults',
+    value: function setDefaults(options) {
+      assign(DEFAULTS, isPlainObject(options) && options);
+    }
+  }]);
+  return Cropper;
+}();
+
+assign(Cropper.prototype, render, preview, events, handlers, change, methods);
+
+/* harmony default export */ __webpack_exports__["default"] = (Cropper);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/bootstrap-vue/es/components/dropdown/dropdown.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6604,6 +10312,21 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 // module
 exports.push([module.i, "/* Add support for fixed layout table */\ntable.b-table.b-table-fixed {\n    table-layout: fixed;\n}\n\n/* Busy table styling */\ntable.b-table[aria-busy='false'] {\n    opacity: 1;\n}\ntable.b-table[aria-busy='true'] {\n    opacity: 0.6;\n}\n\n/* Sort styling */\ntable.b-table > thead > tr > th,\ntable.b-table > tfoot > tr > th {\n    position: relative;\n}\ntable.b-table > thead > tr > th.sorting,\ntable.b-table > tfoot > tr > th.sorting {\n    padding-right: 1.5em;\n    cursor: pointer;\n}\ntable.b-table > thead > tr > th.sorting::before,\ntable.b-table > thead > tr > th.sorting::after,\ntable.b-table > tfoot > tr > th.sorting::before,\ntable.b-table > tfoot > tr > th.sorting::after {\n    position: absolute;\n    bottom: 0;\n    display: block;\n    opacity: 0.4;\n    padding-bottom: inherit;\n    font-size: inherit;\n    line-height: 180%;\n}\ntable.b-table > thead > tr > th.sorting::before,\ntable.b-table > tfoot > tr > th.sorting::before {\n    right: 0.75em;\n    content: '\\2191';\n}\ntable.b-table > thead > tr > th.sorting::after,\ntable.b-table > tfoot > tr > th.sorting::after {\n    right: 0.25em;\n    content: '\\2193';\n}\ntable.b-table > thead > tr > th.sorting_asc::after,\ntable.b-table > thead > tr > th.sorting_desc::before,\ntable.b-table > tfoot > tr > th.sorting_asc::after,\ntable.b-table > tfoot > tr > th.sorting_desc::before {\n    opacity: 1;\n}\n\n/* Stacked table layout */\n/* Derived from http://blog.adrianroselli.com/2017/11/a-responsive-accessible-table.html */\n/* Always stacked */\ntable.b-table.b-table-stacked {\n    width: 100%;\n}\ntable.b-table.b-table-stacked,\ntable.b-table.b-table-stacked > tbody,\ntable.b-table.b-table-stacked > tbody > tr,\ntable.b-table.b-table-stacked > tbody > tr > td,\ntable.b-table.b-table-stacked > tbody > tr > th,\ntable.b-table.b-table-stacked > caption {\n    display: block;\n}\n\n/* Hide stuff we can't deal with, or shouldn't show */\ntable.b-table.b-table-stacked > thead,\ntable.b-table.b-table-stacked > tfoot,\ntable.b-table.b-table-stacked > tbody > tr.b-table-top-row,\ntable.b-table.b-table-stacked > tbody > tr.b-table-bottom-row {\n    display: none;\n}\n\n/* inter-row top border */\ntable.b-table.b-table-stacked > tbody > tr > :first-child {\n    border-top-width: 0.4rem;\n}\n\n/* convert TD/TH contents to \"cells\". Caveat: child elements become cells! */\ntable.b-table.b-table-stacked > tbody > tr > [data-label] {\n    display: grid;\n    grid-template-columns: 40% auto;\n    grid-gap: 0.25rem 1rem;\n}\n\n/* generate row cell \"heading\" */\ntable.b-table.b-table-stacked > tbody > tr > [data-label]::before {\n    content: attr(data-label);\n    display: inline;\n    text-align: right;\n    overflow-wrap: break-word;\n    font-weight: bold;\n    font-style: normal;\n}\n\n@media all and (max-width: 575.99px) {\n    /* Under SM */\n    table.b-table.b-table-stacked-sm {\n        width: 100%;\n    }\n    table.b-table.b-table-stacked-sm,\n    table.b-table.b-table-stacked-sm > tbody,\n    table.b-table.b-table-stacked-sm > tbody > tr,\n    table.b-table.b-table-stacked-sm > tbody > tr > td,\n    table.b-table.b-table-stacked-sm > tbody > tr > th,\n    table.b-table.b-table-stacked-sm > caption {\n        display: block;\n    }\n    /* hide stuff we can't deal with, or shouldn't show */\n    table.b-table.b-table-stacked-sm > thead,\n    table.b-table.b-table-stacked-sm > tfoot,\n    table.b-table.b-table-stacked-sm > tbody > tr.b-table-top-row,\n    table.b-table.b-table-stacked-sm > tbody > tr.b-table-bottom-row {\n        display: none;\n    }\n    /* inter-row top border */\n    table.b-table.b-table-stacked-sm > tbody > tr > :first-child {\n        border-top-width: 0.4rem;\n    }\n    /* convert TD/TH contents to \"cells\". Caveat: child elements become cells! */\n    table.b-table.b-table-stacked-sm > tbody > tr > [data-label] {\n        display: grid;\n        grid-template-columns: 40% auto;\n        grid-gap: 0.25rem 1rem;\n    }\n    /* generate row cell \"heading\" */\n    table.b-table.b-table-stacked-sm > tbody > tr > [data-label]::before {\n        content: attr(data-label);\n        display: inline;\n        text-align: right;\n        overflow-wrap: break-word;\n        font-weight: bold;\n        font-style: normal;\n    }\n}\n\n@media all and (max-width: 767.99px) {\n    /* under MD  */\n    table.b-table.b-table-stacked-md {\n        width: 100%;\n    }\n    table.b-table.b-table-stacked-md,\n    table.b-table.b-table-stacked-md > tbody,\n    table.b-table.b-table-stacked-md > tbody > tr,\n    table.b-table.b-table-stacked-md > tbody > tr > td,\n    table.b-table.b-table-stacked-md > tbody > tr > th,\n    table.b-table.b-table-stacked-md > caption {\n        display: block;\n    }\n    /* hide stuff we can't deal with, or shouldn't show */\n    table.b-table.b-table-stacked-md > thead,\n    table.b-table.b-table-stacked-md > tfoot,\n    table.b-table.b-table-stacked-md > tbody > tr.b-table-top-row,\n    table.b-table.b-table-stacked-md > tbody > tr.b-table-bottom-row {\n        display: none;\n    }\n    /* inter-row top border */\n    table.b-table.b-table-stacked-md > tbody > tr > :first-child {\n        border-top-width: 0.4rem;\n    }\n    /* convert TD/TH contents to \"cells\". Caveat: child elements become cells! */\n    table.b-table.b-table-stacked-md > tbody > tr > [data-label] {\n        display: grid;\n        grid-template-columns: 40% auto;\n        grid-gap: 0.25rem 1rem;\n    }\n    /* generate row cell \"heading\" */\n    table.b-table.b-table-stacked-md > tbody > tr > [data-label]::before {\n        content: attr(data-label);\n        display: inline;\n        text-align: right;\n        overflow-wrap: break-word;\n        font-weight: bold;\n        font-style: normal;\n    }\n}\n\n@media all and (max-width: 991.99px) {\n    /* under LG  */\n    table.b-table.b-table-stacked-lg {\n        width: 100%;\n    }\n    table.b-table.b-table-stacked-lg,\n    table.b-table.b-table-stacked-lg > tbody,\n    table.b-table.b-table-stacked-lg > tbody > tr,\n    table.b-table.b-table-stacked-lg > tbody > tr > td,\n    table.b-table.b-table-stacked-lg > tbody > tr > th,\n    table.b-table.b-table-stacked-lg > caption {\n        display: block;\n    }\n    /* hide stuff we can't deal with, or shouldn't show */\n    table.b-table.b-table-stacked-lg > thead,\n    table.b-table.b-table-stacked-lg > tfoot,\n    table.b-table.b-table-stacked-lg > tbody > tr.b-table-top-row,\n    table.b-table.b-table-stacked-lg > tbody > tr.b-table-bottom-row {\n        display: none;\n    }\n    /* inter-row top border */\n    table.b-table.b-table-stacked-lg > tbody > tr > :first-child {\n        border-top-width: 0.4rem;\n    }\n    /* convert TD/TH contents to \"cells\". Caveat: child elements become cells! */\n    table.b-table.b-table-stacked-lg > tbody > tr > [data-label] {\n        display: grid;\n        grid-template-columns: 40% auto;\n        grid-gap: 0.25rem 1rem;\n    }\n    /* generate row cell \"heading\" */\n    table.b-table.b-table-stacked-lg > tbody > tr > [data-label]::before {\n        content: attr(data-label);\n        display: inline;\n        text-align: right;\n        overflow-wrap: break-word;\n        font-weight: bold;\n        font-style: normal;\n    }\n}\n\n@media all and (max-width: 1199.99px) {\n    /* under XL  */\n    table.b-table.b-table-stacked-xl {\n        width: 100%;\n    }\n    table.b-table.b-table-stacked-xl,\n    table.b-table.b-table-stacked-xl > tbody,\n    table.b-table.b-table-stacked-xl > tbody > tr,\n    table.b-table.b-table-stacked-xl > tbody > tr > td,\n    table.b-table.b-table-stacked-xl > tbody > tr > th,\n    table.b-table.b-table-stacked-xl > caption {\n        display: block;\n    }\n    /* hide stuff we can't deal with, or shouldn't show */\n    table.b-table.b-table-stacked-xl > thead,\n    table.b-table.b-table-stacked-xl > tfoot,\n    table.b-table.b-table-stacked-xl > tbody > tr.b-table-top-row,\n    table.b-table.b-table-stacked-xl > tbody > tr.b-table-bottom-row {\n        display: none;\n    }\n    /* inter-row top border */\n    table.b-table.b-table-stacked-xl > tbody > tr > :first-child {\n        border-top-width: 0.4rem;\n    }\n    /* convert TD/TH contents to \"cells\". Caveat: child elements become cells! */\n    table.b-table.b-table-stacked-xl > tbody > tr > [data-label] {\n        display: grid;\n        grid-template-columns: 40% auto;\n        grid-gap: 0.25rem 1rem;\n    }\n    /* generate row cell \"heading\" */\n    table.b-table.b-table-stacked-xl > tbody > tr > [data-label]::before {\n        content: attr(data-label);\n        display: inline;\n        text-align: right;\n        overflow-wrap: break-word;\n        font-weight: bold;\n        font-style: normal;\n    }\n}\n\n/* Details row styling */\ntable.b-table > tbody > tr.b-table-details > td {\n    border-top: none;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/cropperjs/dist/cropper.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "/*!\n * Cropper.js v1.3.4\n * https://github.com/fengyuanchen/cropperjs\n *\n * Copyright (c) 2015-2018 Chen Fengyuan\n * Released under the MIT license\n *\n * Date: 2018-03-31T06:49:06.196Z\n */\n\n.cropper-container {\n  direction: ltr;\n  font-size: 0;\n  line-height: 0;\n  position: relative;\n  -ms-touch-action: none;\n  touch-action: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n\n.cropper-container img {/*Avoid margin top issue (Occur only when margin-top <= -height)\n */\r\n  display: block;\n  height: 100%;\n  image-orientation: 0deg;\n  max-height: none !important;\n  max-width: none !important;\n  min-height: 0 !important;\n  min-width: 0 !important;\n  width: 100%;\n}\n\n.cropper-wrap-box,\n.cropper-canvas,\n.cropper-drag-box,\n.cropper-crop-box,\n.cropper-modal {\n  bottom: 0;\n  left: 0;\n  position: absolute;\n  right: 0;\n  top: 0;\n}\n\n.cropper-wrap-box,\n.cropper-canvas {\n  overflow: hidden;\n}\n\n.cropper-drag-box {\n  background-color: #fff;\n  opacity: 0;\n}\n\n.cropper-modal {\n  background-color: #000;\n  opacity: .5;\n}\n\n.cropper-view-box {\n  display: block;\n  height: 100%;\n  outline-color: rgba(51, 153, 255, 0.75);\n  outline: 1px solid #39f;\n  overflow: hidden;\n  width: 100%;\n}\n\n.cropper-dashed {\n  border: 0 dashed #eee;\n  display: block;\n  opacity: .5;\n  position: absolute;\n}\n\n.cropper-dashed.dashed-h {\n  border-bottom-width: 1px;\n  border-top-width: 1px;\n  height: 33.33333%;\n  left: 0;\n  top: 33.33333%;\n  width: 100%;\n}\n\n.cropper-dashed.dashed-v {\n  border-left-width: 1px;\n  border-right-width: 1px;\n  height: 100%;\n  left: 33.33333%;\n  top: 0;\n  width: 33.33333%;\n}\n\n.cropper-center {\n  display: block;\n  height: 0;\n  left: 50%;\n  opacity: .75;\n  position: absolute;\n  top: 50%;\n  width: 0;\n}\n\n.cropper-center:before,\n.cropper-center:after {\n  background-color: #eee;\n  content: ' ';\n  display: block;\n  position: absolute;\n}\n\n.cropper-center:before {\n  height: 1px;\n  left: -3px;\n  top: 0;\n  width: 7px;\n}\n\n.cropper-center:after {\n  height: 7px;\n  left: 0;\n  top: -3px;\n  width: 1px;\n}\n\n.cropper-face,\n.cropper-line,\n.cropper-point {\n  display: block;\n  height: 100%;\n  opacity: .1;\n  position: absolute;\n  width: 100%;\n}\n\n.cropper-face {\n  background-color: #fff;\n  left: 0;\n  top: 0;\n}\n\n.cropper-line {\n  background-color: #39f;\n}\n\n.cropper-line.line-e {\n  cursor: ew-resize;\n  right: -3px;\n  top: 0;\n  width: 5px;\n}\n\n.cropper-line.line-n {\n  cursor: ns-resize;\n  height: 5px;\n  left: 0;\n  top: -3px;\n}\n\n.cropper-line.line-w {\n  cursor: ew-resize;\n  left: -3px;\n  top: 0;\n  width: 5px;\n}\n\n.cropper-line.line-s {\n  bottom: -3px;\n  cursor: ns-resize;\n  height: 5px;\n  left: 0;\n}\n\n.cropper-point {\n  background-color: #39f;\n  height: 5px;\n  opacity: .75;\n  width: 5px;\n}\n\n.cropper-point.point-e {\n  cursor: ew-resize;\n  margin-top: -3px;\n  right: -3px;\n  top: 50%;\n}\n\n.cropper-point.point-n {\n  cursor: ns-resize;\n  left: 50%;\n  margin-left: -3px;\n  top: -3px;\n}\n\n.cropper-point.point-w {\n  cursor: ew-resize;\n  left: -3px;\n  margin-top: -3px;\n  top: 50%;\n}\n\n.cropper-point.point-s {\n  bottom: -3px;\n  cursor: s-resize;\n  left: 50%;\n  margin-left: -3px;\n}\n\n.cropper-point.point-ne {\n  cursor: nesw-resize;\n  right: -3px;\n  top: -3px;\n}\n\n.cropper-point.point-nw {\n  cursor: nwse-resize;\n  left: -3px;\n  top: -3px;\n}\n\n.cropper-point.point-sw {\n  bottom: -3px;\n  cursor: nesw-resize;\n  left: -3px;\n}\n\n.cropper-point.point-se {\n  bottom: -3px;\n  cursor: nwse-resize;\n  height: 20px;\n  opacity: 1;\n  right: -3px;\n  width: 20px;\n}\n\n@media (min-width: 768px) {\n  .cropper-point.point-se {\n    height: 15px;\n    width: 15px;\n  }\n}\n\n@media (min-width: 992px) {\n  .cropper-point.point-se {\n    height: 10px;\n    width: 10px;\n  }\n}\n\n@media (min-width: 1200px) {\n  .cropper-point.point-se {\n    height: 5px;\n    opacity: .75;\n    width: 5px;\n  }\n}\n\n.cropper-point.point-se:before {\n  background-color: #39f;\n  bottom: -50%;\n  content: ' ';\n  display: block;\n  height: 200%;\n  opacity: 0;\n  position: absolute;\n  right: -50%;\n  width: 200%;\n}\n\n.cropper-invisible {\n  opacity: 0;\n}\n\n.cropper-bg {\n  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC');\n}\n\n.cropper-hide {\n  display: block;\n  height: 0;\n  position: absolute;\n  width: 0;\n}\n\n.cropper-hidden {\n  display: none !important;\n}\n\n.cropper-move {\n  cursor: move;\n}\n\n.cropper-crop {\n  cursor: crosshair;\n}\n\n.cropper-disabled .cropper-drag-box,\n.cropper-disabled .cropper-face,\n.cropper-disabled .cropper-line,\n.cropper-disabled .cropper-point {\n  cursor: not-allowed;\n}\r\n", ""]);
 
 // exports
 
@@ -6712,7 +10435,7 @@ function toComment(sourceMap) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(module) {
+/* WEBPACK VAR INJECTION */(function(jQuery, module) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -10239,7 +13962,7 @@ function __guardMethod__(obj, methodName, transform) {
   }
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js"), __webpack_require__("./node_modules/webpack/buildin/module.js")(module)))
 
 /***/ }),
 
@@ -14800,7 +18523,7 @@ module.exports = toString;
 /***/ "./node_modules/magnific-popup/dist/jquery.magnific-popup.js":
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! Magnific Popup - v1.1.0 - 2016-02-20
+/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! Magnific Popup - v1.1.0 - 2016-02-20
 * http://dimsemenov.com/plugins/magnific-popup/
 * Copyright (c) 2016 Dmitry Semenov; */
 ;(function (factory) { 
@@ -14850,7 +18573,7 @@ var CLOSE_EVENT = 'Close',
 /*jshint -W079 */
 var mfp, // As we have only one instance of MagnificPopup object, we define it locally to not to use 'this'
 	MagnificPopup = function(){},
-	_isJQ = !!(window.jQuery),
+	_isJQ = !!(__webpack_provided_window_dot_jQuery),
 	_prevStatus,
 	_window = $(window),
 	_document,
@@ -16663,6 +20386,7 @@ $.magnificPopup.registerModule(RETINA_NS, {
 
 /*>>retina*/
  _checkInstance(); }));
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -19831,7 +23555,7 @@ if(false) {
 /***/ "./node_modules/select2/dist/js/select2.js":
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var require;var require;/*!
+/* WEBPACK VAR INJECTION */(function($) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var require;var require;/*!
  * Select2 4.0.6-rc.1
  * https://select2.github.io
  *
@@ -25682,6 +29406,7 @@ S2.define('jquery.select2',[
   return select2;
 }));
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -33169,6 +36894,267 @@ var index_esm = {
 
 /***/ }),
 
+/***/ "./node_modules/vue-cropperjs/dist/VueCropper.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _cropperjs = __webpack_require__("./node_modules/cropperjs/dist/cropper.esm.js");
+
+var _cropperjs2 = _interopRequireDefault(_cropperjs);
+
+__webpack_require__("./node_modules/cropperjs/dist/cropper.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+var CropperComponent = _vue2.default.extend({
+    render: function render(h) {
+        return h('div', { style: this.containerStyle }, [h('img', {
+            ref: 'img',
+            attrs: {
+                src: this.src,
+                alt: this.alt || 'image',
+                style: 'max-width: 100%'
+            },
+            style: this.imgStyle
+        })]);
+    },
+
+    props: {
+        'containerStyle': Object,
+        'src': {
+            type: String,
+            default: ''
+        },
+        'alt': String,
+        'imgStyle': Object,
+
+        'viewMode': Number,
+        'dragMode': String,
+        'aspectRatio': Number,
+        'data': Object,
+        'preview': String,
+        'responsive': {
+            type: Boolean,
+            default: true
+        },
+        'restore': {
+            type: Boolean,
+            default: true
+        },
+        'checkCrossOrigin': {
+            type: Boolean,
+            default: true
+        },
+        'checkOrientation': {
+            type: Boolean,
+            default: true
+        },
+        'modal': {
+            type: Boolean,
+            default: true
+        },
+        'guides': {
+            type: Boolean,
+            default: true
+        },
+        'center': {
+            type: Boolean,
+            default: true
+        },
+        'highlight': {
+            type: Boolean,
+            default: true
+        },
+        'background': {
+            type: Boolean,
+            default: true
+        },
+        'autoCrop': {
+            type: Boolean,
+            default: true
+        },
+        'autoCropArea': Number,
+        'movable': {
+            type: Boolean,
+            default: true
+        },
+        'rotatable': {
+            type: Boolean,
+            default: true
+        },
+        'scalable': {
+            type: Boolean,
+            default: true
+        },
+        'zoomable': {
+            type: Boolean,
+            default: true
+        },
+        'zoomOnTouch': {
+            type: Boolean,
+            default: true
+        },
+        'zoomOnWheel': {
+            type: Boolean,
+            default: true
+        },
+        'wheelZoomRatio': Number,
+        'cropBoxMovable': {
+            type: Boolean,
+            default: true
+        },
+        'cropBoxResizable': {
+            type: Boolean,
+            default: true
+        },
+        'toggleDragModeOnDblclick': {
+            type: Boolean,
+            default: true
+        },
+
+        'minCanvasWidth': Number,
+        'minCanvasHeight': Number,
+        'minCropBoxWidth': Number,
+        'minCropBoxHeight': Number,
+        'minContainerWidth': Number,
+        'minContainerHeight': Number,
+
+        'ready': Function,
+        'cropstart': Function,
+        'cropmove': Function,
+        'cropend': Function,
+        'crop': Function,
+        'zoom': Function
+    },
+    mounted: function mounted() {
+        var _$options$props = this.$options.props,
+            containerStyle = _$options$props.containerStyle,
+            src = _$options$props.src,
+            alt = _$options$props.alt,
+            imgStyle = _$options$props.imgStyle,
+            data = _objectWithoutProperties(_$options$props, ['containerStyle', 'src', 'alt', 'imgStyle']);
+
+        var props = {};
+
+        for (var key in data) {
+            if (this[key] !== undefined) {
+                props[key] = this[key];
+            }
+        }
+
+        this.cropper = new _cropperjs2.default(this.$refs.img, props);
+    },
+
+    methods: {
+        reset: function reset() {
+            return this.cropper.reset();
+        },
+        clear: function clear() {
+            return this.cropper.clear();
+        },
+        replace: function replace(url) {
+            var onlyColorChanged = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+            return this.cropper.replace(url, onlyColorChanged);
+        },
+        enable: function enable() {
+            return this.cropper.enable();
+        },
+        disable: function disable() {
+            return this.cropper.disable();
+        },
+        destroy: function destroy() {
+            return this.cropper.destroy();
+        },
+        move: function move(offsetX, offsetY) {
+            return this.cropper.move(offsetX, offsetY);
+        },
+        moveTo: function moveTo(x) {
+            var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : x;
+
+            return this.cropper.moveTo(x, y);
+        },
+        relativeZoom: function relativeZoom(ratio, _originalEvent) {
+            return this.cropper.zoom(ratio, _originalEvent);
+        },
+        zoomTo: function zoomTo(ratio, _originalEvent) {
+            return this.cropper.zoomTo(ratio, _originalEvent);
+        },
+        rotate: function rotate(degree) {
+            return this.cropper.rotate(degree);
+        },
+        rotateTo: function rotateTo(degree) {
+            return this.cropper.rotateTo(degree);
+        },
+        scaleX: function scaleX(_scaleX) {
+            return this.cropper.scaleX(_scaleX);
+        },
+        scaleY: function scaleY(_scaleY) {
+            return this.cropper.scaleY(_scaleY);
+        },
+        scale: function scale(scaleX) {
+            var scaleY = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : scaleX;
+
+            return this.cropper.scale(scaleX, scaleY);
+        },
+        getData: function getData() {
+            var rounded = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+            return this.cropper.getData(rounded);
+        },
+        setData: function setData(data) {
+            return this.cropper.setData(data);
+        },
+        getContainerData: function getContainerData() {
+            return this.cropper.getContainerData();
+        },
+        getImageData: function getImageData() {
+            return this.cropper.getImageData();
+        },
+        getCanvasData: function getCanvasData() {
+            return this.cropper.getCanvasData();
+        },
+        setCanvasData: function setCanvasData(data) {
+            return this.cropper.setCanvasData(data);
+        },
+        getCropBoxData: function getCropBoxData() {
+            return this.cropper.getCropBoxData();
+        },
+        setCropBoxData: function setCropBoxData(data) {
+            return this.cropper.setCropBoxData(data);
+        },
+        getCroppedCanvas: function getCroppedCanvas() {
+            var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+            return this.cropper.getCroppedCanvas(options);
+        },
+        setAspectRatio: function setAspectRatio(aspectRatio) {
+            return this.cropper.setAspectRatio(aspectRatio);
+        },
+        setDragMode: function setDragMode(mode) {
+            return this.cropper.setDragMode(mode);
+        }
+    }
+});
+
+var VueCropper = _vue2.default.component('vue-cropper', CropperComponent);
+
+exports.default = VueCropper;
+
+/***/ }),
+
 /***/ "./node_modules/vue-functional-data-merge/dist/lib.esm.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -33299,11 +37285,626 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    [_c("shop-quick-nav", { attrs: { active: "attributes" } })],
+    [
+      _c("shop-quick-nav", { attrs: { active: "attributes" } }),
+      _vm._v(" "),
+      _c("div", { staticClass: "block full" }, [
+        _vm.type === "create"
+          ? _c("div", { staticClass: "block-title" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "block-title-control" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-sm btn-success active",
+                    attrs: {
+                      href: "javascript:void(0);",
+                      disabled: _vm.saveDisabled
+                    },
+                    on: { click: _vm.save }
+                  },
+                  [
+                    _c("i", { staticClass: "fa fa-plus-circle" }),
+                    _vm._v(" Создать")
+                  ]
+                )
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.type === "edit"
+          ? _c("div", { staticClass: "block-title" }, [
+              _c("h1", [
+                _c("strong", [
+                  _vm._v("Редактирование аттрибута #" + _vm._s(this.id))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "block-title-control" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-sm btn-primary active",
+                    attrs: {
+                      href: "javascript:void(0);",
+                      disabled: _vm.saveDisabled
+                    },
+                    on: { click: _vm.save }
+                  },
+                  [
+                    _c("i", { staticClass: "fa fa-floppy-o" }),
+                    _vm._v(" Сохранить")
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-sm btn-danger active",
+                    attrs: {
+                      href: "javascript:void(0);",
+                      disabled: _vm.saveDisabled
+                    },
+                    on: { click: _vm.remove }
+                  },
+                  [_vm._v("Удалить")]
+                )
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.attribute
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-lg-6" }, [
+                _c(
+                  "div",
+                  { staticClass: "block" },
+                  [
+                    _c("div", { staticClass: "block-title clearfix" }, [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "block-options pull-right" },
+                        [
+                          _c("language-picker", {
+                            class: {
+                              "has-error": _vm.translatesSwitcherHasError()
+                            },
+                            attrs: {
+                              languages: _vm.languages,
+                              activeLanguageCode: _vm.activeLanguageCode
+                            },
+                            on: {
+                              "update:activeLanguageCode": function($event) {
+                                _vm.activeLanguageCode = $event
+                              }
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.languages, function(language) {
+                      return [
+                        _c(
+                          "div",
+                          {
+                            key: language.code,
+                            class:
+                              "form-horizontal form-bordered" +
+                              (_vm.activeLanguageCode === language.code
+                                ? ""
+                                : " in-space")
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.errors.has(
+                                    "i18." + language.code + ".title"
+                                  )
+                                    ? " has-error"
+                                    : "")
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "col-md-3 control-label",
+                                    attrs: { for: "title-" + language.code }
+                                  },
+                                  [
+                                    _vm._v("Название "),
+                                    _c("span", { staticClass: "text-danger" }, [
+                                      _vm._v("*")
+                                    ])
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-9" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.attribute.i18[language.code]
+                                            .title,
+                                        expression:
+                                          "attribute.i18[language.code].title"
+                                      },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value: "required|max:255",
+                                        expression: "'required|max:255'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      id: "title-" + language.code,
+                                      name: "i18." + language.code + ".title"
+                                    },
+                                    domProps: {
+                                      value:
+                                        _vm.attribute.i18[language.code].title
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.attribute.i18[language.code],
+                                          "title",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.errors.has(
+                                            "i18." + language.code + ".title"
+                                          ),
+                                          expression:
+                                            "errors.has(`i18.${language.code}.title`)"
+                                        }
+                                      ],
+                                      staticClass: "help-block"
+                                    },
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.errors.first(
+                                            "i18." + language.code + ".title"
+                                          )
+                                        )
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "block" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-horizontal form-bordered" }, [
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.errors.has("enabled") ? " has-error" : "")
+                      },
+                      [
+                        _c("label", { staticClass: "col-md-3 control-label" }, [
+                          _vm._v("Опубликовано")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-9" }, [
+                          _c(
+                            "label",
+                            { staticClass: "switch switch-primary" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.attribute.enabled,
+                                    expression: "attribute.enabled"
+                                  }
+                                ],
+                                attrs: { type: "checkbox" },
+                                domProps: {
+                                  checked: Array.isArray(_vm.attribute.enabled)
+                                    ? _vm._i(_vm.attribute.enabled, null) > -1
+                                    : _vm.attribute.enabled
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$a = _vm.attribute.enabled,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = null,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          _vm.$set(
+                                            _vm.attribute,
+                                            "enabled",
+                                            $$a.concat([$$v])
+                                          )
+                                      } else {
+                                        $$i > -1 &&
+                                          _vm.$set(
+                                            _vm.attribute,
+                                            "enabled",
+                                            $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1))
+                                          )
+                                      }
+                                    } else {
+                                      _vm.$set(_vm.attribute, "enabled", $$c)
+                                    }
+                                  }
+                                }
+                              }),
+                              _c("span")
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.errors.has("enabled"),
+                                  expression: "errors.has('enabled')"
+                                }
+                              ],
+                              staticClass: "help-block"
+                            },
+                            [_vm._v(_vm._s(_vm.errors.first("enabled")))]
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.isSuperAdmin()
+                      ? _c(
+                          "div",
+                          {
+                            class:
+                              "form-group" +
+                              (_vm.errors.has("selectable") ? " has-error" : "")
+                          },
+                          [
+                            _c(
+                              "label",
+                              { staticClass: "col-md-3 control-label" },
+                              [_vm._v("Выбираемый")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-9" }, [
+                              _c(
+                                "label",
+                                { staticClass: "switch switch-primary" },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.attribute.selectable,
+                                        expression: "attribute.selectable"
+                                      }
+                                    ],
+                                    attrs: { type: "checkbox" },
+                                    domProps: {
+                                      checked: Array.isArray(
+                                        _vm.attribute.selectable
+                                      )
+                                        ? _vm._i(
+                                            _vm.attribute.selectable,
+                                            null
+                                          ) > -1
+                                        : _vm.attribute.selectable
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        var $$a = _vm.attribute.selectable,
+                                          $$el = $event.target,
+                                          $$c = $$el.checked ? true : false
+                                        if (Array.isArray($$a)) {
+                                          var $$v = null,
+                                            $$i = _vm._i($$a, $$v)
+                                          if ($$el.checked) {
+                                            $$i < 0 &&
+                                              _vm.$set(
+                                                _vm.attribute,
+                                                "selectable",
+                                                $$a.concat([$$v])
+                                              )
+                                          } else {
+                                            $$i > -1 &&
+                                              _vm.$set(
+                                                _vm.attribute,
+                                                "selectable",
+                                                $$a
+                                                  .slice(0, $$i)
+                                                  .concat($$a.slice($$i + 1))
+                                              )
+                                          }
+                                        } else {
+                                          _vm.$set(
+                                            _vm.attribute,
+                                            "selectable",
+                                            $$c
+                                          )
+                                        }
+                                      }
+                                    }
+                                  }),
+                                  _c("span")
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.errors.has("selectable"),
+                                      expression: "errors.has('selectable')"
+                                    }
+                                  ],
+                                  staticClass: "help-block"
+                                },
+                                [_vm._v(_vm._s(_vm.errors.first("selectable")))]
+                              ),
+                              _vm._v(" "),
+                              _c("span", { staticClass: "help-block" }, [
+                                _vm._v(
+                                  "* Дает возможность выбирать аттрибут покупателю в карточке товара."
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.isSuperAdmin()
+                      ? _c(
+                          "div",
+                          {
+                            class:
+                              "form-group" +
+                              (_vm.errors.has("slug") ? " has-error" : "")
+                          },
+                          [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "col-md-3 control-label",
+                                attrs: { for: "slug" }
+                              },
+                              [_vm._v("Класс в верстке")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-9" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.attribute.layout_class,
+                                    expression: "attribute.layout_class"
+                                  },
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value: "max:255",
+                                    expression: "'max:255'"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "slug",
+                                  name: "slug"
+                                },
+                                domProps: { value: _vm.attribute.layout_class },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.attribute,
+                                      "layout_class",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.errors.has("layout_class"),
+                                      expression: "errors.has('layout_class')"
+                                    }
+                                  ],
+                                  staticClass: "help-block"
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.errors.first("layout_class"))
+                                  )
+                                ]
+                              )
+                            ])
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.attribute.created_at
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [_vm._v("Дата создания")]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-9" }, [
+                            _c("p", { staticClass: "form-control-static" }, [
+                              _vm._v(_vm._s(_vm.attribute.created_at))
+                            ])
+                          ])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.attribute.updated_at
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [_vm._v("Последнее изменение")]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-9" }, [
+                            _c("p", { staticClass: "form-control-static" }, [
+                              _vm._v(_vm._s(_vm.attribute.updated_at))
+                            ])
+                          ])
+                        ])
+                      : _vm._e()
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(3)
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "validationModal",
+          attrs: {
+            id: "validationModal",
+            title: "Ошибка валидации",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Ок",
+            "ok-only": "",
+            "hide-header-close": ""
+          }
+        },
+        [_vm._v("\n\n      Проверьте правильность заполнения формы!\n    ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "removeModal",
+          attrs: {
+            id: "removeModal",
+            title: "Удаление аттрибута",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Удалить",
+            "cancel-title": "Отмена",
+            "hide-header-close": ""
+          },
+          on: { ok: _vm.removeConfirm }
+        },
+        [_vm._v("\n\n      Вы действительно хотите удалить аттрибут?\n    ")]
+      )
+    ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [_c("strong", [_vm._v("Создание аттрибута")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h2", [
+      _c("i", { staticClass: "fa fa-globe" }),
+      _vm._v(" "),
+      _c("strong", [_vm._v("Языковая")]),
+      _vm._v(" информация")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-pencil" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Основная")]),
+        _vm._v(" информация")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-lg-6" }, [
+      _c("div", { staticClass: "block" }, [
+        _c("div", { staticClass: "block-title" }, [
+          _c("h2", [
+            _c("i", { staticClass: "fa fa-list" }),
+            _vm._v(" Значения")
+          ])
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -33867,10 +38468,8 @@ var render = function() {
                     })
                   ],
                   2
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-lg-6" }, [
+                ),
+                _vm._v(" "),
                 _c("div", { staticClass: "block" }, [
                   _vm._m(2),
                   _vm._v(" "),
@@ -33946,7 +38545,7 @@ var render = function() {
                           [
                             _c("tree-select", {
                               attrs: {
-                                options: _vm.categories,
+                                options: _vm.categoriesTree,
                                 selected: _vm.product.categories,
                                 multiple: true,
                                 placeholder: "Выберите категорию"
@@ -34406,52 +39005,47 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-lg-12" }, [
-                _c(
-                  "div",
-                  { staticClass: "block" },
-                  [
-                    _vm._m(4),
-                    _vm._v(" "),
-                    _c("prices-table", {
-                      attrs: { prices: _vm.product.prices },
-                      on: {
-                        "update:prices": function($event) {
-                          _vm.$set(_vm.product, "prices", $event)
-                        }
-                      }
-                    })
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _vm.type === "edit"
-                ? _c("div", { staticClass: "col-lg-12" }, [
-                    _c(
-                      "div",
-                      { staticClass: "block" },
-                      [
-                        _vm._m(5),
-                        _vm._v(" "),
-                        _c("dropzone-gallery", {
-                          staticStyle: { "margin-bottom": "20px" },
-                          attrs: {
-                            url: _vm.prepareUrl("image"),
-                            images: _vm.product.images
-                          },
-                          on: {
-                            "update:images": function($event) {
-                              _vm.$set(_vm.product, "images", $event)
-                            }
+              _c(
+                "div",
+                { staticClass: "col-lg-6" },
+                [
+                  _vm.type === "edit"
+                    ? _c("dropzone-gallery", {
+                        attrs: {
+                          url: _vm.prepareUrl("image"),
+                          images: _vm.product.images
+                        },
+                        on: {
+                          "update:images": function($event) {
+                            _vm.$set(_vm.product, "images", $event)
                           }
-                        })
-                      ],
-                      1
-                    )
-                  ])
-                : _vm._e()
+                        }
+                      })
+                    : _vm._e()
+                ],
+                1
+              )
             ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.product && _vm.product.prices
+          ? _c(
+              "div",
+              { staticClass: "block" },
+              [
+                _vm._m(4),
+                _vm._v(" "),
+                _c("prices-table", {
+                  attrs: { prices: _vm.product.prices },
+                  on: {
+                    "update:prices": function($event) {
+                      _vm.$set(_vm.product, "prices", $event)
+                    }
+                  }
+                })
+              ],
+              1
+            )
           : _vm._e()
       ]),
       _vm._v(" "),
@@ -34546,21 +39140,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "block-title" }, [
       _c("h2", [
-        _c("i", { staticClass: "fa fa-pencil" }),
+        _c("i", { staticClass: "fa fa-money" }),
         _vm._v(" "),
         _c("strong", [_vm._v("Цены")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "block-title" }, [
-      _c("h2", [
-        _c("i", { staticClass: "fa fa-pencil" }),
-        _vm._v(" "),
-        _c("strong", [_vm._v("Изображения")])
       ])
     ])
   }
@@ -34665,7 +39247,7 @@ var render = function() {
                                   type: "search",
                                   "aria-controls": "example-datatable"
                                 },
-                                on: { change: _vm.onSearch }
+                                on: { change: _vm.search }
                               }),
                               _vm._v(" "),
                               _c(
@@ -34673,7 +39255,7 @@ var render = function() {
                                 {
                                   staticClass: "input-group-addon",
                                   attrs: { href: "javascript:void(0)" },
-                                  on: { click: _vm.onSearch }
+                                  on: { click: _vm.search }
                                 },
                                 [_c("i", { staticClass: "fa fa-search" })]
                               )
@@ -34714,7 +39296,7 @@ var render = function() {
                           "update:busy": function($event) {
                             _vm.loading = $event
                           },
-                          "sort-changed": _vm.onSortingChanged
+                          "sort-changed": _vm.sortingChanged
                         },
                         scopedSlots: _vm._u([
                           {
@@ -34798,7 +39380,7 @@ var render = function() {
                                     },
                                     on: {
                                       click: function($event) {
-                                        _vm.onRemove(product.item.id)
+                                        _vm.remove(product.item.id)
                                       }
                                     }
                                   },
@@ -34983,9 +39565,9 @@ var render = function() {
             "cancel-title": "Отмена",
             "hide-header-close": ""
           },
-          on: { ok: _vm.onRemoveConfirm }
+          on: { ok: _vm.removeConfirm }
         },
-        [_vm._v("\n    Вы действительно хотите удалить товар?\n  ")]
+        [_vm._v("\n\n    Вы действительно хотите удалить товар?\n  ")]
       )
     ],
     1
@@ -35062,10 +39644,10 @@ var render = function() {
               [
                 _vm._m(1),
                 _vm._v(" "),
-                _vm.tree && _vm.tree.length
+                _vm.items && _vm.items.length
                   ? _c("categories-table-tree", {
                       attrs: {
-                        tree: _vm.tree,
+                        tree: _vm.items,
                         level: "0",
                         statusChange: _vm.statusChange,
                         remove: _vm.remove
@@ -35073,7 +39655,7 @@ var render = function() {
                     })
                   : _vm._e(),
                 _vm._v(" "),
-                !_vm.tree.length
+                !_vm.items.length
                   ? _c("div", { staticClass: "table-group" }, [_vm._m(2)])
                   : _vm._e()
               ],
@@ -35260,8 +39842,8 @@ var render = function() {
                 _c(
                   "tbody",
                   [
-                    _vm._l(_vm.list, function(supplier) {
-                      return _vm.list && _vm.list.length
+                    _vm._l(_vm.items, function(supplier) {
+                      return _vm.items && _vm.items.length
                         ? _c("tr", [
                             _c("td", { staticClass: "text-center" }, [
                               _c(
@@ -35337,7 +39919,7 @@ var render = function() {
                         : _vm._e()
                     }),
                     _vm._v(" "),
-                    !(_vm.list && _vm.list.length)
+                    !(_vm.items && _vm.items.length)
                       ? _c("tr", [
                           _c(
                             "td",
@@ -35536,7 +40118,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "div",
+    [_c("shop-quick-nav", { attrs: { active: "attributes" } })],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -36197,7 +40783,7 @@ var render = function() {
                           [
                             _c("tree-select", {
                               attrs: {
-                                options: _vm.categories,
+                                options: _vm.categoriesTree,
                                 selected: _vm.category.parent_id,
                                 disabled: _vm.id,
                                 placeholder: "Выберите категорию"
@@ -36489,7 +41075,7 @@ var render = function() {
           ? _c("div", { staticClass: "block-title" }, [
               _c("h1", [
                 _c("strong", [
-                  _vm._v("Редактирование категории #" + _vm._s(this.id))
+                  _vm._v("Редактирование поставщика #" + _vm._s(this.id))
                 ])
               ]),
               _vm._v(" "),
@@ -36794,7 +41380,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h1", [_c("strong", [_vm._v("Создание категории")])])
+    return _c("h1", [_c("strong", [_vm._v("Создание поставщика")])])
   },
   function() {
     var _vm = this
@@ -36887,13 +41473,292 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("vue-dropzone", {
-    ref: "dropzone",
-    attrs: { id: "dropzone", options: _vm.options, destroyDropzone: true },
-    on: { "vdropzone-success": _vm.success, "vdropzone-removed-file": _vm.sync }
-  })
+  return _c(
+    "div",
+    { staticClass: "block" },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "block-section" }, [
+        _c("div", { ref: "gallery", staticClass: "gallery gallery-widget" }, [
+          _c(
+            "div",
+            { staticClass: "row ui-sortable" },
+            _vm._l(_vm.images, function(image) {
+              return _c(
+                "div",
+                {
+                  key: image.id,
+                  staticClass: "col-xs-6 col-sm-3",
+                  attrs: { "data-id": image.id }
+                },
+                [
+                  _c("input", {
+                    attrs: { type: "hidden", name: "ids" },
+                    domProps: { value: image.id }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      class: {
+                        "edit-photo-card": true,
+                        "edit-photo-card--deleted": image.deleted
+                      }
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          staticClass:
+                            "edit-photo-card__preview js-magnific-link",
+                          attrs: { href: image.original }
+                        },
+                        [
+                          _c("div", {
+                            staticClass: "edit-photo-card__image",
+                            style:
+                              "background-image:url(" +
+                              (image.small ? image.small.srcset : "") +
+                              ")"
+                          })
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm._m(1, true),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "edit-photo-card__controls" }, [
+                        _c("div", { staticClass: "pull-left" }, [
+                          !_vm.isDeleted(image)
+                            ? _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-sm btn-primary",
+                                  attrs: { href: "javascript:void(0)" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.edit(image)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", { staticClass: "fa fa-crop" }),
+                                  _vm._v(" Редактировать\n                ")
+                                ]
+                              )
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "pull-right" }, [
+                          !_vm.isDeleted(image)
+                            ? _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-sm btn-danger",
+                                  attrs: { href: "javascript:void(0)" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.remove(image)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fa fa-trash-o" })]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.isDeleted(image)
+                            ? _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-sm btn-success",
+                                  attrs: { href: "javascript:void(0)" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.recover(image)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", { staticClass: "fa fa-repeat" }),
+                                  _vm._v(" Восстановить\n                ")
+                                ]
+                              )
+                            : _vm._e()
+                        ])
+                      ])
+                    ]
+                  )
+                ]
+              )
+            })
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "block-section" },
+        [
+          _c("vue-dropzone", {
+            ref: "dropzone",
+            attrs: {
+              id: "dropzone",
+              options: _vm.options,
+              destroyDropzone: true
+            },
+            on: { "vdropzone-success": _vm.success }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "pictureEditModal",
+          attrs: {
+            id: "pictureEditModal",
+            "no-close-on-backdrop": true,
+            size: "lg",
+            title: "Редактирование изображения",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Применить",
+            "cancel-title": "Отмена",
+            "hide-header-close": ""
+          },
+          on: { hidden: _vm.clear, ok: _vm.pictureEditSave }
+        },
+        [
+          !!_vm.toCropImage
+            ? _c("vue-cropper", {
+                ref: "cropper",
+                staticStyle: { "max-height": "500px" },
+                attrs: {
+                  guides: true,
+                  "view-mode": 2,
+                  "drag-mode": "crop",
+                  "auto-crop-area": 1,
+                  background: true,
+                  rotatable: true,
+                  zoomable: false,
+                  data: _vm.getCropperData(),
+                  src: _vm.toCropImage.original,
+                  "img-style": { width: "100%" }
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "edit-image-panel text-center",
+              staticStyle: { "margin-top": "20px" }
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-sm btn-primary",
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.rotateLeft()
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-rotate-left" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-sm btn-primary",
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.rotateRight()
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-rotate-right" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-sm btn-primary",
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.invertX()
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-arrows-h" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-sm btn-primary",
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.invertY()
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-arrows-v" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-sm btn-primary",
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.reset()
+                    }
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-refresh" }),
+                  _vm._v(" Сбросить\n      ")
+                ]
+              )
+            ]
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-image" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Изображения")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "edit-photo-card__deleted-icon" }, [
+      _c("i", { staticClass: "fa fa-trash" })
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -39999,39 +44864,42 @@ if (inBrowser && window.Vue) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vee_validate__ = __webpack_require__("./node_modules/vee-validate/dist/vee-validate.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_shop_Dashboard__ = __webpack_require__("./resources/assets/js/components/shop/Dashboard.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_shop_Dashboard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_shop_Dashboard__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_shop_categories_CategoriesTable__ = __webpack_require__("./resources/assets/js/components/shop/categories/CategoriesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_shop_categories_CategoriesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_shop_categories_CategoriesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoryEdit__ = __webpack_require__("./resources/assets/js/components/shop/categories/CategoryEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoryEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoryEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_shop_products_ProductsTable__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductsTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_shop_products_ProductsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_shop_products_ProductsTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductEdit__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_shop_orders_OrdersTable__ = __webpack_require__("./resources/assets/js/components/shop/orders/OrdersTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_shop_orders_OrdersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_shop_orders_OrdersTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_shop_customers_CustomersTable__ = __webpack_require__("./resources/assets/js/components/shop/customers/CustomersTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_shop_customers_CustomersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_shop_customers_CustomersTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_suppliers_SuppliersTable__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SuppliersTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_suppliers_SuppliersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_shop_suppliers_SuppliersTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SupplierEdit__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SupplierEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SupplierEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SupplierEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_attributes_AttributesTable__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_attributes_AttributesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__components_shop_attributes_AttributesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributeEdit__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributeEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributeEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__components_Loading__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_ClearCacheBtn__ = __webpack_require__("./resources/assets/js/components/ClearCacheBtn.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__components_ClearCacheBtn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_MainMenu__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_shop_Dashboard__ = __webpack_require__("./resources/assets/js/components/shop/Dashboard.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_shop_Dashboard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_shop_Dashboard__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoriesTable__ = __webpack_require__("./resources/assets/js/components/shop/categories/CategoriesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoriesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoriesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_shop_categories_CategoryEdit__ = __webpack_require__("./resources/assets/js/components/shop/categories/CategoryEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_shop_categories_CategoryEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_shop_categories_CategoryEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductsTable__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductsTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_shop_products_ProductEdit__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_shop_products_ProductEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_shop_products_ProductEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_shop_orders_OrdersTable__ = __webpack_require__("./resources/assets/js/components/shop/orders/OrdersTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_shop_orders_OrdersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_shop_orders_OrdersTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_customers_CustomersTable__ = __webpack_require__("./resources/assets/js/components/shop/customers/CustomersTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_customers_CustomersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_shop_customers_CustomersTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SuppliersTable__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SuppliersTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SuppliersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SuppliersTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_suppliers_SupplierEdit__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SupplierEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_suppliers_SupplierEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__components_shop_suppliers_SupplierEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributesTable__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_attributes_AttributeEdit__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributeEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_attributes_AttributeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__components_shop_attributes_AttributeEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__components_Loading__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_ClearCacheBtn__ = __webpack_require__("./resources/assets/js/components/ClearCacheBtn.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_ClearCacheBtn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__components_MainMenu__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
 
 
 
@@ -40068,6 +44936,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 __webpack_require__("./resources/assets/js/bootstrap.js");
 
 window.Vue = __WEBPACK_IMPORTED_MODULE_0_vue___default.a;
+
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vee_validate__["b" /* default */], { fieldsBagName: 'formFields' });
 
@@ -40098,13 +44967,13 @@ $.ajaxSetup({
 // "Компонентом" может быть как созданный через `Vue.extend()`
 // полноценный конструктор, так и просто объект с настройками компонента
 // Вложенные пути будут рассмотрены далее.
-var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_3__components_shop_Dashboard___default.a }, { path: '/shop', redirect: '/shop/products' }, { path: '/shop/categories', component: __WEBPACK_IMPORTED_MODULE_4__components_shop_categories_CategoriesTable___default.a }, { path: '/shop/categories/create', component: __WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoryEdit___default.a, props: { type: 'create' } }, { path: '/shop/categories/:id', component: __WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoryEdit___default.a, props: function props(route) {
+var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_4__components_shop_Dashboard___default.a }, { path: '/shop', redirect: '/shop/products' }, { path: '/shop/categories', component: __WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoriesTable___default.a }, { path: '/shop/categories/create', component: __WEBPACK_IMPORTED_MODULE_6__components_shop_categories_CategoryEdit___default.a, props: { type: 'create' } }, { path: '/shop/categories/:id', component: __WEBPACK_IMPORTED_MODULE_6__components_shop_categories_CategoryEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/products', component: __WEBPACK_IMPORTED_MODULE_6__components_shop_products_ProductsTable___default.a }, { path: '/shop/products/create', component: __WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductEdit___default.a, props: { type: 'create' } }, { path: '/shop/products/:id', component: __WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/products', component: __WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductsTable___default.a }, { path: '/shop/products/create', component: __WEBPACK_IMPORTED_MODULE_8__components_shop_products_ProductEdit___default.a, props: { type: 'create' } }, { path: '/shop/products/:id', component: __WEBPACK_IMPORTED_MODULE_8__components_shop_products_ProductEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/orders', component: __WEBPACK_IMPORTED_MODULE_8__components_shop_orders_OrdersTable___default.a }, { path: '/shop/customers', component: __WEBPACK_IMPORTED_MODULE_9__components_shop_customers_CustomersTable___default.a }, { path: '/shop/suppliers', component: __WEBPACK_IMPORTED_MODULE_10__components_shop_suppliers_SuppliersTable___default.a }, { path: '/shop/suppliers/create', component: __WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SupplierEdit___default.a, props: { type: 'create' } }, { path: '/shop/suppliers/:id', component: __WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SupplierEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/orders', component: __WEBPACK_IMPORTED_MODULE_9__components_shop_orders_OrdersTable___default.a }, { path: '/shop/customers', component: __WEBPACK_IMPORTED_MODULE_10__components_shop_customers_CustomersTable___default.a }, { path: '/shop/suppliers', component: __WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SuppliersTable___default.a }, { path: '/shop/suppliers/create', component: __WEBPACK_IMPORTED_MODULE_12__components_shop_suppliers_SupplierEdit___default.a, props: { type: 'create' } }, { path: '/shop/suppliers/:id', component: __WEBPACK_IMPORTED_MODULE_12__components_shop_suppliers_SupplierEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/attributes', component: __WEBPACK_IMPORTED_MODULE_12__components_shop_attributes_AttributesTable___default.a }, { path: '/shop/attributes/create', component: __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributeEdit___default.a, props: { type: 'create' } }, { path: '/shop/attributes/:id', component: __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributeEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/attributes', component: __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributesTable___default.a }, { path: '/shop/attributes/create', component: __WEBPACK_IMPORTED_MODULE_14__components_shop_attributes_AttributeEdit___default.a, props: { type: 'create' } }, { path: '/shop/attributes/:id', component: __WEBPACK_IMPORTED_MODULE_14__components_shop_attributes_AttributeEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
   } }];
 
@@ -40121,9 +44990,9 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
   router: router,
   components: {
-    Loading: __WEBPACK_IMPORTED_MODULE_14__components_Loading___default.a,
-    ClearCacheBtn: __WEBPACK_IMPORTED_MODULE_15__components_ClearCacheBtn___default.a,
-    MainMenu: __WEBPACK_IMPORTED_MODULE_16__components_MainMenu___default.a
+    Loading: __WEBPACK_IMPORTED_MODULE_15__components_Loading___default.a,
+    ClearCacheBtn: __WEBPACK_IMPORTED_MODULE_16__components_ClearCacheBtn___default.a,
+    MainMenu: __WEBPACK_IMPORTED_MODULE_17__components_MainMenu___default.a
   },
 
   data: function data() {
@@ -40142,21 +45011,17 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     }
   }
 }).$mount('#app');
-
-router.beforeEach(function (to, from, next) {
-  app.loadingStart();
-  next();
-});
-
-router.afterEach(function () {
-  app.loadingEnd();
-});
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
 /***/ "./resources/assets/js/bootstrap.js":
 /***/ (function(module, exports, __webpack_require__) {
 
+/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery) {// if (location.protocol != 'https:')
+// {
+//     location.protocol = 'https:'
+// }
 
 window._ = __webpack_require__("./node_modules/lodash/lodash.js");
 window.Popper = __webpack_require__("./node_modules/popper.js/dist/esm/popper.js").default;
@@ -40168,7 +45033,7 @@ window.Popper = __webpack_require__("./node_modules/popper.js/dist/esm/popper.js
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__("./node_modules/jquery/dist/jquery.js");
+  window.$ = __webpack_provided_window_dot_jQuery = __webpack_require__("./node_modules/jquery/dist/jquery.js");
 
   __webpack_require__("./node_modules/bootstrap/dist/js/npm.js");
 } catch (e) {}
@@ -40213,6 +45078,7 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -41373,6 +46239,8 @@ module.exports = Component.exports
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0____ = __webpack_require__("./resources/assets/js/core/index.js");
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -41400,6 +46268,7 @@ var apiRequest = function () {
     this.callbacks = [];
     this.fetchRequestCancel = false;
     this.isDone = false;
+    this.response = null;
 
     var config = {
       method: method,
@@ -41435,14 +46304,18 @@ var apiRequest = function () {
       }).catch(function (error) {
         if (error.constructor.name === 'Cancel') return;
 
-        if (error.response && 'data' in error.response) {
-          console.log(error);
-          _this2._handleResponse(error.response);
+        var response = error.response || {};
+
+        if ('data' in response && (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && data !== null && Object.keys(response.data).length !== 0) {
+          _this2._handleResponse(response);
           return;
+        } else if (response.status >= 500) {
+          __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].notify('Техническая ошибка. Обратитесь к разработчикам.', { type: 'error' });
+          _this2.status = 'crashed';
+        } else if (response.status === 404) {
+          _this2.status = '404';
         }
 
-        _this2.status = 'crashed';
-        __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].notify('Техническая ошибка. Обратитесь к разработчикам.', { type: 'error' });
         _this2._done();
       });
 
@@ -41461,28 +46334,31 @@ var apiRequest = function () {
     value: function _handleResponse(response) {
       this.response = response;
 
-      if (response && Object.keys(response.data).length !== 0) {
-        var data = response.data;
+      var data = response.data;
 
-        if (data.redirect) {
-          var redirect = data.redirect;
+      if (data.redirect) {
+        var redirect = data.redirect;
 
-          if (redirect.indexOf('/') === 0) {
-            redirect = '/' + __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].trim(redirect, '/');
-          }
-
-          window.location.href = redirect;
+        if (redirect.indexOf('/') === 0) {
+          redirect = '/' + __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].trim(redirect, '/');
         }
 
-        this.status = data.status || 'success';
+        window.location.href = redirect;
+      }
 
-        if ('message' in data) {
-          if (availableMessageTypes.indexOf(this.status) === -1) return;
+      this.status = data.status || 'success';
 
-          __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].notify(data.message, {
-            type: this.status
-          });
-        }
+      if (data.message) {
+        if (availableMessageTypes.indexOf(this.status) === -1) return;
+
+        __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].notify(data.message, {
+          type: this.status
+        });
+      }
+
+      if (data.withData) {
+        __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].dataHandler.flush();
+        __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].dataHandler.setDataToStorage(data.withData);
       }
 
       this._done();
@@ -41541,11 +46417,20 @@ var apiRequest = function () {
       this._onDone(function () {
         if (_this6.status !== 'crashed') return;
 
-        if (typeof callback === 'function') {
-          callback();
-        } else {
-          throw new Error(_this6.response);
-        }
+        __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].runCallback(callback);
+      });
+
+      return this;
+    }
+  }, {
+    key: 'notFound',
+    value: function notFound(callback) {
+      var _this7 = this;
+
+      this._onDone(function () {
+        if (_this7.status !== '404') return;
+
+        __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].runCallback(callback);
       });
 
       return this;
@@ -41566,6 +46451,24 @@ var apiRequest = function () {
 
 /***/ }),
 
+/***/ "./resources/assets/js/core/auth.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0____ = __webpack_require__("./resources/assets/js/core/index.js");
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  getRole: function getRole() {
+    return parseInt(window.config.role);
+  },
+  isSuperAdmin: function isSuperAdmin() {
+    return this.getRole() === 1;
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/core/dataHandler.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -41580,20 +46483,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["a"] = ({
   storageKey: 'interactionDataKey',
 
-  get: function get(dataLabels) {
+  get: function get() {
     var _this = this;
 
-    this.dataLabels = dataLabels.lenght === 1 ? [dataLabels] : dataLabels;
+    var dataLabels = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
     this.data = {};
 
     return this.getRelevantKey().then(function (key) {
-      if (key === __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.get(_this.storageKey)) {
-        return _this.getFromStorage();
+      if (key === _this.getCurrentKey()) {
+        return _this.getFromStorage(dataLabels);
       } else {
         __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.add(_this.storageKey, key);
-        return _this.getFromServer();
+        return _this.getFromServer(dataLabels);
       }
     });
+  },
+  getCurrentKey: function getCurrentKey() {
+    return __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.get(this.storageKey);
   },
   getRelevantKey: function getRelevantKey() {
     return new Promise(function (resolve) {
@@ -41603,50 +46510,61 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).start();
     });
   },
-  getFromStorage: function getFromStorage() {
+  getFromStorage: function getFromStorage(dataLabels) {
     var _this2 = this;
 
     return new Promise(function (resolve) {
-      for (var i = _this2.dataLabels.length; i >= 0; i--) {
-        var label = _this2.dataLabels[i];
+      for (var i = dataLabels.length; i >= 0; i--) {
+        var label = dataLabels[i];
         var fromLocalStorage = __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.get(label);
 
         if (typeof fromLocalStorage !== 'undefined' && fromLocalStorage !== null) {
           _this2.data[label] = fromLocalStorage;
-          _this2.dataLabels.splice(i, 1);
+          dataLabels.splice(i, 1);
         }
       }
 
-      if (_this2.dataLabels.length === 0) {
+      if (dataLabels.length === 0) {
         resolve(_this2.data);
       } else {
-        resolve(_this2.getFromServer());
+        resolve(_this2.getFromServer(dataLabels));
       }
     });
   },
-  getFromServer: function getFromServer() {
+  getFromServer: function getFromServer(dataLabels) {
     var _this3 = this;
 
     return new Promise(function (resolve) {
       new __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].requestHandler('get', '/api/data', {
         responseType: 'json',
-        labels: _this3.dataLabels
+        labels: dataLabels
       }).success(function (response) {
         var data = response.data.data;
 
-        if (_this3.dataLabels.length === 1) {
-          data = _defineProperty({}, _this3.dataLabels[0], data);
+        if (dataLabels.length === 1) {
+          data = _defineProperty({}, dataLabels[0], data);
         }
 
-        for (var i in data) {
-          __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.add(i, data[i]);
-        }
+        _this3.setDataToStorage(data);
 
         _this3.data = _extends({}, _this3.data, data);
 
         resolve(_this3.data);
       }).start();
     });
+  },
+  flush: function flush() {
+    localStorage.clear();
+  },
+  setDataToStorage: function setDataToStorage(data) {
+    if ('key' in data) {
+      __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.add(this.storageKey, key);
+      delete data.key;
+    }
+
+    for (var i in data) {
+      __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.add(i, data[i]);
+    }
   }
 });
 
@@ -41662,6 +46580,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__dataHandler_js__ = __webpack_require__("./resources/assets/js/core/dataHandler.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__transliteration__ = __webpack_require__("./resources/assets/js/core/transliteration.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__queueHandler__ = __webpack_require__("./resources/assets/js/core/queueHandler.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__auth__ = __webpack_require__("./resources/assets/js/core/auth.js");
+
 
 
 
@@ -41685,6 +46605,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   storage: __WEBPACK_IMPORTED_MODULE_2__storage_js__["a" /* default */],
   dataHandler: __WEBPACK_IMPORTED_MODULE_3__dataHandler_js__["a" /* default */],
   queueHandler: __WEBPACK_IMPORTED_MODULE_5__queueHandler__["b" /* default */],
+  auth: __WEBPACK_IMPORTED_MODULE_6__auth__["a" /* default */],
 
   transliteration: __WEBPACK_IMPORTED_MODULE_4__transliteration__["a" /* default */],
 
@@ -41721,6 +46642,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   getApiToken: function getApiToken() {
     return window.config.userToken;
+  },
+  camelize: function camelize(str) {
+    var capitalizeFirstLetter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+    var replaceFunc = void 0;
+    if (capitalizeFirstLetter) {
+      replaceFunc = function replaceFunc(letter) {
+        return letter.toUpperCase();
+      };
+    } else {
+      replaceFunc = function replaceFunc(letter, index) {
+        return index === 0 ? letter.toLowerCase() : letter.toUpperCase();
+      };
+    }
+
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, replaceFunc).replace(/[\_\-\s]+/g, '');
   }
 });
 
@@ -42326,7 +47263,18 @@ var asyncPackageDataCollector = function (_asyncPackage) {
 
   get: function get(identif) {
     if (identif in this.__data) {
-      return typeof this.__data[identif] === 'string' ? this.__data[identif] : JSON.parse(JSON.stringify(this.__data[identif]));
+      var _data = this.__data[identif];
+
+      if (typeof _data !== 'string') {
+        try {
+          _data = JSON.parse(JSON.stringify(this.__data[identif]));
+        } catch (e) {
+          delete this.__data[identif];
+          return this.get(identif);
+        }
+      }
+
+      return _data;
     }
 
     if (!this.isAvailable) return;
@@ -42431,6 +47379,16 @@ function transliteration(text, onlyLower) {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   methods: {
+    /**
+     * todo: Доделать проверку на супер админа
+     *
+     * @returns {*}
+     */
+    isSuperAdmin: function isSuperAdmin() {
+      return __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].auth.isSuperAdmin();
+    },
+
+
     /*
       Подготавливает url.
     */
@@ -42458,16 +47416,67 @@ function transliteration(text, onlyLower) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/mixins/DataHandler.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+  methods: {
+    initCurrencies: function initCurrencies() {
+      var currencies = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.currencies = this.getSortedData(this.getEnabledData(currencies));
+    },
+    initPriceTypes: function initPriceTypes() {
+      var prices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.priceTypes = this.getSortedData(this.getEnabledData(prices));
+    },
+    initLanguages: function initLanguages() {
+      var languages = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.languages = this.getSortedData(this.getEnabledData(languages));
+    },
+    initSuppliers: function initSuppliers() {
+      var suppliers = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.suppliers = this.getSortedData(this.getEnabledData(suppliers)).map(function (item) {
+        return {
+          id: item.id,
+          title: item.name
+        };
+      });
+    },
+    getEnabledData: function getEnabledData() {
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      return data.filter(function (item) {
+        return !!item.enabled;
+      });
+    },
+    getSortedData: function getSortedData() {
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      return data.sort(function (a, b) {
+        return a.position - b.position;
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/mixins/EntityEdit.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Validation__ = __webpack_require__("./resources/assets/js/mixins/Validation.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Base__ = __webpack_require__("./resources/assets/js/mixins/Base.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Page__ = __webpack_require__("./resources/assets/js/mixins/Page.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_queueHandler__ = __webpack_require__("./resources/assets/js/core/queueHandler.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -42475,23 +47484,58 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/*
-  Загрузка данных модели
- */
-var fetchEntity = function fetchEntity(path) {
-  return new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler('get', '/api' + path);
-};
-
-var isCreation = function isCreation(path) {
-  return path.indexOf('create') !== -1;
-};
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  mixins: [__WEBPACK_IMPORTED_MODULE_1__Validation__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__Base__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_1__Validation__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__Page__["a" /* default */]],
 
   props: ['type'],
 
+  data: function data() {
+    return {
+      reloadDataOnSave: false
+    };
+  },
+
+
   methods: {
+    /**
+     * Загрузка данных.
+     */
+    loadData: function loadData() {
+      var _this = this;
+
+      var a = new __WEBPACK_IMPORTED_MODULE_3__core_queueHandler__["a" /* asyncPackageDataCollector */]();
+      a.add(function () {
+        return _this.fetchMainData();
+      });
+
+      if (this.type === 'edit') {
+        a.add(this.fetchEntity());
+      }
+
+      a.onDone(function (data) {
+        _this.initData(data);
+      });
+
+      a.start();
+    },
+
+
+    /**
+     * Загрузка данных модели.
+     *
+     * @returns apiResponse
+     */
+    fetchEntity: function fetchEntity() {
+      var _this2 = this;
+
+      return new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler('get', this.prepareUrl()).notFound(function () {
+        __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].notify('Товар не найден.', { type: 'warning' });
+        _this2.redirectToTable();
+      });
+    },
+
+
     /**
      * Возвращает название сущности.
      *
@@ -42540,6 +47584,7 @@ var isCreation = function isCreation(path) {
      * @param data
      */
     initData: function initData(data) {
+      this.initMainData(data);
       this.initEntity(data[this.getEntityName()]);
     },
 
@@ -42594,41 +47639,50 @@ var isCreation = function isCreation(path) {
      * Сохранение сущности.
      */
     save: function save() {
-      var _this = this;
+      var _this3 = this;
 
       this.errors.clear();
 
       this.saveDisabled = true;
       this.$validator.validateAll().then(function (result) {
         if (!result) {
-          _this.saveDisabled = false;
-          _this.$refs.validationModal.show();
+          _this3.saveDisabled = false;
+          _this3.$refs.validationModal.show();
           return;
         }
 
-        var data = _this.getToSaveData();
+        var data = _this3.getToSaveData();
+
+        if (_this3.reloadDataOnSave !== false) {
+          data = _extends({}, data, {
+            withData: _this3.usedMainData
+          });
+        }
 
         var requestType = void 0;
 
-        if (_this.type === 'create') {
+        if (_this3.type === 'create') {
           requestType = 'post';
         }
 
-        if (_this.type === 'edit') {
+        if (_this3.type === 'edit') {
           requestType = 'put';
         }
 
-        var request = new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler(requestType, _this.prepareUrl(), data);
+        var request = new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler(requestType, _this3.prepareUrl(), data);
 
-        _this.saveQueue.add(request).onDone().success(function (response) {
-          return _this.pullModelFromResponse(response);
+        _this3.saveQueue.add(request).onDone().success(function (response) {
+          return _this3.pullDataFromResponse(response);
         }).fail(function (response) {
           if (response.data.errors) {
-            _this.setValidationErrors(response.data.errors);
-            _this.$refs.validationModal.show();
+            _this3.setValidationErrors(response.data.errors);
+            _this3.$refs.validationModal.show();
           }
+        }).notFound(function () {
+          __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].notify('Товар был удален до внесения изменений.', { type: 'warning' });
+          _this3.redirectToTable();
         }).any(function () {
-          _this.saveDisabled = false;
+          _this3.saveDisabled = false;
         });
       });
     },
@@ -42639,7 +47693,11 @@ var isCreation = function isCreation(path) {
      *
      * @param response
      */
-    pullModelFromResponse: function pullModelFromResponse(response) {
+    pullDataFromResponse: function pullDataFromResponse(response) {
+      if (this.reloadDataOnSave) {
+        this.initData(_extends(_defineProperty({}, this.getEntityName(), response.data[this.getEntityName()]), response.data.withData));
+      }
+
       this.initEntity(response.data[this.getEntityName()]);
     },
 
@@ -42660,10 +47718,10 @@ var isCreation = function isCreation(path) {
      * При подтвержении удаления записи.
      */
     removeConfirm: function removeConfirm() {
-      var _this2 = this;
+      var _this4 = this;
 
       new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler('delete', this.prepareUrl()).success(function () {
-        _this2.redirectToTable();
+        _this4.redirectToTable();
       }).start();
     },
 
@@ -42693,49 +47751,70 @@ var isCreation = function isCreation(path) {
   },
 
   created: function created() {
+    this.loadData();
     this.createQueue();
     this.extendSlugChecker();
   },
-  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    var a = new __WEBPACK_IMPORTED_MODULE_3__core_queueHandler__["a" /* asyncPackageDataCollector */]();
-    // todo: suppliers должны грузиться только в товарах
-    a.add(function () {
-      return __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].dataHandler.get(['categories-tree', 'languages', 'suppliers']);
-    });
-
-    if (!isCreation(to.path)) {
-      a.add(fetchEntity(to.path));
-    }
-
-    a.onDone(function (data) {
-      next(function (vm) {
-        vm.initData(data);
-      });
-    });
-
-    a.start();
-  },
-  beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
-    var _this3 = this;
-
-    if (isCreation(to.path)) {
-      next();
-      return;
-    }
-
-    var a = new __WEBPACK_IMPORTED_MODULE_3__core_queueHandler__["a" /* asyncPackageDataCollector */]();
-
-    a.add(fetchEntity(to.path));
-
-    a.onDone(function (data) {
-      _this3.pullModelFromResponse({ data: data });
-      next();
-    });
-
-    a.start();
-  },
   beforeDestroy: function beforeDestroy() {
     this.clearQueue();
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/mixins/Page.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Base__ = __webpack_require__("./resources/assets/js/mixins/Base.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__DataHandler__ = __webpack_require__("./resources/assets/js/mixins/DataHandler.js");
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  mixins: [__WEBPACK_IMPORTED_MODULE_1__Base__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__DataHandler__["a" /* default */]],
+
+  data: function data() {
+    return {
+      usedMainData: []
+    };
+  },
+
+
+  methods: {
+    loadData: function loadData() {
+      var _this = this;
+
+      this.fetchMainData().then(function (data) {
+        return _this.initMainData(data);
+      });
+    },
+    fetchMainData: function fetchMainData() {
+      if (this.usedMainData) {
+        return __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].dataHandler.get(this.usedMainData);
+      } else {
+        return new Promise(function (resolve) {
+          return resolve([]);
+        });
+      }
+    },
+    initMainData: function initMainData() {
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      for (var i in data) {
+        var methodName = 'init' + __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].camelize(i, true);
+
+        if (typeof this[methodName] === "function") {
+          this[methodName](data[i]);
+        } else {
+          var variableName = __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].camelize(i);
+          this[variableName] = data[i];
+        }
+      }
+    }
   }
 });
 
@@ -42745,7 +47824,7 @@ var isCreation = function isCreation(path) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ui_sortable_npm__ = __webpack_require__("./node_modules/jquery-ui-sortable-npm/jquery-ui-sortable.js");
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ui_sortable_npm__ = __webpack_require__("./node_modules/jquery-ui-sortable-npm/jquery-ui-sortable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ui_sortable_npm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery_ui_sortable_npm__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Base__ = __webpack_require__("./resources/assets/js/mixins/Base.js");
 
@@ -42779,6 +47858,130 @@ var isCreation = function isCreation(path) {
     this.sortQueue.add(new Core.requestHandler('post', this.prepareUrl('sort'), { ids: ids }));
   }
 });
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/assets/js/mixins/TablePage.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Page__ = __webpack_require__("./resources/assets/js/mixins/Page.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_queueHandler__ = __webpack_require__("./resources/assets/js/core/queueHandler.js");
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  mixins: [__WEBPACK_IMPORTED_MODULE_1__Page__["a" /* default */]],
+
+  data: function data() {
+    return {
+      items: []
+    };
+  },
+
+
+  methods: {
+    loadData: function loadData() {
+      var _this = this;
+
+      var a = new __WEBPACK_IMPORTED_MODULE_2__core_queueHandler__["a" /* asyncPackageDataCollector */]();
+      a.add(function () {
+        return _this.fetchMainData();
+      });
+      a.add(this.fetchItems());
+
+      a.onDone(function (data) {
+        _this.initData(data);
+      });
+
+      a.start();
+    },
+    initData: function initData(data) {
+      this.initMainData(data);
+      this.initItems(data);
+    },
+
+
+    /**
+     * Инициализация списка.
+     */
+    initItems: function initItems(data) {
+      this.items = data.items || [];
+    },
+
+
+    /**
+     * Загрузка списка.
+     */
+    fetchItems: function fetchItems() {
+      return new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler('get', this.prepareUrl());
+    },
+
+
+    /**
+     * Смена статуса записи.
+     *
+     * @param id
+     */
+    statusChange: function statusChange(id) {
+      this.statusQueue.add(new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler('get', this.prepareUrl(id + '/status')));
+    },
+
+
+    /**
+     * Показ окна для удаления записи.
+     *
+     * @param id
+     */
+    remove: function remove(id) {
+      var _ = this;
+
+      this.toRemoveId = id;
+      this.$refs.removeModal.show();
+    },
+
+
+    /**
+     * Удаление записи.
+     */
+    removeConfirm: function removeConfirm() {
+      var _this2 = this;
+
+      new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler('delete', this.prepareUrl('' + this.toRemoveId)).success(function () {
+        return _this2.refreshTable();
+      }).start();
+    },
+
+
+    /**
+     * Обновление списка записей.
+     */
+    refreshTable: function refreshTable() {
+      var _this3 = this;
+
+      this.fetchItems().success(function (response) {
+        return _this3.initItems(response.data);
+      }).start();
+    },
+
+
+    /**
+     * Отчистка очереди.
+     */
+    clearQueue: function clearQueue() {
+      this.statusQueue.clear();
+    }
+  },
+
+  created: function created() {
+    this.loadData();
+    this.statusQueue = __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].queueHandler.makeQueue('iteration', 'table-status');
+  }
+});
 
 /***/ }),
 
@@ -42806,6 +48009,8 @@ var isCreation = function isCreation(path) {
         }
 
         return language.enabled;
+      }).sort(function (a, b) {
+        return a.position - b.position;
       });
     },
     translatesSwitcherHasError: function translatesSwitcherHasError() {

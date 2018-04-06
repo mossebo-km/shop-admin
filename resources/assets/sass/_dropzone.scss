@@ -1,0 +1,25 @@
+.dz-icon {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 30px;
+}
+.dropzone .dz-preview .dz-success-mark, .dropzone .dz-preview .dz-error-mark {
+  width: 54px;
+  text-align: center;
+}
+.dropzone .dz-preview.dz-image-preview {
+  background-color: transparent;
+}
+
+.dropzone .dz-preview .dz-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.dropzone .dz-preview {
+  display: none;
+}
+
+.dropzone.dz-started .dz-message {
+  display: block;
+}

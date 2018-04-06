@@ -2001,7 +2001,7 @@ a.text-danger:focus {
 a.text-warning,
 a.text-warning:hover,
 a.text-warning:focus {
-    color: #e67e22;
+    color: #fdb341;
 }
 
 .text-success,
@@ -2239,12 +2239,12 @@ textarea.form-control {
 .has-warning .checkbox-inline,
 .has-warning .radio,
 .has-warning .radio-inline {
-    color: #e67e22;
+    color: #fdb341;
 }
 
 .has-warning .form-control,
 .has-warning .input-group-addon {
-    border-color: #e67e22;
+    border-color: #fdb341;
     background-color: #ffffff;
 }
 
@@ -3411,13 +3411,13 @@ code {
 }
 
 .alert-warning {
-    color: #e67e22;
+    color: #fdb341;
     background-color: #ffe4cc;
     border-color: #ffd6b2;
 }
 
 .alert-warning .alert-link {
-    color: #e67e22;
+    color: #fdb341;
 }
 
 .alert-success {
@@ -3475,7 +3475,7 @@ code {
 }
 
 .alert-warning.alert-alt {
-    border-color: #e67e22;
+    border-color: #fdb341;
 }
 
 .alert-success.alert-alt {
@@ -3531,7 +3531,7 @@ code {
 }
 
 .label-warning {
-    background-color: #e67e22;
+    background-color: #fdb341;
 }
 
 .label-warning[href]:hover,
@@ -3794,7 +3794,7 @@ p, .table, .alert, .carousel {
 }
 
 .themed-background-warning {
-    background-color: #e67e22 !important;
+    background-color: #fdb341 !important;
 }
 
 .themed-background-info {

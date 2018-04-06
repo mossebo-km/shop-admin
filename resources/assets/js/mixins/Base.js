@@ -2,6 +2,15 @@ import Core from '../core'
 
 export default {
   methods: {
+    /**
+     * todo: Доделать проверку на супер админа
+     *
+     * @returns {*}
+     */
+    isSuperAdmin() {
+      return Core.auth.isSuperAdmin()
+    },
+
     /*
       Подготавливает url.
     */

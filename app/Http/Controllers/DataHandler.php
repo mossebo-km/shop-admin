@@ -50,7 +50,18 @@ class DataHandler
     {
         // todo: Добавить отчистку кэша по типу данных.
 
-        \Cache::flush();
+//        \Cache::flush();
+
+        if ($dataType && isset(self::$repositories[$dataType])) {
+            self::$repositories[$dataType]::clearCache();
+        }
+        else {
+            foreach (self::$repositories as $repository) {
+                $repository::clearCache();
+            }
+        }
+
+        \Cache::forget(self::$cacheKey);
     }
 
     /**

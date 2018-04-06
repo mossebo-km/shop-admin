@@ -10,14 +10,9 @@ class Price extends Base\BaseModel
         'item_type', 'item_id', 'currency_code', 'price_type_id', 'value'
     ];
 
-    protected $hidden = [
-        'deleted_at'
-    ];
-
     protected $dates = [
         'created_at',
-        'updated_at',
-        'deleted_at'
+        'updated_at'
     ];
 
     public function products()

@@ -15,7 +15,7 @@ export default {
         }
 
         return language.enabled
-      })
+      }).sort((a, b) => a.position - b.position)
     },
 
     translatesSwitcherHasError() {

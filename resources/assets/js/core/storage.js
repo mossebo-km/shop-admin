@@ -20,10 +20,19 @@ export default {
 
   get: function(identif) {
     if (identif in this.__data) {
-      return ((typeof this.__data[identif] === 'string') ?
-        this.__data[identif] :
-        JSON.parse(JSON.stringify(this.__data[identif]))
-      );
+      let data = this.__data[identif]
+
+      if (typeof data !== 'string') {
+        try {
+          data = JSON.parse(JSON.stringify(this.__data[identif]))
+        }
+        catch(e){
+          delete this.__data[identif]
+          return this.get(identif)
+        }
+      }
+
+      return data
     }
 
     if (!this.isAvailable) return;
@@ -32,7 +41,8 @@ export default {
 
     try {
       data = JSON.parse(data);
-    } catch(e){}
+    }
+    catch(e){}
 
     this.__data[identif] = data;
 

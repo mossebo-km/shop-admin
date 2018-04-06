@@ -5,71 +5,27 @@
   import CategoriesTableTree from './CategoriesTableTree'
   import ShopQuickNav from '../ShopQuickNav'
 
-  import Base from '../../../mixins/Base'
+  import TablePage from '../../../mixins/TablePage'
   import Sortable from '../../../mixins/Sortable'
 
 
   export default {
     name: 'categories-table',
 
-    mixins: [Base, Sortable],
-
-    data () {
-      return {
-        tree: []
-      }
-    },
+    mixins: [
+      TablePage,
+      Sortable
+    ],
 
     components : {
-      'shop-quick-nav': ShopQuickNav,
-      'b-modal': bModal,
-      'categories-table-tree': CategoriesTableTree
+      ShopQuickNav,
+      bModal,
+      CategoriesTableTree
     },
 
     methods: {
-      fetchItems() {
-        new Core.requestHandler('get', this.prepareUrl())
-          .success(response => this.initTree(response))
-          .start()
-      },
-
-      /*
-        Инициализация списка.
-       */
-      initTree (response) {
-        this.tree = response.data ? response.data.tree || [] : []
-      },
-
-      /*
-        Смена статуса записи.
-       */
-      statusChange(id) {
-        this.statusQueue.add(new Core.requestHandler('get', this.prepareUrl(`${id}/status`)))
-      },
-
-      /*
-        Нажатие на кнопку удаления записи.
-       */
-      remove(id) {
-        var _ = this;
-
-        this.toRemoveId = id
-        this.$refs.removeModal.show()
-      },
-
-      /*
-        При подтвержении удаления записи.
-       */
-      removeConfirm() {
-        new Core.requestHandler('delete', this.prepareUrl(`${this.toRemoveId}`))
-          .success(() => this.fetchItems())
-          .start()
-      },
-
-
-
-      /*
-        Отчистка очереди
+      /**
+       * Отчистка очереди.
        */
       clearQueue() {
         this.sortQueue.clear()
@@ -78,8 +34,7 @@
     },
 
     created() {
-      this.sortQueue = Core.queueHandler.makeQueue('break', 'category-sort')
-      this.statusQueue = Core.queueHandler.makeQueue('iteration', 'category-status')
+      this.sortQueue = Core.queueHandler.makeQueue('break', 'table-sort')
     },
 
     updated() {
@@ -88,16 +43,6 @@
 
     beforeDestroy() {
       this.clearQueue()
-    },
-
-    beforeRouteEnter(to, from, next) {
-        return new Core.requestHandler('get', '/api' + to.path)
-          .success(response => {
-            next(vm => {
-              vm.initTree(response)
-            })
-          })
-          .start()
     },
   }
 </script>
@@ -136,9 +81,9 @@
             </div>
           </div>
 
-          <categories-table-tree v-if="tree && tree.length" :tree="tree" level="0" :statusChange="statusChange" :remove="remove"></categories-table-tree>
+          <categories-table-tree v-if="items && items.length" :tree="items" level="0" :statusChange="statusChange" :remove="remove"></categories-table-tree>
 
-          <div v-if="!tree.length" class="table-group">
+          <div v-if="!items.length" class="table-group">
             <div class="table-row">
               <div class="table-cell table-cell-empty text-center">
                 Список категорий пуст

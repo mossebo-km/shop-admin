@@ -12,6 +12,13 @@
 @import 'animations';
 @import 'select2';
 @import 'table';
+@import 'edit-photo-card';
+@import 'dropzone';
+
+:root {
+  --primary-color: #1bbae1;
+  --danger-color: #d9534f;
+}
 
 .navbar-laravel {
   background-color: #fff;
@@ -32,6 +39,10 @@
   & .modal-content {
     width: 100%;
   }
+}
+
+.modal.fade .modal-dialog.modal-dialog-centered {
+  transform: none;
 }
 
 .switch span {
@@ -67,7 +78,7 @@
 }
 
 .has-warning .cke {
-  border-color: #e67e22;
+  border-color: #fdb341;
   background-color: #ffffff;
 }
 
@@ -119,23 +130,9 @@
 }
 
 
-.dz-icon {
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 30px;
-}
-.dropzone .dz-preview .dz-success-mark, .dropzone .dz-preview .dz-error-mark {
-  width: 54px;
-  text-align: center;
-}
-.dropzone .dz-preview.dz-image-preview {
-  background-color: transparent;
-}
 
-.dropzone .dz-preview .dz-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
+
+
 
 .dataTables_paginate {
   float: left;
@@ -149,4 +146,9 @@
 .dataTables_info {
   padding-top: 9px;
   margin-right: 10px;
+}
+
+
+div.dataTables_length select[size] {
+  height: 34px;
 }

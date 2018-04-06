@@ -4,6 +4,7 @@ import storage from './storage.js'
 import dataHandler from './dataHandler.js'
 import transliteration from './transliteration'
 import queueHandler from './queueHandler'
+import auth from './auth'
 
 export default {
   runCallback(callback) {
@@ -21,6 +22,7 @@ export default {
   storage,
   dataHandler,
   queueHandler,
+  auth,
 
   transliteration,
 
@@ -60,6 +62,18 @@ export default {
 
   getApiToken() {
     return window.config.userToken
+  },
+
+  camelize(str, capitalizeFirstLetter = false) {
+    let replaceFunc
+    if (capitalizeFirstLetter) {
+      replaceFunc = letter => letter.toUpperCase()
+    }
+    else {
+      replaceFunc = (letter, index) => {return index === 0 ? letter.toLowerCase() : letter.toUpperCase()}
+    }
+
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, replaceFunc).replace(/[\_\-\s]+/g, '')
   },
 
 

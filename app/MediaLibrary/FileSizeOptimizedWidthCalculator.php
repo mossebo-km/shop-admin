@@ -24,7 +24,7 @@ class FileSizeOptimizedWidthCalculator implements WidthCalculator
         $targetWidths = collect();
 
         $targetWidths->push($width);
-        $targetWidths->push($width * 2);
+        $targetWidths->push($width / 2);
 
         return $targetWidths;
     }

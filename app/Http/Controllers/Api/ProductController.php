@@ -138,7 +138,7 @@ class ProductController extends ApiController
     public function update(ProductSaveRequest $request, Product $product)
     {
         try {
-            $product->saveFromRequestData($request->all());
+            $product = $product->saveFromRequestData($request->all());
         }
         catch (\Exception $e) {
             dd($e);
@@ -147,6 +147,8 @@ class ProductController extends ApiController
                 'message' => 'Техническая ошибка (2001). Обратитесь к разработчикам.'
             ], 500);
         }
+
+        $product = $product->fresh();
 
         \Event::fire(new Events\EntityUpdated($product));
 
@@ -166,28 +168,11 @@ class ProductController extends ApiController
      */
     public function imageUpload(ImageUploadRequest $request, Product $product)
     {
-        $file = $request->file('file');
-
-        $image = $product->addImageToTemp($file->path(), $this->generateUniqueFilename($file));
+        $image = $product->addImageFromFile($request->file('file'));
 
         return response()->json([
             'status' => 'success',
-            'id' => $image->id,
-            'url' => $image->getUrl()
+            'image' => new Resources\MediaResource($image),
         ]);
-    }
-
-    /**
-     * Генерация уникального имени файла.
-     *
-     * Todo: вынести эту хрень куда-нибудь.
-     *
-     * @param $file
-     * @return string
-     */
-    protected function generateUniqueFilename($file)
-    {
-//        . $file->extension()
-        return str_replace('.', '', uniqid('', true))  . '.jpg';
     }
 }

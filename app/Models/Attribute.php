@@ -35,15 +35,6 @@ class Attribute extends Base\BaseModelI18
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'deleted_at'
-    ];
-
-    /**
      * Атрибуты, которые должны быть преобразованы в даты.
      *
      * @var array
@@ -51,8 +42,7 @@ class Attribute extends Base\BaseModelI18
 
     protected $dates = [
         'created_at',
-        'updated_at',
-        'deleted_at'
+        'updated_at'
     ];
 
     protected $needsToSaveFromRequest = ['i18', 'options'];

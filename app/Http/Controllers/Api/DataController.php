@@ -17,18 +17,11 @@ class DataController extends ApiController
 
     public function get(Request $request)
     {
-        $key = $request->input('key');
         $currentKey = DataHandler::getRelevantKey();
-
-        if ($key === $currentKey) {
-            return response()->json([
-                'status' => 'success',
-            ], 200);
-        }
 
         return response()->json([
             'status' => 'success',
-            'data' => DataHandler::get($request->input('labels')),
+            'data' => DataHandler::get($request->input('labels') ?: []),
             'key' => $currentKey
         ], 200);
     }

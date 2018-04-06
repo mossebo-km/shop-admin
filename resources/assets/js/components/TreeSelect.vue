@@ -19,7 +19,7 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
     },
 
     watch: {
-      '$route': 'select'
+      'options': 'reset'
     },
 
     methods: {
@@ -96,6 +96,24 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
       select() {
         this.$$el.val(this.selected)
         this.$$el.trigger('change')
+      },
+
+      reset() {
+        this.buildOptions()
+
+        this.$$el.select2('destroy')
+        this.initSelect2()
+      },
+
+      initSelect2() {
+        this.$$el = $(this.$el)
+
+        this.$$el.select2({
+          allowClear: true,
+          placeholder: this.placeholder,
+          theme: "bootstrap",
+          templateSelection: this.formatOption
+        })
       }
     },
 
@@ -104,7 +122,7 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
     },
 
     mounted() {
-      this.$$el = $(this.$el)
+      this.initSelect2()
 
       this.$$el.select2({
         allowClear: true,

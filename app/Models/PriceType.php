@@ -9,14 +9,10 @@ class PriceType extends Base\BaseModel
      *
      * @var array
      */
-    protected $hidden = [
-        'deleted_at'
-    ];
 
     protected $dates = [
         'created_at',
-        'updated_at',
-        'deleted_at'
+        'updated_at'
     ];
 
     protected $tableIdentif = 'PriceTypes';

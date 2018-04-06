@@ -29,7 +29,7 @@
       return {
         entityName: 'category',
         category: null,
-        categories: [],
+        categoriesTree: [],
         saveDisabled: false,
 
         defaultFieldsValues: {
@@ -46,7 +46,14 @@
           description: '',
           meta_title: '',
           meta_description: ''
-        }
+        },
+
+        usedMainData: [
+          'categories-tree',
+          'languages',
+        ],
+
+        reloadDataOnSave: true
       }
     },
 
@@ -59,17 +66,9 @@
     },
 
     methods: {
-      initData(data) {
-        this.initLanguages(data['languages'] || [])
-        this.categories = data['categories-tree']
-
-        this.initEntity(data[this.getEntityName()])
-      },
-
-      /*
-        Инициализация модели данных.
-      */
-
+      /**
+       * Инициализация модели данных.
+       */
       initEntity(data = {}) {
         let entity = this.makeEntityBaseData(data)
 
@@ -78,10 +77,9 @@
         this.setEntityData(entity)
       },
 
-      /*
-        Автозаполнение slug из заголовка категории.
-      */
-
+      /**
+       * Автозаполнение slug из заголовка категории.
+       */
       slugAutocomplete() {
         let model = this.getEntityModel()
         model.slug = Core.makeUrl(model.i18[this.activeLanguageCode].title)
@@ -188,7 +186,7 @@
               <div :class="`form-group${errors.has('parent_id') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label" for="parent_id">Родительская категория</label>
                 <div class="col-md-8">
-                  <tree-select :options="categories" :selected.sync="category.parent_id" :disabled="id" placeholder="Выберите категорию"></tree-select>
+                  <tree-select :options="categoriesTree" :selected.sync="category.parent_id" :disabled="id" placeholder="Выберите категорию"></tree-select>
 
                   <span v-show="errors.has('parent_id')" class="help-block">{{ errors.first('parent_id') }}</span>
                 </div>

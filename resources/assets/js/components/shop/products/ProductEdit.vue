@@ -13,7 +13,6 @@
   import EntityEdit from '../../../mixins/EntityEdit'
   import Translatable from '../../../mixins/Translatable'
 
-
   export default {
     name: 'product-edit',
 
@@ -31,7 +30,7 @@
         entityName: 'product',
         product: null,
 
-        categories: [],
+        categoriesTree: [],
         currencies: [],
         priceTypes: [],
         suppliers:  [],
@@ -55,7 +54,15 @@
           description: '',
           meta_title: '',
           meta_description: ''
-        }
+        },
+
+        usedMainData: [
+          'categories-tree',
+          'languages',
+          'suppliers',
+          'price-types',
+          'currencies'
+        ]
       }
     },
 
@@ -70,28 +77,18 @@
     },
 
     methods: {
-      initData(data) {
-        this.initLanguages(data['languages'] || [])
-        this.initSuppliers(data['suppliers'] || [])
-
-        this.categories = data['categories-tree']
-
-        this.initEntity(data[this.getEntityName()])
-      },
-
-      initSuppliers(suppliers) {
-        this.suppliers = !(suppliers instanceof Array) ? [] : suppliers.map(item => ({
-          id: item.id,
-          title: item.name
-        }))
-      },
-
       getToSaveData() {
         let model = this.getEntityModel()
 
         return {
           ... model,
-          images: model.images.map(item => item.id),
+          images: model.images.reduce((acc, item) => {
+            if (!item.deleted) {
+              acc[item.id] = item.modifications || {}
+            }
+
+            return acc
+          }, {})
         }
       },
 
@@ -104,28 +101,12 @@
         let entity = this.makeEntityBaseData(data)
 
         entity.categories = data.categories || []
-        entity.images = this.initImages(data.images)
+        entity.images = data.images || []
         entity.i18 = this.initI18(data.i18)
         entity.prices = this.initPrices(data.prices)
 
         this.setEntityData(entity)
       },
-
-        /**
-         * Инициализация картинок.
-         *
-         * @param images
-         * @returns {{id: *, name: *, size: *, type: *, thumbnail: *}[]}
-         */
-        initImages(images = []) {
-          return images.map(item => ({
-            id: item.id,
-            name: item.original,
-            size: item.size,
-            type: item.type,
-            thumbnail: item.medium.src
-          }))
-        },
 
         /**
          * Инициализация цен.
@@ -145,7 +126,7 @@
 
           return sorted
         },
-    },
+    }
   }
 </script>
 
@@ -222,9 +203,7 @@
             </template>
 
           </div>
-        </div>
 
-        <div class="col-lg-6">
           <div class="block">
             <div class="block-title">
               <h2><i class="fa fa-pencil"></i> <strong>Основная</strong> информация</h2>
@@ -241,12 +220,12 @@
               </div>
 
               <div :class="`form-group${errors.has('categories') ? ' has-error' : ''}`">
-                  <label class="col-md-3 control-label" for="product-category">Категория</label>
-                  <div class="col-md-8">
-                    <tree-select :options="categories" :selected.sync="product.categories" :multiple="true" placeholder="Выберите категорию"></tree-select>
+                <label class="col-md-3 control-label" for="product-category">Категория</label>
+                <div class="col-md-8">
+                  <tree-select :options="categoriesTree" :selected.sync="product.categories" :multiple="true" placeholder="Выберите категорию"></tree-select>
 
-                    <span v-show="errors.has('categories')" class="help-block">{{ errors.first('categories') }}</span>
-                  </div>
+                  <span v-show="errors.has('categories')" class="help-block">{{ errors.first('categories') }}</span>
+                </div>
               </div>
 
               <div :class="`form-group${errors.has('enabled') ? ' has-error' : ''}`">
@@ -323,31 +302,25 @@
 
             </div>
           </div>
+
+
         </div>
 
+        <div class="col-lg-6">
+          <dropzone-gallery
+                  v-if="type === 'edit'"
+                  :url="prepareUrl('image')"
+                  :images.sync="product.images" />
+        </div>
+      </div>
 
-        <div class="col-lg-12">
-          <div class="block">
-            <div class="block-title">
-              <h2><i class="fa fa-pencil"></i> <strong>Цены</strong></h2>
-            </div>
 
-            <prices-table :prices.sync="product.prices"></prices-table>
-          </div>
+      <div class="block" v-if="product && product.prices">
+        <div class="block-title">
+          <h2><i class="fa fa-money"></i> <strong>Цены</strong></h2>
         </div>
 
-        <div class="col-lg-12" v-if="type === 'edit'">
-          <div class="block">
-            <div class="block-title">
-              <h2><i class="fa fa-pencil"></i> <strong>Изображения</strong></h2>
-            </div>
-
-            <dropzone-gallery
-              style="margin-bottom: 20px"
-              :url="prepareUrl('image')"
-              :images.sync="product.images" />
-          </div>
-        </div>
+        <prices-table :prices.sync="product.prices"></prices-table>
       </div>
     </div>
 

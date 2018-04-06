@@ -27,6 +27,10 @@ class ValidatorExtend
      */
     protected static function _recordExist($modelClassName, $value, $primaryKeyFieldName = null)
     {
+        if (empty($value)) {
+            return true;
+        }
+
         if (is_null($primaryKeyFieldName)) {
             $primaryKeyFieldName = self::_getModelKeyName($modelClassName);
         }
@@ -100,10 +104,6 @@ class ValidatorExtend
 
         if (is_null($parentFieldName)) {
             $parentFieldName = 'parent_id';
-        }
-
-        if (! self::_recordExist($modelClassName, $parentId)) {
-            return false;
         }
 
         $childrensIds = \Categories::getAllChildsIds($recordId);

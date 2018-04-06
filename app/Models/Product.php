@@ -39,15 +39,6 @@ class Product extends Base\BaseModelI18 implements HasMedia
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'deleted_at'
-    ];
-
-    /**
      * Атрибуты, которые должны быть преобразованы в даты.
      *
      * @var array
@@ -55,8 +46,7 @@ class Product extends Base\BaseModelI18 implements HasMedia
 
     protected $dates = [
         'created_at',
-        'updated_at',
-        'deleted_at'
+        'updated_at'
     ];
 
     /**
@@ -147,28 +137,37 @@ class Product extends Base\BaseModelI18 implements HasMedia
      */
     public function registerMediaConversions(BaseMedia $media = null)
     {
-        $this->addMediaConversion('thumb')
-            ->fit(Manipulations::FIT_MAX, 80, 80)
+        $this->addMediaConversion('large')
+            ->fit(Manipulations::FIT_MAX, 1920, 1920)
             ->background('fff')
+            ->performOnCollections('images');
+
+        $this->addMediaConversion('medium')
+            ->fit(Manipulations::FIT_MAX, 800, 800)
+//            ->background('fff')
+
             ->withResponsiveImages()
             ->performOnCollections('images');
 
         $this->addMediaConversion('small')
-            ->fit(Manipulations::FIT_MAX, 200, 200)
-            ->background('fff')
-            ->withResponsiveImages()
-            ->performOnCollections('images');
-
-        $this->addMediaConversion('medium')
             ->fit(Manipulations::FIT_MAX, 400, 400)
             ->background('fff')
             ->withResponsiveImages()
             ->performOnCollections('images');
 
-        $this->addMediaConversion('large')
-            ->fit(Manipulations::FIT_MAX, 1920, 1920)
+        $this->addMediaConversion('thumb')
+            ->fit(Manipulations::FIT_MAX, 160, 160)
             ->background('fff')
+            ->withResponsiveImages()
+            ->nonQueued()
             ->performOnCollections('images');
+
+        $this->addMediaConversion('small')
+            ->fit(Manipulations::FIT_MAX, 400, 400)
+            ->background('fff')
+            ->withResponsiveImages()
+            ->nonQueued()
+            ->performOnCollections('temp');
     }
 
 
@@ -192,34 +191,51 @@ class Product extends Base\BaseModelI18 implements HasMedia
          *
          * @param array $imagesIds
          */
-        protected function _saveImages(Array $imagesIds = [])
+        protected function _saveImages(Array $images = [])
         {
-            $existingImages = $this->getMedia('images');
+            $existingImages = $this->media()->get();
+            $keys = array_keys($images);
 
             foreach ($existingImages as $image) {
-                $index = array_search($image['id'], $imagesIds);
-
-                if ($index === false) {
+                if (isset($images[$image->id])) {
+                    $this->_saveImage($image, array_search($image->id, $keys), $images[$image->id]);
+                } else {
                     $image->delete();
-                }
-                else {
-                    unset($imagesIds[$index]);
-                }
-            }
-
-            $tempImages = $this->getMedia('temp');
-
-            foreach ($tempImages as $image) {
-                $index = array_search($image['id'], $imagesIds);
-
-                if ($index === false) {
-                    $image->delete();
-                }
-                else {
-                    $image = $image->move($this, 'images');
                 }
             }
         }
+
+        protected function _saveImage($image, $order = 0, $modifications = [])
+        {
+            if ($image->collection_name === 'temp') {
+                $image = $image->move($this, 'images');
+            }
+
+            if (empty($modifications)) {
+                $image->order_column = $order;
+                $image->save();
+//                if ($modifications['rotate']) {
+//                    $image->manipulations = [
+//                        'thumb' => [
+//                            'orientation' => '90'
+//                        ],
+//                    ];
+//                }
+            }
+            else {
+                $newImage = $this
+                    ->addMediaFromUrl(public_path($image->getUrl()))
+                    ->toMediaCollection('images');
+
+                $image->delete();
+
+                $newImage->order_column = $order;
+            }
+
+
+        }
+
+//        collection_name
 
         /**
          * Сохранение цен.
@@ -277,19 +293,34 @@ class Product extends Base\BaseModelI18 implements HasMedia
         return $query->first()->toArray();
     }
 
+
     /**
      * Добавляет изображение в список неподтвержденных.
      *
-     * @param $path
-     * @param $filename
-     * @return Media
+     * @param $file
+     * @return BaseMedia
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function addImageToTemp($path, $filename): BaseMedia
+    public function addImageFromFile($file): BaseMedia
     {
         return $this
-            ->addMediaFromUrl($path)
-            ->usingFileName($filename)
+            ->addMediaFromUrl($file->path())
+            ->usingFileName($this->generateUniqueFilename('jpg'))
             ->toMediaCollection('temp');
     }
+
+    /**
+     * Генерация уникального имени файла.
+     *
+     * Todo: вынести эту хрень куда-нибудь.
+     *
+     * @param string $extension
+     * @return string
+     */
+    protected function generateUniqueFilename($extension)
+    {
+        return str_replace('.', '', uniqid('', true)) . ".{$extension}";
+    }
 }
+
+

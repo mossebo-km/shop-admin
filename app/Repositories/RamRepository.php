@@ -55,6 +55,7 @@ class RamRepository implements RamRepositoryContract {
     public function clearCache()
     {
         \Cache::forget($this->_getCacheKey());
+        $this->collection = null;
     }
 
     public function __call($name, Array $params)

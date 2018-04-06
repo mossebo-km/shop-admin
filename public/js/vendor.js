@@ -1588,9 +1588,9 @@ __webpack_require__("./node_modules/bootstrap/js/affix.js")
 /***/ }),
 
 /***/ "./node_modules/bootstrap/js/affix.js":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/* ========================================================================
+/* WEBPACK VAR INJECTION */(function(jQuery) {/* ========================================================================
  * Bootstrap: affix.js v3.3.7
  * http://getbootstrap.com/javascript/#affix
  * ========================================================================
@@ -1753,13 +1753,14 @@ __webpack_require__("./node_modules/bootstrap/js/affix.js")
 
 }(jQuery);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
 /***/ "./node_modules/bootstrap/js/alert.js":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/* ========================================================================
+/* WEBPACK VAR INJECTION */(function(jQuery) {/* ========================================================================
  * Bootstrap: alert.js v3.3.7
  * http://getbootstrap.com/javascript/#alerts
  * ========================================================================
@@ -1854,13 +1855,14 @@ __webpack_require__("./node_modules/bootstrap/js/affix.js")
 
 }(jQuery);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
 /***/ "./node_modules/bootstrap/js/button.js":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/* ========================================================================
+/* WEBPACK VAR INJECTION */(function(jQuery) {/* ========================================================================
  * Bootstrap: button.js v3.3.7
  * http://getbootstrap.com/javascript/#buttons
  * ========================================================================
@@ -1986,13 +1988,14 @@ __webpack_require__("./node_modules/bootstrap/js/affix.js")
 
 }(jQuery);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
 /***/ "./node_modules/bootstrap/js/carousel.js":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/* ========================================================================
+/* WEBPACK VAR INJECTION */(function(jQuery) {/* ========================================================================
  * Bootstrap: carousel.js v3.3.7
  * http://getbootstrap.com/javascript/#carousel
  * ========================================================================
@@ -2230,13 +2233,14 @@ __webpack_require__("./node_modules/bootstrap/js/affix.js")
 
 }(jQuery);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
 /***/ "./node_modules/bootstrap/js/collapse.js":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/* ========================================================================
+/* WEBPACK VAR INJECTION */(function(jQuery) {/* ========================================================================
  * Bootstrap: collapse.js v3.3.7
  * http://getbootstrap.com/javascript/#collapse
  * ========================================================================
@@ -2449,13 +2453,14 @@ __webpack_require__("./node_modules/bootstrap/js/affix.js")
 
 }(jQuery);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
 /***/ "./node_modules/bootstrap/js/dropdown.js":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/* ========================================================================
+/* WEBPACK VAR INJECTION */(function(jQuery) {/* ========================================================================
  * Bootstrap: dropdown.js v3.3.7
  * http://getbootstrap.com/javascript/#dropdowns
  * ========================================================================
@@ -2621,13 +2626,14 @@ __webpack_require__("./node_modules/bootstrap/js/affix.js")
 
 }(jQuery);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
 /***/ "./node_modules/bootstrap/js/modal.js":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/* ========================================================================
+/* WEBPACK VAR INJECTION */(function(jQuery) {/* ========================================================================
  * Bootstrap: modal.js v3.3.7
  * http://getbootstrap.com/javascript/#modals
  * ========================================================================
@@ -2967,13 +2973,14 @@ __webpack_require__("./node_modules/bootstrap/js/affix.js")
 
 }(jQuery);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
 /***/ "./node_modules/bootstrap/js/popover.js":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/* ========================================================================
+/* WEBPACK VAR INJECTION */(function(jQuery) {/* ========================================================================
  * Bootstrap: popover.js v3.3.7
  * http://getbootstrap.com/javascript/#popovers
  * ========================================================================
@@ -3082,13 +3089,14 @@ __webpack_require__("./node_modules/bootstrap/js/affix.js")
 
 }(jQuery);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
 /***/ "./node_modules/bootstrap/js/scrollspy.js":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/* ========================================================================
+/* WEBPACK VAR INJECTION */(function(jQuery) {/* ========================================================================
  * Bootstrap: scrollspy.js v3.3.7
  * http://getbootstrap.com/javascript/#scrollspy
  * ========================================================================
@@ -3261,13 +3269,14 @@ __webpack_require__("./node_modules/bootstrap/js/affix.js")
 
 }(jQuery);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
 /***/ "./node_modules/bootstrap/js/tab.js":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/* ========================================================================
+/* WEBPACK VAR INJECTION */(function(jQuery) {/* ========================================================================
  * Bootstrap: tab.js v3.3.7
  * http://getbootstrap.com/javascript/#tabs
  * ========================================================================
@@ -3423,13 +3432,14 @@ __webpack_require__("./node_modules/bootstrap/js/affix.js")
 
 }(jQuery);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
 /***/ "./node_modules/bootstrap/js/tooltip.js":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/* ========================================================================
+/* WEBPACK VAR INJECTION */(function(jQuery) {/* ========================================================================
  * Bootstrap: tooltip.js v3.3.7
  * http://getbootstrap.com/javascript/#tooltip
  * Inspired by the original jQuery.tipsy by Jason Frame
@@ -3950,13 +3960,14 @@ __webpack_require__("./node_modules/bootstrap/js/affix.js")
 
 }(jQuery);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
 /***/ "./node_modules/bootstrap/js/transition.js":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/* ========================================================================
+/* WEBPACK VAR INJECTION */(function(jQuery) {/* ========================================================================
  * Bootstrap: transition.js v3.3.7
  * http://getbootstrap.com/javascript/#transitions
  * ========================================================================
@@ -4016,6 +4027,7 @@ __webpack_require__("./node_modules/bootstrap/js/affix.js")
 
 }(jQuery);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 

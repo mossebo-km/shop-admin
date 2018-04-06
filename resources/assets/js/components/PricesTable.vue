@@ -29,7 +29,7 @@
     },
 
     watch: {
-      '$route': 'initPrices'
+      'prices': 'initPrices'
     },
 
     methods: {

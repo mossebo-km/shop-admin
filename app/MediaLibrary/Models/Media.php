@@ -29,11 +29,16 @@ class Media extends Base
             $imageUrls = $conversionImages->getUrls();
 
             if (isset($imageUrls[0])) {
-                $pathes[$conversionName]['src'] = $imageUrls[0];
+                if (isset($imageUrls[1])) {
+                    $pathes[$conversionName]['srcset'] = $imageUrls[0];
+                }
+                else {
+                    $pathes[$conversionName]['src'] = $imageUrls[0];
+                }
             }
 
             if (isset($imageUrls[1])) {
-                $pathes[$conversionName]['srcset'] = $imageUrls[1];
+                $pathes[$conversionName]['src'] = $imageUrls[1];
             }
         }
 

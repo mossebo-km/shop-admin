@@ -22,7 +22,7 @@ class SupplierController extends ApiController
     public function index()
     {
         return [
-            'list' => SupplierEditResource::collection(self::$modelClass::all()),
+            'items' => SupplierEditResource::collection(self::$modelClass::all()),
         ];
     }
 

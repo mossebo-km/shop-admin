@@ -20,12 +20,7 @@ class Category extends Base\BaseModelI18
 
     protected $dates = [
         'created_at',
-        'updated_at',
-        'deleted_at'
-    ];
-
-    protected $hidden = [
-        'deleted_at'
+        'updated_at'
     ];
 
     protected $needsToSaveFromRequest = ['i18'];

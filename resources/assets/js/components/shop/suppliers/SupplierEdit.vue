@@ -53,7 +53,7 @@
 
     <div class="block full">
       <div class="block-title" v-if="type === 'create'">
-        <h1><strong>Создание категории</strong></h1>
+        <h1><strong>Создание поставщика</strong></h1>
 
         <div class="block-title-control">
           <a href="javascript:void(0);" class="btn btn-sm btn-success active" @click="save" :disabled="saveDisabled"><i class="fa fa-plus-circle"></i> Создать</a>
@@ -61,7 +61,7 @@
       </div>
 
       <div class="block-title" v-if="type === 'edit'">
-        <h1><strong>Редактирование категории #{{ this.id }}</strong></h1>
+        <h1><strong>Редактирование поставщика #{{ this.id }}</strong></h1>
 
         <div class="block-title-control">
           <a href="javascript:void(0);" class="btn btn-sm btn-primary active" @click="save" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Сохранить</a>
