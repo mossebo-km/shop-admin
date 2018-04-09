@@ -23,8 +23,6 @@ class CategorySaveRequest extends ApiRequest
      */
     public function rules()
     {
-        ValidatorExtend::recordExists();
-
         if ($this->isCreate()) {
             ValidatorExtend::slugAvailable();
         }
@@ -33,11 +31,12 @@ class CategorySaveRequest extends ApiRequest
         }
 
         $modelName = 'App\Models\Category';
+        $categoriesTableName = \Config::get('migrations.Categories');
 
         $rules = [
             'slug' => 'bail|trim|required|between:3,255' . ($this->isCreate() ? "|slug_available:{$modelName}" : ''),
             'enabled' => 'boolean',
-            'parent_id' => "bail|nullable|integer|record_exists:{$modelName}" . ($this->isUpdate() ? "|parent_id_available:{$modelName}," . substr($this->formRequest->getPathinfo(), -1) : ''),
+            'parent_id' => "bail|nullable|integer|exists:{$categoriesTableName},id" . ($this->isUpdate() ? "|parent_id_available:{$modelName}," . substr($this->formRequest->getPathinfo(), -1) : ''),
         ];
 
         foreach (\Languages::enabled() as $language) {

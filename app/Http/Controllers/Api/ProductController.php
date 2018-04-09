@@ -140,6 +140,13 @@ class ProductController extends ApiController
         try {
             $product = $product->saveFromRequestData($request->all());
         }
+        catch (\App\Exceptions\AdminException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'errors' => $e->getParams(),
+            ], 422);
+        }
         catch (\Exception $e) {
             dd($e);
             return response()->json([

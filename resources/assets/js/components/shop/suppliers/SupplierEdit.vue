@@ -71,30 +71,30 @@
       </div>
 
       <div class="form-horizontal form-bordered" v-if="supplier">
-        <div :class="`form-group${errors.has('name') ? ' has-error' : ''}`">
+        <div :class="`form-group${formErrors.has('name') ? ' has-error' : ''}`">
           <label class="col-md-3 control-label" for="name">Название <span class="text-danger">*</span></label>
           <div class="col-md-9">
             <input type="text" class="form-control" id="name" v-model="supplier.name" name="name" v-validate="'required|max:255'">
-            <span v-show="errors.has('name')" class="help-block">{{ errors.first('name') }}</span>
+            <span v-show="formErrors.has('name')" class="help-block">{{ formErrors.first('name') }}</span>
           </div>
         </div>
 
-        <div :class="`form-group${errors.has('description') ? ' has-error' : ''}`">
+        <div :class="`form-group${formErrors.has('description') ? ' has-error' : ''}`">
           <label class="col-md-3 control-label" for="description">Описание</label>
           <div class="col-md-9">
             <ckeditor id="description" :content.sync="supplier.description" name="description" />
-            <span v-show="errors.has('description')" class="help-block">{{ errors.first('description') }}</span>
+            <span v-show="formErrors.has('description')" class="help-block">{{ formErrors.first('description') }}</span>
           </div>
         </div>
 
-        <div :class="`form-group${errors.has('enabled') ? ' has-error' : ''}`">
+        <div :class="`form-group${formErrors.has('enabled') ? ' has-error' : ''}`">
           <label class="col-md-3 control-label">Опубликовано</label>
           <div class="col-md-9">
             <label class="switch switch-primary">
               <input type="checkbox" v-model="supplier.enabled"><span></span>
             </label>
 
-            <span v-show="errors.has('enabled')" class="help-block">{{ errors.first('enabled') }}</span>
+            <span v-show="formErrors.has('enabled')" class="help-block">{{ formErrors.first('enabled') }}</span>
           </div>
         </div>
 

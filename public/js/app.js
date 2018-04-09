@@ -231,11 +231,15 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
     images: {
       type: Array
+    },
+    errors: {
+      type: Array
     }
   },
 
   watch: {
-    'images': 'refresh'
+    'images': 'refresh',
+    'errors': 'refresh'
   },
 
   data: function data() {
@@ -356,7 +360,41 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     rotate: function rotate(step) {
       var cropper = this.getCropper();
       cropper.rotate(step * 90);
-      cropper.setCropBoxData(cropper.getCropBoxData());
+      this.fitImageToBox();
+    },
+    fitImageToBox: function fitImageToBox() {
+      var cropper = this.getCropper();
+
+      var containerData = cropper.getContainerData();
+      var canvasData = cropper.getCanvasData();
+
+      if (canvasData.width / containerData.width > canvasData.height / containerData.height) {
+        cropper.setCanvasData({
+          width: containerData.width
+        });
+      } else {
+        cropper.setCanvasData({
+          height: containerData.height
+        });
+      }
+
+      canvasData = cropper.getCanvasData();
+
+      cropper.cropper.options.viewMode = 0;
+
+      cropper.setCanvasData({
+        left: (containerData.width - canvasData.width) / 2,
+        top: (containerData.height - canvasData.height) / 2
+      });
+
+      cropper.cropper.options.viewMode = 2;
+
+      cropper.setCropBoxData({
+        left: 0,
+        top: 0,
+        width: canvasData.width,
+        height: canvasData.height
+      });
     },
     invertX: function invertX() {
       this.invert('scaleX');
@@ -429,6 +467,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
     refresh: function refresh() {
       this.makeGallery();
+    },
+    hasError: function hasError(image) {
+      return !!this.errors.find(function (item) {
+        return item.toString() === image.id.toString();
+      });
     }
   },
 
@@ -1314,7 +1357,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__DropzoneGallery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__DropzoneGallery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
 
 
 
@@ -1334,6 +1380,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   name: 'product-edit',
 
   mixins: [__WEBPACK_IMPORTED_MODULE_8__mixins_EntityEdit__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__mixins_Translatable__["a" /* default */]],
+
+  directives: _extends({}, __WEBPACK_IMPORTED_MODULE_10__directives_number__["a" /* default */]),
 
   props: ['id'],
 
@@ -1358,7 +1406,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         enabled: true,
 
         created_at: null,
-        updated_at: null
+        updated_at: null,
+
+        width: 0,
+        height: 0,
+        length: 0,
+        weight: 0
       },
 
       defaultTranslatableFieldsValues: {
@@ -1390,11 +1443,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       return _extends({}, model, {
         images: model.images.reduce(function (acc, item) {
           if (!item.deleted) {
-            acc[item.id] = item.modifications || {};
+            acc.push({
+              id: item.id,
+              modifications: item.modifications
+            });
           }
 
           return acc;
-        }, {})
+        }, [])
       });
     },
 
@@ -1504,6 +1560,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         key: 'id',
         label: 'ID',
         sortable: true,
+        class: 'text-center'
+      }, {
+        key: 'image',
+        label: ' ',
         class: 'text-center'
       }, {
         key: 'title',
@@ -1644,6 +1704,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     refreshTable: function refreshTable() {
       this.$refs.table.refresh();
+    },
+    a: function a(p) {
+      console.log(p);
     }
   },
 
@@ -37405,7 +37468,7 @@ var render = function() {
                               {
                                 class:
                                   "form-group" +
-                                  (_vm.errors.has(
+                                  (_vm.formErrors.has(
                                     "i18." + language.code + ".title"
                                   )
                                     ? " has-error"
@@ -37476,11 +37539,11 @@ var render = function() {
                                         {
                                           name: "show",
                                           rawName: "v-show",
-                                          value: _vm.errors.has(
+                                          value: _vm.formErrors.has(
                                             "i18." + language.code + ".title"
                                           ),
                                           expression:
-                                            "errors.has(`i18.${language.code}.title`)"
+                                            "formErrors.has(`i18.${language.code}.title`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -37488,7 +37551,7 @@ var render = function() {
                                     [
                                       _vm._v(
                                         _vm._s(
-                                          _vm.errors.first(
+                                          _vm.formErrors.first(
                                             "i18." + language.code + ".title"
                                           )
                                         )
@@ -37515,7 +37578,7 @@ var render = function() {
                       {
                         class:
                           "form-group" +
-                          (_vm.errors.has("enabled") ? " has-error" : "")
+                          (_vm.formErrors.has("enabled") ? " has-error" : "")
                       },
                       [
                         _c("label", { staticClass: "col-md-3 control-label" }, [
@@ -37584,13 +37647,13 @@ var render = function() {
                                 {
                                   name: "show",
                                   rawName: "v-show",
-                                  value: _vm.errors.has("enabled"),
-                                  expression: "errors.has('enabled')"
+                                  value: _vm.formErrors.has("enabled"),
+                                  expression: "formErrors.has('enabled')"
                                 }
                               ],
                               staticClass: "help-block"
                             },
-                            [_vm._v(_vm._s(_vm.errors.first("enabled")))]
+                            [_vm._v(_vm._s(_vm.formErrors.first("enabled")))]
                           )
                         ])
                       ]
@@ -37602,7 +37665,9 @@ var render = function() {
                           {
                             class:
                               "form-group" +
-                              (_vm.errors.has("selectable") ? " has-error" : "")
+                              (_vm.formErrors.has("selectable")
+                                ? " has-error"
+                                : "")
                           },
                           [
                             _c(
@@ -37682,13 +37747,17 @@ var render = function() {
                                     {
                                       name: "show",
                                       rawName: "v-show",
-                                      value: _vm.errors.has("selectable"),
-                                      expression: "errors.has('selectable')"
+                                      value: _vm.formErrors.has("selectable"),
+                                      expression: "formErrors.has('selectable')"
                                     }
                                   ],
                                   staticClass: "help-block"
                                 },
-                                [_vm._v(_vm._s(_vm.errors.first("selectable")))]
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.formErrors.first("selectable"))
+                                  )
+                                ]
                               ),
                               _vm._v(" "),
                               _c("span", { staticClass: "help-block" }, [
@@ -37707,7 +37776,7 @@ var render = function() {
                           {
                             class:
                               "form-group" +
-                              (_vm.errors.has("slug") ? " has-error" : "")
+                              (_vm.formErrors.has("slug") ? " has-error" : "")
                           },
                           [
                             _c(
@@ -37763,15 +37832,16 @@ var render = function() {
                                     {
                                       name: "show",
                                       rawName: "v-show",
-                                      value: _vm.errors.has("layout_class"),
-                                      expression: "errors.has('layout_class')"
+                                      value: _vm.formErrors.has("layout_class"),
+                                      expression:
+                                        "formErrors.has('layout_class')"
                                     }
                                   ],
                                   staticClass: "help-block"
                                 },
                                 [
                                   _vm._v(
-                                    _vm._s(_vm.errors.first("layout_class"))
+                                    _vm._s(_vm.formErrors.first("layout_class"))
                                   )
                                 ]
                               )
@@ -38084,7 +38154,7 @@ var render = function() {
                               {
                                 class:
                                   "form-group" +
-                                  (_vm.errors.has(
+                                  (_vm.formErrors.has(
                                     "i18." + language.code + ".title"
                                   )
                                     ? " has-error"
@@ -38154,11 +38224,11 @@ var render = function() {
                                         {
                                           name: "show",
                                           rawName: "v-show",
-                                          value: _vm.errors.has(
+                                          value: _vm.formErrors.has(
                                             "i18." + language.code + ".title"
                                           ),
                                           expression:
-                                            "errors.has(`i18.${language.code}.title`)"
+                                            "formErrors.has(`i18.${language.code}.title`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -38166,7 +38236,7 @@ var render = function() {
                                     [
                                       _vm._v(
                                         _vm._s(
-                                          _vm.errors.first(
+                                          _vm.formErrors.first(
                                             "i18." + language.code + ".title"
                                           )
                                         )
@@ -38182,7 +38252,7 @@ var render = function() {
                               {
                                 class:
                                   "form-group" +
-                                  (_vm.errors.has(
+                                  (_vm.formErrors.has(
                                     "i18." + language.code + ".description"
                                   )
                                     ? " has-error"
@@ -38233,13 +38303,13 @@ var render = function() {
                                           {
                                             name: "show",
                                             rawName: "v-show",
-                                            value: _vm.errors.has(
+                                            value: _vm.formErrors.has(
                                               "i18." +
                                                 language.code +
                                                 ".description"
                                             ),
                                             expression:
-                                              "errors.has(`i18.${language.code}.description`)"
+                                              "formErrors.has(`i18.${language.code}.description`)"
                                           }
                                         ],
                                         staticClass: "help-block"
@@ -38247,7 +38317,7 @@ var render = function() {
                                       [
                                         _vm._v(
                                           _vm._s(
-                                            _vm.errors.first(
+                                            _vm.formErrors.first(
                                               "i18." +
                                                 language.code +
                                                 ".description"
@@ -38267,7 +38337,7 @@ var render = function() {
                               {
                                 class:
                                   "form-group" +
-                                  (_vm.errors.has(
+                                  (_vm.formErrors.has(
                                     "i18." + language.code + ".meta_title"
                                   )
                                     ? " has-error"
@@ -38335,13 +38405,13 @@ var render = function() {
                                         {
                                           name: "show",
                                           rawName: "v-show",
-                                          value: _vm.errors.has(
+                                          value: _vm.formErrors.has(
                                             "i18." +
                                               language.code +
                                               ".meta_title"
                                           ),
                                           expression:
-                                            "errors.has(`i18.${language.code}.meta_title`)"
+                                            "formErrors.has(`i18.${language.code}.meta_title`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -38349,7 +38419,7 @@ var render = function() {
                                     [
                                       _vm._v(
                                         _vm._s(
-                                          _vm.errors.first(
+                                          _vm.formErrors.first(
                                             "i18." +
                                               language.code +
                                               ".meta_title"
@@ -38367,7 +38437,7 @@ var render = function() {
                               {
                                 class:
                                   "form-group" +
-                                  (_vm.errors.has(
+                                  (_vm.formErrors.has(
                                     "i18." + language.code + ".meta_description"
                                   )
                                     ? " has-error"
@@ -38436,13 +38506,13 @@ var render = function() {
                                         {
                                           name: "show",
                                           rawName: "v-show",
-                                          value: _vm.errors.has(
+                                          value: _vm.formErrors.has(
                                             "i18." +
                                               language.code +
                                               ".meta_description"
                                           ),
                                           expression:
-                                            "errors.has(`i18.${language.code}.meta_description`)"
+                                            "formErrors.has(`i18.${language.code}.meta_description`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -38450,7 +38520,7 @@ var render = function() {
                                     [
                                       _vm._v(
                                         _vm._s(
-                                          _vm.errors.first(
+                                          _vm.formErrors.first(
                                             "i18." +
                                               language.code +
                                               ".meta_description"
@@ -38479,7 +38549,9 @@ var render = function() {
                       {
                         class:
                           "form-group" +
-                          (_vm.errors.has("supplier_id") ? " has-error" : "")
+                          (_vm.formErrors.has("supplier_id")
+                            ? " has-error"
+                            : "")
                       },
                       [
                         _vm._m(3),
@@ -38508,13 +38580,17 @@ var render = function() {
                                   {
                                     name: "show",
                                     rawName: "v-show",
-                                    value: _vm.errors.has("supplier_id"),
-                                    expression: "errors.has('supplier_id')"
+                                    value: _vm.formErrors.has("supplier_id"),
+                                    expression: "formErrors.has('supplier_id')"
                                   }
                                 ],
                                 staticClass: "help-block"
                               },
-                              [_vm._v(_vm._s(_vm.errors.first("supplier_id")))]
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.formErrors.first("supplier_id"))
+                                )
+                              ]
                             )
                           ],
                           1
@@ -38527,7 +38603,7 @@ var render = function() {
                       {
                         class:
                           "form-group" +
-                          (_vm.errors.has("categories") ? " has-error" : "")
+                          (_vm.formErrors.has("categories") ? " has-error" : "")
                       },
                       [
                         _c(
@@ -38564,13 +38640,17 @@ var render = function() {
                                   {
                                     name: "show",
                                     rawName: "v-show",
-                                    value: _vm.errors.has("categories"),
-                                    expression: "errors.has('categories')"
+                                    value: _vm.formErrors.has("categories"),
+                                    expression: "formErrors.has('categories')"
                                   }
                                 ],
                                 staticClass: "help-block"
                               },
-                              [_vm._v(_vm._s(_vm.errors.first("categories")))]
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.formErrors.first("categories"))
+                                )
+                              ]
                             )
                           ],
                           1
@@ -38583,7 +38663,7 @@ var render = function() {
                       {
                         class:
                           "form-group" +
-                          (_vm.errors.has("enabled") ? " has-error" : "")
+                          (_vm.formErrors.has("enabled") ? " has-error" : "")
                       },
                       [
                         _c("label", { staticClass: "col-md-3 control-label" }, [
@@ -38656,13 +38736,13 @@ var render = function() {
                                 {
                                   name: "show",
                                   rawName: "v-show",
-                                  value: _vm.errors.has("enabled"),
-                                  expression: "errors.has('enabled')"
+                                  value: _vm.formErrors.has("enabled"),
+                                  expression: "formErrors.has('enabled')"
                                 }
                               ],
                               staticClass: "help-block"
                             },
-                            [_vm._v(_vm._s(_vm.errors.first("enabled")))]
+                            [_vm._v(_vm._s(_vm.formErrors.first("enabled")))]
                           )
                         ])
                       ]
@@ -38673,7 +38753,7 @@ var render = function() {
                       {
                         class:
                           "form-group" +
-                          (_vm.errors.has("is_payable") ? " has-error" : "")
+                          (_vm.formErrors.has("is_payable") ? " has-error" : "")
                       },
                       [
                         _c("label", { staticClass: "col-md-3 control-label" }, [
@@ -38746,13 +38826,13 @@ var render = function() {
                                 {
                                   name: "show",
                                   rawName: "v-show",
-                                  value: _vm.errors.has("is_payable"),
-                                  expression: "errors.has('is_payable')"
+                                  value: _vm.formErrors.has("is_payable"),
+                                  expression: "formErrors.has('is_payable')"
                                 }
                               ],
                               staticClass: "help-block"
                             },
-                            [_vm._v(_vm._s(_vm.errors.first("is_payable")))]
+                            [_vm._v(_vm._s(_vm.formErrors.first("is_payable")))]
                           )
                         ])
                       ]
@@ -38763,7 +38843,7 @@ var render = function() {
                       {
                         class:
                           "form-group" +
-                          (_vm.errors.has("is_new") ? " has-error" : "")
+                          (_vm.formErrors.has("is_new") ? " has-error" : "")
                       },
                       [
                         _c("label", { staticClass: "col-md-3 control-label" }, [
@@ -38836,13 +38916,13 @@ var render = function() {
                                 {
                                   name: "show",
                                   rawName: "v-show",
-                                  value: _vm.errors.has("is_new"),
-                                  expression: "errors.has('is_new')"
+                                  value: _vm.formErrors.has("is_new"),
+                                  expression: "formErrors.has('is_new')"
                                 }
                               ],
                               staticClass: "help-block"
                             },
-                            [_vm._v(_vm._s(_vm.errors.first("is_new")))]
+                            [_vm._v(_vm._s(_vm.formErrors.first("is_new")))]
                           )
                         ])
                       ]
@@ -38853,7 +38933,7 @@ var render = function() {
                       {
                         class:
                           "form-group" +
-                          (_vm.errors.has("is_popular") ? " has-error" : "")
+                          (_vm.formErrors.has("is_popular") ? " has-error" : "")
                       },
                       [
                         _c("label", { staticClass: "col-md-3 control-label" }, [
@@ -38926,13 +39006,13 @@ var render = function() {
                                 {
                                   name: "show",
                                   rawName: "v-show",
-                                  value: _vm.errors.has("is_popular"),
-                                  expression: "errors.has('is_popular')"
+                                  value: _vm.formErrors.has("is_popular"),
+                                  expression: "formErrors.has('is_popular')"
                                 }
                               ],
                               staticClass: "help-block"
                             },
-                            [_vm._v(_vm._s(_vm.errors.first("is_popular")))]
+                            [_vm._v(_vm._s(_vm.formErrors.first("is_popular")))]
                           )
                         ])
                       ]
@@ -39009,11 +39089,338 @@ var render = function() {
                 "div",
                 { staticClass: "col-lg-6" },
                 [
+                  _c("div", { staticClass: "block" }, [
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-horizontal form-bordered" },
+                      [
+                        _c(
+                          "div",
+                          {
+                            class:
+                              "form-group" +
+                              (_vm.formErrors.has("width") ? " has-error" : "")
+                          },
+                          [
+                            _vm._m(5),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-9" }, [
+                              _c("div", { staticClass: "input-group" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.product.width,
+                                      expression: "product.width"
+                                    },
+                                    { name: "number", rawName: "v-number" },
+                                    {
+                                      name: "validate",
+                                      rawName: "v-validate",
+                                      value: "required|integer|min_value:1",
+                                      expression:
+                                        "'required|integer|min_value:1'"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    id: "width",
+                                    name: "width"
+                                  },
+                                  domProps: { value: _vm.product.width },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.product,
+                                        "width",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "input-group-addon input-group-addon-gray"
+                                  },
+                                  [_vm._v("мм")]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.formErrors.has("width"),
+                                      expression: "formErrors.has('width')"
+                                    }
+                                  ],
+                                  staticClass: "help-block"
+                                },
+                                [_vm._v(_vm._s(_vm.formErrors.first("width")))]
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            class:
+                              "form-group" +
+                              (_vm.formErrors.has("height") ? " has-error" : "")
+                          },
+                          [
+                            _vm._m(6),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-9" }, [
+                              _c("div", { staticClass: "input-group" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.product.height,
+                                      expression: "product.height"
+                                    },
+                                    { name: "number", rawName: "v-number" },
+                                    {
+                                      name: "validate",
+                                      rawName: "v-validate",
+                                      value: "required|integer|min_value:1",
+                                      expression:
+                                        "'required|integer|min_value:1'"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    id: "height",
+                                    name: "height"
+                                  },
+                                  domProps: { value: _vm.product.height },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.product,
+                                        "height",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "input-group-addon input-group-addon-gray"
+                                  },
+                                  [_vm._v("мм")]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.formErrors.has("height"),
+                                      expression: "formErrors.has('height')"
+                                    }
+                                  ],
+                                  staticClass: "help-block"
+                                },
+                                [_vm._v(_vm._s(_vm.formErrors.first("height")))]
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            class:
+                              "form-group" +
+                              (_vm.formErrors.has("length") ? " has-error" : "")
+                          },
+                          [
+                            _vm._m(7),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-9" }, [
+                              _c("div", { staticClass: "input-group" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.product.length,
+                                      expression: "product.length"
+                                    },
+                                    { name: "number", rawName: "v-number" },
+                                    {
+                                      name: "validate",
+                                      rawName: "v-validate",
+                                      value: "required|integer|min_value:1",
+                                      expression:
+                                        "'required|integer|min_value:1'"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    id: "length",
+                                    name: "length"
+                                  },
+                                  domProps: { value: _vm.product.length },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.product,
+                                        "length",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "input-group-addon input-group-addon-gray"
+                                  },
+                                  [_vm._v("мм")]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.formErrors.has("length"),
+                                      expression: "formErrors.has('length')"
+                                    }
+                                  ],
+                                  staticClass: "help-block"
+                                },
+                                [_vm._v(_vm._s(_vm.formErrors.first("length")))]
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            class:
+                              "form-group" +
+                              (_vm.formErrors.has("weight") ? " has-error" : "")
+                          },
+                          [
+                            _vm._m(8),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-9" }, [
+                              _c("div", { staticClass: "input-group" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.product.weight,
+                                      expression: "product.weight"
+                                    },
+                                    { name: "number", rawName: "v-number" },
+                                    {
+                                      name: "validate",
+                                      rawName: "v-validate",
+                                      value: "required|integer|min_value:1",
+                                      expression:
+                                        "'required|integer|min_value:1'"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    id: "weight",
+                                    name: "weight"
+                                  },
+                                  domProps: { value: _vm.product.weight },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.product,
+                                        "weight",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "input-group-addon input-group-addon-gray"
+                                  },
+                                  [_vm._v("грамм")]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.formErrors.has("weight"),
+                                      expression: "formErrors.has('weight')"
+                                    }
+                                  ],
+                                  staticClass: "help-block"
+                                },
+                                [_vm._v(_vm._s(_vm.formErrors.first("weight")))]
+                              )
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
                   _vm.type === "edit"
                     ? _c("dropzone-gallery", {
                         attrs: {
                           url: _vm.prepareUrl("image"),
-                          images: _vm.product.images
+                          images: _vm.product.images,
+                          errors: _vm.formErrors.collect("images") || []
                         },
                         on: {
                           "update:images": function($event) {
@@ -39033,7 +39440,7 @@ var render = function() {
               "div",
               { staticClass: "block" },
               [
-                _vm._m(4),
+                _vm._m(9),
                 _vm._v(" "),
                 _c("prices-table", {
                   attrs: { prices: _vm.product.prices },
@@ -39130,6 +39537,70 @@ var staticRenderFns = [
       },
       [
         _vm._v("Поставщик "),
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-truck" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Габариты")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "col-md-3 control-label", attrs: { for: "width" } },
+      [
+        _vm._v("Ширина "),
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "col-md-3 control-label", attrs: { for: "height" } },
+      [
+        _vm._v("Высота "),
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "col-md-3 control-label", attrs: { for: "length" } },
+      [
+        _vm._v("Длина "),
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "col-md-3 control-label", attrs: { for: "weight" } },
+      [
+        _vm._v("Вес "),
         _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
       ]
     )
@@ -39316,13 +39787,51 @@ var render = function() {
                             }
                           },
                           {
+                            key: "image",
+                            fn: function(product) {
+                              return [
+                                product.item.image && product.item.image.thumb
+                                  ? _c(
+                                      "router-link",
+                                      { attrs: { to: product.item.url } },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "product-preview-image"
+                                          },
+                                          [
+                                            _c("img", {
+                                              attrs: {
+                                                src:
+                                                  product.item.image.thumb.src,
+                                                srcset:
+                                                  product.item.image.thumb
+                                                    .srcset + " 2x"
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e()
+                              ]
+                            }
+                          },
+                          {
                             key: "title",
                             fn: function(product) {
                               return [
                                 _c(
                                   "router-link",
                                   { attrs: { to: product.item.url } },
-                                  [_vm._v(_vm._s(product.item.title))]
+                                  [
+                                    _vm._v(
+                                      "\n                " +
+                                        _vm._s(product.item.title) +
+                                        "\n              "
+                                    )
+                                  ]
                                 )
                               ]
                             }
@@ -40286,7 +40795,7 @@ var render = function() {
                               {
                                 class:
                                   "form-group" +
-                                  (_vm.errors.has(
+                                  (_vm.formErrors.has(
                                     "i18." + language.code + ".title"
                                   )
                                     ? " has-error"
@@ -40356,11 +40865,11 @@ var render = function() {
                                         {
                                           name: "show",
                                           rawName: "v-show",
-                                          value: _vm.errors.has(
+                                          value: _vm.formErrors.has(
                                             "i18." + language.code + ".title"
                                           ),
                                           expression:
-                                            "errors.has(`i18.${language.code}.title`)"
+                                            "formErrors.has(`i18.${language.code}.title`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -40368,7 +40877,7 @@ var render = function() {
                                     [
                                       _vm._v(
                                         _vm._s(
-                                          _vm.errors.first(
+                                          _vm.formErrors.first(
                                             "i18." + language.code + ".title"
                                           )
                                         )
@@ -40384,7 +40893,7 @@ var render = function() {
                               {
                                 class:
                                   "form-group" +
-                                  (_vm.errors.has(
+                                  (_vm.formErrors.has(
                                     "i18." + language.code + ".description"
                                   )
                                     ? " has-error"
@@ -40435,13 +40944,13 @@ var render = function() {
                                           {
                                             name: "show",
                                             rawName: "v-show",
-                                            value: _vm.errors.has(
+                                            value: _vm.formErrors.has(
                                               "i18." +
                                                 language.code +
                                                 ".description"
                                             ),
                                             expression:
-                                              "errors.has(`i18.${language.code}.description`)"
+                                              "formErrors.has(`i18.${language.code}.description`)"
                                           }
                                         ],
                                         staticClass: "help-block"
@@ -40449,7 +40958,7 @@ var render = function() {
                                       [
                                         _vm._v(
                                           _vm._s(
-                                            _vm.errors.first(
+                                            _vm.formErrors.first(
                                               "i18." +
                                                 language.code +
                                                 ".description"
@@ -40469,7 +40978,7 @@ var render = function() {
                               {
                                 class:
                                   "form-group" +
-                                  (_vm.errors.has(
+                                  (_vm.formErrors.has(
                                     "i18." + language.code + ".meta_title"
                                   )
                                     ? " has-error"
@@ -40537,13 +41046,13 @@ var render = function() {
                                         {
                                           name: "show",
                                           rawName: "v-show",
-                                          value: _vm.errors.has(
+                                          value: _vm.formErrors.has(
                                             "i18." +
                                               language.code +
                                               ".meta_title"
                                           ),
                                           expression:
-                                            "errors.has(`i18.${language.code}.meta_title`)"
+                                            "formErrors.has(`i18.${language.code}.meta_title`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -40551,7 +41060,7 @@ var render = function() {
                                     [
                                       _vm._v(
                                         _vm._s(
-                                          _vm.errors.first(
+                                          _vm.formErrors.first(
                                             "i18." +
                                               language.code +
                                               ".meta_title"
@@ -40569,7 +41078,7 @@ var render = function() {
                               {
                                 class:
                                   "form-group" +
-                                  (_vm.errors.has(
+                                  (_vm.formErrors.has(
                                     "i18." + language.code + ".meta_description"
                                   )
                                     ? " has-error"
@@ -40638,13 +41147,13 @@ var render = function() {
                                         {
                                           name: "show",
                                           rawName: "v-show",
-                                          value: _vm.errors.has(
+                                          value: _vm.formErrors.has(
                                             "i18." +
                                               language.code +
                                               ".meta_description"
                                           ),
                                           expression:
-                                            "errors.has(`i18.${language.code}.meta_description`)"
+                                            "formErrors.has(`i18.${language.code}.meta_description`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -40652,7 +41161,7 @@ var render = function() {
                                     [
                                       _vm._v(
                                         _vm._s(
-                                          _vm.errors.first(
+                                          _vm.formErrors.first(
                                             "i18." +
                                               language.code +
                                               ".meta_description"
@@ -40683,7 +41192,7 @@ var render = function() {
                       {
                         class:
                           "form-group" +
-                          (_vm.errors.has("slug") ? " has-error" : "")
+                          (_vm.formErrors.has("slug") ? " has-error" : "")
                       },
                       [
                         _vm._m(3),
@@ -40748,13 +41257,13 @@ var render = function() {
                                 {
                                   name: "show",
                                   rawName: "v-show",
-                                  value: _vm.errors.has("slug"),
-                                  expression: "errors.has('slug')"
+                                  value: _vm.formErrors.has("slug"),
+                                  expression: "formErrors.has('slug')"
                                 }
                               ],
                               staticClass: "help-block"
                             },
-                            [_vm._v(_vm._s(_vm.errors.first("slug")))]
+                            [_vm._v(_vm._s(_vm.formErrors.first("slug")))]
                           )
                         ])
                       ]
@@ -40765,7 +41274,7 @@ var render = function() {
                       {
                         class:
                           "form-group" +
-                          (_vm.errors.has("parent_id") ? " has-error" : "")
+                          (_vm.formErrors.has("parent_id") ? " has-error" : "")
                       },
                       [
                         _c(
@@ -40802,13 +41311,17 @@ var render = function() {
                                   {
                                     name: "show",
                                     rawName: "v-show",
-                                    value: _vm.errors.has("parent_id"),
-                                    expression: "errors.has('parent_id')"
+                                    value: _vm.formErrors.has("parent_id"),
+                                    expression: "formErrors.has('parent_id')"
                                   }
                                 ],
                                 staticClass: "help-block"
                               },
-                              [_vm._v(_vm._s(_vm.errors.first("parent_id")))]
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.formErrors.first("parent_id"))
+                                )
+                              ]
                             )
                           ],
                           1
@@ -40821,7 +41334,7 @@ var render = function() {
                       {
                         class:
                           "form-group" +
-                          (_vm.errors.has("enabled") ? " has-error" : "")
+                          (_vm.formErrors.has("enabled") ? " has-error" : "")
                       },
                       [
                         _c("label", { staticClass: "col-md-3 control-label" }, [
@@ -40890,13 +41403,13 @@ var render = function() {
                                 {
                                   name: "show",
                                   rawName: "v-show",
-                                  value: _vm.errors.has("enabled"),
-                                  expression: "errors.has('enabled')"
+                                  value: _vm.formErrors.has("enabled"),
+                                  expression: "formErrors.has('enabled')"
                                 }
                               ],
                               staticClass: "help-block"
                             },
-                            [_vm._v(_vm._s(_vm.errors.first("enabled")))]
+                            [_vm._v(_vm._s(_vm.formErrors.first("enabled")))]
                           )
                         ])
                       ]
@@ -41118,7 +41631,8 @@ var render = function() {
                 "div",
                 {
                   class:
-                    "form-group" + (_vm.errors.has("name") ? " has-error" : "")
+                    "form-group" +
+                    (_vm.formErrors.has("name") ? " has-error" : "")
                 },
                 [
                   _vm._m(1),
@@ -41159,13 +41673,13 @@ var render = function() {
                           {
                             name: "show",
                             rawName: "v-show",
-                            value: _vm.errors.has("name"),
-                            expression: "errors.has('name')"
+                            value: _vm.formErrors.has("name"),
+                            expression: "formErrors.has('name')"
                           }
                         ],
                         staticClass: "help-block"
                       },
-                      [_vm._v(_vm._s(_vm.errors.first("name")))]
+                      [_vm._v(_vm._s(_vm.formErrors.first("name")))]
                     )
                   ])
                 ]
@@ -41176,7 +41690,7 @@ var render = function() {
                 {
                   class:
                     "form-group" +
-                    (_vm.errors.has("description") ? " has-error" : "")
+                    (_vm.formErrors.has("description") ? " has-error" : "")
                 },
                 [
                   _c(
@@ -41212,13 +41726,13 @@ var render = function() {
                             {
                               name: "show",
                               rawName: "v-show",
-                              value: _vm.errors.has("description"),
-                              expression: "errors.has('description')"
+                              value: _vm.formErrors.has("description"),
+                              expression: "formErrors.has('description')"
                             }
                           ],
                           staticClass: "help-block"
                         },
-                        [_vm._v(_vm._s(_vm.errors.first("description")))]
+                        [_vm._v(_vm._s(_vm.formErrors.first("description")))]
                       )
                     ],
                     1
@@ -41231,7 +41745,7 @@ var render = function() {
                 {
                   class:
                     "form-group" +
-                    (_vm.errors.has("enabled") ? " has-error" : "")
+                    (_vm.formErrors.has("enabled") ? " has-error" : "")
                 },
                 [
                   _c("label", { staticClass: "col-md-3 control-label" }, [
@@ -41294,13 +41808,13 @@ var render = function() {
                           {
                             name: "show",
                             rawName: "v-show",
-                            value: _vm.errors.has("enabled"),
-                            expression: "errors.has('enabled')"
+                            value: _vm.formErrors.has("enabled"),
+                            expression: "formErrors.has('enabled')"
                           }
                         ],
                         staticClass: "help-block"
                       },
-                      [_vm._v(_vm._s(_vm.errors.first("enabled")))]
+                      [_vm._v(_vm._s(_vm.formErrors.first("enabled")))]
                     )
                   ])
                 ]
@@ -41503,7 +42017,8 @@ var render = function() {
                     {
                       class: {
                         "edit-photo-card": true,
-                        "edit-photo-card--deleted": image.deleted
+                        "edit-photo-card--deleted": image.deleted,
+                        "edit-photo-card--has-error": _vm.hasError(image)
                       }
                     },
                     [
@@ -41869,7 +42384,7 @@ var render = function() {
                                 "span",
                                 {
                                   staticClass:
-                                    "input-group-addon prices-table__formatted"
+                                    "input-group-addon input-group-addon-gray"
                                 },
                                 [
                                   _vm._v(
@@ -44938,7 +45453,10 @@ __webpack_require__("./resources/assets/js/bootstrap.js");
 window.Vue = __WEBPACK_IMPORTED_MODULE_0_vue___default.a;
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vee_validate__["b" /* default */], { fieldsBagName: 'formFields' });
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vee_validate__["b" /* default */], {
+  fieldsBagName: 'formFields',
+  errorBagName: 'formErrors'
+});
 
 window.CKEDITOR_BASEPATH = '/js/vendor/ckeditor/';
 
@@ -46306,7 +46824,7 @@ var apiRequest = function () {
 
         var response = error.response || {};
 
-        if ('data' in response && (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && data !== null && Object.keys(response.data).length !== 0) {
+        if ('data' in response && _typeof(response.data) === 'object' && response.data !== null && Object.keys(response.data).length !== 0) {
           _this2._handleResponse(response);
           return;
         } else if (response.status >= 500) {
@@ -47641,7 +48159,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     save: function save() {
       var _this3 = this;
 
-      this.errors.clear();
+      this.formErrors.clear();
 
       this.saveDisabled = true;
       this.$validator.validateAll().then(function (result) {
@@ -48014,7 +48532,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     translatesSwitcherHasError: function translatesSwitcherHasError() {
-      var errors = this.errors.items;
+      var errors = this.formErrors.items;
 
       for (var j = 0; j < this.languages.length; j++) {
         var code = this.languages[j].code;
@@ -48072,11 +48590,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var errors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       for (var fieldName in errors) {
-        if (this.errors.has(fieldName)) {
-          this.errors.remove(fieldName);
+        if (this.formErrors.has(fieldName)) {
+          this.formErrors.remove(fieldName);
         }
 
-        this.errors.add(fieldName, errors[fieldName]);
+        this.formErrors.add(fieldName, errors[fieldName]);
       }
     },
 

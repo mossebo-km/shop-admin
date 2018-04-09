@@ -103,7 +103,7 @@
             <td v-for="currency in currencies">
               <div class="input-group">
                 <input type="text" v-model="rPrices[priceType.id][currency.code]" v-number="rPrices[priceType.id][currency.code]" @input="onChange" class="form-control">
-                <span class="input-group-addon prices-table__formatted">{{ formatPrice(rPrices[priceType.id][currency.code], currency.code) }}</span>
+                <span class="input-group-addon input-group-addon-gray">{{ formatPrice(rPrices[priceType.id][currency.code], currency.code) }}</span>
               </div>
             </td>
           </tr>

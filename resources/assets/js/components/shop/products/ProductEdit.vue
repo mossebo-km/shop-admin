@@ -13,6 +13,8 @@
   import EntityEdit from '../../../mixins/EntityEdit'
   import Translatable from '../../../mixins/Translatable'
 
+  import number from '../../../directives/number'
+
   export default {
     name: 'product-edit',
 
@@ -20,6 +22,10 @@
       EntityEdit,
       Translatable
     ],
+
+    directives: {
+      ... number
+    },
 
     props: [
       'id',
@@ -47,6 +53,11 @@
 
           created_at: null,
           updated_at: null,
+
+          width: 0,
+          height: 0,
+          length: 0,
+          weight: 0,
         },
 
         defaultTranslatableFieldsValues: {
@@ -84,11 +95,14 @@
           ... model,
           images: model.images.reduce((acc, item) => {
             if (!item.deleted) {
-              acc[item.id] = item.modifications || {}
+              acc.push({
+                id: item.id,
+                modifications: item.modifications
+              })
             }
 
             return acc
-          }, {})
+          }, [])
         }
       },
 
@@ -126,7 +140,7 @@
 
           return sorted
         },
-    }
+    },
   }
 </script>
 
@@ -168,35 +182,35 @@
             <template v-for="language in languages">
               <div :class="`form-horizontal form-bordered${activeLanguageCode === language.code ? '' : ' in-space'}`" :key="language.code">
 
-                <div :class="`form-group${errors.has(`i18.${language.code}.title`) ? ' has-error' : ''}`">
+                <div :class="`form-group${formErrors.has(`i18.${language.code}.title`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`title-${language.code}`">Название <span class="text-danger">*</span></label>
                   <div class="col-md-9">
                     <input type="text" class="form-control" :id="`title-${language.code}`" v-model="product.i18[language.code].title" :name="`i18.${language.code}.title`" v-validate="'required|max:255'">
-                    <span v-show="errors.has(`i18.${language.code}.title`)" class="help-block">{{ errors.first(`i18.${language.code}.title`) }}</span>
+                    <span v-show="formErrors.has(`i18.${language.code}.title`)" class="help-block">{{ formErrors.first(`i18.${language.code}.title`) }}</span>
                   </div>
                 </div>
 
-                <div :class="`form-group${errors.has(`i18.${language.code}.description`) ? ' has-error' : ''}`">
+                <div :class="`form-group${formErrors.has(`i18.${language.code}.description`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`description-${language.code}`">Описание</label>
                   <div class="col-md-9">
                     <ckeditor :id="`description-${language.code}`" :content.sync="product.i18[language.code].description" :name="`i18.${language.code}.description`" />
-                    <span v-show="errors.has(`i18.${language.code}.description`)" class="help-block">{{ errors.first(`i18.${language.code}.description`) }}</span>
+                    <span v-show="formErrors.has(`i18.${language.code}.description`)" class="help-block">{{ formErrors.first(`i18.${language.code}.description`) }}</span>
                   </div>
                 </div>
 
-                <div :class="`form-group${errors.has(`i18.${language.code}.meta_title`) ? ' has-error' : ''}`">
+                <div :class="`form-group${formErrors.has(`i18.${language.code}.meta_title`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`title-${language.code}`">Мета-заголовок</label>
                   <div class="col-md-9">
                     <input type="text" class="form-control" :id="`title-${language.code}`" v-model="product.i18[language.code].meta_title" :name="`i18.${language.code}.meta_title`" v-validate="'max:255'">
-                    <span v-show="errors.has(`i18.${language.code}.meta_title`)" class="help-block">{{ errors.first(`i18.${language.code}.meta_title`) }}</span>
+                    <span v-show="formErrors.has(`i18.${language.code}.meta_title`)" class="help-block">{{ formErrors.first(`i18.${language.code}.meta_title`) }}</span>
                   </div>
                 </div>
 
-                <div :class="`form-group${errors.has(`i18.${language.code}.meta_description`) ? ' has-error' : ''}`">
+                <div :class="`form-group${formErrors.has(`i18.${language.code}.meta_description`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`title-${language.code}`">Мета-описание</label>
                   <div class="col-md-9">
                     <textarea class="form-control" :id="`meta-description-${language.code}`" v-model="product.i18[language.code].meta_description" :name="`i18.${language.code}.meta_description`" v-validate="'max:65000'"></textarea>
-                    <span v-show="errors.has(`i18.${language.code}.meta_description`)" class="help-block">{{ errors.first(`i18.${language.code}.meta_description`) }}</span>
+                    <span v-show="formErrors.has(`i18.${language.code}.meta_description`)" class="help-block">{{ formErrors.first(`i18.${language.code}.meta_description`) }}</span>
                   </div>
                 </div>
               </div>
@@ -210,65 +224,65 @@
             </div>
 
             <div class="form-horizontal form-bordered">
-              <div :class="`form-group${errors.has('supplier_id') ? ' has-error' : ''}`">
+              <div :class="`form-group${formErrors.has('supplier_id') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label" for="product-supplier">Поставщик <span class="text-danger">*</span></label>
                 <div class="col-md-8">
                   <tree-select :options="suppliers" :selected.sync="product.supplier_id" placeholder="Выберите поставщика"></tree-select>
 
-                  <span v-show="errors.has('supplier_id')" class="help-block">{{ errors.first('supplier_id') }}</span>
+                  <span v-show="formErrors.has('supplier_id')" class="help-block">{{ formErrors.first('supplier_id') }}</span>
                 </div>
               </div>
 
-              <div :class="`form-group${errors.has('categories') ? ' has-error' : ''}`">
+              <div :class="`form-group${formErrors.has('categories') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label" for="product-category">Категория</label>
                 <div class="col-md-8">
                   <tree-select :options="categoriesTree" :selected.sync="product.categories" :multiple="true" placeholder="Выберите категорию"></tree-select>
 
-                  <span v-show="errors.has('categories')" class="help-block">{{ errors.first('categories') }}</span>
+                  <span v-show="formErrors.has('categories')" class="help-block">{{ formErrors.first('categories') }}</span>
                 </div>
               </div>
 
-              <div :class="`form-group${errors.has('enabled') ? ' has-error' : ''}`">
+              <div :class="`form-group${formErrors.has('enabled') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label">Опубликовано</label>
                 <div class="col-md-9">
                   <label class="switch switch-primary">
                     <input type="checkbox" id="enabled" name="enabled" v-model="product.enabled"><span></span>
                   </label>
 
-                  <span v-show="errors.has('enabled')" class="help-block">{{ errors.first('enabled') }}</span>
+                  <span v-show="formErrors.has('enabled')" class="help-block">{{ formErrors.first('enabled') }}</span>
                 </div>
               </div>
 
-              <div :class="`form-group${errors.has('is_payable') ? ' has-error' : ''}`">
+              <div :class="`form-group${formErrors.has('is_payable') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label">Доступность оплаты</label>
                 <div class="col-md-9">
                   <label class="switch switch-primary">
                     <input type="checkbox" id="is-payable" name="is_payable" v-model="product.is_payable"><span></span>
                   </label>
 
-                  <span v-show="errors.has('is_payable')" class="help-block">{{ errors.first('is_payable') }}</span>
+                  <span v-show="formErrors.has('is_payable')" class="help-block">{{ formErrors.first('is_payable') }}</span>
                 </div>
               </div>
 
-              <div :class="`form-group${errors.has('is_new') ? ' has-error' : ''}`">
+              <div :class="`form-group${formErrors.has('is_new') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label">Новинка</label>
                 <div class="col-md-9">
                   <label class="switch switch-success">
                     <input type="checkbox" id="is-new" name="is_new" v-model="product.is_new"><span></span>
                   </label>
 
-                  <span v-show="errors.has('is_new')" class="help-block">{{ errors.first('is_new') }}</span>
+                  <span v-show="formErrors.has('is_new')" class="help-block">{{ formErrors.first('is_new') }}</span>
                 </div>
               </div>
 
-              <div :class="`form-group${errors.has('is_popular') ? ' has-error' : ''}`">
+              <div :class="`form-group${formErrors.has('is_popular') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label">Популярный товар</label>
                 <div class="col-md-9">
                   <label class="switch switch-warning">
                     <input type="checkbox" id="is-popular" name="is_popular" v-model="product.is_popular"><span></span>
                   </label>
 
-                  <span v-show="errors.has('is_popular')" class="help-block">{{ errors.first('is_popular') }}</span>
+                  <span v-show="formErrors.has('is_popular')" class="help-block">{{ formErrors.first('is_popular') }}</span>
                 </div>
               </div>
 
@@ -303,14 +317,68 @@
             </div>
           </div>
 
-
         </div>
 
         <div class="col-lg-6">
+          <div class="block">
+            <div class="block-title">
+              <h2><i class="fa fa-truck"></i> <strong>Габариты</strong></h2>
+            </div>
+
+            <div class="form-horizontal form-bordered">
+
+              <div :class="`form-group${formErrors.has('width') ? ' has-error' : ''}`">
+                <label class="col-md-3 control-label" for="width">Ширина <span class="text-danger">*</span></label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="width" v-model="product.width" name="width" v-number v-validate="'required|integer|min_value:1'">
+                    <span class="input-group-addon input-group-addon-gray">мм</span>
+                  </div>
+                  <span v-show="formErrors.has('width')" class="help-block">{{ formErrors.first('width') }}</span>
+                </div>
+              </div>
+
+              <div :class="`form-group${formErrors.has('height') ? ' has-error' : ''}`">
+                <label class="col-md-3 control-label" for="height">Высота <span class="text-danger">*</span></label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="height" v-model="product.height" name="height" v-number v-validate="'required|integer|min_value:1'">
+                    <span class="input-group-addon input-group-addon-gray">мм</span>
+                  </div>
+                  <span v-show="formErrors.has('height')" class="help-block">{{ formErrors.first('height') }}</span>
+                </div>
+              </div>
+
+              <div :class="`form-group${formErrors.has('length') ? ' has-error' : ''}`">
+                <label class="col-md-3 control-label" for="length">Длина <span class="text-danger">*</span></label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="length" v-model="product.length" name="length" v-number v-validate="'required|integer|min_value:1'">
+                    <span class="input-group-addon input-group-addon-gray">мм</span>
+                  </div>
+                  <span v-show="formErrors.has('length')" class="help-block">{{ formErrors.first('length') }}</span>
+                </div>
+              </div>
+
+              <div :class="`form-group${formErrors.has('weight') ? ' has-error' : ''}`">
+                <label class="col-md-3 control-label" for="weight">Вес <span class="text-danger">*</span></label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="weight" v-model="product.weight" name="weight" v-number v-validate="'required|integer|min_value:1'">
+                    <span class="input-group-addon input-group-addon-gray">грамм</span>
+                  </div>
+                  <span v-show="formErrors.has('weight')" class="help-block">{{ formErrors.first('weight') }}</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           <dropzone-gallery
-                  v-if="type === 'edit'"
-                  :url="prepareUrl('image')"
-                  :images.sync="product.images" />
+            v-if="type === 'edit'"
+            :url="prepareUrl('image')"
+            :images.sync="product.images"
+            :errors="formErrors.collect('images') || []"/>
         </div>
       </div>
 

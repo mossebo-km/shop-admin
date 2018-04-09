@@ -42,6 +42,11 @@
             class: 'text-center'
           },
           {
+            key: 'image',
+            label: ' ',
+            class: 'text-center'
+          },
+          {
             key: 'title',
             label: 'Название',
             sortable: true,
@@ -183,6 +188,9 @@
 
       refreshTable() {
         this.$refs.table.refresh()
+      },
+      a(p) {
+        console.log(p)
       }
     },
 
@@ -267,9 +275,18 @@
                 <router-link v-bind:to="product.item.url"><strong>{{ product.item.id }}</strong></router-link>
               </template>
 
+              <template slot="image" slot-scope="product">
+                <router-link v-bind:to="product.item.url" v-if="product.item.image && product.item.image.thumb">
+                  <div class="product-preview-image">
+                    <img :src="product.item.image.thumb.src" :srcset="`${product.item.image.thumb.srcset} 2x`">
+                  </div>
+                </router-link>
+              </template>
 
               <template slot="title" slot-scope="product">
-                <router-link v-bind:to="product.item.url">{{ product.item.title }}</router-link>
+                <router-link v-bind:to="product.item.url">
+                  {{ product.item.title }}
+                </router-link>
               </template>
 
               <template slot="price" slot-scope="product">

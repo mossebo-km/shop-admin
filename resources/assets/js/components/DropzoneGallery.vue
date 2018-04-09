@@ -18,11 +18,15 @@
       },
       images: {
         type: Array
+      },
+      errors: {
+        type: Array
       }
     },
 
     watch: {
-      'images': 'refresh'
+      'images': 'refresh',
+      'errors': 'refresh'
     },
 
     data() {
@@ -157,7 +161,43 @@
       rotate(step) {
         let cropper = this.getCropper()
         cropper.rotate(step * 90)
-        cropper.setCropBoxData(cropper.getCropBoxData())
+        this.fitImageToBox()
+      },
+
+      fitImageToBox() {
+        let cropper = this.getCropper()
+
+        let containerData = cropper.getContainerData()
+        let canvasData = cropper.getCanvasData()
+
+        if (canvasData.width / containerData.width > canvasData.height / containerData.height) {
+          cropper.setCanvasData({
+            width: containerData.width,
+          })
+        }
+        else {
+          cropper.setCanvasData({
+            height: containerData.height
+          })
+        }
+
+        canvasData = cropper.getCanvasData()
+
+        cropper.cropper.options.viewMode = 0
+
+        cropper.setCanvasData({
+          left: (containerData.width - canvasData.width) / 2,
+          top: (containerData.height - canvasData.height) / 2
+        })
+
+        cropper.cropper.options.viewMode = 2
+
+        cropper.setCropBoxData({
+          left: 0,
+          top: 0,
+          width: canvasData.width,
+          height: canvasData.height,
+        })
       },
 
       invertX() {
@@ -239,6 +279,10 @@
       refresh() {
         this.makeGallery()
       },
+
+      hasError(image) {
+        return !!this.errors.find(item => item.toString() === image.id.toString())
+      }
     },
 
     mounted() {
@@ -263,7 +307,7 @@
         <div class="row ui-sortable">
           <div class="col-xs-6 col-sm-3" v-for="image in images" :data-id="image.id" :key="image.id">
             <input type="hidden" name="ids" :value="image.id">
-            <div :class="{'edit-photo-card': true, 'edit-photo-card--deleted': image.deleted}">
+            <div :class="{'edit-photo-card': true, 'edit-photo-card--deleted': image.deleted, 'edit-photo-card--has-error': hasError(image)}">
               <a :href="image.original" class="edit-photo-card__preview js-magnific-link">
                 <div class="edit-photo-card__image" :style="`background-image:url(${image.small ? image.small.srcset : ''})`"></div>
               </a>

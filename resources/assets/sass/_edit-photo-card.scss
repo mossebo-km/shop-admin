@@ -73,14 +73,32 @@
     opacity: 1;
     z-index: 1;
   }
+
+
+  &--has-error &__preview {
+    border-color: var(--error-color);
+  }
+
+  &--has-error:hover &__preview {
+    border-color: var(--error-color);
+    border-bottom-color: transparent;
+  }
+
+  &--has-error &__controls {
+    border-color: var(--error-color);
+  }
 }
 
 .ui-sortable-helper .edit-photo-card {
   &__preview {
-    border-bottom-color: var(--primary-color)!important;
+    border-bottom-color: var(--primary-color) !important;
   }
 
   &__controls {
     display: none;
   }
+}
+
+.ui-sortable-helper .edit-photo-card--has-error .edit-photo-card__preview {
+  border-bottom-color: var(--error-color) !important;
 }

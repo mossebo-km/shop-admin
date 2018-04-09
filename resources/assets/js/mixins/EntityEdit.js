@@ -146,7 +146,7 @@ export default {
      * Сохранение сущности.
      */
     save() {
-      this.errors.clear()
+      this.formErrors.clear()
 
       this.saveDisabled = true
       this.$validator.validateAll()

@@ -14,6 +14,8 @@ class ProductsTableResource extends JsonResource
      */
     public function toArray($request)
     {
+        $image = $this->getMedia('images')->first();
+
         return [
             'id'         => $this->id,
             'is_new'     => $this->is_new,
@@ -23,6 +25,7 @@ class ProductsTableResource extends JsonResource
             'enabled'    => $this->enabled,
             'created_at' => dateFormatFull($this->created_at),
             'prices'     => PriceResource::collection($this->prices),
+            'image'      => new MediaResource($image)
         ];
     }
 }

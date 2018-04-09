@@ -53,7 +53,7 @@ export default class apiRequest {
 
         let response = error.response || {}
 
-        if ('data' in response && typeof data === 'object' && data !== null && Object.keys(response.data).length !== 0) {
+        if ('data' in response && typeof response.data === 'object' && response.data !== null && Object.keys(response.data).length !== 0) {
           this._handleResponse(response)
           return
         }

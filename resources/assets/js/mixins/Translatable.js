@@ -19,7 +19,7 @@ export default {
     },
 
     translatesSwitcherHasError() {
-      let errors = this.errors.items
+      let errors = this.formErrors.items
 
       for (let j = 0; j < this.languages.length; j ++) {
         let code = this.languages[j].code

@@ -126,35 +126,35 @@
             <template v-for="language in languages">
               <div :class="`form-horizontal form-bordered${activeLanguageCode === language.code ? '' : ' in-space'}`" :key="language.code">
 
-                <div :class="`form-group${errors.has(`i18.${language.code}.title`) ? ' has-error' : ''}`">
+                <div :class="`form-group${formErrors.has(`i18.${language.code}.title`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`title-${language.code}`">Название <span class="text-danger">*</span></label>
                   <div class="col-md-9">
                     <input type="text" class="form-control" :id="`title-${language.code}`" v-model="category.i18[language.code].title" :name="`i18.${language.code}.title`" v-validate="'required|max:255'">
-                    <span v-show="errors.has(`i18.${language.code}.title`)" class="help-block">{{ errors.first(`i18.${language.code}.title`) }}</span>
+                    <span v-show="formErrors.has(`i18.${language.code}.title`)" class="help-block">{{ formErrors.first(`i18.${language.code}.title`) }}</span>
                   </div>
                 </div>
 
-                <div :class="`form-group${errors.has(`i18.${language.code}.description`) ? ' has-error' : ''}`">
+                <div :class="`form-group${formErrors.has(`i18.${language.code}.description`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`description-${language.code}`">Описание</label>
                   <div class="col-md-9">
                     <ckeditor :id="`description-${language.code}`" :content.sync="category.i18[language.code].description" :name="`i18.${language.code}.description`" />
-                    <span v-show="errors.has(`i18.${language.code}.description`)" class="help-block">{{ errors.first(`i18.${language.code}.description`) }}</span>
+                    <span v-show="formErrors.has(`i18.${language.code}.description`)" class="help-block">{{ formErrors.first(`i18.${language.code}.description`) }}</span>
                   </div>
                 </div>
 
-                <div :class="`form-group${errors.has(`i18.${language.code}.meta_title`) ? ' has-error' : ''}`">
+                <div :class="`form-group${formErrors.has(`i18.${language.code}.meta_title`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`title-${language.code}`">Мета-заголовок</label>
                   <div class="col-md-9">
                     <input type="text" class="form-control" :id="`title-${language.code}`" v-model="category.i18[language.code].meta_title" :name="`i18.${language.code}.meta_title`" v-validate="'max:255'">
-                    <span v-show="errors.has(`i18.${language.code}.meta_title`)" class="help-block">{{ errors.first(`i18.${language.code}.meta_title`) }}</span>
+                    <span v-show="formErrors.has(`i18.${language.code}.meta_title`)" class="help-block">{{ formErrors.first(`i18.${language.code}.meta_title`) }}</span>
                   </div>
                 </div>
 
-                <div :class="`form-group${errors.has(`i18.${language.code}.meta_description`) ? ' has-error' : ''}`">
+                <div :class="`form-group${formErrors.has(`i18.${language.code}.meta_description`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`title-${language.code}`">Мета-описание</label>
                   <div class="col-md-9">
                     <textarea class="form-control" :id="`meta-description-${language.code}`" v-model="category.i18[language.code].meta_description" :name="`i18.${language.code}.meta_description`" v-validate="'max:65000'"></textarea>
-                    <span v-show="errors.has(`i18.${language.code}.meta_description`)" class="help-block">{{ errors.first(`i18.${language.code}.meta_description`) }}</span>
+                    <span v-show="formErrors.has(`i18.${language.code}.meta_description`)" class="help-block">{{ formErrors.first(`i18.${language.code}.meta_description`) }}</span>
                   </div>
                 </div>
               </div>
@@ -171,7 +171,7 @@
 
             <div class="form-horizontal form-bordered">
 
-              <div :class="`form-group${errors.has('slug') ? ' has-error' : ''}`">
+              <div :class="`form-group${formErrors.has('slug') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label" for="slug">Slug <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
@@ -179,27 +179,27 @@
                     <a class="btn input-group-addon" @click="slugAutocomplete"><i class="fa fa-refresh"></i> Автозаполнение</a>
                   </div>
 
-                  <span v-show="errors.has('slug')" class="help-block">{{ errors.first('slug') }}</span>
+                  <span v-show="formErrors.has('slug')" class="help-block">{{ formErrors.first('slug') }}</span>
                 </div>
               </div>
 
-              <div :class="`form-group${errors.has('parent_id') ? ' has-error' : ''}`">
+              <div :class="`form-group${formErrors.has('parent_id') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label" for="parent_id">Родительская категория</label>
                 <div class="col-md-8">
                   <tree-select :options="categoriesTree" :selected.sync="category.parent_id" :disabled="id" placeholder="Выберите категорию"></tree-select>
 
-                  <span v-show="errors.has('parent_id')" class="help-block">{{ errors.first('parent_id') }}</span>
+                  <span v-show="formErrors.has('parent_id')" class="help-block">{{ formErrors.first('parent_id') }}</span>
                 </div>
               </div>
 
-              <div :class="`form-group${errors.has('enabled') ? ' has-error' : ''}`">
+              <div :class="`form-group${formErrors.has('enabled') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label">Опубликовано</label>
                 <div class="col-md-9">
                   <label class="switch switch-primary">
                     <input type="checkbox" v-model="category.enabled"><span></span>
                   </label>
 
-                  <span v-show="errors.has('enabled')" class="help-block">{{ errors.first('enabled') }}</span>
+                  <span v-show="formErrors.has('enabled')" class="help-block">{{ formErrors.first('enabled') }}</span>
                 </div>
               </div>
 

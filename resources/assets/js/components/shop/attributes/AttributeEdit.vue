@@ -118,11 +118,11 @@
                         <template v-for="language in languages">
                             <div :class="`form-horizontal form-bordered${activeLanguageCode === language.code ? '' : ' in-space'}`" :key="language.code">
 
-                                <div :class="`form-group${errors.has(`i18.${language.code}.title`) ? ' has-error' : ''}`">
+                                <div :class="`form-group${formErrors.has(`i18.${language.code}.title`) ? ' has-error' : ''}`">
                                     <label class="col-md-3 control-label" :for="`title-${language.code}`">Название <span class="text-danger">*</span></label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" :id="`title-${language.code}`" v-model="attribute.i18[language.code].title" :name="`i18.${language.code}.title`" v-validate="'required|max:255'">
-                                        <span v-show="errors.has(`i18.${language.code}.title`)" class="help-block">{{ errors.first(`i18.${language.code}.title`) }}</span>
+                                        <span v-show="formErrors.has(`i18.${language.code}.title`)" class="help-block">{{ formErrors.first(`i18.${language.code}.title`) }}</span>
                                     </div>
                                 </div>
 
@@ -139,35 +139,35 @@
 
                         <div class="form-horizontal form-bordered">
 
-                            <div :class="`form-group${errors.has('enabled') ? ' has-error' : ''}`">
+                            <div :class="`form-group${formErrors.has('enabled') ? ' has-error' : ''}`">
                                 <label class="col-md-3 control-label">Опубликовано</label>
                                 <div class="col-md-9">
                                     <label class="switch switch-primary">
                                         <input type="checkbox" v-model="attribute.enabled"><span></span>
                                     </label>
 
-                                    <span v-show="errors.has('enabled')" class="help-block">{{ errors.first('enabled') }}</span>
+                                    <span v-show="formErrors.has('enabled')" class="help-block">{{ formErrors.first('enabled') }}</span>
                                 </div>
                             </div>
 
-                            <div :class="`form-group${errors.has('selectable') ? ' has-error' : ''}`" v-if="isSuperAdmin()">
+                            <div :class="`form-group${formErrors.has('selectable') ? ' has-error' : ''}`" v-if="isSuperAdmin()">
                                 <label class="col-md-3 control-label">Выбираемый</label>
                                 <div class="col-md-9">
                                     <label class="switch switch-primary">
                                         <input type="checkbox" v-model="attribute.selectable"><span></span>
                                     </label>
 
-                                    <span v-show="errors.has('selectable')" class="help-block">{{ errors.first('selectable') }}</span>
+                                    <span v-show="formErrors.has('selectable')" class="help-block">{{ formErrors.first('selectable') }}</span>
                                     <span class="help-block">* Дает возможность выбирать аттрибут покупателю в карточке товара.</span>
                                 </div>
                             </div>
 
-                            <div :class="`form-group${errors.has('slug') ? ' has-error' : ''}`" v-if="isSuperAdmin()">
+                            <div :class="`form-group${formErrors.has('slug') ? ' has-error' : ''}`" v-if="isSuperAdmin()">
                                 <label class="col-md-3 control-label" for="slug">Класс в верстке</label>
                                 <div class="col-md-9">
                                     <input type="text" id="slug" class="form-control" v-model="attribute.layout_class" name="slug" v-validate="'max:255'">
 
-                                    <span v-show="errors.has('layout_class')" class="help-block">{{ errors.first('layout_class') }}</span>
+                                    <span v-show="formErrors.has('layout_class')" class="help-block">{{ formErrors.first('layout_class') }}</span>
                                 </div>
                             </div>
 

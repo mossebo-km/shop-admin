@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\MediaLibrary\ImageEditor;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Models\Media as BaseMedia;
-use App\MediaLibrary\Models\Media;
 use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\Sluggable;
 use App\Support\Traits\Models\RequestSaver;
@@ -35,7 +35,8 @@ class Product extends Base\BaseModelI18 implements HasMedia
      * @var array
      */
     protected $fillable = [
-        'supplier_id', 'quantity', 'showed', 'bought', 'is_new', 'is_popular', 'enabled', 'is_payable'
+        'supplier_id', 'quantity', 'showed', 'bought', 'is_new', 'is_popular', 'enabled', 'is_payable',
+        'width', 'height', 'length', 'weight'
     ];
 
     /**
@@ -194,13 +195,17 @@ class Product extends Base\BaseModelI18 implements HasMedia
         protected function _saveImages(Array $images = [])
         {
             $existingImages = $this->media()->get();
-            $keys = array_keys($images);
+            $ids = array_column($images, 'id');
 
             foreach ($existingImages as $image) {
-                if (isset($images[$image->id])) {
-                    $this->_saveImage($image, array_search($image->id, $keys), $images[$image->id]);
-                } else {
+                $index = array_search($image->id, $ids);
+
+                if ($index === false) {
                     $image->delete();
+
+                } else {
+                    $modifications = isset($images[$index]['modifications']) ? $images[$index]['modifications'] : [];
+                    $this->_saveImage($image, $index, $modifications);
                 }
             }
         }
@@ -214,25 +219,26 @@ class Product extends Base\BaseModelI18 implements HasMedia
             if (empty($modifications)) {
                 $image->order_column = $order;
                 $image->save();
-//                if ($modifications['rotate']) {
-//                    $image->manipulations = [
-//                        'thumb' => [
-//                            'orientation' => '90'
-//                        ],
-//                    ];
-//                }
             }
             else {
-                $newImage = $this
-                    ->addMediaFromUrl(public_path($image->getUrl()))
-                    ->toMediaCollection('images');
+                // todo: Может быть выброшена ошибка - надо ее каким-то образом обработать.
 
-                $image->delete();
+                try {
+                    (new ImageEditor($image))
+                        ->decode($modifications)
+                        ->save();
+                }
+                catch(\Exception $e) {
+                    throw new \App\Exceptions\AdminException('Ошибка обработки изображения. Обратитесь к разработчикам.', 0, $e, [
+                        'images' => [$image->id]
+                    ]);
+                }
 
-                $newImage->order_column = $order;
+                $image = $image->move($this, 'images');
+
+                $image->order_column = $order;
+                $image->save();
             }
-
-
         }
 
 //        collection_name

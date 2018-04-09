@@ -38,7 +38,10 @@ require('./bootstrap');
 window.Vue = Vue;
 
 Vue.use(VueRouter);
-Vue.use(VeeValidate, {fieldsBagName: 'formFields'});
+Vue.use(VeeValidate, {
+  fieldsBagName: 'formFields',
+  errorBagName: 'formErrors'
+});
 
 window.CKEDITOR_BASEPATH = '/js/vendor/ckeditor/';
 
