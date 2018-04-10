@@ -15,11 +15,19 @@ export default {
   },
 
   methods: {
+    /**
+     * Загрузка всех необходимых данных.
+     */
     loadData() {
       this.fetchMainData()
         .then(data => this.initMainData(data))
     },
 
+    /**
+     * Загрузка основных общих данных.
+     *
+     * @returns Promise
+     */
     fetchMainData() {
       if (this.usedMainData) {
         return Core.dataHandler.get(this.usedMainData)
@@ -29,6 +37,11 @@ export default {
       }
     },
 
+    /**
+     * Инициализация основных данных.
+     *
+     * @param data
+     */
     initMainData(data = {}) {
       for (let i in data) {
         let methodName = 'init' + Core.camelize(i, true)

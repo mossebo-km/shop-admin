@@ -25,6 +25,6 @@ export default {
 
     getSortedData(data = []) {
       return data.sort((a, b) => a.position - b.position)
-    }
+    },
   }
 }

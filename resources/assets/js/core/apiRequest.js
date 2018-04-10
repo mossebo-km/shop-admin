@@ -91,6 +91,7 @@ export default class apiRequest {
       }
 
       window.location.href = redirect
+      return
     }
 
     this.status = data.status || 'success'
@@ -104,7 +105,6 @@ export default class apiRequest {
     }
 
     if (data.withData) {
-      Core.dataHandler.flush()
       Core.dataHandler.setDataToStorage(data.withData)
     }
 

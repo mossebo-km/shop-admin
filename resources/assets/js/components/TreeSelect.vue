@@ -45,7 +45,7 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
         disabled = disabled.map(item => item.toString())
 
         const build = (list, level = 0, parentId = 0, acc) => {
-          if (! list) return ''
+          if (! list) return false
 
           return list.reduce((acc, item) => {
             let itemDisabled = false
@@ -77,7 +77,7 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
           }, acc || [])
         }
 
-        this.buildedOptions = build(this.options)
+        this.buildedOptions = build(this.options) || []
       },
 
       isSelected(id) {

@@ -1,10 +1,15 @@
 import Core from './'
 
 export default {
+  key: null,
   storageKey: 'interactionDataKey',
 
   get(dataLabels = []) {
     this.data = {}
+
+    if (dataLabels.length === 0) {
+      return new Promise(resolve => resolve([]))
+    }
 
     return this.getRelevantKey()
       .then(key => {
@@ -12,15 +17,27 @@ export default {
           return this.getFromStorage(dataLabels)
         }
         else {
-          Core.storage.add(this.storageKey, key)
+          this.setCurrentKey(key)
           return this.getFromServer(dataLabels)
         }
       })
 
   },
 
+  setCurrentKey(key) {
+    if (this.getCurrentKey() !== key) {
+      this.flush()
+      this.key = key
+      Core.storage.add(this.storageKey, key)
+    }
+  },
+
   getCurrentKey() {
-    return Core.storage.get(this.storageKey)
+    if (this.key === null) {
+      this.key = Core.storage.get(this.storageKey)
+    }
+
+    return this.key
   },
 
   getRelevantKey() {
@@ -89,7 +106,7 @@ export default {
 
   setDataToStorage(data) {
     if ('key' in data) {
-      Core.storage.add(this.storageKey, key)
+      this.setCurrentKey(data.key)
       delete data.key
     }
 

@@ -22,6 +22,10 @@
       prettyCode(code) {
         return Core.capitalizeFirstLetter(code)
       },
+
+      activeLanguage() {
+        return this.languages.find(item => item.code === this.activeLanguageCode)
+      },
     },
   }
 </script>
@@ -29,7 +33,11 @@
 <template>
   <dropdown className="btn-group btn-group-sm language-picker" position="right" :options="languages" v-if="languages.length > 1">
     <template slot="button">
-      <span class="btn btn-alt btn-default dropdown-toggle"><span>{{ prettyCode(activeLanguageCode) }}</span></span>
+      <span class="btn btn-xs btn-default btn-alt dropdown-toggle language-picker__btn">
+        <span class="language-picker__flag" :style="`background-image:url(${activeLanguage()['image']})`"></span>
+        <span class="language-picker__code">{{prettyCode(this.activeLanguageCode)}}</span>
+        <i class="fa fa-chevron-down"></i>
+      </span>
     </template>
 
     <template slot="option" slot-scope="{ code, name }">

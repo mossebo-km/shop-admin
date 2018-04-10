@@ -64,7 +64,7 @@ class SupplierController extends ApiController
             'status' => 'success',
             'message' => $this->lang('created', ['id' => $supplier->id]),
             'redirect' => "/shop/suppliers/{$supplier->id}",
-            'supplier' => new SupplierEditResource($supplier)
+//            'supplier' => new SupplierEditResource($supplier)
         ], 200);
     }
 

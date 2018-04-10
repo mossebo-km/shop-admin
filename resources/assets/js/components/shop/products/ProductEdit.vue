@@ -15,6 +15,9 @@
 
   import number from '../../../directives/number'
 
+  import WeightConverter from '../../converters/WeightConverter'
+  import SizeConverter from '../../converters/SizeConverter'
+
   export default {
     name: 'product-edit',
 
@@ -84,7 +87,9 @@
       LanguagePicker,
       bModal,
       DropzoneGallery,
-      PricesTable
+      PricesTable,
+      WeightConverter,
+      SizeConverter
     },
 
     methods: {
@@ -149,7 +154,7 @@
     <shop-quick-nav active="products"></shop-quick-nav>
 
     <div class="block full">
-      <div class="block-title" v-if="type === 'create'">
+      <div class="block-title clearfix" v-if="type === 'create'">
         <h1><strong>Создание товара</strong></h1>
 
         <div class="block-title-control">
@@ -157,7 +162,7 @@
         </div>
       </div>
 
-      <div class="block-title" v-if="type === 'edit'">
+      <div class="block-title clearfix" v-if="type === 'edit'">
         <h1><strong>Редактирование товара #{{ this.id }}</strong></h1>
 
         <div class="block-title-control">
@@ -174,8 +179,8 @@
             <div class="block-title clearfix">
               <h2><i class="fa fa-globe"></i> <strong>Языковая</strong> информация</h2>
 
-              <div class="block-options pull-right">
-                <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': translatesSwitcherHasError()}"></language-picker>
+              <div class="block-title-control pull-right">
+                <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': formTranslatesHasError()}"></language-picker>
               </div>
             </div>
 
@@ -331,8 +336,8 @@
                 <label class="col-md-3 control-label" for="width">Ширина <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <input type="text" class="form-control" id="width" v-model="product.width" name="width" v-number v-validate="'required|integer|min_value:1'">
-                    <span class="input-group-addon input-group-addon-gray">мм</span>
+                    <input type="text" class="form-control" id="width" v-model="product.width" name="width" v-validate="'required|integer|min_value:1'">
+                    <size-converter :value="product.width"></size-converter>
                   </div>
                   <span v-show="formErrors.has('width')" class="help-block">{{ formErrors.first('width') }}</span>
                 </div>
@@ -342,8 +347,8 @@
                 <label class="col-md-3 control-label" for="height">Высота <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <input type="text" class="form-control" id="height" v-model="product.height" name="height" v-number v-validate="'required|integer|min_value:1'">
-                    <span class="input-group-addon input-group-addon-gray">мм</span>
+                    <input type="text" class="form-control" id="height" v-model="product.height" name="height" v-validate="'required|integer|min_value:1'">
+                    <size-converter :value="product.height"></size-converter>
                   </div>
                   <span v-show="formErrors.has('height')" class="help-block">{{ formErrors.first('height') }}</span>
                 </div>
@@ -353,8 +358,8 @@
                 <label class="col-md-3 control-label" for="length">Длина <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <input type="text" class="form-control" id="length" v-model="product.length" name="length" v-number v-validate="'required|integer|min_value:1'">
-                    <span class="input-group-addon input-group-addon-gray">мм</span>
+                    <input type="text" class="form-control" id="length" v-model="product.length" name="length" v-validate="'required|integer|min_value:1'">
+                    <size-converter :value="product.length"></size-converter>
                   </div>
                   <span v-show="formErrors.has('length')" class="help-block">{{ formErrors.first('length') }}</span>
                 </div>
@@ -364,8 +369,8 @@
                 <label class="col-md-3 control-label" for="weight">Вес <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <input type="text" class="form-control" id="weight" v-model="product.weight" name="weight" v-number v-validate="'required|integer|min_value:1'">
-                    <span class="input-group-addon input-group-addon-gray">грамм</span>
+                    <input type="text" class="form-control" id="weight" v-model="product.weight" name="weight" v-validate="'required|integer|min_value:1'">
+                    <weight-converter :value="product.weight"></weight-converter>
                   </div>
                   <span v-show="formErrors.has('weight')" class="help-block">{{ formErrors.first('weight') }}</span>
                 </div>

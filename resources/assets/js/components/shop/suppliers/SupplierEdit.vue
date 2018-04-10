@@ -33,7 +33,7 @@
 
           created_at: null,
           updated_at: null,
-        }
+        },
       }
     },
 
@@ -52,7 +52,7 @@
     <shop-quick-nav active="suppliers"></shop-quick-nav>
 
     <div class="block full">
-      <div class="block-title" v-if="type === 'create'">
+      <div class="block-title clearfix" v-if="type === 'create'">
         <h1><strong>Создание поставщика</strong></h1>
 
         <div class="block-title-control">
@@ -60,7 +60,7 @@
         </div>
       </div>
 
-      <div class="block-title" v-if="type === 'edit'">
+      <div class="block-title clearfix" v-if="type === 'edit'">
         <h1><strong>Редактирование поставщика #{{ this.id }}</strong></h1>
 
         <div class="block-title-control">

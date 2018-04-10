@@ -20,6 +20,7 @@ Route::group(['middleware' => 'web'], function() {
 
 Route::group(['middleware' => ['web', 'admin']], function() {
     Route::get('images/{product}', 'TestController@imageConverter');
+    Route::get('languages', 'TestController@enableLanguages');
 
     Route::get('{any}', function () {
         return view('master');

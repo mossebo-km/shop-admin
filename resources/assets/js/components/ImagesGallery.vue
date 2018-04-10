@@ -1,4 +1,8 @@
 <script>
+  /**
+   * todo: Не используется: удалить
+   */
+
   import $ from 'jquery'
   import magnificPopup from 'magnific-popup'
 

@@ -1,3 +1,5 @@
+import Core from '../core'
+
 export default {
   data() {
     return {
@@ -8,6 +10,11 @@ export default {
   },
 
   methods: {
+    /**
+     * Инициализация языков.
+     *
+     * @param languages
+     */
     initLanguages(languages) {
       this.languages = languages.filter(language => {
         if (language.default) {
@@ -18,13 +25,18 @@ export default {
       }).sort((a, b) => a.position - b.position)
     },
 
-    translatesSwitcherHasError() {
+    /**
+     * Поля переводов имеют ошибку.
+     *
+     * @returns {boolean}
+     */
+    formTranslatesHasError() {
       let errors = this.formErrors.items
 
       for (let j = 0; j < this.languages.length; j ++) {
         let code = this.languages[j].code
         for (let i = 0; i < errors.length; i++) {
-          if (errors[i].field.indexOf(`i18.${code}`)) {
+          if (errors[i].field.indexOf(`i18.${code}`) !== -1) {
             return true
           }
         }
@@ -33,18 +45,31 @@ export default {
       return false
     },
 
+    /**
+     * Инициализация переводов.
+     *
+     * @param data
+     */
     initI18(data = []) {
-      let result = {}
+      return this.combineI18DataWithDefault(this.languages, data, this.defaultTranslatableFieldsValues)
+    },
 
-      this.languages.forEach(language => {
-        let existing = data.find(item => language.code === item.language_code) || {}
+    /**
+     * Формирует набор перевод, заполняя переданными данными, либо, если их нет, данными по-умолчанию
+     *
+     * @param languages
+     * @param dataBundle
+     * @param defaultData
+     * @returns {*}
+     */
+    combineI18DataWithDefault(languages, dataBundle = [], defaultData = {}) {
+      return languages.reduce((acc, language) => {
+        let existing = dataBundle.find(item => language.code === item.language_code) || {}
 
-        result[language.code] = {
-          title: existing.title || ''
-        }
-      })
+        acc[language.code] = Core.combineDataWithDefault(existing, defaultData)
 
-      return result
+        return acc
+      }, {})
     }
   }
 }

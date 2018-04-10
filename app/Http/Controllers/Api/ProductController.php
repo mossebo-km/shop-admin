@@ -123,7 +123,7 @@ class ProductController extends ApiController
             'status' => 'success',
             'message' => $this->lang('created', ['id' => $product->id]),
             'redirect' => "/shop/products/{$product->id}",
-            'product' => new Resources\ProductEditResource($product)
+//            'product' => new Resources\ProductEditResource($product)
         ], 200);
     }
 

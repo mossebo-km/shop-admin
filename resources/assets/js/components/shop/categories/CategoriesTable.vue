@@ -8,7 +8,9 @@
   import TablePage from '../../../mixins/TablePage'
   import Sortable from '../../../mixins/Sortable'
 
-
+  /*
+    todo: Разобраться с сортировкой. Пересмотреть формат таблицы.
+   */
   export default {
     name: 'categories-table',
 
@@ -52,7 +54,7 @@
     <shop-quick-nav active="categories"></shop-quick-nav>
 
     <div class="block full">
-      <div class="block-title">
+      <div class="block-title clearfix">
         <h1><strong>Категории</strong></h1>
 
         <div class="block-title-control">

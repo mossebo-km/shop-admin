@@ -60,7 +60,7 @@
     <shop-quick-nav active="suppliers"></shop-quick-nav>
 
     <div class="block full">
-      <div class="block-title">
+      <div class="block-title clearfix">
         <h1><strong>Категории</strong></h1>
 
         <div class="block-title-control">

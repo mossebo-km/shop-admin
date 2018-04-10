@@ -43,9 +43,8 @@
       },
 
       setClick(el, click) {
-        if (!el.data.on) {
-          el.data.on = {}
-        }
+        el.data = el.data || {}
+        el.data.on = el.data.on || {}
 
         let onClick = el.data.on.click
 

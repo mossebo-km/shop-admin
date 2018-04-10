@@ -67,7 +67,7 @@ class CategoryController extends ApiController
             'status' => 'success',
             'message' => $this->lang('created', ['id' => $category->id]),
             'redirect' => "/shop/categories/{$category->id}",
-            'category' => new Resources\CategoryEditResource($category)
+//            'category' => new Resources\CategoryEditResource($category)
         ], 200);
     }
 

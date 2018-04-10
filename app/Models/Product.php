@@ -241,8 +241,6 @@ class Product extends Base\BaseModelI18 implements HasMedia
             }
         }
 
-//        collection_name
-
         /**
          * Сохранение цен.
          *

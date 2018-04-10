@@ -33,7 +33,7 @@
         saveDisabled: false,
 
         defaultFieldsValues: {
-          parent_id: 0,
+          parent_id: '',
           slug: '',
           enabled: true,
 
@@ -93,7 +93,7 @@
     <shop-quick-nav active="categories"></shop-quick-nav>
 
     <div class="block full">
-      <div class="block-title" v-if="type === 'create'">
+      <div class="block-title clearfix" v-if="type === 'create'">
         <h1><strong>Создание категории</strong></h1>
 
         <div class="block-title-control">
@@ -118,8 +118,8 @@
             <div class="block-title clearfix">
               <h2><i class="fa fa-globe"></i> <strong>Языковая</strong> информация</h2>
 
-              <div class="block-options pull-right">
-                <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': translatesSwitcherHasError()}"></language-picker>
+              <div class="block-title-control pull-right">
+                <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': formTranslatesHasError()}"></language-picker>
               </div>
             </div>
 

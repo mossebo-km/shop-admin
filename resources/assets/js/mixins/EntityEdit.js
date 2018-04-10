@@ -119,18 +119,7 @@ export default {
      * @param data
      */
     makeEntityBaseData(data = {}) {
-      let entity = {}
-
-      for (let fieldName in this.defaultFieldsValues) {
-        if (fieldName in data) {
-          entity[fieldName] = data[fieldName]
-        }
-        else {
-          entity[fieldName] = this.defaultFieldsValues[fieldName]
-        }
-      }
-
-      return entity
+      return Core.combineDataWithDefault(data, this.defaultFieldsValues)
     },
 
     /**

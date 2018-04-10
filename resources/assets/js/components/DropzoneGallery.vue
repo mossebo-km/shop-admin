@@ -9,6 +9,12 @@
   import VueCropperjs from 'vue-cropperjs'
   import Toggle from './Toggle'
   import 'jquery-ui-sortable-npm'
+  import Sortable from '../mixins//Sortable'
+
+
+  /**
+   * todo: Подключить миксин sortable
+   */
 
   export default {
     props: {
@@ -22,6 +28,17 @@
       errors: {
         type: Array
       }
+    },
+
+    mixins: [
+      Sortable
+    ],
+
+    components: {
+      VueDropzone,
+      VueCropperjs,
+      Toggle,
+      bModal
     },
 
     watch: {
@@ -53,15 +70,12 @@
           previewTemplate: '<div class=\"dz-preview dz-processing dz-complete dz-image-preview\"><div class=\"dz-image\"><a href=\"javascript:void(0)\" class=\"dz-link\"><img data-dz-thumbnail /><div class=\"dz-details\"><div class=\"dz-size\"><span data-dz-size></span></div><div class=\"dz-filename\"><i class=\"dz-icon fa fa-search\"></i></div></div></a></div><div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div><div class=\"dz-error-message\"><span data-dz-errormessage></span></div><div class=\"dz-success-mark\"><i class=\"dz-icon fa fa-check\"></i></div><div class=\"dz-error-mark\"><i class=\"dz-icon fa fa-warning\"></i></div>',
         },
 
+        sortableParams: {
+          update: this.sort
+        },
+
         toCropImage: null,
       }
-    },
-
-    components: {
-      VueDropzone,
-      VueCropperjs,
-      Toggle,
-      bModal
     },
 
     methods: {
@@ -105,19 +119,7 @@
       },
 
       sort() {
-        let ids = [];
-
-        [].forEach.call(document.querySelectorAll('[name="ids"]'), el => {
-          ids.push(el.value);
-        });
-
-        this.images.forEach(item => {
-          let index = ids.indexOf(item.id.toString())
-
-          ids[index] = item
-        })
-
-        this.$emit('update:images', ids)
+        this.$emit('update:images', this.sortDataBundleByIds(this.images, this.collectSortIds()))
       },
 
       update(image) {
@@ -287,10 +289,7 @@
 
     mounted() {
       this.makeGallery()
-
-      $('.ui-sortable').sortable({
-        update: this.sort
-      })
+      this.initSort()
     },
   }
 </script>

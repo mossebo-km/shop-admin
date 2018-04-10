@@ -2,6 +2,7 @@
   import Core from '../core'
   import number from '../directives/number'
   import Loading from './Loading.vue'
+  import CurrencyConverter from './converters/CurrencyConverter'
 
   export default {
     props: {
@@ -26,6 +27,7 @@
 
     components: {
       Loading,
+      CurrencyConverter
     },
 
     watch: {
@@ -46,10 +48,6 @@
 
       getCurrency(currencyCode) {
         return this.currencies.find(item => item.code === currencyCode)
-      },
-
-      formatPrice(value, currencyCode) {
-        return Core.formatPrice(value, this.getCurrency(currencyCode))
       },
 
       onChange() {
@@ -102,8 +100,8 @@
             <td><span class="prices-table__type">{{ priceType.title }}</span></td>
             <td v-for="currency in currencies">
               <div class="input-group">
-                <input type="text" v-model="rPrices[priceType.id][currency.code]" v-number="rPrices[priceType.id][currency.code]" @input="onChange" class="form-control">
-                <span class="input-group-addon input-group-addon-gray">{{ formatPrice(rPrices[priceType.id][currency.code], currency.code) }}</span>
+                <input type="text" v-model="rPrices[priceType.id][currency.code]" v-number @input="onChange" class="form-control">
+                <currency-converter :value="rPrices[priceType.id][currency.code]" :currency="getCurrency(currency.code)"></currency-converter>
               </div>
             </td>
           </tr>

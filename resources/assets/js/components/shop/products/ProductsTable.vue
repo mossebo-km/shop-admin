@@ -224,7 +224,7 @@
     <shop-quick-nav active="products"></shop-quick-nav>
 
     <div class="block full">
-      <div class="block-title">
+      <div class="block-title clearfix">
         <h1><strong>Товары</strong></h1>
 
         <div class="block-title-control">
