@@ -33,7 +33,7 @@ class ProductController extends ApiController
         $pagination = $this->_paginate($request->all());
 
         return [
-            'items' => Resources\ProductsTableResource::collection($pagination->getCollection()),
+            'products' => Resources\ProductsTableResource::collection($pagination->getCollection()),
             'perPage' => $pagination->perPage(),
             'currentPage' => $pagination->currentPage(),
             'totalRows' => $pagination->total(),
@@ -59,30 +59,41 @@ class ProductController extends ApiController
         {
             extract($params, EXTR_OVERWRITE);
 
+            $productsTableName = \Config::get('migrations.Products');
+
+            $sortBy = isset($sortBy) ? $sortBy : 'id';
+
             if ($sortBy === 'price') {
                 $pricesTableName = \Config::get('migrations.Prices');
-                $productsI18TableName = \Config::get('migrations.ProductsI18');
-                $productsTableName = \Config::get('migrations.Products');
 
-                $query = Product::withTranslate()
-                    ->select("{$productsTableName}.*", "{$productsI18TableName}.*")
-                    ->leftJoin("{$pricesTableName} as p", function ($join) use($productsTableName, $priceType) {
-                      $join->on('p.item_id', '=', "{$productsTableName}.id")
-                        ->where('p.item_type', 'product')
-                        ->where('p.price_type_id', $priceType)
-                        ->where('p.currency_code', 'RUB');
+                $query = Product::leftJoin("{$pricesTableName} as prices", function ($join) use($productsTableName, $priceType) {
+                      $join->on('prices.item_id', '=', "{$productsTableName}.id")
+                        ->where('prices.item_type', 'product')
+                        ->where('prices.price_type_id', $priceType)
+                        ->where('prices.currency_code', 'RUB');
                     })
-                    ->orderBy('p.value', $sortType);
+                    ->orderBy('prices.value', $sortType);
+            }
+            elseif ($sortBy === 'title') {
+                $query = Product::withTranslate()
+                    ->orderBy($sortBy, $sortType);
             }
             else {
-                $query = Product::withTranslate()->orderBy($sortBy, $sortType);
+                $query = Product::orderBy($sortBy, $sortType);
             }
 
-            if ($search) {
-                $query = $query->where(\DB::raw('lower(title)'), 'like', "%" . mb_strtolower($search) . "%");
+            if (!empty($search)) {
+                $i18TableName = \Config::get('migrations.ProductsI18');
+                $query = $query->join("{$i18TableName} as i18", function ($join) use($productsTableName, $search) {
+                    $join->on('i18.product_id', '=', "{$productsTableName}.id")
+                        ->where(\DB::raw('lower(title)'), 'like', "%" . mb_strtolower($search) . "%");
+                });
             }
 
-            return $query->orderBy('id', $sortType)->with('prices')->paginate($perPage, null, null, $currentPage);
+            return $query->select("{$productsTableName}.*")
+                ->orderBy('id', $sortType)
+                ->with(['i18', 'prices'])
+                ->paginate($perPage, null, null, $currentPage);
         }
 
 

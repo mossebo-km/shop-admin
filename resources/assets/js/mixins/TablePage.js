@@ -3,6 +3,8 @@ import Core from '../core'
 import Page from './Page'
 import {asyncPackageDataCollector} from "../core/queueHandler";
 
+// todo: сделать миксин очередей, если от очередей нет возможности отказаться.
+
 export default {
   mixins: [
     Page
@@ -10,6 +12,7 @@ export default {
 
   data() {
     return {
+      tableItemsDataName: 'items',
       items: []
     }
   },
@@ -36,7 +39,7 @@ export default {
      * Инициализация списка.
      */
     initItems (data) {
-      this.items = data.items || []
+      this.items = data[this.tableItemsDataName] || []
     },
 
     /**
@@ -61,7 +64,7 @@ export default {
      * @param id
      */
     remove(id) {
-      var _ = this;
+      let _ = this;
 
       this.toRemoveId = id
       this.$refs.removeModal.show()
@@ -85,6 +88,10 @@ export default {
         .start()
     },
 
+    createQueue() {
+      this.statusQueue = Core.queueHandler.makeQueue('break', 'table-status')
+    },
+
     /**
      * Отчистка очереди.
      */
@@ -95,6 +102,5 @@ export default {
 
   created() {
     this.loadData()
-    this.statusQueue = Core.queueHandler.makeQueue('iteration', 'table-status')
   }
 }

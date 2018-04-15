@@ -23,4 +23,23 @@ class TestController extends Controller
             'enabled' => true
         ]);
     }
+
+    public function disableLanguages()
+    {
+        \App\Models\Language::where('default', false)->update([
+            'enabled' => false
+        ]);
+    }
+
+    public function test() {
+//        $product = Product::first();
+//        $products = Product::all();
+        $products = Product::with('prices')->first();
+
+
+
+        echo "<pre>";
+        print_r($products);
+        return;
+    }
 }

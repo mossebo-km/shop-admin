@@ -2,7 +2,9 @@ import Core from './'
 
 export default {
   key: null,
-  storageKey: 'interactionDataKey',
+  storageKeyName: 'dataKey',
+  dataLabels: false,
+  storageDataLabelsName: 'dataLabels',
 
   get(dataLabels = []) {
     this.data = {}
@@ -28,13 +30,13 @@ export default {
     if (this.getCurrentKey() !== key) {
       this.flush()
       this.key = key
-      Core.storage.add(this.storageKey, key)
+      Core.storage.add(this.storageKeyName, key)
     }
   },
 
   getCurrentKey() {
     if (this.key === null) {
-      this.key = Core.storage.get(this.storageKey)
+      this.key = Core.storage.get(this.storageKeyName)
     }
 
     return this.key
@@ -52,6 +54,8 @@ export default {
   },
 
   getFromStorage(dataLabels) {
+    dataLabels = this.prepareDataLabels(dataLabels)
+
     return new Promise(resolve => {
       for (let i = dataLabels.length; i >= 0; i--) {
         let label = dataLabels[i]
@@ -73,6 +77,8 @@ export default {
   },
 
   getFromServer(dataLabels) {
+    dataLabels = this.prepareDataLabels(dataLabels)
+
     return new Promise((resolve) => {
       new Core.requestHandler('get', '/api/data', {
         responseType: 'json',
@@ -100,8 +106,10 @@ export default {
     })
   },
 
-  flush() {
-    localStorage.clear()
+  prepareDataLabels(dataLabels = []) {
+    return [
+      ...dataLabels
+    ]
   },
 
   setDataToStorage(data) {
@@ -110,8 +118,42 @@ export default {
       delete data.key
     }
 
+    let labels = []
+
     for (let i in data) {
+      labels.push(i)
       Core.storage.add(i, data[i])
     }
-  }
+
+    this.addDataLabels(labels)
+  },
+
+  addDataLabels(labels = []) {
+    this.dataLabels = [
+      ... this.dataLabels || [],
+      ... labels
+    ]
+
+    if (this.dataLabels.length > 0) {
+      Core.storage.add(this.storageDataLabelsName, this.dataLabels)
+    }
+  },
+
+  getDataLabels() {
+    if (this.dataLabels === false) {
+      this.dataLabels = Core.storage.add(this.storageDataLabelsName) || []
+    }
+
+    return this.dataLabels
+  },
+
+
+  flush() {
+    this.getDataLabels().forEach(label => {
+      Core.storage.forget(label)
+    })
+
+    Core.storage.forget(this.storageKeyName)
+    Core.storage.forget(this.storageDataLabelsName)
+  },
 }

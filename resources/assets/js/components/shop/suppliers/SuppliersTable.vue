@@ -22,6 +22,12 @@
       Toggle,
     },
 
+    data() {
+      return {
+        tableItemsDataName: 'suppliers',
+      }
+    },
+
     methods: {
       /**
        * При изменении порядка записей.

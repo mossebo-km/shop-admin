@@ -13,16 +13,36 @@
   import Loading from '../../Loading'
   import SearchInput from '../../SearchInput'
   import Dropdown from '../../Dropdown'
+  import LanguagePicker from '../../LanguagePicker'
 
   import TablePage from '../../../mixins/TablePage'
+  import Translatable from '../../../mixins/Translatable'
+
+  import ProductsTableModel from '../../../resources/ProductsTableModel'
 
 
   export default {
     name: 'products-table',
 
     mixins: [
-      TablePage
+      TablePage,
+      Translatable
     ],
+
+    components : {
+      ShopQuickNav,
+      Toggle,
+      Loading,
+      bTable,
+      bPagination,
+      bFormSelect,
+      bModal,
+      SearchInput,
+      bDropdown,
+      bDropdownItem,
+      Dropdown,
+      LanguagePicker
+    },
 
     data () {
       return {
@@ -44,7 +64,8 @@
           {
             key: 'image',
             label: ' ',
-            class: 'text-center'
+            sortable: false,
+            class: 'text-center',
           },
           {
             key: 'title',
@@ -72,31 +93,23 @@
           {
             key: 'controls',
             label: ' ',
-            class: 'text-center'
+            sortable: false,
+            class: 'text-center',
           },
         ],
 
         priceTypes: [],
         activePriceType: null,
 
+        defaultTranslatableFieldsValues: {
+          title: '',
+        },
+
         usedMainData: [
-          'price-types'
+          'price-types',
+          'languages'
         ]
       }
-    },
-
-    components : {
-      ShopQuickNav,
-      Toggle,
-      Loading,
-      bTable,
-      bPagination,
-      bFormSelect,
-      bModal,
-      SearchInput,
-      bDropdown,
-      bDropdownItem,
-      Dropdown
     },
 
     watch: {
@@ -135,14 +148,9 @@
               this.currentPage = parseInt(data.currentPage) || 1
               this.perPage = parseInt(data.perPage)
 
-              const items = data.items || []
+              const items = data.products || []
 
-              resolve(items.map(item => {
-                return {
-                  ...item,
-                  url: '/shop/products/' + item.id,
-                }
-              }))
+              resolve(items.map(item => new ProductsTableModel(item, this.languages)))
             })
             .start()
         })
@@ -189,9 +197,6 @@
       refreshTable() {
         this.$refs.table.refresh()
       },
-      a(p) {
-        console.log(p)
-      }
     },
 
     computed: {
@@ -228,6 +233,10 @@
         <h1><strong>Товары</strong></h1>
 
         <div class="block-title-control">
+          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode"></language-picker>
+
+          <span v-if="languages.length > 1" class="btn-separator-xs"></span>
+
           <router-link to="/shop/products/create" class="btn btn-sm btn-success active"><i class="fa fa-plus-circle"></i> Создать</router-link>
         </div>
       </div>
@@ -242,14 +251,12 @@
                 </div>
               </div>
 
-              <div class="col-sm-6 col-xs-6">
-                <div class="dataTables_filter">
-                  <label>
-                    <div class="input-group">
-                      <search-input placeholder="Поиск" class="form-control" type="search" aria-controls="example-datatable" @change="search" />
-                      <a href="javascript:void(0)" class="input-group-addon" @click="search"><i class="fa fa-search"></i></a>
-                    </div>
-                  </label>
+              <div class="col-sm-6 col-xs-6 clearfix">
+                <div class="dataTables_filter pull-right">
+                  <div class="input-group">
+                    <search-input placeholder="Поиск" class="form-control" type="search" aria-controls="example-datatable" @change="search" />
+                    <a href="javascript:void(0)" class="input-group-addon" @click="search"><i class="fa fa-search"></i></a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -276,17 +283,15 @@
               </template>
 
               <template slot="image" slot-scope="product">
-                <router-link v-bind:to="product.item.url" v-if="product.item.image && product.item.image.thumb">
+                <router-link v-bind:to="product.item.url">
                   <div class="product-preview-image">
-                    <img :src="product.item.image.thumb.src" :srcset="`${product.item.image.thumb.srcset} 2x`">
+                    <img :src="product.item.image.src" :srcset="`${product.item.image.srcset} 2x`">
                   </div>
                 </router-link>
               </template>
 
               <template slot="title" slot-scope="product">
-                <router-link v-bind:to="product.item.url">
-                  {{ product.item.title }}
-                </router-link>
+                <router-link v-bind:to="product.item.url" v-html="product.item.i18[activeLanguageCode].title"></router-link>
               </template>
 
               <template slot="price" slot-scope="product">

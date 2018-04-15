@@ -1,10 +1,13 @@
 <script>
   import 'select2'
 
+  import Core from '../../../core'
+
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
   import ShopQuickNav from '../ShopQuickNav'
   import TreeSelect from '../../TreeSelect'
+  import TreeSelectTranslatable from '../../TreeSelectTranslatable'
   import CKEditor from '../../CKEditor'
   import LanguagePicker from '../../LanguagePicker'
 
@@ -17,6 +20,10 @@
 
   import WeightConverter from '../../converters/WeightConverter'
   import SizeConverter from '../../converters/SizeConverter'
+
+  import { asyncPackageDataCollector } from '../../../core/queueHandler'
+
+  import ProductModel from '../../../resources/ProductModel'
 
   export default {
     name: 'product-edit',
@@ -39,6 +46,8 @@
         entityName: 'product',
         product: null,
 
+        attributes: [],
+
         categoriesTree: [],
         currencies: [],
         priceTypes: [],
@@ -46,36 +55,12 @@
 
         saveDisabled: false,
 
-        defaultFieldsValues: {
-          supplier_id: 0,
-          quantity: 1,
-          is_new: false,
-          is_popular: false,
-          is_payable: true,
-          enabled: true,
-
-          created_at: null,
-          updated_at: null,
-
-          width: 0,
-          height: 0,
-          length: 0,
-          weight: 0,
-        },
-
-        defaultTranslatableFieldsValues: {
-          title: '',
-          description: '',
-          meta_title: '',
-          meta_description: ''
-        },
-
         usedMainData: [
-          'categories-tree',
           'languages',
-          'suppliers',
           'price-types',
-          'currencies'
+          'currencies',
+          'categories-tree',
+          'suppliers',
         ]
       }
     },
@@ -83,6 +68,7 @@
     components: {
       ShopQuickNav,
       TreeSelect,
+      TreeSelectTranslatable,
       'ckeditor': CKEditor,
       LanguagePicker,
       bModal,
@@ -93,22 +79,51 @@
     },
 
     methods: {
-      getToSaveData() {
-        let model = this.getEntityModel()
+      loadData() {
+        const a = new asyncPackageDataCollector()
+        a.add(() => this.fetchMainData())
 
-        return {
-          ... model,
-          images: model.images.reduce((acc, item) => {
-            if (!item.deleted) {
-              acc.push({
-                id: item.id,
-                modifications: item.modifications
-              })
-            }
+        a.add(new Core.requestHandler('get', '/api/shop/attributes'))
 
-            return acc
-          }, [])
+        if (this.type === 'edit') {
+          a.add(this.fetchEntity())
         }
+
+        a.onDone(data => {
+          this.initData(data)
+        })
+
+        a.start()
+      },
+
+      initData(data) {
+        this.initMainData(data)
+        this.initEntity(data[this.getEntityName()])
+        this.initAttributes(data['items'])
+      },
+
+      initAttributes(data = []) {
+        this.attributes = data
+      },
+
+      getToSaveData() {
+        return {
+          ... this.getEntityModel(),
+          images: this.getToSaveImages()
+        }
+      },
+
+      getToSaveImages() {
+        return this.getEntityModel().images.reduce((acc, item) => {
+          if (!item.deleted) {
+            acc.push({
+              id: item.id,
+              modifications: item.modifications
+            })
+          }
+
+          return acc
+        }, [])
       },
 
       /**
@@ -117,34 +132,8 @@
        * @param data
        */
       initEntity(data = {}) {
-        let entity = this.makeEntityBaseData(data)
-
-        entity.categories = data.categories || []
-        entity.images = data.images || []
-        entity.i18 = this.initI18(data.i18)
-        entity.prices = this.initPrices(data.prices)
-
-        this.setEntityData(entity)
+        this.setEntityData(new ProductModel(data, this.languages))
       },
-
-        /**
-         * Инициализация цен.
-         *
-         * @param prices
-         */
-        initPrices(prices = []) {
-          let sorted = {}
-
-          prices.forEach(item => {
-            if (! (item.price_type_id in sorted)) {
-              sorted[item.price_type_id] = {}
-            }
-
-            sorted[item.price_type_id][item.currency_code] = item.value
-          })
-
-          return sorted
-        },
     },
   }
 </script>
@@ -158,6 +147,10 @@
         <h1><strong>Создание товара</strong></h1>
 
         <div class="block-title-control">
+          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode"></language-picker>
+
+          <span v-if="languages.length > 1" class="btn-separator-xs"></span>
+
           <a href="javascript:void(0);" class="btn btn-sm btn-success active" @click="save" :disabled="saveDisabled"><i class="fa fa-plus-circle"></i> Создать</a>
         </div>
       </div>
@@ -166,6 +159,10 @@
         <h1><strong>Редактирование товара #{{ this.id }}</strong></h1>
 
         <div class="block-title-control">
+          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode"></language-picker>
+
+          <span v-if="languages.length > 1" class="btn-separator-xs"></span>
+
           <a href="javascript:void(0);" class="btn btn-sm btn-primary active" @click="save" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Сохранить</a>
 
           <a href="javascript:void(0);" class="btn btn-sm btn-danger active" @click="remove" :disabled="saveDisabled">Удалить</a>
@@ -175,13 +172,9 @@
       <div class="row" v-if="product">
 
         <div class="col-lg-6">
-          <div class="block">
-            <div class="block-title clearfix">
+          <div :class="`block${langSwitchHovered ? ' block-illuminated' : ''}`">
+            <div class="block-title">
               <h2><i class="fa fa-globe"></i> <strong>Языковая</strong> информация</h2>
-
-              <div class="block-title-control pull-right">
-                <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': formTranslatesHasError()}"></language-picker>
-              </div>
             </div>
 
             <template v-for="language in languages">
@@ -232,7 +225,7 @@
               <div :class="`form-group${formErrors.has('supplier_id') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label" for="product-supplier">Поставщик <span class="text-danger">*</span></label>
                 <div class="col-md-8">
-                  <tree-select :options="suppliers" :selected.sync="product.supplier_id" placeholder="Выберите поставщика"></tree-select>
+                  <tree-select :activeLanguageCode="activeLanguageCode" :options="suppliers" :selected.sync="product.supplier_id" placeholder="Выберите поставщика"></tree-select>
 
                   <span v-show="formErrors.has('supplier_id')" class="help-block">{{ formErrors.first('supplier_id') }}</span>
                 </div>
@@ -241,7 +234,7 @@
               <div :class="`form-group${formErrors.has('categories') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label" for="product-category">Категория</label>
                 <div class="col-md-8">
-                  <tree-select :options="categoriesTree" :selected.sync="product.categories" :multiple="true" placeholder="Выберите категорию"></tree-select>
+                  <tree-select-translatable :options="categoriesTree" :selected.sync="product.categories" :multiple="true" placeholder="Выберите категорию" :activeLanguageCode="activeLanguageCode"></tree-select-translatable>
 
                   <span v-show="formErrors.has('categories')" class="help-block">{{ formErrors.first('categories') }}</span>
                 </div>
@@ -373,6 +366,38 @@
                     <weight-converter :value="product.weight"></weight-converter>
                   </div>
                   <span v-show="formErrors.has('weight')" class="help-block">{{ formErrors.first('weight') }}</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block-title">
+              <h2><i class="fa fa-list"></i> <strong>Аттрибуты</strong></h2>
+            </div>
+
+            <div class="form-horizontal form-bordered">
+
+              <div :class="`form-group${formErrors.has('width') ? ' has-error' : ''}`">
+                <label class="col-md-3 control-label" for="width">Ширина <span class="text-danger">*</span></label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="width" v-model="product.width" name="width" v-validate="'required|integer|min_value:1'">
+                    <size-converter :value="product.width"></size-converter>
+                  </div>
+                  <span v-show="formErrors.has('width')" class="help-block">{{ formErrors.first('width') }}</span>
+                </div>
+              </div>
+
+              <div :class="`form-group${formErrors.has('height') ? ' has-error' : ''}`">
+                <label class="col-md-3 control-label" for="height">Высота <span class="text-danger">*</span></label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="height" v-model="product.height" name="height" v-validate="'required|integer|min_value:1'">
+                    <size-converter :value="product.height"></size-converter>
+                  </div>
+                  <span v-show="formErrors.has('height')" class="help-block">{{ formErrors.first('height') }}</span>
                 </div>
               </div>
 

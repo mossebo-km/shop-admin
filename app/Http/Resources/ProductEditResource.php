@@ -14,13 +14,12 @@ class ProductEditResource extends JsonResource
      */
     public function toArray($request)
     {
-        $data = [
+        return [
             'id'          => $this->id,
             'supplier_id' => $this->supplier_id,
             'is_new'      => $this->is_new,
             'is_popular'  => $this->is_popular,
             'is_payable'  => $this->is_payable,
-            'title'       => $this->title,
             'enabled'     => $this->enabled,
             'width'       => $this->width,
             'height'      => $this->height,
@@ -33,7 +32,5 @@ class ProductEditResource extends JsonResource
             'categories'  => ProductCategoriesResource::collection($this->categoryProducts),
             'i18'         => $this->i18->toArray()
         ];
-
-        return $data;
     }
 }

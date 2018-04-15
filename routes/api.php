@@ -67,6 +67,16 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('suppliers', 'Api\SupplierController@store');
         Route::put('suppliers/{supplier}', 'Api\SupplierController@update');
         Route::delete('suppliers/{supplier}', 'Api\SupplierController@delete');
+
+
+        Route::post('attributes/sort', 'Api\AttributeController@positions');
+
+        Route::get('attributes', 'Api\AttributeController@index');
+        Route::get('attributes/{attribute}', 'Api\AttributeController@show');
+        Route::get('attributes/{attribute}/status', 'Api\AttributeController@status');
+        Route::post('attributes', 'Api\AttributeController@store');
+        Route::put('attributes/{attribute}', 'Api\AttributeController@update');
+        Route::delete('attributes/{attribute}', 'Api\AttributeController@delete');
     });
 });
 

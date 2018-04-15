@@ -5,7 +5,6 @@ export default {
     return {
       languages: [],
       activeLanguageCode: null,
-      defaultTranslatableFieldsValues: {}
     }
   },
 
@@ -16,13 +15,24 @@ export default {
      * @param languages
      */
     initLanguages(languages) {
+      let defaultLanguageCode = false
+      let stageLanguageCode = Core.stageHandler.get('dataLanguageCode')
+
       this.languages = languages.filter(language => {
         if (language.default) {
+          defaultLanguageCode = language.code
+        }
+
+        if (language.code === stageLanguageCode) {
           this.activeLanguageCode = language.code
         }
 
         return language.enabled
       }).sort((a, b) => a.position - b.position)
+
+      if (! this.activeLanguageCode) {
+        this.activeLanguageCode = defaultLanguageCode
+      }
     },
 
     /**
@@ -33,43 +43,23 @@ export default {
     formTranslatesHasError() {
       let errors = this.formErrors.items
 
-      for (let j = 0; j < this.languages.length; j ++) {
-        let code = this.languages[j].code
-        for (let i = 0; i < errors.length; i++) {
-          if (errors[i].field.indexOf(`i18.${code}`) !== -1) {
-            return true
-          }
+      for (let i = 0; i < errors.length; i++) {
+        if (errors[i].field.indexOf(`i18.`) !== -1) {
+          return true
         }
       }
 
       return false
     },
+  },
 
-    /**
-     * Инициализация переводов.
-     *
-     * @param data
-     */
-    initI18(data = []) {
-      return this.combineI18DataWithDefault(this.languages, data, this.defaultTranslatableFieldsValues)
+  computed: {
+    langSwitchHovered() {
+      if (this.$refs.langSwitch && this.$refs.langSwitch.hovered) {
+        return true
+      }
+
+      return false
     },
-
-    /**
-     * Формирует набор перевод, заполняя переданными данными, либо, если их нет, данными по-умолчанию
-     *
-     * @param languages
-     * @param dataBundle
-     * @param defaultData
-     * @returns {*}
-     */
-    combineI18DataWithDefault(languages, dataBundle = [], defaultData = {}) {
-      return languages.reduce((acc, language) => {
-        let existing = dataBundle.find(item => language.code === item.language_code) || {}
-
-        acc[language.code] = Core.combineDataWithDefault(existing, defaultData)
-
-        return acc
-      }, {})
-    }
   }
 }

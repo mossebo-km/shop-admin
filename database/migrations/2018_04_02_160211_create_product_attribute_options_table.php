@@ -21,22 +21,23 @@ class CreateProductAttributeOptionsTable extends Migration
     {
         $this->down();
 
-        echo "Create Roles\r\n";
+        echo "Create ProductAttributeOptions\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";
 
-            $table->integer('product_id')->index();
+            $table->integer('product_id')->unsigned()->index();
             $table->foreign('product_id')->references('id')->on(Config::get('migrations.Products'))->onDelete('cascade');
 
-            $table->integer('attribute_id')->index();
+            $table->integer('attribute_id')->unsigned()->index();
             $table->foreign('attribute_id')->references('id')->on(Config::get('migrations.Attributes'))->onDelete('cascade');
 
-            $table->integer('option_id')->index();
+            $table->integer('option_id')->unsigned()->index();
             $table->foreign('option_id')->references('id')->on(Config::get('migrations.AttributeOptions'))->onDelete('cascade');
 
-            $table->unique(['product_id', 'attribute_id']);
             $table->unique(['product_id', 'option_id']);
+            $table->index(['product_id', 'option_id']);
+            $table->index(['product_id', 'attribute_id', 'option_id'], 'product_attr_option_index');
         });
     }
 

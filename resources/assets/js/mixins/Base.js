@@ -1,36 +1,24 @@
 import Core from '../core'
 
 export default {
+  data() {
+    return {
+      componentInitializedWithUrl: null
+    }
+  },
+
   methods: {
     /**
-     * todo: Доделать проверку на супер админа
+     * todo: Доделать проверку на права
      *
      * @returns {*}
      */
-    isSuperAdmin() {
+    userCan(action) {
+      // if (['attribute.edit', 'attribute.create', 'attribute.delete'].indexOf(action) !== -1) {
+      //   return true
+      // }
+
       return Core.auth.isSuperAdmin()
     },
-
-    /*
-      Подготавливает url.
-    */
-    prepareUrl(segment, segmentIsUrl = false) {
-      let url
-
-      if (segmentIsUrl) {
-        url = segment
-      }
-      else {
-        url = this.$route.path.replace('create', '')
-      }
-
-      url = Core.trim(url, '/')
-
-      if (segment && !segmentIsUrl) {
-        url += '/' + Core.trim(segment, '/')
-      }
-
-      return `/api/${url}`
-    },
-  }
+  },
 }

@@ -119,7 +119,7 @@
       },
 
       sort() {
-        this.$emit('update:images', this.sortDataBundleByIds(this.images, this.collectSortIds()))
+        this.$emit('update:images', this.sortDataBundleByIdsPosition(this.images, this.collectSortIds()))
       },
 
       update(image) {

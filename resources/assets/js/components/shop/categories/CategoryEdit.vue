@@ -5,12 +5,14 @@
 
   import ShopQuickNav from '../ShopQuickNav'
   import Core from '../../../core'
-  import TreeSelect from '../../TreeSelect'
+  import TreeSelectTranslatable from '../../TreeSelectTranslatable'
   import CKEditor from '../../CKEditor'
   import LanguagePicker from '../../LanguagePicker'
 
   import EntityEdit from '../../../mixins/EntityEdit'
   import Translatable from '../../../mixins/Translatable'
+
+  import CategoryModel from '../../../resources/CategoryModel'
 
 
   export default {
@@ -32,25 +34,9 @@
         categoriesTree: [],
         saveDisabled: false,
 
-        defaultFieldsValues: {
-          parent_id: '',
-          slug: '',
-          enabled: true,
-
-          created_at: null,
-          updated_at: null,
-        },
-
-        defaultTranslatableFieldsValues: {
-          title: '',
-          description: '',
-          meta_title: '',
-          meta_description: ''
-        },
-
         usedMainData: [
-          'categories-tree',
           'languages',
+          'categories-tree',
         ],
 
         reloadDataOnSave: true
@@ -59,7 +45,7 @@
 
     components: {
       ShopQuickNav,
-      TreeSelect,
+      TreeSelectTranslatable,
       'ckeditor': CKEditor,
       LanguagePicker,
       bModal
@@ -70,11 +56,7 @@
        * Инициализация модели данных.
        */
       initEntity(data = {}) {
-        let entity = this.makeEntityBaseData(data)
-
-        entity.i18 = this.initI18(data.i18)
-
-        this.setEntityData(entity)
+        this.setEntityData(new CategoryModel(data, this.languages))
       },
 
       /**
@@ -97,6 +79,10 @@
         <h1><strong>Создание категории</strong></h1>
 
         <div class="block-title-control">
+          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': formTranslatesHasError()}"></language-picker>
+
+          <span v-if="languages.length > 1" class="btn-separator-xs"></span>
+
           <a href="javascript:void(0);" class="btn btn-sm btn-success active" @click="save" :disabled="saveDisabled"><i class="fa fa-plus-circle"></i> Создать</a>
         </div>
       </div>
@@ -105,6 +91,10 @@
         <h1><strong>Редактирование категории #{{ this.id }}</strong></h1>
 
         <div class="block-title-control">
+          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': formTranslatesHasError()}"></language-picker>
+
+          <span v-if="languages.length > 1" class="btn-separator-xs"></span>
+
           <a href="javascript:void(0);" class="btn btn-sm btn-primary active" @click="save" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Сохранить</a>
 
           <a href="javascript:void(0);" class="btn btn-sm btn-danger active" @click="remove" :disabled="saveDisabled">Удалить</a>
@@ -114,13 +104,9 @@
       <div class="row" v-if="category">
 
         <div class="col-lg-6">
-          <div class="block">
-            <div class="block-title clearfix">
+          <div :class="`block${langSwitchHovered ? ' block-illuminated' : ''}`">
+            <div class="block-title">
               <h2><i class="fa fa-globe"></i> <strong>Языковая</strong> информация</h2>
-
-              <div class="block-title-control pull-right">
-                <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': formTranslatesHasError()}"></language-picker>
-              </div>
             </div>
 
             <template v-for="language in languages">
@@ -186,7 +172,7 @@
               <div :class="`form-group${formErrors.has('parent_id') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label" for="parent_id">Родительская категория</label>
                 <div class="col-md-8">
-                  <tree-select :options="categoriesTree" :selected.sync="category.parent_id" :disabled="id" placeholder="Выберите категорию"></tree-select>
+                  <tree-select-translatable :options="categoriesTree" :selected.sync="category.parent_id" :disabled="id" placeholder="Выберите категорию" :activeLanguageCode="activeLanguageCode"></tree-select-translatable>
 
                   <span v-show="formErrors.has('parent_id')" class="help-block">{{ formErrors.first('parent_id') }}</span>
                 </div>

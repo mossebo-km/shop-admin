@@ -20,14 +20,14 @@ class BaseModelI18 extends BaseModel
         return $this->hasMany($this->getI18ModelName(), $this->translateRelationField);
     }
 
-    public static function withTranslate($languageCode = null)
-    {
-        return self::addTranslateToQuery($languageCode ?: 'ru');
-    }
-
     public function getI18ModelName()
     {
         return get_class($this) . 'I18';
+    }
+
+    public static function withTranslate($languageCode = null)
+    {
+        return self::addTranslateToQuery($languageCode ?: 'ru');
     }
 
     protected static function addTranslateToQuery($languageCode, $query = false)

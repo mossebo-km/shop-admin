@@ -2,6 +2,7 @@ import notify from './notify.js'
 import requestHandler from './apiRequest.js'
 import storage from './storage.js'
 import dataHandler from './dataHandler.js'
+import stageHandler from './stageHandler.js'
 import transliteration from './transliteration'
 import queueHandler from './queueHandler'
 import auth from './auth'
@@ -36,6 +37,7 @@ export default {
   requestHandler,
   storage,
   dataHandler,
+  stageHandler,
   queueHandler,
   auth,
 

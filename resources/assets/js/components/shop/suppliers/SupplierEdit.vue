@@ -10,11 +10,15 @@
 
   import EntityEdit from '../../../mixins/EntityEdit'
 
+  import SupplierModel from '../../../resources/SupplierModel'
+
 
   export default {
     name: 'supplier-edit',
 
-    mixins: [EntityEdit],
+    mixins: [
+      EntityEdit
+    ],
 
     props: [
       'id',
@@ -25,15 +29,12 @@
         entityName: 'supplier',
         supplier: null,
         saveDisabled: false,
+      }
+    },
 
-        defaultFieldsValues: {
-          name: '',
-          description: '',
-          enabled: true,
-
-          created_at: null,
-          updated_at: null,
-        },
+    methods: {
+      initEntity(data) {
+        this.setEntityData(new SupplierModel(data))
       }
     },
 
@@ -115,26 +116,28 @@
       </div>
     </div>
 
-    <b-modal id="validationModal"
-             ref="validationModal"
-             title="Ошибка валидации"
-             title-tag="h3"
-             centered
-             ok-title="Ок"
-             ok-only
-             hide-header-close>
+    <b-modal
+      id="validationModal"
+      ref="validationModal"
+      title="Ошибка валидации"
+      title-tag="h3"
+      centered
+      ok-title="Ок"
+      ok-only
+      hide-header-close>
       Проверьте правильность заполнения формы!
     </b-modal>
 
-    <b-modal id="removeModal"
-             ref="removeModal"
-             title="Удаление поставщика"
-             title-tag="h3"
-             centered
-             ok-title="Удалить"
-             cancel-title="Отмена"
-             hide-header-close
-             @ok="removeConfirm">
+    <b-modal
+      id="removeModal"
+      ref="removeModal"
+      title="Удаление поставщика"
+      title-tag="h3"
+      centered
+      ok-title="Удалить"
+      cancel-title="Отмена"
+      hide-header-close
+      @ok="removeConfirm">
       Вы действительно хотите удалить поставщика?
     </b-modal>
   </div>

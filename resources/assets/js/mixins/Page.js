@@ -43,17 +43,40 @@ export default {
      * @param data
      */
     initMainData(data = {}) {
-      for (let i in data) {
-        let methodName = 'init' + Core.camelize(i, true)
+      this.usedMainData.forEach(label => {
+        if (! label in data) return
+
+        let methodName = 'init' + Core.camelize(label, true)
 
         if (typeof this[methodName] === "function") {
-          this[methodName](data[i])
+          this[methodName](data[label])
         }
         else {
-          let variableName = Core.camelize(i)
-          this[variableName] = data[i]
+          let variableName = Core.camelize(label)
+          this[variableName] = data[label]
         }
-      }
+      })
     },
+
+    /*
+      Подготавливает url.
+    */
+    prepareUrl(segment, segmentIsUrl = false) {
+      let url
+
+      url = segmentIsUrl ? segment : this.componentInitializedWithUrl.replace('create', '')
+
+      url = Core.trim(url, '/')
+
+      if (segment && !segmentIsUrl) {
+        url += '/' + Core.trim(segment, '/')
+      }
+
+      return `/api/${url}`
+    },
+  },
+
+  created() {
+    this.componentInitializedWithUrl = this.$route.path
   }
 }

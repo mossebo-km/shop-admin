@@ -13,6 +13,8 @@ class AddProductSizes extends Migration
      */
     public function up()
     {
+        echo "Create AddProductSizes\r\n";
+
         Schema::table(Config::get('migrations.Products'), function (Blueprint $table) {
             $table->integer('width')->unsigned()->nullable();
             $table->integer('height')->unsigned()->nullable();

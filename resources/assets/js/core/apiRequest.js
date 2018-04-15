@@ -16,6 +16,8 @@ export default class apiRequest {
     this.fetchRequestCancel = false
     this.isDone = false
     this.response = null
+    this.currentUrl = null
+    this.started = false
 
     let config = {
       method: method,
@@ -44,6 +46,10 @@ export default class apiRequest {
   }
 
   start() {
+    if (this.started) return
+    this.started = true
+    this.currentUrl = window.location.href
+
     axios.request(this.config)
       .then(response => {
         this._handleResponse(response)
@@ -82,8 +88,7 @@ export default class apiRequest {
     this.response = response;
 
     const data = response.data
-
-    if (data.redirect) {
+    if (data.redirect && this.currentUrl === window.location.href) {
       let redirect = data.redirect
 
       if (redirect.indexOf('/') === 0) {

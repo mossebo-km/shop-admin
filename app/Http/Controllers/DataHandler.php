@@ -104,9 +104,9 @@ class DataHandler
             $methodName .= ucfirst($value);
         }
 
-        if (method_exists(get_class(), $methodName)) {
+        if (method_exists(__CLASS__, $methodName)) {
             try {
-                $data[$label] = call_user_func([get_class(), $methodName]);
+                $data[$label] = call_user_func([__CLASS__, $methodName]);
             } catch (\Exception $e) {
                 dd($e);
             }

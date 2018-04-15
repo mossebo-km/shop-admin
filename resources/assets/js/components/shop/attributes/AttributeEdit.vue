@@ -12,11 +12,12 @@
   import bModal from 'bootstrap-vue/es/components/modal/modal'
   import ShopQuickNav from '../ShopQuickNav'
   import LanguagePicker from '../../LanguagePicker'
+  import LanguageIdentif from '../../LanguageIdentif'
   import Toggle from '../../Toggle'
 
-  /**
-   * todo: добавить всплывающее окно, при удалении не новой опции.
-   */
+  import AttributeModel from '../../../resources/AttributeModel'
+  import OptionModel from '../../../resources/OptionModel'
+
 
   export default {
     name: "attribute-edit",
@@ -30,6 +31,7 @@
     components: {
       ShopQuickNav,
       LanguagePicker,
+      LanguageIdentif,
       bModal,
       Toggle
     },
@@ -48,28 +50,25 @@
         entityName: 'attribute',
         attribute: null,
         options: [],
-        languages: [],
-        activeLanguageCode: null,
         validationErrors: [],
         saveDisabled: false,
-
-        defaultEntityFieldsValues: {
-          layout_class: 'string',
-          selectable: false,
-          enabled: true,
-        },
-
-        defaultTranslatableFieldsValues: {
-          title: '',
-        },
 
         usedMainData: [
           'languages',
         ],
 
         sortableParams: {
-          handle: '.table-sort-handler',
-          stop: this.onPositionChange,
+          items: '.js-sort-item',
+          handle: '.js-sort-handler',
+          opacity: 0.9,
+          start: function(e, helper) {
+            let height = helper.item.height()
+            helper.placeholder.css({
+              height,
+              visibility: 'visible'
+            })
+          },
+          stop: this.htmlOptionPositionChanged,
         }
       }
     },
@@ -81,67 +80,127 @@
       initData(data) {
         this.initLanguages(data['languages'] || [])
         this.initEntity(data[this.getEntityName()])
-        this.initOptions(data['options'])
+        this.initOptions(data[this.getEntityName()].options)
       },
 
       /**
        * Инициализация модели данных.
        */
       initEntity(data = {}) {
-        let entity = this.makeEntityBaseData(data)
-
-        entity.i18 = this.initI18(data.i18)
-
-        this.setEntityData(entity)
+        this.setEntityData(new AttributeModel(data, this.languages))
       },
 
-      initOptions() {
-
+      initOptions(data = []) {
+        this.options = this.sortOptions(data.map(item => this.makeOption(item)))
       },
 
-      addOption() {
-        this.options = [
-          ... this.options,
-          this.makeEmptyOption()
-        ]
-      },
-
-      removeOption(option) {
-        this.options = this.options.filter(item => item.id !== option.id)
-      },
-
-      makeEmptyOption() {
-        let lastOption = this.options[this.options.length - 1]
-        let position = lastOption ? lastOption.position + 1 : 0
-
+      getToSaveData() {
         return {
-          id: Core.uniqueId(),
-          isNew: true,
-          position,
-          enabled: 1,
-          i18: this.combineI18DataWithDefault(this.languages, [], {
-            value: ''
-          })
+          ... this.getEntityModel(),
+          options: this.getToSaveOptions()
         }
       },
 
-      changeOptionStatus(option) {
-        this.options = this.options.map(item => {
-          if (option.id === item.id) {
-            return {
-              ... option,
-              enabled: !option.enabled
-            }
+      getToSaveOptions() {
+        return this.options.reduce((acc, option) => {
+          if (option.deleted) {
+            return acc
           }
 
-          return item
+          let item = {
+            position: option.position,
+            enabled: option.enabled,
+            i18: option.i18
+          }
+
+          if (!option.isNew) {
+            item.id = option.id
+          }
+
+          acc.push(item)
+
+          return acc
+        }, [])
+      },
+
+      addOption() {
+        this.options = this.sortOptions([
+          ... this.options,
+          this.makeOption()
+        ])
+      },
+
+      makeOption(data = {}) {
+        let option = new OptionModel(data, this.languages)
+
+        option.isNew = !data.id
+        option.position = this.findLastOptionPosition() + 1
+
+        return option
+      },
+
+      findLastOptionPosition() {
+        return this.options.reduce((acc, {position}) =>{
+          return position > acc ? position : acc
+        }, 0)
+      },
+
+      removeOption(option) {
+        if (option.isNew) {
+          this.options = this.options.filter(item => item.id !== option.id)
+          return
+        }
+
+        this.updateOption(option, {
+          deleted: true
+        })
+
+        this.getInitializedSortEls().disableSelection();
+      },
+
+      restoreOption(option) {
+        this.updateOption(option, {
+          deleted: false
         })
       },
-    },
 
-    mounted() {
-      this.initSort()
-    }
+      changeOptionStatus(option) {
+        this.updateOption(option, {
+          enabled: !option.enabled
+        })
+      },
+
+      updateOption(option, data) {
+        option = {
+          ... option,
+          ... data
+        }
+
+        let options = this.options.map(item => {
+          return option.id === item.id ? option : item
+        })
+
+        this.options = this.sortOptions(options)
+      },
+
+      htmlOptionPositionChanged() {
+        this.options = this.sortOptions(this.setDataBundlePositionsByIds(this.options, this.collectSortIds()))
+      },
+
+      sortOptions(options) {
+        return this.sortByPositionAndDeletedToEnd(options)
+      },
+
+      sortByPositionAndDeletedToEnd(data) {
+        return data.sort((a, b) => {
+          if (!a.deleted === !b.deleted) {
+            return a.position - b.position
+          }
+
+          return a.deleted ? 1 : -1
+        })
+      }
+    },
   }
 </script>
 
@@ -154,7 +213,11 @@
         <h1><strong>Создание аттрибута</strong></h1>
 
         <div class="block-title-control">
-          <a href="javascript:void(0);" class="btn btn-sm btn-success active" @click="save" :disabled="saveDisabled"><i class="fa fa-plus-circle"></i> Создать</a>
+          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': formTranslatesHasError()}"></language-picker>
+
+          <span v-if="languages.length > 1" class="btn-separator-xs"></span>
+
+          <a v-if="userCan('attribute.create')" href="javascript:void(0);" class="btn btn-sm btn-success active" @click="save" :disabled="saveDisabled"><i class="fa fa-plus-circle"></i> Создать</a>
         </div>
       </div>
 
@@ -162,22 +225,23 @@
         <h1><strong>Редактирование аттрибута #{{ this.id }}</strong></h1>
 
         <div class="block-title-control">
-          <a href="javascript:void(0);" class="btn btn-sm btn-primary active" @click="save" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Сохранить</a>
+          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': formTranslatesHasError()}"></language-picker>
 
-          <a href="javascript:void(0);" class="btn btn-sm btn-danger active" @click="remove" :disabled="saveDisabled">Удалить</a>
+          <span v-if="languages.length > 1" class="btn-separator-xs"></span>
+
+          <a v-if="userCan('attribute.save')" href="javascript:void(0);" class="btn btn-sm btn-primary active" @click="save" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Сохранить</a>
+
+          <a v-if="userCan('attribute.delete')" href="javascript:void(0);" class="btn btn-sm btn-danger active" @click="remove" :disabled="saveDisabled">Удалить</a>
         </div>
       </div>
 
       <div class="row" v-if="attribute">
 
-        <div class="col-lg-6">
-          <div class="block">
+        <div class="col-xl-6">
+
+          <div :class="`block${langSwitchHovered ? ' block-illuminated' : ''}`">
             <div class="block-title clearfix">
               <h2><i class="fa fa-globe"></i> <strong>Языковая</strong> информация</h2>
-
-              <div class="block-title-control pull-right">
-                <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': formTranslatesHasError()}"></language-picker>
-              </div>
             </div>
 
             <template v-for="language in languages">
@@ -215,7 +279,7 @@
                 </div>
               </div>
 
-              <div :class="`form-group${formErrors.has('selectable') ? ' has-error' : ''}`" v-if="isSuperAdmin()">
+              <div :class="`form-group${formErrors.has('selectable') ? ' has-error' : ''}`" v-if="userCan('attribute.edit-hidden-params')">
                 <label class="col-md-3 control-label">Выбираемый</label>
                 <div class="col-md-9">
                   <label class="switch switch-primary">
@@ -227,7 +291,7 @@
                 </div>
               </div>
 
-              <div :class="`form-group${formErrors.has('slug') ? ' has-error' : ''}`" v-if="isSuperAdmin()">
+              <div :class="`form-group${formErrors.has('slug') ? ' has-error' : ''}`" v-if="userCan('attribute.edit-hidden-params')">
                 <label class="col-md-3 control-label" for="slug">Класс в верстке</label>
                 <div class="col-md-9">
                   <input type="text" id="slug" class="form-control" v-model="attribute.layout_class" name="slug" v-validate="'max:255'">
@@ -254,8 +318,8 @@
           </div>
         </div>
 
-        <div class="col-lg-6">
-          <div class="block">
+        <div class="col-xl-6">
+          <div :class="`block${langSwitchHovered ? ' block-illuminated' : ''}`">
             <div class="block-title clearfix">
               <h2><i class="fa fa-list"></i> <strong>Значения</strong></h2>
 
@@ -265,24 +329,42 @@
             </div>
 
             <div class="block-section table-responsive">
-              <table class="table table-middle table-center table-condensed table-bordered table-hover dataTable">
+              <table class="table table-middle table-center table-condensed table-bordered table-hover dataTable table-sortable table-remove-restore">
                 <tbody class="ui-sortable">
-                  <tr v-for="option in options" :key="option.id">
-                    <td class="table-sort-handler"></td>
+                  <tr v-for="option in options" :key="option.id" :class="{'js-sort-item': !option.deleted, 'table-remove-restore__deleted': option.deleted}">
+                    <td :class="{'table-sort-handler': true, 'js-sort-handler': !option.deleted}">
+                      <span>
+                        <input type="hidden" name="ids" :value="option.id">
+                      </span>
+                    </td>
+                    <td style="width: 100%">
+                      <template v-for="language in languages">
+                        <div :class="{'has-error': formErrors.has(`options.${option.id}.i18.${language.code}.value`), 'in-space': activeLanguageCode === language.code}" :key="language.code">
+                          <input type="text" class="form-control" :id="`option-${option.id}-${language.code}`" v-model="option.i18[language.code].value" :name="`options.${option.id}.i18.${language.code}.value`" v-validate="'required|max:255'"/>
+
+                          <span v-show="formErrors.has(`options.${option.id}.i18.${language.code}.value`)" class="help-block" style="margin-bottom: 0;">{{ formErrors.first(`options.${option.id}.i18.${language.code}.value`) }}</span>
+                        </div>
+                      </template>
+                    </td>
                     <td>
-                      <input type="text" class="form-control" :id="`option-${option.id}-${activeLanguageCode}`" v-model="option.i18[activeLanguageCode].value" :name="`options.${option.id}.i18.${activeLanguageCode}.title`" v-validate="'required|max:255'">
-                      <span v-show="formErrors.has(`options.${option.id}.i18.${activeLanguageCode}.title`)" class="help-block">{{ formErrors.first(`options.${option.id}.i18.${activeLanguageCode}.title`) }}</span>
+                      <div class="table-control table-remove-restore__restore">
+                        <toggle @change="changeOptionStatus(option)" :checked="option.enabled"></toggle>
+                      </div>
                     </td>
-                    <td class="text-center" style="width:75px">
-                      <toggle @change="changeOptionStatus(option)" :checked="option.enabled"></toggle>
-                    </td>
-                    <td class="text-center" style="width:75px">
-                      <a href="javascript:void(0)" data-toggle="tooltip" title="Удалить" class="btn btn-danger" @click="removeOption(option)"><i class="fa fa-times"></i></a>
+                    <td>
+                      <div class="table-control">
+                        <div v-if="option.isNew || userCan('attribute.remove-option')">
+                          <a href="javascript:void(0)" v-if="!option.deleted" class="btn btn-danger" @click="removeOption(option)"><i class="fa fa-times"></i></a>
+
+                          <a href="javascript:void(0)" v-else class="btn btn-success table-remove-restore__restore" @click="restoreOption(option)"><i class="fa fa-repeat"></i></a>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
+
           </div>
         </div>
       </div>

@@ -17,10 +17,10 @@ class ApiAuth
      */
     public function handle($request, Closure $next)
     {
-        if (\Auth::guard()->user()) {
-            return $next($request);
+        if (\Auth::guard()->guest()) {
+            return response('Unauthorized', 401);
         }
 
-        return response('Unauthorized', 401);
+        return $next($request);
     }
 }

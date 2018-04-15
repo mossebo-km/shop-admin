@@ -25,7 +25,7 @@ class CategoryController extends ApiController
     public function index()
     {
         return [
-            'items' => \Categories::getTree(),
+            'categories' => \Categories::getTree(),
         ];
     }
 

@@ -108,18 +108,7 @@ export default {
      * @param data
      */
     initEntity(data = {}) {
-      let entity = this.makeEntityBaseData(data)
-
-      this.setEntityData(entity)
-    },
-
-    /**
-     * Инициализация основных данных модели.
-     *
-     * @param data
-     */
-    makeEntityBaseData(data = {}) {
-      return Core.combineDataWithDefault(data, this.defaultFieldsValues)
+      this.setEntityData(data)
     },
 
     /**

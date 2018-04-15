@@ -21,11 +21,11 @@ class CreateAttributeOptionsI18Table extends Migration
     {
         $this->down();
 
-        echo "Create Roles\r\n";
+        echo "Create AttributeOptionsI18\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->integer('option_id')->index();
+            $table->integer('option_id')->unsigned();
             $table->foreign('option_id')->references('id')->on(Config::get('migrations.AttributeOptions'))->onDelete('cascade');
 
             $table->char('language_code', 2);

@@ -21,15 +21,16 @@ class CreateAttributeOptionsTable extends Migration
     {
         $this->down();
 
-        echo "Create Roles\r\n";
+        echo "Create AttributeOptions\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->increments('id')->index();
 
-            $table->integer('attribute_id')->index();
+            $table->integer('attribute_id')->unsigned()->index();
             $table->foreign('attribute_id')->references('id')->on(Config::get('migrations.Attributes'))->onDelete('cascade');
 
+            $table->boolean('enabled')->index()->default(1);
             $table->integer('position')->unsigned()->default(0);
             $table->timestamps();
         });

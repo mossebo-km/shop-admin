@@ -14,12 +14,12 @@ class CategoryRepository extends RamRepository implements CategoryRepositoryCont
     }
 
     protected function _getCollection() {
-        return $this->model::withTranslate()->orderBy('position', 'asc')->get();
+        return $this->model::with('i18')->orderBy('position', 'asc')->get();
     }
 
     protected function _getCacheKey()
     {
-        return $this->cacheKey . 'ru';
+        return $this->cacheKey;
     }
 
     /**
@@ -46,8 +46,8 @@ class CategoryRepository extends RamRepository implements CategoryRepositoryCont
                 'id' => $category['id'],
                 'parent_id' => $category['parent_id'],
                 'slug' => $category['slug'],
-                'title' => $category['title'],
                 'enabled' => $category['enabled'],
+                'i18' => $category['i18']
             ];
 
             if ($sub = $this->_makeTree($category['id'], $withDisabled)) {

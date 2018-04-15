@@ -32,11 +32,6 @@ class ImageEditor
 
     public function decode($modifications = [])
     {
-//        "x" => 645.31468531469
-//        "width" => 629.37062937063
-//        "height" => 1080
-//        "rotate" => 90
-
         $issetX = isset($modifications['x']);
         $issetY = isset($modifications['y']);
         $issetWidth = isset($modifications['width']);
@@ -64,9 +59,9 @@ class ImageEditor
             $this->setManipulation('flip', 'both');
         }
         elseif ($issetScaleX) {
-            $this->setManipulation('flip', 'h');
+            $this->setManipulation('flip', 'horizontally');
         } elseif ($issetScaleY) {
-            $this->setManipulation('flip', 'v');
+            $this->setManipulation('flip', 'vertically');
         }
 
         // Вращение изображения.

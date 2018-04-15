@@ -1,5 +1,6 @@
 <script>
-import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
+  import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
+
   export default {
     name: 'tree-select',
 
@@ -44,8 +45,8 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
 
         disabled = disabled.map(item => item.toString())
 
-        const build = (list, level = 0, parentId = 0, acc) => {
-          if (! list) return false
+        const build = (list = [], level = 0, parentId = 0, acc) => {
+          if (! list.length) return false
 
           return list.reduce((acc, item) => {
             let itemDisabled = false
@@ -101,8 +102,12 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
       reset() {
         this.buildOptions()
 
+        this.$$el.val('')
+        this.$$el.trigger('change')
         this.$$el.select2('destroy')
+
         this.initSelect2()
+        this.$nextTick(() => this.select())
       },
 
       initSelect2() {

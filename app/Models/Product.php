@@ -10,6 +10,7 @@ use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\Sluggable;
 use App\Support\Traits\Models\RequestSaver;
 use Spatie\Image\Manipulations;
+use App\Exceptions\AdminException;
 
 class Product extends Base\BaseModelI18 implements HasMedia
 {
@@ -229,7 +230,7 @@ class Product extends Base\BaseModelI18 implements HasMedia
                         ->save();
                 }
                 catch(\Exception $e) {
-                    throw new \App\Exceptions\AdminException('Ошибка обработки изображения. Обратитесь к разработчикам.', 0, $e, [
+                    throw new AdminException('Ошибка обработки изображения. Обратитесь к разработчикам.', 0, $e, [
                         'images' => [$image->id]
                     ]);
                 }
