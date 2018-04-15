@@ -8,7 +8,7 @@ class LanguagesSeeder extends Seeder
         [
             'code' => 'ru',
             'name' => 'Русский',
-            'image' => '',
+            'image' => '/img/languages/ru.png',
             'currency_code' => 'RUB',
             'default' => 1,
             'enabled' => 1,
@@ -17,10 +17,10 @@ class LanguagesSeeder extends Seeder
         [
             'code' => 'en',
             'name' => 'Английский',
-            'image' => '',
+            'image' => '/img/languages/en.png',
             'currency_code' => 'USD',
             'default' => 0,
-            'enabled' => 0,
+            'enabled' => 1,
             'position' => 1
         ],
     ];

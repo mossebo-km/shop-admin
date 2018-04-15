@@ -21,7 +21,7 @@ class CreateAttributesTable extends Migration
     {
         $this->down();
 
-        echo "Create Roles\r\n";
+        echo "Create Attributes\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";

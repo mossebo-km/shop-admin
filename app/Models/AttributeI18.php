@@ -14,12 +14,4 @@ class AttributeI18 extends Base\BaseModel
     protected $fillable = [
         'attribute_id', 'language_code', 'title'
     ];
-
-    protected $hidden = [
-        'deleted_at'
-    ];
-
-    protected $dates = [
-        'deleted_at'
-    ];
 }

@@ -14,17 +14,4 @@ class ProductI18 extends Base\BaseModel
     protected $fillable = [
         'product_id', 'language_code', 'title', 'description', 'meta_title', 'meta_description'
     ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'deleted_at'
-    ];
-
-    protected $dates = [
-        'deleted_at'
-    ];
 }

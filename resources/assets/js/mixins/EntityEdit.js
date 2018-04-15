@@ -1,30 +1,59 @@
 import Core from '../core'
 
 import Validation from './Validation'
-import Base from './Base'
+import Page from './Page'
 
 import { asyncPackageDataCollector } from '../core/queueHandler'
 
 
-/*
-  Загрузка данных модели
- */
-const fetchEntity = function(path) {
-  return new Core.requestHandler('get', '/api' + path)
-}
-
-const isCreation = function (path) {
-  return path.indexOf('create') !== -1
-}
-
 export default {
-  mixins: [Validation, Base],
+  mixins: [
+    Validation,
+    Page
+  ],
 
   props: [
     'type',
   ],
 
+  data() {
+    return {
+      reloadDataOnSave: false
+    }
+  },
+
   methods: {
+    /**
+     * Загрузка данных.
+     */
+    loadData() {
+      const a = new asyncPackageDataCollector()
+      a.add(() => this.fetchMainData())
+
+      if (this.type === 'edit') {
+        a.add(this.fetchEntity())
+      }
+
+      a.onDone(data => {
+        this.initData(data)
+      })
+
+      a.start()
+    },
+
+    /**
+     * Загрузка данных модели.
+     *
+     * @returns apiResponse
+     */
+    fetchEntity() {
+      return new Core.requestHandler('get', this.prepareUrl())
+        .notFound(() => {
+          Core.notify('Товар не найден.', {type: 'warning'})
+          this.redirectToTable()
+        })
+    },
+
     /**
      * Возвращает название сущности.
      *
@@ -69,6 +98,7 @@ export default {
      * @param data
      */
     initData(data) {
+      this.initMainData(data)
       this.initEntity(data[this.getEntityName()])
     },
 
@@ -78,29 +108,7 @@ export default {
      * @param data
      */
     initEntity(data = {}) {
-      let entity = this.makeEntityBaseData(data)
-
-      this.setEntityData(entity)
-    },
-
-    /**
-     * Инициализация основных данных модели.
-     *
-     * @param data
-     */
-    makeEntityBaseData(data = {}) {
-      let entity = {}
-
-      for (let fieldName in this.defaultFieldsValues) {
-        if (fieldName in data) {
-          entity[fieldName] = data[fieldName]
-        }
-        else {
-          entity[fieldName] = this.defaultFieldsValues[fieldName]
-        }
-      }
-
-      return entity
+      this.setEntityData(data)
     },
 
     /**
@@ -116,7 +124,7 @@ export default {
      * Сохранение сущности.
      */
     save() {
-      this.errors.clear()
+      this.formErrors.clear()
 
       this.saveDisabled = true
       this.$validator.validateAll()
@@ -127,7 +135,14 @@ export default {
             return
           }
 
-          const data = this.getToSaveData()
+          let data = this.getToSaveData()
+
+          if (this.reloadDataOnSave !== false) {
+            data = {
+              ... data,
+              withData: this.usedMainData
+            }
+          }
 
           let requestType;
 
@@ -143,12 +158,16 @@ export default {
 
           this.saveQueue.add(request)
             .onDone()
-              .success(response => this.pullModelFromResponse(response))
+              .success(response => this.pullDataFromResponse(response))
               .fail(response => {
                 if (response.data.errors) {
                   this.setValidationErrors(response.data.errors)
                   this.$refs.validationModal.show()
                 }
+              })
+              .notFound(() => {
+                Core.notify('Товар был удален до внесения изменений.', {type: 'warning'})
+                this.redirectToTable()
               })
               .any(() => {
                 this.saveDisabled = false
@@ -162,7 +181,14 @@ export default {
      *
      * @param response
      */
-    pullModelFromResponse(response) {
+    pullDataFromResponse(response) {
+      if (this.reloadDataOnSave) {
+        this.initData({
+          [this.getEntityName()]: response.data[this.getEntityName()],
+          ...response.data.withData
+        })
+      }
+
       this.initEntity(response.data[this.getEntityName()])
     },
 
@@ -211,44 +237,9 @@ export default {
   },
 
   created() {
+    this.loadData()
     this.createQueue()
     this.extendSlugChecker()
-  },
-
-  beforeRouteEnter (to, from, next) {
-    const a = new asyncPackageDataCollector()
-    // todo: suppliers должны грузиться только в товарах
-    a.add(() => Core.dataHandler.get(['categories-tree', 'languages', 'suppliers']))
-
-    if (!isCreation(to.path)) {
-      a.add(fetchEntity(to.path))
-    }
-
-    a.onDone(data => {
-      next(vm => {
-        vm.initData(data)
-      })
-    })
-
-    a.start()
-  },
-
-  beforeRouteUpdate(to, from, next) {
-    if (isCreation(to.path)) {
-      next()
-      return
-    }
-
-    const a = new asyncPackageDataCollector()
-
-    a.add(fetchEntity(to.path))
-
-    a.onDone(data => {
-      this.pullModelFromResponse({data})
-      next()
-    })
-
-    a.start()
   },
 
   beforeDestroy() {

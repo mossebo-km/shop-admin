@@ -6,18 +6,40 @@ use App\Models\Product;
 
 class TestController extends Controller
 {
-    public function imageConverter($id)
+//    public function imageConverter($id)
+//    {
+//        $product = Product::where('id', $id)->first();
+//        $tempImages = $product->getMedia('images') ?: [];
+//
+//        foreach ($tempImages as $image) {
+//            $image = $image->move($product, 'temp');
+//            $image->move($product, 'images');
+//        }
+//    }
+
+    public function enableLanguages()
     {
-        set_time_limit(600);
-        ini_set('max_execution_time', 600); //6 minutes
-        ini_set('request_terminate_timeout', 600); //6 minutes
+        \App\Models\Language::where('enabled', false)->update([
+            'enabled' => true
+        ]);
+    }
 
-        $product = Product::where('id', $id)->first();
-        $tempImages = $product->getMedia('images') ?: [];
+    public function disableLanguages()
+    {
+        \App\Models\Language::where('default', false)->update([
+            'enabled' => false
+        ]);
+    }
 
-        foreach ($tempImages as $image) {
-            $image = $image->move($product, 'temp');
-            $image->move($product, 'images');
-        }
+    public function test() {
+//        $product = Product::first();
+//        $products = Product::all();
+        $products = Product::with('prices')->first();
+
+
+
+        echo "<pre>";
+        print_r($products);
+        return;
     }
 }

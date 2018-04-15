@@ -12,6 +12,9 @@
   iteration - все запросы выполняются по очереди.
 */
 
+// todo: оформить нормально, если очереди действительно нужны.
+// todo: добавить эвенты для очередей - начало - конец
+
 import Core from './'
 import apiRequest from './apiRequest'
 
@@ -196,7 +199,7 @@ class QueueItem {
   }
 
   start() {
-    var _ = this
+    let _ = this
 
     _.asyncItem().then(function() {
       if (_.status) {
@@ -220,7 +223,7 @@ class QueueItem {
 
 class QueueFunction extends QueueItem {
   start() {
-    var _ = this
+    let _ = this
     _.asyncItem().then(function() {
       _.__beforeDone.apply(_, arguments)
       if (typeof _.resolver === 'function') {
@@ -230,7 +233,7 @@ class QueueFunction extends QueueItem {
   }
 
   onDone() {
-    var _ = this
+    let _ = this
 
     return new Promise((resolve, reject) => {
       _.resolver = function() {
@@ -244,7 +247,7 @@ class QueueFunction extends QueueItem {
 
 class QueueApiRequest extends QueueItem {
   start() {
-    var _ = this
+    let _ = this
 
     _.asyncItem.any(function() {
       _.__beforeDone.call(_, _.asyncItem)
@@ -295,7 +298,7 @@ export class asyncPackage {
   }
 
   __makeItem(asyncItem, handler, itemClass) {
-    var _ = this
+    let _ = this
     let item = new itemClass(asyncItem, function() {
       _.__makeHandler(item, handler)
       _.__checkDone()
@@ -341,6 +344,8 @@ export class asyncPackage {
         this.items = undefined
         this.handlers = undefined
       }
+
+      resolve()
     }))
   }
 
@@ -365,7 +370,7 @@ export class asyncPackageDataCollector extends asyncPackage {
   }
 
   __makeItem(asyncItem, handler, itemClass) {
-    var _ = this
+    let _ = this
     let item = new itemClass(asyncItem, function(data) {
       _.__pullData(data)
       _.__makeHandler(item, handler)

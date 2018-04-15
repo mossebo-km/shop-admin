@@ -21,15 +21,15 @@ class CreateProductAttributesTable extends Migration
     {
         $this->down();
 
-        echo "Create Roles\r\n";
+        echo "Create ProductAttributes\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";
 
-            $table->integer('product_id')->index();
+            $table->integer('product_id')->unsigned()->index();
             $table->foreign('product_id')->references('id')->on(Config::get('migrations.Products'))->onDelete('cascade');
 
-            $table->integer('attribute_id')->index();
+            $table->integer('attribute_id')->unsigned()->index();
             $table->foreign('attribute_id')->references('id')->on(Config::get('migrations.Attributes'))->onDelete('cascade');
 
             $table->unique(['product_id', 'attribute_id']);

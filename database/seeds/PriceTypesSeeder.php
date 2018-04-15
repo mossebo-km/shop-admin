@@ -21,7 +21,7 @@ class PriceTypesSeeder extends Seeder
         ],
         [
             "name" => "franchisee-price",
-            "title" => "Цена для франчайзеров",
+            "title" => "Цена для франчайзери",
             "description" => "",
             "enabled" => true,
             "position" => 2

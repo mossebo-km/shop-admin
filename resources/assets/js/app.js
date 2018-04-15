@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VeeValidate from 'vee-validate'
 
+import Core from './core'
+
 import Dashboard from './components/shop/Dashboard'
 
 import CategoriesTable from './components/shop/categories/CategoriesTable'
@@ -34,10 +36,16 @@ import MainMenu from './components/MainMenu'
 require('./bootstrap');
 
 window.Vue = Vue;
+
 Vue.use(VueRouter);
-Vue.use(VeeValidate, {fieldsBagName: 'formFields'});
+Vue.use(VeeValidate, {
+  fieldsBagName: 'formFields',
+  errorBagName: 'formErrors'
+});
 
 window.CKEDITOR_BASEPATH = '/js/vendor/ckeditor/';
+
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -123,12 +131,3 @@ const app = new Vue({
     }
   }
 }).$mount('#app')
-
-router.beforeEach((to, from, next) => {
-  app.loadingStart()
-  next()
-})
-
-router.afterEach(() => {
-  app.loadingEnd()
-})

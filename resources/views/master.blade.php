@@ -134,10 +134,17 @@
         <script src="js/vendor/bootstrap.min.js"></script>
         <script src="js/plugins.js"></script> --}}
 
+        @php
+            $user = Auth::guard('admin.web')->user();
+        @endphp
+
+
+
         <script>
             window.config = {
                 interactionKey: "{{ \App\Http\Controllers\DataHandler::getRelevantKey() }}",
-                userToken: "{{ Auth::guard('admin.web')->user()->api_token }}"
+                userToken: "{{ $user ->api_token }}",
+                role: "{{ $user ->role_id }}"
             }
         </script>
 

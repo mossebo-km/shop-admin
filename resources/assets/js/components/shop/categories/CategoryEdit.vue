@@ -5,12 +5,14 @@
 
   import ShopQuickNav from '../ShopQuickNav'
   import Core from '../../../core'
-  import TreeSelect from '../../TreeSelect'
+  import TreeSelectTranslatable from '../../TreeSelectTranslatable'
   import CKEditor from '../../CKEditor'
   import LanguagePicker from '../../LanguagePicker'
 
   import EntityEdit from '../../../mixins/EntityEdit'
   import Translatable from '../../../mixins/Translatable'
+
+  import CategoryModel from '../../../resources/CategoryModel'
 
 
   export default {
@@ -29,59 +31,37 @@
       return {
         entityName: 'category',
         category: null,
-        categories: [],
+        categoriesTree: [],
         saveDisabled: false,
 
-        defaultFieldsValues: {
-          parent_id: 0,
-          slug: '',
-          enabled: true,
+        usedMainData: [
+          'languages',
+          'categories-tree',
+        ],
 
-          created_at: null,
-          updated_at: null,
-        },
-
-        defaultTranslatableFieldsValues: {
-          title: '',
-          description: '',
-          meta_title: '',
-          meta_description: ''
-        }
+        reloadDataOnSave: true
       }
     },
 
     components: {
       ShopQuickNav,
-      TreeSelect,
+      TreeSelectTranslatable,
       'ckeditor': CKEditor,
       LanguagePicker,
       bModal
     },
 
     methods: {
-      initData(data) {
-        this.initLanguages(data['languages'] || [])
-        this.categories = data['categories-tree']
-
-        this.initEntity(data[this.getEntityName()])
-      },
-
-      /*
-        Инициализация модели данных.
-      */
-
+      /**
+       * Инициализация модели данных.
+       */
       initEntity(data = {}) {
-        let entity = this.makeEntityBaseData(data)
-
-        entity.i18 = this.initI18(data.i18)
-
-        this.setEntityData(entity)
+        this.setEntityData(new CategoryModel(data, this.languages))
       },
 
-      /*
-        Автозаполнение slug из заголовка категории.
-      */
-
+      /**
+       * Автозаполнение slug из заголовка категории.
+       */
       slugAutocomplete() {
         let model = this.getEntityModel()
         model.slug = Core.makeUrl(model.i18[this.activeLanguageCode].title)
@@ -95,10 +75,14 @@
     <shop-quick-nav active="categories"></shop-quick-nav>
 
     <div class="block full">
-      <div class="block-title" v-if="type === 'create'">
+      <div class="block-title clearfix" v-if="type === 'create'">
         <h1><strong>Создание категории</strong></h1>
 
         <div class="block-title-control">
+          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': formTranslatesHasError()}"></language-picker>
+
+          <span v-if="languages.length > 1" class="btn-separator-xs"></span>
+
           <a href="javascript:void(0);" class="btn btn-sm btn-success active" @click="save" :disabled="saveDisabled"><i class="fa fa-plus-circle"></i> Создать</a>
         </div>
       </div>
@@ -107,6 +91,10 @@
         <h1><strong>Редактирование категории #{{ this.id }}</strong></h1>
 
         <div class="block-title-control">
+          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': formTranslatesHasError()}"></language-picker>
+
+          <span v-if="languages.length > 1" class="btn-separator-xs"></span>
+
           <a href="javascript:void(0);" class="btn btn-sm btn-primary active" @click="save" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Сохранить</a>
 
           <a href="javascript:void(0);" class="btn btn-sm btn-danger active" @click="remove" :disabled="saveDisabled">Удалить</a>
@@ -116,47 +104,43 @@
       <div class="row" v-if="category">
 
         <div class="col-lg-6">
-          <div class="block">
-            <div class="block-title clearfix">
+          <div :class="`block${langSwitchHovered ? ' block-illuminated' : ''}`">
+            <div class="block-title">
               <h2><i class="fa fa-globe"></i> <strong>Языковая</strong> информация</h2>
-
-              <div class="block-options pull-right">
-                <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': translatesSwitcherHasError()}"></language-picker>
-              </div>
             </div>
 
             <template v-for="language in languages">
               <div :class="`form-horizontal form-bordered${activeLanguageCode === language.code ? '' : ' in-space'}`" :key="language.code">
 
-                <div :class="`form-group${errors.has(`i18.${language.code}.title`) ? ' has-error' : ''}`">
+                <div :class="`form-group${formErrors.has(`i18.${language.code}.title`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`title-${language.code}`">Название <span class="text-danger">*</span></label>
                   <div class="col-md-9">
                     <input type="text" class="form-control" :id="`title-${language.code}`" v-model="category.i18[language.code].title" :name="`i18.${language.code}.title`" v-validate="'required|max:255'">
-                    <span v-show="errors.has(`i18.${language.code}.title`)" class="help-block">{{ errors.first(`i18.${language.code}.title`) }}</span>
+                    <span v-show="formErrors.has(`i18.${language.code}.title`)" class="help-block">{{ formErrors.first(`i18.${language.code}.title`) }}</span>
                   </div>
                 </div>
 
-                <div :class="`form-group${errors.has(`i18.${language.code}.description`) ? ' has-error' : ''}`">
+                <div :class="`form-group${formErrors.has(`i18.${language.code}.description`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`description-${language.code}`">Описание</label>
                   <div class="col-md-9">
                     <ckeditor :id="`description-${language.code}`" :content.sync="category.i18[language.code].description" :name="`i18.${language.code}.description`" />
-                    <span v-show="errors.has(`i18.${language.code}.description`)" class="help-block">{{ errors.first(`i18.${language.code}.description`) }}</span>
+                    <span v-show="formErrors.has(`i18.${language.code}.description`)" class="help-block">{{ formErrors.first(`i18.${language.code}.description`) }}</span>
                   </div>
                 </div>
 
-                <div :class="`form-group${errors.has(`i18.${language.code}.meta_title`) ? ' has-error' : ''}`">
+                <div :class="`form-group${formErrors.has(`i18.${language.code}.meta_title`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`title-${language.code}`">Мета-заголовок</label>
                   <div class="col-md-9">
                     <input type="text" class="form-control" :id="`title-${language.code}`" v-model="category.i18[language.code].meta_title" :name="`i18.${language.code}.meta_title`" v-validate="'max:255'">
-                    <span v-show="errors.has(`i18.${language.code}.meta_title`)" class="help-block">{{ errors.first(`i18.${language.code}.meta_title`) }}</span>
+                    <span v-show="formErrors.has(`i18.${language.code}.meta_title`)" class="help-block">{{ formErrors.first(`i18.${language.code}.meta_title`) }}</span>
                   </div>
                 </div>
 
-                <div :class="`form-group${errors.has(`i18.${language.code}.meta_description`) ? ' has-error' : ''}`">
+                <div :class="`form-group${formErrors.has(`i18.${language.code}.meta_description`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`title-${language.code}`">Мета-описание</label>
                   <div class="col-md-9">
                     <textarea class="form-control" :id="`meta-description-${language.code}`" v-model="category.i18[language.code].meta_description" :name="`i18.${language.code}.meta_description`" v-validate="'max:65000'"></textarea>
-                    <span v-show="errors.has(`i18.${language.code}.meta_description`)" class="help-block">{{ errors.first(`i18.${language.code}.meta_description`) }}</span>
+                    <span v-show="formErrors.has(`i18.${language.code}.meta_description`)" class="help-block">{{ formErrors.first(`i18.${language.code}.meta_description`) }}</span>
                   </div>
                 </div>
               </div>
@@ -173,7 +157,7 @@
 
             <div class="form-horizontal form-bordered">
 
-              <div :class="`form-group${errors.has('slug') ? ' has-error' : ''}`">
+              <div :class="`form-group${formErrors.has('slug') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label" for="slug">Slug <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
@@ -181,27 +165,27 @@
                     <a class="btn input-group-addon" @click="slugAutocomplete"><i class="fa fa-refresh"></i> Автозаполнение</a>
                   </div>
 
-                  <span v-show="errors.has('slug')" class="help-block">{{ errors.first('slug') }}</span>
+                  <span v-show="formErrors.has('slug')" class="help-block">{{ formErrors.first('slug') }}</span>
                 </div>
               </div>
 
-              <div :class="`form-group${errors.has('parent_id') ? ' has-error' : ''}`">
+              <div :class="`form-group${formErrors.has('parent_id') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label" for="parent_id">Родительская категория</label>
                 <div class="col-md-8">
-                  <tree-select :options="categories" :selected.sync="category.parent_id" :disabled="id" placeholder="Выберите категорию"></tree-select>
+                  <tree-select-translatable :options="categoriesTree" :selected.sync="category.parent_id" :disabled="id" placeholder="Выберите категорию" :activeLanguageCode="activeLanguageCode"></tree-select-translatable>
 
-                  <span v-show="errors.has('parent_id')" class="help-block">{{ errors.first('parent_id') }}</span>
+                  <span v-show="formErrors.has('parent_id')" class="help-block">{{ formErrors.first('parent_id') }}</span>
                 </div>
               </div>
 
-              <div :class="`form-group${errors.has('enabled') ? ' has-error' : ''}`">
+              <div :class="`form-group${formErrors.has('enabled') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label">Опубликовано</label>
                 <div class="col-md-9">
                   <label class="switch switch-primary">
                     <input type="checkbox" v-model="category.enabled"><span></span>
                   </label>
 
-                  <span v-show="errors.has('enabled')" class="help-block">{{ errors.first('enabled') }}</span>
+                  <span v-show="formErrors.has('enabled')" class="help-block">{{ formErrors.first('enabled') }}</span>
                 </div>
               </div>
 

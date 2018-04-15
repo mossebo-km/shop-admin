@@ -9,7 +9,8 @@
       'level',
       'statusChange',
       'remove',
-      'parentId'
+      'parentId',
+      'activeLanguageCode'
     ],
 
     data() {
@@ -43,12 +44,14 @@
 
 <template>
   <div :class="'ui-sortable table-group table-level-' + level">
-    <div v-for="(category, key) in tree" class="ui-sortable-handle">
+    <div v-for="category in tree" class="js-sort-item" :key="category.id">
       <input type="hidden" :value="category.id" name="ids">
 
       <div class="table-row">
+        <div class="table-cell table-sort-handler js-sort-handler"><span></span></div>
+
         <div class="table-cell text-center">
-          <router-link v-bind:to="'/shop/categories/' + category.id"><strong>{{ category.id }}</strong></router-link>
+          <router-link v-bind:to="category.url"><strong>{{ category.id }}</strong></router-link>
         </div>
 
         <div class="table-cell lev">
@@ -56,11 +59,12 @@
             <i class="fa fa-plus" v-if="!isExpanded(category.id)"></i>
             <i class="fa fa-minus" v-else="isExpanded(category.id)"></i>
           </span>
-          <router-link v-bind:to="'/shop/categories/' + category.id"><strong>{{ category.title }}</strong></router-link>
+
+          <router-link v-bind:to="category.url"><strong v-html="category.i18[activeLanguageCode].title"></strong></router-link>
         </div>
 
         <div class="table-cell">
-          <a :href="'/categories/' + category.slug" target="_blank" rel="external">
+          <a :href="category.siteUrl" target="_blank" rel="external">
             <strong>{{ category.slug }}</strong>
             <i class="fa fa-external-link"></i>
           </a>
@@ -80,6 +84,7 @@
         :level="parseInt(level) + 1"
         :statusChange="statusChange"
         :remove="remove"
+        :activeLanguageCode="activeLanguageCode"
         :parentId="category.id">
       </categories-table-tree>
     </div>

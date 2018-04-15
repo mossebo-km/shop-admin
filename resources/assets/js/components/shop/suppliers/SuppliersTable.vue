@@ -4,7 +4,7 @@
   import ShopQuickNav from '../ShopQuickNav'
 
   import Core from '../../../core'
-  import Base from '../../../mixins/Base'
+  import TablePage from '../../../mixins/TablePage'
   import Sortable from '../../../mixins/Sortable'
   import Toggle from '../../Toggle'
 
@@ -12,7 +12,7 @@
     name: 'suppliers-table',
 
     mixins: [
-      Base,
+      TablePage,
       Sortable,
     ],
 
@@ -24,73 +24,14 @@
 
     data() {
       return {
-        list: []
+        tableItemsDataName: 'suppliers',
       }
     },
 
     methods: {
-      fetchList() {
-        new Core.requestHandler('get', this.prepareUrl())
-          .success(response => this.initList(response))
-          .start()
-      },
-
-      /*
-        Инициализация списка.
-      */
-      initList (response) {
-        this.list = response.data ? response.data.list || [] : []
-      },
-
-
-      /*
-        Смена статуса категории.
-      */
-
-      statusChange(id) {
-        this.statusQueue.add(new Core.requestHandler('get', this.prepareUrl(`${id}/status`)))
-      },
-
-
-      /*
-        Нажатие на кнопку удаления записи.
-      */
-
-      remove(id) {
-        var _ = this;
-
-        this.toRemoveId = id
-        this.$refs.removeModal.show()
-      },
-
-
-      /*
-        При подтвержении удаления записи.
-      */
-
-      removeConfirm() {
-        new Core.requestHandler('delete', this.prepareUrl(this.toRemoveId))
-          .success(() => this.fetchList())
-          .start()
-      },
-
-
-      /*
-        При обновлении списка записей.
-      */
-
-      onRefresh() {
-        $( ".ui-sortable" ).sortable({
-          nested: true,
-          stop: this.onPositionChange,
-        });
-      },
-
-
-      /*
-        При изменении порядка записей.
-      */
-
+      /**
+       * При изменении порядка записей.
+       */
       onPositionChange() {
         let ids = [];
 
@@ -101,6 +42,9 @@
         this.sortQueue.add(new Core.requestHandler('post', this.prepareUrl(), {ids}))
       },
 
+      /**
+       *
+       */
       clearQueue() {
         this.sortQueue.clear()
         this.statusQueue.clear()
@@ -108,26 +52,11 @@
     },
 
     created() {
-      this.sortQueue = Core.queueHandler.makeQueue('break', 'category-sort')
-      this.statusQueue = Core.queueHandler.makeQueue('iteration', 'category-status')
+      this.sortQueue = Core.queueHandler.makeQueue('iteration', 'category-sort')
     },
 
     updated() {
-      this.onRefresh()
-    },
-
-    beforeDestroy() {
-      this.clearQueue()
-    },
-
-    beforeRouteEnter(to, from, next) {
-      return new Core.requestHandler('get', '/api' + to.path)
-        .success(response => {
-          next(vm => {
-            vm.initList(response)
-          })
-        })
-        .start()
+      this.initSort()
     },
   }
 </script>
@@ -137,7 +66,7 @@
     <shop-quick-nav active="suppliers"></shop-quick-nav>
 
     <div class="block full">
-      <div class="block-title">
+      <div class="block-title clearfix">
         <h1><strong>Категории</strong></h1>
 
         <div class="block-title-control">
@@ -145,8 +74,8 @@
         </div>
       </div>
 
-      <div class="table-responsive" id="categories-table-page">
-        <table class="table table-middle table-center table-condensed table-bordered table-hover table-categories dataTable">
+      <div class="table-responsive">
+        <table class="table table-middle table-center table-condensed table-bordered table-hover dataTable">
           <thead>
             <tr>
               <th style="width: 128px" class="text-center">Id</th>
@@ -157,7 +86,7 @@
           </thead>
 
           <tbody>
-            <tr v-if="list && list.length" v-for="supplier in list">
+            <tr v-if="items && items.length" v-for="supplier in items">
               <td class="text-center"><strong><router-link :to="`/shop/suppliers/${supplier.id}`">{{ supplier.id }}</router-link></strong></td>
               <td><router-link :to="`/shop/suppliers/${supplier.id}`">{{ supplier.name }}</router-link></td>
               <td class="text-center">
@@ -168,7 +97,7 @@
               </td>
             </tr>
 
-            <tr v-if="! (list && list.length)">
+            <tr v-if="! (items && items.length)">
               <td class="text-center" colspan="4">Список поставщиков пуст</td>
             </tr>
           </tbody>

@@ -16,9 +16,7 @@
         "laravel-mix": "^2.1.11",
         "lodash": "^4.17.4",
         "popper.js": "^1.13.0",
-        "vue": "^2.5.16"
-    },
-    "dependencies": {
+        "vue": "^2.5.16",
         "bootstrap": "^3.3.7",
         "bootstrap-vue": "^2.0.0-rc.2",
         "browser-sync": "^2.23.6",
@@ -36,5 +34,9 @@
         "vee-validate": "^2.0.6",
         "vue-router": "^3.0.1",
         "vue2-dropzone": "^3.0.6"
+    },
+    "dependencies": {
+        "nestable": "^0.2.0",
+        "vue-cropperjs": "^2.2.0"
     }
 }

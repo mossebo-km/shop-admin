@@ -16,7 +16,6 @@ class MorphServiceProvider extends ServiceProvider
     {
         Relation::morphMap([
             'product' => \App\Models\Product::class,
-            // 'product' => 'App\Models\Product',
         ]);
     }
 

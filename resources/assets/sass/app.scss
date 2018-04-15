@@ -7,11 +7,21 @@
 // Bootstrap
 // @import '~bootstrap/scss/bootstrap';
 
-@import 'noty';
-@import 'loading';
 @import 'animations';
+@import 'bootstrap-xl';
+@import 'dropzone';
+@import 'edit-photo-card';
+@import 'loading';
+@import 'noty';
 @import 'select2';
 @import 'table';
+
+
+:root {
+  --primary-color: #1bbae1;
+  --danger-color: #d9534f;
+  --error-color: #e74c3c;
+}
 
 .navbar-laravel {
   background-color: #fff;
@@ -34,6 +44,10 @@
   }
 }
 
+.modal.fade .modal-dialog.modal-dialog-centered {
+  transform: none;
+}
+
 .switch span {
   vertical-align: bottom;
 }
@@ -51,11 +65,20 @@
   opacity: 1;
 }
 
+
+/**
+  Кнопка раскрытия списка потомков в категории.
+ */
+
 .btn-expand {
   padding: 6px 7px 5px 8px;
   margin-right: 5px;
 }
 
+
+/**
+  Ckeditor - рамки состояний
+ */
 
 .has-error .cke {
   border-color: #e74c3c;
@@ -67,7 +90,7 @@
 }
 
 .has-warning .cke {
-  border-color: #e67e22;
+  border-color: #fdb341;
   background-color: #ffffff;
 }
 
@@ -85,21 +108,77 @@
 }
 
 
+/**
+  Аналог display:none, без display:none
+ */
+
 .in-space {
   position: absolute;
   left: -100000px;
   top: -100000px;
   opacity: 0;
+  visibility: hidden;
+}
+
+
+/**
+  Языки, иконки языков.
+ */
+
+.language-identif {
+  display: inline-block;
+  vertical-align: bottom;
+  user-select: none;
+
+  &__flag {
+    display: inline-block;
+    vertical-align: bottom;
+    width: 30px;
+    height: 18px;
+
+    background-size: cover;
+    color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+    border: 1px solid #dbe1e8;
+  }
+
+  &__code {
+    vertical-align: bottom;
+  }
 }
 
 .language-picker {
-  border-radius: 50%;
-  border: 1px solid transparent;
+  position: relative;
+  user-select: none;
 
-  &.has-error {
+  &__btn {
+    text-align: center;
+  }
+
+  &__btn .language-identif__code {
+    margin-right: 7px;
+  }
+
+  &.has-error &__btn {
     border-color: #e74c3c;
   }
+
+  &.open & .language-identif__flag,
+  &__btn:hover & .language-identif__flag {
+    border-color: #c2c8cf;
+  }
+
+  &:not(.open) &__btn:active  & .language-identif__flag {
+    box-shadow: inset 0 3px 5px rgba(0,0,0,0.125);
+  }
 }
+
+
+/**
+  Таблица цен.
+ */
 
 .prices-table {
   table-layout: fixed;
@@ -114,28 +193,11 @@
   font-size: 14px;
 }
 
-.prices-table__formatted {
+
+.input-group-addon-gray {
   background-color: #eaedf1;
 }
 
-
-.dz-icon {
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 30px;
-}
-.dropzone .dz-preview .dz-success-mark, .dropzone .dz-preview .dz-error-mark {
-  width: 54px;
-  text-align: center;
-}
-.dropzone .dz-preview.dz-image-preview {
-  background-color: transparent;
-}
-
-.dropzone .dz-preview .dz-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
 
 .dataTables_paginate {
   float: left;
@@ -151,9 +213,49 @@
   margin-right: 10px;
 }
 
+div.dataTables_length select[size] {
+  height: 34px;
+}
+
+.product-preview-image {
+  width: 60px;
+  height: 60px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  background-color: #fff;
+
+  & img {
+    max-width: 100%;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
 
 
+.btn-group > .btn {
+  margin: 0;
+}
 
-.sidebar-nav a {
-  transition: all .4s;
+
+.btn-separator-xs {
+  border-left: 1px solid #dbe1e8;
+  margin: 0 8px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.btn-separator-xs {
+  height: 18px;
+}
+
+.block-illuminated {
+  border-color: #c2c8cf;
+}
+
+.form-bordered .form-group:last-child {
+  border-bottom: none;
 }

@@ -13,11 +13,11 @@ export default {
      */
     setValidationErrors(errors = {}) {
       for (let fieldName in errors) {
-        if (this.errors.has(fieldName)) {
-          this.errors.remove(fieldName)
+        if (this.formErrors.has(fieldName)) {
+          this.formErrors.remove(fieldName)
         }
 
-        this.errors.add(fieldName, errors[fieldName])
+        this.formErrors.add(fieldName, errors[fieldName])
       }
     },
 

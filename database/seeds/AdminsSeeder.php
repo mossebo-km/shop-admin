@@ -30,6 +30,7 @@ class AdminsSeeder extends Seeder
             'password' => 'ua6%1jaD'
         ],
     ];
+
     /**
      * Run the database seeds.
      *
@@ -42,6 +43,7 @@ class AdminsSeeder extends Seeder
         foreach ($this->data as $row) {
             \App\Models\Admin::create([
                 'name' => $row['name'],
+                'role_id' => $row['role_id'],
                 'email' => $row['email'],
                 'password' => \Hash::make($row['password']),
                 'api_token' => str_random(60)

@@ -15,6 +15,9 @@ export default class apiRequest {
     this.callbacks = []
     this.fetchRequestCancel = false
     this.isDone = false
+    this.response = null
+    this.currentUrl = null
+    this.started = false
 
     let config = {
       method: method,
@@ -43,6 +46,10 @@ export default class apiRequest {
   }
 
   start() {
+    if (this.started) return
+    this.started = true
+    this.currentUrl = window.location.href
+
     axios.request(this.config)
       .then(response => {
         this._handleResponse(response)
@@ -50,14 +57,20 @@ export default class apiRequest {
       .catch(error => {
         if (error.constructor.name === 'Cancel') return
 
-        if (error.response && 'data' in error.response) {
-          console.log(error)
-          this._handleResponse(error.response)
+        let response = error.response || {}
+
+        if ('data' in response && typeof response.data === 'object' && response.data !== null && Object.keys(response.data).length !== 0) {
+          this._handleResponse(response)
           return
         }
+        else if (response.status >= 500) {
+          Core.notify('Техническая ошибка. Обратитесь к разработчикам.', {type: 'error'})
+          this.status = 'crashed'
+        }
+        else if (response.status === 404) {
+          this.status = '404'
+        }
 
-        this.status = 'crashed'
-        Core.notify('Техническая ошибка. Обратитесь к разработчикам.', {type: 'error'})
         this._done()
       })
 
@@ -74,28 +87,30 @@ export default class apiRequest {
   _handleResponse(response) {
     this.response = response;
 
-    if (response && Object.keys(response.data).length !== 0) {
-      const data = response.data
+    const data = response.data
+    if (data.redirect && this.currentUrl === window.location.href) {
+      let redirect = data.redirect
 
-      if (data.redirect) {
-        let redirect = data.redirect
-
-        if (redirect.indexOf('/') === 0) {
-          redirect = '/' + Core.trim(redirect, '/')
-        }
-
-        window.location.href = redirect
+      if (redirect.indexOf('/') === 0) {
+        redirect = '/' + Core.trim(redirect, '/')
       }
 
-      this.status = data.status || 'success'
+      window.location.href = redirect
+      return
+    }
 
-      if ('message' in data) {
-        if (availableMessageTypes.indexOf(this.status) === -1) return
+    this.status = data.status || 'success'
 
-        Core.notify(data.message, {
-          type: this.status
-        })
-      }
+    if (data.message) {
+      if (availableMessageTypes.indexOf(this.status) === -1) return
+
+      Core.notify(data.message, {
+        type: this.status
+      })
+    }
+
+    if (data.withData) {
+      Core.dataHandler.setDataToStorage(data.withData)
     }
 
     this._done()
@@ -142,13 +157,18 @@ export default class apiRequest {
     this._onDone(() => {
       if (this.status !== 'crashed') return
 
-      if (typeof callback === 'function') {
-        callback()
-      }
-      else {
-        throw new Error(this.response);
-      }
-    });
+      Core.runCallback(callback)
+    })
+
+    return this
+  }
+
+  notFound(callback) {
+    this._onDone(() => {
+      if (this.status !== '404') return
+
+      Core.runCallback(callback)
+    })
 
     return this
   }

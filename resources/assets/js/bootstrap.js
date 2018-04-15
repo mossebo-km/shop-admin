@@ -1,3 +1,7 @@
+// if (location.protocol != 'https:')
+// {
+//     location.protocol = 'https:'
+// }
 
 window._ = require('lodash');
 window.Popper = require('popper.js').default;

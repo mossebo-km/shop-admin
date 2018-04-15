@@ -81,6 +81,10 @@ if (!mix.inProduction()) {
     .sourceMaps()
 }
 
+mix.autoload({
+    jquery: ['$', 'window.jQuery', 'jQuery']
+});
+
 mix.setResourceRoot(path.normalize(publicDir));
 mix.setPublicPath(path.normalize(publicDir));
 

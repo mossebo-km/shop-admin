@@ -1,23 +1,45 @@
 import Core from './'
 
 export default {
-  storageKey: 'interactionDataKey',
+  key: null,
+  storageKeyName: 'dataKey',
+  dataLabels: false,
+  storageDataLabelsName: 'dataLabels',
 
-  get(dataLabels) {
-    this.dataLabels = (dataLabels.lenght === 1 ? [dataLabels] : dataLabels)
+  get(dataLabels = []) {
     this.data = {}
+
+    if (dataLabels.length === 0) {
+      return new Promise(resolve => resolve([]))
+    }
 
     return this.getRelevantKey()
       .then(key => {
-        if (key === Core.storage.get(this.storageKey)) {
-          return this.getFromStorage()
+        if (key === this.getCurrentKey()) {
+          return this.getFromStorage(dataLabels)
         }
         else {
-          Core.storage.add(this.storageKey, key)
-          return this.getFromServer()
+          this.setCurrentKey(key)
+          return this.getFromServer(dataLabels)
         }
       })
 
+  },
+
+  setCurrentKey(key) {
+    if (this.getCurrentKey() !== key) {
+      this.flush()
+      this.key = key
+      Core.storage.add(this.storageKeyName, key)
+    }
+  },
+
+  getCurrentKey() {
+    if (this.key === null) {
+      this.key = Core.storage.get(this.storageKeyName)
+    }
+
+    return this.key
   },
 
   getRelevantKey() {
@@ -31,45 +53,47 @@ export default {
     })
   },
 
-  getFromStorage() {
+  getFromStorage(dataLabels) {
+    dataLabels = this.prepareDataLabels(dataLabels)
+
     return new Promise(resolve => {
-      for (let i = this.dataLabels.length; i >= 0; i--) {
-        let label = this.dataLabels[i]
+      for (let i = dataLabels.length; i >= 0; i--) {
+        let label = dataLabels[i]
         let fromLocalStorage = Core.storage.get(label)
 
         if (typeof fromLocalStorage !== 'undefined' && fromLocalStorage !== null) {
           this.data[label] = fromLocalStorage
-          this.dataLabels.splice(i, 1)
+          dataLabels.splice(i, 1)
         }
       }
 
-      if (this.dataLabels.length === 0) {
+      if (dataLabels.length === 0) {
         resolve(this.data)
       }
       else {
-        resolve(this.getFromServer())
+        resolve(this.getFromServer(dataLabels))
       }
     })
   },
 
-  getFromServer() {
+  getFromServer(dataLabels) {
+    dataLabels = this.prepareDataLabels(dataLabels)
+
     return new Promise((resolve) => {
       new Core.requestHandler('get', '/api/data', {
         responseType: 'json',
-        labels: this.dataLabels
+        labels: dataLabels,
       })
         .success(response => {
           let data = response.data.data
 
-          if (this.dataLabels.length === 1) {
+          if (dataLabels.length === 1) {
             data = {
-              [this.dataLabels[0]]: data
+              [dataLabels[0]]: data
             }
           }
 
-          for (let i in data) {
-            Core.storage.add(i, data[i])
-          }
+          this.setDataToStorage(data)
 
           this.data = {
             ... this.data,
@@ -80,5 +104,56 @@ export default {
         })
         .start()
     })
-  }
+  },
+
+  prepareDataLabels(dataLabels = []) {
+    return [
+      ...dataLabels
+    ]
+  },
+
+  setDataToStorage(data) {
+    if ('key' in data) {
+      this.setCurrentKey(data.key)
+      delete data.key
+    }
+
+    let labels = []
+
+    for (let i in data) {
+      labels.push(i)
+      Core.storage.add(i, data[i])
+    }
+
+    this.addDataLabels(labels)
+  },
+
+  addDataLabels(labels = []) {
+    this.dataLabels = [
+      ... this.dataLabels || [],
+      ... labels
+    ]
+
+    if (this.dataLabels.length > 0) {
+      Core.storage.add(this.storageDataLabelsName, this.dataLabels)
+    }
+  },
+
+  getDataLabels() {
+    if (this.dataLabels === false) {
+      this.dataLabels = Core.storage.add(this.storageDataLabelsName) || []
+    }
+
+    return this.dataLabels
+  },
+
+
+  flush() {
+    this.getDataLabels().forEach(label => {
+      Core.storage.forget(label)
+    })
+
+    Core.storage.forget(this.storageKeyName)
+    Core.storage.forget(this.storageDataLabelsName)
+  },
 }

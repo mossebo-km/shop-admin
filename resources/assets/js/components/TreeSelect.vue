@@ -1,5 +1,6 @@
 <script>
-import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
+  import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
+
   export default {
     name: 'tree-select',
 
@@ -19,7 +20,7 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
     },
 
     watch: {
-      '$route': 'select'
+      'options': 'reset'
     },
 
     methods: {
@@ -44,8 +45,8 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
 
         disabled = disabled.map(item => item.toString())
 
-        const build = (list, level = 0, parentId = 0, acc) => {
-          if (! list) return ''
+        const build = (list = [], level = 0, parentId = 0, acc) => {
+          if (! list.length) return false
 
           return list.reduce((acc, item) => {
             let itemDisabled = false
@@ -77,7 +78,7 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
           }, acc || [])
         }
 
-        this.buildedOptions = build(this.options)
+        this.buildedOptions = build(this.options) || []
       },
 
       isSelected(id) {
@@ -96,6 +97,28 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
       select() {
         this.$$el.val(this.selected)
         this.$$el.trigger('change')
+      },
+
+      reset() {
+        this.buildOptions()
+
+        this.$$el.val('')
+        this.$$el.trigger('change')
+        this.$$el.select2('destroy')
+
+        this.initSelect2()
+        this.$nextTick(() => this.select())
+      },
+
+      initSelect2() {
+        this.$$el = $(this.$el)
+
+        this.$$el.select2({
+          allowClear: true,
+          placeholder: this.placeholder,
+          theme: "bootstrap",
+          templateSelection: this.formatOption
+        })
       }
     },
 
@@ -104,7 +127,7 @@ import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
     },
 
     mounted() {
-      this.$$el = $(this.$el)
+      this.initSelect2()
 
       this.$$el.select2({
         allowClear: true,

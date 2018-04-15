@@ -60,6 +60,7 @@ return [
     'Attributes' => 'shop_attributes',
     'AttributesI18' => 'shop_attributes_i18',
     'AttributeOptions' => 'shop_attribute_options',
+    'AttributeOptionsI18' => 'shop_attribute_options_i18',
     'ProductAttributes' => 'shop_product_attributes',
     'ProductAttributeOptions' => 'shop_product_attribute_options',
 ];

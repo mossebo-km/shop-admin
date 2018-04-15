@@ -29,21 +29,21 @@ class ProductSaveRequest extends ApiRequest
      */
     public function rules()
     {
-        ValidatorExtend::recordExists();
         ValidatorExtend::manyRecordsExists();
 
-//        if ($this->isCreate()) {
-//            ValidatorExtend::slugAvailable();
-//        }
+        $suppliersTableName = \Config::get('migrations.Suppliers');
 
         $rules = [
-//            'slug'       => "bail|trim|required|between:3,255" . ($this->isCreate() ? "|slug_available:\App\Models\Product" : ''),
-            'supplier_id' => 'bail|required|integer|record_exists:\App\Models\Supplier',
+            'supplier_id' => "bail|required|integer|exists:{$suppliersTableName},id",
             'enabled'     => 'boolean',
             'is_new'      => 'boolean',
             'is_popular'  => 'boolean',
             'is_payable'  => 'boolean',
             'categories'  => "nullable|many_records_exists:\App\Models\Category",
+            'width'       => 'bail|required|integer|min:0',
+            'height'      => 'bail|required|integer|min:0',
+            'length'      => 'bail|required|integer|min:0',
+            'weight'      => 'bail|required|integer|min:0',
         ];
 
         foreach (\Languages::enabled() as $language) {

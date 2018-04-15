@@ -12,8 +12,18 @@ class AttributeEditResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id'           => $this->id,
+            'enabled'      => $this->enabled,
+            'selectable'   => $this->selectable,
+            'layout_class' => $this->layout_class,
+            'created_at'   => dateFormatFull($this->created_at),
+            'updated_at'   => dateFormatFull($this->updated_at),
+            'options'      => AttributeOptionResource::collection($this->options()->with('i18')->get()),
+            'i18'          => $this->i18->toArray()
+        ];
     }
 }

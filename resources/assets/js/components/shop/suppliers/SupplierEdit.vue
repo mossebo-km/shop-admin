@@ -10,11 +10,15 @@
 
   import EntityEdit from '../../../mixins/EntityEdit'
 
+  import SupplierModel from '../../../resources/SupplierModel'
+
 
   export default {
     name: 'supplier-edit',
 
-    mixins: [EntityEdit],
+    mixins: [
+      EntityEdit
+    ],
 
     props: [
       'id',
@@ -25,15 +29,12 @@
         entityName: 'supplier',
         supplier: null,
         saveDisabled: false,
+      }
+    },
 
-        defaultFieldsValues: {
-          name: '',
-          description: '',
-          enabled: true,
-
-          created_at: null,
-          updated_at: null,
-        }
+    methods: {
+      initEntity(data) {
+        this.setEntityData(new SupplierModel(data))
       }
     },
 
@@ -52,16 +53,16 @@
     <shop-quick-nav active="suppliers"></shop-quick-nav>
 
     <div class="block full">
-      <div class="block-title" v-if="type === 'create'">
-        <h1><strong>Создание категории</strong></h1>
+      <div class="block-title clearfix" v-if="type === 'create'">
+        <h1><strong>Создание поставщика</strong></h1>
 
         <div class="block-title-control">
           <a href="javascript:void(0);" class="btn btn-sm btn-success active" @click="save" :disabled="saveDisabled"><i class="fa fa-plus-circle"></i> Создать</a>
         </div>
       </div>
 
-      <div class="block-title" v-if="type === 'edit'">
-        <h1><strong>Редактирование категории #{{ this.id }}</strong></h1>
+      <div class="block-title clearfix" v-if="type === 'edit'">
+        <h1><strong>Редактирование поставщика #{{ this.id }}</strong></h1>
 
         <div class="block-title-control">
           <a href="javascript:void(0);" class="btn btn-sm btn-primary active" @click="save" :disabled="saveDisabled"><i class="fa fa-floppy-o"></i> Сохранить</a>
@@ -71,30 +72,30 @@
       </div>
 
       <div class="form-horizontal form-bordered" v-if="supplier">
-        <div :class="`form-group${errors.has('name') ? ' has-error' : ''}`">
+        <div :class="`form-group${formErrors.has('name') ? ' has-error' : ''}`">
           <label class="col-md-3 control-label" for="name">Название <span class="text-danger">*</span></label>
           <div class="col-md-9">
             <input type="text" class="form-control" id="name" v-model="supplier.name" name="name" v-validate="'required|max:255'">
-            <span v-show="errors.has('name')" class="help-block">{{ errors.first('name') }}</span>
+            <span v-show="formErrors.has('name')" class="help-block">{{ formErrors.first('name') }}</span>
           </div>
         </div>
 
-        <div :class="`form-group${errors.has('description') ? ' has-error' : ''}`">
+        <div :class="`form-group${formErrors.has('description') ? ' has-error' : ''}`">
           <label class="col-md-3 control-label" for="description">Описание</label>
           <div class="col-md-9">
             <ckeditor id="description" :content.sync="supplier.description" name="description" />
-            <span v-show="errors.has('description')" class="help-block">{{ errors.first('description') }}</span>
+            <span v-show="formErrors.has('description')" class="help-block">{{ formErrors.first('description') }}</span>
           </div>
         </div>
 
-        <div :class="`form-group${errors.has('enabled') ? ' has-error' : ''}`">
+        <div :class="`form-group${formErrors.has('enabled') ? ' has-error' : ''}`">
           <label class="col-md-3 control-label">Опубликовано</label>
           <div class="col-md-9">
             <label class="switch switch-primary">
               <input type="checkbox" v-model="supplier.enabled"><span></span>
             </label>
 
-            <span v-show="errors.has('enabled')" class="help-block">{{ errors.first('enabled') }}</span>
+            <span v-show="formErrors.has('enabled')" class="help-block">{{ formErrors.first('enabled') }}</span>
           </div>
         </div>
 
@@ -115,26 +116,28 @@
       </div>
     </div>
 
-    <b-modal id="validationModal"
-             ref="validationModal"
-             title="Ошибка валидации"
-             title-tag="h3"
-             centered
-             ok-title="Ок"
-             ok-only
-             hide-header-close>
+    <b-modal
+      id="validationModal"
+      ref="validationModal"
+      title="Ошибка валидации"
+      title-tag="h3"
+      centered
+      ok-title="Ок"
+      ok-only
+      hide-header-close>
       Проверьте правильность заполнения формы!
     </b-modal>
 
-    <b-modal id="removeModal"
-             ref="removeModal"
-             title="Удаление поставщика"
-             title-tag="h3"
-             centered
-             ok-title="Удалить"
-             cancel-title="Отмена"
-             hide-header-close
-             @ok="removeConfirm">
+    <b-modal
+      id="removeModal"
+      ref="removeModal"
+      title="Удаление поставщика"
+      title-tag="h3"
+      centered
+      ok-title="Удалить"
+      cancel-title="Отмена"
+      hide-header-close
+      @ok="removeConfirm">
       Вы действительно хотите удалить поставщика?
     </b-modal>
   </div>

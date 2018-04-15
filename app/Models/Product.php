@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use App\MediaLibrary\ImageEditor;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Models\Media as BaseMedia;
-use App\MediaLibrary\Models\Media;
 use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\Sluggable;
 use App\Support\Traits\Models\RequestSaver;
 use Spatie\Image\Manipulations;
+use App\Exceptions\AdminException;
 
 class Product extends Base\BaseModelI18 implements HasMedia
 {
@@ -35,16 +36,8 @@ class Product extends Base\BaseModelI18 implements HasMedia
      * @var array
      */
     protected $fillable = [
-        'supplier_id', 'quantity', 'showed', 'bought', 'is_new', 'is_popular', 'enabled', 'is_payable'
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'deleted_at'
+        'supplier_id', 'quantity', 'showed', 'bought', 'is_new', 'is_popular', 'enabled', 'is_payable',
+        'width', 'height', 'length', 'weight'
     ];
 
     /**
@@ -55,8 +48,7 @@ class Product extends Base\BaseModelI18 implements HasMedia
 
     protected $dates = [
         'created_at',
-        'updated_at',
-        'deleted_at'
+        'updated_at'
     ];
 
     /**
@@ -147,28 +139,37 @@ class Product extends Base\BaseModelI18 implements HasMedia
      */
     public function registerMediaConversions(BaseMedia $media = null)
     {
-        $this->addMediaConversion('thumb')
-            ->fit(Manipulations::FIT_MAX, 80, 80)
+        $this->addMediaConversion('large')
+            ->fit(Manipulations::FIT_MAX, 1920, 1920)
             ->background('fff')
+            ->performOnCollections('images');
+
+        $this->addMediaConversion('medium')
+            ->fit(Manipulations::FIT_MAX, 800, 800)
+//            ->background('fff')
+
             ->withResponsiveImages()
             ->performOnCollections('images');
 
         $this->addMediaConversion('small')
-            ->fit(Manipulations::FIT_MAX, 200, 200)
-            ->background('fff')
-            ->withResponsiveImages()
-            ->performOnCollections('images');
-
-        $this->addMediaConversion('medium')
             ->fit(Manipulations::FIT_MAX, 400, 400)
             ->background('fff')
             ->withResponsiveImages()
             ->performOnCollections('images');
 
-        $this->addMediaConversion('large')
-            ->fit(Manipulations::FIT_MAX, 1920, 1920)
+        $this->addMediaConversion('thumb')
+            ->fit(Manipulations::FIT_MAX, 160, 160)
             ->background('fff')
+            ->withResponsiveImages()
+            ->nonQueued()
             ->performOnCollections('images');
+
+        $this->addMediaConversion('small')
+            ->fit(Manipulations::FIT_MAX, 400, 400)
+            ->background('fff')
+            ->withResponsiveImages()
+            ->nonQueued()
+            ->performOnCollections('temp');
     }
 
 
@@ -192,32 +193,52 @@ class Product extends Base\BaseModelI18 implements HasMedia
          *
          * @param array $imagesIds
          */
-        protected function _saveImages(Array $imagesIds = [])
+        protected function _saveImages(Array $images = [])
         {
-            $existingImages = $this->getMedia('images');
+            $existingImages = $this->media()->get();
+            $ids = array_column($images, 'id');
 
             foreach ($existingImages as $image) {
-                $index = array_search($image['id'], $imagesIds);
+                $index = array_search($image->id, $ids);
 
                 if ($index === false) {
                     $image->delete();
-                }
-                else {
-                    unset($imagesIds[$index]);
+
+                } else {
+                    $modifications = isset($images[$index]['modifications']) ? $images[$index]['modifications'] : [];
+                    $this->_saveImage($image, $index, $modifications);
                 }
             }
+        }
 
-            $tempImages = $this->getMedia('temp');
+        protected function _saveImage($image, $order = 0, $modifications = [])
+        {
+            if ($image->collection_name === 'temp') {
+                $image = $image->move($this, 'images');
+            }
 
-            foreach ($tempImages as $image) {
-                $index = array_search($image['id'], $imagesIds);
+            if (empty($modifications)) {
+                $image->order_column = $order;
+                $image->save();
+            }
+            else {
+                // todo: Может быть выброшена ошибка - надо ее каким-то образом обработать.
 
-                if ($index === false) {
-                    $image->delete();
+                try {
+                    (new ImageEditor($image))
+                        ->decode($modifications)
+                        ->save();
                 }
-                else {
-                    $image = $image->move($this, 'images');
+                catch(\Exception $e) {
+                    throw new AdminException('Ошибка обработки изображения. Обратитесь к разработчикам.', 0, $e, [
+                        'images' => [$image->id]
+                    ]);
                 }
+
+                $image = $image->move($this, 'images');
+
+                $image->order_column = $order;
+                $image->save();
             }
         }
 
@@ -277,19 +298,34 @@ class Product extends Base\BaseModelI18 implements HasMedia
         return $query->first()->toArray();
     }
 
+
     /**
      * Добавляет изображение в список неподтвержденных.
      *
-     * @param $path
-     * @param $filename
-     * @return Media
+     * @param $file
+     * @return BaseMedia
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function addImageToTemp($path, $filename): BaseMedia
+    public function addImageFromFile($file): BaseMedia
     {
         return $this
-            ->addMediaFromUrl($path)
-            ->usingFileName($filename)
+            ->addMediaFromUrl($file->path())
+            ->usingFileName($this->generateUniqueFilename('jpg'))
             ->toMediaCollection('temp');
     }
+
+    /**
+     * Генерация уникального имени файла.
+     *
+     * Todo: вынести эту хрень куда-нибудь.
+     *
+     * @param string $extension
+     * @return string
+     */
+    protected function generateUniqueFilename($extension)
+    {
+        return str_replace('.', '', uniqid('', true)) . ".{$extension}";
+    }
 }
+
+

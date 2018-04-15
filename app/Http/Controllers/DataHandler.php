@@ -50,7 +50,18 @@ class DataHandler
     {
         // todo: Добавить отчистку кэша по типу данных.
 
-        \Cache::flush();
+//        \Cache::flush();
+
+        if ($dataType && isset(self::$repositories[$dataType])) {
+            self::$repositories[$dataType]::clearCache();
+        }
+        else {
+            foreach (self::$repositories as $repository) {
+                $repository::clearCache();
+            }
+        }
+
+        \Cache::forget(self::$cacheKey);
     }
 
     /**
@@ -93,9 +104,9 @@ class DataHandler
             $methodName .= ucfirst($value);
         }
 
-        if (method_exists(get_class(), $methodName)) {
+        if (method_exists(__CLASS__, $methodName)) {
             try {
-                $data[$label] = call_user_func([get_class(), $methodName]);
+                $data[$label] = call_user_func([__CLASS__, $methodName]);
             } catch (\Exception $e) {
                 dd($e);
             }

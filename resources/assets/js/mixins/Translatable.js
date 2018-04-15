@@ -1,50 +1,65 @@
+import Core from '../core'
+
 export default {
   data() {
     return {
       languages: [],
       activeLanguageCode: null,
-      defaultTranslatableFieldsValues: {}
     }
   },
 
   methods: {
+    /**
+     * Инициализация языков.
+     *
+     * @param languages
+     */
     initLanguages(languages) {
+      let defaultLanguageCode = false
+      let stageLanguageCode = Core.stageHandler.get('dataLanguageCode')
+
       this.languages = languages.filter(language => {
         if (language.default) {
+          defaultLanguageCode = language.code
+        }
+
+        if (language.code === stageLanguageCode) {
           this.activeLanguageCode = language.code
         }
 
         return language.enabled
-      })
+      }).sort((a, b) => a.position - b.position)
+
+      if (! this.activeLanguageCode) {
+        this.activeLanguageCode = defaultLanguageCode
+      }
     },
 
-    translatesSwitcherHasError() {
-      let errors = this.errors.items
+    /**
+     * Поля переводов имеют ошибку.
+     *
+     * @returns {boolean}
+     */
+    formTranslatesHasError() {
+      let errors = this.formErrors.items
 
-      for (let j = 0; j < this.languages.length; j ++) {
-        let code = this.languages[j].code
-        for (let i = 0; i < errors.length; i++) {
-          if (errors[i].field.indexOf(`i18.${code}`)) {
-            return true
-          }
+      for (let i = 0; i < errors.length; i++) {
+        if (errors[i].field.indexOf(`i18.`) !== -1) {
+          return true
         }
       }
 
       return false
     },
+  },
 
-    initI18(data = []) {
-      let result = {}
+  computed: {
+    langSwitchHovered() {
+      if (this.$refs.langSwitch && this.$refs.langSwitch.hovered) {
+        return true
+      }
 
-      this.languages.forEach(language => {
-        let existing = data.find(item => language.code === item.language_code) || {}
-
-        result[language.code] = {
-          title: existing.title || ''
-        }
-      })
-
-      return result
-    }
+      return false
+    },
   }
 }

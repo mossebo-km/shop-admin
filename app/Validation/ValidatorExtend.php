@@ -18,23 +18,6 @@ class ValidatorExtend
     }
 
     /**
-     * Проверка существования записи в таблице.
-     *
-     * @param string $modelClassName
-     * @param mixed $value
-     * @param null $primaryKeyFieldName
-     * @return mixed
-     */
-    protected static function _recordExist($modelClassName, $value, $primaryKeyFieldName = null)
-    {
-        if (is_null($primaryKeyFieldName)) {
-            $primaryKeyFieldName = self::_getModelKeyName($modelClassName);
-        }
-
-        return $modelClassName::where($primaryKeyFieldName, $value)->exists();
-    }
-
-    /**
      * Проверка существования множества записей в таблице.
      *
      * @param string $modelClassName
@@ -102,25 +85,10 @@ class ValidatorExtend
             $parentFieldName = 'parent_id';
         }
 
-        if (! self::_recordExist($modelClassName, $parentId)) {
-            return false;
-        }
-
         $childrensIds = \Categories::getAllChildsIds($recordId);
         $childrensIds[] = $recordId;
 
         return !in_array($parentId, $childrensIds);
-    }
-
-    public static function recordExists()
-    {
-        Validator::extend('record_exists', function ($attribute, $value, $parameters) {
-            return self::_recordExist(
-                $parameters[0],
-                $value,
-                isset($parameters[1]) ? $parameters[1] : null
-            );
-        }, 'Выбранное значение для :attribute некорректно.');
     }
 
     public static function manyRecordsExists()

@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use App\Support\Traits\Models\StatusChangeable;
-use App\Support\Traits\Models\Sluggable;
 use App\Support\Traits\Models\RequestSaver;
+use App\Support\Traits\Models\PositionChangeable;
+//use App\Exceptions\AdminException;
 
 class Attribute extends Base\BaseModelI18
 {
-    use HasMediaTrait, StatusChangeable, Sluggable, RequestSaver;
+    use PositionChangeable, StatusChangeable, RequestSaver;
 
     /**
      * Идентификатор таблицы.
@@ -35,28 +35,21 @@ class Attribute extends Base\BaseModelI18
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'deleted_at'
-    ];
-
-    /**
      * Атрибуты, которые должны быть преобразованы в даты.
      *
      * @var array
      */
-
     protected $dates = [
         'created_at',
-        'updated_at',
-        'deleted_at'
+        'updated_at'
     ];
 
+    /**
+     * Данные, которые необходимо созранить из запроса.
+     *
+     * @var array
+     */
     protected $needsToSaveFromRequest = ['i18', 'options'];
-
 
     public function productAttributes()
     {
@@ -80,24 +73,35 @@ class Attribute extends Base\BaseModelI18
         return $this->hasMany(AttributeOption::class, 'attribute_id');
     }
 
-    protected function _saveOptions(Array $options = [])
+    protected function _saveOptions(Array $optionsData = [])
     {
-        $productPrices = $this->prices();
-        $productPrices->delete();
-        $pricesToSave = [];
+        $optionsToUpdate = [];
+        $optionsToCreate = [];
 
-        $options = '';
-
-        foreach ($prices as $priceTypeId => $pricesByCurrencies) {
-            foreach ($pricesByCurrencies as $currencyCode => $priceValue) {
-                if (empty($priceValue)) continue;
-
-                $productPrices->save(new Price($pricesToSave[] = [
-                    'price_type_id' => $priceTypeId,
-                    'currency_code' => $currencyCode,
-                    'value'         => $priceValue
-                ]));
+        foreach ($optionsData as $optionData) {
+            if (isset($optionData['id'])) {
+                $optionsToUpdate[$optionData['id']] = $optionData;
             }
+            else {
+                $optionsToCreate[] = $optionData;
+            }
+        }
+
+        $currentOptions = $this->options()->get();
+
+        foreach ($currentOptions as $option) {
+            if (isset($optionsToUpdate[$option->id])) {
+                $option->saveFromRequestData($optionsToUpdate[$option->id]);
+            }
+            else {
+                $option->delete();
+            }
+        }
+
+        foreach ($optionsToCreate as $optionData) {
+            $optionData['attribute_id'] = $this->id;
+
+            (new AttributeOption)->saveFromRequestData($optionData);
         }
     }
 }

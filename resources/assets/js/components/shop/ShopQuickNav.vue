@@ -27,11 +27,11 @@
             title: 'Поставщики'
           },
 
-          // {
-          //   url: '/shop/attributes',
-          //   icon: 'fa fa-list',
-          //   title: 'Аттрибуты'
-          // },
+          {
+            url: '/shop/attributes',
+            icon: 'fa fa-list',
+            title: 'Аттрибуты'
+          },
 
           // {
           //   url: '/shop/orders',

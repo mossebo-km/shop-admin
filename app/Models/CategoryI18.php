@@ -14,12 +14,4 @@ class CategoryI18 extends Base\BaseModel
     protected $fillable = [
         'category_id', 'language_code', 'title', 'description', 'meta_title', 'meta_description'
     ];
-
-    protected $hidden = [
-        'deleted_at'
-    ];
-
-    protected $dates = [
-        'deleted_at'
-    ];
 }
