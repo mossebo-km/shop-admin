@@ -920,4 +920,9 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
   margin-right: 10px;
 }
 
+.sidebar-nav a {
+  -webkit-transition: all .4s;
+  transition: all .4s;
+}
+
 /*# sourceMappingURL=app.css.map*/
