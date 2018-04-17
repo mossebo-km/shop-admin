@@ -435,6 +435,7 @@
           <!-- Изображения -->
 
           <dropzone-gallery
+            ref="gallery"
             v-if="type === 'edit'"
             :url="prepareUrl('image')"
             :images.sync="product.images"

@@ -37,20 +37,6 @@ class ImageEditor
         $issetWidth = isset($modifications['width']);
         $issetHeight = isset($modifications['height']);
 
-        if ($issetX || $issetY || $issetWidth || $issetHeight) {
-            $x = $issetX ? (int) $modifications['x'] : 0;
-            $y = $issetY ? (int) $modifications['y'] : 0;
-            $width = $issetWidth ? (int) $modifications['width'] : $this->image->getWidth();
-            $height = $issetHeight ? (int) $modifications['height'] : $this->image->getHeight();
-
-            $this->setManipulation('manualCrop', [
-                $width,
-                $height,
-                $x,
-                $y
-            ]);
-        }
-
         // Отражение изображения.
         $issetScaleX = isset($modifications['scaleX']);
         $issetScaleY = isset($modifications['scaleY']);
@@ -66,7 +52,21 @@ class ImageEditor
 
         // Вращение изображения.
         if (isset($modifications['rotate'])) {
-            $this->decodeRotate($modifications['rotate']);
+            $this->decodeRotate($modifications['rotate'], $issetScaleX || $issetScaleY);
+        }
+
+        if ($issetX || $issetY || $issetWidth || $issetHeight) {
+            $x = $issetX ? (int) $modifications['x'] : 0;
+            $y = $issetY ? (int) $modifications['y'] : 0;
+            $width = $issetWidth ? (int) $modifications['width'] : $this->image->getWidth();
+            $height = $issetHeight ? (int) $modifications['height'] : $this->image->getHeight();
+
+            $this->setManipulation('manualCrop', [
+                $width,
+                $height,
+                $x,
+                $y
+            ]);
         }
 
         return $this;
@@ -85,8 +85,6 @@ class ImageEditor
 
         $this->setManipulation('orientation', $angle);
     }
-
-
 
     public function setManipulations(array $manipulations = [])
     {

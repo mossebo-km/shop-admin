@@ -199,15 +199,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_dropzone__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_magnific_popup__ = __webpack_require__("./node_modules/magnific-popup/dist/jquery.magnific-popup.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_magnific_popup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_magnific_popup__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue_cropperjs__ = __webpack_require__("./node_modules/vue-cropperjs/dist/VueCropper.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue_cropperjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vue_cropperjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Toggle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_jquery_ui_sortable_npm__ = __webpack_require__("./node_modules/jquery-ui-sortable-npm/jquery-ui-sortable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_jquery_ui_sortable_npm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_jquery_ui_sortable_npm__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_jquery_ui_sortable_npm__ = __webpack_require__("./node_modules/jquery-ui-sortable-npm/jquery-ui-sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_jquery_ui_sortable_npm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_jquery_ui_sortable_npm__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ImageEditor__ = __webpack_require__("./resources/assets/js/components/ImageEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ImageEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__ImageEditor__);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 
@@ -240,13 +238,13 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     }
   },
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_8__mixins_Sortable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_7__mixins_Sortable__["a" /* default */]],
 
   components: {
     VueDropzone: __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone___default.a,
-    VueCropperjs: __WEBPACK_IMPORTED_MODULE_5_vue_cropperjs___default.a,
-    Toggle: __WEBPACK_IMPORTED_MODULE_6__Toggle___default.a,
-    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */]
+    Toggle: __WEBPACK_IMPORTED_MODULE_5__Toggle___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    ImageEditor: __WEBPACK_IMPORTED_MODULE_8__ImageEditor___default.a
   },
 
   watch: {
@@ -282,7 +280,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         update: this.sort
       },
 
-      toCropImage: null
+      editorImage: null
     };
   },
 
@@ -326,27 +324,130 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         return item.id === image.id ? image : item;
       }));
     },
-    getCropperData: function getCropperData() {
-      if (this.cropperData) {
-        var data = this.cropperData;
-        this.cropperData = false;
-        return data;
+    edit: function edit(image) {
+      this.editorImage = image;
+      this.$refs.pictureEditModal.show();
+    },
+    editorImageSave: function editorImageSave() {
+      var image = this.editorImage;
+      var modifications = this.$refs.imageEditor.getClearedModifications();
+
+      if (Object.keys(modifications) === 0) {
+        if (image.modifications) {
+          delete image.modifications;
+        }
+
+        if (image.cropped) {
+          delete image.cropped;
+        }
+      } else {
+        image.modifications = modifications;
+        image.cropped = this.$refs.imageEditor.getCroppedImage();
       }
 
-      return {};
+      this.update(image);
+      this.editorImage = null;
     },
-    edit: function edit(image) {
-      if (image.initialImage) {
-        this.cropperData = image.modifications;
-        this.toCropImage = image.initialImage;
-        this.$refs.pictureEditModal.show();
-      } else {
-        this.toCropImage = image;
-        this.$refs.pictureEditModal.show();
+    getImageOriginal: function getImageOriginal(image) {
+      return image.cropped ? image.cropped : image.original;
+    },
+    getImagePreview: function getImagePreview(image) {
+      if (image.cropped) {
+        return image.cropped;
       }
+
+      if (image.small) {
+        return image.small.srcset ? image.small.srcset : image.small.src;
+      }
+
+      return image.original || '';
     },
+    getEditorImageModifications: function getEditorImageModifications() {
+      return this.editorImage && this.editorImage.modifications ? this.editorImage.modifications : {};
+    },
+    clear: function clear() {
+      this.editorImage = false;
+    },
+    refresh: function refresh() {
+      this.makeGallery();
+    },
+    hasError: function hasError(image) {
+      return !!this.errors.find(function (item) {
+        return item.toString() === image.id.toString();
+      });
+    }
+  },
+
+  mounted: function mounted() {
+    this.makeGallery();
+    this.initSort();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/ImageEditor.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_cropperjs__ = __webpack_require__("./node_modules/vue-cropperjs/dist/VueCropper.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_cropperjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_cropperjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Loading__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "image-editor",
+
+  components: {
+    VueCropperjs: __WEBPACK_IMPORTED_MODULE_1_vue_cropperjs___default.a,
+    Loading: __WEBPACK_IMPORTED_MODULE_2__Loading___default.a
+  },
+
+  props: ['image', 'modifications'],
+
+  watch: {
+    image: 'reset'
+  },
+
+  data: function data() {
+    return {
+      loading: true,
+      cropperData: null,
+      innerModifications: {},
+      defaultCropParams: {
+        width: null,
+        height: null,
+        rotate: 0,
+        scaleX: 1,
+        scaleY: 1,
+        x: 0,
+        y: 0
+      }
+    };
+  },
+
+
+  methods: {
     getCropper: function getCropper() {
       return this.$refs.cropper;
+    },
+    invertX: function invertX() {
+      this.invert('scaleX');
+    },
+    invertY: function invertY() {
+      this.invert('scaleY');
+    },
+    invert: function invert(direction) {
+      var cropper = this.getCropper();
+      cropper[direction](cropper.getData()[direction] === -1 ? 1 : -1);
+      this.updateModifications();
     },
     rotateLeft: function rotateLeft() {
       this.rotate(-1);
@@ -358,6 +459,13 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var cropper = this.getCropper();
       cropper.rotate(step * 90);
       this.fitImageToBox();
+      this.updateModifications();
+    },
+    cropend: function cropend() {
+      this.updateModifications();
+    },
+    updateModifications: function updateModifications() {
+      this.setModifications(this.getCropper().getData());
     },
     fitImageToBox: function fitImageToBox() {
       var cropper = this.getCropper();
@@ -393,88 +501,81 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         height: canvasData.height
       });
     },
-    invertX: function invertX() {
-      this.invert('scaleX');
+    setCropperData: function setCropperData(data) {
+      if ('rotate' in data) {
+        this.getCropper().setData({
+          rotate: data.rotate
+        });
+        this.fitImageToBox();
+        delete data.rotate;
+      }
+
+      this.getCropper().setData(data);
     },
-    invertY: function invertY() {
-      this.invert('scaleY');
+    getCroppedImage: function getCroppedImage() {
+      return this.getCropper().getCroppedCanvas().toDataURL();
     },
-    invert: function invert(direction) {
-      var cropper = this.getCropper();
-      cropper[direction](cropper.getData()[direction] === -1 ? 1 : -1);
+    getClearedModifications: function getClearedModifications() {
+      var result = {};
+
+      var defaultParams = this.getPreparedDefaultParams();
+
+      for (var i in defaultParams) {
+        if (this.innerModifications[i] !== defaultParams[i]) {
+          result[i] = this.innerModifications[i];
+        }
+      }
+
+      return result;
+    },
+    setClearedModifications: function setClearedModifications() {
+      var modifications = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var result = {};
+
+      var defaultParams = this.getPreparedDefaultParams();
+
+      for (var i in defaultParams) {
+        if (i in modifications && modifications[i] !== defaultParams[i]) {
+          result[i] = modifications[i];
+        } else {
+          result[i] = defaultParams[i];
+        }
+      }
+
+      this.setModifications(result);
+    },
+    getModifications: function getModifications() {
+      return _extends({}, this.innerModifications);
+    },
+    setModifications: function setModifications(modifications) {
+      this.innerModifications = modifications;
     },
     reset: function reset() {
-      var _this = this;
-
-      if (this.toCropImage.initialImage) {
-        var image = this.toCropImage.initialImage;
-        this.toCropImage = false;
-        this.$nextTick(function () {
-          _this.toCropImage = image;
-        });
-      } else {
-        this.getCropper().reset();
-      }
+      this.getCropper().reset();
+      this.updateModifications();
     },
-    pictureEditSave: function pictureEditSave() {
-      var elImg = document.createElement('img');
-      elImg.src = this.toCropImage.original;
+    getPreparedDefaultParams: function getPreparedDefaultParams() {
+      var imageData = this.getCropper().getCanvasData();
 
-      if (!(elImg.width && elImg.height)) {
-        __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].notify('Ошибка обработки изображения.', { type: 'error' });
-        return;
+      if (!imageData) {
+        return _extends({}, this.defaultCropParams);
       }
 
-      var defaultParams = {
-        width: elImg.width,
-        height: elImg.height,
-        rotate: 0,
-        scaleX: 1,
-        scaleY: 1,
-        x: 0,
-        y: 0
-      };
-
-      var cropper = this.getCropper();
-      var src = cropper.getCroppedCanvas().toDataURL();
-
-      var cropperData = cropper.getData();
-      var params = {};
-
-      for (var i in cropperData) {
-        if (cropperData[i] !== defaultParams[i]) {
-          params[i] = cropperData[i];
-        }
-      }
-
-      if (Object.keys(params).length > 0) {
-        if (!this.toCropImage.initialImage) {
-          this.toCropImage.initialImage = _extends({}, this.toCropImage);
-
-          this.toCropImage.original = src;
-          this.toCropImage.small.srcset = src;
-        }
-
-        this.toCropImage.modifications = params;
-        this.update(this.toCropImage);
-      }
-    },
-    clear: function clear() {
-      this.toCropImage = false;
-    },
-    refresh: function refresh() {
-      this.makeGallery();
-    },
-    hasError: function hasError(image) {
-      return !!this.errors.find(function (item) {
-        return item.toString() === image.id.toString();
+      return this.defaultCropParams = _extends({}, this.defaultCropParams, {
+        width: imageData.naturalWidth,
+        height: imageData.naturalHeight
       });
+    },
+    ready: function ready() {
+      this.loading = false;
+      this.setClearedModifications(this.modifications);
+      this.setCropperData(this.getModifications());
     }
   },
 
-  mounted: function mounted() {
-    this.makeGallery();
-    this.initSort();
+  created: function created() {
+    this.loading = true;
   }
 });
 
@@ -40787,6 +40888,7 @@ var render = function() {
                   _vm._v(" "),
                   _vm.type === "edit"
                     ? _c("dropzone-gallery", {
+                        ref: "gallery",
                         attrs: {
                           url: _vm.prepareUrl("image"),
                           images: _vm.product.images,
@@ -42041,6 +42143,103 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-3373ff55", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3950337e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ImageEditor.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("loading", { attrs: { loading: _vm.loading } }, [
+    _c(
+      "div",
+      { staticStyle: { overflow: "hidden", padding: "5px", margin: "-5px" } },
+      [
+        _c("vue-cropper", {
+          ref: "cropper",
+          staticStyle: { "max-height": "500px" },
+          attrs: {
+            guides: true,
+            "view-mode": 2,
+            "drag-mode": "crop",
+            "auto-crop-area": 1,
+            background: true,
+            rotatable: true,
+            zoomable: false,
+            src: _vm.image,
+            ready: _vm.ready,
+            cropend: _vm.cropend,
+            "img-style": { width: "100%" }
+          }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "edit-image-panel text-center",
+        staticStyle: { "margin-top": "20px" }
+      },
+      [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-sm btn-primary",
+            attrs: { href: "javascript:void(0)" },
+            on: {
+              click: function($event) {
+                _vm.rotateLeft()
+              }
+            }
+          },
+          [_c("i", { staticClass: "fa fa-rotate-left" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-sm btn-primary",
+            attrs: { href: "javascript:void(0)" },
+            on: {
+              click: function($event) {
+                _vm.rotateRight()
+              }
+            }
+          },
+          [_c("i", { staticClass: "fa fa-rotate-right" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-sm btn-primary",
+            attrs: { href: "javascript:void(0)" },
+            on: {
+              click: function($event) {
+                _vm.reset()
+              }
+            }
+          },
+          [_c("i", { staticClass: "fa fa-refresh" }), _vm._v(" Сбросить\n    ")]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3950337e", module.exports)
   }
 }
 
@@ -43879,14 +44078,14 @@ var render = function() {
                         {
                           staticClass:
                             "edit-photo-card__preview js-magnific-link",
-                          attrs: { href: image.original }
+                          attrs: { href: _vm.getImageOriginal(image) }
                         },
                         [
                           _c("div", {
                             staticClass: "edit-photo-card__image",
                             style:
                               "background-image:url(" +
-                              (image.small ? image.small.srcset : "") +
+                              _vm.getImagePreview(image) +
                               ")"
                           })
                         ]
@@ -43984,7 +44183,6 @@ var render = function() {
         {
           ref: "pictureEditModal",
           attrs: {
-            id: "pictureEditModal",
             "no-close-on-backdrop": true,
             size: "lg",
             title: "Редактирование изображения",
@@ -43994,109 +44192,18 @@ var render = function() {
             "cancel-title": "Отмена",
             "hide-header-close": ""
           },
-          on: { hidden: _vm.clear, ok: _vm.pictureEditSave }
+          on: { hidden: _vm.clear, ok: _vm.editorImageSave }
         },
         [
-          !!_vm.toCropImage
-            ? _c("vue-cropper", {
-                ref: "cropper",
-                staticStyle: { "max-height": "500px" },
+          !!_vm.editorImage
+            ? _c("image-editor", {
+                ref: "imageEditor",
                 attrs: {
-                  guides: true,
-                  "view-mode": 2,
-                  "drag-mode": "crop",
-                  "auto-crop-area": 1,
-                  background: true,
-                  rotatable: true,
-                  zoomable: false,
-                  data: _vm.getCropperData(),
-                  src: _vm.toCropImage.original,
-                  "img-style": { width: "100%" }
+                  image: _vm.editorImage.original,
+                  modifications: _vm.getEditorImageModifications()
                 }
               })
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "edit-image-panel text-center",
-              staticStyle: { "margin-top": "20px" }
-            },
-            [
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  attrs: { href: "javascript:void(0)" },
-                  on: {
-                    click: function($event) {
-                      _vm.rotateLeft()
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-rotate-left" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  attrs: { href: "javascript:void(0)" },
-                  on: {
-                    click: function($event) {
-                      _vm.rotateRight()
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-rotate-right" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  attrs: { href: "javascript:void(0)" },
-                  on: {
-                    click: function($event) {
-                      _vm.invertX()
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-arrows-h" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  attrs: { href: "javascript:void(0)" },
-                  on: {
-                    click: function($event) {
-                      _vm.invertY()
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-arrows-v" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  attrs: { href: "javascript:void(0)" },
-                  on: {
-                    click: function($event) {
-                      _vm.reset()
-                    }
-                  }
-                },
-                [
-                  _c("i", { staticClass: "fa fa-refresh" }),
-                  _vm._v(" Сбросить\n      ")
-                ]
-              )
-            ]
-          )
+            : _vm._e()
         ],
         1
       )
@@ -47716,6 +47823,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/ImageEditor.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/ImageEditor.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3950337e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ImageEditor.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ImageEditor.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3950337e", Component.options)
+  } else {
+    hotAPI.reload("data-v-3950337e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/LanguageIdentif.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -49632,6 +49787,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     } while (idStr.length < idStrLen);
 
     return idStr;
+  },
+  imageIsLoaded: function imageIsLoaded(elImg) {
+    if (!elImg.complete) {
+      return false;
+    }
+
+    if (typeof elImg.naturalWidth !== 'undefined' && elImg.naturalWidth === 0) {
+      return false;
+    }
+
+    return true;
+  },
+  onImageLoaded: function onImageLoaded(elImg, cb) {
+    var _this = this;
+
+    if (this.imageIsLoaded(elImg)) {
+      this.runCallback(cb);
+    } else {
+      var onLoad = function onLoad() {
+        elImg.removeEventListener('load', onLoad);
+        _this.runCallback(cb);
+      };
+
+      elImg.addEventListener('load', onLoad);
+    }
   }
 });
 

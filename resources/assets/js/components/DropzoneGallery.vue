@@ -6,10 +6,10 @@
   import Core from '../core'
   import VueDropzone from 'vue2-dropzone'
   import magnificPopup from 'magnific-popup'
-  import VueCropperjs from 'vue-cropperjs'
   import Toggle from './Toggle'
   import 'jquery-ui-sortable-npm'
-  import Sortable from '../mixins//Sortable'
+  import Sortable from '../mixins/Sortable'
+  import ImageEditor from './ImageEditor'
 
 
   /**
@@ -36,9 +36,9 @@
 
     components: {
       VueDropzone,
-      VueCropperjs,
       Toggle,
-      bModal
+      bModal,
+      ImageEditor
     },
 
     watch: {
@@ -74,7 +74,7 @@
           update: this.sort
         },
 
-        toCropImage: null,
+        editorImage: null,
       }
     },
 
@@ -126,156 +126,55 @@
         this.$emit('update:images', this.images.map(item => item.id === image.id ? image : item))
       },
 
-      getCropperData() {
-        if (this.cropperData) {
-          let data = this.cropperData
-          this.cropperData = false
-          return data
-        }
-
-        return {}
-      },
-
       edit(image) {
-        if (image.initialImage) {
-          this.cropperData = image.modifications
-          this.toCropImage = image.initialImage
-          this.$refs.pictureEditModal.show()
-        }
-        else {
-          this.toCropImage = image
-          this.$refs.pictureEditModal.show()
-        }
+        this.editorImage = image
+        this.$refs.pictureEditModal.show()
       },
 
-      getCropper() {
-        return this.$refs.cropper
-      },
+      editorImageSave() {
+        let image = this.editorImage
+        let modifications = this.$refs.imageEditor.getClearedModifications()
 
-      rotateLeft() {
-        this.rotate(-1)
-      },
-
-      rotateRight() {
-        this.rotate(1)
-      },
-
-      rotate(step) {
-        let cropper = this.getCropper()
-        cropper.rotate(step * 90)
-        this.fitImageToBox()
-      },
-
-      fitImageToBox() {
-        let cropper = this.getCropper()
-
-        let containerData = cropper.getContainerData()
-        let canvasData = cropper.getCanvasData()
-
-        if (canvasData.width / containerData.width > canvasData.height / containerData.height) {
-          cropper.setCanvasData({
-            width: containerData.width,
-          })
-        }
-        else {
-          cropper.setCanvasData({
-            height: containerData.height
-          })
-        }
-
-        canvasData = cropper.getCanvasData()
-
-        cropper.cropper.options.viewMode = 0
-
-        cropper.setCanvasData({
-          left: (containerData.width - canvasData.width) / 2,
-          top: (containerData.height - canvasData.height) / 2
-        })
-
-        cropper.cropper.options.viewMode = 2
-
-        cropper.setCropBoxData({
-          left: 0,
-          top: 0,
-          width: canvasData.width,
-          height: canvasData.height,
-        })
-      },
-
-      invertX() {
-        this.invert('scaleX')
-      },
-
-      invertY() {
-        this.invert('scaleY')
-      },
-
-      invert(direction) {
-        let cropper = this.getCropper()
-        cropper[direction](cropper.getData()[direction] === -1 ? 1 : -1)
-      },
-
-      reset() {
-        if (this.toCropImage.initialImage) {
-          let image = this.toCropImage.initialImage
-          this.toCropImage = false
-          this.$nextTick(() => {
-            this.toCropImage = image
-          })
-        }
-        else {
-          this.getCropper().reset()
-        }
-      },
-
-      pictureEditSave() {
-        let elImg = document.createElement('img')
-        elImg.src = this.toCropImage.original
-
-        if (! (elImg.width && elImg.height)) {
-          Core.notify('Ошибка обработки изображения.', {type: 'error'})
-          return
-        }
-
-        let defaultParams = {
-          width: elImg.width,
-          height: elImg.height,
-          rotate: 0,
-          scaleX: 1,
-          scaleY: 1,
-          x:0,
-          y:0
-        }
-
-        let cropper = this.getCropper()
-        let src = cropper.getCroppedCanvas().toDataURL()
-
-        let cropperData = cropper.getData()
-        let params = {}
-
-        for (let i in cropperData) {
-          if (cropperData[i] !== defaultParams[i]) {
-            params[i] = cropperData[i]
-          }
-        }
-
-        if (Object.keys(params).length > 0) {
-          if (!this.toCropImage.initialImage) {
-            this.toCropImage.initialImage = {
-              ...this.toCropImage
-            }
-
-            this.toCropImage.original = src
-            this.toCropImage.small.srcset = src
+        if (Object.keys(modifications) === 0) {
+          if (image.modifications) {
+            delete image.modifications
           }
 
-          this.toCropImage.modifications = params
-          this.update(this.toCropImage)
+          if (image.cropped) {
+            delete image.cropped
+          }
         }
+        else {
+          image.modifications = modifications
+          image.cropped = this.$refs.imageEditor.getCroppedImage()
+        }
+
+        this.update(image)
+        this.editorImage = null
+      },
+
+      getImageOriginal(image) {
+        return image.cropped ? image.cropped : image.original
+      },
+
+      getImagePreview(image) {
+        if (image.cropped) {
+          return image.cropped
+        }
+
+        if (image.small) {
+          return image.small.srcset ? image.small.srcset : image.small.src
+        }
+
+        return image.original || ''
+      },
+
+      getEditorImageModifications() {
+        return (this.editorImage && this.editorImage.modifications) ? this.editorImage.modifications : {}
       },
 
       clear() {
-        this.toCropImage = false
+        this.editorImage = false
       },
 
       refresh() {
@@ -307,8 +206,8 @@
           <div v-for="image in images" :data-id="image.id" :key="image.id" class="col-xs-6 col-sm-3" style="width:200px;">
             <input type="hidden" name="ids" :value="image.id">
             <div :class="{'edit-photo-card': true, 'edit-photo-card--deleted': image.deleted, 'edit-photo-card--has-error': hasError(image)}">
-              <a :href="image.original" class="edit-photo-card__preview js-magnific-link">
-                <div class="edit-photo-card__image" :style="`background-image:url(${image.small ? image.small.srcset : ''})`"></div>
+              <a :href="getImageOriginal(image)" class="edit-photo-card__preview js-magnific-link">
+                <div class="edit-photo-card__image" :style="`background-image:url(${getImagePreview(image)})`"></div>
               </a>
 
               <div class="edit-photo-card__deleted-icon"><i class="fa fa-trash"></i></div>
@@ -346,7 +245,6 @@
     </div>
 
     <b-modal
-      id="pictureEditModal"
       ref="pictureEditModal"
       :no-close-on-backdrop="true"
       size="lg"
@@ -357,44 +255,13 @@
       cancel-title="Отмена"
       hide-header-close
       @hidden="clear"
-      @ok="pictureEditSave">
+      @ok="editorImageSave">
 
-      <vue-cropper
-        style="max-height:500px;"
-        v-if="!!toCropImage"
-        ref="cropper"
-        :guides="true"
-        :view-mode="2"
-        drag-mode="crop"
-        :auto-crop-area="1"
-        :background="true"
-        :rotatable="true"
-        :zoomable="false"
-        :data="getCropperData()"
-        :src="toCropImage.original"
-        :img-style="{ 'width': '100%' }" />
-
-      <div class="edit-image-panel text-center" style="margin-top: 20px">
-        <a href="javascript:void(0)" class="btn btn-sm btn-primary" @click="rotateLeft()">
-          <i class="fa fa-rotate-left"></i>
-        </a>
-
-        <a href="javascript:void(0)" class="btn btn-sm btn-primary" @click="rotateRight()">
-          <i class="fa fa-rotate-right"></i>
-        </a>
-
-        <a href="javascript:void(0)" class="btn btn-sm btn-primary" @click="invertX()">
-          <i class="fa fa-arrows-h"></i>
-        </a>
-
-        <a href="javascript:void(0)" class="btn btn-sm btn-primary" @click="invertY()">
-          <i class="fa fa-arrows-v"></i>
-        </a>
-
-        <a href="javascript:void(0)" class="btn btn-sm btn-primary" @click="reset()">
-          <i class="fa fa-refresh"></i> Сбросить
-        </a>
-      </div>
+      <image-editor
+        ref="imageEditor"
+        v-if="!!editorImage"
+        :image="editorImage.original"
+        :modifications="getEditorImageModifications()"/>
     </b-modal>
   </div>
 </template>

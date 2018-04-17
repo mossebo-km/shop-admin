@@ -186,5 +186,32 @@ export default {
     } while (idStr.length < idStrLen)
 
     return (idStr);
+  },
+
+  imageIsLoaded(elImg) {
+    if (! elImg.complete) {
+      return false
+    }
+
+    if (typeof elImg.naturalWidth !== 'undefined' && elImg.naturalWidth === 0) {
+      return false
+    }
+
+    return true
+  },
+
+
+  onImageLoaded(elImg, cb) {
+    if (this.imageIsLoaded(elImg)) {
+      this.runCallback(cb)
+    }
+    else {
+      let onLoad = () => {
+        elImg.removeEventListener('load', onLoad)
+        this.runCallback(cb)
+      }
+
+      elImg.addEventListener('load', onLoad)
+    }
   }
 }
