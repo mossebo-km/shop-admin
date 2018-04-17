@@ -2,8 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VeeValidate from 'vee-validate'
 
-import Core from './core'
-
 import Dashboard from './components/shop/Dashboard'
 
 import CategoriesTable from './components/shop/categories/CategoriesTable'

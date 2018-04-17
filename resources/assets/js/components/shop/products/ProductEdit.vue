@@ -11,10 +11,11 @@
   import CKEditor from '../../CKEditor'
   import LanguagePicker from '../../LanguagePicker'
 
-  import PricesTable from '../../PricesTable'
+  import PricesTable from '../PricesTable'
   import DropzoneGallery from '../../DropzoneGallery'
   import EntityEdit from '../../../mixins/EntityEdit'
   import Translatable from '../../../mixins/Translatable'
+  import AttributesSelect from '../AttributesSelect'
 
   import number from '../../../directives/number'
 
@@ -24,6 +25,7 @@
   import { asyncPackageDataCollector } from '../../../core/queueHandler'
 
   import ProductModel from '../../../resources/ProductModel'
+  import ProductAttributesModel from '../../../resources/ProductAttributesModel'
 
   export default {
     name: 'product-edit',
@@ -75,7 +77,8 @@
       DropzoneGallery,
       PricesTable,
       WeightConverter,
-      SizeConverter
+      SizeConverter,
+      AttributesSelect
     },
 
     methods: {
@@ -99,17 +102,27 @@
       initData(data) {
         this.initMainData(data)
         this.initEntity(data[this.getEntityName()])
-        this.initAttributes(data['items'])
+        this.initAttributes(data['attributes'])
+      },
+
+      /**
+       * Инициализация модели.
+       *
+       * @param data
+       */
+      initEntity(data = {}) {
+        this.setEntityData(new ProductModel(data, this.languages))
       },
 
       initAttributes(data = []) {
-        this.attributes = data
+        this.attributes = this.getSortedData(this.getEnabledData(data)).map(item => new ProductAttributesModel(item, this.languages))
       },
 
       getToSaveData() {
         return {
           ... this.getEntityModel(),
-          images: this.getToSaveImages()
+          images: this.getToSaveImages(),
+          attributes: this.getToSaveAttributes()
         }
       },
 
@@ -126,13 +139,35 @@
         }, [])
       },
 
-      /**
-       * Инициализация модели.
-       *
-       * @param data
-       */
-      initEntity(data = {}) {
-        this.setEntityData(new ProductModel(data, this.languages))
+      getToSaveAttributes() {
+        let attributes = this.$refs.attributesSelect.getAttributes()
+
+        return attributes.reduce((acc, attribute) => {
+          if (! (attribute.selected instanceof Array && attribute.selected.length > 0)) {
+            return acc
+          }
+
+          acc[attribute.id] = attribute.selected.reduce((attributeAcc, selectedId) => {
+            let option = attribute.options.find(option => option.id == selectedId)
+
+            if (option.isNew) {
+              attributeAcc[option.id] = Object.keys(option.i18).reduce((optionAcc, langCode) => {
+                optionAcc[langCode] = {
+                  value: option.i18[langCode].title
+                }
+
+                return optionAcc
+              }, {})
+            }
+            else {
+              attributeAcc[option.id] = option.i18[this.activeLanguageCode].title
+            }
+
+            return attributeAcc
+          }, {})
+
+          return acc
+        }, {})
       },
     },
   }
@@ -147,7 +182,7 @@
         <h1><strong>Создание товара</strong></h1>
 
         <div class="block-title-control">
-          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode"></language-picker>
+          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': formTranslatesHasError()}"></language-picker>
 
           <span v-if="languages.length > 1" class="btn-separator-xs"></span>
 
@@ -159,7 +194,7 @@
         <h1><strong>Редактирование товара #{{ this.id }}</strong></h1>
 
         <div class="block-title-control">
-          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode"></language-picker>
+          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" :class="{'has-error': formTranslatesHasError()}"></language-picker>
 
           <span v-if="languages.length > 1" class="btn-separator-xs"></span>
 
@@ -172,6 +207,9 @@
       <div class="row" v-if="product">
 
         <div class="col-lg-6">
+
+          <!-- Переводы -->
+
           <div :class="`block${langSwitchHovered ? ' block-illuminated' : ''}`">
             <div class="block-title">
               <h2><i class="fa fa-globe"></i> <strong>Языковая</strong> информация</h2>
@@ -215,6 +253,8 @@
             </template>
 
           </div>
+
+          <!-- Основная информация -->
 
           <div class="block">
             <div class="block-title">
@@ -317,6 +357,8 @@
 
         </div>
 
+        <!-- Габариты -->
+
         <div class="col-lg-6">
           <div class="block">
             <div class="block-title">
@@ -372,37 +414,25 @@
             </div>
           </div>
 
-          <div class="block">
+          <!-- Аттрибуты -->
+
+          <div class="block" v-if="attributes && attributes.length > 0">
             <div class="block-title">
               <h2><i class="fa fa-list"></i> <strong>Аттрибуты</strong></h2>
             </div>
 
-            <div class="form-horizontal form-bordered">
+            <attributes-select
+              ref="attributesSelect"
+              :attributes="attributes"
+              :languages="languages"
+              :activeLanguageCode="activeLanguageCode"
+              :errors="formErrors"
 
-              <div :class="`form-group${formErrors.has('width') ? ' has-error' : ''}`">
-                <label class="col-md-3 control-label" for="width">Ширина <span class="text-danger">*</span></label>
-                <div class="col-md-9">
-                  <div class="input-group">
-                    <input type="text" class="form-control" id="width" v-model="product.width" name="width" v-validate="'required|integer|min_value:1'">
-                    <size-converter :value="product.width"></size-converter>
-                  </div>
-                  <span v-show="formErrors.has('width')" class="help-block">{{ formErrors.first('width') }}</span>
-                </div>
-              </div>
-
-              <div :class="`form-group${formErrors.has('height') ? ' has-error' : ''}`">
-                <label class="col-md-3 control-label" for="height">Высота <span class="text-danger">*</span></label>
-                <div class="col-md-9">
-                  <div class="input-group">
-                    <input type="text" class="form-control" id="height" v-model="product.height" name="height" v-validate="'required|integer|min_value:1'">
-                    <size-converter :value="product.height"></size-converter>
-                  </div>
-                  <span v-show="formErrors.has('height')" class="help-block">{{ formErrors.first('height') }}</span>
-                </div>
-              </div>
-
-            </div>
+              :selectedAttributes="product.attributes"
+              :selectedOptions="product.options" />
           </div>
+
+          <!-- Изображения -->
 
           <dropzone-gallery
             v-if="type === 'edit'"

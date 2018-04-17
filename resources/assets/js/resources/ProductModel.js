@@ -19,7 +19,9 @@ const schema = {
   weight: 0,
 
   categories: [],
-  images: []
+  images: [],
+  attributes: [],
+  options: [],
 }
 
 const i18Schema = {

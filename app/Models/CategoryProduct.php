@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-class CategoryProducts extends Base\BaseModel
+class CategoryProduct extends Base\BaseModel
 {
     protected $tableIdentif = 'CategoryProducts';
+    protected $primaryKey = null;
+    public $incrementing = false;
 
     protected $fillable = [
         'category_id', 'product_id'

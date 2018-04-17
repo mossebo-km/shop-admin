@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use App\Support\Traits\Models\StatusChangeable;
-use App\Support\Traits\Models\PositionChangeable;
+use App\Support\Traits\Models\Positionable;
 use App\Support\Traits\Models\Sluggable;
 use App\Support\Traits\Models\RequestSaver;
 
 class Category extends Base\BaseModelI18
 {
-    use StatusChangeable, PositionChangeable, Sluggable, RequestSaver;
+    use StatusChangeable, Positionable, Sluggable, RequestSaver;
 
     protected $tableIdentif = 'Categories';
     protected $translateRelationField = 'category_id';
@@ -27,14 +27,14 @@ class Category extends Base\BaseModelI18
 
     public function categoryProducts()
     {
-        return $this->hasMany(CategoryProducts::class, 'category_id');
+        return $this->hasMany(CategoryProduct::class, 'category_id');
     }
 
     public function products()
     {
         return $this->hasManyThrough(
             Product::class,
-            CategoryProducts::class,
+            CategoryProduct::class,
             'product_id',
             'category_id',
             'id',

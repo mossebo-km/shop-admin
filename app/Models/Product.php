@@ -56,7 +56,7 @@ class Product extends Base\BaseModelI18 implements HasMedia
      *
      * @var array
      */
-    protected $needsToSaveFromRequest = ['i18', 'categories', 'images', 'prices'];
+    protected $needsToSaveFromRequest = ['i18', 'categories', 'images', 'prices', 'attributes'];
 
     public function prices()
     {
@@ -65,39 +65,39 @@ class Product extends Base\BaseModelI18 implements HasMedia
 
     public function categoryProducts()
     {
-        return $this->hasMany(CategoryProducts::class, 'product_id');
+        return $this->hasMany(CategoryProduct::class, 'product_id');
     }
 
     public function categories()
     {
         return $this->hasManyThrough(
-            Category::class, CategoryProducts::class,
+            Category::class, CategoryProduct::class,
             'product_id', 'id'
         );
     }
 
     public function productAttributes()
     {
-        return $this->hasMany(ProductAttributes::class, 'product_id');
+        return $this->hasMany(ProductAttribute::class, 'product_id');
     }
 
     public function attributes()
     {
         return $this->hasManyThrough(
-            Attribute::class, ProductAttributes::class,
+            Attribute::class, ProductAttribute::class,
             'product_id', 'id'
         );
     }
 
     public function productAttributeOptions()
     {
-        return $this->hasMany(ProductAttributeOptions::class, 'product_id');
+        return $this->hasMany(ProductAttributeOption::class, 'product_id');
     }
 
     public function attributeOptions()
     {
         return $this->hasManyThrough(
-            AttributeOption::class, ProductAttributeOptions::class,
+            AttributeOption::class, ProductAttributeOption::class,
             'product_id', 'id'
         );
     }
@@ -184,7 +184,7 @@ class Product extends Base\BaseModelI18 implements HasMedia
             $categoryProducts->delete();
 
             foreach ($categoryIds as $categoryId) {
-                $categoryProducts->save(new CategoryProducts(['category_id' => $categoryId]));
+                $categoryProducts->save(new CategoryProduct(['category_id' => $categoryId]));
             }
         }
 
@@ -193,10 +193,10 @@ class Product extends Base\BaseModelI18 implements HasMedia
          *
          * @param array $imagesIds
          */
-        protected function _saveImages(Array $images = [])
+        protected function _saveImages(Array $imagesData = [])
         {
             $existingImages = $this->media()->get();
-            $ids = array_column($images, 'id');
+            $ids = array_column($imagesData, 'id');
 
             foreach ($existingImages as $image) {
                 $index = array_search($image->id, $ids);
@@ -205,7 +205,7 @@ class Product extends Base\BaseModelI18 implements HasMedia
                     $image->delete();
 
                 } else {
-                    $modifications = isset($images[$index]['modifications']) ? $images[$index]['modifications'] : [];
+                    $modifications = isset($imagesData[$index]['modifications']) ? $imagesData[$index]['modifications'] : [];
                     $this->_saveImage($image, $index, $modifications);
                 }
             }
@@ -247,13 +247,13 @@ class Product extends Base\BaseModelI18 implements HasMedia
          *
          * @param array $prices
          */
-        protected function _savePrices(Array $prices = [])
+        protected function _savePrices(Array $pricesData = [])
         {
             $productPrices = $this->prices();
             $productPrices->delete();
             $pricesToSave = [];
 
-            foreach ($prices as $priceTypeId => $pricesByCurrencies) {
+            foreach ($pricesData as $priceTypeId => $pricesByCurrencies) {
                 foreach ($pricesByCurrencies as $currencyCode => $priceValue) {
                     if (empty($priceValue)) continue;
 
@@ -262,6 +262,48 @@ class Product extends Base\BaseModelI18 implements HasMedia
                         'currency_code' => $currencyCode,
                         'value'         => $priceValue
                     ]));
+                }
+            }
+        }
+
+        protected function _saveAttributes(Array $attributesData) {
+            $this->productAttributes()->delete();
+            $this->productAttributeOptions()->delete();
+            $lastOptionPosition = AttributeOption::getLastPosition();
+
+            $attributes = Attribute::whereIn('id', array_keys($attributesData))->get();
+
+            foreach ($attributesData as $attributeId => $options) {
+                $attribute = $attributes->where('id', $attributeId)->first();
+
+                if (! $attribute) continue;
+
+                $this->productAttributes()->save(new ProductAttribute([
+                    'attribute_id' => $attribute->id
+                ]));
+
+                foreach ($options as $optionId => $optionValue) {
+                    if (is_array($optionValue)) {
+                        $option = (new AttributeOption)->saveFromRequestData([
+                            'attribute_id' => $attribute->id,
+                            'enabled' => true,
+                            'position' => ++$lastOptionPosition,
+                            'i18' => $optionValue,
+                        ]);
+
+                        $attribute->options()->save($option);
+
+                        $this->productAttributeOptions()->save(new ProductAttributeOption([
+                            'attribute_id' => $attribute->id,
+                            'option_id' => $option->id,
+                        ]));
+                    }
+                    else {
+                        $this->productAttributeOptions()->save(new ProductAttributeOption([
+                            'attribute_id' => $attribute->id,
+                            'option_id' => $optionId
+                        ]));
+                    }
                 }
             }
         }

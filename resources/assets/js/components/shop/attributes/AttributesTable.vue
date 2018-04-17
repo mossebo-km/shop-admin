@@ -131,6 +131,10 @@
                 </div>
               </td>
             </tr>
+
+            <tr v-if="! (items && items.length)">
+              <td class="text-center" colspan="5">Список аттрибутов пуст</td>
+            </tr>
           </tbody>
         </table>
       </div>

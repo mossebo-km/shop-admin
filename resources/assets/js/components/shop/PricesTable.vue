@@ -1,8 +1,8 @@
 <script>
-  import Core from '../core'
-  import number from '../directives/number'
-  import Loading from './Loading.vue'
-  import CurrencyConverter from './converters/CurrencyConverter'
+  import Core from '../../core'
+  import number from '../../directives/number'
+  import Loading from '../Loading.vue'
+  import CurrencyConverter from '../converters/CurrencyConverter'
 
   export default {
     props: {

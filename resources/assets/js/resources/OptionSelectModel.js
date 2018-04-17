@@ -1,17 +1,20 @@
 import Schema from './Schema'
 import SchemaI18 from './SchemaI18'
+import Core from '../core'
 
 const schema = {
-  layout_class: '',
-  selectable: false,
-  enabled: true,
+  id: function(data) {
+    return data.id ? data.id : Core.uniqueId()
+  },
 }
 
 const i18Schema = {
-  title: '',
+  title(data) {
+    return data.value
+  },
 }
 
-export default class AttributeModel {
+export default class OptionModel {
   constructor(entityData, languages) {
     return {
       ... (new Schema(schema)).combine(entityData),

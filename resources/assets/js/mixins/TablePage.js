@@ -101,6 +101,7 @@ export default {
   },
 
   created() {
+    this.createQueue()
     this.loadData()
   }
 }

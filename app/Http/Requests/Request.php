@@ -162,4 +162,17 @@ abstract class Request extends FormRequest
 
     }
 
+    protected function getId()
+    {
+        $pathArray = explode('/', trim($this->formRequest->getPathinfo(), '/'));
+        $patternArray = explode('/', trim(\Route::getCurrentRoute()->uri, '/'));
+
+        $diff = array_diff_assoc($pathArray, $patternArray);
+
+        if (count($diff) !== 1) {
+            throw new \Exception('Id не найден.');
+        }
+
+        return array_pop($diff);
+    }
 }

@@ -25,15 +25,13 @@ class CreateCategoryProductsTable extends Migration
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->increments('id');
-
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on(Config::get('migrations.Categories'))->onDelete('cascade');
 
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on(Config::get('migrations.Products'))->onDelete('cascade');
 
-            $table->unique(['category_id', 'product_id'])->index();
+            $table->primary(['category_id', 'product_id']);
         });
     }
 

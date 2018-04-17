@@ -2,7 +2,7 @@
 
 namespace App\Support\Traits\Models;
 
-trait PositionChangeable
+trait Positionable
 {
     public static function savePositions(Array $ids = [])
     {
@@ -11,5 +11,12 @@ trait PositionChangeable
                 self::where('id', $id)->update(['position' => $position]);
             }
         });
+    }
+
+    public static function getLastPosition()
+    {
+        $pos = self::select('position')->orderBy('position', 'desc')->first();
+
+        return $pos['position'];
     }
 }

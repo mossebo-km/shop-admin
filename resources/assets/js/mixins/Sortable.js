@@ -53,7 +53,7 @@ export default {
      */
     collectSortIds() {
       return [].map.call(document.querySelectorAll(this.sortableParams.idsInputSelector || '[name="ids"]'), el => {
-        return el.value
+        return el.value.toString()
       });
     },
 
@@ -79,7 +79,7 @@ export default {
       return dataBundle.map(item => {
         return {
           ... item,
-          position: ids.indexOf(item.id)
+          position: ids.indexOf(item.id.toString())
         }
       })
     },

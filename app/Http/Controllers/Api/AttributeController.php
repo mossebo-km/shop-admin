@@ -99,4 +99,12 @@ class AttributeController extends ApiController
             'attribute' => new Resources\AttributeEditResource($attribute)
         ], 200);
     }
+
+    public function options(Attribute $attribute)
+    {
+        return response()->json([
+            'status' => 'success',
+            'options' => Resources\AttributeOptionResource::collection($attribute->options()->with('i18')->get()),
+        ], 200);
+    }
 }

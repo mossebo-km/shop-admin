@@ -4,12 +4,12 @@ namespace App\Models;
 
 use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\RequestSaver;
-use App\Support\Traits\Models\PositionChangeable;
+use App\Support\Traits\Models\Positionable;
 //use App\Exceptions\AdminException;
 
 class Attribute extends Base\BaseModelI18
 {
-    use PositionChangeable, StatusChangeable, RequestSaver;
+    use Positionable, StatusChangeable, RequestSaver;
 
     /**
      * Идентификатор таблицы.
@@ -53,14 +53,14 @@ class Attribute extends Base\BaseModelI18
 
     public function productAttributes()
     {
-        return $this->hasMany(ProductAttributes::class, 'attribute_id');
+        return $this->hasMany(ProductAttribute::class, 'attribute_id');
     }
 
     public function products()
     {
         return $this->hasManyThrough(
             Product::class,
-            ProductAttributes::class,
+            ProductAttribute::class,
             'product_id',
             'attribute_id',
             'id',
@@ -75,33 +75,24 @@ class Attribute extends Base\BaseModelI18
 
     protected function _saveOptions(Array $optionsData = [])
     {
-        $optionsToUpdate = [];
-        $optionsToCreate = [];
-
-        foreach ($optionsData as $optionData) {
-            if (isset($optionData['id'])) {
-                $optionsToUpdate[$optionData['id']] = $optionData;
-            }
-            else {
-                $optionsToCreate[] = $optionData;
-            }
-        }
-
         $currentOptions = $this->options()->get();
 
-        foreach ($currentOptions as $option) {
-            if (isset($optionsToUpdate[$option->id])) {
-                $option->saveFromRequestData($optionsToUpdate[$option->id]);
+        foreach ($currentOptions as $currentOption) {
+            if (isset($optionsData[$currentOption->id])) {
+                $currentOption->saveFromRequestData($optionsData[$currentOption->id]);
+                unset($optionsData[$currentOption->id]);
             }
             else {
-                $option->delete();
+                $currentOption->delete();
             }
         }
 
-        foreach ($optionsToCreate as $optionData) {
-            $optionData['attribute_id'] = $this->id;
+        foreach ($optionsData as $optionId => $optionData) {
+            if (isset($optionData['isNew']) && $optionData['isNew']) {
+                $optionData['attribute_id'] = $this->id;
 
-            (new AttributeOption)->saveFromRequestData($optionData);
+                (new AttributeOption)->saveFromRequestData($optionData);
+            }
         }
     }
 }

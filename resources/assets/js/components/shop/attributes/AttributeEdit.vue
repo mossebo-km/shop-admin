@@ -1,13 +1,9 @@
 <script>
   import 'select2'
 
-  import Core from '../../../core'
-
-
   import EntityEdit from '../../../mixins/EntityEdit'
   import Translatable from '../../../mixins/Translatable'
   import Sortable from '../../../mixins/Sortable'
-
 
   import bModal from 'bootstrap-vue/es/components/modal/modal'
   import ShopQuickNav from '../ShopQuickNav'
@@ -75,19 +71,14 @@
 
     methods: {
       /**
-       * Инициализация данных.
-       */
-      initData(data) {
-        this.initLanguages(data['languages'] || [])
-        this.initEntity(data[this.getEntityName()])
-        this.initOptions(data[this.getEntityName()].options)
-      },
-
-      /**
        * Инициализация модели данных.
        */
       initEntity(data = {}) {
         this.setEntityData(new AttributeModel(data, this.languages))
+
+        if (this.type === 'edit') {
+          this.initOptions(data.options)
+        }
       },
 
       initOptions(data = []) {
@@ -113,14 +104,14 @@
             i18: option.i18
           }
 
-          if (!option.isNew) {
-            item.id = option.id
+          if (option.isNew) {
+            item.isNew = 1
           }
 
-          acc.push(item)
+          acc[option.id] = item
 
           return acc
-        }, [])
+        }, {})
       },
 
       addOption() {
@@ -133,8 +124,13 @@
       makeOption(data = {}) {
         let option = new OptionModel(data, this.languages)
 
-        option.isNew = !data.id
-        option.position = this.findLastOptionPosition() + 1
+        if (data.id) {
+          option.isNew = false
+        }
+        else {
+          option.isNew = true
+          option.position = this.findLastOptionPosition() + 1
+        }
 
         return option
       },
@@ -339,7 +335,7 @@
                     </td>
                     <td style="width: 100%">
                       <template v-for="language in languages">
-                        <div :class="{'has-error': formErrors.has(`options.${option.id}.i18.${language.code}.value`), 'in-space': activeLanguageCode === language.code}" :key="language.code">
+                        <div :class="{'has-error': formErrors.has(`options.${option.id}.i18.${language.code}.value`), 'in-space': activeLanguageCode !== language.code}" :key="language.code">
                           <input type="text" class="form-control" :id="`option-${option.id}-${language.code}`" v-model="option.i18[language.code].value" :name="`options.${option.id}.i18.${language.code}.value`" v-validate="'required|max:255'"/>
 
                           <span v-show="formErrors.has(`options.${option.id}.i18.${language.code}.value`)" class="help-block" style="margin-bottom: 0;">{{ formErrors.first(`options.${option.id}.i18.${language.code}.value`) }}</span>

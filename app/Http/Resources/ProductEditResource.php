@@ -14,6 +14,10 @@ class ProductEditResource extends JsonResource
      */
     public function toArray($request)
     {
+        $options = $this->productAttributeOptions()->get(['attribute_id', 'option_id'])->toArray();
+        $attributesIds = array_unique(array_column($options, 'attribute_id'));
+        $optionsIds = array_column($options, 'option_id');
+
         return [
             'id'          => $this->id,
             'supplier_id' => $this->supplier_id,
@@ -30,7 +34,9 @@ class ProductEditResource extends JsonResource
             'images'      => MediaResource::collection($this->getMedia('images')),
             'prices'      => PriceResource::collection($this->prices),
             'categories'  => ProductCategoriesResource::collection($this->categoryProducts),
-            'i18'         => $this->i18->toArray()
+            'i18'         => $this->i18()->get()->toArray(),
+            'attributes'  => $attributesIds,
+            'options'     => $optionsIds
         ];
     }
 }

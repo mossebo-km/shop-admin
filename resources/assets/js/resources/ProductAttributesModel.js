@@ -2,8 +2,7 @@ import Schema from './Schema'
 import SchemaI18 from './SchemaI18'
 
 const schema = {
-  layout_class: '',
-  selectable: false,
+  id: '',
   enabled: true,
 }
 
@@ -11,7 +10,7 @@ const i18Schema = {
   title: '',
 }
 
-export default class AttributeModel {
+export default class ProductAttributesModel {
   constructor(entityData, languages) {
     return {
       ... (new Schema(schema)).combine(entityData),

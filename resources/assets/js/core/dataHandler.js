@@ -134,8 +134,14 @@ export default {
       ... labels
     ]
 
+    let obj = {}
+
+    this.dataLabels.forEach(item => {
+      obj[item] = null
+    })
+
     if (this.dataLabels.length > 0) {
-      Core.storage.add(this.storageDataLabelsName, this.dataLabels)
+      Core.storage.add(this.storageDataLabelsName, Object.keys(obj))
     }
   },
 

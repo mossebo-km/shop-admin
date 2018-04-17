@@ -74,8 +74,8 @@
         </div>
       </div>
 
-      <div class="table-responsive" id="categories-table-page">
-        <table class="table table-middle table-center table-condensed table-bordered table-hover table-categories dataTable">
+      <div class="table-responsive">
+        <table class="table table-middle table-center table-condensed table-bordered table-hover dataTable">
           <thead>
             <tr>
               <th style="width: 128px" class="text-center">Id</th>

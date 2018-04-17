@@ -4,10 +4,11 @@ namespace App\Models;
 
 use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\RequestSaver;
+use App\Support\Traits\Models\Positionable;
 
 class AttributeOption extends Base\BaseModelI18
 {
-    use StatusChangeable, RequestSaver;
+    use StatusChangeable, RequestSaver, Positionable;
 
     /**
      * Идентификатор таблицы.
@@ -47,7 +48,7 @@ class AttributeOption extends Base\BaseModelI18
      *
      * @var array
      */
-    protected $needsToSaveFromRequest = ['i18', 'options'];
+    protected $needsToSaveFromRequest = ['i18'];
 
     public function attribute()
     {

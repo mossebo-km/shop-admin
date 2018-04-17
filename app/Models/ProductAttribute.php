@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-class ProductAttributes extends Base\BaseModel
+class ProductAttribute extends Base\BaseModel
 {
     protected $tableIdentif = 'ProductAttributes';
+    protected $primaryKey = null;
+    public $incrementing = false;
 
     protected $fillable = [
         'product_id', 'attribute_id'

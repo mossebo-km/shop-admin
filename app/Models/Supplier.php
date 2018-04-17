@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use App\Support\Traits\Models\StatusChangeable;
-use App\Support\Traits\Models\PositionChangeable;
+use App\Support\Traits\Models\Positionable;
 use App\Support\Traits\Models\RequestSaver;
 
 class Supplier extends Base\BaseModel
 {
-    use StatusChangeable, PositionChangeable, RequestSaver;
+    use StatusChangeable, Positionable, RequestSaver;
 
     protected $tableIdentif = 'Suppliers';
 

@@ -11,25 +11,16 @@
       'disabled',
       'multiple',
       'activeLanguageCode',
+      'params'
     ],
 
     components: {
       TreeSelect
     },
 
-    data() {
-      return {
-        tselected: this.selected
-      }
-    },
-
-    watch: {
-      tselected: 'updateSelected'
-    },
-
     methods: {
-      updateSelected() {
-        this.$emit('update:selected', this.tselected)
+      getSelected() {
+        return this.$refs.treeSelect.rSelected
       }
     },
 
@@ -52,15 +43,23 @@
 
         return build(this.options || [])
       }
+    },
+
+    mounted() {
+      this.$refs.treeSelect.$on('update:selected', (selected) => {
+        this.$emit('update:selected', selected)
+      })
     }
   }
 </script>
 
 <template>
   <tree-select
+    ref="treeSelect"
     :options="translatedOptions"
-    :selected.sync="tselected"
+    :selected="selected"
     :placeholder="placeholder"
     :disabled="disabled"
-    :multiple="multiple" />
+    :multiple="multiple"
+    :params="params" />
 </template>

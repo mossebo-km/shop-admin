@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Validation\ValidatorExtend;
+use App\Models\Attribute;
+use App\Models\AttributeOption;
 
 class ProductSaveRequest extends ApiRequest
 {
@@ -57,6 +59,52 @@ class ProductSaveRequest extends ApiRequest
         foreach (\PriceTypes::enabled() as $priceType) {
             foreach (\Currencies::enabled() as $currency) {
                 $rules["prices.{$priceType->id}.{$currency->code}"] = 'nullable|numeric';
+            }
+        }
+
+        /* 1. Проверка на существование аттрибута
+         * 2. Далее проверка опций:
+         *    2.1 Если опция уже существует - проверка существования ее id
+         *    2.2 Если не существует - проверка ввода.
+         */
+        if ($attributes = $this->formRequest->input('attributes')) {
+            $existingAttributeIds = array_column(Attribute::get(['id'])->toArray(), 'id');
+
+            foreach ($attributes as $attributeId => $attributeOptions) {
+                $rules["attributes.{$attributeId}"] = [
+                    'bail', 'array',
+
+                    function($attribute, $value, $fail) use($existingAttributeIds, $attributeId) {
+                        if (! in_array($attributeId, $existingAttributeIds)) {
+                            return $fail(\Lang::get("validation.attributes.exists", ['attribute' => $attributeId]));
+                        }
+                    },
+
+                    function($attribute, $value, $fail) use($attributeId, $attributeOptions) {
+                        $existingAttributeOptionsIds = array_column(AttributeOption::where('attribute_id', $attributeId)->get(['id'])->toArray(), 'id');
+
+                        foreach ($attributeOptions as $optionId => $optionValue) {
+                            if (is_array($optionValue)) {
+                                foreach (\Languages::enabled() as $language) {
+                                    $ruleName = "attributes.{$attributeId}.{$optionId}.{$language['code']}.value";
+
+                                    $validator = \Validator::make($this->formRequest->all(), [
+                                        $ruleName => 'bail|trim|required|max:255',
+                                    ]);
+
+                                    if ($validator->fails()) {
+                                        $fail($validator->errors()->first($ruleName));
+                                    }
+                                }
+                            }
+                            else {
+                                if (! in_array($optionId, $existingAttributeOptionsIds)) {
+                                    return $fail(\Lang::get("validation.attributes.options.exists", ['attribute' => $optionValue]));
+                                }
+                            }
+                        }
+                    }
+                ];
             }
         }
 

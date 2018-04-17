@@ -32,7 +32,7 @@ class CreateProductAttributesTable extends Migration
             $table->integer('attribute_id')->unsigned()->index();
             $table->foreign('attribute_id')->references('id')->on(Config::get('migrations.Attributes'))->onDelete('cascade');
 
-            $table->unique(['product_id', 'attribute_id']);
+            $table->primary(['product_id', 'attribute_id']);
         });
     }
 

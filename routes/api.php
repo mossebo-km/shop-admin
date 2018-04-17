@@ -74,6 +74,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('attributes', 'Api\AttributeController@index');
         Route::get('attributes/{attribute}', 'Api\AttributeController@show');
         Route::get('attributes/{attribute}/status', 'Api\AttributeController@status');
+        Route::get('attributes/{attribute}/options', 'Api\AttributeController@options');
         Route::post('attributes', 'Api\AttributeController@store');
         Route::put('attributes/{attribute}', 'Api\AttributeController@update');
         Route::delete('attributes/{attribute}', 'Api\AttributeController@delete');

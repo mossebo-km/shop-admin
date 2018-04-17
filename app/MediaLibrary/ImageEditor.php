@@ -59,9 +59,9 @@ class ImageEditor
             $this->setManipulation('flip', 'both');
         }
         elseif ($issetScaleX) {
-            $this->setManipulation('flip', 'horizontally');
+            $this->setManipulation('flip', 'h');
         } elseif ($issetScaleY) {
-            $this->setManipulation('flip', 'vertically');
+            $this->setManipulation('flip', 'v');
         }
 
         // Вращение изображения.
@@ -100,7 +100,7 @@ class ImageEditor
     public function setManipulation($name, $arguments)
     {
         if (! method_exists($this->manipulations, $name)) {
-            throw new BadMethodCallException("Manipulation `{$name}` does not exist");
+            throw new \Exception("Manipulation `{$name}` does not exist");
         }
 
         if (is_array($arguments)) {
