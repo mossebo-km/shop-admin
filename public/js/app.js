@@ -38222,7 +38222,8 @@ var render = function() {
               "table",
               {
                 staticClass:
-                  "table table-bordered table-striped table-vcenter prices-table"
+                  "table table-bordered table-striped table-vcenter prices-table",
+                staticStyle: { "min-width": "956px" }
               },
               [
                 _c("thead", [
@@ -43854,6 +43855,7 @@ var render = function() {
                 {
                   key: image.id,
                   staticClass: "col-xs-6 col-sm-3",
+                  staticStyle: { width: "200px" },
                   attrs: { "data-id": image.id }
                 },
                 [

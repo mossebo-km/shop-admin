@@ -87,7 +87,7 @@
 <template>
   <div class="table-responsive">
     <loading :loading="loading">
-      <table class="table table-bordered table-striped table-vcenter prices-table" v-if="! loading">
+      <table class="table table-bordered table-striped table-vcenter prices-table" v-if="! loading" style="min-width: 956px">
         <thead>
           <tr>
             <th>Тип</th>

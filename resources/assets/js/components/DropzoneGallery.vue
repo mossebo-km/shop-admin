@@ -304,7 +304,7 @@
     <div class="block-section">
       <div class="gallery gallery-widget" ref="gallery">
         <div class="row ui-sortable">
-          <div class="col-xs-6 col-sm-3" v-for="image in images" :data-id="image.id" :key="image.id">
+          <div v-for="image in images" :data-id="image.id" :key="image.id" class="col-xs-6 col-sm-3" style="width:200px;">
             <input type="hidden" name="ids" :value="image.id">
             <div :class="{'edit-photo-card': true, 'edit-photo-card--deleted': image.deleted, 'edit-photo-card--has-error': hasError(image)}">
               <a :href="image.original" class="edit-photo-card__preview js-magnific-link">
