@@ -34,7 +34,7 @@ class ProductEditResource extends JsonResource
             'images'      => MediaResource::collection($this->getMedia('images')),
             'prices'      => PriceResource::collection($this->prices),
             'categories'  => ProductCategoriesResource::collection($this->categoryProducts),
-            'i18'         => $this->i18()->get()->toArray(),
+            'i18n'         => $this->i18n()->get()->toArray(),
             'attributes'  => $attributesIds,
             'options'     => $optionsIds
         ];

@@ -2,10 +2,10 @@
 
 namespace App\MediaLibrary\Models;
 
-use Spatie\MediaLibrary\Models\Media as Base;
+use Spatie\MediaLibrary\Models\Media as BaseMedia;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 
-class Media extends Base
+class Media extends BaseMedia
 {
     public function save(array $options = [])
     {
@@ -50,5 +50,10 @@ class Media extends Base
         return $this->pathes ? json_decode($this->pathes, true) : [
             'original' => $this->getUrl()
         ];
+    }
+
+    public function getMediaFolder()
+    {
+        return strtolower((new \ReflectionClass($this->model))->getShortName());
     }
 }

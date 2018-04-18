@@ -87,7 +87,7 @@
               selected: this.isSelected(item.id)
             })
 
-            build(item.sub, level + 1, item.id, acc)
+            build(item.children, level + 1, item.id, acc)
 
             return acc
           }, acc || [])

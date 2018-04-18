@@ -22,8 +22,8 @@ class AttributeEditResource extends JsonResource
             'layout_class' => $this->layout_class,
             'created_at'   => dateFormatFull($this->created_at),
             'updated_at'   => dateFormatFull($this->updated_at),
-            'options'      => AttributeOptionResource::collection($this->options()->with('i18')->get()),
-            'i18'          => $this->i18->toArray()
+            'options'      => AttributeOptionResource::collection($this->options()->with('i18n')->get()),
+            'i18n'          => $this->i18n->toArray()
         ];
     }
 }

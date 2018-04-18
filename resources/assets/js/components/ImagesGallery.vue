@@ -4,7 +4,6 @@
    */
 
   import $ from 'jquery'
-  import magnificPopup from 'magnific-popup'
 
   export default {
     name: 'images-gallery',

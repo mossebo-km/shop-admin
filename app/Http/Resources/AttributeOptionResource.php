@@ -18,7 +18,7 @@ class AttributeOptionResource extends JsonResource
             'id'       => $this->id,
             'enabled'  => $this->enabled,
             'position' => $this->position,
-            'i18'      => $this->i18->toArray()
+            'i18n'      => $this->i18n->toArray()
         ];
     }
 }

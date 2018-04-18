@@ -11,7 +11,7 @@ class CategoriesSeeder extends Seeder
             'enabled' => true,
             'position' => 0,
 
-            'i18' => [
+            'i18n' => [
                 'ru' => [
                     'title' => 'Стулья',
                     'description' => '<p>Замечательные стулья на любой вкус.</p>',
@@ -26,7 +26,7 @@ class CategoriesSeeder extends Seeder
             'enabled' => true,
             'position' => 1,
 
-            'i18' => [
+            'i18n' => [
                 'ru' => [
                     'title' => 'Столы',
                     'description' => '<p>Замечательные столы на любой вкус.</p>',
@@ -41,7 +41,7 @@ class CategoriesSeeder extends Seeder
             'enabled' => true,
             'position' => 2,
 
-            'i18' => [
+            'i18n' => [
                 'ru' => [
                     'title' => 'Свет',
                     'description' => '<p>Замечательные лампы, торшеры и светильники на любой вкус.</p>',
@@ -62,22 +62,22 @@ class CategoriesSeeder extends Seeder
 //        echo "Seeding Categories\r\n";
 //
 //        $categoriesTable = DB::table(Config::get('migrations.Categories'));
-//        $categoriesI18Table = DB::table(Config::get('migrations.CategoriesI18'));
+//        $categoriesI18nTable = DB::table(Config::get('migrations.CategoriesI18n'));
 //
 //        foreach ($this->data as $category) {
-//            $translations = $category['i18'];
-//            unset($category['i18']);
+//            $translations = $category['i18n'];
+//            unset($category['i18n']);
 //
 //            $category['created_at'] = Carbon\Carbon::now()->toDateTimeString();
 //            $category['updated_at'] = Carbon\Carbon::now()->toDateTimeString();
 //
 //            $id = $categoriesTable->insertGetId($category);
 //
-//            foreach ($translations as $languageCode => $categoryI18) {
-//                $categoryI18['category_id'] = $id;
-//                $categoryI18['language_code'] = $languageCode;
+//            foreach ($translations as $languageCode => $categoryI18n) {
+//                $categoryI18n['category_id'] = $id;
+//                $categoryI18n['language_code'] = $languageCode;
 //
-//                $categoriesI18Table->insert($categoryI18);
+//                $categoriesI18nTable->insert($categoryI18n);
 //            }
 //        }
     }

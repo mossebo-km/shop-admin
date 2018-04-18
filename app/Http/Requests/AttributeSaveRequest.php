@@ -30,8 +30,8 @@ class AttributeSaveRequest extends ApiRequest
         ];
 
         foreach (\Languages::enabled() as $language) {
-            $rules["i18.{$language['code']}"]       = "required|array";
-            $rules["i18.{$language['code']}.title"] = 'bail|trim|required|max:255';
+            $rules["i18n.{$language['code']}"]       = "required|array";
+            $rules["i18n.{$language['code']}.title"] = 'bail|trim|required|max:255';
         }
 
         foreach ($this->formRequest->input('options') as $optionId => $option) {
@@ -51,7 +51,7 @@ class AttributeSaveRequest extends ApiRequest
 
                     if (isset($optionData['isNew']) && $optionData['isNew']) {
                         foreach (\Languages::enabled() as $language) {
-                            $rules["options.{$optionId}.i18.{$language['code']}.value"] = 'bail|trim|required|max:255';
+                            $rules["options.{$optionId}.i18n.{$language['code']}.value"] = 'bail|trim|required|max:255';
                         }
                     }
                     else {

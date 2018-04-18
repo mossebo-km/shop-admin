@@ -1,5 +1,5 @@
 import Schema from './Schema'
-import SchemaI18 from './SchemaI18'
+import Schemai18n from './Schemai18n'
 
 const schema = {
   layout_class: '',
@@ -7,7 +7,7 @@ const schema = {
   enabled: true,
 }
 
-const i18Schema = {
+const i18nSchema = {
   title: '',
 }
 
@@ -15,7 +15,7 @@ export default class AttributeModel {
   constructor(entityData, languages) {
     return {
       ... (new Schema(schema)).combine(entityData),
-      i18: (new SchemaI18(i18Schema)).combine(entityData.i18, languages),
+      i18n: (new Schemai18n(i18nSchema)).combine(entityData.i18n, languages),
     }
   }
 }

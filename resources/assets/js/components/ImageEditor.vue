@@ -169,7 +169,15 @@
       },
 
       setModifications(modifications) {
-        this.innerModifications = modifications
+        let result = {}
+
+        for (let i in modifications) {
+          let int = parseInt(modifications[i])
+
+          result[i] = isNaN(int) ? 0 : int
+        }
+
+        this.innerModifications = result
       },
 
       reset() {

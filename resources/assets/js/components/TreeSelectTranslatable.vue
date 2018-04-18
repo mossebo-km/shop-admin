@@ -30,11 +30,11 @@
           return tree.map(item => {
             let res = {
               ... item,
-              title: item.i18[this.activeLanguageCode].title
+              title: item.i18n[this.activeLanguageCode].title
             }
 
-            if (item.sub) {
-              res.sub = build(item.sub)
+            if (item.children) {
+              res.children = build(item.children)
             }
 
             return res

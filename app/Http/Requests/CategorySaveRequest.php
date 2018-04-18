@@ -44,11 +44,11 @@ class CategorySaveRequest extends ApiRequest
         }
 
         foreach (\Languages::enabled() as $language) {
-            $rules["i18.{$language['code']}"]                  = "required|array";
-            $rules["i18.{$language['code']}.title"]            = 'bail|trim|required|max:255';
-            $rules["i18.{$language['code']}.description"]      = 'trim|max:65000';
-            $rules["i18.{$language['code']}.meta_title"]       = 'trim|max:255';
-            $rules["i18.{$language['code']}.meta_description"] = 'trim|max:65000';
+            $rules["i18n.{$language['code']}"]                  = "required|array";
+            $rules["i18n.{$language['code']}.title"]            = 'bail|trim|required|max:255';
+            $rules["i18n.{$language['code']}.description"]      = 'trim|max:65000';
+            $rules["i18n.{$language['code']}.meta_title"]       = 'trim|max:255';
+            $rules["i18n.{$language['code']}.meta_description"] = 'trim|max:65000';
         }
 
         return $rules;

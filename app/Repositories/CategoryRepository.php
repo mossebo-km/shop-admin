@@ -10,11 +10,11 @@ class CategoryRepository extends RamRepository implements CategoryRepositoryCont
 
     public function getTree($parentId = 0, $withDisabled = false)
     {
-        return $this->_makeTree($parentId, $withDisabled);
+        return $this->_getCollection()->toTree();
     }
 
     protected function _getCollection() {
-        return $this->model::with('i18')->orderBy('position', 'asc')->get();
+        return $this->model::with('i18n')->orderBy('position', 'asc')->get();
     }
 
     protected function _getCacheKey()
@@ -47,7 +47,7 @@ class CategoryRepository extends RamRepository implements CategoryRepositoryCont
                 'parent_id' => $category['parent_id'],
                 'slug' => $category['slug'],
                 'enabled' => $category['enabled'],
-                'i18' => $category['i18']
+                'i18n' => $category['i18n']
             ];
 
             if ($sub = $this->_makeTree($category['id'], $withDisabled)) {

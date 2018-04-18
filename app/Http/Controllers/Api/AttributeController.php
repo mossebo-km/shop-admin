@@ -104,7 +104,7 @@ class AttributeController extends ApiController
     {
         return response()->json([
             'status' => 'success',
-            'options' => Resources\AttributeOptionResource::collection($attribute->options()->with('i18')->get()),
+            'options' => Resources\AttributeOptionResource::collection($attribute->options()->with('i18n')->get()),
         ], 200);
     }
 }

@@ -26,7 +26,7 @@ class CreateCategoriesTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->increments('id')->index();
-            $table->integer('parent_id')->unsigned()->default(0);
+            $table->nestedSet();
             $table->string('slug')->unique()->index();
             $table->boolean('enabled')->index()->default(1);
             $table->integer('position')->unsigned()->default(0);

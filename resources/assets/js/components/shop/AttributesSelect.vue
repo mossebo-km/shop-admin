@@ -112,6 +112,10 @@
 
         attribute.request = new Core.requestHandler('get', `/api/shop/attributes/${attribute.id}/options`)
           .any(() => {
+            if (['error', 'crashed'].indexOf(attribute.request.status) !== -1) {
+              this.remove(attribute.id)
+            }
+
             delete attribute.request
           })
           .success(response => {
@@ -149,11 +153,11 @@
                 let option = {
                   id: Core.uniqueId(),
                   isNew: true,
-                  i18: {}
+                  i18n: {}
                 }
 
                 this.languages.forEach(language => {
-                  option.i18[language.code] = {
+                  option.i18n[language.code] = {
                     title: text
                   }
                 })
@@ -207,11 +211,16 @@
 <template>
   <div class="form-horizontal form-bordered">
 
-    <div class="form-group">
+    <div class="form-group" v-if="selectedAttributesIds.length !== innerAttributes.length">
       <label class="col-md-3 control-label">Добавить</label>
       <div class="col-md-9">
         <div class="input-group">
-          <tree-select-translatable ref="attributesSelect" :options="available" placeholder="Выберите аттрибут" :activeLanguageCode="activeLanguageCode"></tree-select-translatable>
+          <tree-select-translatable
+            ref="attributesSelect"
+            :options="available"
+            placeholder="Выберите аттрибут"
+            :activeLanguageCode="activeLanguageCode" />
+
           <a class="input-group-addon btn btn-primary" @click="add">
             <i class="fa fa-plus-circle"></i>
           </a>
@@ -221,7 +230,7 @@
 
     <div :class="`form-group${errors.has(`attributes.${attribute.id}`) ? ' has-error' : ''}`" v-for="attribute in selected">
         <loading :loading="!! attribute.request" style="min-height: 36px;">
-        <label class="col-md-3 control-label" :for="`attribute-${attribute.id}`">{{attribute.i18[activeLanguageCode].title}}</label>
+        <label class="col-md-3 control-label" :for="`attribute-${attribute.id}`">{{attribute.i18n[activeLanguageCode].title}}</label>
         <div class="col-md-9">
           <div class="clearfix">
             <div class="pull-left" style="width:calc(100% - 47px)">

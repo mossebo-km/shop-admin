@@ -12,7 +12,7 @@ use App\Support\Traits\Models\RequestSaver;
 use Spatie\Image\Manipulations;
 use App\Exceptions\AdminException;
 
-class Product extends Base\BaseModelI18 implements HasMedia
+class Product extends Base\BaseModelI18n implements HasMedia
 {
     use HasMediaTrait, StatusChangeable, Sluggable, RequestSaver;
 
@@ -56,7 +56,7 @@ class Product extends Base\BaseModelI18 implements HasMedia
      *
      * @var array
      */
-    protected $needsToSaveFromRequest = ['i18', 'categories', 'images', 'prices', 'attributes'];
+    protected $needsToSaveFromRequest = ['i18n', 'categories', 'images', 'prices', 'attributes'];
 
     public function prices()
     {
@@ -288,7 +288,7 @@ class Product extends Base\BaseModelI18 implements HasMedia
                             'attribute_id' => $attribute->id,
                             'enabled' => true,
                             'position' => ++$lastOptionPosition,
-                            'i18' => $optionValue,
+                            'i18n' => $optionValue,
                         ]);
 
                         $attribute->options()->save($option);
@@ -318,7 +318,7 @@ class Product extends Base\BaseModelI18 implements HasMedia
     public static function getData($id, $needsToConnect = 'all'): array
     {
         if ($needsToConnect === 'all') {
-            $needsToConnect = ['i18', 'prices', 'images', 'categories'];
+            $needsToConnect = ['i18n', 'prices', 'images', 'categories'];
         }
 
         if ($needsToConnect === 'nothig') {

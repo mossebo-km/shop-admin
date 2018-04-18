@@ -5,16 +5,10 @@
 
   import Core from '../core'
   import VueDropzone from 'vue2-dropzone'
-  import magnificPopup from 'magnific-popup'
   import Toggle from './Toggle'
   import 'jquery-ui-sortable-npm'
   import Sortable from '../mixins/Sortable'
   import ImageEditor from './ImageEditor'
-
-
-  /**
-   * todo: Подключить миксин sortable
-   */
 
   export default {
     props: {
@@ -52,7 +46,7 @@
           url: Core.addApiTokenToUrl(this.url),
           thumbnailWidth: 150,
           maxFilesize: 8,
-          addRemoveLinks: false,
+          addRemoveLinks: true,
           autoProcessQueue: true,
           ignoreHiddenFiles: true,
           dictDefaultMessage: "Перетащите файлы сюда или нажмите чтобы загрузить",
@@ -67,7 +61,7 @@
           dictRemoveFile: "Удалить файл",
           dictMaxFilesExceeded: "Достигнут лимит количества файлов.",
           acceptedFiles: 'image/jpeg, image/png',
-          previewTemplate: '<div class=\"dz-preview dz-processing dz-complete dz-image-preview\"><div class=\"dz-image\"><a href=\"javascript:void(0)\" class=\"dz-link\"><img data-dz-thumbnail /><div class=\"dz-details\"><div class=\"dz-size\"><span data-dz-size></span></div><div class=\"dz-filename\"><i class=\"dz-icon fa fa-search\"></i></div></div></a></div><div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div><div class=\"dz-error-message\"><span data-dz-errormessage></span></div><div class=\"dz-success-mark\"><i class=\"dz-icon fa fa-check\"></i></div><div class=\"dz-error-mark\"><i class=\"dz-icon fa fa-warning\"></i></div>',
+          previewTemplate: '<div class=\"dz-preview dz-processing dz-complete dz-image-preview\"><div class=\"dz-remove\" data-dz-remove></div><div class=\"dz-image\"><a href=\"javascript:void(0)\" class=\"dz-link\"><img data-dz-thumbnail /><div class=\"dz-details\"><div class=\"dz-size\"><span data-dz-size></span></div><div class=\"dz-filename\"><i class=\"dz-icon fa fa-search\"></i></div></div></a></div><div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div><div class=\"dz-error-message\"><span data-dz-errormessage></span></div><div class=\"dz-success-mark\"><i class=\"dz-icon fa fa-check\"></i></div><div class=\"dz-error-mark\"><i class=\"dz-icon fa fa-warning\"></i></div>',
         },
 
         sortableParams: {
@@ -203,7 +197,7 @@
     <div class="block-section">
       <div class="gallery gallery-widget" ref="gallery">
         <div class="row ui-sortable">
-          <div v-for="image in images" :data-id="image.id" :key="image.id" class="col-xs-6 col-sm-3" style="width:200px;">
+          <div v-for="image in images" :data-id="image.id" :key="image.id" class="col-xs-6 col-sm-3" style="min-width:155px;">
             <input type="hidden" name="ids" :value="image.id">
             <div :class="{'edit-photo-card': true, 'edit-photo-card--deleted': image.deleted, 'edit-photo-card--has-error': hasError(image)}">
               <a :href="getImageOriginal(image)" class="edit-photo-card__preview js-magnific-link">
@@ -215,7 +209,7 @@
               <div class="edit-photo-card__controls">
                 <div class="pull-left">
                   <a href="javascript:void(0)" class="btn btn-sm btn-primary" @click="edit(image)" v-if="!isDeleted(image)">
-                    <i class="fa fa-crop"></i> Редактировать
+                    <i class="fa fa-crop"></i>
                   </a>
                 </div>
 

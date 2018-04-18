@@ -55,12 +55,12 @@
         </div>
 
         <div class="table-cell lev">
-          <span v-if="category.sub" @click="expand(category.id)" :class="`btn btn-primary btn-expand${isExpanded(category.id) ? ' btn-alt' : ''}`">
+          <span v-if="category.children" @click="expand(category.id)" :class="`btn btn-primary btn-expand${isExpanded(category.id) ? ' btn-alt' : ''}`">
             <i class="fa fa-plus" v-if="!isExpanded(category.id)"></i>
             <i class="fa fa-minus" v-else="isExpanded(category.id)"></i>
           </span>
 
-          <router-link v-bind:to="category.url"><strong v-html="category.i18[activeLanguageCode].title"></strong></router-link>
+          <router-link v-bind:to="category.url"><strong v-html="category.i18n[activeLanguageCode].title"></strong></router-link>
         </div>
 
         <div class="table-cell">
@@ -79,8 +79,8 @@
         </div>
       </div>
 
-      <categories-table-tree v-if="category.sub" v-show="isExpanded(category.id)"
-        :tree="category.sub"
+      <categories-table-tree v-if="category.children" v-show="isExpanded(category.id)"
+        :tree="category.children"
         :level="parseInt(level) + 1"
         :statusChange="statusChange"
         :remove="remove"
