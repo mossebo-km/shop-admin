@@ -6,11 +6,15 @@ class RolesSeeder extends Seeder
 {
     private $data = [
         [
-            'name' => 'admin',
+            'name' => 'SuperAdmin',
             'description' => '',
         ],
         [
-            'name' => 'manager',
+            'name' => 'Admin',
+            'description' => '',
+        ],
+        [
+            'name' => 'Manager',
             'description' => '',
         ],
     ];
