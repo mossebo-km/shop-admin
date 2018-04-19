@@ -40,8 +40,6 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
-            \App\Http\Middleware\ApiResponse::class,
-            \App\Http\Middleware\ApiAuth::class,
         ],
     ];
 
@@ -61,7 +59,8 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 
-
+        'api.auth' => \App\Http\Middleware\ApiAuth::class,
+        'api.withData' => \App\Http\Middleware\ApiResponse::class,
         'admin' => \App\Http\Middleware\RedirectIfNotAdmin::class,
     ];
 }

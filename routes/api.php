@@ -31,18 +31,19 @@ use Illuminate\Http\Request;
 // Route::delete('products/{product}', 'ProductController@delete');
 
 Route::get('products/all', function() {
-    header('Access-Control-Allow-Origin: *');
     $products = \App\Models\Product::withTranslate()
         ->where('enabled', 1)
         ->with(['prices', 'media'])
         ->orderBy('id', 'desc')
         ->get();
 
-    return \App\Http\Resources\ProductsOuter::collection($products);
+    return response()
+        ->json(\App\Http\Resources\ProductsOuter::collection($products))
+        ->header('Access-Control-Allow-Origin', '*');
 });
 
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData']], function () {
     Route::post('data', 'Api\DataController@get');
     Route::get('data', 'Api\DataController@get');
     Route::get('data/relevantKey', 'Api\DataController@relevantKey');
