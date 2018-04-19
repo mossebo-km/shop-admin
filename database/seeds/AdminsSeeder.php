@@ -7,24 +7,36 @@ class AdminsSeeder extends Seeder
     private $data = [
         [
             'role_id' => 1,
-            'name' => 'Admin',
-            'email' => 'admin@admin.ru',
-            'password' => 'h&62g1rvK'
+            'name' => 'SuperAdmin',
+            'email' => 'asd2ya7asJgat65hva@mossebo.ru',
+            'password' => 'Juyiayu26ahVUat1nkx;ap1'
         ],
         [
             'role_id' => 2,
+            'name' => 'Владислав',
+            'email' => 'code@mossebo.ru',
+            'password' => 'XFx7pCp4GRWB'
+        ],
+        [
+            'role_id' => 2,
+            'name' => 'Юрий',
+            'email' => 'code2@mossebo.ru',
+            'password' => 'bnHy28s1Laz&3l'
+        ],
+        [
+            'role_id' => 3,
             'name' => 'Диана Шамонова',
             'email' => 'product@mossebo.market',
             'password' => '731256'
         ],
         [
-            'role_id' => 2,
+            'role_id' => 3,
             'name' => 'Екатерина Кожевникова',
             'email' => 'product7@mossebo.market',
             'password' => 'js7G2t;0'
         ],
         [
-            'role_id' => 2,
+            'role_id' => 3,
             'name' => 'Мария Нестерова',
             'email' => 'product8@mossebo.market',
             'password' => 'ua6%1jaD'

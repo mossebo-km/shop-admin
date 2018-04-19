@@ -5,53 +5,78 @@ webpackJsonp([0],{
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 
-
+// import Vue from 'vue'
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ckeditor',
 
-  props: ['className', 'content']
+  props: ['className', 'content'],
 
-  // watch: {
-  //   '$route': 'reset'
-  // },
+  watch: {
+    // '$route': 'reset'
+  },
 
-  // mounted() {
-  //   this.instance = CKEDITOR.replace( this.$el, {
-  //     extraPlugins: 'divarea',
-  //     startupFocus : true
-  //   } )
-  //
-  //   this.instance.on('change', () => {
-  //     this.$emit('update:content', this.instance.getData())
-  //   })
-  //
-  //   this.instance.on("instanceReady", () => {
-  //     this.instance.editable().$.blur()
-  //   });
-  // },
-  //
-  // methods: {
-  //   destroy() {
-  //     if (!this.destroyed) {
-  //       this.instance.focusManager.blur(true)
-  //       this.instance.removeAllListeners()
-  //       this.instance.destroy(true)
-  //       this.destroyed = true
-  //     }
-  //   },
-  //
-  //   reset() {
-  //     this.instance.setData(this.content)
-  //   }
-  // },
-  //
-  // beforeDestroy() {
-  //   this.destroy()
-  // }
+  mounted: function mounted() {
+    // this.instance = CKEDITOR.replace( this.$el, {
+    //   extraPlugins: 'divarea',
+    //   startupFocus : true,
+    //   filebrowserBrowseUrl: '/elfinder/ckeditor'
+    // })
+    //
+    // this.instance.on('change', () => {
+    //   this.$emit('update:content', this.instance.getData())
+    // })
+    //
+    // this.instance.on("instanceReady", () => {
+    //   this.instance.editable().$.blur()
+    // });
+    //
+    // let iframe = document.createElement('iframe')
+    //
+    // iframe.src = '/elfinder/popup/aszasd'
+    //
+    // iframe.style.width = '1000px'
+    // iframe.style.height = '500px'
+    //
+    // window.processSelectedFile = function() {
+    //   console.log(arguments)
+    // }
+    //
+    // $.magnificPopup.open({
+    //   items: {
+    //     src: iframe
+    //   },
+    //   type: 'inline'
+    // })
+
+
+    // $.magnificPopup.open({
+    //   items: {
+    //     src: '/elfinder/ckeditor'
+    //   },
+    //   type: 'iframe'
+    // });
+  },
+
+
+  methods: {
+    destroy: function destroy() {
+      // if (!this.destroyed) {
+      //   this.instance.focusManager.blur(true)
+      //   this.instance.removeAllListeners()
+      //   this.instance.destroy(true)
+      //   this.destroyed = true
+      // }
+    },
+    reset: function reset() {
+      // this.instance.setData(this.content)
+    }
+  },
+
+  beforeDestroy: function beforeDestroy() {
+    // this.destroy()
+  }
 });
 
 /***/ }),
@@ -197,17 +222,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core__ = __webpack_require__("./resources/assets/js/core/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone__ = __webpack_require__("./node_modules/vue2-dropzone/dist/vue2Dropzone.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_dropzone__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_magnific_popup__ = __webpack_require__("./node_modules/magnific-popup/dist/jquery.magnific-popup.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_magnific_popup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_magnific_popup__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue_cropperjs__ = __webpack_require__("./node_modules/vue-cropperjs/dist/VueCropper.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue_cropperjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vue_cropperjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Toggle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_jquery_ui_sortable_npm__ = __webpack_require__("./node_modules/jquery-ui-sortable-npm/jquery-ui-sortable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_jquery_ui_sortable_npm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_jquery_ui_sortable_npm__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_jquery_ui_sortable_npm__ = __webpack_require__("./node_modules/jquery-ui-sortable-npm/jquery-ui-sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_jquery_ui_sortable_npm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_jquery_ui_sortable_npm__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ImageEditor__ = __webpack_require__("./resources/assets/js/components/ImageEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ImageEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__ImageEditor__);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 
@@ -220,11 +241,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 
-
-
-/**
- * todo: Подключить миксин sortable
- */
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -240,13 +256,13 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     }
   },
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_8__mixins_Sortable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__mixins_Sortable__["a" /* default */]],
 
   components: {
     VueDropzone: __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone___default.a,
-    VueCropperjs: __WEBPACK_IMPORTED_MODULE_5_vue_cropperjs___default.a,
-    Toggle: __WEBPACK_IMPORTED_MODULE_6__Toggle___default.a,
-    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */]
+    Toggle: __WEBPACK_IMPORTED_MODULE_4__Toggle___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    ImageEditor: __WEBPACK_IMPORTED_MODULE_7__ImageEditor___default.a
   },
 
   watch: {
@@ -260,7 +276,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         url: __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].addApiTokenToUrl(this.url),
         thumbnailWidth: 150,
         maxFilesize: 8,
-        addRemoveLinks: false,
+        addRemoveLinks: true,
         autoProcessQueue: true,
         ignoreHiddenFiles: true,
         dictDefaultMessage: "Перетащите файлы сюда или нажмите чтобы загрузить",
@@ -275,14 +291,14 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         dictRemoveFile: "Удалить файл",
         dictMaxFilesExceeded: "Достигнут лимит количества файлов.",
         acceptedFiles: 'image/jpeg, image/png',
-        previewTemplate: '<div class=\"dz-preview dz-processing dz-complete dz-image-preview\"><div class=\"dz-image\"><a href=\"javascript:void(0)\" class=\"dz-link\"><img data-dz-thumbnail /><div class=\"dz-details\"><div class=\"dz-size\"><span data-dz-size></span></div><div class=\"dz-filename\"><i class=\"dz-icon fa fa-search\"></i></div></div></a></div><div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div><div class=\"dz-error-message\"><span data-dz-errormessage></span></div><div class=\"dz-success-mark\"><i class=\"dz-icon fa fa-check\"></i></div><div class=\"dz-error-mark\"><i class=\"dz-icon fa fa-warning\"></i></div>'
+        previewTemplate: '<div class=\"dz-preview dz-processing dz-complete dz-image-preview\"><div class=\"dz-remove\" data-dz-remove></div><div class=\"dz-image\"><a href=\"javascript:void(0)\" class=\"dz-link\"><img data-dz-thumbnail /><div class=\"dz-details\"><div class=\"dz-size\"><span data-dz-size></span></div><div class=\"dz-filename\"><i class=\"dz-icon fa fa-search\"></i></div></div></a></div><div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div><div class=\"dz-error-message\"><span data-dz-errormessage></span></div><div class=\"dz-success-mark\"><i class=\"dz-icon fa fa-check\"></i></div><div class=\"dz-error-mark\"><i class=\"dz-icon fa fa-warning\"></i></div>'
       },
 
       sortableParams: {
         update: this.sort
       },
 
-      toCropImage: null
+      editorImage: null
     };
   },
 
@@ -326,27 +342,130 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         return item.id === image.id ? image : item;
       }));
     },
-    getCropperData: function getCropperData() {
-      if (this.cropperData) {
-        var data = this.cropperData;
-        this.cropperData = false;
-        return data;
+    edit: function edit(image) {
+      this.editorImage = image;
+      this.$refs.pictureEditModal.show();
+    },
+    editorImageSave: function editorImageSave() {
+      var image = this.editorImage;
+      var modifications = this.$refs.imageEditor.getClearedModifications();
+
+      if (Object.keys(modifications) === 0) {
+        if (image.modifications) {
+          delete image.modifications;
+        }
+
+        if (image.cropped) {
+          delete image.cropped;
+        }
+      } else {
+        image.modifications = modifications;
+        image.cropped = this.$refs.imageEditor.getCroppedImage();
       }
 
-      return {};
+      this.update(image);
+      this.editorImage = null;
     },
-    edit: function edit(image) {
-      if (image.initialImage) {
-        this.cropperData = image.modifications;
-        this.toCropImage = image.initialImage;
-        this.$refs.pictureEditModal.show();
-      } else {
-        this.toCropImage = image;
-        this.$refs.pictureEditModal.show();
+    getImageOriginal: function getImageOriginal(image) {
+      return image.cropped ? image.cropped : image.original;
+    },
+    getImagePreview: function getImagePreview(image) {
+      if (image.cropped) {
+        return image.cropped;
       }
+
+      if (image.small) {
+        return image.small.srcset ? image.small.srcset : image.small.src;
+      }
+
+      return image.original || '';
     },
+    getEditorImageModifications: function getEditorImageModifications() {
+      return this.editorImage && this.editorImage.modifications ? this.editorImage.modifications : {};
+    },
+    clear: function clear() {
+      this.editorImage = false;
+    },
+    refresh: function refresh() {
+      this.makeGallery();
+    },
+    hasError: function hasError(image) {
+      return !!this.errors.find(function (item) {
+        return item.toString() === image.id.toString();
+      });
+    }
+  },
+
+  mounted: function mounted() {
+    this.makeGallery();
+    this.initSort();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/ImageEditor.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_cropperjs__ = __webpack_require__("./node_modules/vue-cropperjs/dist/VueCropper.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_cropperjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_cropperjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Loading__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "image-editor",
+
+  components: {
+    VueCropperjs: __WEBPACK_IMPORTED_MODULE_1_vue_cropperjs___default.a,
+    Loading: __WEBPACK_IMPORTED_MODULE_2__Loading___default.a
+  },
+
+  props: ['image', 'modifications'],
+
+  watch: {
+    image: 'reset'
+  },
+
+  data: function data() {
+    return {
+      loading: true,
+      cropperData: null,
+      innerModifications: {},
+      defaultCropParams: {
+        width: null,
+        height: null,
+        rotate: 0,
+        scaleX: 1,
+        scaleY: 1,
+        x: 0,
+        y: 0
+      }
+    };
+  },
+
+
+  methods: {
     getCropper: function getCropper() {
       return this.$refs.cropper;
+    },
+    invertX: function invertX() {
+      this.invert('scaleX');
+    },
+    invertY: function invertY() {
+      this.invert('scaleY');
+    },
+    invert: function invert(direction) {
+      var cropper = this.getCropper();
+      cropper[direction](cropper.getData()[direction] === -1 ? 1 : -1);
+      this.updateModifications();
     },
     rotateLeft: function rotateLeft() {
       this.rotate(-1);
@@ -358,6 +477,13 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var cropper = this.getCropper();
       cropper.rotate(step * 90);
       this.fitImageToBox();
+      this.updateModifications();
+    },
+    cropend: function cropend() {
+      this.updateModifications();
+    },
+    updateModifications: function updateModifications() {
+      this.setModifications(this.getCropper().getData());
     },
     fitImageToBox: function fitImageToBox() {
       var cropper = this.getCropper();
@@ -393,88 +519,89 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         height: canvasData.height
       });
     },
-    invertX: function invertX() {
-      this.invert('scaleX');
+    setCropperData: function setCropperData(data) {
+      if ('rotate' in data) {
+        this.getCropper().setData({
+          rotate: data.rotate
+        });
+        this.fitImageToBox();
+        delete data.rotate;
+      }
+
+      this.getCropper().setData(data);
     },
-    invertY: function invertY() {
-      this.invert('scaleY');
+    getCroppedImage: function getCroppedImage() {
+      return this.getCropper().getCroppedCanvas().toDataURL();
     },
-    invert: function invert(direction) {
-      var cropper = this.getCropper();
-      cropper[direction](cropper.getData()[direction] === -1 ? 1 : -1);
+    getClearedModifications: function getClearedModifications() {
+      var result = {};
+
+      var defaultParams = this.getPreparedDefaultParams();
+
+      for (var i in defaultParams) {
+        if (this.innerModifications[i] !== defaultParams[i]) {
+          result[i] = this.innerModifications[i];
+        }
+      }
+
+      return result;
+    },
+    setClearedModifications: function setClearedModifications() {
+      var modifications = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var result = {};
+
+      var defaultParams = this.getPreparedDefaultParams();
+
+      for (var i in defaultParams) {
+        if (i in modifications && modifications[i] !== defaultParams[i]) {
+          result[i] = modifications[i];
+        } else {
+          result[i] = defaultParams[i];
+        }
+      }
+
+      this.setModifications(result);
+    },
+    getModifications: function getModifications() {
+      return _extends({}, this.innerModifications);
+    },
+    setModifications: function setModifications(modifications) {
+      var result = {};
+
+      for (var i in modifications) {
+        var int = parseInt(modifications[i]);
+
+        result[i] = isNaN(int) ? 0 : int;
+      }
+
+      this.innerModifications = result;
     },
     reset: function reset() {
-      var _this = this;
-
-      if (this.toCropImage.initialImage) {
-        var image = this.toCropImage.initialImage;
-        this.toCropImage = false;
-        this.$nextTick(function () {
-          _this.toCropImage = image;
-        });
-      } else {
-        this.getCropper().reset();
-      }
+      this.getCropper().reset();
+      this.updateModifications();
     },
-    pictureEditSave: function pictureEditSave() {
-      var elImg = document.createElement('img');
-      elImg.src = this.toCropImage.original;
+    getPreparedDefaultParams: function getPreparedDefaultParams() {
+      var imageData = this.getCropper().getCanvasData();
 
-      if (!(elImg.width && elImg.height)) {
-        __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].notify('Ошибка обработки изображения.', { type: 'error' });
-        return;
+      if (!imageData) {
+        return _extends({}, this.defaultCropParams);
       }
 
-      var defaultParams = {
-        width: elImg.width,
-        height: elImg.height,
-        rotate: 0,
-        scaleX: 1,
-        scaleY: 1,
-        x: 0,
-        y: 0
-      };
-
-      var cropper = this.getCropper();
-      var src = cropper.getCroppedCanvas().toDataURL();
-
-      var cropperData = cropper.getData();
-      var params = {};
-
-      for (var i in cropperData) {
-        if (cropperData[i] !== defaultParams[i]) {
-          params[i] = cropperData[i];
-        }
-      }
-
-      if (Object.keys(params).length > 0) {
-        if (!this.toCropImage.initialImage) {
-          this.toCropImage.initialImage = _extends({}, this.toCropImage);
-
-          this.toCropImage.original = src;
-          this.toCropImage.small.srcset = src;
-        }
-
-        this.toCropImage.modifications = params;
-        this.update(this.toCropImage);
-      }
-    },
-    clear: function clear() {
-      this.toCropImage = false;
-    },
-    refresh: function refresh() {
-      this.makeGallery();
-    },
-    hasError: function hasError(image) {
-      return !!this.errors.find(function (item) {
-        return item.toString() === image.id.toString();
+      return this.defaultCropParams = _extends({}, this.defaultCropParams, {
+        width: imageData.naturalWidth,
+        height: imageData.naturalHeight
       });
+    },
+    ready: function ready() {
+      this.loading = false;
+      this.setClearedModifications(this.modifications);
+      this.setCropperData(this.getModifications());
     }
   },
 
-  mounted: function mounted() {
-    this.makeGallery();
-    this.initSort();
+  created: function created() {
+    this.loading = true;
   }
 });
 
@@ -774,7 +901,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             selected: _this2.isSelected(item.id)
           });
 
-          build(item.sub, level + 1, item.id, acc);
+          build(item.children, level + 1, item.id, acc);
 
           return acc;
         }, acc || []);
@@ -922,11 +1049,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       var build = function build(tree) {
         return tree.map(function (item) {
           var res = _extends({}, item, {
-            title: item.i18[_this.activeLanguageCode].title
+            title: item.i18n[_this.activeLanguageCode].title
           });
 
-          if (item.sub) {
-            res.sub = build(item.sub);
+          if (item.children) {
+            res.children = build(item.children);
           }
 
           return res;
@@ -1294,6 +1421,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       if (attribute.options || attribute.request) return;
 
       attribute.request = new __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].requestHandler('get', '/api/shop/attributes/' + attribute.id + '/options').any(function () {
+        if (['error', 'crashed'].indexOf(attribute.request.status) !== -1) {
+          _this2.remove(attribute.id);
+        }
+
         delete attribute.request;
       }).success(function (response) {
         var selectedOptions = [];
@@ -1334,11 +1465,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               var option = {
                 id: __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].uniqueId(),
                 isNew: true,
-                i18: {}
+                i18n: {}
               };
 
               _this3.languages.forEach(function (language) {
-                option.i18[language.code] = {
+                option.i18n[language.code] = {
                   title: text
                 };
               });
@@ -1683,7 +1814,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         var item = {
           position: option.position,
           enabled: option.enabled,
-          i18: option.i18
+          i18n: option.i18n
         };
 
         if (option.isNew) {
@@ -2092,7 +2223,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
      */
     slugAutocomplete: function slugAutocomplete() {
       var model = this.getEntityModel();
-      model.slug = __WEBPACK_IMPORTED_MODULE_3__core__["a" /* default */].makeUrl(model.i18[this.activeLanguageCode].title);
+      model.slug = __WEBPACK_IMPORTED_MODULE_3__core__["a" /* default */].makeUrl(model.i18n[this.activeLanguageCode].title);
     }
   }
 });
@@ -2327,15 +2458,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
           });
 
           if (option.isNew) {
-            attributeAcc[option.id] = Object.keys(option.i18).reduce(function (optionAcc, langCode) {
+            attributeAcc[option.id] = Object.keys(option.i18n).reduce(function (optionAcc, langCode) {
               optionAcc[langCode] = {
-                value: option.i18[langCode].title
+                value: option.i18n[langCode].title
               };
 
               return optionAcc;
             }, {});
           } else {
-            attributeAcc[option.id] = option.i18[_this3.activeLanguageCode].title;
+            attributeAcc[option.id] = option.i18n[_this3.activeLanguageCode].title;
           }
 
           return attributeAcc;
@@ -38222,7 +38353,8 @@ var render = function() {
               "table",
               {
                 staticClass:
-                  "table table-bordered table-striped table-vcenter prices-table"
+                  "table table-bordered table-striped table-vcenter prices-table",
+                staticStyle: { "min-width": "956px" }
               },
               [
                 _c("thead", [
@@ -38495,7 +38627,7 @@ var render = function() {
                                 class:
                                   "form-group" +
                                   (_vm.formErrors.has(
-                                    "i18." + language.code + ".title"
+                                    "i18n." + language.code + ".title"
                                   )
                                     ? " has-error"
                                     : "")
@@ -38522,10 +38654,10 @@ var render = function() {
                                         name: "model",
                                         rawName: "v-model",
                                         value:
-                                          _vm.attribute.i18[language.code]
+                                          _vm.attribute.i18n[language.code]
                                             .title,
                                         expression:
-                                          "attribute.i18[language.code].title"
+                                          "attribute.i18n[language.code].title"
                                       },
                                       {
                                         name: "validate",
@@ -38538,11 +38670,11 @@ var render = function() {
                                     attrs: {
                                       type: "text",
                                       id: "title-" + language.code,
-                                      name: "i18." + language.code + ".title"
+                                      name: "i18n." + language.code + ".title"
                                     },
                                     domProps: {
                                       value:
-                                        _vm.attribute.i18[language.code].title
+                                        _vm.attribute.i18n[language.code].title
                                     },
                                     on: {
                                       input: function($event) {
@@ -38550,7 +38682,7 @@ var render = function() {
                                           return
                                         }
                                         _vm.$set(
-                                          _vm.attribute.i18[language.code],
+                                          _vm.attribute.i18n[language.code],
                                           "title",
                                           $event.target.value
                                         )
@@ -38566,10 +38698,10 @@ var render = function() {
                                           name: "show",
                                           rawName: "v-show",
                                           value: _vm.formErrors.has(
-                                            "i18." + language.code + ".title"
+                                            "i18n." + language.code + ".title"
                                           ),
                                           expression:
-                                            "formErrors.has(`i18.${language.code}.title`)"
+                                            "formErrors.has(`i18n.${language.code}.title`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -38578,7 +38710,7 @@ var render = function() {
                                       _vm._v(
                                         _vm._s(
                                           _vm.formErrors.first(
-                                            "i18." + language.code + ".title"
+                                            "i18n." + language.code + ".title"
                                           )
                                         )
                                       )
@@ -39002,7 +39134,7 @@ var render = function() {
                                                   "has-error": _vm.formErrors.has(
                                                     "options." +
                                                       option.id +
-                                                      ".i18." +
+                                                      ".i18n." +
                                                       language.code +
                                                       ".value"
                                                   ),
@@ -39018,11 +39150,11 @@ var render = function() {
                                                       name: "model",
                                                       rawName: "v-model",
                                                       value:
-                                                        option.i18[
+                                                        option.i18n[
                                                           language.code
                                                         ].value,
                                                       expression:
-                                                        "option.i18[language.code].value"
+                                                        "option.i18n[language.code].value"
                                                     },
                                                     {
                                                       name: "validate",
@@ -39043,13 +39175,13 @@ var render = function() {
                                                     name:
                                                       "options." +
                                                       option.id +
-                                                      ".i18." +
+                                                      ".i18n." +
                                                       language.code +
                                                       ".value"
                                                   },
                                                   domProps: {
                                                     value:
-                                                      option.i18[language.code]
+                                                      option.i18n[language.code]
                                                         .value
                                                   },
                                                   on: {
@@ -39060,7 +39192,7 @@ var render = function() {
                                                         return
                                                       }
                                                       _vm.$set(
-                                                        option.i18[
+                                                        option.i18n[
                                                           language.code
                                                         ],
                                                         "value",
@@ -39080,12 +39212,12 @@ var render = function() {
                                                         value: _vm.formErrors.has(
                                                           "options." +
                                                             option.id +
-                                                            ".i18." +
+                                                            ".i18n." +
                                                             language.code +
                                                             ".value"
                                                         ),
                                                         expression:
-                                                          "formErrors.has(`options.${option.id}.i18.${language.code}.value`)"
+                                                          "formErrors.has(`options.${option.id}.i18n.${language.code}.value`)"
                                                       }
                                                     ],
                                                     staticClass: "help-block",
@@ -39099,7 +39231,7 @@ var render = function() {
                                                         _vm.formErrors.first(
                                                           "options." +
                                                             option.id +
-                                                            ".i18." +
+                                                            ".i18n." +
                                                             language.code +
                                                             ".value"
                                                         )
@@ -39503,7 +39635,7 @@ var render = function() {
                                 class:
                                   "form-group" +
                                   (_vm.formErrors.has(
-                                    "i18." + language.code + ".title"
+                                    "i18n." + language.code + ".title"
                                   )
                                     ? " has-error"
                                     : "")
@@ -39530,9 +39662,9 @@ var render = function() {
                                         name: "model",
                                         rawName: "v-model",
                                         value:
-                                          _vm.product.i18[language.code].title,
+                                          _vm.product.i18n[language.code].title,
                                         expression:
-                                          "product.i18[language.code].title"
+                                          "product.i18n[language.code].title"
                                       },
                                       {
                                         name: "validate",
@@ -39545,11 +39677,11 @@ var render = function() {
                                     attrs: {
                                       type: "text",
                                       id: "title-" + language.code,
-                                      name: "i18." + language.code + ".title"
+                                      name: "i18n." + language.code + ".title"
                                     },
                                     domProps: {
                                       value:
-                                        _vm.product.i18[language.code].title
+                                        _vm.product.i18n[language.code].title
                                     },
                                     on: {
                                       input: function($event) {
@@ -39557,7 +39689,7 @@ var render = function() {
                                           return
                                         }
                                         _vm.$set(
-                                          _vm.product.i18[language.code],
+                                          _vm.product.i18n[language.code],
                                           "title",
                                           $event.target.value
                                         )
@@ -39573,10 +39705,10 @@ var render = function() {
                                           name: "show",
                                           rawName: "v-show",
                                           value: _vm.formErrors.has(
-                                            "i18." + language.code + ".title"
+                                            "i18n." + language.code + ".title"
                                           ),
                                           expression:
-                                            "formErrors.has(`i18.${language.code}.title`)"
+                                            "formErrors.has(`i18n.${language.code}.title`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -39585,7 +39717,7 @@ var render = function() {
                                       _vm._v(
                                         _vm._s(
                                           _vm.formErrors.first(
-                                            "i18." + language.code + ".title"
+                                            "i18n." + language.code + ".title"
                                           )
                                         )
                                       )
@@ -39601,7 +39733,7 @@ var render = function() {
                                 class:
                                   "form-group" +
                                   (_vm.formErrors.has(
-                                    "i18." + language.code + ".description"
+                                    "i18n." + language.code + ".description"
                                   )
                                     ? " has-error"
                                     : "")
@@ -39626,17 +39758,17 @@ var render = function() {
                                       attrs: {
                                         id: "description-" + language.code,
                                         content:
-                                          _vm.product.i18[language.code]
+                                          _vm.product.i18n[language.code]
                                             .description,
                                         name:
-                                          "i18." +
+                                          "i18n." +
                                           language.code +
                                           ".description"
                                       },
                                       on: {
                                         "update:content": function($event) {
                                           _vm.$set(
-                                            _vm.product.i18[language.code],
+                                            _vm.product.i18n[language.code],
                                             "description",
                                             $event
                                           )
@@ -39652,12 +39784,12 @@ var render = function() {
                                             name: "show",
                                             rawName: "v-show",
                                             value: _vm.formErrors.has(
-                                              "i18." +
+                                              "i18n." +
                                                 language.code +
                                                 ".description"
                                             ),
                                             expression:
-                                              "formErrors.has(`i18.${language.code}.description`)"
+                                              "formErrors.has(`i18n.${language.code}.description`)"
                                           }
                                         ],
                                         staticClass: "help-block"
@@ -39666,7 +39798,7 @@ var render = function() {
                                         _vm._v(
                                           _vm._s(
                                             _vm.formErrors.first(
-                                              "i18." +
+                                              "i18n." +
                                                 language.code +
                                                 ".description"
                                             )
@@ -39686,7 +39818,7 @@ var render = function() {
                                 class:
                                   "form-group" +
                                   (_vm.formErrors.has(
-                                    "i18." + language.code + ".meta_title"
+                                    "i18n." + language.code + ".meta_title"
                                   )
                                     ? " has-error"
                                     : "")
@@ -39708,10 +39840,10 @@ var render = function() {
                                         name: "model",
                                         rawName: "v-model",
                                         value:
-                                          _vm.product.i18[language.code]
+                                          _vm.product.i18n[language.code]
                                             .meta_title,
                                         expression:
-                                          "product.i18[language.code].meta_title"
+                                          "product.i18n[language.code].meta_title"
                                       },
                                       {
                                         name: "validate",
@@ -39725,11 +39857,11 @@ var render = function() {
                                       type: "text",
                                       id: "title-" + language.code,
                                       name:
-                                        "i18." + language.code + ".meta_title"
+                                        "i18n." + language.code + ".meta_title"
                                     },
                                     domProps: {
                                       value:
-                                        _vm.product.i18[language.code]
+                                        _vm.product.i18n[language.code]
                                           .meta_title
                                     },
                                     on: {
@@ -39738,7 +39870,7 @@ var render = function() {
                                           return
                                         }
                                         _vm.$set(
-                                          _vm.product.i18[language.code],
+                                          _vm.product.i18n[language.code],
                                           "meta_title",
                                           $event.target.value
                                         )
@@ -39754,12 +39886,12 @@ var render = function() {
                                           name: "show",
                                           rawName: "v-show",
                                           value: _vm.formErrors.has(
-                                            "i18." +
+                                            "i18n." +
                                               language.code +
                                               ".meta_title"
                                           ),
                                           expression:
-                                            "formErrors.has(`i18.${language.code}.meta_title`)"
+                                            "formErrors.has(`i18n.${language.code}.meta_title`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -39768,7 +39900,7 @@ var render = function() {
                                       _vm._v(
                                         _vm._s(
                                           _vm.formErrors.first(
-                                            "i18." +
+                                            "i18n." +
                                               language.code +
                                               ".meta_title"
                                           )
@@ -39786,7 +39918,9 @@ var render = function() {
                                 class:
                                   "form-group" +
                                   (_vm.formErrors.has(
-                                    "i18." + language.code + ".meta_description"
+                                    "i18n." +
+                                      language.code +
+                                      ".meta_description"
                                   )
                                     ? " has-error"
                                     : "")
@@ -39808,10 +39942,10 @@ var render = function() {
                                         name: "model",
                                         rawName: "v-model",
                                         value:
-                                          _vm.product.i18[language.code]
+                                          _vm.product.i18n[language.code]
                                             .meta_description,
                                         expression:
-                                          "product.i18[language.code].meta_description"
+                                          "product.i18n[language.code].meta_description"
                                       },
                                       {
                                         name: "validate",
@@ -39824,13 +39958,13 @@ var render = function() {
                                     attrs: {
                                       id: "meta-description-" + language.code,
                                       name:
-                                        "i18." +
+                                        "i18n." +
                                         language.code +
                                         ".meta_description"
                                     },
                                     domProps: {
                                       value:
-                                        _vm.product.i18[language.code]
+                                        _vm.product.i18n[language.code]
                                           .meta_description
                                     },
                                     on: {
@@ -39839,7 +39973,7 @@ var render = function() {
                                           return
                                         }
                                         _vm.$set(
-                                          _vm.product.i18[language.code],
+                                          _vm.product.i18n[language.code],
                                           "meta_description",
                                           $event.target.value
                                         )
@@ -39855,12 +39989,12 @@ var render = function() {
                                           name: "show",
                                           rawName: "v-show",
                                           value: _vm.formErrors.has(
-                                            "i18." +
+                                            "i18n." +
                                               language.code +
                                               ".meta_description"
                                           ),
                                           expression:
-                                            "formErrors.has(`i18.${language.code}.meta_description`)"
+                                            "formErrors.has(`i18n.${language.code}.meta_description`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -39869,7 +40003,7 @@ var render = function() {
                                       _vm._v(
                                         _vm._s(
                                           _vm.formErrors.first(
-                                            "i18." +
+                                            "i18n." +
                                               language.code +
                                               ".meta_description"
                                           )
@@ -40786,6 +40920,7 @@ var render = function() {
                   _vm._v(" "),
                   _vm.type === "edit"
                     ? _c("dropzone-gallery", {
+                        ref: "gallery",
                         attrs: {
                           url: _vm.prepareUrl("image"),
                           images: _vm.product.images,
@@ -41221,7 +41356,7 @@ var render = function() {
                                   attrs: { to: product.item.url },
                                   domProps: {
                                     innerHTML: _vm._s(
-                                      product.item.i18[_vm.activeLanguageCode]
+                                      product.item.i18n[_vm.activeLanguageCode]
                                         .title
                                     )
                                   }
@@ -42045,6 +42180,103 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3950337e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ImageEditor.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("loading", { attrs: { loading: _vm.loading } }, [
+    _c(
+      "div",
+      { staticStyle: { overflow: "hidden", padding: "5px", margin: "-5px" } },
+      [
+        _c("vue-cropper", {
+          ref: "cropper",
+          staticStyle: { "max-height": "500px" },
+          attrs: {
+            guides: true,
+            "view-mode": 2,
+            "drag-mode": "crop",
+            "auto-crop-area": 1,
+            background: true,
+            rotatable: true,
+            zoomable: false,
+            src: _vm.image,
+            ready: _vm.ready,
+            cropend: _vm.cropend,
+            "img-style": { width: "100%" }
+          }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "edit-image-panel text-center",
+        staticStyle: { "margin-top": "20px" }
+      },
+      [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-sm btn-primary",
+            attrs: { href: "javascript:void(0)" },
+            on: {
+              click: function($event) {
+                _vm.rotateLeft()
+              }
+            }
+          },
+          [_c("i", { staticClass: "fa fa-rotate-left" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-sm btn-primary",
+            attrs: { href: "javascript:void(0)" },
+            on: {
+              click: function($event) {
+                _vm.rotateRight()
+              }
+            }
+          },
+          [_c("i", { staticClass: "fa fa-rotate-right" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-sm btn-primary",
+            attrs: { href: "javascript:void(0)" },
+            on: {
+              click: function($event) {
+                _vm.reset()
+              }
+            }
+          },
+          [_c("i", { staticClass: "fa fa-refresh" }), _vm._v(" Сбросить\n    ")]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3950337e", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3b8e0e80\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ClearCacheBtn.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -42263,7 +42495,7 @@ var render = function() {
                                 _c("strong", [
                                   _vm._v(
                                     _vm._s(
-                                      attribute.i18[_vm.activeLanguageCode]
+                                      attribute.i18n[_vm.activeLanguageCode]
                                         .title
                                     )
                                   )
@@ -42555,7 +42787,7 @@ var render = function() {
                                 class:
                                   "form-group" +
                                   (_vm.formErrors.has(
-                                    "i18." + language.code + ".title"
+                                    "i18n." + language.code + ".title"
                                   )
                                     ? " has-error"
                                     : "")
@@ -42582,9 +42814,10 @@ var render = function() {
                                         name: "model",
                                         rawName: "v-model",
                                         value:
-                                          _vm.category.i18[language.code].title,
+                                          _vm.category.i18n[language.code]
+                                            .title,
                                         expression:
-                                          "category.i18[language.code].title"
+                                          "category.i18n[language.code].title"
                                       },
                                       {
                                         name: "validate",
@@ -42597,11 +42830,11 @@ var render = function() {
                                     attrs: {
                                       type: "text",
                                       id: "title-" + language.code,
-                                      name: "i18." + language.code + ".title"
+                                      name: "i18n." + language.code + ".title"
                                     },
                                     domProps: {
                                       value:
-                                        _vm.category.i18[language.code].title
+                                        _vm.category.i18n[language.code].title
                                     },
                                     on: {
                                       input: function($event) {
@@ -42609,7 +42842,7 @@ var render = function() {
                                           return
                                         }
                                         _vm.$set(
-                                          _vm.category.i18[language.code],
+                                          _vm.category.i18n[language.code],
                                           "title",
                                           $event.target.value
                                         )
@@ -42625,10 +42858,10 @@ var render = function() {
                                           name: "show",
                                           rawName: "v-show",
                                           value: _vm.formErrors.has(
-                                            "i18." + language.code + ".title"
+                                            "i18n." + language.code + ".title"
                                           ),
                                           expression:
-                                            "formErrors.has(`i18.${language.code}.title`)"
+                                            "formErrors.has(`i18n.${language.code}.title`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -42637,7 +42870,7 @@ var render = function() {
                                       _vm._v(
                                         _vm._s(
                                           _vm.formErrors.first(
-                                            "i18." + language.code + ".title"
+                                            "i18n." + language.code + ".title"
                                           )
                                         )
                                       )
@@ -42653,7 +42886,7 @@ var render = function() {
                                 class:
                                   "form-group" +
                                   (_vm.formErrors.has(
-                                    "i18." + language.code + ".description"
+                                    "i18n." + language.code + ".description"
                                   )
                                     ? " has-error"
                                     : "")
@@ -42678,17 +42911,17 @@ var render = function() {
                                       attrs: {
                                         id: "description-" + language.code,
                                         content:
-                                          _vm.category.i18[language.code]
+                                          _vm.category.i18n[language.code]
                                             .description,
                                         name:
-                                          "i18." +
+                                          "i18n." +
                                           language.code +
                                           ".description"
                                       },
                                       on: {
                                         "update:content": function($event) {
                                           _vm.$set(
-                                            _vm.category.i18[language.code],
+                                            _vm.category.i18n[language.code],
                                             "description",
                                             $event
                                           )
@@ -42704,12 +42937,12 @@ var render = function() {
                                             name: "show",
                                             rawName: "v-show",
                                             value: _vm.formErrors.has(
-                                              "i18." +
+                                              "i18n." +
                                                 language.code +
                                                 ".description"
                                             ),
                                             expression:
-                                              "formErrors.has(`i18.${language.code}.description`)"
+                                              "formErrors.has(`i18n.${language.code}.description`)"
                                           }
                                         ],
                                         staticClass: "help-block"
@@ -42718,7 +42951,7 @@ var render = function() {
                                         _vm._v(
                                           _vm._s(
                                             _vm.formErrors.first(
-                                              "i18." +
+                                              "i18n." +
                                                 language.code +
                                                 ".description"
                                             )
@@ -42738,7 +42971,7 @@ var render = function() {
                                 class:
                                   "form-group" +
                                   (_vm.formErrors.has(
-                                    "i18." + language.code + ".meta_title"
+                                    "i18n." + language.code + ".meta_title"
                                   )
                                     ? " has-error"
                                     : "")
@@ -42760,10 +42993,10 @@ var render = function() {
                                         name: "model",
                                         rawName: "v-model",
                                         value:
-                                          _vm.category.i18[language.code]
+                                          _vm.category.i18n[language.code]
                                             .meta_title,
                                         expression:
-                                          "category.i18[language.code].meta_title"
+                                          "category.i18n[language.code].meta_title"
                                       },
                                       {
                                         name: "validate",
@@ -42777,11 +43010,11 @@ var render = function() {
                                       type: "text",
                                       id: "title-" + language.code,
                                       name:
-                                        "i18." + language.code + ".meta_title"
+                                        "i18n." + language.code + ".meta_title"
                                     },
                                     domProps: {
                                       value:
-                                        _vm.category.i18[language.code]
+                                        _vm.category.i18n[language.code]
                                           .meta_title
                                     },
                                     on: {
@@ -42790,7 +43023,7 @@ var render = function() {
                                           return
                                         }
                                         _vm.$set(
-                                          _vm.category.i18[language.code],
+                                          _vm.category.i18n[language.code],
                                           "meta_title",
                                           $event.target.value
                                         )
@@ -42806,12 +43039,12 @@ var render = function() {
                                           name: "show",
                                           rawName: "v-show",
                                           value: _vm.formErrors.has(
-                                            "i18." +
+                                            "i18n." +
                                               language.code +
                                               ".meta_title"
                                           ),
                                           expression:
-                                            "formErrors.has(`i18.${language.code}.meta_title`)"
+                                            "formErrors.has(`i18n.${language.code}.meta_title`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -42820,7 +43053,7 @@ var render = function() {
                                       _vm._v(
                                         _vm._s(
                                           _vm.formErrors.first(
-                                            "i18." +
+                                            "i18n." +
                                               language.code +
                                               ".meta_title"
                                           )
@@ -42838,7 +43071,9 @@ var render = function() {
                                 class:
                                   "form-group" +
                                   (_vm.formErrors.has(
-                                    "i18." + language.code + ".meta_description"
+                                    "i18n." +
+                                      language.code +
+                                      ".meta_description"
                                   )
                                     ? " has-error"
                                     : "")
@@ -42860,10 +43095,10 @@ var render = function() {
                                         name: "model",
                                         rawName: "v-model",
                                         value:
-                                          _vm.category.i18[language.code]
+                                          _vm.category.i18n[language.code]
                                             .meta_description,
                                         expression:
-                                          "category.i18[language.code].meta_description"
+                                          "category.i18n[language.code].meta_description"
                                       },
                                       {
                                         name: "validate",
@@ -42876,13 +43111,13 @@ var render = function() {
                                     attrs: {
                                       id: "meta-description-" + language.code,
                                       name:
-                                        "i18." +
+                                        "i18n." +
                                         language.code +
                                         ".meta_description"
                                     },
                                     domProps: {
                                       value:
-                                        _vm.category.i18[language.code]
+                                        _vm.category.i18n[language.code]
                                           .meta_description
                                     },
                                     on: {
@@ -42891,7 +43126,7 @@ var render = function() {
                                           return
                                         }
                                         _vm.$set(
-                                          _vm.category.i18[language.code],
+                                          _vm.category.i18n[language.code],
                                           "meta_description",
                                           $event.target.value
                                         )
@@ -42907,12 +43142,12 @@ var render = function() {
                                           name: "show",
                                           rawName: "v-show",
                                           value: _vm.formErrors.has(
-                                            "i18." +
+                                            "i18n." +
                                               language.code +
                                               ".meta_description"
                                           ),
                                           expression:
-                                            "formErrors.has(`i18.${language.code}.meta_description`)"
+                                            "formErrors.has(`i18n.${language.code}.meta_description`)"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -42921,7 +43156,7 @@ var render = function() {
                                       _vm._v(
                                         _vm._s(
                                           _vm.formErrors.first(
-                                            "i18." +
+                                            "i18n." +
                                               language.code +
                                               ".meta_description"
                                           )
@@ -43854,6 +44089,7 @@ var render = function() {
                 {
                   key: image.id,
                   staticClass: "col-xs-6 col-sm-3",
+                  staticStyle: { "min-width": "155px" },
                   attrs: { "data-id": image.id }
                 },
                 [
@@ -43877,14 +44113,14 @@ var render = function() {
                         {
                           staticClass:
                             "edit-photo-card__preview js-magnific-link",
-                          attrs: { href: image.original }
+                          attrs: { href: _vm.getImageOriginal(image) }
                         },
                         [
                           _c("div", {
                             staticClass: "edit-photo-card__image",
                             style:
                               "background-image:url(" +
-                              (image.small ? image.small.srcset : "") +
+                              _vm.getImagePreview(image) +
                               ")"
                           })
                         ]
@@ -43906,10 +44142,7 @@ var render = function() {
                                     }
                                   }
                                 },
-                                [
-                                  _c("i", { staticClass: "fa fa-crop" }),
-                                  _vm._v(" Редактировать\n                ")
-                                ]
+                                [_c("i", { staticClass: "fa fa-crop" })]
                               )
                             : _vm._e()
                         ]),
@@ -43982,7 +44215,6 @@ var render = function() {
         {
           ref: "pictureEditModal",
           attrs: {
-            id: "pictureEditModal",
             "no-close-on-backdrop": true,
             size: "lg",
             title: "Редактирование изображения",
@@ -43992,109 +44224,18 @@ var render = function() {
             "cancel-title": "Отмена",
             "hide-header-close": ""
           },
-          on: { hidden: _vm.clear, ok: _vm.pictureEditSave }
+          on: { hidden: _vm.clear, ok: _vm.editorImageSave }
         },
         [
-          !!_vm.toCropImage
-            ? _c("vue-cropper", {
-                ref: "cropper",
-                staticStyle: { "max-height": "500px" },
+          !!_vm.editorImage
+            ? _c("image-editor", {
+                ref: "imageEditor",
                 attrs: {
-                  guides: true,
-                  "view-mode": 2,
-                  "drag-mode": "crop",
-                  "auto-crop-area": 1,
-                  background: true,
-                  rotatable: true,
-                  zoomable: false,
-                  data: _vm.getCropperData(),
-                  src: _vm.toCropImage.original,
-                  "img-style": { width: "100%" }
+                  image: _vm.editorImage.original,
+                  modifications: _vm.getEditorImageModifications()
                 }
               })
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "edit-image-panel text-center",
-              staticStyle: { "margin-top": "20px" }
-            },
-            [
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  attrs: { href: "javascript:void(0)" },
-                  on: {
-                    click: function($event) {
-                      _vm.rotateLeft()
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-rotate-left" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  attrs: { href: "javascript:void(0)" },
-                  on: {
-                    click: function($event) {
-                      _vm.rotateRight()
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-rotate-right" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  attrs: { href: "javascript:void(0)" },
-                  on: {
-                    click: function($event) {
-                      _vm.invertX()
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-arrows-h" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  attrs: { href: "javascript:void(0)" },
-                  on: {
-                    click: function($event) {
-                      _vm.invertY()
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-arrows-v" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-sm btn-primary",
-                  attrs: { href: "javascript:void(0)" },
-                  on: {
-                    click: function($event) {
-                      _vm.reset()
-                    }
-                  }
-                },
-                [
-                  _c("i", { staticClass: "fa fa-refresh" }),
-                  _vm._v(" Сбросить\n      ")
-                ]
-              )
-            ]
-          )
+            : _vm._e()
         ],
         1
       )
@@ -44146,38 +44287,40 @@ var render = function() {
     "div",
     { staticClass: "form-horizontal form-bordered" },
     [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { staticClass: "col-md-3 control-label" }, [
-          _vm._v("Добавить")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-9" }, [
-          _c(
-            "div",
-            { staticClass: "input-group" },
-            [
-              _c("tree-select-translatable", {
-                ref: "attributesSelect",
-                attrs: {
-                  options: _vm.available,
-                  placeholder: "Выберите аттрибут",
-                  activeLanguageCode: _vm.activeLanguageCode
-                }
-              }),
-              _vm._v(" "),
+      _vm.selectedAttributesIds.length !== _vm.innerAttributes.length
+        ? _c("div", { staticClass: "form-group" }, [
+            _c("label", { staticClass: "col-md-3 control-label" }, [
+              _vm._v("Добавить")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-9" }, [
               _c(
-                "a",
-                {
-                  staticClass: "input-group-addon btn btn-primary",
-                  on: { click: _vm.add }
-                },
-                [_c("i", { staticClass: "fa fa-plus-circle" })]
+                "div",
+                { staticClass: "input-group" },
+                [
+                  _c("tree-select-translatable", {
+                    ref: "attributesSelect",
+                    attrs: {
+                      options: _vm.available,
+                      placeholder: "Выберите аттрибут",
+                      activeLanguageCode: _vm.activeLanguageCode
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "input-group-addon btn btn-primary",
+                      on: { click: _vm.add }
+                    },
+                    [_c("i", { staticClass: "fa fa-plus-circle" })]
+                  )
+                ],
+                1
               )
-            ],
-            1
-          )
-        ])
-      ]),
+            ])
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _vm._l(_vm.selected, function(attribute) {
         return _c(
@@ -44201,7 +44344,7 @@ var render = function() {
                     staticClass: "col-md-3 control-label",
                     attrs: { for: "attribute-" + attribute.id }
                   },
-                  [_vm._v(_vm._s(attribute.i18[_vm.activeLanguageCode].title))]
+                  [_vm._v(_vm._s(attribute.i18n[_vm.activeLanguageCode].title))]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-md-9" }, [
@@ -44437,7 +44580,7 @@ var render = function() {
               "div",
               { staticClass: "table-cell lev" },
               [
-                category.sub
+                category.children
                   ? _c(
                       "span",
                       {
@@ -44462,7 +44605,7 @@ var render = function() {
                   _c("strong", {
                     domProps: {
                       innerHTML: _vm._s(
-                        category.i18[_vm.activeLanguageCode].title
+                        category.i18n[_vm.activeLanguageCode].title
                       )
                     }
                   })
@@ -44527,7 +44670,7 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          category.sub
+          category.children
             ? _c("categories-table-tree", {
                 directives: [
                   {
@@ -44538,7 +44681,7 @@ var render = function() {
                   }
                 ],
                 attrs: {
-                  tree: category.sub,
+                  tree: category.children,
                   level: parseInt(_vm.level) + 1,
                   statusChange: _vm.statusChange,
                   remove: _vm.remove,
@@ -47336,7 +47479,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__components_ClearCacheBtn__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_MainMenu__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_magnific_popup__ = __webpack_require__("./node_modules/magnific-popup/dist/jquery.magnific-popup.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_magnific_popup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17_magnific_popup__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
 
 
 
@@ -47703,6 +47850,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-75b27f50", Component.options)
   } else {
     hotAPI.reload("data-v-75b27f50", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/ImageEditor.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/ImageEditor.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3950337e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ImageEditor.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ImageEditor.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3950337e", Component.options)
+  } else {
+    hotAPI.reload("data-v-3950337e", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -49244,6 +49439,7 @@ var apiRequest = function () {
     return parseInt(window.config.role);
   },
   isSuperAdmin: function isSuperAdmin() {
+    return true;
     return this.getRole() === 1;
   }
 });
@@ -49630,6 +49826,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     } while (idStr.length < idStrLen);
 
     return idStr;
+  },
+  imageIsLoaded: function imageIsLoaded(elImg) {
+    if (!elImg.complete) {
+      return false;
+    }
+
+    if (typeof elImg.naturalWidth !== 'undefined' && elImg.naturalWidth === 0) {
+      return false;
+    }
+
+    return true;
+  },
+  onImageLoaded: function onImageLoaded(elImg, cb) {
+    var _this = this;
+
+    if (this.imageIsLoaded(elImg)) {
+      this.runCallback(cb);
+    } else {
+      var onLoad = function onLoad() {
+        elImg.removeEventListener('load', onLoad);
+        _this.runCallback(cb);
+      };
+
+      elImg.addEventListener('load', onLoad);
+    }
   }
 });
 
@@ -50421,6 +50642,7 @@ function transliteration(text, onlyLower) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__resources_CategoriesTreeSelectModel__ = __webpack_require__("./resources/assets/js/resources/CategoriesTreeSelectModel.js");
 
 
+
 /* harmony default export */ __webpack_exports__["a"] = ({
   methods: {
     initCurrencies: function initCurrencies() {
@@ -50453,19 +50675,9 @@ function transliteration(text, onlyLower) {
 
       var tree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-      var build = function build(tree) {
-        return tree.map(function (item) {
-          var res = new __WEBPACK_IMPORTED_MODULE_0__resources_CategoriesTreeSelectModel__["a" /* default */](item, _this.languages);
-
-          if (item.sub) {
-            res.sub = build(item.sub);
-          }
-
-          return res;
-        });
-      };
-
-      this.categoriesTree = build(tree);
+      this.categoriesTree = tree.map(function (item) {
+        return new __WEBPACK_IMPORTED_MODULE_0__resources_CategoriesTreeSelectModel__["a" /* default */](item, _this.languages);
+      });
     },
     getEnabledData: function getEnabledData() {
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -51196,7 +51408,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       var errors = this.formErrors.items;
 
       for (var i = 0; i < errors.length; i++) {
-        if (errors[i].field.indexOf('i18.') !== -1) {
+        if (errors[i].field.indexOf('i18n.') !== -1) {
           return true;
         }
       }
@@ -51281,7 +51493,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema__ = __webpack_require__("./resources/assets/js/resources/Schema.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SchemaI18__ = __webpack_require__("./resources/assets/js/resources/SchemaI18.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Schemai18n__ = __webpack_require__("./resources/assets/js/resources/Schemai18n.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51295,7 +51507,7 @@ var schema = {
   enabled: true
 };
 
-var i18Schema = {
+var i18nSchema = {
   title: ''
 };
 
@@ -51303,7 +51515,7 @@ var AttributeModel = function AttributeModel(entityData, languages) {
   _classCallCheck(this, AttributeModel);
 
   return _extends({}, new __WEBPACK_IMPORTED_MODULE_0__Schema__["a" /* default */](schema).combine(entityData), {
-    i18: new __WEBPACK_IMPORTED_MODULE_1__SchemaI18__["a" /* default */](i18Schema).combine(entityData.i18, languages)
+    i18n: new __WEBPACK_IMPORTED_MODULE_1__Schemai18n__["a" /* default */](i18nSchema).combine(entityData.i18n, languages)
   });
 };
 
@@ -51316,7 +51528,7 @@ var AttributeModel = function AttributeModel(entityData, languages) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema__ = __webpack_require__("./resources/assets/js/resources/Schema.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SchemaI18__ = __webpack_require__("./resources/assets/js/resources/SchemaI18.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Schemai18n__ = __webpack_require__("./resources/assets/js/resources/Schemai18n.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51333,7 +51545,7 @@ var schema = {
   }
 };
 
-var i18Schema = {
+var i18nSchema = {
   title: ''
 };
 
@@ -51341,7 +51553,7 @@ var AttributesTableModel = function AttributesTableModel(entityData, languages) 
   _classCallCheck(this, AttributesTableModel);
 
   return _extends({}, new __WEBPACK_IMPORTED_MODULE_0__Schema__["a" /* default */](schema).combine(entityData), {
-    i18: new __WEBPACK_IMPORTED_MODULE_1__SchemaI18__["a" /* default */](i18Schema).combine(entityData.i18, languages)
+    i18n: new __WEBPACK_IMPORTED_MODULE_1__Schemai18n__["a" /* default */](i18nSchema).combine(entityData.i18n, languages)
   });
 };
 
@@ -51354,7 +51566,7 @@ var AttributesTableModel = function AttributesTableModel(entityData, languages) 
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema__ = __webpack_require__("./resources/assets/js/resources/Schema.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SchemaI18__ = __webpack_require__("./resources/assets/js/resources/SchemaI18.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Schemai18n__ = __webpack_require__("./resources/assets/js/resources/Schemai18n.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51376,16 +51588,16 @@ var schema = {
   siteUrl: function siteUrl(data) {
     return '/categories/' + data.slug;
   },
-  sub: function sub(data) {
-    if (data.sub) {
-      return data.sub.map(function (item) {
+  children: function children(data) {
+    if (data.children && data.children instanceof Array && data.children.length > 0) {
+      return data.children.map(function (item) {
         return new CategoriesTableModel(item, langs);
       });
     }
   }
 };
 
-var i18Schema = {
+var i18nSchema = {
   title: ''
 };
 
@@ -51395,7 +51607,7 @@ var CategoriesTableModel = function CategoriesTableModel(entityData, languages) 
   langs = languages;
 
   return _extends({}, new __WEBPACK_IMPORTED_MODULE_0__Schema__["a" /* default */](schema).combine(entityData), {
-    i18: new __WEBPACK_IMPORTED_MODULE_1__SchemaI18__["a" /* default */](i18Schema).combine(entityData.i18, languages)
+    i18n: new __WEBPACK_IMPORTED_MODULE_1__Schemai18n__["a" /* default */](i18nSchema).combine(entityData.i18n, languages)
   });
 };
 
@@ -51408,7 +51620,7 @@ var CategoriesTableModel = function CategoriesTableModel(entityData, languages) 
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema__ = __webpack_require__("./resources/assets/js/resources/Schema.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SchemaI18__ = __webpack_require__("./resources/assets/js/resources/SchemaI18.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Schemai18n__ = __webpack_require__("./resources/assets/js/resources/Schemai18n.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51416,21 +51628,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
 
+var langs = void 0;
+
 var schema = {
   id: '',
   parent_id: '',
-  enabled: true
+  enabled: true,
+
+  children: function children(data) {
+    if (data.children && data.children instanceof Array && data.children.length > 0) {
+      return data.children.map(function (item) {
+        return new CategoriesTreeSelectModel(item, langs);
+      });
+    }
+  }
 };
 
-var i18Schema = {
+var i18nSchema = {
   title: ''
 };
 
 var CategoriesTreeSelectModel = function CategoriesTreeSelectModel(entityData, languages) {
   _classCallCheck(this, CategoriesTreeSelectModel);
 
+  langs = languages;
+
   return _extends({}, new __WEBPACK_IMPORTED_MODULE_0__Schema__["a" /* default */](schema).combine(entityData), {
-    i18: new __WEBPACK_IMPORTED_MODULE_1__SchemaI18__["a" /* default */](i18Schema).combine(entityData.i18, languages)
+    i18n: new __WEBPACK_IMPORTED_MODULE_1__Schemai18n__["a" /* default */](i18nSchema).combine(entityData.i18n, languages)
   });
 };
 
@@ -51443,7 +51667,7 @@ var CategoriesTreeSelectModel = function CategoriesTreeSelectModel(entityData, l
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema__ = __webpack_require__("./resources/assets/js/resources/Schema.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SchemaI18__ = __webpack_require__("./resources/assets/js/resources/SchemaI18.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Schemai18n__ = __webpack_require__("./resources/assets/js/resources/Schemai18n.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51460,7 +51684,7 @@ var schema = {
   updated_at: null
 };
 
-var i18Schema = {
+var i18nSchema = {
   title: '',
   description: '',
   meta_title: '',
@@ -51471,7 +51695,7 @@ var CategoryModel = function CategoryModel(entityData, languages) {
   _classCallCheck(this, CategoryModel);
 
   return _extends({}, new __WEBPACK_IMPORTED_MODULE_0__Schema__["a" /* default */](schema).combine(entityData), {
-    i18: new __WEBPACK_IMPORTED_MODULE_1__SchemaI18__["a" /* default */](i18Schema).combine(entityData.i18, languages)
+    i18n: new __WEBPACK_IMPORTED_MODULE_1__Schemai18n__["a" /* default */](i18nSchema).combine(entityData.i18n, languages)
   });
 };
 
@@ -51484,7 +51708,7 @@ var CategoryModel = function CategoryModel(entityData, languages) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema__ = __webpack_require__("./resources/assets/js/resources/Schema.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SchemaI18__ = __webpack_require__("./resources/assets/js/resources/SchemaI18.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Schemai18n__ = __webpack_require__("./resources/assets/js/resources/Schemai18n.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core__ = __webpack_require__("./resources/assets/js/core/index.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -51503,7 +51727,7 @@ var schema = {
   position: 0
 };
 
-var i18Schema = {
+var i18nSchema = {
   value: ''
 };
 
@@ -51511,7 +51735,7 @@ var OptionModel = function OptionModel(entityData, languages) {
   _classCallCheck(this, OptionModel);
 
   return _extends({}, new __WEBPACK_IMPORTED_MODULE_0__Schema__["a" /* default */](schema).combine(entityData), {
-    i18: new __WEBPACK_IMPORTED_MODULE_1__SchemaI18__["a" /* default */](i18Schema).combine(entityData.i18, languages)
+    i18n: new __WEBPACK_IMPORTED_MODULE_1__Schemai18n__["a" /* default */](i18nSchema).combine(entityData.i18n, languages)
   });
 };
 
@@ -51524,7 +51748,7 @@ var OptionModel = function OptionModel(entityData, languages) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema__ = __webpack_require__("./resources/assets/js/resources/Schema.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SchemaI18__ = __webpack_require__("./resources/assets/js/resources/SchemaI18.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Schemai18n__ = __webpack_require__("./resources/assets/js/resources/Schemai18n.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core__ = __webpack_require__("./resources/assets/js/core/index.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -51540,7 +51764,7 @@ var schema = {
   }
 };
 
-var i18Schema = {
+var i18nSchema = {
   title: function title(data) {
     return data.value;
   }
@@ -51550,7 +51774,7 @@ var OptionModel = function OptionModel(entityData, languages) {
   _classCallCheck(this, OptionModel);
 
   return _extends({}, new __WEBPACK_IMPORTED_MODULE_0__Schema__["a" /* default */](schema).combine(entityData), {
-    i18: new __WEBPACK_IMPORTED_MODULE_1__SchemaI18__["a" /* default */](i18Schema).combine(entityData.i18, languages)
+    i18n: new __WEBPACK_IMPORTED_MODULE_1__Schemai18n__["a" /* default */](i18nSchema).combine(entityData.i18n, languages)
   });
 };
 
@@ -51589,7 +51813,7 @@ var PricesTableModel = function PricesTableModel() {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema__ = __webpack_require__("./resources/assets/js/resources/Schema.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SchemaI18__ = __webpack_require__("./resources/assets/js/resources/SchemaI18.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Schemai18n__ = __webpack_require__("./resources/assets/js/resources/Schemai18n.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51602,7 +51826,7 @@ var schema = {
   enabled: true
 };
 
-var i18Schema = {
+var i18nSchema = {
   title: ''
 };
 
@@ -51610,7 +51834,7 @@ var ProductAttributesModel = function ProductAttributesModel(entityData, languag
   _classCallCheck(this, ProductAttributesModel);
 
   return _extends({}, new __WEBPACK_IMPORTED_MODULE_0__Schema__["a" /* default */](schema).combine(entityData), {
-    i18: new __WEBPACK_IMPORTED_MODULE_1__SchemaI18__["a" /* default */](i18Schema).combine(entityData.i18, languages)
+    i18n: new __WEBPACK_IMPORTED_MODULE_1__Schemai18n__["a" /* default */](i18nSchema).combine(entityData.i18n, languages)
   });
 };
 
@@ -51623,7 +51847,7 @@ var ProductAttributesModel = function ProductAttributesModel(entityData, languag
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema__ = __webpack_require__("./resources/assets/js/resources/Schema.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SchemaI18__ = __webpack_require__("./resources/assets/js/resources/SchemaI18.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Schemai18n__ = __webpack_require__("./resources/assets/js/resources/Schemai18n.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PricesTableModel__ = __webpack_require__("./resources/assets/js/resources/PricesTableModel.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -51655,7 +51879,7 @@ var schema = {
   options: []
 };
 
-var i18Schema = {
+var i18nSchema = {
   title: '',
   description: '',
   meta_title: '',
@@ -51666,7 +51890,7 @@ var ProductModel = function ProductModel(entityData, languages) {
   _classCallCheck(this, ProductModel);
 
   return _extends({}, new __WEBPACK_IMPORTED_MODULE_0__Schema__["a" /* default */](schema).combine(entityData), {
-    i18: new __WEBPACK_IMPORTED_MODULE_1__SchemaI18__["a" /* default */](i18Schema).combine(entityData.i18, languages),
+    i18n: new __WEBPACK_IMPORTED_MODULE_1__Schemai18n__["a" /* default */](i18nSchema).combine(entityData.i18n, languages),
     prices: new __WEBPACK_IMPORTED_MODULE_2__PricesTableModel__["a" /* default */](entityData.prices)
   });
 };
@@ -51680,7 +51904,7 @@ var ProductModel = function ProductModel(entityData, languages) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema__ = __webpack_require__("./resources/assets/js/resources/Schema.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SchemaI18__ = __webpack_require__("./resources/assets/js/resources/SchemaI18.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Schemai18n__ = __webpack_require__("./resources/assets/js/resources/Schemai18n.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51715,7 +51939,7 @@ var schema = {
   }
 };
 
-var i18Schema = {
+var i18nSchema = {
   title: '<span class="label label-danger">Не заполнено</span>'
 };
 
@@ -51723,7 +51947,7 @@ var ProductsTableModelModel = function ProductsTableModelModel(entityData, langu
   _classCallCheck(this, ProductsTableModelModel);
 
   return _extends({}, new __WEBPACK_IMPORTED_MODULE_0__Schema__["a" /* default */](schema).combine(entityData), {
-    i18: new __WEBPACK_IMPORTED_MODULE_1__SchemaI18__["a" /* default */](i18Schema).combine(entityData.i18, languages)
+    i18n: new __WEBPACK_IMPORTED_MODULE_1__Schemai18n__["a" /* default */](i18nSchema).combine(entityData.i18n, languages)
   });
 };
 
@@ -51818,7 +52042,7 @@ var Schema = function () {
 
 /***/ }),
 
-/***/ "./resources/assets/js/resources/SchemaI18.js":
+/***/ "./resources/assets/js/resources/Schemai18n.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -51835,16 +52059,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-var SchemaI18 = function (_Schema) {
-  _inherits(SchemaI18, _Schema);
+var Schemai18n = function (_Schema) {
+  _inherits(Schemai18n, _Schema);
 
-  function SchemaI18() {
-    _classCallCheck(this, SchemaI18);
+  function Schemai18n() {
+    _classCallCheck(this, Schemai18n);
 
-    return _possibleConstructorReturn(this, (SchemaI18.__proto__ || Object.getPrototypeOf(SchemaI18)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Schemai18n.__proto__ || Object.getPrototypeOf(Schemai18n)).apply(this, arguments));
   }
 
-  _createClass(SchemaI18, [{
+  _createClass(Schemai18n, [{
     key: 'combine',
     value: function combine(data, languages) {
       return this.__combine(this.schema, data, languages);
@@ -51858,7 +52082,7 @@ var SchemaI18 = function (_Schema) {
       var languages = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
       return languages.reduce(function (acc, language) {
-        acc[language.code] = _get(SchemaI18.prototype.__proto__ || Object.getPrototypeOf(SchemaI18.prototype), '__combine', _this2).call(_this2, schema, data.find(function (item) {
+        acc[language.code] = _get(Schemai18n.prototype.__proto__ || Object.getPrototypeOf(Schemai18n.prototype), '__combine', _this2).call(_this2, schema, data.find(function (item) {
           return item.language_code === language.code;
         }));
 
@@ -51867,10 +52091,10 @@ var SchemaI18 = function (_Schema) {
     }
   }]);
 
-  return SchemaI18;
+  return Schemai18n;
 }(__WEBPACK_IMPORTED_MODULE_0__Schema__["a" /* default */]);
 
-/* harmony default export */ __webpack_exports__["a"] = (SchemaI18);
+/* harmony default export */ __webpack_exports__["a"] = (Schemai18n);
 
 /***/ }),
 

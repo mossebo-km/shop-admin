@@ -83,16 +83,16 @@ class ProductController extends ApiController
             }
 
             if (!empty($search)) {
-                $i18TableName = \Config::get('migrations.ProductsI18');
-                $query = $query->join("{$i18TableName} as i18", function ($join) use($productsTableName, $search) {
-                    $join->on('i18.product_id', '=', "{$productsTableName}.id")
+                $i18nTableName = \Config::get('migrations.ProductsI18n');
+                $query = $query->join("{$i18nTableName} as i18n", function ($join) use($productsTableName, $search) {
+                    $join->on('i18n.product_id', '=', "{$productsTableName}.id")
                         ->where(\DB::raw('lower(title)'), 'like', "%" . mb_strtolower($search) . "%");
                 });
             }
 
             return $query->select("{$productsTableName}.*")
                 ->orderBy('id', $sortType)
-                ->with(['i18', 'prices'])
+                ->with(['i18n', 'prices'])
                 ->paginate($perPage, null, null, $currentPage);
         }
 

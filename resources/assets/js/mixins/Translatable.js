@@ -44,7 +44,7 @@ export default {
       let errors = this.formErrors.items
 
       for (let i = 0; i < errors.length; i++) {
-        if (errors[i].field.indexOf(`i18.`) !== -1) {
+        if (errors[i].field.indexOf(`i18n.`) !== -1) {
           return true
         }
       }

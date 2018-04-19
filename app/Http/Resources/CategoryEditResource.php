@@ -20,7 +20,7 @@ class CategoryEditResource extends JsonResource
             'enabled'    => $this->enabled,
             'created_at' => dateFormatFull($this->created_at),
             'updated_at' => dateFormatFull($this->updated_at),
-            'i18'        => $this->i18->toArray()
+            'i18n'        => $this->i18n->toArray()
         ];
     }
 }

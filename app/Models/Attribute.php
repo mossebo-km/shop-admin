@@ -7,7 +7,7 @@ use App\Support\Traits\Models\RequestSaver;
 use App\Support\Traits\Models\Positionable;
 //use App\Exceptions\AdminException;
 
-class Attribute extends Base\BaseModelI18
+class Attribute extends Base\BaseModelI18n
 {
     use Positionable, StatusChangeable, RequestSaver;
 
@@ -49,7 +49,7 @@ class Attribute extends Base\BaseModelI18
      *
      * @var array
      */
-    protected $needsToSaveFromRequest = ['i18', 'options'];
+    protected $needsToSaveFromRequest = ['i18n', 'options'];
 
     public function productAttributes()
     {

@@ -20,11 +20,11 @@ return [
 	'PriceTypes' => 'shop_price_types',
 
 	'Categories' => 'shop_categories',
-	'CategoriesI18' => 'shop_categories_i18',
+	'CategoriesI18n' => 'shop_categories_i18n',
 	'CategoryProducts' => 'shop_category_products',
 
 	'Products' => 'shop_products',
-	'ProductsI18' => 'shop_products_i18',
+	'ProductsI18n' => 'shop_products_i18n',
 
 	// 'ProductsFields' => 'shop_product_fields',
 	// 'ProductsFieldsI18' => 'shop_product_fields_i18',
@@ -32,7 +32,7 @@ return [
 	// 'ProductsSimilar' => 'shop_product_similar',
 
 	'Suppliers' => 'shop_suppliers',
-	'SuppliersI18' => 'shop_suppliers_i18',
+	'SuppliersI18n' => 'shop_suppliers_i18n',
 	'SupplierProducts' => 'shop_supplier_products',
 
 	// 'Collections' => 'shop_collections',
@@ -58,9 +58,9 @@ return [
 	// 'ContentPagesI18' => 'content_pages_i18',
 
     'Attributes' => 'shop_attributes',
-    'AttributesI18' => 'shop_attributes_i18',
+    'AttributesI18n' => 'shop_attributes_i18n',
     'AttributeOptions' => 'shop_attribute_options',
-    'AttributeOptionsI18' => 'shop_attribute_options_i18',
+    'AttributeOptionsI18n' => 'shop_attribute_options_i18n',
     'ProductAttributes' => 'shop_product_attributes',
     'ProductAttributeOptions' => 'shop_product_attribute_options',
 ];

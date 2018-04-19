@@ -6,7 +6,7 @@ use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\RequestSaver;
 use App\Support\Traits\Models\Positionable;
 
-class AttributeOption extends Base\BaseModelI18
+class AttributeOption extends Base\BaseModelI18n
 {
     use StatusChangeable, RequestSaver, Positionable;
 
@@ -48,7 +48,7 @@ class AttributeOption extends Base\BaseModelI18
      *
      * @var array
      */
-    protected $needsToSaveFromRequest = ['i18'];
+    protected $needsToSaveFromRequest = ['i18n'];
 
     public function attribute()
     {

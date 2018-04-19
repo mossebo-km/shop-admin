@@ -165,8 +165,11 @@ return [
             Mossebo
         */
 
-        App\Providers\MorphServiceProvider::class,
+
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
+        Barryvdh\Elfinder\ElfinderServiceProvider::class,
+
+        App\Providers\MorphServiceProvider::class,
         App\Providers\RepoServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\MediaLibraryServiceProvider::class,

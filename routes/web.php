@@ -17,6 +17,16 @@ Route::group(['middleware' => 'web'], function() {
     Route::any('logout', 'Auth\LoginController@logout')->name('logout');
 });
 
+//Route::get('glide/{path}', function($path){
+//    $server = \League\Glide\ServerFactory::create([
+//        'source' => app('filesystem')->disk('media')->getDriver(),
+//        'cache' => storage_path('glide'),
+//    ]);
+//
+//    $server->setResponseFactory(new \League\Glide\Responses\LaravelResponseFactory());
+//
+//    return $server->getImageResponse($path, Illuminate\Support\Facades\Input::query());
+//})->where('path', '.+');
 
 Route::group(['middleware' => ['web', 'admin']], function() {
     Route::get('images/{product}', 'TestController@imageConverter');

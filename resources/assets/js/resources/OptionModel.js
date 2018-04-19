@@ -1,5 +1,5 @@
 import Schema from './Schema'
-import SchemaI18 from './SchemaI18'
+import Schemai18n from './Schemai18n'
 import Core from '../core'
 
 const schema = {
@@ -11,7 +11,7 @@ const schema = {
   position: 0,
 }
 
-const i18Schema = {
+const i18nSchema = {
   value: '',
 }
 
@@ -19,7 +19,7 @@ export default class OptionModel {
   constructor(entityData, languages) {
     return {
       ... (new Schema(schema)).combine(entityData),
-      i18: (new SchemaI18(i18Schema)).combine(entityData.i18, languages),
+      i18n: (new Schemai18n(i18nSchema)).combine(entityData.i18n, languages),
     }
   }
 }

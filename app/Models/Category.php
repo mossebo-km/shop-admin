@@ -6,10 +6,12 @@ use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\Positionable;
 use App\Support\Traits\Models\Sluggable;
 use App\Support\Traits\Models\RequestSaver;
+use Kalnoy\Nestedset\NodeTrait;
 
-class Category extends Base\BaseModelI18
+
+class Category extends Base\BaseModelI18n
 {
-    use StatusChangeable, Positionable, Sluggable, RequestSaver;
+    use StatusChangeable, Positionable, Sluggable, RequestSaver, NodeTrait;
 
     protected $tableIdentif = 'Categories';
     protected $translateRelationField = 'category_id';
@@ -23,7 +25,7 @@ class Category extends Base\BaseModelI18
         'updated_at'
     ];
 
-    protected $needsToSaveFromRequest = ['i18'];
+    protected $needsToSaveFromRequest = ['i18n'];
 
     public function categoryProducts()
     {

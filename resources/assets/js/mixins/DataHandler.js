@@ -1,3 +1,4 @@
+
 import CategoriesTreeSelectModel from '../resources/CategoriesTreeSelectModel'
 
 export default {
@@ -22,19 +23,7 @@ export default {
     },
 
     initCategoriesTree(tree = []) {
-      let build = tree => {
-        return tree.map(item => {
-          let res = new CategoriesTreeSelectModel(item, this.languages)
-
-          if (item.sub) {
-            res.sub = build(item.sub)
-          }
-
-          return res
-        })
-      }
-
-      this.categoriesTree = build(tree)
+      this.categoriesTree = tree.map(item => new CategoriesTreeSelectModel(item, this.languages))
     },
 
     getEnabledData(data = []) {

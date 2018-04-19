@@ -115,7 +115,7 @@
 
               <td style="width: 100%">
                 <router-link v-bind:to="attribute.url">
-                  <strong>{{ attribute.i18[activeLanguageCode].title }}</strong>
+                  <strong>{{ attribute.i18n[activeLanguageCode].title }}</strong>
                 </router-link>
               </td>
 

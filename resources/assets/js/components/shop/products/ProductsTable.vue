@@ -291,7 +291,7 @@
               </template>
 
               <template slot="title" slot-scope="product">
-                <router-link v-bind:to="product.item.url" v-html="product.item.i18[activeLanguageCode].title"></router-link>
+                <router-link v-bind:to="product.item.url" v-html="product.item.i18n[activeLanguageCode].title"></router-link>
               </template>
 
               <template slot="price" slot-scope="product">

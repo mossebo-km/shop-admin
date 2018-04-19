@@ -21,7 +21,7 @@ class AttributesTableResource extends JsonResource
             'layout_class' => $this->layout_class,
             'created_at'   => dateFormatFull($this->created_at),
             'updated_at'   => dateFormatFull($this->updated_at),
-            'i18'          => $this->i18->toArray()
+            'i18n'          => $this->i18n->toArray()
         ];
     }
 }

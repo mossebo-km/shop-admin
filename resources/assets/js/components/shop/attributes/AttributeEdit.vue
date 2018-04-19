@@ -101,7 +101,7 @@
           let item = {
             position: option.position,
             enabled: option.enabled,
-            i18: option.i18
+            i18n: option.i18n
           }
 
           if (option.isNew) {
@@ -243,11 +243,11 @@
             <template v-for="language in languages">
               <div :class="`form-horizontal form-bordered${activeLanguageCode === language.code ? '' : ' in-space'}`" :key="language.code">
 
-                <div :class="`form-group${formErrors.has(`i18.${language.code}.title`) ? ' has-error' : ''}`">
+                <div :class="`form-group${formErrors.has(`i18n.${language.code}.title`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`title-${language.code}`">Название <span class="text-danger">*</span></label>
                   <div class="col-md-9">
-                    <input type="text" class="form-control" :id="`title-${language.code}`" v-model="attribute.i18[language.code].title" :name="`i18.${language.code}.title`" v-validate="'required|max:255'">
-                    <span v-show="formErrors.has(`i18.${language.code}.title`)" class="help-block">{{ formErrors.first(`i18.${language.code}.title`) }}</span>
+                    <input type="text" class="form-control" :id="`title-${language.code}`" v-model="attribute.i18n[language.code].title" :name="`i18n.${language.code}.title`" v-validate="'required|max:255'">
+                    <span v-show="formErrors.has(`i18n.${language.code}.title`)" class="help-block">{{ formErrors.first(`i18n.${language.code}.title`) }}</span>
                   </div>
                 </div>
 
@@ -335,10 +335,10 @@
                     </td>
                     <td style="width: 100%">
                       <template v-for="language in languages">
-                        <div :class="{'has-error': formErrors.has(`options.${option.id}.i18.${language.code}.value`), 'in-space': activeLanguageCode !== language.code}" :key="language.code">
-                          <input type="text" class="form-control" :id="`option-${option.id}-${language.code}`" v-model="option.i18[language.code].value" :name="`options.${option.id}.i18.${language.code}.value`" v-validate="'required|max:255'"/>
+                        <div :class="{'has-error': formErrors.has(`options.${option.id}.i18n.${language.code}.value`), 'in-space': activeLanguageCode !== language.code}" :key="language.code">
+                          <input type="text" class="form-control" :id="`option-${option.id}-${language.code}`" v-model="option.i18n[language.code].value" :name="`options.${option.id}.i18n.${language.code}.value`" v-validate="'required|max:255'"/>
 
-                          <span v-show="formErrors.has(`options.${option.id}.i18.${language.code}.value`)" class="help-block" style="margin-bottom: 0;">{{ formErrors.first(`options.${option.id}.i18.${language.code}.value`) }}</span>
+                          <span v-show="formErrors.has(`options.${option.id}.i18n.${language.code}.value`)" class="help-block" style="margin-bottom: 0;">{{ formErrors.first(`options.${option.id}.i18n.${language.code}.value`) }}</span>
                         </div>
                       </template>
                     </td>

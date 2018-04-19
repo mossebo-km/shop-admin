@@ -1,5 +1,5 @@
 import Schema from "./Schema";
-import SchemaI18 from "./SchemaI18";
+import Schemai18n from "./Schemai18n";
 
 const schema = {
   id: '',
@@ -26,7 +26,7 @@ const schema = {
   }
 }
 
-const i18Schema = {
+const i18nSchema = {
   title: '<span class="label label-danger">Не заполнено</span>'
 }
 
@@ -34,7 +34,7 @@ export default class ProductsTableModelModel {
   constructor(entityData, languages) {
     return {
       ... (new Schema(schema)).combine(entityData),
-      i18: (new SchemaI18(i18Schema)).combine(entityData.i18, languages),
+      i18n: (new Schemai18n(i18nSchema)).combine(entityData.i18n, languages),
     }
   }
 }

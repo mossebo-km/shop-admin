@@ -24,6 +24,8 @@ import Loading from './components/Loading'
 import ClearCacheBtn from './components/ClearCacheBtn'
 import MainMenu from './components/MainMenu'
 
+import magnificPopup from 'magnific-popup'
+
 
 /**
  * First we will load all of this project's JavaScript dependencies which
