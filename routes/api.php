@@ -30,6 +30,18 @@ use Illuminate\Http\Request;
 // Route::put('products/{product}', 'ProductController@update');
 // Route::delete('products/{product}', 'ProductController@delete');
 
+Route::get('products/all', function() {
+    header('Access-Control-Allow-Origin: *');
+    $products = \App\Models\Product::withTranslate()
+        ->where('enabled', 1)
+        ->with(['prices', 'media'])
+        ->orderBy('id', 'desc')
+        ->get();
+
+    return \App\Http\Resources\ProductsOuter::collection($products);
+});
+
+
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('data', 'Api\DataController@get');
     Route::get('data', 'Api\DataController@get');
@@ -80,17 +92,4 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::delete('attributes/{attribute}', 'Api\AttributeController@delete');
     });
 });
-
-
-Route::get('products/all', function() {
-    header('Access-Control-Allow-Origin: *');
-    $products = \App\Models\Product::withTranslate()
-        ->where('enabled', 1)
-        ->with(['prices', 'media'])
-        ->orderBy('id', 'desc')
-        ->get();
-
-    return \App\Http\Resources\ProductsOuter::collection($products);
-});
-
 
