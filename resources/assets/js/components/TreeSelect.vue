@@ -156,15 +156,17 @@
       },
 
       bindSelect2Events() {
-        this.$$el.on('select2:select', e => {
+        this.$$el.on('select2:selecting', e => {
+          let {id} = e.params.args.data
+
           if (this.multiple) {
             this.setSelected([
               ... this.rSelected,
-              e.params.data.id
+              id
             ])
           }
           else {
-            this.setSelected(e.params.data.id)
+            this.setSelected(id)
           }
         })
 

@@ -25,13 +25,7 @@
             <!-- END User Info -->
 
             <!-- Sidebar Navigation -->
-            <main-menu class="sidebar-nav">
-                <a href="/shop"><i class="fa fa-shopping-bag sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Магазин</span></a>
-
-                <clear-cache-btn>
-                    <i class="fa fa-refresh sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide"></span>
-                </clear-cache-btn>
-            </main-menu>
+            <main-menu class="sidebar-nav"></main-menu>
             <!-- END Sidebar Navigation -->
         </div>
         <!-- END Sidebar Content -->

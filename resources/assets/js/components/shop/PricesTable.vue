@@ -1,4 +1,5 @@
 <script>
+  import {ErrorBag} from 'vee-validate'
   import Core from '../../core'
   import number from '../../directives/number'
   import Loading from '../Loading.vue'
@@ -9,7 +10,11 @@
       prices: {
         type: Object,
         required: true
-      }
+      },
+      errors: {
+        type: ErrorBag,
+        default: () => new ErrorBag()
+      },
     },
 
     directives: {
@@ -75,6 +80,14 @@
 
         this.rPrices = result
       },
+
+      hasError(name) {
+        return this.errors.has(name) || this.formErrors.has(name)
+      },
+
+      getError(name) {
+        return this.errors.first(name) || this.formErrors.first(name)
+      }
     },
 
     created() {
@@ -98,11 +111,12 @@
         <tbody>
           <tr v-for="priceType in priceTypes">
             <td><span class="prices-table__type">{{ priceType.title }}</span></td>
-            <td v-for="currency in currencies">
+            <td v-for="currency in currencies" :class="{'has-error': hasError(`prices.${priceType.id}.${currency.code}`)}">
               <div class="input-group">
-                <input type="text" v-model="rPrices[priceType.id][currency.code]" v-number @input="onChange" class="form-control">
+                <input type="text" v-model="rPrices[priceType.id][currency.code]" :name="`prices.${priceType.id}.${currency.code}`" @input="onChange" class="form-control" v-number v-validate="'integer|min_value:1|max_value:4294967295'">
                 <currency-converter :value="rPrices[priceType.id][currency.code]" :currency="getCurrency(currency.code)"></currency-converter>
               </div>
+              <span v-show="hasError(`prices.${priceType.id}.${currency.code}`)" class="help-block">{{ getError(`prices.${priceType.id}.${currency.code}`) }}</span>
             </td>
           </tr>
         </tbody>

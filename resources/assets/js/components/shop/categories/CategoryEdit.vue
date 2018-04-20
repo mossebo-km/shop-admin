@@ -1,6 +1,4 @@
 <script>
-  import 'select2'
-
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
   import ShopQuickNav from '../ShopQuickNav'

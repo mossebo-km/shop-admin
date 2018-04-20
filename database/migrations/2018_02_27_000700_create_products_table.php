@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->increments('id')->index()->start_from(100000);
+            $table->increments('id')->index();
             $table->integer('supplier_id')->nullable();
             $table->integer('quantity')->nullable()->unsigned();
             $table->integer('showed')->unsigned()->default(0);
@@ -37,6 +37,17 @@ class CreateProductsTable extends Migration
             $table->boolean('enabled')->index()->default(1);
             $table->timestamps();
         });
+
+        $driver = DB::connection()->getPDO()->getAttribute(PDO::ATTR_DRIVER_NAME);
+
+        switch ($driver) {
+            case 'mysql':
+                DB::unprepared("ALTER TABLE {$this->tableName} AUTO_INCREMENT=100000;");
+                break;
+            case 'pgsql':
+                DB::update("ALTER SEQUENCE {$this->tableName}_id_seq RESTART WITH 100000;");
+                break;
+        }
     }
 
     /**

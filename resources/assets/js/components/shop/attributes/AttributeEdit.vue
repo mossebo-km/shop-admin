@@ -1,6 +1,4 @@
 <script>
-  import 'select2'
-
   import EntityEdit from '../../../mixins/EntityEdit'
   import Translatable from '../../../mixins/Translatable'
   import Sortable from '../../../mixins/Sortable'

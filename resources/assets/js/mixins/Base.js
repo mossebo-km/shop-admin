@@ -1,12 +1,6 @@
 import Core from '../core'
 
 export default {
-  data() {
-    return {
-      componentInitializedWithUrl: null
-    }
-  },
-
   methods: {
     /**
      * todo: Доделать проверку на права
