@@ -1,6 +1,4 @@
 <script>
-  import 'select2'
-
   import Core from '../../../core'
 
   import bModal from 'bootstrap-vue/es/components/modal/modal'
@@ -140,7 +138,7 @@
       },
 
       getToSaveAttributes() {
-        let attributes = this.$refs.attributesSelect.getAttributes()
+        let attributes = this.$refs.attributesSelect ? this.$refs.attributesSelect.getAttributes() : []
 
         return attributes.reduce((acc, attribute) => {
           if (! (attribute.selected instanceof Array && attribute.selected.length > 0)) {
@@ -371,7 +369,7 @@
                 <label class="col-md-3 control-label" for="width">Ширина <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <input type="text" class="form-control" id="width" v-model="product.width" name="width" v-validate="'required|integer|min_value:1'">
+                    <input type="text" class="form-control" id="width" v-model="product.width" name="width" v-number v-validate="'required|integer|min_value:1|max_value:4294967295'">
                     <size-converter :value="product.width"></size-converter>
                   </div>
                   <span v-show="formErrors.has('width')" class="help-block">{{ formErrors.first('width') }}</span>
@@ -382,7 +380,7 @@
                 <label class="col-md-3 control-label" for="height">Высота <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <input type="text" class="form-control" id="height" v-model="product.height" name="height" v-validate="'required|integer|min_value:1'">
+                    <input type="text" class="form-control" id="height" v-model="product.height" name="height" v-number v-validate="'required|integer|min_value:1|max_value:4294967295'">
                     <size-converter :value="product.height"></size-converter>
                   </div>
                   <span v-show="formErrors.has('height')" class="help-block">{{ formErrors.first('height') }}</span>
@@ -393,7 +391,7 @@
                 <label class="col-md-3 control-label" for="length">Длина <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <input type="text" class="form-control" id="length" v-model="product.length" name="length" v-validate="'required|integer|min_value:1'">
+                    <input type="text" class="form-control" id="length" v-model="product.length" name="length" v-number v-validate="'required|integer|min_value:1|max_value:4294967295'">
                     <size-converter :value="product.length"></size-converter>
                   </div>
                   <span v-show="formErrors.has('length')" class="help-block">{{ formErrors.first('length') }}</span>
@@ -404,7 +402,7 @@
                 <label class="col-md-3 control-label" for="weight">Вес <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <input type="text" class="form-control" id="weight" v-model="product.weight" name="weight" v-validate="'required|integer|min_value:1'">
+                    <input type="text" class="form-control" id="weight" v-model="product.weight" name="weight" v-number v-validate="'required|integer|min_value:1|max_value:4294967295'">
                     <weight-converter :value="product.weight"></weight-converter>
                   </div>
                   <span v-show="formErrors.has('weight')" class="help-block">{{ formErrors.first('weight') }}</span>
@@ -449,7 +447,7 @@
           <h2><i class="fa fa-money"></i> <strong>Цены</strong></h2>
         </div>
 
-        <prices-table :prices.sync="product.prices"></prices-table>
+        <prices-table :prices.sync="product.prices" :errors="formErrors"></prices-table>
       </div>
     </div>
 

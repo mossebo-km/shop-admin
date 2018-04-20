@@ -61,22 +61,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   methods: {
-    destroy: function destroy() {
-      // if (!this.destroyed) {
-      //   this.instance.focusManager.blur(true)
-      //   this.instance.removeAllListeners()
-      //   this.instance.destroy(true)
-      //   this.destroyed = true
-      // }
-    },
-    reset: function reset() {
-      // this.instance.setData(this.content)
+    input: function input(e) {
+      this.$emit('update:content', this.content + e.data);
     }
-  },
-
-  beforeDestroy: function beforeDestroy() {
-    // this.destroy()
   }
+
+  // beforeDestroy() {
+  // this.destroy()
+  // }
 });
 
 /***/ }),
@@ -706,22 +698,314 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var menuData = [{
+  title: 'Магазин',
+  icon: 'fa fa-shopping-bag',
+  children: [{
+    title: 'Товары',
+    url: '/shop/products',
+    icon: 'gi gi-shopping_bag'
+  }, {
+    title: 'Категории',
+    url: '/shop/categories',
+    icon: 'fa fa-folder'
+  }, {
+    title: 'Поставщики',
+    url: '/shop/suppliers',
+    icon: 'fa fa-truck'
+  }, {
+    title: 'Аттрибуты',
+    url: '/shop/attributes',
+    icon: 'fa fa-list'
+  }]
+}, {
+  title: 'Настройки',
+  icon: 'fa fa-gear',
+  url: '/settings'
+}, {
+  title: 'Отчистить кэш',
+  onClick: function onClick() {
+    new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler('get', '/api/cache').start();
+  },
+
+  icon: 'fa fa-refresh'
+}];
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "main-menu",
 
+  data: function data() {
+    return {};
+  },
+
+
+  watch: {
+    '$route': 'checkExpanded'
+  },
+
+  mounted: function mounted() {
+    this.init();
+  },
+
+
+  methods: {
+    init: function init() {
+      var _this = this;
+
+      [].forEach.call(document.querySelectorAll('.sidebar-nav-sub'), function (el) {
+        el.setAttribute('data-height', _this.getMenuHeight(el));
+      });
+
+      this.checkExpanded();
+    },
+    getMenuHeight: function getMenuHeight(elMenu) {
+      return elMenu.childNodes[0].scrollHeight;
+    },
+    getMainMenuEl: function getMainMenuEl() {
+      return this.$el;
+    },
+    getParents: function getParents(el) {
+      var selector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '*';
+
+      var parents = [];
+      var p = el.parentNode;
+
+      while (p !== this.$el) {
+        if (p.matches(selector)) {
+          parents.push(p);
+        }
+
+        el = p;
+        p = p.parentNode;
+      }
+
+      return parents;
+    },
+    checkExpanded: function checkExpanded() {
+      var _this2 = this;
+
+      this.$nextTick(function () {
+        var elsToCLose = _this2.$el.querySelectorAll('.sidebar-nav-menu.open:not(.manual) + .sidebar-nav-sub');[].forEach.call(elsToCLose, function (elMenu) {
+          _this2.closeItem(elMenu.previousSibling, elMenu);
+        });
+
+        var elActiveLink = _this2.$el.querySelector('a.active');
+
+        if (!elActiveLink) return;
+
+        var elClosestMenu = elActiveLink.closest('.sidebar-nav-sub');
+
+        if (!elClosestMenu) return;
+
+        _this2.expand(elClosestMenu.previousSibling, elClosestMenu);
+      });
+    },
+    getChildrensHeight: function getChildrensHeight(elMenu) {
+      return [].reduce.call(elMenu.querySelectorAll('.sidebar-nav-menu.open + .sidebar-nav-sub'), function (acc, el) {
+        return acc + parseInt(el.getAttribute('data-height'));
+      }, 0);
+    },
+    expandItem: function expandItem(elLink, elMenu) {
+      elLink.classList.add('open');
+
+      var height = parseInt(elMenu.getAttribute('data-height')) + this.getChildrensHeight(elMenu);
+      elMenu.style.height = height + 'px';
+    },
+    expand: function expand(elLink, elMenu) {
+      var _this3 = this;
+
+      this.expandItem(elLink, elMenu);[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), function (el) {
+        _this3.expandItem(el.previousSibling, el);
+      });
+    },
+    closeItem: function closeItem(elLink, elMenu) {
+      elLink.classList.remove('open');
+      elMenu.removeAttribute('style');
+    },
+    close: function close(elLink, elMenu) {
+      var _this4 = this;
+
+      ;[].reverse.call(elMenu.querySelectorAll('.sidebar-nav-sub')).forEach(function (el) {
+        _this4.closeItem(el.previousSibling, el);
+      });
+
+      this.closeItem(elLink, elMenu);[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), function (el) {
+        _this4.expandItem(el.previousSibling, el);
+      });
+    },
+    expandToggle: function expandToggle(elLink, elMenu) {
+      if (elLink.classList.contains('open')) {
+        this.close(elLink, elMenu);
+      } else {
+        this.expand(elLink, elMenu);
+      }
+    },
+    expandLinkClick: function expandLinkClick(elLink) {
+      elLink.classList.toggle('manual');
+      this.expandToggle(elLink, elLink.nextSibling);
+    }
+  },
+
   render: function render(createElement) {
-    var keyCounter = 0;
-    var slots = this.$slots.default.map(function (item) {
-      var isActive = item.data && item.data.attrs && item.data.attrs.href ? window.location.pathname.indexOf(item.data.attrs.href) !== -1 : false;
+    var _this5 = this;
 
-      return createElement('li', {
-        class: isActive ? 'active' : '',
-        key: item.id || item.code || keyCounter++
-      }, [item]);
-    });
+    var makeTitleEl = function makeTitleEl(title) {
+      return createElement('span', {
+        attrs: {
+          class: 'sidebar-nav-mini-hide'
+        }
+      }, title);
+    };
 
-    return createElement('ul', slots);
+    var __makeIconEl = function __makeIconEl(iconClasses) {
+      return createElement('i', {
+        attrs: {
+          class: iconClasses
+        }
+      });
+    };
+
+    var makeIconEl = function makeIconEl(iconCLasses) {
+      return __makeIconEl(iconCLasses + ' sidebar-nav-icon');
+    };
+
+    var makeIndicatorEl = function makeIndicatorEl() {
+      return __makeIconEl('fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide');
+    };
+
+    var urlIsLocal = function urlIsLocal(url) {
+      url = __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].trim(url);
+
+      if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {
+        return url.indexOf(window.location.origin) === 0;
+      }
+
+      return true;
+    };
+
+    function mergeDeep(target) {
+      for (var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        sources[_key - 1] = arguments[_key];
+      }
+
+      if (!sources.length) return target;
+      var source = sources.shift();
+
+      if (_.isObject(target) && _.isObject(source)) {
+        for (var key in source) {
+          if (_.isObject(source[key]) && !_.isFunction(source[key])) {
+            if (!target[key]) Object.assign(target, _defineProperty({}, key, {}));
+            mergeDeep(target[key], source[key]);
+          } else {
+            Object.assign(target, _defineProperty({}, key, source[key]));
+          }
+        }
+      }
+
+      return mergeDeep.apply(undefined, [target].concat(sources));
+    }
+
+    var makeLink = function makeLink(_ref) {
+      var url = _ref.url,
+          onClick = _ref.onClick,
+          icon = _ref.icon,
+          title = _ref.title,
+          children = _ref.children;
+
+      var tagName = 'a';
+      var isLocal = url ? urlIsLocal(url) : false;
+      var params = {
+        key: __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].uniqueId()
+      };
+
+      if (typeof onClick === 'function') {
+        params = mergeDeep(params, {
+          on: {
+            click: onClick
+          }
+        });
+      }
+      if (url && isLocal) {
+        tagName = 'router-link';
+        params = mergeDeep(params, {
+          attrs: {
+            to: url,
+            'active-class': 'active'
+          }
+        });
+      } else if (url && !isLocal) {
+        params = mergeDeep(params, {
+          attrs: {
+            href: url,
+            target: '_blank'
+          }
+        });
+      } else {
+        params = mergeDeep(params, {
+          attrs: {
+            href: 'javascript:void(0);'
+          }
+        });
+      }
+
+      var childrenElsArray = [];
+
+      if (children instanceof Array && children.length > 0) {
+        params = mergeDeep(params, {
+          on: {
+            click: function click(event) {
+              return _this5.expandLinkClick(event.target.closest('.sidebar-nav-menu'));
+            }
+          },
+          attrs: {
+            class: 'sidebar-nav-menu'
+          }
+        });
+
+        childrenElsArray.push(makeIndicatorEl());
+      }
+
+      if (icon) {
+        childrenElsArray.push(makeIconEl(icon));
+      }
+
+      if (title) {
+        childrenElsArray.push(makeTitleEl(title));
+      }
+
+      return createElement(tagName, params, childrenElsArray);
+    };
+
+    var makeElsLiArray = function makeElsLiArray() {
+      var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      return items.reduce(function (acc, item) {
+        var slots = [makeLink(item)];
+
+        if (item.children) {
+
+          slots.push(createElement('div', {
+            attrs: {
+              class: 'sidebar-nav-sub'
+            }
+          }, [createElement('ul', makeElsLiArray(item.children))]));
+        }
+
+        acc.push(createElement('li', slots));
+
+        return acc;
+      }, []);
+    };
+
+    return createElement('ul', {
+      attrs: {
+        class: 'sidebar-nav'
+      }
+    }, makeElsLiArray(menuData));
   }
 });
 
@@ -968,11 +1252,14 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     bindSelect2Events: function bindSelect2Events() {
       var _this4 = this;
 
-      this.$$el.on('select2:select', function (e) {
+      this.$$el.on('select2:selecting', function (e) {
+        var id = e.params.args.data.id;
+
+
         if (_this4.multiple) {
-          _this4.setSelected([].concat(_toConsumableArray(_this4.rSelected), [e.params.data.id]));
+          _this4.setSelected([].concat(_toConsumableArray(_this4.rSelected), [id]));
         } else {
-          _this4.setSelected(e.params.data.id);
+          _this4.setSelected(id);
         }
       });
 
@@ -1479,6 +1766,21 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 selected: [].concat(_toConsumableArray(attribute.selected), [option.id])
               });
             }
+          },
+
+          unselecting: function unselecting(e) {
+            var id = e.params.args.data.id;
+            var option = attribute.options.find(function (item) {
+              return item.id === id;
+            }) || {};
+
+            if (option.isNew) {
+              _this3.updateAttribute(attribute, {
+                options: attribute.options.filter(function (item) {
+                  return item.id !== id;
+                })
+              });
+            }
           }
         }
       };
@@ -1547,13 +1849,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Loading_vue__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Loading_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Loading_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__converters_CurrencyConverter__ = __webpack_require__("./resources/assets/js/components/converters/CurrencyConverter.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__converters_CurrencyConverter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__converters_CurrencyConverter__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vee_validate__ = __webpack_require__("./node_modules/vee-validate/dist/vee-validate.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Loading_vue__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Loading_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Loading_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__converters_CurrencyConverter__ = __webpack_require__("./resources/assets/js/components/converters/CurrencyConverter.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__converters_CurrencyConverter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__converters_CurrencyConverter__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 
 
 
@@ -1565,10 +1869,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     prices: {
       type: Object,
       required: true
+    },
+    errors: {
+      type: __WEBPACK_IMPORTED_MODULE_0_vee_validate__["a" /* ErrorBag */],
+      default: function _default() {
+        return new __WEBPACK_IMPORTED_MODULE_0_vee_validate__["a" /* ErrorBag */]();
+      }
     }
   },
 
-  directives: _extends({}, __WEBPACK_IMPORTED_MODULE_1__directives_number__["a" /* default */]),
+  directives: _extends({}, __WEBPACK_IMPORTED_MODULE_2__directives_number__["a" /* default */]),
 
   data: function data() {
     return {
@@ -1581,8 +1891,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
   components: {
-    Loading: __WEBPACK_IMPORTED_MODULE_2__Loading_vue___default.a,
-    CurrencyConverter: __WEBPACK_IMPORTED_MODULE_3__converters_CurrencyConverter___default.a
+    Loading: __WEBPACK_IMPORTED_MODULE_3__Loading_vue___default.a,
+    CurrencyConverter: __WEBPACK_IMPORTED_MODULE_4__converters_CurrencyConverter___default.a
   },
 
   watch: {
@@ -1594,7 +1904,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       var _this = this;
 
       this.loading = true;
-      __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].dataHandler.get(['price-types', 'currencies']).then(function (data) {
+      __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].dataHandler.get(['price-types', 'currencies']).then(function (data) {
         _this.priceTypes = data['price-types'].filter(function (item) {
           return !!item.enabled;
         }).sort(function (a, b) {
@@ -1639,6 +1949,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       });
 
       this.rPrices = result;
+    },
+    hasError: function hasError(name) {
+      return this.errors.has(name) || this.formErrors.has(name);
+    },
+    getError: function getError(name) {
+      return this.errors.first(name) || this.formErrors.first(name);
     }
   },
 
@@ -1697,22 +2013,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_select2__ = __webpack_require__("./node_modules/select2/dist/js/select2.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_select2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_select2__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__LanguageIdentif__ = __webpack_require__("./resources/assets/js/components/LanguageIdentif.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__LanguageIdentif___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__LanguageIdentif__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__Toggle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__resources_AttributeModel__ = __webpack_require__("./resources/assets/js/resources/AttributeModel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__resources_OptionModel__ = __webpack_require__("./resources/assets/js/resources/OptionModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ShopQuickNav__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguageIdentif__ = __webpack_require__("./resources/assets/js/components/LanguageIdentif.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguageIdentif___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__LanguageIdentif__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_AttributeModel__ = __webpack_require__("./resources/assets/js/resources/AttributeModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__resources_OptionModel__ = __webpack_require__("./resources/assets/js/resources/OptionModel.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -1730,19 +2044,17 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 
-
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "attribute-edit",
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_EntityEdit__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_EntityEdit__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_Sortable__["a" /* default */]],
 
   components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_5__ShopQuickNav___default.a,
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default.a,
-    LanguageIdentif: __WEBPACK_IMPORTED_MODULE_7__LanguageIdentif___default.a,
-    bModal: __WEBPACK_IMPORTED_MODULE_4_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    Toggle: __WEBPACK_IMPORTED_MODULE_8__Toggle___default.a
+    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_4__ShopQuickNav___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default.a,
+    LanguageIdentif: __WEBPACK_IMPORTED_MODULE_6__LanguageIdentif___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_3_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    Toggle: __WEBPACK_IMPORTED_MODULE_7__Toggle___default.a
   },
 
   props: ['id', 'type'],
@@ -1785,7 +2097,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     initEntity: function initEntity() {
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_9__resources_AttributeModel__["a" /* default */](data, this.languages));
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_8__resources_AttributeModel__["a" /* default */](data, this.languages));
 
       if (this.type === 'edit') {
         this.initOptions(data.options);
@@ -1832,7 +2144,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     makeOption: function makeOption() {
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      var option = new __WEBPACK_IMPORTED_MODULE_10__resources_OptionModel__["a" /* default */](data, this.languages);
+      var option = new __WEBPACK_IMPORTED_MODULE_9__resources_OptionModel__["a" /* default */](data, this.languages);
 
       if (data.id) {
         option.isNew = false;
@@ -2147,23 +2459,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_select2__ = __webpack_require__("./node_modules/select2/dist/js/select2.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_select2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_select2__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable__ = __webpack_require__("./resources/assets/js/components/TreeSelectTranslatable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__CKEditor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__resources_CategoryModel__ = __webpack_require__("./resources/assets/js/resources/CategoryModel.js");
-
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelectTranslatable__ = __webpack_require__("./resources/assets/js/components/TreeSelectTranslatable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelectTranslatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__TreeSelectTranslatable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__CKEditor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_CategoryModel__ = __webpack_require__("./resources/assets/js/resources/CategoryModel.js");
 
 
 
@@ -2181,7 +2489,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'category-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_7__mixins_EntityEdit__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__mixins_EntityEdit__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__["a" /* default */]],
 
   props: ['id'],
 
@@ -2200,11 +2508,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_2__ShopQuickNav___default.a,
-    TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable___default.a,
-    'ckeditor': __WEBPACK_IMPORTED_MODULE_5__CKEditor___default.a,
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default.a,
-    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */]
+    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default.a,
+    TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_3__TreeSelectTranslatable___default.a,
+    'ckeditor': __WEBPACK_IMPORTED_MODULE_4__CKEditor___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */]
   },
 
   methods: {
@@ -2214,7 +2522,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     initEntity: function initEntity() {
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_9__resources_CategoryModel__["a" /* default */](data, this.languages));
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_8__resources_CategoryModel__["a" /* default */](data, this.languages));
     },
 
 
@@ -2223,7 +2531,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
      */
     slugAutocomplete: function slugAutocomplete() {
       var model = this.getEntityModel();
-      model.slug = __WEBPACK_IMPORTED_MODULE_3__core__["a" /* default */].makeUrl(model.i18n[this.activeLanguageCode].title);
+      model.slug = __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].makeUrl(model.i18n[this.activeLanguageCode].title);
     }
   }
 });
@@ -2275,39 +2583,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_select2__ = __webpack_require__("./node_modules/select2/dist/js/select2.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_select2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_select2__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__TreeSelect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__TreeSelectTranslatable__ = __webpack_require__("./resources/assets/js/components/TreeSelectTranslatable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__TreeSelectTranslatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__TreeSelectTranslatable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__CKEditor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__PricesTable__ = __webpack_require__("./resources/assets/js/components/shop/PricesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__PricesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__PricesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__DropzoneGallery__ = __webpack_require__("./resources/assets/js/components/DropzoneGallery.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__DropzoneGallery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__DropzoneGallery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__AttributesSelect__ = __webpack_require__("./resources/assets/js/components/shop/AttributesSelect.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__AttributesSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__AttributesSelect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__converters_WeightConverter__ = __webpack_require__("./resources/assets/js/components/converters/WeightConverter.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__converters_WeightConverter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__converters_WeightConverter__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__converters_SizeConverter__ = __webpack_require__("./resources/assets/js/components/converters/SizeConverter.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__converters_SizeConverter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__converters_SizeConverter__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__core_queueHandler__ = __webpack_require__("./resources/assets/js/core/queueHandler.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__resources_ProductModel__ = __webpack_require__("./resources/assets/js/resources/ProductModel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__resources_ProductAttributesModel__ = __webpack_require__("./resources/assets/js/resources/ProductAttributesModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ShopQuickNav__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__TreeSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable__ = __webpack_require__("./resources/assets/js/components/TreeSelectTranslatable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__CKEditor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__PricesTable__ = __webpack_require__("./resources/assets/js/components/shop/PricesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__PricesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__PricesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__DropzoneGallery__ = __webpack_require__("./resources/assets/js/components/DropzoneGallery.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__DropzoneGallery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__DropzoneGallery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__AttributesSelect__ = __webpack_require__("./resources/assets/js/components/shop/AttributesSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__AttributesSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__AttributesSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__converters_WeightConverter__ = __webpack_require__("./resources/assets/js/components/converters/WeightConverter.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__converters_WeightConverter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__converters_WeightConverter__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__converters_SizeConverter__ = __webpack_require__("./resources/assets/js/components/converters/SizeConverter.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__converters_SizeConverter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__converters_SizeConverter__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__core_queueHandler__ = __webpack_require__("./resources/assets/js/core/queueHandler.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__resources_ProductModel__ = __webpack_require__("./resources/assets/js/resources/ProductModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__resources_ProductAttributesModel__ = __webpack_require__("./resources/assets/js/resources/ProductAttributesModel.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
 
 
 
@@ -2338,9 +2642,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'product-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_10__mixins_EntityEdit__["a" /* default */], __WEBPACK_IMPORTED_MODULE_11__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_9__mixins_EntityEdit__["a" /* default */], __WEBPACK_IMPORTED_MODULE_10__mixins_Translatable__["a" /* default */]],
 
-  directives: _extends({}, __WEBPACK_IMPORTED_MODULE_13__directives_number__["a" /* default */]),
+  directives: _extends({}, __WEBPACK_IMPORTED_MODULE_12__directives_number__["a" /* default */]),
 
   props: ['id'],
 
@@ -2364,29 +2668,29 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
   components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_3__ShopQuickNav___default.a,
-    TreeSelect: __WEBPACK_IMPORTED_MODULE_4__TreeSelect___default.a,
-    TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_5__TreeSelectTranslatable___default.a,
-    'ckeditor': __WEBPACK_IMPORTED_MODULE_6__CKEditor___default.a,
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_7__LanguagePicker___default.a,
-    bModal: __WEBPACK_IMPORTED_MODULE_2_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    DropzoneGallery: __WEBPACK_IMPORTED_MODULE_9__DropzoneGallery___default.a,
-    PricesTable: __WEBPACK_IMPORTED_MODULE_8__PricesTable___default.a,
-    WeightConverter: __WEBPACK_IMPORTED_MODULE_14__converters_WeightConverter___default.a,
-    SizeConverter: __WEBPACK_IMPORTED_MODULE_15__converters_SizeConverter___default.a,
-    AttributesSelect: __WEBPACK_IMPORTED_MODULE_12__AttributesSelect___default.a
+    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_2__ShopQuickNav___default.a,
+    TreeSelect: __WEBPACK_IMPORTED_MODULE_3__TreeSelect___default.a,
+    TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable___default.a,
+    'ckeditor': __WEBPACK_IMPORTED_MODULE_5__CKEditor___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    DropzoneGallery: __WEBPACK_IMPORTED_MODULE_8__DropzoneGallery___default.a,
+    PricesTable: __WEBPACK_IMPORTED_MODULE_7__PricesTable___default.a,
+    WeightConverter: __WEBPACK_IMPORTED_MODULE_13__converters_WeightConverter___default.a,
+    SizeConverter: __WEBPACK_IMPORTED_MODULE_14__converters_SizeConverter___default.a,
+    AttributesSelect: __WEBPACK_IMPORTED_MODULE_11__AttributesSelect___default.a
   },
 
   methods: {
     loadData: function loadData() {
       var _this = this;
 
-      var a = new __WEBPACK_IMPORTED_MODULE_16__core_queueHandler__["a" /* asyncPackageDataCollector */]();
+      var a = new __WEBPACK_IMPORTED_MODULE_15__core_queueHandler__["a" /* asyncPackageDataCollector */]();
       a.add(function () {
         return _this.fetchMainData();
       });
 
-      a.add(new __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].requestHandler('get', '/api/shop/attributes'));
+      a.add(new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler('get', '/api/shop/attributes'));
 
       if (this.type === 'edit') {
         a.add(this.fetchEntity());
@@ -2413,7 +2717,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     initEntity: function initEntity() {
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_17__resources_ProductModel__["a" /* default */](data, this.languages));
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_16__resources_ProductModel__["a" /* default */](data, this.languages));
     },
     initAttributes: function initAttributes() {
       var _this2 = this;
@@ -2421,7 +2725,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.attributes = this.getSortedData(this.getEnabledData(data)).map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_18__resources_ProductAttributesModel__["a" /* default */](item, _this2.languages);
+        return new __WEBPACK_IMPORTED_MODULE_17__resources_ProductAttributesModel__["a" /* default */](item, _this2.languages);
       });
     },
     getToSaveData: function getToSaveData() {
@@ -2445,7 +2749,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     getToSaveAttributes: function getToSaveAttributes() {
       var _this3 = this;
 
-      var attributes = this.$refs.attributesSelect.getAttributes();
+      var attributes = this.$refs.attributesSelect ? this.$refs.attributesSelect.getAttributes() : [];
 
       return attributes.reduce(function (acc, attribute) {
         if (!(attribute.selected instanceof Array && attribute.selected.length > 0)) {
@@ -2732,21 +3036,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_select2__ = __webpack_require__("./node_modules/select2/dist/js/select2.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_select2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_select2__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__TreeSelect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__CKEditor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__resources_SupplierModel__ = __webpack_require__("./resources/assets/js/resources/SupplierModel.js");
-
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__TreeSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__CKEditor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__resources_SupplierModel__ = __webpack_require__("./resources/assets/js/resources/SupplierModel.js");
 
 
 
@@ -2762,7 +3062,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'supplier-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_6__mixins_EntityEdit__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_EntityEdit__["a" /* default */]],
 
   props: ['id'],
 
@@ -2777,16 +3077,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     initEntity: function initEntity(data) {
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_7__resources_SupplierModel__["a" /* default */](data));
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_6__resources_SupplierModel__["a" /* default */](data));
     }
   },
 
   components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_2__ShopQuickNav___default.a,
-    TreeSelect: __WEBPACK_IMPORTED_MODULE_3__TreeSelect___default.a,
-    'ckeditor': __WEBPACK_IMPORTED_MODULE_4__CKEditor___default.a,
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default.a,
-    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */]
+    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default.a,
+    TreeSelect: __WEBPACK_IMPORTED_MODULE_2__TreeSelect___default.a,
+    'ckeditor': __WEBPACK_IMPORTED_MODULE_3__CKEditor___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */]
   }
 });
 
@@ -11402,6 +11702,21 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 // module
 exports.push([module.i, "/*!\n * Select2 Bootstrap Theme v0.1.0-beta.10 (https://select2.github.io/select2-bootstrap-theme)\n * Copyright 2015-2017 Florian Kissling and contributors (https://github.com/select2/select2-bootstrap-theme/graphs/contributors)\n * Licensed under MIT (https://github.com/select2/select2-bootstrap-theme/blob/master/LICENSE)\n */\n\n.select2-container--bootstrap {\n  display: block;\n  /*------------------------------------*      #COMMON STYLES\n  \\*------------------------------------*/\n  /**\n   * Search field in the Select2 dropdown.\n   */\n  /**\n   * No outline for all search fields - in the dropdown\n   * and inline in multi Select2s.\n   */\n  /**\n   * Adjust Select2's choices hover and selected styles to match\n   * Bootstrap 3's default dropdown styles.\n   *\n   * @see http://getbootstrap.com/components/#dropdowns\n   */\n  /**\n   * Clear the selection.\n   */\n  /**\n   * Address disabled Select2 styles.\n   *\n   * @see https://select2.github.io/examples.html#disabled\n   * @see http://getbootstrap.com/css/#forms-control-disabled\n   */\n  /*------------------------------------*      #DROPDOWN\n  \\*------------------------------------*/\n  /**\n   * Dropdown border color and box-shadow.\n   */\n  /**\n   * Limit the dropdown height.\n   */\n  /*------------------------------------*      #SINGLE SELECT2\n  \\*------------------------------------*/\n  /*------------------------------------*    #MULTIPLE SELECT2\n  \\*------------------------------------*/\n  /**\n   * Address Bootstrap control sizing classes\n   *\n   * 1. Reset Bootstrap defaults.\n   * 2. Adjust the dropdown arrow button icon position.\n   *\n   * @see http://getbootstrap.com/css/#forms-control-sizes\n   */\n  /* 1 */\n  /*------------------------------------*    #RTL SUPPORT\n  \\*------------------------------------*/\n}\n\n.select2-container--bootstrap .select2-selection {\n  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\n  background-color: #fff;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  color: #555555;\n  font-size: 14px;\n  outline: 0;\n}\n\n.select2-container--bootstrap .select2-selection.form-control {\n  border-radius: 4px;\n}\n\n.select2-container--bootstrap .select2-search--dropdown .select2-search__field {\n  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);\n  background-color: #fff;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  color: #555555;\n  font-size: 14px;\n}\n\n.select2-container--bootstrap .select2-search__field {\n  outline: 0;\n  /* Firefox 18- */\n  /**\n     * Firefox 19+\n     *\n     * @see http://stackoverflow.com/questions/24236240/color-for-styled-placeholder-text-is-muted-in-firefox\n     */\n}\n\n.select2-container--bootstrap .select2-search__field::-webkit-input-placeholder {\n  color: #999;\n}\n\n.select2-container--bootstrap .select2-search__field:-moz-placeholder {\n  color: #999;\n}\n\n.select2-container--bootstrap .select2-search__field::-moz-placeholder {\n  color: #999;\n  opacity: 1;\n}\n\n.select2-container--bootstrap .select2-search__field:-ms-input-placeholder {\n  color: #999;\n}\n\n.select2-container--bootstrap .select2-results__option {\n  padding: 6px 12px;\n  /**\n     * Disabled results.\n     *\n     * @see https://select2.github.io/examples.html#disabled-results\n     */\n  /**\n     * Hover state.\n     */\n  /**\n     * Selected state.\n     */\n}\n\n.select2-container--bootstrap .select2-results__option[role=group] {\n  padding: 0;\n}\n\n.select2-container--bootstrap .select2-results__option[aria-disabled=true] {\n  color: #777777;\n  cursor: not-allowed;\n}\n\n.select2-container--bootstrap .select2-results__option[aria-selected=true] {\n  background-color: #f5f5f5;\n  color: #262626;\n}\n\n.select2-container--bootstrap .select2-results__option--highlighted[aria-selected] {\n  background-color: #337ab7;\n  color: #fff;\n}\n\n.select2-container--bootstrap .select2-results__option .select2-results__option {\n  padding: 6px 12px;\n}\n\n.select2-container--bootstrap .select2-results__option .select2-results__option .select2-results__group {\n  padding-left: 0;\n}\n\n.select2-container--bootstrap .select2-results__option .select2-results__option .select2-results__option {\n  margin-left: -12px;\n  padding-left: 24px;\n}\n\n.select2-container--bootstrap .select2-results__option .select2-results__option .select2-results__option .select2-results__option {\n  margin-left: -24px;\n  padding-left: 36px;\n}\n\n.select2-container--bootstrap .select2-results__option .select2-results__option .select2-results__option .select2-results__option .select2-results__option {\n  margin-left: -36px;\n  padding-left: 48px;\n}\n\n.select2-container--bootstrap .select2-results__option .select2-results__option .select2-results__option .select2-results__option .select2-results__option .select2-results__option {\n  margin-left: -48px;\n  padding-left: 60px;\n}\n\n.select2-container--bootstrap .select2-results__option .select2-results__option .select2-results__option .select2-results__option .select2-results__option .select2-results__option .select2-results__option {\n  margin-left: -60px;\n  padding-left: 72px;\n}\n\n.select2-container--bootstrap .select2-results__group {\n  color: #777777;\n  display: block;\n  padding: 6px 12px;\n  font-size: 12px;\n  line-height: 1.42857143;\n  white-space: nowrap;\n}\n\n.select2-container--bootstrap.select2-container--focus .select2-selection, .select2-container--bootstrap.select2-container--open .select2-selection {\n  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);\n  -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;\n  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;\n  -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;\n  transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;\n  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;\n  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;\n  border-color: #66afe9;\n}\n\n.select2-container--bootstrap.select2-container--open {\n  /**\n     * Make the dropdown arrow point up while the dropdown is visible.\n     */\n  /**\n     * Handle border radii of the container when the dropdown is showing.\n     */\n}\n\n.select2-container--bootstrap.select2-container--open .select2-selection .select2-selection__arrow b {\n  border-color: transparent transparent #999 transparent;\n  border-width: 0 4px 4px 4px;\n}\n\n.select2-container--bootstrap.select2-container--open.select2-container--below .select2-selection {\n  border-bottom-right-radius: 0;\n  border-bottom-left-radius: 0;\n  border-bottom-color: transparent;\n}\n\n.select2-container--bootstrap.select2-container--open.select2-container--above .select2-selection {\n  border-top-right-radius: 0;\n  border-top-left-radius: 0;\n  border-top-color: transparent;\n}\n\n.select2-container--bootstrap .select2-selection__clear {\n  color: #999;\n  cursor: pointer;\n  float: right;\n  font-weight: bold;\n  margin-right: 10px;\n}\n\n.select2-container--bootstrap .select2-selection__clear:hover {\n  color: #333;\n}\n\n.select2-container--bootstrap.select2-container--disabled .select2-selection {\n  border-color: #ccc;\n  -webkit-box-shadow: none;\n  box-shadow: none;\n}\n\n.select2-container--bootstrap.select2-container--disabled .select2-selection,\n.select2-container--bootstrap.select2-container--disabled .select2-search__field {\n  cursor: not-allowed;\n}\n\n.select2-container--bootstrap.select2-container--disabled .select2-selection,\n.select2-container--bootstrap.select2-container--disabled .select2-selection--multiple .select2-selection__choice {\n  background-color: #eeeeee;\n}\n\n.select2-container--bootstrap.select2-container--disabled .select2-selection__clear,\n.select2-container--bootstrap.select2-container--disabled .select2-selection--multiple .select2-selection__choice__remove {\n  display: none;\n}\n\n.select2-container--bootstrap .select2-dropdown {\n  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);\n  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);\n  border-color: #66afe9;\n  overflow-x: hidden;\n  margin-top: -1px;\n}\n\n.select2-container--bootstrap .select2-dropdown--above {\n  -webkit-box-shadow: 0px -6px 12px rgba(0, 0, 0, 0.175);\n  box-shadow: 0px -6px 12px rgba(0, 0, 0, 0.175);\n  margin-top: 1px;\n}\n\n.select2-container--bootstrap .select2-results > .select2-results__options {\n  max-height: 200px;\n  overflow-y: auto;\n}\n\n.select2-container--bootstrap .select2-selection--single {\n  height: 34px;\n  line-height: 1.42857143;\n  padding: 6px 24px 6px 12px;\n  /**\n     * Adjust the single Select2's dropdown arrow button appearance.\n     */\n}\n\n.select2-container--bootstrap .select2-selection--single .select2-selection__arrow {\n  position: absolute;\n  bottom: 0;\n  right: 12px;\n  top: 0;\n  width: 4px;\n}\n\n.select2-container--bootstrap .select2-selection--single .select2-selection__arrow b {\n  border-color: #999 transparent transparent transparent;\n  border-style: solid;\n  border-width: 4px 4px 0 4px;\n  height: 0;\n  left: 0;\n  margin-left: -4px;\n  margin-top: -2px;\n  position: absolute;\n  top: 50%;\n  width: 0;\n}\n\n.select2-container--bootstrap .select2-selection--single .select2-selection__rendered {\n  color: #555555;\n  padding: 0;\n}\n\n.select2-container--bootstrap .select2-selection--single .select2-selection__placeholder {\n  color: #999;\n}\n\n.select2-container--bootstrap .select2-selection--multiple {\n  min-height: 34px;\n  padding: 0;\n  height: auto;\n  /**\n     * Make Multi Select2's choices match Bootstrap 3's default button styles.\n     */\n  /**\n     * Minus 2px borders.\n     */\n  /**\n     * Clear the selection.\n     */\n}\n\n.select2-container--bootstrap .select2-selection--multiple .select2-selection__rendered {\n  -webkit-box-sizing: border-box;\n     -moz-box-sizing: border-box;\n          box-sizing: border-box;\n  display: block;\n  line-height: 1.42857143;\n  list-style: none;\n  margin: 0;\n  overflow: hidden;\n  padding: 0;\n  width: 100%;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.select2-container--bootstrap .select2-selection--multiple .select2-selection__placeholder {\n  color: #999;\n  float: left;\n  margin-top: 5px;\n}\n\n.select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {\n  color: #555555;\n  background: #fff;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  cursor: default;\n  float: left;\n  margin: 5px 0 0 6px;\n  padding: 0 6px;\n}\n\n.select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {\n  background: transparent;\n  padding: 0 12px;\n  height: 32px;\n  line-height: 1.42857143;\n  margin-top: 0;\n  min-width: 5em;\n}\n\n.select2-container--bootstrap .select2-selection--multiple .select2-selection__choice__remove {\n  color: #999;\n  cursor: pointer;\n  display: inline-block;\n  font-weight: bold;\n  margin-right: 3px;\n}\n\n.select2-container--bootstrap .select2-selection--multiple .select2-selection__choice__remove:hover {\n  color: #333;\n}\n\n.select2-container--bootstrap .select2-selection--multiple .select2-selection__clear {\n  margin-top: 6px;\n}\n\n.select2-container--bootstrap .select2-selection--single.input-sm,\n.input-group-sm .select2-container--bootstrap .select2-selection--single,\n.form-group-sm .select2-container--bootstrap .select2-selection--single {\n  border-radius: 3px;\n  font-size: 12px;\n  height: 30px;\n  line-height: 1.5;\n  padding: 5px 22px 5px 10px;\n  /* 2 */\n}\n\n.select2-container--bootstrap .select2-selection--single.input-sm .select2-selection__arrow b,\n.input-group-sm .select2-container--bootstrap .select2-selection--single .select2-selection__arrow b,\n.form-group-sm .select2-container--bootstrap .select2-selection--single .select2-selection__arrow b {\n  margin-left: -5px;\n}\n\n.select2-container--bootstrap .select2-selection--multiple.input-sm,\n.input-group-sm .select2-container--bootstrap .select2-selection--multiple,\n.form-group-sm .select2-container--bootstrap .select2-selection--multiple {\n  min-height: 30px;\n  border-radius: 3px;\n}\n\n.select2-container--bootstrap .select2-selection--multiple.input-sm .select2-selection__choice,\n.input-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice,\n.form-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {\n  font-size: 12px;\n  line-height: 1.5;\n  margin: 4px 0 0 5px;\n  padding: 0 5px;\n}\n\n.select2-container--bootstrap .select2-selection--multiple.input-sm .select2-search--inline .select2-search__field,\n.input-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field,\n.form-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {\n  padding: 0 10px;\n  font-size: 12px;\n  height: 28px;\n  line-height: 1.5;\n}\n\n.select2-container--bootstrap .select2-selection--multiple.input-sm .select2-selection__clear,\n.input-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear,\n.form-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear {\n  margin-top: 5px;\n}\n\n.select2-container--bootstrap .select2-selection--single.input-lg,\n.input-group-lg .select2-container--bootstrap .select2-selection--single,\n.form-group-lg .select2-container--bootstrap .select2-selection--single {\n  border-radius: 6px;\n  font-size: 18px;\n  height: 46px;\n  line-height: 1.3333333;\n  padding: 10px 31px 10px 16px;\n  /* 1 */\n}\n\n.select2-container--bootstrap .select2-selection--single.input-lg .select2-selection__arrow,\n.input-group-lg .select2-container--bootstrap .select2-selection--single .select2-selection__arrow,\n.form-group-lg .select2-container--bootstrap .select2-selection--single .select2-selection__arrow {\n  width: 5px;\n}\n\n.select2-container--bootstrap .select2-selection--single.input-lg .select2-selection__arrow b,\n.input-group-lg .select2-container--bootstrap .select2-selection--single .select2-selection__arrow b,\n.form-group-lg .select2-container--bootstrap .select2-selection--single .select2-selection__arrow b {\n  border-width: 5px 5px 0 5px;\n  margin-left: -5px;\n  margin-left: -10px;\n  margin-top: -2.5px;\n}\n\n.select2-container--bootstrap .select2-selection--multiple.input-lg,\n.input-group-lg .select2-container--bootstrap .select2-selection--multiple,\n.form-group-lg .select2-container--bootstrap .select2-selection--multiple {\n  min-height: 46px;\n  border-radius: 6px;\n}\n\n.select2-container--bootstrap .select2-selection--multiple.input-lg .select2-selection__choice,\n.input-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice,\n.form-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {\n  font-size: 18px;\n  line-height: 1.3333333;\n  border-radius: 4px;\n  margin: 9px 0 0 8px;\n  padding: 0 10px;\n}\n\n.select2-container--bootstrap .select2-selection--multiple.input-lg .select2-search--inline .select2-search__field,\n.input-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field,\n.form-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {\n  padding: 0 16px;\n  font-size: 18px;\n  height: 44px;\n  line-height: 1.3333333;\n}\n\n.select2-container--bootstrap .select2-selection--multiple.input-lg .select2-selection__clear,\n.input-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear,\n.form-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear {\n  margin-top: 10px;\n}\n\n.select2-container--bootstrap .select2-selection.input-lg.select2-container--open .select2-selection--single {\n  /**\n     * Make the dropdown arrow point up while the dropdown is visible.\n     */\n}\n\n.select2-container--bootstrap .select2-selection.input-lg.select2-container--open .select2-selection--single .select2-selection__arrow b {\n  border-color: transparent transparent #999 transparent;\n  border-width: 0 5px 5px 5px;\n}\n\n.input-group-lg .select2-container--bootstrap .select2-selection.select2-container--open .select2-selection--single {\n  /**\n     * Make the dropdown arrow point up while the dropdown is visible.\n     */\n}\n\n.input-group-lg .select2-container--bootstrap .select2-selection.select2-container--open .select2-selection--single .select2-selection__arrow b {\n  border-color: transparent transparent #999 transparent;\n  border-width: 0 5px 5px 5px;\n}\n\n.select2-container--bootstrap[dir=\"rtl\"] {\n  /**\n     * Single Select2\n     *\n     * 1. Makes sure that .select2-selection__placeholder is positioned\n     *    correctly.\n     */\n  /**\n     * Multiple Select2\n     */\n}\n\n.select2-container--bootstrap[dir=\"rtl\"] .select2-selection--single {\n  padding-left: 24px;\n  padding-right: 12px;\n}\n\n.select2-container--bootstrap[dir=\"rtl\"] .select2-selection--single .select2-selection__rendered {\n  padding-right: 0;\n  padding-left: 0;\n  text-align: right;\n  /* 1 */\n}\n\n.select2-container--bootstrap[dir=\"rtl\"] .select2-selection--single .select2-selection__clear {\n  float: left;\n}\n\n.select2-container--bootstrap[dir=\"rtl\"] .select2-selection--single .select2-selection__arrow {\n  left: 12px;\n  right: auto;\n}\n\n.select2-container--bootstrap[dir=\"rtl\"] .select2-selection--single .select2-selection__arrow b {\n  margin-left: 0;\n}\n\n.select2-container--bootstrap[dir=\"rtl\"] .select2-selection--multiple .select2-selection__choice,\n.select2-container--bootstrap[dir=\"rtl\"] .select2-selection--multiple .select2-selection__placeholder,\n.select2-container--bootstrap[dir=\"rtl\"] .select2-selection--multiple .select2-search--inline {\n  float: right;\n}\n\n.select2-container--bootstrap[dir=\"rtl\"] .select2-selection--multiple .select2-selection__choice {\n  margin-left: 0;\n  margin-right: 6px;\n}\n\n.select2-container--bootstrap[dir=\"rtl\"] .select2-selection--multiple .select2-selection__choice__remove {\n  margin-left: 2px;\n  margin-right: auto;\n}\n\n/*------------------------------------*  #ADDITIONAL GOODIES\n\\*------------------------------------*/\n/**\n * Address Bootstrap's validation states\n *\n * If a Select2 widget parent has one of Bootstrap's validation state modifier\n * classes, adjust Select2's border colors and focus states accordingly.\n * You may apply said classes to the Select2 dropdown (body > .select2-container)\n * via JavaScript match Bootstraps' to make its styles match.\n *\n * @see http://getbootstrap.com/css/#forms-control-validation\n */\n.has-warning .select2-dropdown,\n.has-warning .select2-selection {\n  border-color: #8a6d3b;\n}\n\n.has-warning .select2-container--focus .select2-selection,\n.has-warning .select2-container--open .select2-selection {\n  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b;\n  border-color: #66512c;\n}\n\n.has-warning.select2-drop-active {\n  border-color: #66512c;\n}\n\n.has-warning.select2-drop-active.select2-drop.select2-drop-above {\n  border-top-color: #66512c;\n}\n\n.has-error .select2-dropdown,\n.has-error .select2-selection {\n  border-color: #a94442;\n}\n\n.has-error .select2-container--focus .select2-selection,\n.has-error .select2-container--open .select2-selection {\n  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;\n  border-color: #843534;\n}\n\n.has-error.select2-drop-active {\n  border-color: #843534;\n}\n\n.has-error.select2-drop-active.select2-drop.select2-drop-above {\n  border-top-color: #843534;\n}\n\n.has-success .select2-dropdown,\n.has-success .select2-selection {\n  border-color: #3c763d;\n}\n\n.has-success .select2-container--focus .select2-selection,\n.has-success .select2-container--open .select2-selection {\n  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;\n  border-color: #2b542c;\n}\n\n.has-success.select2-drop-active {\n  border-color: #2b542c;\n}\n\n.has-success.select2-drop-active.select2-drop.select2-drop-above {\n  border-top-color: #2b542c;\n}\n\n/**\n * Select2 widgets in Bootstrap Input Groups\n *\n * @see http://getbootstrap.com/components/#input-groups\n * @see https://github.com/twbs/bootstrap/blob/master/less/input-groups.less\n */\n/**\n * Reset rounded corners\n */\n.input-group > .select2-hidden-accessible:first-child + .select2-container--bootstrap > .selection > .select2-selection,\n.input-group > .select2-hidden-accessible:first-child + .select2-container--bootstrap > .selection > .select2-selection.form-control {\n  border-bottom-right-radius: 0;\n  border-top-right-radius: 0;\n}\n\n.input-group > .select2-hidden-accessible:not(:first-child) + .select2-container--bootstrap:not(:last-child) > .selection > .select2-selection,\n.input-group > .select2-hidden-accessible:not(:first-child) + .select2-container--bootstrap:not(:last-child) > .selection > .select2-selection.form-control {\n  border-radius: 0;\n}\n\n.input-group > .select2-hidden-accessible:not(:first-child):not(:last-child) + .select2-container--bootstrap:last-child > .selection > .select2-selection,\n.input-group > .select2-hidden-accessible:not(:first-child):not(:last-child) + .select2-container--bootstrap:last-child > .selection > .select2-selection.form-control {\n  border-bottom-left-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.input-group > .select2-container--bootstrap {\n  display: table;\n  table-layout: fixed;\n  position: relative;\n  z-index: 2;\n  width: 100%;\n  margin-bottom: 0;\n  /**\n   * Adjust z-index like Bootstrap does to show the focus-box-shadow\n   * above appended buttons in .input-group and .form-group.\n   */\n  /**\n   * Adjust alignment of Bootstrap buttons in Bootstrap Input Groups to address\n   * Multi Select2's height which - depending on how many elements have been selected -\n   * may grow taller than its initial size.\n   *\n   * @see http://getbootstrap.com/components/#input-groups\n   */\n}\n\n.input-group > .select2-container--bootstrap > .selection > .select2-selection.form-control {\n  float: none;\n}\n\n.input-group > .select2-container--bootstrap.select2-container--open, .input-group > .select2-container--bootstrap.select2-container--focus {\n  z-index: 3;\n}\n\n.input-group > .select2-container--bootstrap,\n.input-group > .select2-container--bootstrap .input-group-btn,\n.input-group > .select2-container--bootstrap .input-group-btn .btn {\n  vertical-align: top;\n}\n\n/**\n * Temporary fix for https://github.com/select2/select2-bootstrap-theme/issues/9\n *\n * Provides `!important` for certain properties of the class applied to the\n * original `<select>` element to hide it.\n *\n * @see https://github.com/select2/select2/pull/3301\n * @see https://github.com/fk/select2/commit/31830c7b32cb3d8e1b12d5b434dee40a6e753ada\n */\n.form-control.select2-hidden-accessible {\n  position: absolute !important;\n  width: 1px !important;\n}\n\n/**\n * Display override for inline forms\n */\n@media (min-width: 768px) {\n  .form-inline .select2-container--bootstrap {\n    display: inline-block;\n  }\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-623467ef\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/MainMenu.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(true);
+// imports
+
+
+// module
+exports.push([module.i, "\n.sidebar-nav li {\n    position: relative;\n}\n.sidebar-nav .sidebar-nav-sub > ul {\n    display: block;\n}\n.sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n    height: 0;\n    overflow: hidden;\n    position: relative;\n    -webkit-transition: all .228s ease-out;\n    transition: all .228s ease-out;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n.sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n    height: 0!important;\n}\n.sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n    max-height: none;\n    -webkit-transition: none;\n    transition: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/MainMenu.vue"],"names":[],"mappings":";AA6UA;IACA,mBAAA;CACA;AAEA;IACA,eAAA;CACA;AAEA;IACA,UAAA;IACA,iBAAA;IACA,mBAAA;IACA,uCAAA;IAAA,+BAAA;IACA,wCAAA;YAAA,gCAAA;CACA;AAEA;IACA,oBAAA;CACA;AAEA;IACA,iBAAA;IACA,yBAAA;IAAA,iBAAA;CACA","file":"MainMenu.vue","sourcesContent":["<script>\n  import Core from '../core'\n  const menuData = [\n    {\n      title: 'Магазин',\n      icon: 'fa fa-shopping-bag',\n      children: [\n        {\n          title: 'Товары',\n          url: '/shop/products',\n          icon: 'gi gi-shopping_bag',\n        },\n\n        {\n          title: 'Категории',\n          url: '/shop/categories',\n          icon: 'fa fa-folder'\n        },\n\n        {\n          title: 'Поставщики',\n          url: '/shop/suppliers',\n          icon: 'fa fa-truck',\n        },\n\n        {\n          title: 'Аттрибуты',\n          url: '/shop/attributes',\n          icon: 'fa fa-list',\n        },\n      ]\n    },\n\n    {\n      title: 'Настройки',\n      icon: 'fa fa-gear',\n      url: '/settings'\n    },\n\n\n    {\n      title: 'Отчистить кэш',\n      onClick() {\n        new Core.requestHandler('get', `/api/cache`).start()\n      },\n      icon: 'fa fa-refresh',\n    }\n  ]\n\n  export default {\n    name: \"main-menu\",\n\n    data() {\n      return {}\n    },\n\n    watch: {\n      '$route': 'checkExpanded'\n    },\n\n    mounted() {\n      this.init()\n    },\n\n    methods: {\n      init() {\n        [].forEach.call(document.querySelectorAll('.sidebar-nav-sub'), el => {\n          el.setAttribute('data-height', this.getMenuHeight(el))\n        })\n\n        this.checkExpanded()\n      },\n\n      getMenuHeight(elMenu) {\n        return elMenu.childNodes[0].scrollHeight\n      },\n\n      getMainMenuEl() {\n        return this.$el\n      },\n\n      getParents(el, selector = '*') {\n        let parents = []\n        let p = el.parentNode\n\n        while (p !== this.$el) {\n          if (p.matches(selector)) {\n            parents.push(p)\n          }\n\n          el = p\n          p = p.parentNode\n        }\n\n        return parents\n      },\n\n      checkExpanded() {\n        this.$nextTick(() => {\n          let elsToCLose = this.$el.querySelectorAll('.sidebar-nav-menu.open:not(.manual) + .sidebar-nav-sub')\n\n          ;[].forEach.call(elsToCLose, elMenu => {\n            this.closeItem(elMenu.previousSibling, elMenu)\n          })\n\n          let elActiveLink = this.$el.querySelector('a.active')\n\n          if (!elActiveLink) return\n\n          let elClosestMenu = elActiveLink.closest('.sidebar-nav-sub')\n\n          if (! elClosestMenu) return\n\n          this.expand(elClosestMenu.previousSibling, elClosestMenu)\n        })\n      },\n\n      getChildrensHeight(elMenu) {\n        return [].reduce.call(elMenu.querySelectorAll('.sidebar-nav-menu.open + .sidebar-nav-sub'), (acc, el) => {\n          return acc + parseInt(el.getAttribute('data-height'))\n        }, 0)\n      },\n\n      expandItem(elLink, elMenu) {\n        elLink.classList.add('open')\n\n        let height = parseInt(elMenu.getAttribute('data-height')) + this.getChildrensHeight(elMenu)\n        elMenu.style.height = height + 'px'\n      },\n\n      expand(elLink, elMenu) {\n        this.expandItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      closeItem(elLink, elMenu) {\n        elLink.classList.remove('open')\n        elMenu.removeAttribute('style')\n      },\n\n      close(elLink, elMenu) {\n        ;[].reverse.call(elMenu.querySelectorAll('.sidebar-nav-sub')).forEach(el => {\n          this.closeItem(el.previousSibling, el)\n        })\n\n        this.closeItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      expandToggle(elLink, elMenu) {\n        if (elLink.classList.contains('open')) {\n          this.close(elLink, elMenu)\n        }\n        else {\n          this.expand(elLink, elMenu)\n        }\n      },\n\n      expandLinkClick(elLink) {\n        elLink.classList.toggle('manual')\n        this.expandToggle(elLink, elLink.nextSibling)\n      }\n    },\n\n    render(createElement) {\n      let makeTitleEl = (title) => {\n        return createElement(\n          'span',\n          {\n            attrs: {\n              class: 'sidebar-nav-mini-hide'\n            }\n          },\n          title\n        )\n      }\n\n      let __makeIconEl = iconClasses => {\n        return createElement(\n          'i',\n          {\n            attrs: {\n              class: iconClasses\n            }\n          }\n        )\n      }\n\n      let makeIconEl = iconCLasses => {\n        return __makeIconEl(`${iconCLasses} sidebar-nav-icon`)\n      }\n\n      let makeIndicatorEl = () => {\n        return __makeIconEl('fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide')\n      }\n\n      let urlIsLocal = (url) => {\n        url = Core.trim(url)\n\n        if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {\n            return url.indexOf(window.location.origin) === 0\n        }\n\n        return true\n      }\n\n      function mergeDeep(target, ...sources) {\n        if (!sources.length) return target;\n        const source = sources.shift();\n\n        if (_.isObject(target) && _.isObject(source)) {\n          for (const key in source) {\n            if (_.isObject(source[key]) && !_.isFunction(source[key])) {\n              if (!target[key]) Object.assign(target, { [key]: {} });\n              mergeDeep(target[key], source[key]);\n            }\n            else {\n              Object.assign(target, { [key]: source[key] });\n            }\n          }\n        }\n\n        return mergeDeep(target, ...sources);\n      }\n\n      let makeLink = ({url, onClick, icon, title, children}) => {\n        let tagName = 'a'\n        let isLocal = url ? urlIsLocal(url) : false\n        let params = {\n          key: Core.uniqueId()\n        }\n\n        if (typeof onClick === 'function') {\n          params = mergeDeep(params, {\n            on: {\n              click: onClick\n            }\n          })\n        }\n        if (url && isLocal) {\n          tagName = 'router-link'\n          params = mergeDeep(params, {\n            attrs: {\n              to: url,\n              'active-class': 'active'\n            }\n          })\n        }\n        else if (url && !isLocal) {\n          params = mergeDeep(params, {\n            attrs: {\n              href: url,\n              target: '_blank'\n            }\n          })\n        }\n        else {\n          params = mergeDeep(params, {\n            attrs: {\n              href: 'javascript:void(0);'\n            }\n          })\n        }\n\n        let childrenElsArray = []\n\n        if (children instanceof Array && children.length > 0) {\n          params = mergeDeep(params, {\n            on: {\n              click: event => this.expandLinkClick(event.target.closest('.sidebar-nav-menu'))\n            },\n            attrs: {\n              class: 'sidebar-nav-menu'\n            }\n          })\n\n          childrenElsArray.push(makeIndicatorEl())\n        }\n\n        if (icon) {\n          childrenElsArray.push(makeIconEl(icon))\n        }\n\n        if (title) {\n          childrenElsArray.push(makeTitleEl(title))\n        }\n\n        return createElement(tagName, params, childrenElsArray)\n      }\n\n      let makeElsLiArray = (items = []) => {\n        return items.reduce((acc, item) => {\n          let slots = [makeLink(item)]\n\n          if (item.children) {\n\n            slots.push(createElement(\n              'div',\n              {\n                attrs: {\n                  class: 'sidebar-nav-sub'\n                }\n              },\n              [createElement('ul', makeElsLiArray(item.children))]\n            ))\n          }\n\n          acc.push(createElement('li', slots))\n\n          return acc\n        }, [])\n      }\n\n      return createElement(\n        'ul',\n        {\n          attrs: {\n            class: 'sidebar-nav'\n          }\n        },\n        makeElsLiArray(menuData)\n      )\n    }\n  }\n</script>\n\n<style>\n    .sidebar-nav li {\n        position: relative;\n    }\n\n    .sidebar-nav .sidebar-nav-sub > ul {\n        display: block;\n    }\n\n    .sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n        height: 0;\n        overflow: hidden;\n        position: relative;\n        transition: all .228s ease-out;\n        transform: translate3d(0, 0, 0);\n    }\n\n    .sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n        height: 0!important;\n    }\n\n    .sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n        max-height: none;\n        transition: none;\n    }\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -38388,59 +38703,119 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _vm._l(_vm.currencies, function(currency) {
-                          return _c("td", [
-                            _c(
-                              "div",
-                              { staticClass: "input-group" },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
+                          return _c(
+                            "td",
+                            {
+                              class: {
+                                "has-error": _vm.hasError(
+                                  "prices." + priceType.id + "." + currency.code
+                                )
+                              }
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "input-group" },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.rPrices[priceType.id][
+                                            currency.code
+                                          ],
+                                        expression:
+                                          "rPrices[priceType.id][currency.code]"
+                                      },
+                                      { name: "number", rawName: "v-number" },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value:
+                                          "integer|min_value:1|max_value:4294967295",
+                                        expression:
+                                          "'integer|min_value:1|max_value:4294967295'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      name:
+                                        "prices." +
+                                        priceType.id +
+                                        "." +
+                                        currency.code
+                                    },
+                                    domProps: {
+                                      value:
+                                        _vm.rPrices[priceType.id][currency.code]
+                                    },
+                                    on: {
+                                      input: [
+                                        function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.rPrices[priceType.id],
+                                            currency.code,
+                                            $event.target.value
+                                          )
+                                        },
+                                        _vm.onChange
+                                      ]
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("currency-converter", {
+                                    attrs: {
                                       value:
                                         _vm.rPrices[priceType.id][
                                           currency.code
                                         ],
+                                      currency: _vm.getCurrency(currency.code)
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.hasError(
+                                        "prices." +
+                                          priceType.id +
+                                          "." +
+                                          currency.code
+                                      ),
                                       expression:
-                                        "rPrices[priceType.id][currency.code]"
-                                    },
-                                    { name: "number", rawName: "v-number" }
+                                        "hasError(`prices.${priceType.id}.${currency.code}`)"
+                                    }
                                   ],
-                                  staticClass: "form-control",
-                                  attrs: { type: "text" },
-                                  domProps: {
-                                    value:
-                                      _vm.rPrices[priceType.id][currency.code]
-                                  },
-                                  on: {
-                                    input: [
-                                      function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.rPrices[priceType.id],
-                                          currency.code,
-                                          $event.target.value
-                                        )
-                                      },
-                                      _vm.onChange
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("currency-converter", {
-                                  attrs: {
-                                    value:
-                                      _vm.rPrices[priceType.id][currency.code],
-                                    currency: _vm.getCurrency(currency.code)
-                                  }
-                                })
-                              ],
-                              1
-                            )
-                          ])
+                                  staticClass: "help-block"
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm.getError(
+                                        "prices." +
+                                          priceType.id +
+                                          "." +
+                                          currency.code
+                                      )
+                                    )
+                                  )
+                                ]
+                              )
+                            ]
+                          )
                         })
                       ],
                       2
@@ -40603,12 +40978,14 @@ var render = function() {
                                         value: _vm.product.width,
                                         expression: "product.width"
                                       },
+                                      { name: "number", rawName: "v-number" },
                                       {
                                         name: "validate",
                                         rawName: "v-validate",
-                                        value: "required|integer|min_value:1",
+                                        value:
+                                          "required|integer|min_value:1|max_value:4294967295",
                                         expression:
-                                          "'required|integer|min_value:1'"
+                                          "'required|integer|min_value:1|max_value:4294967295'"
                                       }
                                     ],
                                     staticClass: "form-control",
@@ -40681,12 +41058,14 @@ var render = function() {
                                         value: _vm.product.height,
                                         expression: "product.height"
                                       },
+                                      { name: "number", rawName: "v-number" },
                                       {
                                         name: "validate",
                                         rawName: "v-validate",
-                                        value: "required|integer|min_value:1",
+                                        value:
+                                          "required|integer|min_value:1|max_value:4294967295",
                                         expression:
-                                          "'required|integer|min_value:1'"
+                                          "'required|integer|min_value:1|max_value:4294967295'"
                                       }
                                     ],
                                     staticClass: "form-control",
@@ -40759,12 +41138,14 @@ var render = function() {
                                         value: _vm.product.length,
                                         expression: "product.length"
                                       },
+                                      { name: "number", rawName: "v-number" },
                                       {
                                         name: "validate",
                                         rawName: "v-validate",
-                                        value: "required|integer|min_value:1",
+                                        value:
+                                          "required|integer|min_value:1|max_value:4294967295",
                                         expression:
-                                          "'required|integer|min_value:1'"
+                                          "'required|integer|min_value:1|max_value:4294967295'"
                                       }
                                     ],
                                     staticClass: "form-control",
@@ -40837,12 +41218,14 @@ var render = function() {
                                         value: _vm.product.weight,
                                         expression: "product.weight"
                                       },
+                                      { name: "number", rawName: "v-number" },
                                       {
                                         name: "validate",
                                         rawName: "v-validate",
-                                        value: "required|integer|min_value:1",
+                                        value:
+                                          "required|integer|min_value:1|max_value:4294967295",
                                         expression:
-                                          "'required|integer|min_value:1'"
+                                          "'required|integer|min_value:1|max_value:4294967295'"
                                       }
                                     ],
                                     staticClass: "form-control",
@@ -40947,7 +41330,7 @@ var render = function() {
                 _vm._m(10),
                 _vm._v(" "),
                 _c("prices-table", {
-                  attrs: { prices: _vm.product.prices },
+                  attrs: { prices: _vm.product.prices, errors: _vm.formErrors },
                   on: {
                     "update:prices": function($event) {
                       _vm.$set(_vm.product, "prices", $event)
@@ -44728,7 +45111,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "textarea",
-    { class: "form-control" + (_vm.className ? " " + _vm.className : "") },
+    {
+      class: "form-control" + (_vm.className ? " " + _vm.className : ""),
+      on: { input: _vm.input }
+    },
     [_vm._v(_vm._s(_vm.content))]
   )
 }
@@ -47433,6 +47819,296 @@ if (inBrowser && window.Vue) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-623467ef\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/MainMenu.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-623467ef\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/MainMenu.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("199816cc", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-623467ef\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MainMenu.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-623467ef\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MainMenu.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/lib/addStylesClient.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+var listToStyles = __webpack_require__("./node_modules/vue-style-loader/lib/listToStyles.js")
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+var options = null
+var ssrIdKey = 'data-vue-ssr-id'
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+module.exports = function (parentId, list, _isProduction, _options) {
+  isProduction = _isProduction
+
+  options = _options || {}
+
+  var styles = listToStyles(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = listToStyles(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+  if (options.ssrId) {
+    styleElement.setAttribute(ssrIdKey, obj.id)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/lib/listToStyles.js":
+/***/ (function(module, exports) {
+
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+module.exports = function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/vue2-dropzone/dist/vue2Dropzone.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -47481,7 +48157,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_MainMenu__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_magnific_popup__ = __webpack_require__("./node_modules/magnific-popup/dist/jquery.magnific-popup.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_magnific_popup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17_magnific_popup__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_select2__ = __webpack_require__("./node_modules/select2/dist/js/select2.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_select2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18_select2__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 
 
 
@@ -48057,6 +48736,10 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-623467ef\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/MainMenu.vue")
+}
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
 var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/MainMenu.vue")
@@ -48065,7 +48748,7 @@ var __vue_template__ = null
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -50610,13 +51293,6 @@ function transliteration(text, onlyLower) {
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  data: function data() {
-    return {
-      componentInitializedWithUrl: null
-    };
-  },
-
-
   methods: {
     /**
      * todo: Доделать проверку на права
@@ -50987,7 +51663,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   data: function data() {
     return {
-      usedMainData: []
+      usedMainData: [],
+      componentInitializedWithUrl: null
     };
   },
 

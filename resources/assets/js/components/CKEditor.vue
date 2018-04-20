@@ -56,26 +56,32 @@
     },
 
     methods: {
-      destroy() {
+      input(e) {
+        this.$emit('update:content', this.content + e.data)
+      },
+
+      // destroy() {
         // if (!this.destroyed) {
         //   this.instance.focusManager.blur(true)
         //   this.instance.removeAllListeners()
         //   this.instance.destroy(true)
         //   this.destroyed = true
         // }
-      },
+      // },
 
-      reset() {
+      // reset() {
         // this.instance.setData(this.content)
-      }
+      // }
     },
 
-    beforeDestroy() {
+    // beforeDestroy() {
       // this.destroy()
-    }
+    // }
   }
 </script>
 
 <template>
-  <textarea :class="`form-control${className ? ' ' + className : ''}`">{{ content }}</textarea>
+  <!--<textarea :class="`ckeditor${className ? ' ' + className : ''}`">{{ content }}</textarea>-->
+  <textarea :class="`form-control${className ? ' ' + className : ''}`" v-on:input="input">{{ content }}</textarea>
 </template>
+

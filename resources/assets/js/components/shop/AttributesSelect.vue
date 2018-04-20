@@ -173,6 +173,17 @@
                   ]
                 })
               }
+            },
+
+            unselecting: (e) => {
+              let id = e.params.args.data.id
+              let option = attribute.options.find(item => item.id === id) || {}
+
+              if (option.isNew) {
+                this.updateAttribute(attribute, {
+                  options: attribute.options.filter(item => item.id !== id)
+                })
+              }
             }
           }
         }

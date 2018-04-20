@@ -6,8 +6,7 @@
 
     methods: {
       clear() {
-        new Core.requestHandler('get', `/api/cache`)
-          .start()
+        new Core.requestHandler('get', `/api/cache`).start()
       }
     }
   }

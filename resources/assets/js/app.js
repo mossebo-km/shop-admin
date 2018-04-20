@@ -25,6 +25,7 @@ import ClearCacheBtn from './components/ClearCacheBtn'
 import MainMenu from './components/MainMenu'
 
 import magnificPopup from 'magnific-popup'
+import 'select2'
 
 
 /**
