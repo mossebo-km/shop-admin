@@ -14,6 +14,16 @@
       'params'
     ],
 
+    data() {
+      return {
+        translatedOptions: []
+      }
+    },
+
+    watch: {
+      activeLanguageCode: 'hardReset'
+    },
+
     components: {
       TreeSelect
     },
@@ -21,11 +31,19 @@
     methods: {
       getSelected() {
         return this.$refs.treeSelect.rSelected
-      }
-    },
+      },
 
-    computed: {
-      translatedOptions() {
+      hardReset() {
+        this.$refs.treeSelect.destroy()
+        this.translateOptions()
+
+        this.$nextTick(() => {
+          this.$refs.treeSelect.initOptions()
+          this.$refs.treeSelect.initSelect2()
+        })
+      },
+
+      translateOptions() {
         let build = tree => {
           return tree.map(item => {
             let res = {
@@ -41,8 +59,12 @@
           })
         }
 
-        return build(this.options || [])
+        this.translatedOptions = build(this.options || [])
       }
+    },
+
+    created() {
+      this.translateOptions()
     },
 
     mounted() {

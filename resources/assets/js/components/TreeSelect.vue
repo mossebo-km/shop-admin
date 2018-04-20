@@ -15,6 +15,8 @@
 
     data() {
       return {
+        inited: false,
+        destroyed: false,
         rSelected: null,
         buildedOptions: []
       }
@@ -112,21 +114,30 @@
       },
 
       select() {
-        this.$$el.val(this.selected)
+        this.$nextTick(() => {
+          this.$$el.val(this.selected)
+          this.$$el.trigger('change')
+        })
+      },
+
+      destroy() {
+        if (this.destroyed) return
+
+        this.$$el.val('')
         this.$$el.trigger('change')
+        this.$$el.select2('destroy')
+        this.$$el.off()
+
+        this.destroyed = true
+        this.inited = false
       },
 
       reset() {
-        this.buildOptions()
-        this.setSelected(this.getSelected(), false)
+        if (this.destroyed) return
 
-        this.$$el.select2('destroy')
-        this.$$el.off()
-        this.$$el.val('')
-        this.$$el.trigger('change')
+        this.initOptions()
 
-        this.initSelect2()
-        this.$nextTick(() => this.select())
+        this.select()
       },
 
       setSelected(selected, needToEmit = true) {
@@ -137,7 +148,16 @@
         }
       },
 
+      initOptions() {
+        this.buildOptions()
+        this.setSelected(this.getSelected(), false)
+      },
+
       initSelect2() {
+        if (this.inited) {
+          return
+        }
+
         this.$$el = $(this.$el)
 
         let params = {
@@ -153,6 +173,10 @@
         })
 
         this.bindSelect2Events()
+        this.select()
+
+        this.destroyed = false
+        this.inited = true
       },
 
       bindSelect2Events() {
@@ -190,13 +214,11 @@
     },
 
     created() {
-      this.buildOptions()
-      this.setSelected(this.getSelected(), false)
+      this.initOptions()
     },
 
     mounted() {
       this.initSelect2()
-      this.$nextTick(() => this.select())
     },
 
     beforeDestroy() {

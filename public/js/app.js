@@ -1101,6 +1101,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
   data: function data() {
     return {
+      inited: false,
+      destroyed: false,
       rSelected: null,
       buildedOptions: []
     };
@@ -1207,24 +1209,30 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       return state.text.replace('—', '').trim();
     },
     select: function select() {
-      this.$$el.val(this.selected);
-      this.$$el.trigger('change');
-    },
-    reset: function reset() {
       var _this3 = this;
 
-      this.buildOptions();
-      this.setSelected(this.getSelected(), false);
+      this.$nextTick(function () {
+        _this3.$$el.val(_this3.selected);
+        _this3.$$el.trigger('change');
+      });
+    },
+    destroy: function destroy() {
+      if (this.destroyed) return;
 
-      this.$$el.select2('destroy');
-      this.$$el.off();
       this.$$el.val('');
       this.$$el.trigger('change');
+      this.$$el.select2('destroy');
+      this.$$el.off();
 
-      this.initSelect2();
-      this.$nextTick(function () {
-        return _this3.select();
-      });
+      this.destroyed = true;
+      this.inited = false;
+    },
+    reset: function reset() {
+      if (this.destroyed) return;
+
+      this.initOptions();
+
+      this.select();
     },
     setSelected: function setSelected(selected) {
       var needToEmit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
@@ -1235,7 +1243,15 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         this.$emit('update:selected', this.rSelected);
       }
     },
+    initOptions: function initOptions() {
+      this.buildOptions();
+      this.setSelected(this.getSelected(), false);
+    },
     initSelect2: function initSelect2() {
+      if (this.inited) {
+        return;
+      }
+
       this.$$el = $(this.$el);
 
       var params = _extends({}, this.params);
@@ -1248,6 +1264,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }, params));
 
       this.bindSelect2Events();
+      this.select();
+
+      this.destroyed = false;
+      this.inited = true;
     },
     bindSelect2Events: function bindSelect2Events() {
       var _this4 = this;
@@ -1284,16 +1304,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   },
 
   created: function created() {
-    this.buildOptions();
-    this.setSelected(this.getSelected(), false);
+    this.initOptions();
   },
   mounted: function mounted() {
-    var _this5 = this;
-
     this.initSelect2();
-    this.$nextTick(function () {
-      return _this5.select();
-    });
   },
   beforeDestroy: function beforeDestroy() {
     this.$$el.select2('destroy');
@@ -1319,6 +1333,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
   props: ['options', 'selected', 'placeholder', 'disabled', 'multiple', 'activeLanguageCode', 'params'],
 
+  data: function data() {
+    return {
+      translatedOptions: []
+    };
+  },
+
+
+  watch: {
+    activeLanguageCode: 'hardReset'
+  },
+
   components: {
     TreeSelect: __WEBPACK_IMPORTED_MODULE_0__TreeSelect___default.a
   },
@@ -1326,17 +1351,25 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   methods: {
     getSelected: function getSelected() {
       return this.$refs.treeSelect.rSelected;
-    }
-  },
-
-  computed: {
-    translatedOptions: function translatedOptions() {
+    },
+    hardReset: function hardReset() {
       var _this = this;
+
+      this.$refs.treeSelect.destroy();
+      this.translateOptions();
+
+      this.$nextTick(function () {
+        _this.$refs.treeSelect.initOptions();
+        _this.$refs.treeSelect.initSelect2();
+      });
+    },
+    translateOptions: function translateOptions() {
+      var _this2 = this;
 
       var build = function build(tree) {
         return tree.map(function (item) {
           var res = _extends({}, item, {
-            title: item.i18n[_this.activeLanguageCode].title
+            title: item.i18n[_this2.activeLanguageCode].title
           });
 
           if (item.children) {
@@ -1347,15 +1380,18 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         });
       };
 
-      return build(this.options || []);
+      this.translatedOptions = build(this.options || []);
     }
   },
 
+  created: function created() {
+    this.translateOptions();
+  },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
     this.$refs.treeSelect.$on('update:selected', function (selected) {
-      _this2.$emit('update:selected', selected);
+      _this3.$emit('update:selected', selected);
     });
   }
 });
