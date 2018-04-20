@@ -61,8 +61,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   methods: {
-    input: function input(e) {
-      this.$emit('update:content', this.content + e.data);
+    change: function change() {
+      this.$emit('update:content', this.$refs.textarea.value);
     }
   }
 
@@ -45112,8 +45112,9 @@ var render = function() {
   return _c(
     "textarea",
     {
+      ref: "textarea",
       class: "form-control" + (_vm.className ? " " + _vm.className : ""),
-      on: { input: _vm.input }
+      on: { change: _vm.change }
     },
     [_vm._v(_vm._s(_vm.content))]
   )
@@ -50144,9 +50145,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   key: null,
+  namespace: '__mainData',
   storageKeyName: 'dataKey',
-  dataLabels: false,
-  storageDataLabelsName: 'dataLabels',
 
   get: function get() {
     var _this = this;
@@ -50174,12 +50174,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     if (this.getCurrentKey() !== key) {
       this.flush();
       this.key = key;
-      __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.add(this.storageKeyName, key);
+      this.setItem(this.storageKeyName, key);
     }
   },
   getCurrentKey: function getCurrentKey() {
     if (this.key === null) {
-      this.key = __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.get(this.storageKeyName);
+      this.key = this.getItem(this.storageKeyName);
     }
 
     return this.key;
@@ -50250,44 +50250,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       delete data.key;
     }
 
-    var labels = [];
-
     for (var i in data) {
-      labels.push(i);
-      __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.add(i, data[i]);
-    }
-
-    this.addDataLabels(labels);
-  },
-  addDataLabels: function addDataLabels() {
-    var labels = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-    this.dataLabels = [].concat(_toConsumableArray(this.dataLabels || []), _toConsumableArray(labels));
-
-    var obj = {};
-
-    this.dataLabels.forEach(function (item) {
-      obj[item] = null;
-    });
-
-    if (this.dataLabels.length > 0) {
-      __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.add(this.storageDataLabelsName, Object.keys(obj));
+      this.setItem(i, data[i]);
     }
   },
-  getDataLabels: function getDataLabels() {
-    if (this.dataLabels === false) {
-      this.dataLabels = __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.add(this.storageDataLabelsName) || [];
-    }
-
-    return this.dataLabels;
+  getItem: function getItem(label) {
+    __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.get(this.getLabelWithNamespace(label));
+  },
+  setItem: function setItem(label, data) {
+    __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.add(this.getLabelWithNamespace(label), data);
+  },
+  getLabelWithNamespace: function getLabelWithNamespace(label) {
+    return this.namespace + '.' + label;
   },
   flush: function flush() {
-    this.getDataLabels().forEach(function (label) {
-      __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.forget(label);
-    });
+    var _this4 = this;
 
-    __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.forget(this.storageKeyName);
-    __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.forget(this.storageDataLabelsName);
+    Object.keys(localStorage).forEach(function (label) {
+      if (label.indexOf(_this4.namespace + '.') === 0) {
+        __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].storage.forget(label);
+      }
+    });
   }
 });
 

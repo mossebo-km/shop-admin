@@ -2,9 +2,8 @@ import Core from './'
 
 export default {
   key: null,
+  namespace: '__mainData',
   storageKeyName: 'dataKey',
-  dataLabels: false,
-  storageDataLabelsName: 'dataLabels',
 
   get(dataLabels = []) {
     this.data = {}
@@ -30,13 +29,13 @@ export default {
     if (this.getCurrentKey() !== key) {
       this.flush()
       this.key = key
-      Core.storage.add(this.storageKeyName, key)
+      this.setItem(this.storageKeyName, key)
     }
   },
 
   getCurrentKey() {
     if (this.key === null) {
-      this.key = Core.storage.get(this.storageKeyName)
+      this.key = this.getItem(this.storageKeyName)
     }
 
     return this.key
@@ -118,48 +117,28 @@ export default {
       delete data.key
     }
 
-    let labels = []
-
     for (let i in data) {
-      labels.push(i)
-      Core.storage.add(i, data[i])
-    }
-
-    this.addDataLabels(labels)
-  },
-
-  addDataLabels(labels = []) {
-    this.dataLabels = [
-      ... this.dataLabels || [],
-      ... labels
-    ]
-
-    let obj = {}
-
-    this.dataLabels.forEach(item => {
-      obj[item] = null
-    })
-
-    if (this.dataLabels.length > 0) {
-      Core.storage.add(this.storageDataLabelsName, Object.keys(obj))
+      this.setItem(i, data[i])
     }
   },
 
-  getDataLabels() {
-    if (this.dataLabels === false) {
-      this.dataLabels = Core.storage.add(this.storageDataLabelsName) || []
-    }
-
-    return this.dataLabels
+  getItem(label) {
+    Core.storage.get(this.getLabelWithNamespace(label))
   },
 
+  setItem(label, data) {
+    Core.storage.add(this.getLabelWithNamespace(label), data)
+  },
+
+  getLabelWithNamespace(label) {
+    return `${this.namespace}.${label}`
+  },
 
   flush() {
-    this.getDataLabels().forEach(label => {
-      Core.storage.forget(label)
+    Object.keys(localStorage).forEach(label => {
+      if (label.indexOf(this.namespace + '.') === 0) {
+        Core.storage.forget(label)
+      }
     })
-
-    Core.storage.forget(this.storageKeyName)
-    Core.storage.forget(this.storageDataLabelsName)
   },
 }
