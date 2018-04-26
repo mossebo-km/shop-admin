@@ -53,7 +53,6 @@ Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData']], functio
         Route::get('products', 'Api\ProductController@index');
         Route::post('products', 'Api\ProductController@store');
         Route::get('products/slug', 'Api\ProductController@slugAvailable');
-
         Route::get('products/{product}', 'Api\ProductController@show');
         Route::get('products/{product}/status', 'Api\ProductController@status');
         Route::get('products/{product}/slug', 'Api\ProductController@entitySlugAvailable');
@@ -62,10 +61,9 @@ Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData']], functio
         Route::delete('products/{product}', 'Api\ProductController@delete');
 
 
+        Route::get('categories', 'Api\CategoryController@index');
         Route::post('categories/sort', 'Api\CategoryController@positions');
         Route::get('categories/slug', 'Api\CategoryController@slugAvailable');
-
-        Route::get('categories', 'Api\CategoryController@index');
         Route::get('categories/{category}', 'Api\CategoryController@show');
         Route::get('categories/{category}/status', 'Api\CategoryController@status');
         Route::get('categories/{category}/slug', 'Api\CategoryController@entitySlugAvailable');
@@ -91,6 +89,15 @@ Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData']], functio
         Route::post('attributes', 'Api\AttributeController@store');
         Route::put('attributes/{attribute}', 'Api\AttributeController@update');
         Route::delete('attributes/{attribute}', 'Api\AttributeController@delete');
+
+
+        Route::get('price-types', 'Api\PriceTypeController@index');
+        Route::post('price-types/sort', 'Api\PriceTypeController@positions');
+        Route::get('price-types/{priceType}', 'Api\PriceTypeController@show');
+        Route::get('price-types/{priceType}/status', 'Api\PriceTypeController@status');
+        Route::post('price-types', 'Api\PriceTypeController@store');
+        Route::put('price-types/{priceType}', 'Api\PriceTypeController@update');
+        Route::delete('price-types/{priceType}', 'Api\PriceTypeController@delete');
     });
 });
 

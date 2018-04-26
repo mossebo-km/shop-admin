@@ -1,5 +1,5 @@
 export default class Schema {
-  constructor(fieldSchema) {
+  constructor(fieldSchema = {}) {
     this.schema = this.__init(fieldSchema)
   }
 

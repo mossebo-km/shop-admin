@@ -7,4 +7,8 @@ use App\Contracts\Repositories\PriceTypeRepository as PriceTypeRepositoryContrac
 class PriceTypeRepository extends RamRepository implements PriceTypeRepositoryContract
 {
     protected $model = \App\Models\PriceType::class;
+
+    protected function _getCollection() {
+        return $this->model::with('i18n')->get();
+    }
 }

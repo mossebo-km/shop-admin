@@ -12,6 +12,7 @@ import ProductEdit from './components/shop/products/ProductEdit'
 
 import OrdersTable from './components/shop/orders/OrdersTable'
 
+import CustomerEdit from './components/shop/customers/CustomerEdit'
 import CustomersTable from './components/shop/customers/CustomersTable'
 
 import SuppliersTable from './components/shop/suppliers/SuppliersTable'
@@ -20,10 +21,14 @@ import SupplierEdit from './components/shop/suppliers/SupplierEdit'
 import AttributesTable from './components/shop/attributes/AttributesTable'
 import AttributeEdit from './components/shop/attributes/AttributeEdit'
 
+import PriceTypesTable from './components/shop/priceTypes/PriceTypesTable'
+import PriceTypeEdit from './components/shop/priceTypes/PriceTypeEdit'
+
 import Loading from './components/Loading'
 import ClearCacheBtn from './components/ClearCacheBtn'
 import MainMenu from './components/MainMenu'
 
+import Sortable from 'jquery-ui-sortable-npm'
 import magnificPopup from 'magnific-popup'
 import 'select2'
 
@@ -87,7 +92,9 @@ const routes = [
 
   { path: '/shop/orders', component: OrdersTable },
 
-  { path: '/shop/customers', component: CustomersTable },
+  { path: '/shop/users', component: CustomersTable },
+  { path: '/shop/users/create', component: CustomerEdit, props: { type: 'create' } },
+  { path: '/shop/users/:id', component: CustomerEdit, props: route => ({...route.params, type: 'edit'}) },
 
   { path: '/shop/suppliers', component: SuppliersTable },
   { path: '/shop/suppliers/create', component: SupplierEdit, props: { type: 'create' } },
@@ -96,6 +103,10 @@ const routes = [
   { path: '/shop/attributes', component: AttributesTable },
   { path: '/shop/attributes/create', component: AttributeEdit, props: { type: 'create' } },
   { path: '/shop/attributes/:id', component: AttributeEdit, props: route => ({...route.params, type: 'edit'}) },
+
+  { path: '/shop/price-types', component: PriceTypesTable },
+  { path: '/shop/price-types/create', component: PriceTypeEdit, props: { type: 'create' } },
+  { path: '/shop/price-types/:id', component: PriceTypeEdit, props: route => ({...route.params, type: 'edit'}) },
 ]
 
 // 3. Создаём экземпляр роутера с опцией `routes`

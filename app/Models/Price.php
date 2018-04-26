@@ -15,6 +15,11 @@ class Price extends Base\BaseModel
         'updated_at'
     ];
 
+    public function type()
+    {
+        return $this->hasOne(PriceType::class, 'price_type_id');
+    }
+
     public function products()
     {
         return $this->morphedByMany(Product::class, 'item');

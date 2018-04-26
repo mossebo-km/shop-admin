@@ -51,8 +51,11 @@ class BaseModelI18n extends BaseModel
 
         $i18nModelClassName = $this->getI18nModelName();
 
-        foreach ($translates as $languageCode => $i18nData) {
-            $i18nData['language_code'] = $languageCode;
+        foreach (\Languages::enabled() as $language) {
+            if (!isset($translates[$language['code']])) continue;
+
+            $i18nData = $translates[$language['code']];
+            $i18nData['language_code'] = $language['code'];
             $i18n->save(new $i18nModelClassName($i18nData));
         }
     }

@@ -35,5 +35,9 @@ export default {
         })
       })
     },
+  },
+
+  created() {
+    this.extendSlugChecker()
   }
 }

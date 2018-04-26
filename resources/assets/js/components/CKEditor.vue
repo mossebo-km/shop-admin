@@ -56,8 +56,8 @@
     },
 
     methods: {
-      input(e) {
-        this.$emit('update:content', this.content + e.data)
+      change() {
+        this.$emit('update:content', this.$refs.textarea.value)
       },
 
       // destroy() {
@@ -82,6 +82,6 @@
 
 <template>
   <!--<textarea :class="`ckeditor${className ? ' ' + className : ''}`">{{ content }}</textarea>-->
-  <textarea :class="`form-control${className ? ' ' + className : ''}`" v-on:input="input">{{ content }}</textarea>
+  <textarea ref="textarea" :class="`form-control${className ? ' ' + className : ''}`" v-on:change="change">{{ content }}</textarea>
 </template>
 

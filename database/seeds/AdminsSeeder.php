@@ -31,12 +31,6 @@ class AdminsSeeder extends Seeder
         ],
         [
             'role_id' => 3,
-            'name' => 'Екатерина Кожевникова',
-            'email' => 'product7@mossebo.market',
-            'password' => 'js7G2t;0'
-        ],
-        [
-            'role_id' => 3,
             'name' => 'Мария Нестерова',
             'email' => 'product8@mossebo.market',
             'password' => 'ua6%1jaD'

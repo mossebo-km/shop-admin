@@ -13,20 +13,28 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\EntityStatusChanged' => [
-            'App\Listeners\EntityStatusChangedListener',
+        'App\Events\Entity\EntityStatusChanged' => [
+            'App\Listeners\Entity\EntityStatusChangedListener',
+            'App\Listeners\Entity\EntityChangeNeedsLogListener',
         ],
 
-        'App\Events\EntityCreated' => [
-            'App\Listeners\EntityCreatedListener',
+        'App\Events\Entity\EntityCreated' => [
+            'App\Listeners\Entity\EntityCreatedListener',
+            'App\Listeners\Entity\EntityChangeNeedsLogListener',
         ],
 
-        'App\Events\EntityUpdated' => [
-            'App\Listeners\EntityUpdatedListener',
+        'App\Events\Entity\EntityUpdated' => [
+            'App\Listeners\Entity\EntityUpdatedListener',
+            'App\Listeners\Entity\EntityChangeNeedsLogListener',
         ],
 
-        'App\Events\EntityDeleted' => [
-            'App\Listeners\EntityDeletedListener',
+        'App\Events\Entity\EntityDeleted' => [
+            'App\Listeners\Entity\EntityDeletedListener',
+            'App\Listeners\Entity\EntityChangeNeedsLogListener',
+        ],
+
+        'App\Events\Entity\EntitiesPositionChanged' => [
+            'App\Listeners\Entity\EntitiesPositionChangedListener',
         ],
     ];
 

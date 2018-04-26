@@ -5,6 +5,7 @@ export default {
     return {
       languages: [],
       activeLanguageCode: null,
+      defaultLanguageCode: null,
     }
   },
 
@@ -15,12 +16,11 @@ export default {
      * @param languages
      */
     initLanguages(languages) {
-      let defaultLanguageCode = false
       let stageLanguageCode = Core.stageHandler.get('dataLanguageCode')
 
       this.languages = languages.filter(language => {
         if (language.default) {
-          defaultLanguageCode = language.code
+          this.defaultLanguageCode = language.code
         }
 
         if (language.code === stageLanguageCode) {
@@ -31,7 +31,7 @@ export default {
       }).sort((a, b) => a.position - b.position)
 
       if (! this.activeLanguageCode) {
-        this.activeLanguageCode = defaultLanguageCode
+        this.activeLanguageCode = this.defaultLanguageCode
       }
     },
 

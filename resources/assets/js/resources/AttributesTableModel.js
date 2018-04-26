@@ -1,24 +1,18 @@
-import Schema from './Schema'
-import Schemai18n from './Schemai18n'
+import ModelI18n from './Base/ModelI18n'
 
-const schema = {
-  id: '',
-  enabled: true,
-
-  url(data) {
-    return '/shop/attributes/' + data.id
-  },
-}
-
-const i18nSchema = {
-  title: '',
-}
-
-export default class AttributesTableModel {
-  constructor(entityData, languages) {
+export default class AttributesTableModel extends ModelI18n {
+  getSchemaFields() {
     return {
-      ... (new Schema(schema)).combine(entityData),
-      i18n: (new Schemai18n(i18nSchema)).combine(entityData.i18n, languages),
+      id: '',
+      enabled: true,
+
+      url(data) {
+        return '/shop/attributes/' + data.id
+      },
+
+      i18n: {
+        title: '',
+      }
     }
   }
 }

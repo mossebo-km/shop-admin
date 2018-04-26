@@ -842,19 +842,23 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
 }
 
 .table-bordered {
-  border: 1px solid #ddd;
   border-bottom: 0;
 }
 
 .table-bordered .table-cell {
-  border: 1px solid #ddd;
+  border: 1px solid #eaedf1;
   border-style: solid;
-  border-color: #ddd;
+  border-color: #eaedf1;
   border-width: 0 1px 1px 0;
+}
+
+.table-bordered .table-cell:first-child {
+  margin-left: -1px;
 }
 
 .table-bordered .table-cell:last-child {
   border-right-width: 0;
+  margin-right: -1px;
 }
 
 .table-bordered .table-head .table-row:last-child .table-cell {
@@ -875,9 +879,9 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
 }
 
 .table-head .table-cell {
-  padding-top: 14px;
+  padding-top: 16px;
   padding-bottom: 14px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
 }
 
@@ -913,7 +917,7 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
 }
 
 .table-level-3 .table-cell {
-  background-color: #fff5f5;
+  background-color: #e6e6e6;
 }
 
 .table-level-4 .lev {
@@ -921,7 +925,7 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
 }
 
 .table-level-4 .table-cell {
-  background-color: #fffafa;
+  background-color: #e0e0e0;
 }
 
 .table-level-5 .lev {
@@ -929,7 +933,7 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
 }
 
 .table-level-5 .table-cell {
-  background-color: #ffffff;
+  background-color: #cfcfcf;
 }
 
 .table-categories {
@@ -981,13 +985,6 @@ colgroup + .table-head > .table-row:first-child > .table-cell,
   font-weight: normal;
 }
 
-.table-control {
-  width: 75px;
-  text-align: center;
-  display: inline-block;
-  vertical-align: middle;
-}
-
 .table-remove-restore__deleted td {
   position: relative;
 }
@@ -1037,6 +1034,93 @@ div.ui-sortable-placeholder::before {
   position: absolute;
   border: 1px solid #1bbae1;
   z-index: 1;
+}
+
+.table-column-sort,
+.table-column-id,
+.table-column-enabled,
+.table-column-delete,
+.table-column-date,
+.table-column-image {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.dataTable .table-column-sort,
+.dataTable .table-column-id,
+.dataTable .table-column-enabled,
+.dataTable .table-column-date {
+  padding-left: 19px;
+}
+
+.table-column-sort {
+  width: 24px;
+}
+
+.table-column-id,
+.table-column-enabled,
+.table-column-delete {
+  width: 75px;
+}
+
+.table-column-date {
+  width: 150px;
+}
+
+.table-column-image {
+  width: 120px;
+}
+
+.table-cell-column-sort,
+.table-cell-column-id,
+.table-cell-column-enabled,
+.table-cell-column-delete,
+.table-cell-column-date,
+.table-cell-column-image,
+.table-cell-column-slug {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.table-cell-column-sort {
+  width: 36px;
+}
+
+.table-cell-column-id,
+.table-cell-column-enabled,
+.table-cell-column-delete {
+  width: 86px;
+}
+
+.table-cell-column-image {
+  width: 139px;
+}
+
+.table-cell-column-date {
+  width: 169px;
+}
+
+.table-cell-column-slug {
+  width: 250px;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.table-slug {
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .navbar-laravel {
@@ -1261,23 +1345,30 @@ div.dataTables_length select[size] {
   margin: 0;
 }
 
-.btn-separator-xs {
-  border-left: 1px solid #dbe1e8;
-  margin: 0 8px;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.btn-separator-xs {
-  height: 18px;
-}
-
 .block-illuminated {
   border-color: #c2c8cf;
 }
 
 .form-bordered .form-group:last-child {
   border-bottom: none;
+}
+
+.btn-separator-xs {
+  border-left: 1px solid #dbe1e8;
+  margin: 0 8px;
+  display: inline-block;
+  vertical-align: middle;
+  height: 18px;
+}
+
+.btn-separator-xs:first-child, .btn-separator-xs:last-child,
+.btn-separator-xs + .btn-separator-xs {
+  display: none;
+}
+
+textarea.form-control {
+  min-height: 200px;
+  resize: vertical;
 }
 
 @media (min-width: 1200px) and (max-width: 1599px) {

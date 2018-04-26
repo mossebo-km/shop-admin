@@ -241,16 +241,7 @@ div.dataTables_length select[size] {
 }
 
 
-.btn-separator-xs {
-  border-left: 1px solid #dbe1e8;
-  margin: 0 8px;
-  display: inline-block;
-  vertical-align: middle;
-}
 
-.btn-separator-xs {
-  height: 18px;
-}
 
 .block-illuminated {
   border-color: #c2c8cf;
@@ -258,4 +249,23 @@ div.dataTables_length select[size] {
 
 .form-bordered .form-group:last-child {
   border-bottom: none;
+}
+
+.btn-separator-xs {
+  border-left: 1px solid #dbe1e8;
+  margin: 0 8px;
+  display: inline-block;
+  vertical-align: middle;
+  height: 18px;
+
+  &:first-child,
+  &:last-child,
+  & + & {
+    display: none;
+  }
+}
+
+textarea.form-control {
+  min-height: 200px;
+  resize: vertical;
 }

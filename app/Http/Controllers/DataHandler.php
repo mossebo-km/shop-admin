@@ -46,19 +46,36 @@ class DataHandler
      *
      * @param null $dataType
      */
-    public static function clearCache($dataType = null)
+    public static function clearCache($dataTypeOrModelClassName = false)
     {
         // todo: Добавить отчистку кэша по типу данных.
 
-//        \Cache::flush();
-
-        if ($dataType && isset(self::$repositories[$dataType])) {
-            self::$repositories[$dataType]::clearCache();
+        if (!$dataTypeOrModelClassName) {
+            self::clearAllCache();
+            return;
         }
-        else {
-            foreach (self::$repositories as $repository) {
-                $repository::clearCache();
+
+        if (isset(self::$repositories[$dataTypeOrModelClassName])) {
+            self::$repositories[$dataTypeOrModelClassName]::clearCache();
+            \Cache::forget(self::$cacheKey);
+            return;
+        }
+
+        $modelClassName = $dataTypeOrModelClassName;
+
+        foreach (self::$repositories as $repo) {
+            if ($repo::getModelClassName() === $modelClassName) {
+                $repo::clearCache();
+                \Cache::forget(self::$cacheKey);
+                return;
             }
+        }
+    }
+
+    public static function clearAllCache()
+    {
+        foreach (self::$repositories as $repository) {
+            $repository::clearCache();
         }
 
         \Cache::forget(self::$cacheKey);

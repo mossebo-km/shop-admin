@@ -25,7 +25,7 @@ const availableTypes = [
 ]
 
 export default {
-  __queue: {},
+  __queues: {},
 
   makeQueue(type, name = false) {
     if (availableTypes.indexOf(type) === -1) {
@@ -36,8 +36,8 @@ export default {
       throw new Error('Не задано имя очереди.')
     }
 
-    if (name in this.__queue) {
-      return this.__queue[name]
+    if (name in this.__queues) {
+      return this.__queues[name]
     }
 
     let queue;
@@ -56,7 +56,7 @@ export default {
         break
     }
 
-    this.__queue[name] = queue
+    this.__queues[name] = queue
 
     return queue
   },

@@ -6,6 +6,7 @@ import stageHandler from './stageHandler.js'
 import transliteration from './transliteration'
 import queueHandler from './queueHandler'
 import auth from './auth'
+import EventsHandler from "./EventsHandler";
 
 /**
  * todo: вынести функции, которые форматируют строки, цифры в отдельную область.
@@ -40,6 +41,7 @@ export default {
   stageHandler,
   queueHandler,
   auth,
+  events: new EventsHandler(),
 
   transliteration,
 

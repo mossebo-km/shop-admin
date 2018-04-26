@@ -58,7 +58,7 @@ class SupplierController extends ApiController
             ], 500);
         }
 
-        \Event::fire(new Events\EntityCreated($supplier));
+        \Event::fire(new Events\Entity\EntityCreated($supplier));
 
         return response()->json([
             'status' => 'success',
@@ -87,7 +87,7 @@ class SupplierController extends ApiController
             ], 500);
         }
 
-        \Event::fire(new Events\EntityUpdated($supplier));
+        \Event::fire(new Events\Entity\EntityUpdated($supplier));
 
         return response()->json([
             'status' => 'success',

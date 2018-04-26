@@ -32,7 +32,7 @@ class CategoryController extends ApiController
     /**
      * Отображение категории.
      *
-     * @param  Category
+     * @param Category
      * @return array
      */
     public function show(Category $category)
@@ -61,7 +61,7 @@ class CategoryController extends ApiController
             ], 500);
         }
 
-        \Event::fire(new Events\EntityCreated($category));
+        \Event::fire(new Events\Entity\EntityCreated($category));
 
         return response()->json([
             'status' => 'success',
@@ -91,7 +91,7 @@ class CategoryController extends ApiController
             ], 500);
         }
 
-        \Event::fire(new Events\EntityUpdated($category));
+        \Event::fire(new Events\Entity\EntityUpdated($category));
 
         return response()->json([
             'status' => 'success',

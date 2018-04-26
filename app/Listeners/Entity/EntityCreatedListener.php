@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Listeners\Entity;
 
-use App\Events\EntityCreated;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Events\Entity\EntityCreated;
 
 class EntityCreatedListener
 {

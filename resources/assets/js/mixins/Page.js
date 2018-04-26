@@ -5,60 +5,17 @@ import DataHandler from './DataHandler'
 
 export default {
   mixins: [
-    Base, DataHandler
+    Base,
+    DataHandler
   ],
 
   data() {
     return {
-      usedMainData: [],
       componentInitializedWithUrl: null
     }
   },
 
   methods: {
-    /**
-     * Загрузка всех необходимых данных.
-     */
-    loadData() {
-      this.fetchMainData()
-        .then(data => this.initMainData(data))
-    },
-
-    /**
-     * Загрузка основных общих данных.
-     *
-     * @returns Promise
-     */
-    fetchMainData() {
-      if (this.usedMainData) {
-        return Core.dataHandler.get(this.usedMainData)
-      }
-      else {
-        return new Promise(resolve => resolve([]))
-      }
-    },
-
-    /**
-     * Инициализация основных данных.
-     *
-     * @param data
-     */
-    initMainData(data = {}) {
-      this.usedMainData.forEach(label => {
-        if (! label in data) return
-
-        let methodName = 'init' + Core.camelize(label, true)
-
-        if (typeof this[methodName] === "function") {
-          this[methodName](data[label])
-        }
-        else {
-          let variableName = Core.camelize(label)
-          this[variableName] = data[label]
-        }
-      })
-    },
-
     /*
       Подготавливает url.
     */

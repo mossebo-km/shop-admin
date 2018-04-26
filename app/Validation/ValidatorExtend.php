@@ -42,7 +42,7 @@ class ValidatorExtend
             $primaryKeyFieldName = self::_getModelKeyName($modelClassName);
         }
 
-        return count($toCheck) === $modelClassName::where($primaryKeyFieldName, $toCheck)->count();
+        return count($toCheck) === $modelClassName::whereIn($primaryKeyFieldName, $toCheck)->count();
     }
 
     /**

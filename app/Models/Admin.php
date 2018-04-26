@@ -31,4 +31,9 @@ class Admin extends Authenticatable
     {
         return $this->hasOne(Role::class, 'role_id');
     }
+
+    public function adminLog()
+    {
+        return $this->hasMany(AdminLog::class, 'admin_id');
+    }
 }

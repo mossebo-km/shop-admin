@@ -3,6 +3,7 @@
 namespace App\Support\Traits\Controllers;
 
 use Illuminate\Http\Request;
+use App\Events\Entity\EntitiesPositionChanged;
 
 trait PositionChangeable
 {
@@ -24,7 +25,7 @@ trait PositionChangeable
             ], 500);
         }
 
-        // \Event::fire(new EntitiesPositionCanged(self::$modelClass));
+         \Event::fire(new EntitiesPositionChanged(self::$modelClass));
 
         return response()->json([
             'status' => 'success',

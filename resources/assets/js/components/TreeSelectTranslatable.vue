@@ -11,6 +11,7 @@
       'disabled',
       'multiple',
       'activeLanguageCode',
+      'defaultLanguageCode',
       'params'
     ],
 
@@ -21,7 +22,8 @@
     },
 
     watch: {
-      activeLanguageCode: 'hardReset'
+      options: 'translateOptions',
+      activeLanguageCode: 'translateOptions'
     },
 
     components: {
@@ -33,14 +35,21 @@
         return this.$refs.treeSelect.rSelected
       },
 
-      hardReset() {
-        this.$refs.treeSelect.destroy()
-        this.translateOptions()
+      // todo: аналогичная функция в PricesTable
 
-        this.$nextTick(() => {
-          this.$refs.treeSelect.initOptions()
-          this.$refs.treeSelect.initSelect2()
-        })
+      getTitle(item) {
+        let title = item.i18n[this.activeLanguageCode].title
+
+        if (! title) {
+          if (this.defaultLanguageCode) {
+            title = item.i18n[this.defaultLanguageCode].title
+          }
+          else {
+            title = 'Не заполнено'
+          }
+        }
+
+        return title
       },
 
       translateOptions() {
@@ -48,7 +57,7 @@
           return tree.map(item => {
             let res = {
               ... item,
-              title: item.i18n[this.activeLanguageCode].title
+              title: this.getTitle(item)
             }
 
             if (item.children) {
@@ -60,7 +69,7 @@
         }
 
         this.translatedOptions = build(this.options || [])
-      }
+      },
     },
 
     created() {
@@ -68,10 +77,12 @@
     },
 
     mounted() {
-      this.$refs.treeSelect.$on('update:selected', (selected) => {
-        this.$emit('update:selected', selected)
+      ;(['update:selected', 'create:options']).forEach(eventName => {
+        this.$refs.treeSelect.$on(eventName, data => {
+          this.$emit(eventName, data)
+        })
       })
-    }
+    },
   }
 </script>
 

@@ -9,6 +9,7 @@
   import DataHandler from '../../mixins/DataHandler'
 
   import OptionSelectModel from '../../resources/OptionSelectModel'
+  import HandleableException from '../../exceptions/HandleableException'
 
   export default {
     name: "attributes-select",
@@ -49,6 +50,8 @@
     ],
 
     watch: {
+      selectedAttributes: 'reset',
+      selectedOptions: 'reset',
       attributes: 'initAttributes'
     },
 
@@ -62,6 +65,39 @@
     methods: {
       getAttributes() {
         return this.innerAttributes
+      },
+
+      getAttributesSelectedOptions() {
+        return this.innerAttributes.reduce((acc, attribute) => {
+          if (attribute.request) {
+            throw new HandleableException('Дождитесь окончания загрузки значений аттрибута.', 'warning')
+          }
+
+          if (! (attribute.selected instanceof Array && attribute.selected.length > 0)) {
+            return acc
+          }
+
+          acc[attribute.id] = attribute.selected.reduce((attributeAcc, selectedId) => {
+            let option = attribute.options.find(option => option.id == selectedId)
+
+            if (option.isNew) {
+              attributeAcc[option.id] = Object.keys(option.i18n).reduce((optionAcc, langCode) => {
+                optionAcc[langCode] = {
+                  value: option.i18n[langCode].title
+                }
+
+                return optionAcc
+              }, {})
+            }
+            else {
+              attributeAcc[option.id] = option.i18n[this.activeLanguageCode].title
+            }
+
+            return attributeAcc
+          }, {})
+
+          return acc
+        }, {})
       },
 
       initAttributes() {
@@ -80,6 +116,8 @@
 
       toSelected(attributeId) {
         if (! attributeId) return
+
+        if (this.selectedAttributesIds.indexOf(attributeId) !== -1) return
 
         let attribute = this.getAvailableAttributeById(attributeId)
 
@@ -110,13 +148,21 @@
       fetchOptions(attribute) {
         if (attribute.options || attribute.request) return
 
-        attribute.request = new Core.requestHandler('get', `/api/shop/attributes/${attribute.id}/options`)
+        let request = new Core.requestHandler('get', `/api/shop/attributes/${attribute.id}/options`)
+
+        this.updateAttribute(attribute.id, {
+          request
+        })
+
+        request
           .any(() => {
-            if (['error', 'crashed'].indexOf(attribute.request.status) !== -1) {
+            if (['error', 'crashed'].indexOf(request.status) !== -1) {
               this.remove(attribute.id)
             }
 
-            delete attribute.request
+            this.updateAttribute(attribute.id, {
+              request: false
+            })
           })
           .success(response => {
             let selectedOptions = []
@@ -129,7 +175,7 @@
                 return new OptionSelectModel(item, this.languages)
               })
 
-            this.updateAttribute(attribute, {
+            this.updateAttribute(attribute.id, {
               options,
               selected: selectedOptions
             })
@@ -137,69 +183,60 @@
           .start()
       },
 
-      getOptionsSelectParams(attribute) {
-        return {
-          tags: true,
-          closeOnSelect: false,
-          events: {
-            selecting: (e) => {
-              let {id, text} = e.params.args.data
-
-              if (id !== text) return
-
-              if (! attribute.options.find(item => item.id === id)) {
-                e.preventDefault()
-
-                let option = {
-                  id: Core.uniqueId(),
-                  isNew: true,
-                  i18n: {}
-                }
-
-                this.languages.forEach(language => {
-                  option.i18n[language.code] = {
-                    title: text
-                  }
-                })
-
-                this.updateAttribute(attribute, {
-                  options: [
-                    ... attribute.options,
-                    option
-                  ],
-                  selected: [
-                    ... attribute.selected,
-                    option.id
-                  ]
-                })
-              }
-            },
-
-            unselecting: (e) => {
-              let id = e.params.args.data.id
-              let option = attribute.options.find(item => item.id === id) || {}
-
-              if (option.isNew) {
-                this.updateAttribute(attribute, {
-                  options: attribute.options.filter(item => item.id !== id)
-                })
-              }
-            }
-          }
+      createOption(text, attribute) {
+        let option = {
+          id: Core.uniqueId(),
+          isNew: true,
+          i18n: {}
         }
+
+        this.languages.forEach(language => {
+          option.i18n[language.code] = {
+            title: text
+          }
+        })
+
+        this.updateAttribute(attribute.id, {
+          options: [
+            ...attribute.options,
+            option
+          ],
+          selected: [
+            ...attribute.selected,
+            option.id
+          ]
+        })
       },
 
-      updateAttribute(attribute, data) {
+      selectOptions(selected = [], attribute) {
+        this.updateAttribute(attribute.id, {
+          selected: selected,
+          options: attribute.options.filter(option => {
+            return !option.isNew || selected.indexOf(option.id) !== -1
+          })
+        })
+      },
+
+      updateAttribute(attributeId, data) {
+        if (typeof attributeId === 'object') {
+          attributeId = attributeId.id
+        }
+
         this.innerAttributes = this.innerAttributes.map(item => {
-          if (item.id === attribute.id) {
+          if (item.id === attributeId) {
             return {
-              ... attribute,
+              ... item,
               ... data
             }
           }
 
           return item
         })
+      },
+
+      reset() {
+        this.selectedAttributesIds = []
+        this.initAttributes()
       }
     },
 
@@ -239,8 +276,8 @@
       </div>
     </div>
 
-    <div :class="`form-group${errors.has(`attributes.${attribute.id}`) ? ' has-error' : ''}`" v-for="attribute in selected">
-        <loading :loading="!! attribute.request" style="min-height: 36px;">
+    <div :class="`form-group${errors.has(`attributes.${attribute.id}`) ? ' has-error' : ''}`" v-for="attribute in selected" :key="attribute.id">
+      <loading :loading="!! attribute.request" style="min-height: 36px;">
         <label class="col-md-3 control-label" :for="`attribute-${attribute.id}`">{{attribute.i18n[activeLanguageCode].title}}</label>
         <div class="col-md-9">
           <div class="clearfix">
@@ -253,7 +290,9 @@
                   :multiple="true"
                   placeholder="Выберите значения"
                   :activeLanguageCode="activeLanguageCode"
-                  :params="getOptionsSelectParams(attribute)"
+                  :params="{tags: true, closeOnSelect: false}"
+                  v-on:create:options="createOption($event, attribute)"
+                  v-on:update:selected="selectOptions($event, attribute)"
                 />
               </template>
 

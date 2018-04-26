@@ -28,13 +28,25 @@
           url: '/shop/attributes',
           icon: 'fa fa-list',
         },
+
+        {
+          title: 'Типы цен',
+          url: '/shop/price-types',
+          icon: 'fa fa-money',
+        },
       ]
     },
 
     {
+      title: 'Пользователи',
+      url: '/users',
+      icon: 'fa fa-user',
+    },
+
+    {
       title: 'Настройки',
+      url: '/settings',
       icon: 'fa fa-gear',
-      url: '/settings'
     },
 
 

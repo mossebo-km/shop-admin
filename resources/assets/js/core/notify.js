@@ -8,11 +8,15 @@ const defaultParms = {
 }
 
 export default function notify(message, options = {}) {
-  if (!message) return
+  if (typeof message === 'object' && message.text)  {
+    options = message
+  }
+  else {
+    options.text = message
+  }
 
   new Noty({
     ...defaultParms,
     ...options,
-    text: message
   }).show()
 }

@@ -1,7 +1,7 @@
 import Schema from './Schema'
 
-export default class Schemai18n extends Schema {
-  combine(data, languages) {
+export default class SchemaI18n extends Schema {
+  combine(data = [], languages = []) {
     return this.__combine(this.schema, data, languages)
   }
 

@@ -1,21 +1,14 @@
-import Schema from './Schema'
-import Schemai18n from './Schemai18n'
+import ModelI18n from './Base/ModelI18n'
 
-const schema = {
-  layout_class: '',
-  selectable: false,
-  enabled: true,
-}
-
-const i18nSchema = {
-  title: '',
-}
-
-export default class AttributeModel {
-  constructor(entityData, languages) {
+export default class AttributeModel extends ModelI18n {
+  getSchemaFields() {
     return {
-      ... (new Schema(schema)).combine(entityData),
-      i18n: (new Schemai18n(i18nSchema)).combine(entityData.i18n, languages),
+      layout_class: '',
+      selectable: false,
+      enabled: true,
+      i18n: {
+        title: '',
+      }
     }
   }
 }

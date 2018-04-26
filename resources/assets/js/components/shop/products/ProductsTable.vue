@@ -17,6 +17,7 @@
 
   import TablePage from '../../../mixins/TablePage'
   import Translatable from '../../../mixins/Translatable'
+  import StatusChangeable from '../../../mixins/StatusChangeable'
 
   import ProductsTableModel from '../../../resources/ProductsTableModel'
 
@@ -25,8 +26,9 @@
     name: 'products-table',
 
     mixins: [
+      StatusChangeable,
       TablePage,
-      Translatable
+      Translatable,
     ],
 
     components : {
@@ -45,6 +47,49 @@
     },
 
     data () {
+      let fields = [
+        {
+          key: 'id',
+          sortable: true,
+        },
+        {
+          key: 'image',
+          sortable: false,
+        },
+        {
+          key: 'title',
+          sortable: true,
+          label: 'Название',
+          thStyle: {
+            width: this.userCan('prices.see') ? "70%" : "100%"
+          }
+        },
+      ]
+
+      if (this.userCan('prices.see')) {
+        fields.push({
+          key: 'price',
+          sortable: true,
+          thStyle: {
+            width: "30%"
+          }
+        })
+      }
+
+      if (this.userCan('products.edit')) {
+        fields.push({
+          key: 'enabled',
+          sortable: true,
+        })
+      }
+
+      if (this.userCan('products.delete')) {
+        fields.push({
+          key: 'delete',
+          sortable: false,
+        })
+      }
+
       return {
         loading: false,
         sortBy: 'id',
@@ -54,68 +99,16 @@
         totalRows: 0,
         perPageOptions: [ 15, 30, 60 ],
         searchPhrase: '',
-        fields: [
-          {
-            key: 'id',
-            label: 'ID',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'image',
-            label: ' ',
-            sortable: false,
-            class: 'text-center',
-          },
-          {
-            key: 'title',
-            label: 'Название',
-            sortable: true,
-          },
-          {
-            key: 'price',
-            label: 'Цена',
-            sortable: true,
-            class: 'text-right hidden-xs'
-          },
-          {
-            key: 'created_at',
-            label: 'Дата добавления',
-            sortable: true,
-            class: 'text-center hidden-xs'
-          },
-          {
-            key: 'enabled',
-            label: 'Статус',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'controls',
-            label: ' ',
-            sortable: false,
-            class: 'text-center',
-          },
-        ],
+        fields,
 
         priceTypes: [],
         activePriceType: null,
 
-        defaultTranslatableFieldsValues: {
-          title: '',
-        },
-
         usedMainData: [
-          'price-types',
-          'languages'
+          'languages',
+          'price-types'
         ]
       }
-    },
-
-    watch: {
-      '$route': [
-        'clearQueue',
-      ]
     },
 
     methods: {
@@ -166,11 +159,6 @@
         }
       },
 
-      activePriceTypeTitle() {
-        let priceType = this.priceTypes.find(item => item.id == this.activePriceType ) || {title: ''}
-        return priceType.title
-      },
-
       getItemPrice(item) {
         let price = item.prices.find(item => {
           return item.price_type_id == this.activePriceType && item.currency_code == 'RUB'
@@ -190,59 +178,58 @@
         }
       },
 
-      clearQueue() {
-        this.statusQueue.clear()
-      },
-
       refreshTable() {
         this.$refs.table.refresh()
       },
     },
 
     computed: {
-      showedFrom: function() {
+      showedFrom() {
         return (this.currentPage - 1) * this.perPage + 1
       },
 
-      showedTo: function() {
+      showedTo() {
         let to = this.currentPage * this.perPage
         return (to > this.totalRows ? this.totalRows : to)
       },
 
-      showPagination: function() {
+      showPagination() {
         return this.perPage < this.totalRows;
       },
-    },
 
-    created() {
-      this.statusQueue = Core.queueHandler.makeQueue('iteration', 'product-status')
-    },
-
-    beforeDestroy: function() {
-      this.clearQueue()
+      activePriceTypeTitle() {
+        let priceType = this.priceTypes.find(item => item.id == this.activePriceType)
+        return priceType.i18n[this.activeLanguageCode].title
+      },
     },
   }
 </script>
 
 <template>
   <div>
-    <shop-quick-nav active="products"></shop-quick-nav>
+    <shop-quick-nav active="products" />
 
     <div class="block full">
       <div class="block-title clearfix">
-        <h1><strong>Товары</strong></h1>
+        <h1>
+          <strong>
+            Товары
+          </strong>
+        </h1>
 
         <div class="block-title-control">
-          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode"></language-picker>
+          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" />
 
-          <span v-if="languages.length > 1" class="btn-separator-xs"></span>
+          <span class="btn-separator-xs"></span>
 
-          <router-link to="/shop/products/create" class="btn btn-sm btn-success active"><i class="fa fa-plus-circle"></i> Создать</router-link>
+          <router-link v-if="userCan('products.create')" to="/shop/products/create" class="btn btn-sm btn-success active">
+            <i class="fa fa-plus-circle"></i> Создать
+          </router-link>
         </div>
       </div>
 
       <loading :loading="loading">
-        <div class="table-responsive">
+        <div class="table-responsive" style="overflow: visible">
           <div class="dataTables_wrapper form-inline no-footer">
             <div class="row">
               <div class="col-sm-6 col-xs-12 clearfix">
@@ -278,53 +265,113 @@
               empty-filtered-text="Товары с такими параметрами не найдены."
               class="table table-vcenter table-condensed table-hover table-bordered dataTable no-footer">
 
-              <template slot="id" slot-scope="product">
-                <router-link v-bind:to="product.item.url"><strong>{{ product.item.id }}</strong></router-link>
+              <!--  ID  -->
+
+              <template slot="HEAD_id" slot-scope="product">
+                <span class="table-column-id">ID</span>
               </template>
 
-              <template slot="image" slot-scope="product">
-                <router-link v-bind:to="product.item.url">
-                  <div class="product-preview-image">
-                    <img :src="product.item.image.src" :srcset="`${product.item.image.srcset} 2x`">
-                  </div>
+              <template slot="id" slot-scope="product">
+                <router-link :to="product.item.url">
+                  <strong class="table-column-id">
+                    {{ product.item.id }}
+                  </strong>
                 </router-link>
               </template>
 
+              <!--  Изображение  -->
+
+              <template slot="HEAD_image" slot-scope="product">
+                <span class="table-column-image">Изображение</span>
+              </template>
+
+              <template slot="image" slot-scope="product">
+                <span class="table-column-image">
+                  <router-link :to="product.item.url">
+                    <div class="product-preview-image">
+                      <img :src="product.item.image.src" :srcset="`${product.item.image.srcset} 2x`">
+                    </div>
+                  </router-link>
+                </span>
+              </template>
+
+              <!--  Название  -->
+
               <template slot="title" slot-scope="product">
-                <router-link v-bind:to="product.item.url" v-html="product.item.i18n[activeLanguageCode].title"></router-link>
+                <router-link :to="product.item.url" v-html="product.item.i18n[activeLanguageCode].title" />
               </template>
 
-              <template slot="price" slot-scope="product">
-                <strong>{{ getItemPrice(product.item) }}</strong>
-              </template>
-
-              <template slot="created_at" slot-scope="product">
-                {{ product.item.created_at }}
-              </template>
-
-              <template slot="enabled" slot-scope="product">
-                <toggle @change="statusChange(product.item.id)" :checked="product.item.enabled" :key="product.item.id"></toggle>
-              </template>
-
-              <template slot="controls" slot-scope="product">
-                <a href="javascript:void(0)" data-toggle="tooltip" title="Удалить" class="btn btn-danger" @click="remove(product.item.id)"><i class="fa fa-times"></i></a>
-              </template>
+              <!--  Цена  -->
 
               <template slot="HEAD_price" slot-scope="product">
-                {{ activePriceTypeTitle() }}
-                <dropdown className="btn-group btn-group-sm" position="right" :options="priceTypes" @click.native.stop>
+                <dropdown
+                  className="btn-group btn-group-xs"
+                  style="margin: -4px 2px -2px;"
+                  position="right"
+                  :options="priceTypes"
+                  @click.native.stop>
+
                   <template slot="button">
-                    <a class="btn btn-default dropdown-toggle" href="javascript:void(0)"><i class="fa fa-chevron-down fa-fw"></i></a>
+                    <a class="btn btn-default dropdown-toggle">
+                      <i class="fa fa-chevron-down fa-fw"></i>
+                    </a>
                   </template>
 
-                  <template slot="option" slot-scope="{ id, title }">
+                  <template slot="option" slot-scope="{ id, i18n }">
                     <li :class="{active: activePriceType === id}">
-                      <a href="javascript:void(0)" @click="setActivePriceType(id)">{{ title }}</a>
+                      <a @click="setActivePriceType(id)">
+                        {{ i18n[activeLanguageCode].title }}
+                      </a>
                     </li>
                   </template>
                 </dropdown>
+
+                {{ activePriceTypeTitle }}
               </template>
 
+              <template slot="price" slot-scope="product">
+                <strong>
+                  {{ getItemPrice(product.item) }}
+                </strong>
+              </template>
+
+              <!--  Дата создания  -->
+
+              <template slot="HEAD_created_at" slot-scope="product">
+                <span class="table-column-date">Создан</span>
+              </template>
+
+              <template slot="created_at" slot-scope="product">
+                <span class="table-column-date">
+                  {{ product.item.created_at }}
+                </span>
+              </template>
+
+              <!--  Статус  -->
+
+              <template slot="HEAD_enabled" slot-scope="product">
+                <span class="table-column-enabled">Статус</span>
+              </template>
+
+              <template slot="enabled" slot-scope="product">
+                <span class="table-column-enabled">
+                  <toggle @change="statusChange(product.item.id)" :checked="product.item.enabled" :key="product.item.id" />
+                </span>
+              </template>
+
+              <!--  Удаление  -->
+
+              <template slot="HEAD_delete" slot-scope="product">
+                <span class="table-column-delete"></span>
+              </template>
+
+              <template slot="delete" slot-scope="product">
+                <span class="table-column-delete">
+                  <a class="btn btn-danger" @click="remove(product.item.id)">
+                    <i class="fa fa-times"></i>
+                  </a>
+                </span>
+              </template>
             </b-table>
 
             <div class="row">
@@ -343,7 +390,7 @@
                 </div>
 
                 <div class="dataTables_info" role="status" aria-live="polite">
-                  <strong>{{ showedFrom }}</strong> - <strong>{{ showedTo }}</strong> of <strong>{{ totalRows }}</strong>
+                  <strong>{{ showedFrom }}</strong> - <strong>{{ showedTo }}</strong> из <strong>{{ totalRows }}</strong>
                 </div>
               </div>
             </div>

@@ -3,8 +3,6 @@ import Core from '../core'
 import Page from './Page'
 import {asyncPackageDataCollector} from "../core/queueHandler";
 
-// todo: сделать миксин очередей, если от очередей нет возможности отказаться.
-
 export default {
   mixins: [
     Page
@@ -48,16 +46,6 @@ export default {
     fetchItems() {
       return new Core.requestHandler('get', this.prepareUrl())
     },
-
-    /**
-     * Смена статуса записи.
-     *
-     * @param id
-     */
-    statusChange(id) {
-      this.statusQueue.add(new Core.requestHandler('get', this.prepareUrl(`${id}/status`)))
-    },
-
     /**
      * Показ окна для удаления записи.
      *
@@ -87,21 +75,9 @@ export default {
         .success(response => this.initItems(response.data))
         .start()
     },
-
-    createQueue() {
-      this.statusQueue = Core.queueHandler.makeQueue('break', 'table-status')
-    },
-
-    /**
-     * Отчистка очереди.
-     */
-    clearQueue() {
-      this.statusQueue.clear()
-    },
   },
 
   created() {
-    this.createQueue()
     this.loadData()
   }
 }

@@ -128,7 +128,7 @@ class ProductController extends ApiController
             ], 500);
         }
 
-        \Event::fire(new Events\EntityCreated($product));
+        \Event::fire(new Events\Entity\EntityCreated($product));
 
         return response()->json([
             'status' => 'success',
@@ -168,7 +168,7 @@ class ProductController extends ApiController
 
         $product = $product->fresh();
 
-        \Event::fire(new Events\EntityUpdated($product));
+        \Event::fire(new Events\Entity\EntityUpdated($product));
 
         return response()->json([
             'status' => 'success',

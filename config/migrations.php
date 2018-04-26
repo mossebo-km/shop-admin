@@ -2,6 +2,7 @@
 
 return [
 	'Admins' => 'admins',
+    'AdminLog' => 'admin_logs',
 	'Users' => 'users',
 	'PasswordResets' => 'password_resets',
 	'SocialProviders' => 'social_providers',
@@ -17,7 +18,8 @@ return [
 	'Images' => 'images',
 
 	'Prices' => 'shop_prices',
-	'PriceTypes' => 'shop_price_types',
+    'PriceTypes' => 'shop_price_types',
+    'PriceTypesI18n' => 'shop_price_types_i18n',
 
 	'Categories' => 'shop_categories',
 	'CategoriesI18n' => 'shop_categories_i18n',

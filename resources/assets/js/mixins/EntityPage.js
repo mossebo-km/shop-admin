@@ -2,14 +2,18 @@ import Core from '../core'
 
 import Validation from './Validation'
 import Page from './Page'
+import Queueable from './Queueable'
 
 import { asyncPackageDataCollector } from '../core/queueHandler'
+
+import HandleableException from '../exceptions/HandleableException'
 
 
 export default {
   mixins: [
     Validation,
-    Page
+    Page,
+    Queueable
   ],
 
   props: [
@@ -69,7 +73,7 @@ export default {
      * @return {[type]} [description]
      */
     getEntityModel() {
-      return this[this.getEntityName()]
+      return this[Core.camelize(this.entityName)]
     },
 
     /**
@@ -78,7 +82,7 @@ export default {
      * @param data
      */
     setEntityData(data = {}) {
-      this[this.entityName] = data
+      this[Core.camelize(this.entityName)] = data
     },
 
     /**
@@ -115,9 +119,18 @@ export default {
      * Возврат к списку сущностей.
      */
     redirectToTable() {
-      let currentPath = this.$route.path
-      let fin = this.$route.path.indexOf('/' + this.id)
-      this.$router.push(currentPath.substr(0, currentPath.length - (currentPath.length - fin)))
+      let path
+
+      switch (this.type) {
+        case 'create':
+          path = this.$route.path.replace('/create', '')
+          break
+        case 'edit':
+          path = this.$route.path.replace('/' + this.id, '')
+          break
+      }
+
+      this.$router.push(path)
     },
 
     /**
@@ -126,16 +139,27 @@ export default {
     save() {
       this.formErrors.clear()
 
-      this.saveDisabled = true
       this.$validator.validateAll()
         .then(result => {
           if (!result) {
-            this.saveDisabled = false
             this.$refs.validationModal.show()
             return
           }
 
-          let data = this.getToSaveData()
+          let data
+
+          try {
+            data = this.getToSaveData()
+          }
+          catch(e) {
+            if (e instanceof HandleableException) {
+              Core.notify(e.getNotifyParams())
+              return
+            }
+            else {
+              throw e
+            }
+          }
 
           if (this.reloadDataOnSave !== false) {
             data = {
@@ -156,23 +180,18 @@ export default {
 
           const request = new Core.requestHandler(requestType, this.prepareUrl(), data)
 
-          this.saveQueue.add(request)
-            .onDone()
-              .success(response => this.pullDataFromResponse(response))
-              .fail(response => {
-                if (response.data.errors) {
-                  this.setValidationErrors(response.data.errors)
-                  this.$refs.validationModal.show()
-                }
-              })
-              .notFound(() => {
-                Core.notify('Товар был удален до внесения изменений.', {type: 'warning'})
-                this.redirectToTable()
-              })
-              .any(() => {
-                this.saveDisabled = false
-              })
-
+          this.addToQueue('save', request).onDone()
+            .success(response => this.pullDataFromResponse(response))
+            .fail(response => {
+              if (response.data.errors) {
+                this.setValidationErrors(response.data.errors)
+                this.$refs.validationModal.show()
+              }
+            })
+            .notFound(() => {
+              Core.notify('Товар был удален до внесения изменений.', {type: 'warning'})
+              this.redirectToTable()
+            })
         })
     },
 
@@ -215,34 +234,15 @@ export default {
     },
 
     /**
-     * Создание очередей.
-     */
-    createQueue() {
-      this.saveQueue = Core.queueHandler.makeQueue('break', 'entity-save')
-    },
-
-    /**
-     * Отчистка очередей.
-     */
-    clearQueue() {
-      this.saveQueue.clear()
-    },
-
-    /**
      * Сброс комонента.
      */
     reset() {
-      this.clearQueue()
+      this.clearQueues()
     },
   },
 
   created() {
+    this.addQueue('save', 'break')
     this.loadData()
-    this.createQueue()
-    this.extendSlugChecker()
-  },
-
-  beforeDestroy() {
-    this.clearQueue()
   },
 }

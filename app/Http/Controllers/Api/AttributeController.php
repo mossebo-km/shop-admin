@@ -61,7 +61,7 @@ class AttributeController extends ApiController
             ], 500);
         }
 
-        \Event::fire(new Events\EntityCreated($attribute));
+        \Event::fire(new Events\Entity\EntityCreated($attribute));
 
         return response()->json([
             'status' => 'success',
@@ -91,7 +91,7 @@ class AttributeController extends ApiController
             ], 500);
         }
 
-        \Event::fire(new Events\EntityUpdated($attribute));
+        \Event::fire(new Events\Entity\EntityUpdated($attribute));
 
         return response()->json([
             'status' => 'success',

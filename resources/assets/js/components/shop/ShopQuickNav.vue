@@ -33,15 +33,16 @@
             title: 'Аттрибуты'
           },
 
+          {
+            url: '/shop/price-types',
+            icon: 'fa fa-money',
+            title: 'Типы цен'
+          },
+
           // {
           //   url: '/shop/orders',
           //   icon: 'gi gi-shop_window',
           //   title: 'Заказы'
-          // },
-          // {
-          //   url: '/shop/customers',
-          //   icon: 'gi gi-user',
-          //   title: 'Клиенты'
           // },
         ]
       }

@@ -24,7 +24,7 @@ class RamRepository implements RamRepositoryContract {
     public function getCollection()
     {
         if (is_null($this->collection)) {
-            $this->collection = \Cache::remember($this->_getCacheKey(), $this->_getCachceMinutes(), function(){
+            $this->collection = \Cache::remember($this->_getCacheKey(), $this->_getCacheMinutes(), function(){
                 return $this->_getCollection();
             });
         }
@@ -37,6 +37,11 @@ class RamRepository implements RamRepositoryContract {
         return $this->getCollection()->where('enabled', 1);
     }
 
+    public function getModelClassName()
+    {
+        return $this->model;
+    }
+
     protected function _getCollection()
     {
         return $this->model::all();
@@ -47,7 +52,7 @@ class RamRepository implements RamRepositoryContract {
         return $this->cacheKey;
     }
 
-    protected function _getCachceMinutes()
+    protected function _getCacheMinutes()
     {
         return isset($this->cacheMinutes) ? $this->cacheMinutes : config('repository.cache.minutes', 30);
     }

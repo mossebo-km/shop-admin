@@ -1,31 +1,37 @@
-import Schema from './Schema'
-import Schemai18n from './Schemai18n'
+import ModelI18n from './Base/ModelI18n'
 
-let langs
+export default class CategoriesTreeSelectModel extends ModelI18n {
+  constructor(entityData, languages) {
+    super(entityData, languages)
 
-const schema = {
-  id: '',
-  parent_id: '',
-  enabled: true,
+    let children = entityData.children
 
-  children(data) {
-    if (data.children && data.children instanceof Array && data.children.length > 0)   {
-      return data.children.map(item => new CategoriesTreeSelectModel(item, langs))
+    if (children && children instanceof Array && children.length > 0)   {
+      this.children = children.reduce((acc, item) => {
+        acc.push(new CategoriesTreeSelectModel(item, languages))
+
+        return acc
+      }, [])
     }
   }
-}
 
-const i18nSchema = {
-  title: '',
-}
-
-export default class CategoriesTreeSelectModel {
-  constructor(entityData, languages) {
-    langs = languages
-
+  getSchemaFields() {
     return {
-      ... (new Schema(schema)).combine(entityData),
-      i18n: (new Schemai18n(i18nSchema)).combine(entityData.i18n, languages),
+      id: '',
+      parent_id: '',
+      enabled: true,
+
+      url(data) {
+        return '/shop/categories/' + data.id
+      },
+
+      siteUrl(data) {
+        return '/categories/' + data.slug
+      },
+
+      i18n: {
+        title: '',
+      }
     }
   }
 }

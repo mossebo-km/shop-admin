@@ -11,6 +11,8 @@ class PricesSeeder extends Seeder
      */
     public function run()
     {
+        return false;
+
         echo "Seeding Prices\r\n";
 
         $productsTable = DB::table(Config::get('migrations.Products'));

@@ -1,16 +1,14 @@
-import Schema from './Schema'
+import Model from './Base/Model'
 
-const schema = {
-  name: '',
-  description: '',
-  enabled: true,
+export default class ProductAttributesModel extends Model {
+  getSchemaFields() {
+    return {
+      name: '',
+      description: '',
+      enabled: true,
 
-  created_at: null,
-  updated_at: null,
-}
-
-export default class SupplierModel {
-  constructor(entityData) {
-    return (new Schema(schema)).combine(entityData)
+      created_at: null,
+      updated_at: null,
+    }
   }
 }

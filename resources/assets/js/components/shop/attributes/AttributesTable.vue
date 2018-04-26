@@ -1,8 +1,7 @@
 <script>
-  import Core from '../../../core'
-
   import TablePage from '../../../mixins/TablePage'
   import Sortable from '../../../mixins/Sortable'
+  import StatusChangeable from '../../../mixins/StatusChangeable'
   import Translatable from '../../../mixins/Translatable'
 
 
@@ -19,9 +18,10 @@
     name: "attributes-table",
 
     mixins: [
-      TablePage,
       Sortable,
-      Translatable
+      StatusChangeable,
+      TablePage,
+      Translatable,
     ],
 
     components: {
@@ -35,27 +35,9 @@
       return {
         tableItemsDataName: 'attributes',
 
-        defaultTranslatableFieldsValues: {
-          title: ''
-        },
-
         usedMainData: [
           'languages',
         ],
-
-        sortableParams: {
-          items: '.js-sort-item',
-          handle: '.js-sort-handler',
-          opacity: 0.9,
-          start: function(e, helper) {
-            let height = helper.item.height()
-            helper.placeholder.css({
-              height,
-              visibility: 'visible'
-            })
-          },
-          stop: this.changePosition,
-        }
       }
     },
 
@@ -63,19 +45,13 @@
       initItems (data) {
         this.items = data[this.tableItemsDataName].map(item => new AttributesTableModel(item, this.languages))
       },
-
-      changePosition() {
-        new Core.requestHandler('post', this.prepareUrl('sort'), {
-          ids: this.collectSortIds()
-        }).start()
-      }
     }
   }
 </script>
 
 <template>
   <div>
-    <shop-quick-nav active="attributes"></shop-quick-nav>
+    <shop-quick-nav active="attributes" />
 
     <div class="block full">
       <div class="block-title clearfix">
@@ -86,49 +62,72 @@
 
           <span v-if="languages.length > 1" class="btn-separator-xs"></span>
 
-          <router-link v-if="userCan('attribute.create')" to="/shop/attributes/create" class="btn btn-sm btn-success active"><i class="fa fa-plus-circle"></i> Создать</router-link>
+          <router-link v-if="userCan('attributes.create')" to="/shop/attributes/create" class="btn btn-sm btn-success active">
+            <i class="fa fa-plus-circle"></i> Создать
+          </router-link>
         </div>
       </div>
 
       <div class="table-responsive">
-        <table class="table table-middle table-center table-condensed table-bordered table-hover dataTable table-sortable">
+        <table class="table table-middle table-center table-condensed table-bordered table-hover table-sortable table-attributes">
           <thead>
             <tr>
-              <th v-if="userCan('attribute.edit')"></th>
-              <th class="text-center">ID</th>
-              <th>Название</th>
-              <th class="text-center" v-if="userCan('attribute.edit')">Статус</th>
-              <th v-if="userCan('attribute.delete')"></th>
+              <th v-if="userCan('attributes.edit')">
+                <span class="table-column-sort"></span>
+              </th>
+
+              <th>
+                <span class="table-column-id">ID</span>
+              </th>
+
+              <th style="width:100%">Название</th>
+
+              <th v-if="userCan('attributes.edit')">
+                <span class="table-column-enabled">
+                  Статус
+                </span>
+              </th>
+
+              <th v-if="userCan('attributes.delete')">
+                <span class="table-column-delete"></span>
+              </th>
             </tr>
           </thead>
+
           <tbody class="ui-sortable">
             <tr v-for="attribute in items" :key="attribute.id" class="js-sort-item">
-              <td class="table-sort-handler js-sort-handler" v-if="userCan('attribute.edit')">
+              <td v-if="userCan('attributes.edit')" class="table-sort-handler js-sort-handler">
                 <span>
                   <input type="hidden" name="ids" :value="attribute.id">
                 </span>
               </td>
 
-              <td class="text-center">
-                <router-link v-bind:to="attribute.url"><strong>{{ attribute.id }}</strong></router-link>
+              <td>
+                <span class="table-column-id">
+                  <router-link v-bind:to="attribute.url">
+                    <strong>{{ attribute.id }}</strong>
+                  </router-link>
+                </span>
               </td>
 
-              <td style="width: 100%">
+              <td style="width:100%">
                 <router-link v-bind:to="attribute.url">
                   <strong>{{ attribute.i18n[activeLanguageCode].title }}</strong>
                 </router-link>
               </td>
 
-              <td v-if="userCan('attribute.edit')">
-                <div class="table-control table-remove-restore__restore">
+              <td v-if="userCan('attributes.edit')">
+                <span class="table-column-enabled table-remove-restore__restore">
                   <toggle @change="statusChange(attribute.id)" :checked="attribute.enabled"></toggle>
-                </div>
+                </span>
               </td>
 
-              <td v-if="userCan('attribute.delete')">
-                <div class="table-control">
-                  <a href="javascript:void(0)" class="btn btn-danger" @click="remove(attribute.id)"><i class="fa fa-times"></i></a>
-                </div>
+              <td v-if="userCan('attributes.delete')">
+                <span class="table-column-delete">
+                  <a class="btn btn-danger" @click="remove(attribute.id)">
+                    <i class="fa fa-times"></i>
+                  </a>
+                </span>
               </td>
             </tr>
 
@@ -155,5 +154,3 @@
     </b-modal>
   </div>
 </template>
-
-

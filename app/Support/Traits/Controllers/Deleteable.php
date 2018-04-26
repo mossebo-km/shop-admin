@@ -2,7 +2,7 @@
 
 namespace App\Support\Traits\Controllers;
 
-use App\Events\EntityDeleted;
+use App\Events\Entity\EntityDeleted;
 
 trait Deleteable
 {

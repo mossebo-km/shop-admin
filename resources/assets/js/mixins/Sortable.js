@@ -1,26 +1,56 @@
-import Sortable from 'jquery-ui-sortable-npm'
+import Core from "../core"
+
+import Queueable from './Queueable'
 import Base from './Base'
 
 export default {
   mixins: [
-    Base
+    Base,
+    Queueable
   ],
 
   data() {
     return {
+      ids$: false,
       sortEls: [],
-      sortableParams: {}
+      sortableParams: false
     }
   },
 
   methods: {
+    getSortParams() {
+      return this.sortableParams || this.getDefaultSortParams()
+    },
+
+    getDefaultSortParams() {
+      return {
+        items: '.js-sort-item',
+        handle: '.js-sort-handler',
+        opacity: 0.9,
+        start: function(e, helper) {
+          let height = helper.item.height()
+          helper.placeholder.css({
+            height,
+            visibility: 'visible'
+          })
+        },
+        stop: this.changePosition,
+      }
+    },
+
+    selectSortJqueryEls() {
+      return $( this.sortableParams.mainSelector || ".ui-sortable" )
+    },
+
     /**
      * Инициализация сортировки.
      */
     initSort() {
       this.$nextTick(() => {
-        this.sortEls = $( this.sortableParams.mainSelector || ".ui-sortable" ).sortable(this.sortableParams)
+        this.sortEls = this.selectSortJqueryEls().sortable(this.getSortParams())
       })
+
+      this.setCurrentSortIds()
     },
 
     /**
@@ -43,7 +73,7 @@ export default {
      * @returns {*|jQuery|boolean}
      */
     getInitializedSortEls() {
-      return this.sortEls || false
+      return this.sortEls
     },
 
     /**
@@ -52,7 +82,7 @@ export default {
      * @returns {any[]}
      */
     collectSortIds() {
-      return [].map.call(document.querySelectorAll(this.sortableParams.idsInputSelector || '[name="ids"]'), el => {
+      return [].map.call(document.querySelectorAll(this.getSortParams()['idsInputSelector'] || '[name="ids"]'), el => {
         return el.value.toString()
       });
     },
@@ -74,7 +104,13 @@ export default {
       }, ids)
     },
 
-
+    /**
+     * Установка позиций в наборе данных.
+     *
+     * @param dataBundle
+     * @param ids
+     * @returns {*}
+     */
     setDataBundlePositionsByIds(dataBundle, ids) {
       return dataBundle.map(item => {
         return {
@@ -84,21 +120,55 @@ export default {
       })
     },
 
+    setCurrentSortIds(ids = false) {
+      if (!ids) {
+        ids = JSON.stringify(this.collectSortIds())
+      }
+      else if (typeof ids === 'object') {
+        ids = JSON.stringify(ids)
+      }
+
+      this.ids$ = ids
+    },
+
+    sortIdsIsChanged(ids) {
+      let idsJson = JSON.stringify(ids)
+
+      if (this.ids$ !== idsJson) {
+        this.setCurrentSortIds(idsJson)
+        return true
+      }
+
+      return false
+    },
+
     /**
-     * todo: Добавить разрушение сортировки
+     * Запрос на изменение позиций
      */
+    changePosition() {
+      let ids = this.collectSortIds()
+
+      if (!this.sortIdsIsChanged(ids)) return
+
+      this.addToQueue('sort', new Core.requestHandler('post', this.prepareUrl('sort'), {ids}))
+    },
+  },
+
+  created() {
+    this.addQueue('sort', 'break')
   },
 
   mounted() {
     this.initSort()
-  }
+  },
 
-  /**
-   * При изменении порядка записей.
-   */
-  // onPositionChange() {
-  //   this.sortQueue.add(new Core.requestHandler('post', this.prepareUrl('sort'), {
-  //     ids: this.collectSortIds()
-  //   }))
-  // },
+  updated() {
+    this.initSort()
+  },
+
+  beforeDestroy() {
+    if (this.sortEls.length) {
+      this.sortEls.sortable("destroy")
+    }
+  },
 }
