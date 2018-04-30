@@ -33,8 +33,29 @@ export default class CategoriesTableModel {
     langs = languages
 
     return {
+<<<<<<< Updated upstream
       ... (new Schema(schema)).combine(entityData),
       i18n: (new Schemai18n(i18nSchema)).combine(entityData.i18n, languages),
+=======
+      id: '',
+      parent_id: '',
+      slug: '',
+      enabled: true,
+      products_count: 0,
+      position: 0,
+
+      url(data) {
+        return '/shop/categories/' + data.id
+      },
+
+      siteUrl(data) {
+        return '/categories/' + data.slug
+      },
+
+      i18n: {
+        title: '<span class="label label-danger">Не заполнено</span>'
+      }
+>>>>>>> Stashed changes
     }
   }
 }

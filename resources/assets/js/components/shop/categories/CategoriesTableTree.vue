@@ -38,17 +38,46 @@
       isExpanded(categoryId) {
         return this.expanded.indexOf(categoryId) !== -1
       }
+<<<<<<< Updated upstream
     }
+=======
+    },
+
+    computed: {
+      sortedTree() {
+        return this.tree.sort((a, b) => {
+          return a.position - b.position
+        })
+      }
+    },
+
+    mounted() {
+      this.eventsDestroyers = [
+        Core.events.on('categories-expand-all', () => this.expandAll()),
+        Core.events.on('categories-compress-all', () => this.compressAll())
+      ]
+    },
+
+    beforeDestroy() {
+      this.eventsDestroyers.forEach(destroyEventFunc => destroyEventFunc())
+    },
+>>>>>>> Stashed changes
   }
 </script>
 
 <template>
   <div :class="'ui-sortable table-group table-level-' + level">
-    <div v-for="category in tree" class="js-sort-item" :key="category.id">
+    <div v-for="category in sortedTree" class="js-sort-item" :key="category.id">
       <input type="hidden" :value="category.id" name="ids">
 
       <div class="table-row">
+<<<<<<< Updated upstream
         <div class="table-cell table-sort-handler js-sort-handler"><span></span></div>
+=======
+        <div v-if="userCan('categories.edit')" class="table-cell table-cell-column-sort table-sort-handler js-sort-handler">
+          <span></span>
+        </div>
+>>>>>>> Stashed changes
 
         <div class="table-cell text-center">
           <router-link v-bind:to="category.url"><strong>{{ category.id }}</strong></router-link>
@@ -70,8 +99,17 @@
           </a>
         </div>
 
+<<<<<<< Updated upstream
         <div class="table-cell text-center">
           <toggle @change="statusChange(category.id)" :checked="category.enabled" :key="category.id"></toggle>
+=======
+        <div class="table-cell table-cell-column-num">
+          {{ category.products_count }}
+        </div>
+
+        <div v-if="userCan('categories.edit')" class="table-cell table-cell-column-enabled">
+          <toggle @change="statusChange(category.id)" :checked="category.enabled" :key="category.id" />
+>>>>>>> Stashed changes
         </div>
 
         <div class="table-cell text-center">

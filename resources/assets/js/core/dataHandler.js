@@ -86,12 +86,6 @@ export default {
         .success(response => {
           let data = response.data.data
 
-          if (dataLabels.length === 1) {
-            data = {
-              [dataLabels[0]]: data
-            }
-          }
-
           this.setDataToStorage(data)
 
           this.data = {

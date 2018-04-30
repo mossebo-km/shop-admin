@@ -1,4 +1,5 @@
 {
+<<<<<<< Updated upstream
     "/js/app.js": "/js/app.js?id=635d8bc4a3c581fc3905",
     "/css/app.css": "/css/app.css?id=83b4d0a857f015db56a0",
     "/js/app.js.map": "/js/app.js.map?id=e7e6a80f54d54be46e40",
@@ -7,4 +8,14 @@
     "/js/vendor.js.map": "/js/vendor.js.map?id=5e94ecbb7a0acbd23bbb",
     "/js/manifest.js": "/js/manifest.js?id=bb58468fac8d92ddbd39",
     "/js/manifest.js.map": "/js/manifest.js.map?id=4601cd5c9c1e036cc82f"
+=======
+    "/js/app.js": "/js/app.js?id=8e89ae66337f36df736d",
+    "/css/app.css": "/css/app.css?id=7d8eee4fb8a3a73842b3",
+    "/js/app.js.map": "/js/app.js.map?id=47977a604a120e610171",
+    "/css/app.css.map": "/css/app.css.map?id=4ac780faeb632da2d59e",
+    "/js/vendor.js": "/js/vendor.js?id=435896ea2497f3dbee6f",
+    "/js/vendor.js.map": "/js/vendor.js.map?id=e51d45f43c9b269c9c16",
+    "/js/manifest.js": "/js/manifest.js?id=bb58468fac8d92ddbd39",
+    "/js/manifest.js.map": "/js/manifest.js.map?id=fa6de137222880fbb68b"
+>>>>>>> Stashed changes
 }

@@ -66,8 +66,8 @@
         this.statusQueue = Core.queueHandler.makeQueue('iteration', 'table-status')
       },
 
-      initItems(data) {
-        this.items = data[this.tableItemsDataName].map(item => new CategoriesTableModel(item, this.languages))
+      initItems(items = []) {
+        this.items = items.map(item => new CategoriesTableModel(item, this.languages))
       },
 
       /**
@@ -122,7 +122,16 @@
               <div class="table-cell">
                 Slug
               </div>
+<<<<<<< Updated upstream
               <div class="table-cell">
+=======
+
+              <div class="table-cell table-cell-column-num">
+                Товаров
+              </div>
+
+              <div v-if="userCan('categories.edit')" class="table-cell table-cell-column-enabled">
+>>>>>>> Stashed changes
                 Статус
               </div>
               <div class="table-cell"></div>

@@ -2,6 +2,16 @@
 
 return [
 	'Admins' => 'admins',
+<<<<<<< Updated upstream
+=======
+    'AdminLogs' => 'admin_logs',
+    'AdminRoles' => 'admin_roles',
+    'AdminRoleRelations' => 'admin_role_relations',
+    'AdminRolePermissions' => 'admin_role_permissions',
+    'AdminRolePermissionGroups' => 'admin_role_permission_groups',
+    'AdminRolePermissionRelations' => 'admin_role_permission_relations',
+
+>>>>>>> Stashed changes
 	'Users' => 'users',
 	'PasswordResets' => 'password_resets',
 	'SocialProviders' => 'social_providers',

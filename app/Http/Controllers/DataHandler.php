@@ -83,10 +83,6 @@ class DataHandler
             }
         }
 
-        if (count($labels) === 1) {
-            return $data[$label];
-        }
-
         return $data;
     }
 
@@ -131,7 +127,7 @@ class DataHandler
      */
     protected static function _getCategoriesTree()
     {
-        return self::_getRepository('categories')::getTree(0, true);
+        return self::_getRepository('categories')::getTree(['i18n']);
     }
 
     /**

@@ -138,13 +138,15 @@
             $user = Auth::guard('admin.web')->user();
         @endphp
 
-
-
         <script>
             window.config = {
+                user: {
+                    id: "{{ $user->id }}",
+                    roles: [],
+                    name: "{{ $user->name }}",
+                    token: "{{ $user ->api_token }}"
+                },
                 interactionKey: "{{ \App\Http\Controllers\DataHandler::getRelevantKey() }}",
-                userToken: "{{ $user ->api_token }}",
-                role: "{{ $user ->role_id }}"
             }
         </script>
 

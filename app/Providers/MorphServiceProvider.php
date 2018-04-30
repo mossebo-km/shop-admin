@@ -16,6 +16,7 @@ class MorphServiceProvider extends ServiceProvider
     {
         Relation::morphMap([
             'product' => \App\Models\Product::class,
+            'admin' => \App\Models\Admin::class,
         ]);
     }
 

@@ -1039,6 +1039,100 @@ div.ui-sortable-placeholder::before {
   z-index: 1;
 }
 
+<<<<<<< Updated upstream
+=======
+.table-column-sort,
+.table-column-id,
+.table-column-enabled,
+.table-column-delete,
+.table-column-date,
+.table-column-image,
+.table-column-num {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.dataTable .table-column-sort,
+.dataTable .table-column-id,
+.dataTable .table-column-enabled,
+.dataTable .table-column-date,
+.dataTable .table-column-num {
+  padding-left: 19px;
+}
+
+.table-column-sort {
+  width: 24px;
+}
+
+.table-column-id,
+.table-column-enabled,
+.table-column-delete {
+  width: 75px;
+}
+
+.table-column-date {
+  width: 150px;
+}
+
+.table-column-image {
+  width: 120px;
+}
+
+.table-cell-column-sort,
+.table-cell-column-id,
+.table-cell-column-enabled,
+.table-cell-column-delete,
+.table-cell-column-date,
+.table-cell-column-image,
+.table-cell-column-slug,
+.table-cell-column-num {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.table-cell-column-sort {
+  width: 36px;
+}
+
+.table-cell-column-id,
+.table-cell-column-enabled,
+.table-cell-column-delete,
+.table-cell-column-num {
+  width: 86px;
+}
+
+.table-cell-column-image {
+  width: 139px;
+}
+
+.table-cell-column-date {
+  width: 169px;
+}
+
+.table-cell-column-slug {
+  width: 250px;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.table-slug {
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+>>>>>>> Stashed changes
 .navbar-laravel {
   background-color: #fff;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .04);

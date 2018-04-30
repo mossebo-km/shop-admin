@@ -29,6 +29,7 @@
     },
 
     methods: {
+<<<<<<< Updated upstream
       /**
        * При изменении порядка записей.
        */
@@ -48,6 +49,10 @@
       clearQueue() {
         this.sortQueue.clear()
         this.statusQueue.clear()
+=======
+      initItems (items = []) {
+        this.items = items.map(item => new SuppliersTableModel(item))
+>>>>>>> Stashed changes
       },
     },
 
@@ -78,10 +83,32 @@
         <table class="table table-middle table-center table-condensed table-bordered table-hover dataTable">
           <thead>
             <tr>
+<<<<<<< Updated upstream
               <th style="width: 128px" class="text-center">Id</th>
               <th>Название</th>
               <th style="width: 128px" class="text-center">Статус</th>
               <th style="width: 128px"></th>
+=======
+              <th>
+                <span class="table-column-id">
+                  ID
+                </span>
+              </th>
+
+              <th style="width: 100%">
+                Название
+              </th>
+
+              <th v-if="userCan('suppliers.edit')">
+                <span class="table-column-enabled">
+                  Статус
+                </span>
+              </th>
+
+              <th v-if="userCan('suppliers.delete')">
+                <span class="table-column-delete"></span>
+              </th>
+>>>>>>> Stashed changes
             </tr>
           </thead>
 
@@ -92,8 +119,18 @@
               <td class="text-center">
                 <toggle @change="statusChange(supplier.id)" :checked="supplier.enabled" :key="supplier.id"></toggle>
               </td>
+<<<<<<< Updated upstream
               <td class="text-center">
                 <a href="javascript:void(0)" data-toggle="tooltip" title="Удалить" class="btn btn-danger" @click="remove(supplier.id)"><i class="fa fa-times"></i></a>
+=======
+
+              <td v-if="userCan('suppliers.delete')">
+                <span class="table-column-delete">
+                  <a class="btn btn-danger" @click="remove(supplier.id)">
+                    <i class="fa fa-times"></i>
+                  </a>
+                </span>
+>>>>>>> Stashed changes
               </td>
             </tr>
 

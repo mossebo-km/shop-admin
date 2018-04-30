@@ -13,23 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-// Route::get('products/slug', 'ProductController@slugExist');
-// Route::post('products/image', 'ProductController@imageUpload');
-// Route::get('products/save', 'ProductController@saveImage');
-
-
-// Route::get('products/{product}/test', 'ProductController@update');
-
-// Route::get('products', 'ProductController@index');
-// Route::get('products/{product}', 'ProductController@show');
-// Route::get('products/{product}/status', 'ProductController@status');
-// Route::post('products', 'ProductController@store');
-// Route::put('products/{product}', 'ProductController@update');
-// Route::delete('products/{product}', 'ProductController@delete');
-
 Route::get('products/all', function() {
     header('Access-Control-Allow-Origin: *');
     $products = \App\Models\Product::withTranslate()
@@ -42,6 +25,7 @@ Route::get('products/all', function() {
 });
 
 
+<<<<<<< Updated upstream
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('data', 'Api\DataController@get');
     Route::get('data', 'Api\DataController@get');
@@ -90,6 +74,53 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('attributes', 'Api\AttributeController@store');
         Route::put('attributes/{attribute}', 'Api\AttributeController@update');
         Route::delete('attributes/{attribute}', 'Api\AttributeController@delete');
+=======
+Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData'], 'namespace' => 'Api'], function () {
+    Route::post('data', 'DataController@get');
+    Route::get('data', 'DataController@get');
+    Route::get('data/relevantKey', 'DataController@relevantKey');
+    Route::get('cache', 'DataController@cache');
+
+
+    // Система администрирования
+    Route::group(['prefix' => 'system'], function () {
+        Route::get('admins/{admin}/status', 'AdminController@status');
+        Route::post('admins/{admin}/image', 'AdminController@imageUpload');
+        Route::resource('admins', 'AdminController');
+
+
+        // Контроль доступа
+        Route::group(['prefix' => 'rbac'], function () {
+            Route::resource('roles', 'RoleController');
+
+            Route::resource('permissions', 'PermissionController');
+        });
+>>>>>>> Stashed changes
+    });
+
+
+    // Магазин
+    Route::group(['prefix' => 'shop'], function () {
+        Route::get('products/{product}/status', 'ProductController@status');
+        Route::post('products/{product}/image', 'ProductController@imageUpload');
+        Route::resource('products', 'ProductController');
+
+        Route::post('categories/sort', 'CategoryController@positions');
+        Route::get('categories/slug', 'CategoryController@slugAvailable');
+        Route::get('categories/{category}/status', 'CategoryController@status');
+        Route::get('categories/{category}/slug', 'CategoryController@entitySlugAvailable');
+        Route::resource('categories', 'CategoryController');
+
+        Route::get('suppliers/{supplier}/status', 'SupplierController@status');
+        Route::resource('suppliers', 'SupplierController');
+
+        Route::post('attributes/sort', 'AttributeController@positions');
+        Route::get('attributes/{attribute}/status', 'AttributeController@status');
+        Route::get('attributes/{attribute}/options', 'AttributeController@options');
+        Route::resource('attributes', 'AttributeController');
+
+        Route::post('price-types/sort', 'PriceTypeController@positions');
+        Route::get('price-types/{priceType}/status', 'PriceTypeController@status');
+        Route::resource('price-types', 'PriceTypeController');
     });
 });
-

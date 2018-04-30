@@ -31,6 +31,9 @@ class ProductSaveRequest extends ApiRequest
      */
     public function rules()
     {
+
+        // todo: добавить проверку изображений
+
         ValidatorExtend::manyRecordsExists();
 
         $suppliersTableName = \Config::get('migrations.Suppliers');
@@ -58,7 +61,7 @@ class ProductSaveRequest extends ApiRequest
 
         foreach (\PriceTypes::enabled() as $priceType) {
             foreach (\Currencies::enabled() as $currency) {
-                $rules["prices.{$priceType->id}.{$currency->code}"] = 'nullable|numeric';
+                $rules["prices.{$priceType->id}.{$currency->code}"] = 'nullable|numeric|max:' . $currency->getMaxValue();
             }
         }
 

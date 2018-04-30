@@ -263,18 +263,44 @@
               <div :class="`form-group${formErrors.has('supplier_id') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label" for="product-supplier">Поставщик <span class="text-danger">*</span></label>
                 <div class="col-md-8">
+<<<<<<< Updated upstream
                   <tree-select :activeLanguageCode="activeLanguageCode" :options="suppliers" :selected.sync="product.supplier_id" placeholder="Выберите поставщика"></tree-select>
 
                   <span v-show="formErrors.has('supplier_id')" class="help-block">{{ formErrors.first('supplier_id') }}</span>
+=======
+                  <tree-select
+                    :options="suppliersToSelect"
+                    :selected.sync="product.supplier_id"
+                    placeholder="Выберите поставщика" />
+
+                  <span v-show="formErrors.has('supplier_id')" class="help-block">
+                    {{ formErrors.first('supplier_id') }}
+                  </span>
+>>>>>>> Stashed changes
                 </div>
               </div>
 
               <div :class="`form-group${formErrors.has('categories') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label" for="product-category">Категория</label>
                 <div class="col-md-8">
+<<<<<<< Updated upstream
                   <tree-select-translatable :options="categoriesTree" :selected.sync="product.categories" :multiple="true" placeholder="Выберите категорию" :activeLanguageCode="activeLanguageCode"></tree-select-translatable>
 
                   <span v-show="formErrors.has('categories')" class="help-block">{{ formErrors.first('categories') }}</span>
+=======
+                  <tree-select-translatable
+                    :activeLanguageCode="activeLanguageCode"
+                    :defaultLanguageCode="defaultLanguageCode"
+                    :options="categoriesTree"
+                    :selected.sync="product.categories"
+                    :multiple="true"
+                    :params="{closeOnSelect: false}"
+                    placeholder="Выберите категорию" />
+
+                  <span v-show="formErrors.has('categories')" class="help-block">
+                    {{ formErrors.first('categories') }}
+                  </span>
+>>>>>>> Stashed changes
                 </div>
               </div>
 
@@ -369,8 +395,21 @@
                 <label class="col-md-3 control-label" for="width">Ширина <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
+<<<<<<< Updated upstream
                     <input type="text" class="form-control" id="width" v-model="product.width" name="width" v-number v-validate="'required|integer|min_value:1|max_value:4294967295'">
                     <size-converter :value="product.width"></size-converter>
+=======
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="width"
+                      v-model="product.width"
+                      name="width"
+                      v-number
+                      v-validate="'required|integer|min_value:1|max_value:2147483647'">
+
+                    <size-converter :value="product.width" />
+>>>>>>> Stashed changes
                   </div>
                   <span v-show="formErrors.has('width')" class="help-block">{{ formErrors.first('width') }}</span>
                 </div>
@@ -380,8 +419,21 @@
                 <label class="col-md-3 control-label" for="height">Высота <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
+<<<<<<< Updated upstream
                     <input type="text" class="form-control" id="height" v-model="product.height" name="height" v-number v-validate="'required|integer|min_value:1|max_value:4294967295'">
                     <size-converter :value="product.height"></size-converter>
+=======
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="height"
+                      v-model="product.height"
+                      name="height"
+                      v-number
+                      v-validate="'required|integer|min_value:1|max_value:2147483647'">
+
+                    <size-converter :value="product.height" />
+>>>>>>> Stashed changes
                   </div>
                   <span v-show="formErrors.has('height')" class="help-block">{{ formErrors.first('height') }}</span>
                 </div>
@@ -391,8 +443,21 @@
                 <label class="col-md-3 control-label" for="length">Длина <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
+<<<<<<< Updated upstream
                     <input type="text" class="form-control" id="length" v-model="product.length" name="length" v-number v-validate="'required|integer|min_value:1|max_value:4294967295'">
                     <size-converter :value="product.length"></size-converter>
+=======
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="length"
+                      v-model="product.length"
+                      name="length"
+                      v-number
+                      v-validate="'required|integer|min_value:1|max_value:2147483647'">
+
+                    <size-converter :value="product.length"/>
+>>>>>>> Stashed changes
                   </div>
                   <span v-show="formErrors.has('length')" class="help-block">{{ formErrors.first('length') }}</span>
                 </div>
@@ -402,8 +467,21 @@
                 <label class="col-md-3 control-label" for="weight">Вес <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                   <div class="input-group">
+<<<<<<< Updated upstream
                     <input type="text" class="form-control" id="weight" v-model="product.weight" name="weight" v-number v-validate="'required|integer|min_value:1|max_value:4294967295'">
                     <weight-converter :value="product.weight"></weight-converter>
+=======
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="weight"
+                      v-model="product.weight"
+                      name="weight"
+                      v-number
+                      v-validate="'required|integer|min_value:1|max_value:2147483647'">
+
+                    <weight-converter :value="product.weight" />
+>>>>>>> Stashed changes
                   </div>
                   <span v-show="formErrors.has('weight')" class="help-block">{{ formErrors.first('weight') }}</span>
                 </div>
@@ -432,12 +510,31 @@
 
           <!-- Изображения -->
 
+<<<<<<< Updated upstream
           <dropzone-gallery
             ref="gallery"
             v-if="type === 'edit'"
             :url="prepareUrl('image')"
             :images.sync="product.images"
             :errors="formErrors.collect('images') || []"/>
+=======
+          <div class="block">
+            <div class="block-title">
+              <h2><i class="fa fa-image"></i> <strong>Изображения</strong></h2>
+            </div>
+
+            <div class="block-section">
+              <dropzone-gallery
+                ref="gallery"
+                v-if="type === 'edit'"
+                :url="prepareUrl('image')"
+                :images.sync="product.images"
+                :errors="formErrors.collect('images') || []" />
+            </div>
+          </div>
+
+
+>>>>>>> Stashed changes
         </div>
       </div>
 

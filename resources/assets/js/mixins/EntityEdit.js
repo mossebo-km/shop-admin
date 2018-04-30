@@ -237,6 +237,20 @@ export default {
   },
 
   created() {
+<<<<<<< Updated upstream:resources/assets/js/mixins/EntityEdit.js
+=======
+    if (this.type === 'create' && !this.userCan(`${this.entityName}.create`)) {
+      this.redirectToTable()
+      return
+    }
+
+    if (this.type === 'edit' && !this.userCan(`${this.entityName}.see`)) {
+      this.redirectToTable()
+      return
+    }
+
+    this.addQueue('save', 'break')
+>>>>>>> Stashed changes:resources/assets/js/mixins/EntityPage.js
     this.loadData()
     this.createQueue()
     this.extendSlugChecker()

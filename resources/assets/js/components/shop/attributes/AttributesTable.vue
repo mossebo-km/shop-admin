@@ -60,8 +60,8 @@
     },
 
     methods: {
-      initItems (data) {
-        this.items = data[this.tableItemsDataName].map(item => new AttributesTableModel(item, this.languages))
+      initItems (items = []) {
+        this.items = this.getSortedData(items).map(item => new AttributesTableModel(item, this.languages))
       },
 
       changePosition() {

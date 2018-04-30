@@ -28,15 +28,70 @@
           url: '/shop/attributes',
           icon: 'fa fa-list',
         },
+<<<<<<< Updated upstream
+=======
+
+        {
+          title: 'Типы цен',
+          url: '/shop/price-types',
+          icon: 'fa fa-money',
+        },
+
+        {
+          title: 'Покупатели',
+          url: '/shop/customers',
+          icon: 'gi gi-parents',
+        },
+>>>>>>> Stashed changes
       ]
     },
 
     {
+<<<<<<< Updated upstream
       title: 'Настройки',
       icon: 'fa fa-gear',
       url: '/settings'
     },
+=======
+      title: 'Система',
+      icon: 'fa fa-gears',
+      rights: 'system.show-in-menu',
 
+      children: [
+        {
+          title: 'Администраторы',
+          url: '/system/admins',
+          icon: 'fa fa-id-card-o',
+          rights: 'admins.show-in-menu'
+        },
+>>>>>>> Stashed changes
+
+        {
+          title: 'Контроль доступа',
+          icon: 'fa fa-ban',
+
+          children: [
+            {
+              title: 'Роли',
+              url: '/system/rbac/roles',
+              icon: 'fa fa-group',
+            },
+
+            {
+              title: 'Права',
+              url: '/system/rbac/permissions',
+              icon: 'fa fa-star',
+            },
+          ]
+        },
+
+        {
+          title: 'Настройки',
+          url: '/system/rbac/settings',
+          icon: 'fa fa-gear',
+        },
+      ]
+    },
 
     {
       title: 'Отчистить кэш',

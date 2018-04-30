@@ -33,6 +33,21 @@
             title: 'Аттрибуты'
           },
 
+<<<<<<< Updated upstream
+=======
+          {
+            url: '/shop/price-types',
+            icon: 'fa fa-money',
+            title: 'Типы цен'
+          },
+
+          {
+            url: '/shop/customers',
+            icon: 'gi gi-parents',
+            title: 'Покупатели'
+          },
+
+>>>>>>> Stashed changes
           // {
           //   url: '/shop/orders',
           //   icon: 'gi gi-shop_window',

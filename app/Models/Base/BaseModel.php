@@ -26,11 +26,12 @@ class BaseModel extends Model
         $fillable = $this->getFillable();
 
         return array_filter($data, function($key) use($fillable){
-//            if (in_array($key, [$this->getCreatedAtColumn(), $this->getUpdatedAtColumn()])) {
-//                return false;
-//            }
-
             return in_array($key, $fillable);
         }, ARRAY_FILTER_USE_KEY);
+
+
+//        return array_map(function($paramName) use ($data) {
+//            return isset($data[$paramName]) ? $data[$paramName] : Null;
+//        }, $fillable);
     }
 }
