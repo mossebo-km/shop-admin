@@ -7,18 +7,18 @@ use App\Events as Events;
 use App\Http\Resources as Resources;
 use App\Models\Product;
 use App\Http\Requests\ProductSaveRequest;
-use App\Http\Requests\ImageUploadRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Support\Traits\Controllers\StatusChangeable;
 use App\Support\Traits\Controllers\Deleteable;
 use App\Support\Traits\Controllers\Sluggable;
+use App\Support\Traits\Controllers\ImageUploadable;
 
 
 // todo: создать очередь отчистки изображений из коллекции temp
 
 class ProductController extends ApiController
 {
-    use StatusChangeable, Deleteable, Sluggable;
+    use StatusChangeable, Deleteable, Sluggable, ImageUploadable;
 
     protected static $modelClass = Product::class;
 
@@ -175,22 +175,5 @@ class ProductController extends ApiController
             'message' => $this->lang('updated', ['id' => $product->id]),
             'product' => new Resources\ProductEditResource($product)
         ], 200);
-    }
-
-    /**
-     * Загрузка изображений для конкретного товара.
-     *
-     * @param ImageUploadRequest $request
-     * @param Product $product
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function imageUpload(ImageUploadRequest $request, Product $product)
-    {
-        $image = $product->addImageFromFile($request->file('file'));
-
-        return response()->json([
-            'status' => 'success',
-            'image' => new Resources\MediaResource($image),
-        ]);
     }
 }

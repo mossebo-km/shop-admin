@@ -22,6 +22,10 @@ class TestController extends Controller
         \App\Models\Language::where('enabled', false)->update([
             'enabled' => true
         ]);
+
+        \App\Http\Controllers\DataHandler::clearAllCache();
+
+        return redirect('/');
     }
 
     public function disableLanguages()
@@ -29,6 +33,10 @@ class TestController extends Controller
         \App\Models\Language::where('default', false)->update([
             'enabled' => false
         ]);
+
+        \App\Http\Controllers\DataHandler::clearAllCache();
+
+        return redirect('/');
     }
 
     public function test() {

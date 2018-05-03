@@ -1,3 +1,7 @@
+import Sortable from 'jquery-ui-sortable-npm'
+import magnificPopup from 'magnific-popup'
+import 'select2'
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VeeValidate from 'vee-validate'
@@ -24,13 +28,16 @@ import AttributeEdit from './components/shop/attributes/AttributeEdit'
 import PriceTypesTable from './components/shop/priceTypes/PriceTypesTable'
 import PriceTypeEdit from './components/shop/priceTypes/PriceTypeEdit'
 
+import AdminsTable from './components/pages/Admins/AdminsTable'
+import AdminEdit from './components/pages/Admins/AdminEdit'
+
+import RolesTable from './components/pages/Roles/RolesTable'
+import RoleEdit from './components/pages/Roles/RoleEdit'
+
 import Loading from './components/Loading'
 import ClearCacheBtn from './components/ClearCacheBtn'
 import MainMenu from './components/MainMenu'
-
-import Sortable from 'jquery-ui-sortable-npm'
-import magnificPopup from 'magnific-popup'
-import 'select2'
+import Avatar from './components/Avatar'
 
 
 /**
@@ -92,10 +99,6 @@ const routes = [
 
   { path: '/shop/orders', component: OrdersTable },
 
-  { path: '/shop/users', component: CustomersTable },
-  { path: '/shop/users/create', component: CustomerEdit, props: { type: 'create' } },
-  { path: '/shop/users/:id', component: CustomerEdit, props: route => ({...route.params, type: 'edit'}) },
-
   { path: '/shop/suppliers', component: SuppliersTable },
   { path: '/shop/suppliers/create', component: SupplierEdit, props: { type: 'create' } },
   { path: '/shop/suppliers/:id', component: SupplierEdit, props: route => ({...route.params, type: 'edit'}) },
@@ -107,7 +110,25 @@ const routes = [
   { path: '/shop/price-types', component: PriceTypesTable },
   { path: '/shop/price-types/create', component: PriceTypeEdit, props: { type: 'create' } },
   { path: '/shop/price-types/:id', component: PriceTypeEdit, props: route => ({...route.params, type: 'edit'}) },
+
+  { path: '/shop/customers', component: CustomersTable },
+  { path: '/shop/customers/create', component: CustomerEdit, props: { type: 'create' } },
+  { path: '/shop/customers/:id', component: CustomerEdit, props: route => ({...route.params, type: 'edit'}) },
+
+  { path: '/system/admins', component: AdminsTable },
+  { path: '/system/admins/create', component: AdminEdit, props: { type: 'create' } },
+  { path: '/system/admins/:id', component: AdminEdit, props: route => ({...route.params, type: 'edit'}) },
+
+  { path: '/system/rbac/roles', component: RolesTable },
+  { path: '/system/rbac/roles/create', component: RoleEdit, props: { type: 'create' } },
+  { path: '/system/rbac/roles/:id', component: RoleEdit, props: route => ({...route.params, type: 'edit'}) },
+
+  { path: '/system/rbac/roles', component: RolesTable },
+  { path: '/system/rbac/roles/create', component: RoleEdit, props: { type: 'create' } },
+  { path: '/system/rbac/roles/:id', component: RoleEdit, props: route => ({...route.params, type: 'edit'}) },
 ]
+
+
 
 // 3. Создаём экземпляр роутера с опцией `routes`
 // Можно передать и другие опции, но пока не будем усложнять
@@ -124,7 +145,8 @@ const app = new Vue({
   components: {
     Loading,
     ClearCacheBtn,
-    MainMenu
+    MainMenu,
+    Avatar
   },
 
   data() {

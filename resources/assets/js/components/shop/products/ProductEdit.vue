@@ -296,7 +296,6 @@
 
                 <div class="col-md-8">
                   <tree-select
-                    :activeLanguageCode="activeLanguageCode"
                     :options="suppliersToSelect"
                     :selected.sync="product.supplier_id"
                     placeholder="Выберите поставщика" />
@@ -319,6 +318,7 @@
                     :options="categoriesTree"
                     :selected.sync="product.categories"
                     :multiple="true"
+                    :params="{closeOnSelect: false}"
                     placeholder="Выберите категорию" />
 
                   <span v-show="formErrors.has('categories')" class="help-block">
@@ -474,7 +474,7 @@
                       v-model="product.width"
                       name="width"
                       v-number
-                      v-validate="'required|integer|min_value:1|max_value:4294967295'">
+                      v-validate="'required|integer|min_value:1|max_value:2147483647'">
 
                     <size-converter :value="product.width" />
                   </div>
@@ -499,7 +499,7 @@
                       v-model="product.height"
                       name="height"
                       v-number
-                      v-validate="'required|integer|min_value:1|max_value:4294967295'">
+                      v-validate="'required|integer|min_value:1|max_value:2147483647'">
 
                     <size-converter :value="product.height" />
                   </div>
@@ -524,7 +524,7 @@
                       v-model="product.length"
                       name="length"
                       v-number
-                      v-validate="'required|integer|min_value:1|max_value:4294967295'">
+                      v-validate="'required|integer|min_value:1|max_value:2147483647'">
 
                     <size-converter :value="product.length"/>
                   </div>
@@ -549,7 +549,7 @@
                       v-model="product.weight"
                       name="weight"
                       v-number
-                      v-validate="'required|integer|min_value:1|max_value:4294967295'">
+                      v-validate="'required|integer|min_value:1|max_value:2147483647'">
 
                     <weight-converter :value="product.weight" />
                   </div>
@@ -583,12 +583,22 @@
 
           <!-- Изображения -->
 
-          <dropzone-gallery
-            ref="gallery"
-            v-if="type === 'edit'"
-            :url="prepareUrl('image')"
-            :images.sync="product.images"
-            :errors="formErrors.collect('images') || []" />
+          <div class="block">
+            <div class="block-title">
+              <h2><i class="fa fa-image"></i> <strong>Изображения</strong></h2>
+            </div>
+
+            <div class="block-section">
+              <dropzone-gallery
+                ref="gallery"
+                v-if="type === 'edit'"
+                :url="prepareUrl('image')"
+                :images.sync="product.images"
+                :errors="formErrors.collect('images') || []" />
+            </div>
+          </div>
+
+
         </div>
       </div>
 

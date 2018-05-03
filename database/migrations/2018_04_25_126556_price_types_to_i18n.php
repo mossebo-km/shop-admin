@@ -31,4 +31,13 @@ class PriceTypesToI18n extends Migration
             $table->dropColumn('description');
         });
     }
+
+    public function down()
+    {
+        Schema::table(Config::get('migrations.PriceTypes'), function(Blueprint $table) {
+            $table->string('name');
+            $table->string('title')->nullable();
+            $table->string('description')->nullable();
+        });
+    }
 }

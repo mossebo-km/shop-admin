@@ -12,7 +12,7 @@ export default {
       //   return true
       // }
 
-      return Core.auth.isSuperAdmin()
+      return Core.auth.isSuperAdmin(action)
     },
   },
 }

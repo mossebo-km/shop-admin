@@ -39,6 +39,12 @@
             title: 'Типы цен'
           },
 
+          {
+            url: '/shop/customers',
+            icon: 'gi gi-parents',
+            title: 'Покупатели'
+          },
+
           // {
           //   url: '/shop/orders',
           //   icon: 'gi gi-shop_window',

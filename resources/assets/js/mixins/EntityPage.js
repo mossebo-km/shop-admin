@@ -242,6 +242,16 @@ export default {
   },
 
   created() {
+    if (this.type === 'create' && !this.userCan(`${this.entityName}.create`)) {
+      this.redirectToTable()
+      return
+    }
+
+    if (this.type === 'edit' && !this.userCan(`${this.entityName}.see`)) {
+      this.redirectToTable()
+      return
+    }
+
     this.addQueue('save', 'break')
     this.loadData()
   },

@@ -21,6 +21,8 @@ export default class CategoriesTableModel extends ModelI18n {
       parent_id: '',
       slug: '',
       enabled: true,
+      products_count: 0,
+      position: 0,
 
       url(data) {
         return '/shop/categories/' + data.id

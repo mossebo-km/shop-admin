@@ -63,6 +63,14 @@
       }
     },
 
+    computed: {
+      sortedTree() {
+        return this.tree.sort((a, b) => {
+          return a.position - b.position
+        })
+      }
+    },
+
     mounted() {
       this.eventsDestroyers = [
         Core.events.on('categories-expand-all', () => this.expandAll()),
@@ -78,11 +86,11 @@
 
 <template>
   <div :class="'ui-sortable table-group table-level-' + level">
-    <div v-for="category in tree" class="js-sort-item" :key="category.id">
+    <div v-for="category in sortedTree" class="js-sort-item" :key="category.id">
       <input type="hidden" :value="category.id" name="ids">
 
-      <div v-if="userCan('categories.edit')" class="table-row">
-        <div class="table-cell table-cell-column-sort table-sort-handler js-sort-handler">
+      <div class="table-row">
+        <div v-if="userCan('categories.edit')" class="table-cell table-cell-column-sort table-sort-handler js-sort-handler">
           <span></span>
         </div>
 
@@ -117,6 +125,10 @@
               <strong>{{ category.slug }}</strong>
             </div>
           </a>
+        </div>
+
+        <div class="table-cell table-cell-column-num">
+          {{ category.products_count }}
         </div>
 
         <div v-if="userCan('categories.edit')" class="table-cell table-cell-column-enabled">

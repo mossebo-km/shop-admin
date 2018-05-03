@@ -32,15 +32,23 @@ class Category extends Base\BaseModelI18n
         return $this->hasMany(CategoryProduct::class, 'category_id');
     }
 
+//    public function products()
+//    {
+//        return $this->hasManyThrough(
+//            Product::class,
+//            CategoryProduct::class,
+//            'product_id',
+//            'category_id',
+//            'id',
+//            'id'
+//        );
+//    }
+
     public function products()
     {
         return $this->hasManyThrough(
-            Product::class,
-            CategoryProduct::class,
-            'product_id',
-            'category_id',
-            'id',
-            'id'
+            Product::class, CategoryProduct::class,
+            'category_id', 'id', 'id', 'product_id'
         );
     }
 

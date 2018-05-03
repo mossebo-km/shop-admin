@@ -44,8 +44,8 @@
     },
 
     methods: {
-      initItems (data) {
-        this.items = this.getSortedData(data[this.tableItemsDataName]).map(item => new PriceTypesTableModel(item, this.languages))
+      initItems (items = []) {
+        this.items = this.getSortedData(items).map(item => new PriceTypesTableModel(item, this.languages))
       },
     }
   }

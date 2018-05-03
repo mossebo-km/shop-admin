@@ -107,6 +107,10 @@
         }
 
         return title
+      },
+
+      getCurrencyMaxValue(currency) {
+        return 2147483647 / Math.pow(10 , currency.precision)
       }
     },
 
@@ -149,7 +153,7 @@
                   :name="`prices.${priceType.id}.${currency.code}`"
                   @input="onChange" class="form-control"
                   v-number
-                  v-validate="'integer|min_value:1|max_value:4294967295'">
+                  v-validate="`integer|min_value:1|max_value:${getCurrencyMaxValue(currency)}`">
 
                 <currency-converter :value="prices$[priceType.id][currency.code]" :currency="getCurrency(currency.code)" />
               </div>

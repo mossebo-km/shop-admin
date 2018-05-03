@@ -128,7 +128,7 @@ export default {
    * @returns {string}
    */
   getApiToken() {
-    return window.config.userToken
+    return window.config.user.token
   },
 
   /**
@@ -190,6 +190,13 @@ export default {
     return (idStr);
   },
 
+  generatePassword(length = 10) {
+    // Исключены похожие символы и символы, недоступные на английской раскладке
+    let chars = 'abcdefghkmnpqrstuvwxyzABCDEFGHKMNPQRSTUVWXYZ23456789_-~!@#$%&*()+<>';
+
+    return _.sampleSize(chars, length).join('');
+  },
+
   imageIsLoaded(elImg) {
     if (! elImg.complete) {
       return false
@@ -201,7 +208,6 @@ export default {
 
     return true
   },
-
 
   onImageLoaded(elImg, cb) {
     if (this.imageIsLoaded(elImg)) {

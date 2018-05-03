@@ -32,8 +32,8 @@
     },
 
     methods: {
-      initItems (data) {
-        this.items = this.getSortedData(data[this.tableItemsDataName]).map(item => new SuppliersTableModel(item))
+      initItems (items = []) {
+        this.items = items.map(item => new SuppliersTableModel(item))
       },
     },
   }
@@ -68,7 +68,9 @@
                 </span>
               </th>
 
-              <th style="width: 100%">Название</th>
+              <th style="width: 100%">
+                Название
+              </th>
 
               <th v-if="userCan('suppliers.edit')">
                 <span class="table-column-enabled">
@@ -102,7 +104,7 @@
 
               <td v-if="userCan('suppliers.delete')">
                 <span class="table-column-delete">
-                  <a href="javascript:void(0)" class="btn btn-danger" @click="remove(supplier.id)">
+                  <a class="btn btn-danger" @click="remove(supplier.id)">
                     <i class="fa fa-times"></i>
                   </a>
                 </span>

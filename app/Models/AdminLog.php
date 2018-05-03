@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class AdminLog extends Model
+class AdminLog extends Base\BaseModel
 {
+    protected $tableIdentif = 'AdminLogs';
+
     /**
      * The attributes that are mass assignable.
      *

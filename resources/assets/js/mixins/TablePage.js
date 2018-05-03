@@ -28,16 +28,16 @@ export default {
       a.start()
     },
 
-    initData(data) {
+    initData(data = {}) {
       this.initMainData(data)
-      this.initItems(data)
+      this.initItems(data[this.tableItemsDataName])
     },
 
     /**
      * Инициализация списка.
      */
-    initItems (data) {
-      this.items = data[this.tableItemsDataName] || []
+    initItems (items = []) {
+      this.items = items
     },
 
     /**

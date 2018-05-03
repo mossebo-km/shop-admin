@@ -9,7 +9,7 @@ class CreateAdminLogTable extends Migration
     protected $tableName;
 
     public function __construct() {
-        $this->tableName = Config::get('migrations.AdminLog');
+        $this->tableName = Config::get('migrations.AdminLogs');
     }
 
     /**

@@ -208,23 +208,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__("./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone__ = __webpack_require__("./node_modules/vue2-dropzone/dist/vue2Dropzone.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_dropzone__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Toggle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_jquery_ui_sortable_npm__ = __webpack_require__("./node_modules/jquery-ui-sortable-npm/jquery-ui-sortable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_jquery_ui_sortable_npm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_jquery_ui_sortable_npm__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ImageEditor__ = __webpack_require__("./resources/assets/js/components/ImageEditor.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ImageEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__ImageEditor__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone__ = __webpack_require__("./node_modules/vue2-dropzone/dist/vue2Dropzone.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_dropzone__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ImageEditor__ = __webpack_require__("./resources/assets/js/components/ImageEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ImageEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ImageEditor__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-
-
 
 
 
@@ -236,25 +231,43 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
+    id: {
+      type: String,
+      default: 'dropzone'
+    },
     url: {
       type: String,
       require: true
     },
+
     images: {
       type: Array
     },
+
+    params: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+
     errors: {
       type: Array
+    },
+
+    safeDelete: {
+      type: Boolean,
+      default: true
     }
   },
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_6__mixins_Sortable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__["a" /* default */]],
 
   components: {
-    VueDropzone: __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone___default.a,
-    Toggle: __WEBPACK_IMPORTED_MODULE_4__Toggle___default.a,
-    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    ImageEditor: __WEBPACK_IMPORTED_MODULE_7__ImageEditor___default.a
+    VueDropzone: __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone___default.a,
+    Toggle: __WEBPACK_IMPORTED_MODULE_3__Toggle___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    ImageEditor: __WEBPACK_IMPORTED_MODULE_5__ImageEditor___default.a
   },
 
   watch: {
@@ -264,17 +277,17 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
   data: function data() {
     return {
-      options: {
-        url: __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].addApiTokenToUrl(this.url),
+      params$: {
+        url: __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].addApiTokenToUrl(this.url),
         thumbnailWidth: 150,
         maxFilesize: 8,
-        addRemoveLinks: true,
+        addRemoveLinks: false,
         autoProcessQueue: true,
         ignoreHiddenFiles: true,
-        dictDefaultMessage: "Перетащите файлы сюда или нажмите чтобы загрузить",
+        dictDefaultMessage: "<div>Добавить изображение<div><i class=\"fa fa-plus-circle\" style=\"vertical-align:bottom;font-size:40px;\"></i></div></div>",
         dictFallbackMessage: "Ваш браузер не поддерживает загрузку файлов при помощи drag'n'drop.",
         dictFallbackText: "Используйте форму ниже, чтобы загрузить файлы.",
-        dictFileTooBig: "Размер файла слишком велик ({{filesize}}MiB). Максимальный размер файла: {{maxFilesize}}MiB.",
+        dictFileTooBig: "Размер файла слишком велик ({{filesize}} Mb). Максимальный размер файла: {{maxFilesize}} Mb.",
         dictInvalidFileType: "Вы не можете загружать файлы этого типа.",
         dictResponseError: "Сервер вернул ошибку с кодом: {{statusCode}}.",
         dictCancelUpload: "Отменить загрузку",
@@ -290,24 +303,65 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         update: this.sort
       },
 
-      editorImage: null
+      editorImage: null,
+
+      type$: null
     };
   },
 
 
   methods: {
+    initSort: function initSort() {
+      var params = this.getParams();
+
+      if (params.maxFiles !== 1) {
+        __WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__["a" /* default */].methods.initSort.call(this);
+      }
+    },
+    getParams: function getParams() {
+      return _extends({}, this.params$, this.params);
+    },
     getInstance: function getInstance() {
       return this.$refs.dropzone.dropzone;
     },
+    fileAdded: function fileAdded(file) {
+      var params = this.getParams();
+      if (params.maxFiles && this.images.length < params.maxFiles) {
+        file.noFilesLimit = true;
+      }
+    },
     success: function success(file, response) {
-      var dropzone = this.getInstance();
+      this.getInstance().removeFile(file);
 
-      dropzone.removeFile(file);
+      this.add(response.image);
+    },
+    error: function error(file, errorMessage) {
+      __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].notify(errorMessage, { type: 'error' });
 
-      this.$emit('update:images', [].concat(_toConsumableArray(this.images), [response.image]));
+      this.getInstance().removeFile(file);
+
+      this.remove(file);
+    },
+    maxfilesreached: function maxfilesreached(files) {
+      for (var i = 0; i < files.length; i++) {
+        if (!files[i].noFilesLimit) {
+          __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].notify(this.getParams().dictMaxFilesExceeded, { type: 'warning' });
+          break;
+        }
+      }
+    },
+    maxfilesexceeded: function maxfilesexceeded(file) {
+      var params = this.getParams();
+      var fileSize = (file.size / 1024 / 1024).toFixed(1);
+      var message = params.dictFileTooBig;
+
+      message = message.replace('{{filesize}}', fileSize);
+      message = message.replace('{{maxFilesize}}', params.maxFilesize);
+
+      __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].notify(message, { type: 'warning' });
     },
     makeGallery: function makeGallery() {
-      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this.$refs.gallery).magnificPopup({
+      $(this.$refs.gallery).magnificPopup({
         delegate: '.js-magnific-link',
         type: 'image',
         gallery: {
@@ -315,19 +369,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         }
       });
     },
-    remove: function remove(image) {
-      image.deleted = true;
-      this.update(image);
-    },
-    recover: function recover(image) {
-      image.deleted = false;
-      this.update(image);
-    },
-    isDeleted: function isDeleted(image) {
-      return image.deleted;
-    },
     sort: function sort() {
       this.$emit('update:images', this.sortDataBundleByIdsPosition(this.images, this.collectSortIds()));
+    },
+    add: function add(image) {
+      this.$emit('update:images', [].concat(_toConsumableArray(this.images), [image]));
     },
     update: function update(image) {
       this.$emit('update:images', this.images.map(function (item) {
@@ -337,6 +383,23 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     edit: function edit(image) {
       this.editorImage = image;
       this.$refs.pictureEditModal.show();
+    },
+    remove: function remove(image) {
+      if (this.safeDelete) {
+        image.deleted = true;
+        this.update(image);
+      } else {
+        this.$emit('update:images', this.images.filter(function (item) {
+          return item.id !== image.id;
+        }));
+      }
+    },
+    recover: function recover(image) {
+      image.deleted = false;
+      this.update(image);
+    },
+    isDeleted: function isDeleted(image) {
+      return image.deleted;
     },
     editorImageSave: function editorImageSave() {
       var image = this.editorImage;
@@ -388,11 +451,23 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     }
   },
 
+  computed: {
+    dropzoneIsVisible: function dropzoneIsVisible() {
+      var params = this.getParams();
+
+      if (params.maxFiles && params.maxFiles === this.images.length) {
+        return false;
+      }
+
+      return true;
+    }
+  },
+
   mounted: function mounted() {
     this.makeGallery();
-    this.initSort();
   }
 });
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -725,15 +800,39 @@ var menuData = [{
     title: 'Типы цен',
     url: '/shop/price-types',
     icon: 'fa fa-money'
+  }, {
+    title: 'Покупатели',
+    url: '/shop/customers',
+    icon: 'gi gi-parents'
   }]
 }, {
-  title: 'Пользователи',
-  url: '/users',
-  icon: 'fa fa-user'
-}, {
-  title: 'Настройки',
-  url: '/settings',
-  icon: 'fa fa-gear'
+  title: 'Система',
+  icon: 'fa fa-gears',
+  rights: 'system.show-in-menu',
+
+  children: [{
+    title: 'Администраторы',
+    url: '/system/admins',
+    icon: 'fa fa-id-card-o',
+    rights: 'admins.show-in-menu'
+  }, {
+    title: 'Контроль доступа',
+    icon: 'fa fa-ban',
+
+    children: [{
+      title: 'Роли',
+      url: '/system/rbac/roles',
+      icon: 'fa fa-group'
+    }, {
+      title: 'Права',
+      url: '/system/rbac/permissions',
+      icon: 'fa fa-star'
+    }]
+  }, {
+    title: 'Настройки',
+    url: '/system/rbac/settings',
+    icon: 'fa fa-gear'
+  }]
 }, {
   title: 'Отчистить кэш',
   onClick: function onClick() {
@@ -1325,7 +1424,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             return id.toString() !== e.params.args.data.id.toString();
           }));
         } else {
-          _this5.setSelected();
+          _this5.setSelected(null);
         }
       });
 
@@ -2077,6 +2176,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       }
 
       return title;
+    },
+    getCurrencyMaxValue: function getCurrencyMaxValue(currency) {
+      return 2147483647 / Math.pow(10, currency.precision);
     }
   },
 
@@ -2125,6 +2227,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: '/shop/price-types',
         icon: 'fa fa-money',
         title: 'Типы цен'
+      }, {
+        url: '/shop/customers',
+        icon: 'gi gi-parents',
+        title: 'Покупатели'
       }]
     };
   },
@@ -2396,10 +2502,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   methods: {
-    initItems: function initItems(data) {
+    initItems: function initItems() {
       var _this = this;
 
-      this.items = data[this.tableItemsDataName].map(function (item) {
+      var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.items = this.getSortedData(items).map(function (item) {
         return new __WEBPACK_IMPORTED_MODULE_8__resources_AttributesTableModel__["a" /* default */](item, _this.languages);
       });
     }
@@ -2477,10 +2585,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         items: '> .js-sort-item'
       });
     },
-    initItems: function initItems(data) {
+    initItems: function initItems() {
       var _this = this;
 
-      this.items = data[this.tableItemsDataName].map(function (item) {
+      var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.items = items.map(function (item) {
         return new __WEBPACK_IMPORTED_MODULE_9__resources_CategoriesTableModel__["a" /* default */](item, _this.languages);
       });
     },
@@ -2554,6 +2664,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     isExpanded: function isExpanded(categoryId) {
       return this.expanded.indexOf(categoryId) !== -1;
+    }
+  },
+
+  computed: {
+    sortedTree: function sortedTree() {
+      return this.tree.sort(function (a, b) {
+        return a.position - b.position;
+      });
     }
   },
 
@@ -2830,10 +2948,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   methods: {
-    initItems: function initItems(data) {
+    initItems: function initItems() {
       var _this = this;
 
-      this.items = this.getSortedData(data[this.tableItemsDataName]).map(function (item) {
+      var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.items = this.getSortedData(items).map(function (item) {
         return new __WEBPACK_IMPORTED_MODULE_8__resources_PriceTypesTableModel__["a" /* default */](item, _this.languages);
       });
     }
@@ -3363,8 +3483,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   methods: {
-    initItems: function initItems(data) {
-      this.items = this.getSortedData(data[this.tableItemsDataName]).map(function (item) {
+    initItems: function initItems() {
+      var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.items = items.map(function (item) {
         return new __WEBPACK_IMPORTED_MODULE_6__resources_SuppliersTableModel__["a" /* default */](item);
       });
     }
@@ -11965,7 +12087,22 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.sidebar-nav li {\n    position: relative;\n}\n.sidebar-nav .sidebar-nav-sub > ul {\n    display: block;\n}\n.sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n    height: 0;\n    overflow: hidden;\n    position: relative;\n    -webkit-transition: all .228s ease-out;\n    transition: all .228s ease-out;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n.sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n    height: 0!important;\n}\n.sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n    max-height: none;\n    -webkit-transition: none;\n    transition: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/MainMenu.vue"],"names":[],"mappings":";AAyVA;IACA,mBAAA;CACA;AAEA;IACA,eAAA;CACA;AAEA;IACA,UAAA;IACA,iBAAA;IACA,mBAAA;IACA,uCAAA;IAAA,+BAAA;IACA,wCAAA;YAAA,gCAAA;CACA;AAEA;IACA,oBAAA;CACA;AAEA;IACA,iBAAA;IACA,yBAAA;IAAA,iBAAA;CACA","file":"MainMenu.vue","sourcesContent":["<script>\n  import Core from '../core'\n  const menuData = [\n    {\n      title: 'Магазин',\n      icon: 'fa fa-shopping-bag',\n      children: [\n        {\n          title: 'Товары',\n          url: '/shop/products',\n          icon: 'gi gi-shopping_bag',\n        },\n\n        {\n          title: 'Категории',\n          url: '/shop/categories',\n          icon: 'fa fa-folder'\n        },\n\n        {\n          title: 'Поставщики',\n          url: '/shop/suppliers',\n          icon: 'fa fa-truck',\n        },\n\n        {\n          title: 'Аттрибуты',\n          url: '/shop/attributes',\n          icon: 'fa fa-list',\n        },\n\n        {\n          title: 'Типы цен',\n          url: '/shop/price-types',\n          icon: 'fa fa-money',\n        },\n      ]\n    },\n\n    {\n      title: 'Пользователи',\n      url: '/users',\n      icon: 'fa fa-user',\n    },\n\n    {\n      title: 'Настройки',\n      url: '/settings',\n      icon: 'fa fa-gear',\n    },\n\n\n    {\n      title: 'Отчистить кэш',\n      onClick() {\n        new Core.requestHandler('get', `/api/cache`).start()\n      },\n      icon: 'fa fa-refresh',\n    }\n  ]\n\n  export default {\n    name: \"main-menu\",\n\n    data() {\n      return {}\n    },\n\n    watch: {\n      '$route': 'checkExpanded'\n    },\n\n    mounted() {\n      this.init()\n    },\n\n    methods: {\n      init() {\n        [].forEach.call(document.querySelectorAll('.sidebar-nav-sub'), el => {\n          el.setAttribute('data-height', this.getMenuHeight(el))\n        })\n\n        this.checkExpanded()\n      },\n\n      getMenuHeight(elMenu) {\n        return elMenu.childNodes[0].scrollHeight\n      },\n\n      getMainMenuEl() {\n        return this.$el\n      },\n\n      getParents(el, selector = '*') {\n        let parents = []\n        let p = el.parentNode\n\n        while (p !== this.$el) {\n          if (p.matches(selector)) {\n            parents.push(p)\n          }\n\n          el = p\n          p = p.parentNode\n        }\n\n        return parents\n      },\n\n      checkExpanded() {\n        this.$nextTick(() => {\n          let elsToCLose = this.$el.querySelectorAll('.sidebar-nav-menu.open:not(.manual) + .sidebar-nav-sub')\n\n          ;[].forEach.call(elsToCLose, elMenu => {\n            this.closeItem(elMenu.previousSibling, elMenu)\n          })\n\n          let elActiveLink = this.$el.querySelector('a.active')\n\n          if (!elActiveLink) return\n\n          let elClosestMenu = elActiveLink.closest('.sidebar-nav-sub')\n\n          if (! elClosestMenu) return\n\n          this.expand(elClosestMenu.previousSibling, elClosestMenu)\n        })\n      },\n\n      getChildrensHeight(elMenu) {\n        return [].reduce.call(elMenu.querySelectorAll('.sidebar-nav-menu.open + .sidebar-nav-sub'), (acc, el) => {\n          return acc + parseInt(el.getAttribute('data-height'))\n        }, 0)\n      },\n\n      expandItem(elLink, elMenu) {\n        elLink.classList.add('open')\n\n        let height = parseInt(elMenu.getAttribute('data-height')) + this.getChildrensHeight(elMenu)\n        elMenu.style.height = height + 'px'\n      },\n\n      expand(elLink, elMenu) {\n        this.expandItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      closeItem(elLink, elMenu) {\n        elLink.classList.remove('open')\n        elMenu.removeAttribute('style')\n      },\n\n      close(elLink, elMenu) {\n        ;[].reverse.call(elMenu.querySelectorAll('.sidebar-nav-sub')).forEach(el => {\n          this.closeItem(el.previousSibling, el)\n        })\n\n        this.closeItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      expandToggle(elLink, elMenu) {\n        if (elLink.classList.contains('open')) {\n          this.close(elLink, elMenu)\n        }\n        else {\n          this.expand(elLink, elMenu)\n        }\n      },\n\n      expandLinkClick(elLink) {\n        elLink.classList.toggle('manual')\n        this.expandToggle(elLink, elLink.nextSibling)\n      }\n    },\n\n    render(createElement) {\n      let makeTitleEl = (title) => {\n        return createElement(\n          'span',\n          {\n            attrs: {\n              class: 'sidebar-nav-mini-hide'\n            }\n          },\n          title\n        )\n      }\n\n      let __makeIconEl = iconClasses => {\n        return createElement(\n          'i',\n          {\n            attrs: {\n              class: iconClasses\n            }\n          }\n        )\n      }\n\n      let makeIconEl = iconCLasses => {\n        return __makeIconEl(`${iconCLasses} sidebar-nav-icon`)\n      }\n\n      let makeIndicatorEl = () => {\n        return __makeIconEl('fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide')\n      }\n\n      let urlIsLocal = (url) => {\n        url = Core.trim(url)\n\n        if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {\n            return url.indexOf(window.location.origin) === 0\n        }\n\n        return true\n      }\n\n      function mergeDeep(target, ...sources) {\n        if (!sources.length) return target;\n        const source = sources.shift();\n\n        if (_.isObject(target) && _.isObject(source)) {\n          for (const key in source) {\n            if (_.isObject(source[key]) && !_.isFunction(source[key])) {\n              if (!target[key]) Object.assign(target, { [key]: {} });\n              mergeDeep(target[key], source[key]);\n            }\n            else {\n              Object.assign(target, { [key]: source[key] });\n            }\n          }\n        }\n\n        return mergeDeep(target, ...sources);\n      }\n\n      let makeLink = ({url, onClick, icon, title, children}) => {\n        let tagName = 'a'\n        let isLocal = url ? urlIsLocal(url) : false\n        let params = {\n          key: Core.uniqueId()\n        }\n\n        if (typeof onClick === 'function') {\n          params = mergeDeep(params, {\n            on: {\n              click: onClick\n            }\n          })\n        }\n        if (url && isLocal) {\n          tagName = 'router-link'\n          params = mergeDeep(params, {\n            attrs: {\n              to: url,\n              'active-class': 'active'\n            }\n          })\n        }\n        else if (url && !isLocal) {\n          params = mergeDeep(params, {\n            attrs: {\n              href: url,\n              target: '_blank'\n            }\n          })\n        }\n        else {\n          params = mergeDeep(params, {\n            attrs: {\n              href: 'javascript:void(0);'\n            }\n          })\n        }\n\n        let childrenElsArray = []\n\n        if (children instanceof Array && children.length > 0) {\n          params = mergeDeep(params, {\n            on: {\n              click: event => this.expandLinkClick(event.target.closest('.sidebar-nav-menu'))\n            },\n            attrs: {\n              class: 'sidebar-nav-menu'\n            }\n          })\n\n          childrenElsArray.push(makeIndicatorEl())\n        }\n\n        if (icon) {\n          childrenElsArray.push(makeIconEl(icon))\n        }\n\n        if (title) {\n          childrenElsArray.push(makeTitleEl(title))\n        }\n\n        return createElement(tagName, params, childrenElsArray)\n      }\n\n      let makeElsLiArray = (items = []) => {\n        return items.reduce((acc, item) => {\n          let slots = [makeLink(item)]\n\n          if (item.children) {\n\n            slots.push(createElement(\n              'div',\n              {\n                attrs: {\n                  class: 'sidebar-nav-sub'\n                }\n              },\n              [createElement('ul', makeElsLiArray(item.children))]\n            ))\n          }\n\n          acc.push(createElement('li', slots))\n\n          return acc\n        }, [])\n      }\n\n      return createElement(\n        'ul',\n        {\n          attrs: {\n            class: 'sidebar-nav'\n          }\n        },\n        makeElsLiArray(menuData)\n      )\n    }\n  }\n</script>\n\n<style>\n    .sidebar-nav li {\n        position: relative;\n    }\n\n    .sidebar-nav .sidebar-nav-sub > ul {\n        display: block;\n    }\n\n    .sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n        height: 0;\n        overflow: hidden;\n        position: relative;\n        transition: all .228s ease-out;\n        transform: translate3d(0, 0, 0);\n    }\n\n    .sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n        height: 0!important;\n    }\n\n    .sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n        max-height: none;\n        transition: none;\n    }\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.sidebar-nav li {\n    position: relative;\n}\n.sidebar-nav .sidebar-nav-sub > ul {\n    display: block;\n}\n.sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n    height: 0;\n    overflow: hidden;\n    position: relative;\n    -webkit-transition: all .228s ease-out;\n    transition: all .228s ease-out;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n.sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n    height: 0!important;\n}\n.sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n    max-height: none;\n    -webkit-transition: none;\n    transition: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/MainMenu.vue"],"names":[],"mappings":";AA0XA;IACA,mBAAA;CACA;AAEA;IACA,eAAA;CACA;AAEA;IACA,UAAA;IACA,iBAAA;IACA,mBAAA;IACA,uCAAA;IAAA,+BAAA;IACA,wCAAA;YAAA,gCAAA;CACA;AAEA;IACA,oBAAA;CACA;AAEA;IACA,iBAAA;IACA,yBAAA;IAAA,iBAAA;CACA","file":"MainMenu.vue","sourcesContent":["<script>\n  import Core from '../core'\n  const menuData = [\n    {\n      title: 'Магазин',\n      icon: 'fa fa-shopping-bag',\n      children: [\n        {\n          title: 'Товары',\n          url: '/shop/products',\n          icon: 'gi gi-shopping_bag',\n        },\n\n        {\n          title: 'Категории',\n          url: '/shop/categories',\n          icon: 'fa fa-folder'\n        },\n\n        {\n          title: 'Поставщики',\n          url: '/shop/suppliers',\n          icon: 'fa fa-truck',\n        },\n\n        {\n          title: 'Аттрибуты',\n          url: '/shop/attributes',\n          icon: 'fa fa-list',\n        },\n\n        {\n          title: 'Типы цен',\n          url: '/shop/price-types',\n          icon: 'fa fa-money',\n        },\n\n        {\n          title: 'Покупатели',\n          url: '/shop/customers',\n          icon: 'gi gi-parents',\n        },\n      ]\n    },\n\n    {\n      title: 'Система',\n      icon: 'fa fa-gears',\n      rights: 'system.show-in-menu',\n\n      children: [\n        {\n          title: 'Администраторы',\n          url: '/system/admins',\n          icon: 'fa fa-id-card-o',\n          rights: 'admins.show-in-menu'\n        },\n\n        {\n          title: 'Контроль доступа',\n          icon: 'fa fa-ban',\n\n          children: [\n            {\n              title: 'Роли',\n              url: '/system/rbac/roles',\n              icon: 'fa fa-group',\n            },\n\n            {\n              title: 'Права',\n              url: '/system/rbac/permissions',\n              icon: 'fa fa-star',\n            },\n          ]\n        },\n\n        {\n          title: 'Настройки',\n          url: '/system/rbac/settings',\n          icon: 'fa fa-gear',\n        },\n      ]\n    },\n\n    {\n      title: 'Отчистить кэш',\n      onClick() {\n        new Core.requestHandler('get', `/api/cache`).start()\n      },\n      icon: 'fa fa-refresh',\n    }\n  ]\n\n  export default {\n    name: \"main-menu\",\n\n    data() {\n      return {}\n    },\n\n    watch: {\n      '$route': 'checkExpanded'\n    },\n\n    mounted() {\n      this.init()\n    },\n\n    methods: {\n      init() {\n        [].forEach.call(document.querySelectorAll('.sidebar-nav-sub'), el => {\n          el.setAttribute('data-height', this.getMenuHeight(el))\n        })\n\n        this.checkExpanded()\n      },\n\n      getMenuHeight(elMenu) {\n        return elMenu.childNodes[0].scrollHeight\n      },\n\n      getMainMenuEl() {\n        return this.$el\n      },\n\n      getParents(el, selector = '*') {\n        let parents = []\n        let p = el.parentNode\n\n        while (p !== this.$el) {\n          if (p.matches(selector)) {\n            parents.push(p)\n          }\n\n          el = p\n          p = p.parentNode\n        }\n\n        return parents\n      },\n\n      checkExpanded() {\n        this.$nextTick(() => {\n          let elsToCLose = this.$el.querySelectorAll('.sidebar-nav-menu.open:not(.manual) + .sidebar-nav-sub')\n\n          ;[].forEach.call(elsToCLose, elMenu => {\n            this.closeItem(elMenu.previousSibling, elMenu)\n          })\n\n          let elActiveLink = this.$el.querySelector('a.active')\n\n          if (!elActiveLink) return\n\n          let elClosestMenu = elActiveLink.closest('.sidebar-nav-sub')\n\n          if (! elClosestMenu) return\n\n          this.expand(elClosestMenu.previousSibling, elClosestMenu)\n        })\n      },\n\n      getChildrensHeight(elMenu) {\n        return [].reduce.call(elMenu.querySelectorAll('.sidebar-nav-menu.open + .sidebar-nav-sub'), (acc, el) => {\n          return acc + parseInt(el.getAttribute('data-height'))\n        }, 0)\n      },\n\n      expandItem(elLink, elMenu) {\n        elLink.classList.add('open')\n\n        let height = parseInt(elMenu.getAttribute('data-height')) + this.getChildrensHeight(elMenu)\n        elMenu.style.height = height + 'px'\n      },\n\n      expand(elLink, elMenu) {\n        this.expandItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      closeItem(elLink, elMenu) {\n        elLink.classList.remove('open')\n        elMenu.removeAttribute('style')\n      },\n\n      close(elLink, elMenu) {\n        ;[].reverse.call(elMenu.querySelectorAll('.sidebar-nav-sub')).forEach(el => {\n          this.closeItem(el.previousSibling, el)\n        })\n\n        this.closeItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      expandToggle(elLink, elMenu) {\n        if (elLink.classList.contains('open')) {\n          this.close(elLink, elMenu)\n        }\n        else {\n          this.expand(elLink, elMenu)\n        }\n      },\n\n      expandLinkClick(elLink) {\n        elLink.classList.toggle('manual')\n        this.expandToggle(elLink, elLink.nextSibling)\n      }\n    },\n\n    render(createElement) {\n      let makeTitleEl = (title) => {\n        return createElement(\n          'span',\n          {\n            attrs: {\n              class: 'sidebar-nav-mini-hide'\n            }\n          },\n          title\n        )\n      }\n\n      let __makeIconEl = iconClasses => {\n        return createElement(\n          'i',\n          {\n            attrs: {\n              class: iconClasses\n            }\n          }\n        )\n      }\n\n      let makeIconEl = iconCLasses => {\n        return __makeIconEl(`${iconCLasses} sidebar-nav-icon`)\n      }\n\n      let makeIndicatorEl = () => {\n        return __makeIconEl('fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide')\n      }\n\n      let urlIsLocal = (url) => {\n        url = Core.trim(url)\n\n        if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {\n            return url.indexOf(window.location.origin) === 0\n        }\n\n        return true\n      }\n\n      function mergeDeep(target, ...sources) {\n        if (!sources.length) return target;\n        const source = sources.shift();\n\n        if (_.isObject(target) && _.isObject(source)) {\n          for (const key in source) {\n            if (_.isObject(source[key]) && !_.isFunction(source[key])) {\n              if (!target[key]) Object.assign(target, { [key]: {} });\n              mergeDeep(target[key], source[key]);\n            }\n            else {\n              Object.assign(target, { [key]: source[key] });\n            }\n          }\n        }\n\n        return mergeDeep(target, ...sources);\n      }\n\n      let makeLink = ({url, onClick, icon, title, children}) => {\n        let tagName = 'a'\n        let isLocal = url ? urlIsLocal(url) : false\n        let params = {\n          key: Core.uniqueId()\n        }\n\n        if (typeof onClick === 'function') {\n          params = mergeDeep(params, {\n            on: {\n              click: onClick\n            }\n          })\n        }\n        if (url && isLocal) {\n          tagName = 'router-link'\n          params = mergeDeep(params, {\n            attrs: {\n              to: url,\n              'active-class': 'active'\n            }\n          })\n        }\n        else if (url && !isLocal) {\n          params = mergeDeep(params, {\n            attrs: {\n              href: url,\n              target: '_blank'\n            }\n          })\n        }\n        else {\n          params = mergeDeep(params, {\n            attrs: {\n              href: 'javascript:void(0);'\n            }\n          })\n        }\n\n        let childrenElsArray = []\n\n        if (children instanceof Array && children.length > 0) {\n          params = mergeDeep(params, {\n            on: {\n              click: event => this.expandLinkClick(event.target.closest('.sidebar-nav-menu'))\n            },\n            attrs: {\n              class: 'sidebar-nav-menu'\n            }\n          })\n\n          childrenElsArray.push(makeIndicatorEl())\n        }\n\n        if (icon) {\n          childrenElsArray.push(makeIconEl(icon))\n        }\n\n        if (title) {\n          childrenElsArray.push(makeTitleEl(title))\n        }\n\n        return createElement(tagName, params, childrenElsArray)\n      }\n\n      let makeElsLiArray = (items = []) => {\n        return items.reduce((acc, item) => {\n          let slots = [makeLink(item)]\n\n          if (item.children) {\n\n            slots.push(createElement(\n              'div',\n              {\n                attrs: {\n                  class: 'sidebar-nav-sub'\n                }\n              },\n              [createElement('ul', makeElsLiArray(item.children))]\n            ))\n          }\n\n          acc.push(createElement('li', slots))\n\n          return acc\n        }, [])\n      }\n\n      return createElement(\n        'ul',\n        {\n          attrs: {\n            class: 'sidebar-nav'\n          }\n        },\n        makeElsLiArray(menuData)\n      )\n    }\n  }\n</script>\n\n<style>\n    .sidebar-nav li {\n        position: relative;\n    }\n\n    .sidebar-nav .sidebar-nav-sub > ul {\n        display: block;\n    }\n\n    .sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n        height: 0;\n        overflow: hidden;\n        position: relative;\n        transition: all .228s ease-out;\n        transform: translate3d(0, 0, 0);\n    }\n\n    .sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n        height: 0!important;\n    }\n\n    .sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n        max-height: none;\n        transition: none;\n    }\n</style>"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-75b27f50\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/DropzoneGallery.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(true);
+// imports
+
+
+// module
+exports.push([module.i, "\n.gallery-dropzone .dz-message {\n  position: relative;\n  margin: 0;\n  display: block!important;\n}\n.gallery-dropzone .dz-message::before {\n  content: '';\n  display: block;\n  padding-top: 100%;\n}\n.gallery-dropzone .dz-message > span {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.gallery-dropzone .dz-preview {\n  display: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/DropzoneGallery.vue"],"names":[],"mappings":";AA6VA;EACA,mBAAA;EACA,UAAA;EACA,yBAAA;CACA;AAEA;EACA,YAAA;EACA,eAAA;EACA,kBAAA;CACA;AAEA;EACA,mBAAA;EACA,QAAA;EACA,OAAA;EACA,YAAA;EACA,aAAA;EACA,qBAAA;EAAA,qBAAA;EAAA,cAAA;EACA,yBAAA;MAAA,sBAAA;UAAA,wBAAA;EACA,0BAAA;MAAA,uBAAA;UAAA,oBAAA;CACA;AAEA;EACA,cAAA;CACA","file":"DropzoneGallery.vue","sourcesContent":["<script>\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import Core from '../core'\n  import VueDropzone from 'vue2-dropzone'\n  import Toggle from './Toggle'\n  import Sortable from '../mixins/Sortable'\n  import ImageEditor from './ImageEditor'\n\n  export default {\n    props: {\n      id: {\n        type: String,\n        default: 'dropzone'\n      },\n      url: {\n        type: String,\n        require: true,\n      },\n\n      images: {\n        type: Array\n      },\n\n      params: {\n        type: Object,\n        default: function () {\n          return {}\n        }\n      },\n\n      errors: {\n        type: Array\n      },\n\n      safeDelete: {\n        type: Boolean,\n        default: true\n      }\n    },\n\n    mixins: [\n      Sortable\n    ],\n\n    components: {\n      VueDropzone,\n      Toggle,\n      bModal,\n      ImageEditor\n    },\n\n    watch: {\n      'images': 'refresh',\n      'errors': 'refresh'\n    },\n\n    data() {\n      return {\n        params$: {\n          url: Core.addApiTokenToUrl(this.url),\n          thumbnailWidth: 150,\n          maxFilesize: 8,\n          addRemoveLinks: false,\n          autoProcessQueue: true,\n          ignoreHiddenFiles: true,\n          dictDefaultMessage: \"<div>Добавить изображение<div><i class=\\\"fa fa-plus-circle\\\" style=\\\"vertical-align:bottom;font-size:40px;\\\"></i></div></div>\",\n          dictFallbackMessage: \"Ваш браузер не поддерживает загрузку файлов при помощи drag'n'drop.\",\n          dictFallbackText: \"Используйте форму ниже, чтобы загрузить файлы.\",\n          dictFileTooBig: \"Размер файла слишком велик ({{filesize}} Mb). Максимальный размер файла: {{maxFilesize}} Mb.\",\n          dictInvalidFileType: \"Вы не можете загружать файлы этого типа.\",\n          dictResponseError: \"Сервер вернул ошибку с кодом: {{statusCode}}.\",\n          dictCancelUpload: \"Отменить загрузку\",\n          dictUploadCanceled: \"Загрузка отменена.\",\n          dictCancelUploadConfirmation: \"Вы уверены, что хотите отменить загрузку?\",\n          dictRemoveFile: \"Удалить файл\",\n          dictMaxFilesExceeded: \"Достигнут лимит количества файлов.\",\n          acceptedFiles: 'image/jpeg, image/png',\n          previewTemplate: '<div class=\\\"dz-preview dz-processing dz-complete dz-image-preview\\\"><div class=\\\"dz-remove\\\" data-dz-remove></div><div class=\\\"dz-image\\\"><a href=\\\"javascript:void(0)\\\" class=\\\"dz-link\\\"><img data-dz-thumbnail /><div class=\\\"dz-details\\\"><div class=\\\"dz-size\\\"><span data-dz-size></span></div><div class=\\\"dz-filename\\\"><i class=\\\"dz-icon fa fa-search\\\"></i></div></div></a></div><div class=\\\"dz-progress\\\"><span class=\\\"dz-upload\\\" data-dz-uploadprogress></span></div><div class=\\\"dz-error-message\\\"><span data-dz-errormessage></span></div><div class=\\\"dz-success-mark\\\"><i class=\\\"dz-icon fa fa-check\\\"></i></div><div class=\\\"dz-error-mark\\\"><i class=\\\"dz-icon fa fa-warning\\\"></i></div>',\n        },\n\n        sortableParams: {\n          update: this.sort\n        },\n\n        editorImage: null,\n\n        type$: null\n      }\n    },\n\n    methods: {\n      initSort() {\n        let params = this.getParams()\n\n        if (params.maxFiles !== 1) {\n          Sortable.methods.initSort.call(this)\n        }\n      },\n\n      getParams() {\n        return {\n          ... this.params$,\n          ... this.params\n        }\n      },\n\n      getInstance() {\n        return this.$refs.dropzone.dropzone\n      },\n\n      fileAdded(file) {\n        let params = this.getParams()\n        if (params.maxFiles && this.images.length < params.maxFiles) {\n          file.noFilesLimit = true\n        }\n      },\n\n      success(file, response) {\n        this.getInstance().removeFile(file)\n\n        this.add(response.image)\n      },\n\n      error(file, errorMessage) {\n        Core.notify(errorMessage, {type: 'error'})\n\n        this.getInstance().removeFile(file)\n\n        this.remove(file)\n      },\n\n      maxfilesreached(files) {\n        for (let i = 0; i < files.length; i++) {\n          if (!files[i].noFilesLimit) {\n            Core.notify(this.getParams().dictMaxFilesExceeded, {type: 'warning'})\n            break\n          }\n        }\n      },\n\n      maxfilesexceeded(file) {\n        let params = this.getParams()\n        let fileSize = (file.size / 1024 / 1024).toFixed(1)\n        let message = params.dictFileTooBig\n\n        message = message.replace('{{filesize}}', fileSize)\n        message = message.replace('{{maxFilesize}}', params.maxFilesize)\n\n        Core.notify(message, {type: 'warning'})\n      },\n\n      makeGallery() {\n        $(this.$refs.gallery).magnificPopup({\n          delegate: '.js-magnific-link',\n          type: 'image',\n          gallery: {\n            enabled: true\n          }\n        });\n      },\n\n      sort() {\n        this.$emit('update:images', this.sortDataBundleByIdsPosition(this.images, this.collectSortIds()))\n      },\n\n      add(image) {\n        this.$emit('update:images', [\n          ... this.images,\n          image\n        ])\n      },\n\n      update(image) {\n        this.$emit('update:images', this.images.map(item => item.id === image.id ? image : item))\n      },\n\n      edit(image) {\n        this.editorImage = image\n        this.$refs.pictureEditModal.show()\n      },\n\n      remove(image) {\n        if (this.safeDelete) {\n          image.deleted = true\n          this.update(image)\n        }\n        else {\n          this.$emit('update:images', this.images.filter(item => item.id !== image.id))\n        }\n      },\n\n      recover(image) {\n        image.deleted = false\n        this.update(image)\n      },\n\n      isDeleted(image) {\n        return image.deleted\n      },\n\n      editorImageSave() {\n        let image = this.editorImage\n        let modifications = this.$refs.imageEditor.getClearedModifications()\n\n        if (Object.keys(modifications) === 0) {\n          if (image.modifications) {\n            delete image.modifications\n          }\n\n          if (image.cropped) {\n            delete image.cropped\n          }\n        }\n        else {\n          image.modifications = modifications\n          image.cropped = this.$refs.imageEditor.getCroppedImage()\n        }\n\n        this.update(image)\n        this.editorImage = null\n      },\n\n      getImageOriginal(image) {\n        return image.cropped ? image.cropped : image.original\n      },\n\n      getImagePreview(image) {\n        if (image.cropped) {\n          return image.cropped\n        }\n\n        if (image.small) {\n          return image.small.srcset ? image.small.srcset : image.small.src\n        }\n\n        return image.original || ''\n      },\n\n      getEditorImageModifications() {\n        return (this.editorImage && this.editorImage.modifications) ? this.editorImage.modifications : {}\n      },\n\n      clear() {\n        this.editorImage = false\n      },\n\n      refresh() {\n        this.makeGallery()\n      },\n\n      hasError(image) {\n        return !!this.errors.find(item => item.toString() === image.id.toString())\n      }\n    },\n\n    computed: {\n      dropzoneIsVisible() {\n        let params = this.getParams()\n\n        if (params.maxFiles && params.maxFiles === this.images.length) {\n          return false\n        }\n\n        return true\n      }\n    },\n\n    mounted() {\n      this.makeGallery()\n    },\n  }\n</script>\n\n<template>\n  <div>\n    <div class=\"gallery gallery-widget\" ref=\"gallery\">\n      <div class=\"row ui-sortable\">\n        <div v-show=\"dropzoneIsVisible\" class=\"col-xs-6 col-sm-3\" style=\"min-width:155px;\">\n          <vue-dropzone\n            ref=\"dropzone\"\n            :id=\"this.id\"\n            class=\"gallery-dropzone\"\n            @vdropzone-success=\"success\"\n            @vdropzone-error=\"error\"\n            @vdropzone-max-files-reached=\"maxfilesreached\"\n            @vdropzone-max-files-exceeded=\"maxfilesexceeded\"\n            @vdropzone-file-added=\"fileAdded\"\n            :options=\"getParams()\"\n            :destroyDropzone=\"true\" />\n        </div>\n\n        <div v-for=\"image in images\" :data-id=\"image.id\" :key=\"image.id\" class=\"col-xs-6 col-sm-3\" style=\"min-width:155px;\">\n          <input type=\"hidden\" name=\"ids\" :value=\"image.id\">\n          <div :class=\"{'edit-photo-card': true, 'edit-photo-card--deleted': image.deleted, 'edit-photo-card--has-error': hasError(image)}\">\n            <a :href=\"getImageOriginal(image)\" class=\"edit-photo-card__preview js-magnific-link\">\n              <div class=\"edit-photo-card__image\" :style=\"`background-image:url(${getImagePreview(image)})`\"></div>\n            </a>\n\n            <div class=\"edit-photo-card__deleted-icon\">\n              <i class=\"fa fa-trash\"></i>\n            </div>\n\n            <div class=\"edit-photo-card__controls\">\n              <div class=\"pull-left\">\n                <a class=\"btn btn-sm btn-primary\" @click=\"edit(image)\" v-if=\"!isDeleted(image)\">\n                  <i class=\"fa fa-crop\"></i>\n                </a>\n              </div>\n\n              <div class=\"pull-right\">\n                <a class=\"btn btn-sm btn-danger\" @click=\"remove(image)\" v-if=\"!isDeleted(image)\">\n                  <i class=\"fa fa-trash-o\"></i>\n                </a>\n\n                <a class=\"btn btn-sm btn-success\" @click=\"recover(image)\" v-if=\"isDeleted(image)\">\n                  <i class=\"fa fa-repeat\"></i> Восстановить\n                </a>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <b-modal\n      ref=\"pictureEditModal\"\n      :no-close-on-backdrop=\"true\"\n      size=\"lg\"\n      title=\"Редактирование изображения\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Применить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @hidden=\"clear\"\n      @ok=\"editorImageSave\">\n\n      <image-editor\n        ref=\"imageEditor\"\n        v-if=\"!!editorImage\"\n        :image=\"editorImage.original\"\n        :modifications=\"getEditorImageModifications()\"/>\n    </b-modal>\n  </div>\n</template>\n\n\n<style>\n  .gallery-dropzone .dz-message {\n    position: relative;\n    margin: 0;\n    display: block!important;\n  }\n\n  .gallery-dropzone .dz-message::before {\n    content: '';\n    display: block;\n    padding-top: 100%;\n  }\n\n  .gallery-dropzone .dz-message > span {\n    position: absolute;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n\n  .gallery-dropzone .dz-preview {\n    display: none;\n  }\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -38315,9 +38452,10 @@ var render = function() {
                                         name: "validate",
                                         rawName: "v-validate",
                                         value:
-                                          "integer|min_value:1|max_value:4294967295",
+                                          "integer|min_value:1|max_value:" +
+                                          _vm.getCurrencyMaxValue(currency),
                                         expression:
-                                          "'integer|min_value:1|max_value:4294967295'"
+                                          "`integer|min_value:1|max_value:${getCurrencyMaxValue(currency)}`"
                                       }
                                     ],
                                     staticClass: "form-control",
@@ -40063,7 +40201,6 @@ var render = function() {
                           [
                             _c("tree-select", {
                               attrs: {
-                                activeLanguageCode: _vm.activeLanguageCode,
                                 options: _vm.suppliersToSelect,
                                 selected: _vm.product.supplier_id,
                                 placeholder: "Выберите поставщика"
@@ -40127,6 +40264,7 @@ var render = function() {
                                 options: _vm.categoriesTree,
                                 selected: _vm.product.categories,
                                 multiple: true,
+                                params: { closeOnSelect: false },
                                 placeholder: "Выберите категорию"
                               },
                               on: {
@@ -40656,405 +40794,407 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "col-lg-6" },
-                [
-                  _c("div", { staticClass: "block" }, [
-                    _vm._m(4),
+              _c("div", { staticClass: "col-lg-6" }, [
+                _c("div", { staticClass: "block" }, [
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-horizontal form-bordered" }, [
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("width") ? " has-error" : "")
+                      },
+                      [
+                        _vm._m(5),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-9" }, [
+                          _c(
+                            "div",
+                            { staticClass: "input-group" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.product.width,
+                                    expression: "product.width"
+                                  },
+                                  { name: "number", rawName: "v-number" },
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value:
+                                      "required|integer|min_value:1|max_value:2147483647",
+                                    expression:
+                                      "'required|integer|min_value:1|max_value:2147483647'"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "width",
+                                  name: "width"
+                                },
+                                domProps: { value: _vm.product.width },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.product,
+                                      "width",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("size-converter", {
+                                attrs: { value: _vm.product.width }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.formErrors.has("width"),
+                                  expression: "formErrors.has('width')"
+                                }
+                              ],
+                              staticClass: "help-block"
+                            },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.formErrors.first("width")) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "form-horizontal form-bordered" },
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("height") ? " has-error" : "")
+                      },
                       [
-                        _c(
-                          "div",
-                          {
-                            class:
-                              "form-group" +
-                              (_vm.formErrors.has("width") ? " has-error" : "")
-                          },
-                          [
-                            _vm._m(5),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-9" }, [
-                              _c(
-                                "div",
-                                { staticClass: "input-group" },
-                                [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.product.width,
-                                        expression: "product.width"
-                                      },
-                                      { name: "number", rawName: "v-number" },
-                                      {
-                                        name: "validate",
-                                        rawName: "v-validate",
-                                        value:
-                                          "required|integer|min_value:1|max_value:4294967295",
-                                        expression:
-                                          "'required|integer|min_value:1|max_value:4294967295'"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      id: "width",
-                                      name: "width"
-                                    },
-                                    domProps: { value: _vm.product.width },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.product,
-                                          "width",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("size-converter", {
-                                    attrs: { value: _vm.product.width }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.formErrors.has("width"),
-                                      expression: "formErrors.has('width')"
-                                    }
-                                  ],
-                                  staticClass: "help-block"
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                  " +
-                                      _vm._s(_vm.formErrors.first("width")) +
-                                      "\n                "
-                                  )
-                                ]
-                              )
-                            ])
-                          ]
-                        ),
+                        _vm._m(6),
                         _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            class:
-                              "form-group" +
-                              (_vm.formErrors.has("height") ? " has-error" : "")
-                          },
-                          [
-                            _vm._m(6),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-9" }, [
-                              _c(
-                                "div",
-                                { staticClass: "input-group" },
-                                [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.product.height,
-                                        expression: "product.height"
-                                      },
-                                      { name: "number", rawName: "v-number" },
-                                      {
-                                        name: "validate",
-                                        rawName: "v-validate",
-                                        value:
-                                          "required|integer|min_value:1|max_value:4294967295",
-                                        expression:
-                                          "'required|integer|min_value:1|max_value:4294967295'"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      id: "height",
-                                      name: "height"
-                                    },
-                                    domProps: { value: _vm.product.height },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.product,
-                                          "height",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("size-converter", {
-                                    attrs: { value: _vm.product.height }
-                                  })
+                        _c("div", { staticClass: "col-md-9" }, [
+                          _c(
+                            "div",
+                            { staticClass: "input-group" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.product.height,
+                                    expression: "product.height"
+                                  },
+                                  { name: "number", rawName: "v-number" },
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value:
+                                      "required|integer|min_value:1|max_value:2147483647",
+                                    expression:
+                                      "'required|integer|min_value:1|max_value:2147483647'"
+                                  }
                                 ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.formErrors.has("height"),
-                                      expression: "formErrors.has('height')"
-                                    }
-                                  ],
-                                  staticClass: "help-block"
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "height",
+                                  name: "height"
                                 },
-                                [
-                                  _vm._v(
-                                    "\n                  " +
-                                      _vm._s(_vm.formErrors.first("height")) +
-                                      "\n                "
-                                  )
-                                ]
+                                domProps: { value: _vm.product.height },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.product,
+                                      "height",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("size-converter", {
+                                attrs: { value: _vm.product.height }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.formErrors.has("height"),
+                                  expression: "formErrors.has('height')"
+                                }
+                              ],
+                              staticClass: "help-block"
+                            },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.formErrors.first("height")) +
+                                  "\n                "
                               )
-                            ])
-                          ]
-                        ),
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("length") ? " has-error" : "")
+                      },
+                      [
+                        _vm._m(7),
                         _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            class:
-                              "form-group" +
-                              (_vm.formErrors.has("length") ? " has-error" : "")
-                          },
-                          [
-                            _vm._m(7),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-9" }, [
-                              _c(
-                                "div",
-                                { staticClass: "input-group" },
-                                [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.product.length,
-                                        expression: "product.length"
-                                      },
-                                      { name: "number", rawName: "v-number" },
-                                      {
-                                        name: "validate",
-                                        rawName: "v-validate",
-                                        value:
-                                          "required|integer|min_value:1|max_value:4294967295",
-                                        expression:
-                                          "'required|integer|min_value:1|max_value:4294967295'"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      id: "length",
-                                      name: "length"
-                                    },
-                                    domProps: { value: _vm.product.length },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.product,
-                                          "length",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("size-converter", {
-                                    attrs: { value: _vm.product.length }
-                                  })
+                        _c("div", { staticClass: "col-md-9" }, [
+                          _c(
+                            "div",
+                            { staticClass: "input-group" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.product.length,
+                                    expression: "product.length"
+                                  },
+                                  { name: "number", rawName: "v-number" },
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value:
+                                      "required|integer|min_value:1|max_value:2147483647",
+                                    expression:
+                                      "'required|integer|min_value:1|max_value:2147483647'"
+                                  }
                                 ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.formErrors.has("length"),
-                                      expression: "formErrors.has('length')"
-                                    }
-                                  ],
-                                  staticClass: "help-block"
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "length",
+                                  name: "length"
                                 },
-                                [
-                                  _vm._v(
-                                    "\n                  " +
-                                      _vm._s(_vm.formErrors.first("length")) +
-                                      "\n                "
-                                  )
-                                ]
+                                domProps: { value: _vm.product.length },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.product,
+                                      "length",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("size-converter", {
+                                attrs: { value: _vm.product.length }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.formErrors.has("length"),
+                                  expression: "formErrors.has('length')"
+                                }
+                              ],
+                              staticClass: "help-block"
+                            },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.formErrors.first("length")) +
+                                  "\n                "
                               )
-                            ])
-                          ]
-                        ),
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("weight") ? " has-error" : "")
+                      },
+                      [
+                        _vm._m(8),
                         _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            class:
-                              "form-group" +
-                              (_vm.formErrors.has("weight") ? " has-error" : "")
-                          },
-                          [
-                            _vm._m(8),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-9" }, [
-                              _c(
-                                "div",
-                                { staticClass: "input-group" },
-                                [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.product.weight,
-                                        expression: "product.weight"
-                                      },
-                                      { name: "number", rawName: "v-number" },
-                                      {
-                                        name: "validate",
-                                        rawName: "v-validate",
-                                        value:
-                                          "required|integer|min_value:1|max_value:4294967295",
-                                        expression:
-                                          "'required|integer|min_value:1|max_value:4294967295'"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      id: "weight",
-                                      name: "weight"
-                                    },
-                                    domProps: { value: _vm.product.weight },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.product,
-                                          "weight",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("weight-converter", {
-                                    attrs: { value: _vm.product.weight }
-                                  })
+                        _c("div", { staticClass: "col-md-9" }, [
+                          _c(
+                            "div",
+                            { staticClass: "input-group" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.product.weight,
+                                    expression: "product.weight"
+                                  },
+                                  { name: "number", rawName: "v-number" },
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value:
+                                      "required|integer|min_value:1|max_value:2147483647",
+                                    expression:
+                                      "'required|integer|min_value:1|max_value:2147483647'"
+                                  }
                                 ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.formErrors.has("weight"),
-                                      expression: "formErrors.has('weight')"
-                                    }
-                                  ],
-                                  staticClass: "help-block"
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "weight",
+                                  name: "weight"
                                 },
-                                [
-                                  _vm._v(
-                                    "\n                  " +
-                                      _vm._s(_vm.formErrors.first("weight")) +
-                                      "\n                "
-                                  )
-                                ]
+                                domProps: { value: _vm.product.weight },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.product,
+                                      "weight",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("weight-converter", {
+                                attrs: { value: _vm.product.weight }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.formErrors.has("weight"),
+                                  expression: "formErrors.has('weight')"
+                                }
+                              ],
+                              staticClass: "help-block"
+                            },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.formErrors.first("weight")) +
+                                  "\n                "
                               )
-                            ])
-                          ]
-                        )
+                            ]
+                          )
+                        ])
                       ]
                     )
-                  ]),
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.attributes && _vm.attributes.length > 0
+                  ? _c(
+                      "div",
+                      { staticClass: "block" },
+                      [
+                        _vm._m(9),
+                        _vm._v(" "),
+                        _c("attributes-select", {
+                          ref: "attributesSelect",
+                          attrs: {
+                            attributes: _vm.attributes,
+                            languages: _vm.languages,
+                            activeLanguageCode: _vm.activeLanguageCode,
+                            errors: _vm.formErrors,
+                            selectedAttributes: _vm.product.attributes,
+                            selectedOptions: _vm.product.options
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "block" }, [
+                  _vm._m(10),
                   _vm._v(" "),
-                  _vm.attributes && _vm.attributes.length > 0
-                    ? _c(
-                        "div",
-                        { staticClass: "block" },
-                        [
-                          _vm._m(9),
-                          _vm._v(" "),
-                          _c("attributes-select", {
-                            ref: "attributesSelect",
+                  _c(
+                    "div",
+                    { staticClass: "block-section" },
+                    [
+                      _vm.type === "edit"
+                        ? _c("dropzone-gallery", {
+                            ref: "gallery",
                             attrs: {
-                              attributes: _vm.attributes,
-                              languages: _vm.languages,
-                              activeLanguageCode: _vm.activeLanguageCode,
-                              errors: _vm.formErrors,
-                              selectedAttributes: _vm.product.attributes,
-                              selectedOptions: _vm.product.options
+                              url: _vm.prepareUrl("image"),
+                              images: _vm.product.images,
+                              errors: _vm.formErrors.collect("images") || []
+                            },
+                            on: {
+                              "update:images": function($event) {
+                                _vm.$set(_vm.product, "images", $event)
+                              }
                             }
                           })
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.type === "edit"
-                    ? _c("dropzone-gallery", {
-                        ref: "gallery",
-                        attrs: {
-                          url: _vm.prepareUrl("image"),
-                          images: _vm.product.images,
-                          errors: _vm.formErrors.collect("images") || []
-                        },
-                        on: {
-                          "update:images": function($event) {
-                            _vm.$set(_vm.product, "images", $event)
-                          }
-                        }
-                      })
-                    : _vm._e()
-                ],
-                1
-              )
+                        : _vm._e()
+                    ],
+                    1
+                  )
+                ])
+              ])
             ])
           : _vm._e(),
         _vm._v(" "),
@@ -41063,7 +41203,7 @@ var render = function() {
               "div",
               { staticClass: "block" },
               [
-                _vm._m(10),
+                _vm._m(11),
                 _vm._v(" "),
                 _c("prices-table", {
                   attrs: {
@@ -41238,6 +41378,18 @@ var staticRenderFns = [
         _c("i", { staticClass: "fa fa-list" }),
         _vm._v(" "),
         _c("strong", [_vm._v("Аттрибуты")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-image" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Изображения")])
       ])
     ])
   },
@@ -42616,6 +42768,12 @@ var render = function() {
                     [_vm._v("\n              Slug\n            ")]
                   ),
                   _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "table-cell table-cell-column-num" },
+                    [_vm._v("\n              Товаров\n            ")]
+                  ),
+                  _vm._v(" "),
                   _vm.userCan("categories.edit")
                     ? _c(
                         "div",
@@ -42890,7 +43048,7 @@ var render = function() {
                   _vm._m(1),
                   _vm._v(" "),
                   _c("th", { staticStyle: { width: "100%" } }, [
-                    _vm._v("Название")
+                    _vm._v("\n              Название\n            ")
                   ]),
                   _vm._v(" "),
                   _vm.userCan("suppliers.edit")
@@ -42974,7 +43132,6 @@ var render = function() {
                                       "a",
                                       {
                                         staticClass: "btn btn-danger",
-                                        attrs: { href: "javascript:void(0)" },
                                         on: {
                                           click: function($event) {
                                             _vm.remove(supplier.id)
@@ -45175,15 +45332,47 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "block" },
     [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "block-section" }, [
-        _c("div", { ref: "gallery", staticClass: "gallery gallery-widget" }, [
-          _c(
-            "div",
-            { staticClass: "row ui-sortable" },
+      _c("div", { ref: "gallery", staticClass: "gallery gallery-widget" }, [
+        _c(
+          "div",
+          { staticClass: "row ui-sortable" },
+          [
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.dropzoneIsVisible,
+                    expression: "dropzoneIsVisible"
+                  }
+                ],
+                staticClass: "col-xs-6 col-sm-3",
+                staticStyle: { "min-width": "155px" }
+              },
+              [
+                _c("vue-dropzone", {
+                  ref: "dropzone",
+                  staticClass: "gallery-dropzone",
+                  attrs: {
+                    id: this.id,
+                    options: _vm.getParams(),
+                    destroyDropzone: true
+                  },
+                  on: {
+                    "vdropzone-success": _vm.success,
+                    "vdropzone-error": _vm.error,
+                    "vdropzone-max-files-reached": _vm.maxfilesreached,
+                    "vdropzone-max-files-exceeded": _vm.maxfilesexceeded,
+                    "vdropzone-file-added": _vm.fileAdded
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
             _vm._l(_vm.images, function(image) {
               return _c(
                 "div",
@@ -45227,7 +45416,7 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(1, true),
+                      _vm._m(0, true),
                       _vm._v(" "),
                       _c("div", { staticClass: "edit-photo-card__controls" }, [
                         _c("div", { staticClass: "pull-left" }, [
@@ -45236,7 +45425,6 @@ var render = function() {
                                 "a",
                                 {
                                   staticClass: "btn btn-sm btn-primary",
-                                  attrs: { href: "javascript:void(0)" },
                                   on: {
                                     click: function($event) {
                                       _vm.edit(image)
@@ -45254,7 +45442,6 @@ var render = function() {
                                 "a",
                                 {
                                   staticClass: "btn btn-sm btn-danger",
-                                  attrs: { href: "javascript:void(0)" },
                                   on: {
                                     click: function($event) {
                                       _vm.remove(image)
@@ -45270,7 +45457,6 @@ var render = function() {
                                 "a",
                                 {
                                   staticClass: "btn btn-sm btn-success",
-                                  attrs: { href: "javascript:void(0)" },
                                   on: {
                                     click: function($event) {
                                       _vm.recover(image)
@@ -45279,7 +45465,7 @@ var render = function() {
                                 },
                                 [
                                   _c("i", { staticClass: "fa fa-repeat" }),
-                                  _vm._v(" Восстановить\n                ")
+                                  _vm._v(" Восстановить\n              ")
                                 ]
                               )
                             : _vm._e()
@@ -45290,26 +45476,10 @@ var render = function() {
                 ]
               )
             })
-          )
-        ])
+          ],
+          2
+        )
       ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "block-section" },
-        [
-          _c("vue-dropzone", {
-            ref: "dropzone",
-            attrs: {
-              id: "dropzone",
-              options: _vm.options,
-              destroyDropzone: true
-            },
-            on: { "vdropzone-success": _vm.success }
-          })
-        ],
-        1
-      ),
       _vm._v(" "),
       _c(
         "b-modal",
@@ -45345,18 +45515,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "block-title" }, [
-      _c("h2", [
-        _c("i", { staticClass: "fa fa-image" }),
-        _vm._v(" "),
-        _c("strong", [_vm._v("Изображения")])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -45662,7 +45820,7 @@ var render = function() {
   return _c(
     "div",
     { class: "ui-sortable table-group table-level-" + _vm.level },
-    _vm._l(_vm.tree, function(category) {
+    _vm._l(_vm.sortedTree, function(category) {
       return _c(
         "div",
         { key: category.id, staticClass: "js-sort-item" },
@@ -45672,132 +45830,137 @@ var render = function() {
             domProps: { value: category.id }
           }),
           _vm._v(" "),
-          _vm.userCan("categories.edit")
-            ? _c("div", { staticClass: "table-row" }, [
-                _vm._m(0, true),
-                _vm._v(" "),
-                _c(
+          _c("div", { staticClass: "table-row" }, [
+            _vm.userCan("categories.edit")
+              ? _c(
                   "div",
                   {
-                    staticClass: "table-cell text-center table-cell-column-id"
+                    staticClass:
+                      "table-cell table-cell-column-sort table-sort-handler js-sort-handler"
                   },
-                  [
-                    _c("router-link", { attrs: { to: category.url } }, [
-                      _c("strong", [
-                        _vm._v(
-                          "\n            " +
-                            _vm._s(category.id) +
-                            "\n          "
-                        )
-                      ])
-                    ])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "table-cell lev" },
-                  [
-                    category.children
-                      ? _c(
-                          "span",
-                          {
-                            class:
-                              "btn btn-primary btn-expand" +
-                              (_vm.isExpanded(category.id) ? " btn-alt" : ""),
-                            on: {
-                              click: function($event) {
-                                _vm.expand(category.id)
-                              }
-                            }
-                          },
-                          [
-                            !_vm.isExpanded(category.id)
-                              ? _c("i", { staticClass: "fa fa-plus" })
-                              : _c("i", { staticClass: "fa fa-minus" })
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c("router-link", { attrs: { to: category.url } }, [
-                      _c("strong", {
-                        domProps: {
-                          innerHTML: _vm._s(
-                            category.i18n[_vm.activeLanguageCode].title
-                          )
+                  [_c("span")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "table-cell text-center table-cell-column-id" },
+              [
+                _c("router-link", { attrs: { to: category.url } }, [
+                  _c("strong", [
+                    _vm._v(
+                      "\n            " + _vm._s(category.id) + "\n          "
+                    )
+                  ])
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "table-cell lev" },
+              [
+                category.children
+                  ? _c(
+                      "span",
+                      {
+                        class:
+                          "btn btn-primary btn-expand" +
+                          (_vm.isExpanded(category.id) ? " btn-alt" : ""),
+                        on: {
+                          click: function($event) {
+                            _vm.expand(category.id)
+                          }
                         }
-                      })
-                    ])
+                      },
+                      [
+                        !_vm.isExpanded(category.id)
+                          ? _c("i", { staticClass: "fa fa-plus" })
+                          : _c("i", { staticClass: "fa fa-minus" })
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("router-link", { attrs: { to: category.url } }, [
+                  _c("strong", {
+                    domProps: {
+                      innerHTML: _vm._s(
+                        category.i18n[_vm.activeLanguageCode].title
+                      )
+                    }
+                  })
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "table-cell table-cell-column-slug" }, [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    href: category.siteUrl,
+                    target: "_blank",
+                    rel: "external"
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-external-link" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "table-slug" }, [
+                    _c("strong", [_vm._v(_vm._s(category.slug))])
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "table-cell table-cell-column-num" }, [
+              _vm._v(
+                "\n        " + _vm._s(category.products_count) + "\n      "
+              )
+            ]),
+            _vm._v(" "),
+            _vm.userCan("categories.edit")
+              ? _c(
+                  "div",
+                  { staticClass: "table-cell table-cell-column-enabled" },
+                  [
+                    _c("toggle", {
+                      key: category.id,
+                      attrs: { checked: category.enabled },
+                      on: {
+                        change: function($event) {
+                          _vm.statusChange(category.id)
+                        }
+                      }
+                    })
                   ],
                   1
-                ),
-                _vm._v(" "),
-                _c(
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.userCan("categories.delete")
+              ? _c(
                   "div",
-                  { staticClass: "table-cell table-cell-column-slug" },
+                  { staticClass: "table-cell table-cell-column-delete" },
                   [
                     _c(
                       "a",
                       {
-                        attrs: {
-                          href: category.siteUrl,
-                          target: "_blank",
-                          rel: "external"
+                        staticClass: "btn btn-danger",
+                        on: {
+                          click: function($event) {
+                            _vm.remove(category.id)
+                          }
                         }
                       },
-                      [
-                        _c("i", { staticClass: "fa fa-external-link" }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "table-slug" }, [
-                          _c("strong", [_vm._v(_vm._s(category.slug))])
-                        ])
-                      ]
+                      [_c("i", { staticClass: "fa fa-times" })]
                     )
                   ]
-                ),
-                _vm._v(" "),
-                _vm.userCan("categories.edit")
-                  ? _c(
-                      "div",
-                      { staticClass: "table-cell table-cell-column-enabled" },
-                      [
-                        _c("toggle", {
-                          key: category.id,
-                          attrs: { checked: category.enabled },
-                          on: {
-                            change: function($event) {
-                              _vm.statusChange(category.id)
-                            }
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.userCan("categories.delete")
-                  ? _c(
-                      "div",
-                      { staticClass: "table-cell table-cell-column-delete" },
-                      [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-danger",
-                            on: {
-                              click: function($event) {
-                                _vm.remove(category.id)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-times" })]
-                        )
-                      ]
-                    )
-                  : _vm._e()
-              ])
-            : _vm._e(),
+                )
+              : _vm._e()
+          ]),
           _vm._v(" "),
           category.children
             ? _c("categories-table-tree", {
@@ -45825,21 +45988,7 @@ var render = function() {
     })
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "table-cell table-cell-column-sort table-sort-handler js-sort-handler"
-      },
-      [_c("span")]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -48846,6 +48995,33 @@ if(false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-75b27f50\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/DropzoneGallery.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-75b27f50\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/DropzoneGallery.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("386f02a6", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-75b27f50\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./DropzoneGallery.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-75b27f50\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./DropzoneGallery.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-style-loader/lib/addStylesClient.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -49123,51 +49299,63 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vee_validate__ = __webpack_require__("./node_modules/vee-validate/dist/vee-validate.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_shop_Dashboard__ = __webpack_require__("./resources/assets/js/components/shop/Dashboard.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_shop_Dashboard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_shop_Dashboard__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_shop_categories_CategoriesTable__ = __webpack_require__("./resources/assets/js/components/shop/categories/CategoriesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_shop_categories_CategoriesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_shop_categories_CategoriesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoryEdit__ = __webpack_require__("./resources/assets/js/components/shop/categories/CategoryEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoryEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoryEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_shop_products_ProductsTable__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductsTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_shop_products_ProductsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_shop_products_ProductsTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductEdit__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_shop_orders_OrdersTable__ = __webpack_require__("./resources/assets/js/components/shop/orders/OrdersTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_shop_orders_OrdersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_shop_orders_OrdersTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_shop_customers_CustomerEdit__ = __webpack_require__("./resources/assets/js/components/shop/customers/CustomerEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_shop_customers_CustomerEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_shop_customers_CustomerEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_customers_CustomersTable__ = __webpack_require__("./resources/assets/js/components/shop/customers/CustomersTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_customers_CustomersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_shop_customers_CustomersTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SuppliersTable__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SuppliersTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SuppliersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SuppliersTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_suppliers_SupplierEdit__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SupplierEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_suppliers_SupplierEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__components_shop_suppliers_SupplierEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributesTable__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_attributes_AttributeEdit__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributeEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_attributes_AttributeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__components_shop_attributes_AttributeEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_shop_priceTypes_PriceTypesTable__ = __webpack_require__("./resources/assets/js/components/shop/priceTypes/PriceTypesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_shop_priceTypes_PriceTypesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__components_shop_priceTypes_PriceTypesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_shop_priceTypes_PriceTypeEdit__ = __webpack_require__("./resources/assets/js/components/shop/priceTypes/PriceTypeEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_shop_priceTypes_PriceTypeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_shop_priceTypes_PriceTypeEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__components_Loading__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_ClearCacheBtn__ = __webpack_require__("./resources/assets/js/components/ClearCacheBtn.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__components_ClearCacheBtn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__components_MainMenu__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_jquery_ui_sortable_npm__ = __webpack_require__("./node_modules/jquery-ui-sortable-npm/jquery-ui-sortable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_jquery_ui_sortable_npm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20_jquery_ui_sortable_npm__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_magnific_popup__ = __webpack_require__("./node_modules/magnific-popup/dist/jquery.magnific-popup.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_magnific_popup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_21_magnific_popup__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_select2__ = __webpack_require__("./node_modules/select2/dist/js/select2.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_select2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22_select2__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ui_sortable_npm__ = __webpack_require__("./node_modules/jquery-ui-sortable-npm/jquery-ui-sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ui_sortable_npm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery_ui_sortable_npm__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_magnific_popup__ = __webpack_require__("./node_modules/magnific-popup/dist/jquery.magnific-popup.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_magnific_popup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_magnific_popup__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_select2__ = __webpack_require__("./node_modules/select2/dist/js/select2.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_select2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_select2__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vee_validate__ = __webpack_require__("./node_modules/vee-validate/dist/vee-validate.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_shop_Dashboard__ = __webpack_require__("./resources/assets/js/components/shop/Dashboard.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_shop_Dashboard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_shop_Dashboard__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_shop_categories_CategoriesTable__ = __webpack_require__("./resources/assets/js/components/shop/categories/CategoriesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_shop_categories_CategoriesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_shop_categories_CategoriesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_shop_categories_CategoryEdit__ = __webpack_require__("./resources/assets/js/components/shop/categories/CategoryEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_shop_categories_CategoryEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_shop_categories_CategoryEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_shop_products_ProductsTable__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductsTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_shop_products_ProductsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_shop_products_ProductsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductEdit__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_orders_OrdersTable__ = __webpack_require__("./resources/assets/js/components/shop/orders/OrdersTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_orders_OrdersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_shop_orders_OrdersTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_customers_CustomerEdit__ = __webpack_require__("./resources/assets/js/components/shop/customers/CustomerEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_customers_CustomerEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__components_shop_customers_CustomerEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_customers_CustomersTable__ = __webpack_require__("./resources/assets/js/components/shop/customers/CustomersTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_customers_CustomersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__components_shop_customers_CustomersTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_suppliers_SuppliersTable__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SuppliersTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_suppliers_SuppliersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__components_shop_suppliers_SuppliersTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SupplierEdit__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SupplierEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SupplierEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SupplierEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_shop_attributes_AttributesTable__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_shop_attributes_AttributesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_shop_attributes_AttributesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributeEdit__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributeEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributeEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_shop_priceTypes_PriceTypesTable__ = __webpack_require__("./resources/assets/js/components/shop/priceTypes/PriceTypesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_shop_priceTypes_PriceTypesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__components_shop_priceTypes_PriceTypesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypeEdit__ = __webpack_require__("./resources/assets/js/components/shop/priceTypes/PriceTypeEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypeEdit__);
+throw new Error("Cannot find module \"./components/pages/Admins/AdminsTable\"");
+throw new Error("Cannot find module \"./components/pages/Admins/AdminEdit\"");
+throw new Error("Cannot find module \"./components/pages/Roles/RolesTable\"");
+throw new Error("Cannot find module \"./components/pages/Roles/RoleEdit\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24__components_Loading__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_ClearCacheBtn__ = __webpack_require__("./resources/assets/js/components/ClearCacheBtn.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_25__components_ClearCacheBtn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_26__components_MainMenu__);
+throw new Error("Cannot find module \"./components/Avatar\"");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+
+
 
 
 
@@ -49211,10 +49399,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 __webpack_require__("./resources/assets/js/bootstrap.js");
 
-window.Vue = __WEBPACK_IMPORTED_MODULE_0_vue___default.a;
+window.Vue = __WEBPACK_IMPORTED_MODULE_3_vue___default.a;
 
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vee_validate__["c" /* default */], {
+__WEBPACK_IMPORTED_MODULE_3_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_3_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_vee_validate__["c" /* default */], {
   fieldsBagName: 'formFields',
   errorBagName: 'formErrors'
 });
@@ -49246,23 +49434,29 @@ $.ajaxSetup({
 // "Компонентом" может быть как созданный через `Vue.extend()`
 // полноценный конструктор, так и просто объект с настройками компонента
 // Вложенные пути будут рассмотрены далее.
-var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_3__components_shop_Dashboard___default.a }, { path: '/shop', redirect: '/shop/products' }, { path: '/shop/categories', component: __WEBPACK_IMPORTED_MODULE_4__components_shop_categories_CategoriesTable___default.a }, { path: '/shop/categories/create', component: __WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoryEdit___default.a, props: { type: 'create' } }, { path: '/shop/categories/:id', component: __WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoryEdit___default.a, props: function props(route) {
+var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_6__components_shop_Dashboard___default.a }, { path: '/shop', redirect: '/shop/products' }, { path: '/shop/categories', component: __WEBPACK_IMPORTED_MODULE_7__components_shop_categories_CategoriesTable___default.a }, { path: '/shop/categories/create', component: __WEBPACK_IMPORTED_MODULE_8__components_shop_categories_CategoryEdit___default.a, props: { type: 'create' } }, { path: '/shop/categories/:id', component: __WEBPACK_IMPORTED_MODULE_8__components_shop_categories_CategoryEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/products', component: __WEBPACK_IMPORTED_MODULE_6__components_shop_products_ProductsTable___default.a }, { path: '/shop/products/create', component: __WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductEdit___default.a, props: { type: 'create' } }, { path: '/shop/products/:id', component: __WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/products', component: __WEBPACK_IMPORTED_MODULE_9__components_shop_products_ProductsTable___default.a }, { path: '/shop/products/create', component: __WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductEdit___default.a, props: { type: 'create' } }, { path: '/shop/products/:id', component: __WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/orders', component: __WEBPACK_IMPORTED_MODULE_8__components_shop_orders_OrdersTable___default.a }, { path: '/shop/users', component: __WEBPACK_IMPORTED_MODULE_10__components_shop_customers_CustomersTable___default.a }, { path: '/shop/users/create', component: __WEBPACK_IMPORTED_MODULE_9__components_shop_customers_CustomerEdit___default.a, props: { type: 'create' } }, { path: '/shop/users/:id', component: __WEBPACK_IMPORTED_MODULE_9__components_shop_customers_CustomerEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/orders', component: __WEBPACK_IMPORTED_MODULE_11__components_shop_orders_OrdersTable___default.a }, { path: '/shop/suppliers', component: __WEBPACK_IMPORTED_MODULE_14__components_shop_suppliers_SuppliersTable___default.a }, { path: '/shop/suppliers/create', component: __WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SupplierEdit___default.a, props: { type: 'create' } }, { path: '/shop/suppliers/:id', component: __WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SupplierEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/suppliers', component: __WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SuppliersTable___default.a }, { path: '/shop/suppliers/create', component: __WEBPACK_IMPORTED_MODULE_12__components_shop_suppliers_SupplierEdit___default.a, props: { type: 'create' } }, { path: '/shop/suppliers/:id', component: __WEBPACK_IMPORTED_MODULE_12__components_shop_suppliers_SupplierEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/attributes', component: __WEBPACK_IMPORTED_MODULE_16__components_shop_attributes_AttributesTable___default.a }, { path: '/shop/attributes/create', component: __WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributeEdit___default.a, props: { type: 'create' } }, { path: '/shop/attributes/:id', component: __WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributeEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/attributes', component: __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributesTable___default.a }, { path: '/shop/attributes/create', component: __WEBPACK_IMPORTED_MODULE_14__components_shop_attributes_AttributeEdit___default.a, props: { type: 'create' } }, { path: '/shop/attributes/:id', component: __WEBPACK_IMPORTED_MODULE_14__components_shop_attributes_AttributeEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/price-types', component: __WEBPACK_IMPORTED_MODULE_18__components_shop_priceTypes_PriceTypesTable___default.a }, { path: '/shop/price-types/create', component: __WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypeEdit___default.a, props: { type: 'create' } }, { path: '/shop/price-types/:id', component: __WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypeEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/price-types', component: __WEBPACK_IMPORTED_MODULE_15__components_shop_priceTypes_PriceTypesTable___default.a }, { path: '/shop/price-types/create', component: __WEBPACK_IMPORTED_MODULE_16__components_shop_priceTypes_PriceTypeEdit___default.a, props: { type: 'create' } }, { path: '/shop/price-types/:id', component: __WEBPACK_IMPORTED_MODULE_16__components_shop_priceTypes_PriceTypeEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/customers', component: __WEBPACK_IMPORTED_MODULE_13__components_shop_customers_CustomersTable___default.a }, { path: '/shop/customers/create', component: __WEBPACK_IMPORTED_MODULE_12__components_shop_customers_CustomerEdit___default.a, props: { type: 'create' } }, { path: '/shop/customers/:id', component: __WEBPACK_IMPORTED_MODULE_12__components_shop_customers_CustomerEdit___default.a, props: function props(route) {
+    return _extends({}, route.params, { type: 'edit' });
+  } }, { path: '/system/admins', component: __WEBPACK_IMPORTED_MODULE_20__components_pages_Admins_AdminsTable___default.a }, { path: '/system/admins/create', component: __WEBPACK_IMPORTED_MODULE_21__components_pages_Admins_AdminEdit___default.a, props: { type: 'create' } }, { path: '/system/admins/:id', component: __WEBPACK_IMPORTED_MODULE_21__components_pages_Admins_AdminEdit___default.a, props: function props(route) {
+    return _extends({}, route.params, { type: 'edit' });
+  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_22__components_pages_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_23__components_pages_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_23__components_pages_Roles_RoleEdit___default.a, props: function props(route) {
+    return _extends({}, route.params, { type: 'edit' });
+  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_22__components_pages_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_23__components_pages_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_23__components_pages_Roles_RoleEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
   } }];
 
 // 3. Создаём экземпляр роутера с опцией `routes`
 // Можно передать и другие опции, но пока не будем усложнять
-var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
+var router = new __WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]({
   mode: 'history',
   routes: routes // сокращение от `routes: routes`
 });
@@ -49270,12 +49464,13 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 // 4. Создаём и монтируем корневой экземпляр Vue нашего приложения.
 // Удостоверьтесь, что передали экземпляр роутера в опции `router`,
 // что позволит приложению знать о его наличии
-var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+var app = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
   router: router,
   components: {
-    Loading: __WEBPACK_IMPORTED_MODULE_17__components_Loading___default.a,
-    ClearCacheBtn: __WEBPACK_IMPORTED_MODULE_18__components_ClearCacheBtn___default.a,
-    MainMenu: __WEBPACK_IMPORTED_MODULE_19__components_MainMenu___default.a
+    Loading: __WEBPACK_IMPORTED_MODULE_24__components_Loading___default.a,
+    ClearCacheBtn: __WEBPACK_IMPORTED_MODULE_25__components_ClearCacheBtn___default.a,
+    MainMenu: __WEBPACK_IMPORTED_MODULE_26__components_MainMenu___default.a,
+    Avatar: __WEBPACK_IMPORTED_MODULE_27__components_Avatar___default.a
   },
 
   data: function data() {
@@ -49513,6 +49708,10 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-75b27f50\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/DropzoneGallery.vue")
+}
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
 var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/DropzoneGallery.vue")
@@ -49521,7 +49720,7 @@ var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/templa
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -51389,9 +51588,12 @@ var apiRequest = function () {
   getRole: function getRole() {
     return parseInt(window.config.role);
   },
-  isSuperAdmin: function isSuperAdmin() {
+  isSuperAdmin: function isSuperAdmin(action) {
     return true;
     return this.getRole() === 1;
+  },
+  getUserId: function getUserId() {
+    return parseInt(window.config.user.id);
   }
 });
 
@@ -51405,8 +51607,6 @@ var apiRequest = function () {
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -51493,10 +51693,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         labels: dataLabels
       }).success(function (response) {
         var data = response.data.data;
-
-        if (dataLabels.length === 1) {
-          data = _defineProperty({}, dataLabels[0], data);
-        }
 
         _this3.setDataToStorage(data);
 
@@ -51690,7 +51886,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    * @returns {string}
    */
   getApiToken: function getApiToken() {
-    return window.config.userToken;
+    return window.config.user.token;
   },
 
 
@@ -51762,6 +51958,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     } while (idStr.length < idStrLen);
 
     return idStr;
+  },
+  generatePassword: function generatePassword() {
+    var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
+
+    // Исключены похожие символы и символы, недоступные на английской раскладке
+    var chars = 'abcdefghkmnpqrstuvwxyzABCDEFGHKMNPQRSTUVWXYZ23456789_-~!@#$%&*()+<>';
+
+    return _.sampleSize(chars, length).join('');
   },
   imageIsLoaded: function imageIsLoaded(elImg) {
     if (!elImg.complete) {
@@ -52607,7 +52811,7 @@ var HandleableException = function () {
       //   return true
       // }
 
-      return __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].auth.isSuperAdmin();
+      return __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].auth.isSuperAdmin(action);
     }
   }
 });
@@ -53008,6 +53212,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
 
   created: function created() {
+    if (this.type === 'create' && !this.userCan(this.entityName + '.create')) {
+      this.redirectToTable();
+      return;
+    }
+
+    if (this.type === 'edit' && !this.userCan(this.entityName + '.see')) {
+      this.redirectToTable();
+      return;
+    }
+
     this.addQueue('save', 'break');
     this.loadData();
   }
@@ -53470,17 +53684,21 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
       a.start();
     },
-    initData: function initData(data) {
+    initData: function initData() {
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
       this.initMainData(data);
-      this.initItems(data);
+      this.initItems(data[this.tableItemsDataName]);
     },
 
 
     /**
      * Инициализация списка.
      */
-    initItems: function initItems(data) {
-      this.items = data[this.tableItemsDataName] || [];
+    initItems: function initItems() {
+      var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.items = items;
     },
 
 
@@ -53823,8 +54041,6 @@ var Model = function (_BaseModel) {
 
     var _this = _possibleConstructorReturn(this, (Model.__proto__ || Object.getPrototypeOf(Model)).call(this, entityData));
 
-    _this.entityData = entityData;
-
     var modelData = new __WEBPACK_IMPORTED_MODULE_0__Schema_Schema__["a" /* default */](_this.getSchemaFields()).combine(entityData);
 
     for (var i in modelData) {
@@ -53927,6 +54143,8 @@ var CategoriesTableModel = function (_ModelI18n) {
         parent_id: '',
         slug: '',
         enabled: true,
+        products_count: 0,
+        position: 0,
 
         url: function url(data) {
           return '/shop/categories/' + data.id;

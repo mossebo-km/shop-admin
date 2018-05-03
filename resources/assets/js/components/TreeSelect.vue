@@ -221,7 +221,7 @@
             this.setSelected(this.rSelected.filter(id => id.toString() !== e.params.args.data.id.toString()))
           }
           else {
-            this.setSelected()
+            this.setSelected(null)
           }
         })
 

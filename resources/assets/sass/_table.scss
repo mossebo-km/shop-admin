@@ -235,7 +235,8 @@ div.ui-sortable-placeholder {
 .table-column-enabled,
 .table-column-delete,
 .table-column-date,
-.table-column-image {
+.table-column-image,
+.table-column-num {
   box-sizing: border-box;
   text-align: center;
   display: inline-block;
@@ -245,7 +246,8 @@ div.ui-sortable-placeholder {
 .dataTable .table-column-sort,
 .dataTable .table-column-id,
 .dataTable .table-column-enabled,
-.dataTable .table-column-date {
+.dataTable .table-column-date,
+.dataTable .table-column-num {
   padding-left: 19px;
 }
 
@@ -275,7 +277,8 @@ div.ui-sortable-placeholder {
 .table-cell-column-delete,
 .table-cell-column-date,
 .table-cell-column-image,
-.table-cell-column-slug {
+.table-cell-column-slug,
+.table-cell-column-num {
   box-sizing: border-box;
   flex-shrink: 0;
   justify-content: center;
@@ -287,7 +290,8 @@ div.ui-sortable-placeholder {
 
 .table-cell-column-id,
 .table-cell-column-enabled,
-.table-cell-column-delete {
+.table-cell-column-delete,
+.table-cell-column-num {
   width: 86px;
 }
 

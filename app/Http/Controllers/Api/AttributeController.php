@@ -100,6 +100,13 @@ class AttributeController extends ApiController
         ], 200);
     }
 
+
+    /**
+     * Значения аттрибута.
+     *
+     * @param Attribute $attribute
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function options(Attribute $attribute)
     {
         return response()->json([

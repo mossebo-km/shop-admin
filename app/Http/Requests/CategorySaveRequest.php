@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Validation\ValidatorExtend;
+use Illuminate\Validation\Rule;
 
 class CategorySaveRequest extends ApiRequest
 {
@@ -23,24 +24,25 @@ class CategorySaveRequest extends ApiRequest
      */
     public function rules()
     {
-        if ($this->isCreate()) {
-            ValidatorExtend::slugAvailable();
-        }
-        else {
-            ValidatorExtend::parentIdAvailable();
-        }
-
-        $modelName = 'App\Models\Category';
         $categoriesTableName = \Config::get('migrations.Categories');
 
         $rules = [
-            'slug' => 'bail|trim|required|between:3,255' . ($this->isCreate() ? "|slug_available:{$modelName}" : ''),
             'enabled' => 'boolean',
-            'parent_id' => "bail|nullable|integer|exists:{$categoriesTableName},id",
+            'parent_id' => ['bail', 'nullable', 'integer', "exists:{$categoriesTableName},id"],
+            'slug' => ['bail', 'trim', 'required', 'between:3,255']
         ];
 
+        if ($this->isCreate()) {
+            $rules['slug'][] = Rule::unique($categoriesTableName);
+        }
+
         if ($this->isUpdate()) {
-            $rules['parent_id'] .= "|parent_id_available:{$modelName}," . $this->getId();
+            $id = $this->getId();
+            $modelName = 'App\Models\Category';
+            ValidatorExtend::parentIdAvailable();
+
+            $rules['slug'][] = Rule::unique($categoriesTableName)->ignore($id);
+            $rules['parent_id'][] = "parent_id_available:{$modelName}," . $id;
         }
 
         foreach (\Languages::enabled() as $language) {

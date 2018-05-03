@@ -34,21 +34,54 @@
           url: '/shop/price-types',
           icon: 'fa fa-money',
         },
+
+        {
+          title: 'Покупатели',
+          url: '/shop/customers',
+          icon: 'gi gi-parents',
+        },
       ]
     },
 
     {
-      title: 'Пользователи',
-      url: '/users',
-      icon: 'fa fa-user',
-    },
+      title: 'Система',
+      icon: 'fa fa-gears',
+      rights: 'system.show-in-menu',
 
-    {
-      title: 'Настройки',
-      url: '/settings',
-      icon: 'fa fa-gear',
-    },
+      children: [
+        {
+          title: 'Администраторы',
+          url: '/system/admins',
+          icon: 'fa fa-id-card-o',
+          rights: 'admins.show-in-menu'
+        },
 
+        {
+          title: 'Контроль доступа',
+          icon: 'fa fa-ban',
+
+          children: [
+            {
+              title: 'Роли',
+              url: '/system/rbac/roles',
+              icon: 'fa fa-group',
+            },
+
+            {
+              title: 'Права',
+              url: '/system/rbac/permissions',
+              icon: 'fa fa-star',
+            },
+          ]
+        },
+
+        {
+          title: 'Настройки',
+          url: '/system/rbac/settings',
+          icon: 'fa fa-gear',
+        },
+      ]
+    },
 
     {
       title: 'Отчистить кэш',
