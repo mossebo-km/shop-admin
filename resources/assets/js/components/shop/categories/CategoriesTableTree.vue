@@ -38,9 +38,6 @@
       isExpanded(categoryId) {
         return this.expanded.indexOf(categoryId) !== -1
       }
-<<<<<<< Updated upstream
-    }
-=======
     },
 
     computed: {
@@ -61,7 +58,6 @@
     beforeDestroy() {
       this.eventsDestroyers.forEach(destroyEventFunc => destroyEventFunc())
     },
->>>>>>> Stashed changes
   }
 </script>
 
@@ -71,13 +67,13 @@
       <input type="hidden" :value="category.id" name="ids">
 
       <div class="table-row">
-<<<<<<< Updated upstream
-        <div class="table-cell table-sort-handler js-sort-handler"><span></span></div>
-=======
+        <div class="table-cell table-sort-handler js-sort-handler">
+          <span></span>
+        </div>
+
         <div v-if="userCan('categories.edit')" class="table-cell table-cell-column-sort table-sort-handler js-sort-handler">
           <span></span>
         </div>
->>>>>>> Stashed changes
 
         <div class="table-cell text-center">
           <router-link v-bind:to="category.url"><strong>{{ category.id }}</strong></router-link>
@@ -99,32 +95,34 @@
           </a>
         </div>
 
-<<<<<<< Updated upstream
         <div class="table-cell text-center">
           <toggle @change="statusChange(category.id)" :checked="category.enabled" :key="category.id"></toggle>
-=======
+        </div>
+
         <div class="table-cell table-cell-column-num">
           {{ category.products_count }}
         </div>
 
         <div v-if="userCan('categories.edit')" class="table-cell table-cell-column-enabled">
           <toggle @change="statusChange(category.id)" :checked="category.enabled" :key="category.id" />
->>>>>>> Stashed changes
         </div>
 
         <div class="table-cell text-center">
-          <a href="javascript:void(0)" data-toggle="tooltip" title="Удалить" class="btn btn-danger" @click="remove(category.id)"><i class="fa fa-times"></i></a>
+          <a data-toggle="tooltip" class="btn btn-danger" @click="remove(category.id)">
+            <i class="fa fa-times"></i>
+          </a>
         </div>
       </div>
 
-      <categories-table-tree v-if="category.children" v-show="isExpanded(category.id)"
+      <categories-table-tree
+        v-if="category.children"
+        v-show="isExpanded(category.id)"
         :tree="category.children"
         :level="parseInt(level) + 1"
         :statusChange="statusChange"
         :remove="remove"
         :activeLanguageCode="activeLanguageCode"
-        :parentId="category.id">
-      </categories-table-tree>
+        :parentId="category.id" />
     </div>
   </div>
 </template>

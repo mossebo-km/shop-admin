@@ -33,10 +33,9 @@ export default class CategoriesTableModel {
     langs = languages
 
     return {
-<<<<<<< Updated upstream
       ... (new Schema(schema)).combine(entityData),
       i18n: (new Schemai18n(i18nSchema)).combine(entityData.i18n, languages),
-=======
+
       id: '',
       parent_id: '',
       slug: '',

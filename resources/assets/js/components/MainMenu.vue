@@ -28,8 +28,6 @@
           url: '/shop/attributes',
           icon: 'fa fa-list',
         },
-<<<<<<< Updated upstream
-=======
 
         {
           title: 'Типы цен',
@@ -42,17 +40,10 @@
           url: '/shop/customers',
           icon: 'gi gi-parents',
         },
->>>>>>> Stashed changes
       ]
     },
 
     {
-<<<<<<< Updated upstream
-      title: 'Настройки',
-      icon: 'fa fa-gear',
-      url: '/settings'
-    },
-=======
       title: 'Система',
       icon: 'fa fa-gears',
       rights: 'system.show-in-menu',
@@ -64,7 +55,6 @@
           icon: 'fa fa-id-card-o',
           rights: 'admins.show-in-menu'
         },
->>>>>>> Stashed changes
 
         {
           title: 'Контроль доступа',

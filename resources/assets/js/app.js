@@ -1,7 +1,3 @@
-import Sortable from 'jquery-ui-sortable-npm'
-import magnificPopup from 'magnific-popup'
-import 'select2'
-
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VeeValidate from 'vee-validate'
@@ -24,14 +20,6 @@ import SupplierEdit from './components/shop/suppliers/SupplierEdit'
 import AttributesTable from './components/shop/attributes/AttributesTable'
 import AttributeEdit from './components/shop/attributes/AttributeEdit'
 
-<<<<<<< Updated upstream
-import Loading from './components/Loading'
-import ClearCacheBtn from './components/ClearCacheBtn'
-import MainMenu from './components/MainMenu'
-
-import magnificPopup from 'magnific-popup'
-import 'select2'
-=======
 import PriceTypesTable from './components/shop/priceTypes/PriceTypesTable'
 import PriceTypeEdit from './components/shop/priceTypes/PriceTypeEdit'
 
@@ -41,11 +29,14 @@ import AdminEdit from './components/pages/Admins/AdminEdit'
 import RolesTable from './components/pages/Roles/RolesTable'
 import RoleEdit from './components/pages/Roles/RoleEdit'
 
+import Avatar from './components/Avatar'
+
 import Loading from './components/Loading'
 import ClearCacheBtn from './components/ClearCacheBtn'
 import MainMenu from './components/MainMenu'
-import Avatar from './components/Avatar'
->>>>>>> Stashed changes
+
+import magnificPopup from 'magnific-popup'
+import 'select2'
 
 
 /**
@@ -107,11 +98,9 @@ const routes = [
 
   { path: '/shop/orders', component: OrdersTable },
 
-<<<<<<< Updated upstream
+
   { path: '/shop/customers', component: CustomersTable },
 
-=======
->>>>>>> Stashed changes
   { path: '/shop/suppliers', component: SuppliersTable },
   { path: '/shop/suppliers/create', component: SupplierEdit, props: { type: 'create' } },
   { path: '/shop/suppliers/:id', component: SupplierEdit, props: route => ({...route.params, type: 'edit'}) },
@@ -119,8 +108,7 @@ const routes = [
   { path: '/shop/attributes', component: AttributesTable },
   { path: '/shop/attributes/create', component: AttributeEdit, props: { type: 'create' } },
   { path: '/shop/attributes/:id', component: AttributeEdit, props: route => ({...route.params, type: 'edit'}) },
-<<<<<<< Updated upstream
-=======
+
 
   { path: '/shop/price-types', component: PriceTypesTable },
   { path: '/shop/price-types/create', component: PriceTypeEdit, props: { type: 'create' } },
@@ -141,7 +129,6 @@ const routes = [
   { path: '/system/rbac/roles', component: RolesTable },
   { path: '/system/rbac/roles/create', component: RoleEdit, props: { type: 'create' } },
   { path: '/system/rbac/roles/:id', component: RoleEdit, props: route => ({...route.params, type: 'edit'}) },
->>>>>>> Stashed changes
 ]
 
 

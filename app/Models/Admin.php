@@ -48,8 +48,6 @@ class Admin extends Base\Authenticatable implements HasMedia
             'admin_role_id'
         );
     }
-<<<<<<< Updated upstream
-=======
 
     public function adminLog()
     {
@@ -97,5 +95,4 @@ class Admin extends Base\Authenticatable implements HasMedia
 
         return $pathes['small']['srcset'];
     }
->>>>>>> Stashed changes
 }

@@ -1,4 +1,4 @@
-webpackJsonp([0],{
+webpackJsonp([1],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Avatar.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -846,13 +846,6 @@ var menuData = [{
     title: 'Аттрибуты',
     url: '/shop/attributes',
     icon: 'fa fa-list'
-<<<<<<< Updated upstream
-  }]
-}, {
-  title: 'Настройки',
-  icon: 'fa fa-gear',
-  url: '/settings'
-=======
   }, {
     title: 'Типы цен',
     url: '/shop/price-types',
@@ -890,7 +883,6 @@ var menuData = [{
     url: '/system/rbac/settings',
     icon: 'fa fa-gear'
   }]
->>>>>>> Stashed changes
 }, {
   title: 'Отчистить кэш',
   onClick: function onClick() {
@@ -1434,11 +1426,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             return id.toString() !== e.params.data.id.toString();
           }));
         } else {
-<<<<<<< Updated upstream
-          _this4.setSelected();
-=======
-          _this5.setSelected(null);
->>>>>>> Stashed changes
+          _this4.setSelected(null);
         }
       });
 
@@ -1754,7 +1742,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__TreeSelect__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DropzoneGallery__ = __webpack_require__("./resources/assets/js/components/DropzoneGallery.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DropzoneGallery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__DropzoneGallery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+throw new Error("Cannot find module \"../../../mixins/EntityPage\"");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__resources_AdminEditModel__ = __webpack_require__("./resources/assets/js/resources/AdminEditModel.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1772,7 +1760,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'admin-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage___default.a],
 
   components: {
     bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
@@ -1844,7 +1832,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
+throw new Error("Cannot find module \"../../../mixins/StatusChangeable\"");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Toggle__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__resources_AdminsTableModel__ = __webpack_require__("./resources/assets/js/resources/AdminsTableModel.js");
@@ -1860,7 +1848,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'admins-table',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_TablePage__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_StatusChangeable___default.a, __WEBPACK_IMPORTED_MODULE_1__mixins_TablePage__["a" /* default */]],
 
   components: {
     bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
@@ -1893,7 +1881,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+throw new Error("Cannot find module \"../../../mixins/EntityPage\"");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__resources_RoleEditModel__ = __webpack_require__("./resources/assets/js/resources/RoleEditModel.js");
 
 
@@ -1905,7 +1893,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'role-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_EntityPage__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_EntityPage___default.a],
 
   components: {
     bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */]
@@ -2359,8 +2347,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     getError: function getError(name) {
       return this.errors.first(name) || this.formErrors.first(name);
-<<<<<<< Updated upstream
-=======
     },
 
 
@@ -2377,7 +2363,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     getCurrencyMaxValue: function getCurrencyMaxValue(currency) {
       return 2147483647 / Math.pow(10, currency.precision);
->>>>>>> Stashed changes
     }
   },
 
@@ -2417,8 +2402,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: '/shop/attributes',
         icon: 'fa fa-list',
         title: 'Аттрибуты'
-<<<<<<< Updated upstream
-=======
       }, {
         url: '/shop/price-types',
         icon: 'fa fa-money',
@@ -2427,7 +2410,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         url: '/shop/customers',
         icon: 'gi gi-parents',
         title: 'Покупатели'
->>>>>>> Stashed changes
       }]
     };
   },
@@ -2448,6 +2430,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_EntityEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__mixins_EntityEdit__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
@@ -2481,7 +2464,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "attribute-edit",
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_EntityEdit__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_Sortable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_EntityEdit__["default"], __WEBPACK_IMPORTED_MODULE_1__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_Sortable__["a" /* default */]],
 
   components: {
     ShopQuickNav: __WEBPACK_IMPORTED_MODULE_4__ShopQuickNav___default.a,
@@ -2757,6 +2740,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_CategoriesTableModel__ = __webpack_require__("./resources/assets/js/resources/CategoriesTableModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_CategoriesTableModel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__resources_CategoriesTableModel__);
 
 
 
@@ -2821,15 +2805,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     initItems: function initItems() {
       var _this = this;
 
-<<<<<<< Updated upstream
-      this.items = data[this.tableItemsDataName].map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_8__resources_CategoriesTableModel__["a" /* default */](item, _this.languages);
-=======
       var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.items = items.map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_9__resources_CategoriesTableModel__["a" /* default */](item, _this.languages);
->>>>>>> Stashed changes
+        return new __WEBPACK_IMPORTED_MODULE_8__resources_CategoriesTableModel__["default"](item, _this.languages);
       });
     },
 
@@ -2892,8 +2871,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     isExpanded: function isExpanded(categoryId) {
       return this.expanded.indexOf(categoryId) !== -1;
     }
-<<<<<<< Updated upstream
-=======
   },
 
   computed: {
@@ -2907,9 +2884,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   mounted: function mounted() {
     var _this = this;
 
-    this.eventsDestroyers = [__WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].events.on('categories-expand-all', function () {
+    this.eventsDestroyers = [Core.events.on('categories-expand-all', function () {
       return _this.expandAll();
-    }), __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].events.on('categories-compress-all', function () {
+    }), Core.events.on('categories-compress-all', function () {
       return _this.compressAll();
     })];
   },
@@ -2917,7 +2894,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     this.eventsDestroyers.forEach(function (destroyEventFunc) {
       return destroyEventFunc();
     });
->>>>>>> Stashed changes
   }
 });
 
@@ -2939,6 +2915,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__LanguagePicker__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_EntityEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__mixins_EntityEdit__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_CategoryModel__ = __webpack_require__("./resources/assets/js/resources/CategoryModel.js");
 
@@ -2958,7 +2935,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'category-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_6__mixins_EntityEdit__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__mixins_EntityEdit__["default"], __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__["a" /* default */]],
 
   props: ['id'],
 
@@ -3047,67 +3024,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-<<<<<<< Updated upstream
-=======
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/priceTypes/PriceTypeEdit.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__CKEditor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__resources_PriceTypeModel__ = __webpack_require__("./resources/assets/js/resources/PriceTypeModel.js");
-
-
-
-
-
-
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'price-type-edit',
-
-  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__["a" /* default */]],
-
-  components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default.a,
-    'ckeditor': __WEBPACK_IMPORTED_MODULE_2__CKEditor___default.a,
-    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_3__LanguagePicker___default.a
-  },
-
-  props: ['id'],
-
-  data: function data() {
-    return {
-      entityName: 'price-type',
-      priceType: null,
-      usedMainData: ['languages']
-    };
-  },
-
-
-  methods: {
-    initEntity: function initEntity(data) {
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_6__resources_PriceTypeModel__["a" /* default */](data, this.languages));
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/priceTypes/PriceTypesTable.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3118,13 +3034,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
+throw new Error("Cannot find module \"../../../mixins/StatusChangeable\"");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Toggle__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_PriceTypesTableModel__ = __webpack_require__("./resources/assets/js/resources/PriceTypesTableModel.js");
+throw new Error("Cannot find module \"../../../resources/PriceTypesTableModel\"");
 
 
 
@@ -3143,7 +3059,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'price-type-table',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_StatusChangeable___default.a, __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__["a" /* default */]],
 
   components: {
     Toggle: __WEBPACK_IMPORTED_MODULE_6__Toggle___default.a,
@@ -3169,7 +3085,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.items = this.getSortedData(items).map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_8__resources_PriceTypesTableModel__["a" /* default */](item, _this.languages);
+        return new __WEBPACK_IMPORTED_MODULE_8__resources_PriceTypesTableModel___default.a(item, _this.languages);
       });
     }
   }
@@ -3177,7 +3093,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
->>>>>>> Stashed changes
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/products/ProductEdit.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3200,6 +3115,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__DropzoneGallery__ = __webpack_require__("./resources/assets/js/components/DropzoneGallery.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__DropzoneGallery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__DropzoneGallery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_EntityEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__mixins_EntityEdit__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__AttributesSelect__ = __webpack_require__("./resources/assets/js/components/shop/AttributesSelect.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__AttributesSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__AttributesSelect__);
@@ -3242,7 +3158,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'product-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_9__mixins_EntityEdit__["a" /* default */], __WEBPACK_IMPORTED_MODULE_10__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_9__mixins_EntityEdit__["default"], __WEBPACK_IMPORTED_MODULE_10__mixins_Translatable__["a" /* default */]],
 
   directives: _extends({}, __WEBPACK_IMPORTED_MODULE_12__directives_number__["a" /* default */]),
 
@@ -3646,6 +3562,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__LanguagePicker__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_EntityEdit__ = __webpack_require__("./resources/assets/js/mixins/EntityEdit.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_EntityEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__mixins_EntityEdit__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__resources_SupplierModel__ = __webpack_require__("./resources/assets/js/resources/SupplierModel.js");
 
 
@@ -3662,7 +3579,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'supplier-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_EntityEdit__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_EntityEdit__["default"]],
 
   props: ['id'],
 
@@ -3693,85 +3610,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ }),
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/suppliers/SuppliersTable.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Toggle__);
-
-
-
-
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'suppliers-table',
-
-  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__["a" /* default */]],
-
-  components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default.a,
-    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    Toggle: __WEBPACK_IMPORTED_MODULE_5__Toggle___default.a
-  },
-
-  data: function data() {
-    return {
-      tableItemsDataName: 'suppliers'
-    };
-  },
-
-
-  methods: {
-<<<<<<< Updated upstream
-    /**
-     * При изменении порядка записей.
-     */
-    onPositionChange: function onPositionChange() {
-      var ids = [];
-
-      [].forEach.call(document.querySelectorAll('[name="ids"]'), function (el) {
-        ids.push(el.value);
-=======
-    initItems: function initItems() {
-      var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-      this.items = items.map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_6__resources_SuppliersTableModel__["a" /* default */](item);
->>>>>>> Stashed changes
-      });
-
-      this.sortQueue.add(new __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].requestHandler('post', this.prepareUrl(), { ids: ids }));
-    },
-
-
-    /**
-     *
-     */
-    clearQueue: function clearQueue() {
-      this.sortQueue.clear();
-      this.statusQueue.clear();
-    }
-  },
-
-  created: function created() {
-    this.sortQueue = __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].queueHandler.makeQueue('iteration', 'category-sort');
-  },
-  updated: function updated() {
-    this.initSort();
-  }
-});
+throw new Error("Module build failed: SyntaxError: Unexpected token (32:0)\n\n\u001b[0m \u001b[90m 30 | \u001b[39m\n \u001b[90m 31 | \u001b[39m    methods\u001b[33m:\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 32 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mUpdated\u001b[39m upstream\n \u001b[90m    | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 33 | \u001b[39m      \u001b[90m/**\u001b[39m\n \u001b[90m 34 | \u001b[39m\u001b[90m       * При изменении порядка записей.\u001b[39m\n \u001b[90m 35 | \u001b[39m\u001b[90m       */\u001b[39m\u001b[0m\n");
 
 /***/ }),
 
@@ -4040,55 +3881,54 @@ if(false) {
   mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_id__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_dropdown__["a" /* default */]],
   components: { bButton: __WEBPACK_IMPORTED_MODULE_2__button_button__["a" /* default */] },
   render: function render(h) {
-    var t = this;
     var split = h(false);
-    if (t.split) {
+    if (this.split) {
       split = h('b-button', {
         ref: 'button',
         props: {
-          disabled: t.disabled,
-          variant: t.variant,
-          size: t.size
+          disabled: this.disabled,
+          variant: this.variant,
+          size: this.size
         },
         attrs: {
-          id: t.safeId('_BV_button_')
+          id: this.safeId('_BV_button_')
         },
         on: {
-          click: t.click
+          click: this.click
         }
-      }, [t.$slots['button-content'] || t.$slots.text || t.text]);
+      }, [this.$slots['button-content'] || this.$slots.text || this.text]);
     }
     var toggle = h('b-button', {
       ref: 'toggle',
-      class: t.toggleClasses,
+      class: this.toggleClasses,
       props: {
-        variant: t.variant,
-        size: t.size,
-        disabled: t.disabled
+        variant: this.variant,
+        size: this.size,
+        disabled: this.disabled
       },
       attrs: {
-        id: t.safeId('_BV_toggle_'),
+        id: this.safeId('_BV_toggle_'),
         'aria-haspopup': 'true',
-        'aria-expanded': t.visible ? 'true' : 'false'
+        'aria-expanded': this.visible ? 'true' : 'false'
       },
       on: {
-        click: t.toggle, // click
-        keydown: t.toggle // enter, space, down
+        click: this.toggle, // click
+        keydown: this.toggle // enter, space, down
       }
-    }, [t.split ? h('span', { class: ['sr-only'] }, [t.toggleText]) : t.$slots['button-content'] || t.$slots.text || t.text]);
+    }, [this.split ? h('span', { class: ['sr-only'] }, [this.toggleText]) : this.$slots['button-content'] || this.$slots.text || this.text]);
     var menu = h('div', {
       ref: 'menu',
-      class: t.menuClasses,
+      class: this.menuClasses,
       attrs: {
-        role: t.role,
-        'aria-labelledby': t.safeId(t.split ? '_BV_toggle_' : '_BV_button_')
+        role: this.role,
+        'aria-labelledby': this.safeId(this.split ? '_BV_toggle_' : '_BV_button_')
       },
       on: {
-        mouseover: t.onMouseOver,
-        keydown: t.onKeydown // tab, up, down, esc
+        mouseover: this.onMouseOver,
+        keydown: this.onKeydown // tab, up, down, esc
       }
     }, [this.$slots.default]);
-    return h('div', { attrs: { id: t.safeId() }, class: t.dropdownClasses }, [split, toggle, menu]);
+    return h('div', { attrs: { id: this.safeId() }, class: this.dropdownClasses }, [split, toggle, menu]);
   },
 
   props: {
@@ -4106,6 +3946,10 @@ if(false) {
     },
     variant: {
       type: String,
+      default: null
+    },
+    menuClass: {
+      type: [String, Array],
       default: null
     },
     toggleClass: {
@@ -4139,7 +3983,10 @@ if(false) {
       return ['btn-group', 'b-dropdown', 'dropdown', this.dropup ? 'dropup' : '', this.visible ? 'show' : '', position];
     },
     menuClasses: function menuClasses() {
-      return ['dropdown-menu', this.right ? 'dropdown-menu-right' : '', this.visible ? 'show' : ''];
+      return ['dropdown-menu', {
+        'dropdown-menu-right': this.right,
+        'show': this.visible
+      }, this.menuClass];
     },
     toggleClasses: function toggleClasses() {
       return [{
@@ -4210,26 +4057,28 @@ var TYPES = ['text', 'password', 'email', 'number', 'url', 'tel', 'search', 'ran
 /* harmony default export */ __webpack_exports__["a"] = ({
   mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_id__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_form__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_form_size__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_form_state__["a" /* default */]],
   render: function render(h) {
-    var t = this;
     return h('input', {
       ref: 'input',
-      class: t.inputClass,
-      domProps: { value: t.localValue },
+      class: this.inputClass,
+      domProps: { value: this.localValue },
       attrs: {
-        id: t.safeId(),
-        name: t.name,
-        type: t.localType,
-        disabled: t.disabled,
-        required: t.required,
-        readonly: t.readonly || t.plaintext,
-        placeholder: t.placeholder,
-        autocomplete: t.autocomplete || null,
-        'aria-required': t.required ? 'true' : null,
-        'aria-invalid': t.computedAriaInvalid
+        id: this.safeId(),
+        name: this.name,
+        type: this.localType,
+        disabled: this.disabled,
+        required: this.required,
+        readonly: this.readonly || this.plaintext,
+        placeholder: this.placeholder,
+        autocomplete: this.autocomplete || null,
+        step: this.step || null,
+        min: this.min || null,
+        max: this.max || null,
+        'aria-required': this.required ? 'true' : null,
+        'aria-invalid': this.computedAriaInvalid
       },
       on: {
-        input: t.onInput,
-        change: t.onChange
+        input: this.onInput,
+        change: this.onChange
       }
     });
   },
@@ -4276,6 +4125,18 @@ var TYPES = ['text', 'password', 'email', 'number', 'url', 'tel', 'search', 'ran
     lazyFormatter: {
       type: Boolean,
       default: false
+    },
+    step: {
+      type: Number,
+      default: null
+    },
+    min: {
+      type: Number,
+      default: null
+    },
+    max: {
+      type: Number,
+      default: null
     }
   },
   computed: {
@@ -4366,9 +4227,10 @@ var TYPES = ['text', 'password', 'email', 'number', 'url', 'tel', 'search', 'ran
 /* harmony default export */ __webpack_exports__["a"] = ({
   mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_id__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_form__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_form_size__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_form_state__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_form_custom__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_form_options__["a" /* default */]],
   render: function render(h) {
-    var t = this;
-    var $slots = t.$slots;
-    var options = t.formOptions.map(function (option, index) {
+    var _this = this;
+
+    var $slots = this.$slots;
+    var options = this.formOptions.map(function (option, index) {
       return h('option', {
         key: 'option_' + index + '_opt',
         attrs: { disabled: Boolean(option.disabled) },
@@ -4377,22 +4239,22 @@ var TYPES = ['text', 'password', 'email', 'number', 'url', 'tel', 'search', 'ran
     });
     return h('select', {
       ref: 'input',
-      class: t.inputClass,
+      class: this.inputClass,
       directives: [{
         name: 'model',
         rawName: 'v-model',
-        value: t.localValue,
+        value: this.localValue,
         expression: 'localValue'
       }],
       attrs: {
-        id: t.safeId(),
-        name: t.name,
-        multiple: t.multiple || null,
-        size: t.selectSize,
-        disabled: t.disabled,
-        required: t.required,
-        'aria-required': t.required ? 'true' : null,
-        'aria-invalid': t.computedAriaInvalid
+        id: this.safeId(),
+        name: this.name,
+        multiple: this.multiple || null,
+        size: this.computedSelectSize,
+        disabled: this.disabled,
+        required: this.required,
+        'aria-required': this.required ? 'true' : null,
+        'aria-invalid': this.computedAriaInvalid
       },
       on: {
         change: function change(evt) {
@@ -4402,8 +4264,8 @@ var TYPES = ['text', 'password', 'email', 'number', 'url', 'tel', 'search', 'ran
           }).map(function (o) {
             return '_value' in o ? o._value : o.value;
           });
-          t.localValue = target.multiple ? selectedVal : selectedVal[0];
-          t.$emit('change', t.localValue);
+          _this.localValue = target.multiple ? selectedVal : selectedVal[0];
+          _this.$emit('change', _this.localValue);
         }
       }
     }, [$slots.first, options, $slots.default]);
@@ -4440,16 +4302,15 @@ var TYPES = ['text', 'password', 'email', 'number', 'url', 'tel', 'search', 'ran
     }
   },
   computed: {
+    computedSelectSize: function computedSelectSize() {
+      // Custom selects with a size of zero causes the arrows to be hidden,
+      // so dont render the size attribute in this case
+      return !this.plain && this.selectSize === 0 ? null : this.selectSize;
+    },
     inputClass: function inputClass() {
       return ['form-control', this.stateClass, this.sizeFormClass,
       // Awaiting for https://github.com/twbs/bootstrap/issues/23058
-      this.isPlain ? null : 'custom-select', this.isPlain || !this.size ? null : 'custom-select-' + this.size];
-    },
-    isPlain: function isPlain() {
-      return this.plain || this.isMultiple;
-    },
-    isMultiple: function isMultiple() {
-      return Boolean(this.multiple && this.selectSize > 1);
+      this.plain ? null : 'custom-select', this.plain || !this.size ? null : 'custom-select-' + this.size];
     },
     computedAriaInvalid: function computedAriaInvalid() {
       if (this.ariaInvalid === true || this.ariaInvalid === 'true') {
@@ -4753,80 +4614,79 @@ var Selector = {
   render: function render(h) {
     var _this = this;
 
-    var t = this;
-    var $slots = t.$slots;
+    var $slots = this.$slots;
     // Modal Header
     var header = h(false);
-    if (!t.hideHeader) {
+    if (!this.hideHeader) {
       var modalHeader = $slots['modal-header'];
       if (!modalHeader) {
         var closeButton = h(false);
-        if (!t.hideHeaderClose) {
+        if (!this.hideHeaderClose) {
           closeButton = h('b-btn-close', {
             props: {
-              disabled: t.is_transitioning,
-              ariaLabel: t.headerCloseLabel,
-              textVariant: t.headerTextVariant
+              disabled: this.is_transitioning,
+              ariaLabel: this.headerCloseLabel,
+              textVariant: this.headerTextVariant
             },
             on: {
               click: function click(evt) {
-                t.hide('header-close');
+                _this.hide('header-close');
               }
             }
           }, [$slots['modal-header-close']]);
         }
-        modalHeader = [h(t.titleTag, { class: ['modal-title'] }, [$slots['modal-title'] || t.title]), closeButton];
+        modalHeader = [h(this.titleTag, { class: ['modal-title'] }, [$slots['modal-title'] || this.title]), closeButton];
       }
       header = h('header', {
         ref: 'header',
-        class: t.headerClasses,
-        attrs: { id: t.safeId('__BV_modal_header_') }
+        class: this.headerClasses,
+        attrs: { id: this.safeId('__BV_modal_header_') }
       }, [modalHeader]);
     }
     // Modal Body
     var body = h('div', {
       ref: 'body',
-      class: t.bodyClasses,
-      attrs: { id: t.safeId('__BV_modal_body_') }
+      class: this.bodyClasses,
+      attrs: { id: this.safeId('__BV_modal_body_') }
     }, [$slots.default]);
     // Modal Footer
     var footer = h(false);
-    if (!t.hideFooter) {
+    if (!this.hideFooter) {
       var modalFooter = $slots['modal-footer'];
       if (!modalFooter) {
-        var okButton = h(false);
-        if (!t.okOnly) {
-          okButton = h('b-btn', {
+        var cancelButton = h(false);
+        if (!this.okOnly) {
+          cancelButton = h('b-btn', {
             props: {
-              variant: t.cancelVariant,
-              size: t.buttonSize,
-              disabled: t.cancelDisabled || t.busy || t.is_transitioning
+              variant: this.cancelVariant,
+              size: this.buttonSize,
+              disabled: this.cancelDisabled || this.busy || this.is_transitioning
             },
             on: {
               click: function click(evt) {
-                t.hide('cancel');
+                _this.hide('cancel');
               }
             }
-          }, [$slots['modal-cancel'] || t.cancelTitle]);
+          }, [$slots['modal-cancel'] || this.cancelTitle]);
         }
-        var cancelButton = h('b-btn', {
+        var okButton = h('b-btn', {
           props: {
-            variant: t.okVariant,
-            size: t.buttonSize,
-            disabled: t.okDisabled || t.busy || t.is_transitioning
+            variant: this.okVariant,
+            size: this.buttonSize,
+            disabled: this.okDisabled || this.busy || this.is_transitioning
           },
           on: {
             click: function click(evt) {
-              t.hide('ok');
+              _this.hide('ok');
             }
           }
-        }, [$slots['modal-ok'] || t.okTitle]);
+        }, [$slots['modal-ok'] || this.okTitle]);
         modalFooter = [cancelButton, okButton];
       }
       footer = h('footer', {
         ref: 'footer',
-        class: t.footerClasses,
-        attrs: { id: t.safeId('__BV_modal_footer_') }
+        class: this.footerClasses,
+        attrs: { id: this.safeId('__BV_modal_footer_') }
       }, [modalFooter]);
     }
     // Assemble Modal Content
@@ -4836,11 +4696,11 @@ var Selector = {
       attrs: {
         tabindex: '-1',
         role: 'document',
-        'aria-labelledby': t.hideHeader ? null : t.safeId('__BV_modal_header_'),
-        'aria-describedby': t.safeId('__BV_modal_body_')
+        'aria-labelledby': this.hideHeader ? null : this.safeId('__BV_modal_header_'),
+        'aria-describedby': this.safeId('__BV_modal_body_')
       },
       on: {
-        focusout: t.onFocusout,
+        focusout: this.onFocusout,
         click: function click(evt) {
           evt.stopPropagation();
           // https://github.com/bootstrap-vue/bootstrap-vue/issues/1528
@@ -4849,25 +4709,25 @@ var Selector = {
       }
     }, [header, body, footer]);
     // Modal Dialog wrapper
-    var modalDialog = h('div', { class: t.dialogClasses }, [modalContent]);
+    var modalDialog = h('div', { class: this.dialogClasses }, [modalContent]);
     // Modal
     var modal = h('div', {
       ref: 'modal',
-      class: t.modalClasses,
+      class: this.modalClasses,
       directives: [{
         name: 'show',
         rawName: 'v-show',
-        value: t.is_visible,
+        value: this.is_visible,
         expression: 'is_visible'
       }],
       attrs: {
-        id: t.safeId(),
+        id: this.safeId(),
         role: 'dialog',
-        'aria-hidden': t.is_visible ? null : 'true'
+        'aria-hidden': this.is_visible ? null : 'true'
       },
       on: {
-        click: t.onClickOut,
-        keydown: t.onEsc
+        click: this.onClickOut,
+        keydown: this.onEsc
       }
     }, [modalDialog]);
     // Wrap modal in transition
@@ -4881,26 +4741,26 @@ var Selector = {
         leaveToClass: ''
       },
       on: {
-        'before-enter': t.onBeforeEnter,
-        enter: t.onEnter,
-        'after-enter': t.onAfterEnter,
-        'before-leave': t.onBeforeLeave,
-        leave: t.onLeave,
-        'after-leave': t.onAfterLeave
+        'before-enter': this.onBeforeEnter,
+        enter: this.onEnter,
+        'after-enter': this.onAfterEnter,
+        'before-leave': this.onBeforeLeave,
+        leave: this.onLeave,
+        'after-leave': this.onAfterLeave
       }
     }, [modal]);
     // Modal Backdrop
     var backdrop = h(false);
-    if (!t.hideBackdrop && (t.is_visible || t.is_transitioning)) {
+    if (!this.hideBackdrop && (this.is_visible || this.is_transitioning)) {
       backdrop = h('div', {
-        class: t.backdropClasses,
-        attrs: { id: t.safeId('__BV_modal_backdrop_') }
+        class: this.backdropClasses,
+        attrs: { id: this.safeId('__BV_modal_backdrop_') }
       });
     }
     // Assemble modal and backdrop
     var outer = h(false);
-    if (!t.is_hidden) {
-      outer = h('div', { attrs: { id: t.safeId('__BV_modal_outer_') } }, [modal, backdrop]);
+    if (!this.is_hidden) {
+      outer = h('div', { attrs: { id: this.safeId('__BV_modal_outer_') } }, [modal, backdrop]);
     }
     // Wrap in DIV to maintain thi.$el reference for hide/show method aceess
     return h('div', {}, [outer]);
@@ -4981,6 +4841,10 @@ var Selector = {
     },
     bodyTextVariant: {
       type: String,
+      default: null
+    },
+    modalClass: {
+      type: [String, Array],
       default: null
     },
     bodyClass: {
@@ -5073,7 +4937,7 @@ var Selector = {
         fade: !this.noFade,
         show: this.is_show,
         'd-block': this.is_block
-      }];
+      }, this.modalClass];
     },
     dialogClasses: function dialogClasses() {
       var _ref;
@@ -5568,7 +5432,7 @@ if(false) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_startcase__ = __webpack_require__("./node_modules/lodash.startcase/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_startcase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_startcase__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_get__ = __webpack_require__("./node_modules/lodash/get.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_get__ = __webpack_require__("./node_modules/lodash.get/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_get___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash_get__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_loose_equal__ = __webpack_require__("./node_modules/bootstrap-vue/es/utils/loose-equal.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_stable_sort__ = __webpack_require__("./node_modules/bootstrap-vue/es/utils/stable-sort.js");
@@ -5651,18 +5515,19 @@ function processField(key, value) {
 /* harmony default export */ __webpack_exports__["a"] = ({
   mixins: [__WEBPACK_IMPORTED_MODULE_8__mixins_id__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__mixins_listen_on_root__["a" /* default */]],
   render: function render(h) {
-    var t = this;
-    var $slots = t.$slots;
-    var $scoped = t.$scopedSlots;
-    var fields = t.computedFields;
-    var items = t.computedItems;
+    var _this = this;
+
+    var $slots = this.$slots;
+    var $scoped = this.$scopedSlots;
+    var fields = this.computedFields;
+    var items = this.computedItems;
 
     // Build the caption
     var caption = h(false);
-    if (t.caption || $slots['table-caption']) {
-      var data = { style: t.captionStyles };
+    if (this.caption || $slots['table-caption']) {
+      var data = { style: this.captionStyles };
       if (!$slots['table-caption']) {
-        data.domProps = { innerHTML: t.caption };
+        data.domProps = { innerHTML: this.caption };
       }
       caption = h('caption', data, $slots['table-caption']);
     }
@@ -5677,28 +5542,28 @@ function processField(key, value) {
       return fields.map(function (field, colIndex) {
         var data = {
           key: field.key,
-          class: t.fieldClasses(field),
+          class: _this.fieldClasses(field),
           style: field.thStyle || {},
           attrs: {
             tabindex: field.sortable ? '0' : null,
             abbr: field.headerAbbr || null,
             title: field.headerTitle || null,
             'aria-colindex': String(colIndex + 1),
-            'aria-label': field.sortable ? t.localSortDesc && t.localSortBy === field.key ? t.labelSortAsc : t.labelSortDesc : null,
-            'aria-sort': field.sortable && t.localSortBy === field.key ? t.localSortDesc ? 'descending' : 'ascending' : null
+            'aria-label': field.sortable ? _this.localSortDesc && _this.localSortBy === field.key ? _this.labelSortAsc : _this.labelSortDesc : null,
+            'aria-sort': field.sortable && _this.localSortBy === field.key ? _this.localSortDesc ? 'descending' : 'ascending' : null
           },
           on: {
             click: function click(evt) {
               evt.stopPropagation();
               evt.preventDefault();
-              t.headClicked(evt, field);
+              _this.headClicked(evt, field);
             },
             keydown: function keydown(evt) {
               var keyCode = evt.keyCode;
               if (keyCode === __WEBPACK_IMPORTED_MODULE_4__utils_key_codes__["a" /* default */].ENTER || keyCode === __WEBPACK_IMPORTED_MODULE_4__utils_key_codes__["a" /* default */].SPACE) {
                 evt.stopPropagation();
                 evt.preventDefault();
-                t.headClicked(evt, field);
+                _this.headClicked(evt, field);
               }
             }
           }
@@ -5715,16 +5580,16 @@ function processField(key, value) {
 
     // Build the thead
     var thead = h(false);
-    if (t.isStacked !== true) {
-      // If in always stacked mode (t.isStacked === true), then we don't bother rendering the thead
-      thead = h('thead', { class: t.headClasses }, [h('tr', { class: t.theadTrClass }, makeHeadCells(false))]);
+    if (this.isStacked !== true) {
+      // If in always stacked mode (this.isStacked === true), then we don't bother rendering the thead
+      thead = h('thead', { class: this.headClasses }, [h('tr', { class: this.theadTrClass }, makeHeadCells(false))]);
     }
 
     // Build the tfoot
     var tfoot = h(false);
-    if (t.footClone && t.isStacked !== true) {
-      // If in always stacked mode (t.isStacked === true), then we don't bother rendering the tfoot
-      tfoot = h('tfoot', { class: t.footClasses }, [h('tr', { class: t.tfootTrClass }, makeHeadCells(true))]);
+    if (this.footClone && this.isStacked !== true) {
+      // If in always stacked mode (this.isStacked === true), then we don't bother rendering the tfoot
+      tfoot = h('tfoot', { class: this.footClasses }, [h('tr', { class: this.tfootTrClass }, makeHeadCells(true))]);
     }
 
     // Prepare the tbody rows
@@ -5732,8 +5597,8 @@ function processField(key, value) {
 
     // Add static Top Row slot (hidden in visibly stacked mode as we can't control the data-label)
     // If in always stacked mode, we don't bother rendering the row
-    if ($scoped['top-row'] && t.isStacked !== true) {
-      rows.push(h('tr', { key: 'top-row', class: ['b-table-top-row', t.tbodyTrClass] }, [$scoped['top-row']({ columns: fields.length, fields: fields })]));
+    if ($scoped['top-row'] && this.isStacked !== true) {
+      rows.push(h('tr', { key: 'top-row', class: ['b-table-top-row', this.tbodyTrClass] }, [$scoped['top-row']({ columns: fields.length, fields: fields })]));
     } else {
       rows.push(h(false));
     }
@@ -5742,17 +5607,17 @@ function processField(key, value) {
     items.forEach(function (item, rowIndex) {
       var detailsSlot = $scoped['row-details'];
       var rowShowDetails = Boolean(item._showDetails && detailsSlot);
-      var detailsId = rowShowDetails ? t.safeId('_details_' + rowIndex + '_') : null;
+      var detailsId = rowShowDetails ? _this.safeId('_details_' + rowIndex + '_') : null;
       var toggleDetailsFn = function toggleDetailsFn() {
         if (detailsSlot) {
-          t.$set(item, '_showDetails', !item._showDetails);
+          _this.$set(item, '_showDetails', !item._showDetails);
         }
       };
       // For each item data field in row
       var tds = fields.map(function (field, colIndex) {
         var data = {
           key: 'row-' + rowIndex + '-cell-' + colIndex,
-          class: t.tdClasses(field, item),
+          class: _this.tdClasses(field, item),
           attrs: field.tdAttr || {},
           domProps: {}
         };
@@ -5762,18 +5627,19 @@ function processField(key, value) {
           childNodes = [$scoped[field.key]({
             item: item,
             index: rowIndex,
+            field: field,
             unformatted: __WEBPACK_IMPORTED_MODULE_1_lodash_get___default()(item, field.key),
-            value: t.getFormattedValue(item, field),
+            value: _this.getFormattedValue(item, field),
             toggleDetails: toggleDetailsFn,
             detailsShowing: Boolean(item._showDetails)
           })];
-          if (t.isStacked) {
+          if (_this.isStacked) {
             // We wrap in a DIV to ensure rendered as a single cell when visually stacked!
             childNodes = [h('div', {}, [childNodes])];
           }
         } else {
-          var formatted = t.getFormattedValue(item, field);
-          if (t.isStacked) {
+          var formatted = _this.getFormattedValue(item, field);
+          if (_this.isStacked) {
             // We innerHTML a DIV to ensure rendered as a single cell when visually stacked!
             childNodes = [h('div', formatted)];
           } else {
@@ -5781,7 +5647,7 @@ function processField(key, value) {
             childNodes = formatted;
           }
         }
-        if (t.isStacked) {
+        if (_this.isStacked) {
           // Generate the "header cell" label content in stacked mode
           data.attrs['data-label'] = field.label;
           if (field.isRowHeader) {
@@ -5795,27 +5661,27 @@ function processField(key, value) {
       });
       // Calculate the row number in the dataset (indexed from 1)
       var ariaRowIndex = null;
-      if (t.currentPage && t.perPage && t.perPage > 0) {
-        ariaRowIndex = (t.currentPage - 1) * t.perPage + rowIndex + 1;
+      if (_this.currentPage && _this.perPage && _this.perPage > 0) {
+        ariaRowIndex = (_this.currentPage - 1) * _this.perPage + rowIndex + 1;
       }
       // Assemble and add the row
       rows.push(h('tr', {
         key: 'row-' + rowIndex,
-        class: [t.rowClasses(item), { 'b-table-has-details': rowShowDetails }],
+        class: [_this.rowClasses(item), { 'b-table-has-details': rowShowDetails }],
         attrs: {
           'aria-describedby': detailsId,
           'aria-rowindex': ariaRowIndex,
-          role: t.isStacked ? 'row' : null
+          role: _this.isStacked ? 'row' : null
         },
         on: {
           click: function click(evt) {
-            t.rowClicked(evt, item, rowIndex);
+            _this.rowClicked(evt, item, rowIndex);
           },
           dblclick: function dblclick(evt) {
-            t.rowDblClicked(evt, item, rowIndex);
+            _this.rowDblClicked(evt, item, rowIndex);
           },
           mouseenter: function mouseenter(evt) {
-            t.rowHovered(evt, item, rowIndex);
+            _this.rowHovered(evt, item, rowIndex);
           }
         }
       }, tds));
@@ -5823,7 +5689,7 @@ function processField(key, value) {
       if (rowShowDetails) {
         var tdAttrs = { colspan: String(fields.length) };
         var trAttrs = { id: detailsId };
-        if (t.isStacked) {
+        if (_this.isStacked) {
           tdAttrs['role'] = 'cell';
           trAttrs['role'] = 'row';
         }
@@ -5835,7 +5701,7 @@ function processField(key, value) {
         })]);
         rows.push(h('tr', {
           key: 'details-' + rowIndex,
-          class: ['b-table-details', t.tbodyTrClass],
+          class: ['b-table-details', _this.tbodyTrClass],
           attrs: trAttrs
         }, [details]));
       } else if (detailsSlot) {
@@ -5845,24 +5711,24 @@ function processField(key, value) {
     });
 
     // Empty Items / Empty Filtered Row slot
-    if (t.showEmpty && (!items || items.length === 0)) {
-      var empty = t.filter ? $slots['emptyfiltered'] : $slots['empty'];
+    if (this.showEmpty && (!items || items.length === 0)) {
+      var empty = this.filter ? $slots['emptyfiltered'] : $slots['empty'];
       if (!empty) {
         empty = h('div', {
           class: ['text-center', 'my-2'],
-          domProps: { innerHTML: t.filter ? t.emptyFilteredText : t.emptyText }
+          domProps: { innerHTML: this.filter ? this.emptyFilteredText : this.emptyText }
         });
       }
       empty = h('td', {
         attrs: {
           colspan: String(fields.length),
-          role: t.isStacked ? 'cell' : null
+          role: this.isStacked ? 'cell' : null
         }
       }, [h('div', { attrs: { role: 'alert', 'aria-live': 'polite' } }, [empty])]);
       rows.push(h('tr', {
         key: 'empty-row',
-        class: ['b-table-empty-row', t.tbodyTrClass],
-        attrs: t.isStacked ? { role: 'row' } : {}
+        class: ['b-table-empty-row', this.tbodyTrClass],
+        attrs: this.isStacked ? { role: 'row' } : {}
       }, [empty]));
     } else {
       rows.push(h(false));
@@ -5870,29 +5736,29 @@ function processField(key, value) {
 
     // Static bottom row slot (hidden in visibly stacked mode as we can't control the data-label)
     // If in always stacked mode, we don't bother rendering the row
-    if ($scoped['bottom-row'] && t.isStacked !== true) {
-      rows.push(h('tr', { key: 'bottom-row', class: ['b-table-bottom-row', t.tbodyTrClass] }, [$scoped['bottom-row']({ columns: fields.length, fields: fields })]));
+    if ($scoped['bottom-row'] && this.isStacked !== true) {
+      rows.push(h('tr', { key: 'bottom-row', class: ['b-table-bottom-row', this.tbodyTrClass] }, [$scoped['bottom-row']({ columns: fields.length, fields: fields })]));
     } else {
       rows.push(h(false));
     }
 
     // Assemble the rows into the tbody
-    var tbody = h('tbody', { class: t.bodyClasses, attrs: t.isStacked ? { role: 'rowgroup' } : {} }, rows);
+    var tbody = h('tbody', { class: this.bodyClasses, attrs: this.isStacked ? { role: 'rowgroup' } : {} }, rows);
 
     // Assemble table
     var table = h('table', {
-      class: t.tableClasses,
+      class: this.tableClasses,
       attrs: {
-        id: t.safeId(),
-        role: t.isStacked ? 'table' : null,
-        'aria-busy': t.computedBusy ? 'true' : 'false',
+        id: this.safeId(),
+        role: this.isStacked ? 'table' : null,
+        'aria-busy': this.computedBusy ? 'true' : 'false',
         'aria-colcount': String(fields.length),
-        'aria-rowcount': t.$attrs['aria-rowcount'] || t.perPage && t.perPage > 0 ? '-1' : null
+        'aria-rowcount': this.$attrs['aria-rowcount'] || this.perPage && this.perPage > 0 ? '-1' : null
       }
     }, [caption, colgroup, thead, tfoot, tbody]);
 
     // Add responsive wrapper if needed and return table
-    return t.isResponsive ? h('div', { class: t.responsiveClass }, [table]) : table;
+    return this.isResponsive ? h('div', { class: this.responsiveClass }, [table]) : table;
   },
   data: function data() {
     return {
@@ -6152,7 +6018,7 @@ function processField(key, value) {
     }
   },
   mounted: function mounted() {
-    var _this = this;
+    var _this2 = this;
 
     this.localSortBy = this.sortBy;
     this.localSortDesc = this.sortDesc;
@@ -6160,8 +6026,8 @@ function processField(key, value) {
       this._providerUpdate();
     }
     this.listenOnRoot('bv::refresh::table', function (id) {
-      if (id === _this.id || id === _this) {
-        _this._providerUpdate();
+      if (id === _this2.id || id === _this2) {
+        _this2._providerUpdate();
       }
     });
   },
@@ -6217,7 +6083,7 @@ function processField(key, value) {
       };
     },
     computedFields: function computedFields() {
-      var _this2 = this;
+      var _this3 = this;
 
       // We normalize fields into an array of objects
       // [ { key:..., label:..., ...}, {...}, ..., {..}]
@@ -6244,7 +6110,7 @@ function processField(key, value) {
       } else if (this.fields && _typeof(this.fields) === 'object' && Object(__WEBPACK_IMPORTED_MODULE_6__utils_object__["d" /* keys */])(this.fields).length > 0) {
         // Normalize object Form
         Object(__WEBPACK_IMPORTED_MODULE_6__utils_object__["d" /* keys */])(this.fields).forEach(function (key) {
-          var field = processField(key, _this2.fields[key]);
+          var field = processField(key, _this3.fields[key]);
           if (field) {
             fields.push(field);
           }
@@ -6313,7 +6179,7 @@ function processField(key, value) {
       }
       // Apply local Sort
       if (sortBy && localSorting) {
-        items = Object(__WEBPACK_IMPORTED_MODULE_3__utils_stable_sort__["a" /* default */])(items, function sortItemsFn(a, b) {
+        items = Object(__WEBPACK_IMPORTED_MODULE_3__utils_stable_sort__["a" /* default */])(items, function (a, b) {
           var ret = null;
           if (typeof sortCompare === 'function') {
             // Call user provided sortCompare routine
@@ -6346,11 +6212,12 @@ function processField(key, value) {
       return [field.sortable ? 'sorting' : '', field.sortable && this.localSortBy === field.key ? 'sorting_' + (this.localSortDesc ? 'desc' : 'asc') : '', field.variant ? 'table-' + field.variant : '', field.class ? field.class : '', field.thClass ? field.thClass : ''];
     },
     tdClasses: function tdClasses(field, item) {
+      var t = this;
       var cellVariant = '';
       if (item._cellVariants && item._cellVariants[field.key]) {
         cellVariant = (this.dark ? 'bg' : 'table') + '-' + item._cellVariants[field.key];
       }
-      return [field.variant && !cellVariant ? (this.dark ? 'bg' : 'table') + '-' + field.variant : '', cellVariant, field.class ? field.class : '', field.tdClass ? field.tdClass : ''];
+      return [field.variant && !cellVariant ? (this.dark ? 'bg' : 'table') + '-' + field.variant : '', cellVariant, field.class ? field.class : '', t.getTdClasses(item, field)];
     },
     rowClasses: function rowClasses(item) {
       return [item._rowVariant ? (this.dark ? 'bg' : 'table') + '-' + item._rowVariant : '', this.tbodyTrClass];
@@ -6430,7 +6297,7 @@ function processField(key, value) {
       }
     },
     _providerUpdate: function _providerUpdate() {
-      var _this3 = this;
+      var _this4 = this;
 
       // Refresh the provider items
       if (this.computedBusy || !this.hasProvider) {
@@ -6444,12 +6311,28 @@ function processField(key, value) {
       if (data && data.then && typeof data.then === 'function') {
         // Provider returned Promise
         data.then(function (items) {
-          _this3._providerSetLocal(items);
+          _this4._providerSetLocal(items);
         });
       } else {
         // Provider returned Array data
         this._providerSetLocal(data);
       }
+    },
+    getTdClasses: function getTdClasses(item, field) {
+      var key = field.key;
+      var tdClass = field.tdClass;
+      var parent = this.$parent;
+      if (tdClass) {
+        if (typeof tdClass === 'function') {
+          var value = __WEBPACK_IMPORTED_MODULE_1_lodash_get___default()(item, key);
+          return tdClass(value, key, item);
+        } else if (typeof tdClass === 'string' && typeof parent[tdClass] === 'function') {
+          var _value = __WEBPACK_IMPORTED_MODULE_1_lodash_get___default()(item, key);
+          return parent[tdClass](_value, key, item);
+        }
+        return tdClass;
+      }
+      return '';
     },
     getFormattedValue: function getFormattedValue(item, field) {
       var key = field.key;
@@ -6943,6 +6826,7 @@ function isObject(obj) {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = ({
+
   props: {
     options: {
       type: [Array, Object],
@@ -6965,11 +6849,11 @@ function isObject(obj) {
   },
   computed: {
     formOptions: function formOptions() {
-      var options = this.options || [];
+      var options = this.options;
 
-      var valueField = this.valueField || 'value';
-      var textField = this.textField || 'text';
-      var disabledField = this.disabledField || 'disabled';
+      var valueField = this.valueField;
+      var textField = this.textField;
+      var disabledField = this.disabledField;
 
       if (Object(__WEBPACK_IMPORTED_MODULE_0__utils_array__["d" /* isArray */])(options)) {
         // Normalize flat-ish arrays to Array of Objects
@@ -6982,12 +6866,13 @@ function isObject(obj) {
             };
           }
           return {
-            text: String(option),
             value: option,
+            text: String(option),
             disabled: false
           };
         });
-      } else if (isObject(options)) {
+      } else {
+        // options is Object
         // Normalize Objects to Array of Objects
         return Object(__WEBPACK_IMPORTED_MODULE_1__utils_object__["d" /* keys */])(options).map(function (key) {
           var option = options[key] || {};
@@ -6995,20 +6880,18 @@ function isObject(obj) {
             var value = option[valueField];
             var text = option[textField];
             return {
-              text: typeof text === 'undefined' ? key : String(text),
               value: typeof value === 'undefined' ? key : value,
+              text: typeof text === 'undefined' ? key : String(text),
               disabled: option[disabledField] || false
             };
           }
           return {
-            text: String(option),
             value: key,
+            text: String(option),
             disabled: false
           };
         });
       }
-      // Option unsupported type
-      return [];
     }
   }
 });
@@ -7337,14 +7220,15 @@ var props = {
 
   props: props,
   render: function render(h) {
-    var t = this;
+    var _this = this;
+
     var buttons = [];
 
     // Factory function for prev/next/first/last buttons
     var makeEndBtns = function makeEndBtns(linkTo, ariaLabel, btnText, pageTest) {
       var button = void 0;
       pageTest = pageTest || linkTo; // Page # to test against to disable
-      if (t.disabled || t.isActive(pageTest)) {
+      if (_this.disabled || _this.isActive(pageTest)) {
         button = h('li', {
           class: ['page-item', 'disabled'],
           attrs: { role: 'none presentation', 'aria-hidden': 'true' }
@@ -7358,22 +7242,22 @@ var props = {
           attrs: { role: 'none presentation' }
         }, [h('b-link', {
           class: ['page-link'],
-          props: t.linkProps(linkTo),
+          props: _this.linkProps(linkTo),
           attrs: {
             role: 'menuitem',
             tabindex: '-1',
             'aria-label': ariaLabel,
-            'aria-controls': t.ariaControls || null
+            'aria-controls': _this.ariaControls || null
           },
           on: {
             click: function click(evt) {
-              t.onClick(linkTo, evt);
+              _this.onClick(linkTo, evt);
             },
             keydown: function keydown(evt) {
               // Links don't normally respond to SPACE, so we add that functionality
               if (evt.keyCode === __WEBPACK_IMPORTED_MODULE_1__utils_key_codes__["a" /* default */].SPACE) {
                 evt.preventDefault();
-                t.onClick(linkTo, evt);
+                _this.onClick(linkTo, evt);
               }
             }
           }
@@ -7392,51 +7276,51 @@ var props = {
         attrs: { role: 'separator' }
       }, [h('span', {
         class: ['page-link'],
-        domProps: { innerHTML: t.ellipsisText }
+        domProps: { innerHTML: _this.ellipsisText }
       })]);
     };
 
     // Goto First Page button
-    buttons.push(t.hideGotoEndButtons ? h(false) : makeEndBtns(1, t.labelFirstPage, t.firstText));
+    buttons.push(this.hideGotoEndButtons ? h(false) : makeEndBtns(1, this.labelFirstPage, this.firstText));
 
     // Goto Previous page button
-    buttons.push(makeEndBtns(t.currentPage - 1, t.labelPrevPage, t.prevText, 1));
+    buttons.push(makeEndBtns(this.currentPage - 1, this.labelPrevPage, this.prevText, 1));
 
     // First Ellipsis Bookend
-    buttons.push(t.showFirstDots ? makeEllipsis() : h(false));
+    buttons.push(this.showFirstDots ? makeEllipsis() : h(false));
 
     // Individual Page links
-    t.pageList.forEach(function (page) {
+    this.pageList.forEach(function (page) {
       var inner = void 0;
-      var pageNum = t.makePage(page.number);
-      if (t.disabled) {
+      var pageNum = _this.makePage(page.number);
+      if (_this.disabled) {
         inner = h('span', {
           class: ['page-link'],
           domProps: { innerHTML: pageNum }
         });
       } else {
-        var active = t.isActive(page.number);
+        var active = _this.isActive(page.number);
         inner = h('b-link', {
-          class: t.pageLinkClasses(page),
-          props: t.linkProps(page.number),
+          class: _this.pageLinkClasses(page),
+          props: _this.linkProps(page.number),
           attrs: {
             role: 'menuitemradio',
             tabindex: active ? '0' : '-1',
-            'aria-controls': t.ariaControls || null,
-            'aria-label': t.labelPage + ' ' + page.number,
+            'aria-controls': _this.ariaControls || null,
+            'aria-label': _this.labelPage + ' ' + page.number,
             'aria-checked': active ? 'true' : 'false',
             'aria-posinset': page.number,
-            'aria-setsize': t.numberOfPages
+            'aria-setsize': _this.numberOfPages
           },
           domProps: { innerHTML: pageNum },
           on: {
             click: function click(evt) {
-              t.onClick(page.number, evt);
+              _this.onClick(page.number, evt);
             },
             keydown: function keydown(evt) {
               if (evt.keyCode === __WEBPACK_IMPORTED_MODULE_1__utils_key_codes__["a" /* default */].SPACE) {
                 evt.preventDefault();
-                t.onClick(page.number, evt);
+                _this.onClick(page.number, evt);
               }
             }
           }
@@ -7444,28 +7328,28 @@ var props = {
       }
       buttons.push(h('li', {
         key: page.number,
-        class: t.pageItemClasses(page),
+        class: _this.pageItemClasses(page),
         attrs: { role: 'none presentation' }
       }, [inner]));
     });
 
     // Last Ellipsis Bookend
-    buttons.push(t.showLastDots ? makeEllipsis() : h(false));
+    buttons.push(this.showLastDots ? makeEllipsis() : h(false));
 
     // Goto Next page button
-    buttons.push(makeEndBtns(t.currentPage + 1, t.labelNextPage, t.nextText, t.numberOfPages));
+    buttons.push(makeEndBtns(this.currentPage + 1, this.labelNextPage, this.nextText, this.numberOfPages));
 
     // Goto Last Page button
-    buttons.push(t.hideGotoEndButtons ? h(false) : makeEndBtns(t.numberOfPages, t.labelLastPage, t.lastText));
+    buttons.push(this.hideGotoEndButtons ? h(false) : makeEndBtns(this.numberOfPages, this.labelLastPage, this.lastText));
 
     // Assemble the paginatiom buttons
     var pagination = h('ul', {
       ref: 'ul',
-      class: ['pagination', 'b-pagination', t.btnSize, t.alignment],
+      class: ['pagination', 'b-pagination', this.btnSize, this.alignment],
       attrs: {
         role: 'menubar',
-        'aria-disabled': t.disabled ? 'true' : 'false',
-        'aria-label': t.ariaLabel || null
+        'aria-disabled': this.disabled ? 'true' : 'false',
+        'aria-label': this.ariaLabel || null
       },
       on: {
         keydown: function keydown(evt) {
@@ -7473,17 +7357,17 @@ var props = {
           var shift = evt.shiftKey;
           if (keyCode === __WEBPACK_IMPORTED_MODULE_1__utils_key_codes__["a" /* default */].LEFT) {
             evt.preventDefault();
-            shift ? t.focusFirst() : t.focusPrev();
+            shift ? _this.focusFirst() : _this.focusPrev();
           } else if (keyCode === __WEBPACK_IMPORTED_MODULE_1__utils_key_codes__["a" /* default */].RIGHT) {
             evt.preventDefault();
-            shift ? t.focusLast() : t.focusNext();
+            shift ? _this.focusLast() : _this.focusNext();
           }
         }
       }
     }, buttons);
 
     // if we are pagination-nav, wrap in '<nav>' wrapper
-    return t.isNav ? h('nav', {}, [pagination]) : pagination;
+    return this.isNav ? h('nav', {}, [pagination]) : pagination;
   },
 
   watch: {
@@ -7609,10 +7493,10 @@ var props = {
       });
     },
     focusCurrent: function focusCurrent() {
-      var _this = this;
+      var _this2 = this;
 
       var btn = this.getButtons().find(function (el) {
-        return parseInt(Object(__WEBPACK_IMPORTED_MODULE_2__utils_dom__["e" /* getAttr */])(el, 'aria-posinset'), 10) === _this.currentPage;
+        return parseInt(Object(__WEBPACK_IMPORTED_MODULE_2__utils_dom__["e" /* getAttr */])(el, 'aria-posinset'), 10) === _this2.currentPage;
       });
       if (btn && btn.focus) {
         this.setBtnFocus(btn);
@@ -12324,9 +12208,6 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-<<<<<<< Updated upstream
-exports.push([module.i, "\n.sidebar-nav li {\n    position: relative;\n}\n.sidebar-nav .sidebar-nav-sub > ul {\n    display: block;\n}\n.sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n    height: 0;\n    overflow: hidden;\n    position: relative;\n    -webkit-transition: all .228s ease-out;\n    transition: all .228s ease-out;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n.sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n    height: 0!important;\n}\n.sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n    max-height: none;\n    -webkit-transition: none;\n    transition: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/MainMenu.vue"],"names":[],"mappings":";AA6UA;IACA,mBAAA;CACA;AAEA;IACA,eAAA;CACA;AAEA;IACA,UAAA;IACA,iBAAA;IACA,mBAAA;IACA,uCAAA;IAAA,+BAAA;IACA,wCAAA;YAAA,gCAAA;CACA;AAEA;IACA,oBAAA;CACA;AAEA;IACA,iBAAA;IACA,yBAAA;IAAA,iBAAA;CACA","file":"MainMenu.vue","sourcesContent":["<script>\n  import Core from '../core'\n  const menuData = [\n    {\n      title: 'Магазин',\n      icon: 'fa fa-shopping-bag',\n      children: [\n        {\n          title: 'Товары',\n          url: '/shop/products',\n          icon: 'gi gi-shopping_bag',\n        },\n\n        {\n          title: 'Категории',\n          url: '/shop/categories',\n          icon: 'fa fa-folder'\n        },\n\n        {\n          title: 'Поставщики',\n          url: '/shop/suppliers',\n          icon: 'fa fa-truck',\n        },\n\n        {\n          title: 'Аттрибуты',\n          url: '/shop/attributes',\n          icon: 'fa fa-list',\n        },\n      ]\n    },\n\n    {\n      title: 'Настройки',\n      icon: 'fa fa-gear',\n      url: '/settings'\n    },\n\n\n    {\n      title: 'Отчистить кэш',\n      onClick() {\n        new Core.requestHandler('get', `/api/cache`).start()\n      },\n      icon: 'fa fa-refresh',\n    }\n  ]\n\n  export default {\n    name: \"main-menu\",\n\n    data() {\n      return {}\n    },\n\n    watch: {\n      '$route': 'checkExpanded'\n    },\n\n    mounted() {\n      this.init()\n    },\n\n    methods: {\n      init() {\n        [].forEach.call(document.querySelectorAll('.sidebar-nav-sub'), el => {\n          el.setAttribute('data-height', this.getMenuHeight(el))\n        })\n\n        this.checkExpanded()\n      },\n\n      getMenuHeight(elMenu) {\n        return elMenu.childNodes[0].scrollHeight\n      },\n\n      getMainMenuEl() {\n        return this.$el\n      },\n\n      getParents(el, selector = '*') {\n        let parents = []\n        let p = el.parentNode\n\n        while (p !== this.$el) {\n          if (p.matches(selector)) {\n            parents.push(p)\n          }\n\n          el = p\n          p = p.parentNode\n        }\n\n        return parents\n      },\n\n      checkExpanded() {\n        this.$nextTick(() => {\n          let elsToCLose = this.$el.querySelectorAll('.sidebar-nav-menu.open:not(.manual) + .sidebar-nav-sub')\n\n          ;[].forEach.call(elsToCLose, elMenu => {\n            this.closeItem(elMenu.previousSibling, elMenu)\n          })\n\n          let elActiveLink = this.$el.querySelector('a.active')\n\n          if (!elActiveLink) return\n\n          let elClosestMenu = elActiveLink.closest('.sidebar-nav-sub')\n\n          if (! elClosestMenu) return\n\n          this.expand(elClosestMenu.previousSibling, elClosestMenu)\n        })\n      },\n\n      getChildrensHeight(elMenu) {\n        return [].reduce.call(elMenu.querySelectorAll('.sidebar-nav-menu.open + .sidebar-nav-sub'), (acc, el) => {\n          return acc + parseInt(el.getAttribute('data-height'))\n        }, 0)\n      },\n\n      expandItem(elLink, elMenu) {\n        elLink.classList.add('open')\n\n        let height = parseInt(elMenu.getAttribute('data-height')) + this.getChildrensHeight(elMenu)\n        elMenu.style.height = height + 'px'\n      },\n\n      expand(elLink, elMenu) {\n        this.expandItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      closeItem(elLink, elMenu) {\n        elLink.classList.remove('open')\n        elMenu.removeAttribute('style')\n      },\n\n      close(elLink, elMenu) {\n        ;[].reverse.call(elMenu.querySelectorAll('.sidebar-nav-sub')).forEach(el => {\n          this.closeItem(el.previousSibling, el)\n        })\n\n        this.closeItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      expandToggle(elLink, elMenu) {\n        if (elLink.classList.contains('open')) {\n          this.close(elLink, elMenu)\n        }\n        else {\n          this.expand(elLink, elMenu)\n        }\n      },\n\n      expandLinkClick(elLink) {\n        elLink.classList.toggle('manual')\n        this.expandToggle(elLink, elLink.nextSibling)\n      }\n    },\n\n    render(createElement) {\n      let makeTitleEl = (title) => {\n        return createElement(\n          'span',\n          {\n            attrs: {\n              class: 'sidebar-nav-mini-hide'\n            }\n          },\n          title\n        )\n      }\n\n      let __makeIconEl = iconClasses => {\n        return createElement(\n          'i',\n          {\n            attrs: {\n              class: iconClasses\n            }\n          }\n        )\n      }\n\n      let makeIconEl = iconCLasses => {\n        return __makeIconEl(`${iconCLasses} sidebar-nav-icon`)\n      }\n\n      let makeIndicatorEl = () => {\n        return __makeIconEl('fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide')\n      }\n\n      let urlIsLocal = (url) => {\n        url = Core.trim(url)\n\n        if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {\n            return url.indexOf(window.location.origin) === 0\n        }\n\n        return true\n      }\n\n      function mergeDeep(target, ...sources) {\n        if (!sources.length) return target;\n        const source = sources.shift();\n\n        if (_.isObject(target) && _.isObject(source)) {\n          for (const key in source) {\n            if (_.isObject(source[key]) && !_.isFunction(source[key])) {\n              if (!target[key]) Object.assign(target, { [key]: {} });\n              mergeDeep(target[key], source[key]);\n            }\n            else {\n              Object.assign(target, { [key]: source[key] });\n            }\n          }\n        }\n\n        return mergeDeep(target, ...sources);\n      }\n\n      let makeLink = ({url, onClick, icon, title, children}) => {\n        let tagName = 'a'\n        let isLocal = url ? urlIsLocal(url) : false\n        let params = {\n          key: Core.uniqueId()\n        }\n\n        if (typeof onClick === 'function') {\n          params = mergeDeep(params, {\n            on: {\n              click: onClick\n            }\n          })\n        }\n        if (url && isLocal) {\n          tagName = 'router-link'\n          params = mergeDeep(params, {\n            attrs: {\n              to: url,\n              'active-class': 'active'\n            }\n          })\n        }\n        else if (url && !isLocal) {\n          params = mergeDeep(params, {\n            attrs: {\n              href: url,\n              target: '_blank'\n            }\n          })\n        }\n        else {\n          params = mergeDeep(params, {\n            attrs: {\n              href: 'javascript:void(0);'\n            }\n          })\n        }\n\n        let childrenElsArray = []\n\n        if (children instanceof Array && children.length > 0) {\n          params = mergeDeep(params, {\n            on: {\n              click: event => this.expandLinkClick(event.target.closest('.sidebar-nav-menu'))\n            },\n            attrs: {\n              class: 'sidebar-nav-menu'\n            }\n          })\n\n          childrenElsArray.push(makeIndicatorEl())\n        }\n\n        if (icon) {\n          childrenElsArray.push(makeIconEl(icon))\n        }\n\n        if (title) {\n          childrenElsArray.push(makeTitleEl(title))\n        }\n\n        return createElement(tagName, params, childrenElsArray)\n      }\n\n      let makeElsLiArray = (items = []) => {\n        return items.reduce((acc, item) => {\n          let slots = [makeLink(item)]\n\n          if (item.children) {\n\n            slots.push(createElement(\n              'div',\n              {\n                attrs: {\n                  class: 'sidebar-nav-sub'\n                }\n              },\n              [createElement('ul', makeElsLiArray(item.children))]\n            ))\n          }\n\n          acc.push(createElement('li', slots))\n\n          return acc\n        }, [])\n      }\n\n      return createElement(\n        'ul',\n        {\n          attrs: {\n            class: 'sidebar-nav'\n          }\n        },\n        makeElsLiArray(menuData)\n      )\n    }\n  }\n</script>\n\n<style>\n    .sidebar-nav li {\n        position: relative;\n    }\n\n    .sidebar-nav .sidebar-nav-sub > ul {\n        display: block;\n    }\n\n    .sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n        height: 0;\n        overflow: hidden;\n        position: relative;\n        transition: all .228s ease-out;\n        transform: translate3d(0, 0, 0);\n    }\n\n    .sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n        height: 0!important;\n    }\n\n    .sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n        max-height: none;\n        transition: none;\n    }\n</style>"],"sourceRoot":""}]);
-=======
 exports.push([module.i, "\n.sidebar-nav li {\n    position: relative;\n}\n.sidebar-nav .sidebar-nav-sub > ul {\n    display: block;\n}\n.sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n    height: 0;\n    overflow: hidden;\n    position: relative;\n    -webkit-transition: all .228s ease-out;\n    transition: all .228s ease-out;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n.sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n    height: 0!important;\n}\n.sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n    max-height: none;\n    -webkit-transition: none;\n    transition: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/MainMenu.vue"],"names":[],"mappings":";AA0XA;IACA,mBAAA;CACA;AAEA;IACA,eAAA;CACA;AAEA;IACA,UAAA;IACA,iBAAA;IACA,mBAAA;IACA,uCAAA;IAAA,+BAAA;IACA,wCAAA;YAAA,gCAAA;CACA;AAEA;IACA,oBAAA;CACA;AAEA;IACA,iBAAA;IACA,yBAAA;IAAA,iBAAA;CACA","file":"MainMenu.vue","sourcesContent":["<script>\n  import Core from '../core'\n  const menuData = [\n    {\n      title: 'Магазин',\n      icon: 'fa fa-shopping-bag',\n      children: [\n        {\n          title: 'Товары',\n          url: '/shop/products',\n          icon: 'gi gi-shopping_bag',\n        },\n\n        {\n          title: 'Категории',\n          url: '/shop/categories',\n          icon: 'fa fa-folder'\n        },\n\n        {\n          title: 'Поставщики',\n          url: '/shop/suppliers',\n          icon: 'fa fa-truck',\n        },\n\n        {\n          title: 'Аттрибуты',\n          url: '/shop/attributes',\n          icon: 'fa fa-list',\n        },\n\n        {\n          title: 'Типы цен',\n          url: '/shop/price-types',\n          icon: 'fa fa-money',\n        },\n\n        {\n          title: 'Покупатели',\n          url: '/shop/customers',\n          icon: 'gi gi-parents',\n        },\n      ]\n    },\n\n    {\n      title: 'Система',\n      icon: 'fa fa-gears',\n      rights: 'system.show-in-menu',\n\n      children: [\n        {\n          title: 'Администраторы',\n          url: '/system/admins',\n          icon: 'fa fa-id-card-o',\n          rights: 'admins.show-in-menu'\n        },\n\n        {\n          title: 'Контроль доступа',\n          icon: 'fa fa-ban',\n\n          children: [\n            {\n              title: 'Роли',\n              url: '/system/rbac/roles',\n              icon: 'fa fa-group',\n            },\n\n            {\n              title: 'Права',\n              url: '/system/rbac/permissions',\n              icon: 'fa fa-star',\n            },\n          ]\n        },\n\n        {\n          title: 'Настройки',\n          url: '/system/rbac/settings',\n          icon: 'fa fa-gear',\n        },\n      ]\n    },\n\n    {\n      title: 'Отчистить кэш',\n      onClick() {\n        new Core.requestHandler('get', `/api/cache`).start()\n      },\n      icon: 'fa fa-refresh',\n    }\n  ]\n\n  export default {\n    name: \"main-menu\",\n\n    data() {\n      return {}\n    },\n\n    watch: {\n      '$route': 'checkExpanded'\n    },\n\n    mounted() {\n      this.init()\n    },\n\n    methods: {\n      init() {\n        [].forEach.call(document.querySelectorAll('.sidebar-nav-sub'), el => {\n          el.setAttribute('data-height', this.getMenuHeight(el))\n        })\n\n        this.checkExpanded()\n      },\n\n      getMenuHeight(elMenu) {\n        return elMenu.childNodes[0].scrollHeight\n      },\n\n      getMainMenuEl() {\n        return this.$el\n      },\n\n      getParents(el, selector = '*') {\n        let parents = []\n        let p = el.parentNode\n\n        while (p !== this.$el) {\n          if (p.matches(selector)) {\n            parents.push(p)\n          }\n\n          el = p\n          p = p.parentNode\n        }\n\n        return parents\n      },\n\n      checkExpanded() {\n        this.$nextTick(() => {\n          let elsToCLose = this.$el.querySelectorAll('.sidebar-nav-menu.open:not(.manual) + .sidebar-nav-sub')\n\n          ;[].forEach.call(elsToCLose, elMenu => {\n            this.closeItem(elMenu.previousSibling, elMenu)\n          })\n\n          let elActiveLink = this.$el.querySelector('a.active')\n\n          if (!elActiveLink) return\n\n          let elClosestMenu = elActiveLink.closest('.sidebar-nav-sub')\n\n          if (! elClosestMenu) return\n\n          this.expand(elClosestMenu.previousSibling, elClosestMenu)\n        })\n      },\n\n      getChildrensHeight(elMenu) {\n        return [].reduce.call(elMenu.querySelectorAll('.sidebar-nav-menu.open + .sidebar-nav-sub'), (acc, el) => {\n          return acc + parseInt(el.getAttribute('data-height'))\n        }, 0)\n      },\n\n      expandItem(elLink, elMenu) {\n        elLink.classList.add('open')\n\n        let height = parseInt(elMenu.getAttribute('data-height')) + this.getChildrensHeight(elMenu)\n        elMenu.style.height = height + 'px'\n      },\n\n      expand(elLink, elMenu) {\n        this.expandItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      closeItem(elLink, elMenu) {\n        elLink.classList.remove('open')\n        elMenu.removeAttribute('style')\n      },\n\n      close(elLink, elMenu) {\n        ;[].reverse.call(elMenu.querySelectorAll('.sidebar-nav-sub')).forEach(el => {\n          this.closeItem(el.previousSibling, el)\n        })\n\n        this.closeItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      expandToggle(elLink, elMenu) {\n        if (elLink.classList.contains('open')) {\n          this.close(elLink, elMenu)\n        }\n        else {\n          this.expand(elLink, elMenu)\n        }\n      },\n\n      expandLinkClick(elLink) {\n        elLink.classList.toggle('manual')\n        this.expandToggle(elLink, elLink.nextSibling)\n      }\n    },\n\n    render(createElement) {\n      let makeTitleEl = (title) => {\n        return createElement(\n          'span',\n          {\n            attrs: {\n              class: 'sidebar-nav-mini-hide'\n            }\n          },\n          title\n        )\n      }\n\n      let __makeIconEl = iconClasses => {\n        return createElement(\n          'i',\n          {\n            attrs: {\n              class: iconClasses\n            }\n          }\n        )\n      }\n\n      let makeIconEl = iconCLasses => {\n        return __makeIconEl(`${iconCLasses} sidebar-nav-icon`)\n      }\n\n      let makeIndicatorEl = () => {\n        return __makeIconEl('fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide')\n      }\n\n      let urlIsLocal = (url) => {\n        url = Core.trim(url)\n\n        if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {\n            return url.indexOf(window.location.origin) === 0\n        }\n\n        return true\n      }\n\n      function mergeDeep(target, ...sources) {\n        if (!sources.length) return target;\n        const source = sources.shift();\n\n        if (_.isObject(target) && _.isObject(source)) {\n          for (const key in source) {\n            if (_.isObject(source[key]) && !_.isFunction(source[key])) {\n              if (!target[key]) Object.assign(target, { [key]: {} });\n              mergeDeep(target[key], source[key]);\n            }\n            else {\n              Object.assign(target, { [key]: source[key] });\n            }\n          }\n        }\n\n        return mergeDeep(target, ...sources);\n      }\n\n      let makeLink = ({url, onClick, icon, title, children}) => {\n        let tagName = 'a'\n        let isLocal = url ? urlIsLocal(url) : false\n        let params = {\n          key: Core.uniqueId()\n        }\n\n        if (typeof onClick === 'function') {\n          params = mergeDeep(params, {\n            on: {\n              click: onClick\n            }\n          })\n        }\n        if (url && isLocal) {\n          tagName = 'router-link'\n          params = mergeDeep(params, {\n            attrs: {\n              to: url,\n              'active-class': 'active'\n            }\n          })\n        }\n        else if (url && !isLocal) {\n          params = mergeDeep(params, {\n            attrs: {\n              href: url,\n              target: '_blank'\n            }\n          })\n        }\n        else {\n          params = mergeDeep(params, {\n            attrs: {\n              href: 'javascript:void(0);'\n            }\n          })\n        }\n\n        let childrenElsArray = []\n\n        if (children instanceof Array && children.length > 0) {\n          params = mergeDeep(params, {\n            on: {\n              click: event => this.expandLinkClick(event.target.closest('.sidebar-nav-menu'))\n            },\n            attrs: {\n              class: 'sidebar-nav-menu'\n            }\n          })\n\n          childrenElsArray.push(makeIndicatorEl())\n        }\n\n        if (icon) {\n          childrenElsArray.push(makeIconEl(icon))\n        }\n\n        if (title) {\n          childrenElsArray.push(makeTitleEl(title))\n        }\n\n        return createElement(tagName, params, childrenElsArray)\n      }\n\n      let makeElsLiArray = (items = []) => {\n        return items.reduce((acc, item) => {\n          let slots = [makeLink(item)]\n\n          if (item.children) {\n\n            slots.push(createElement(\n              'div',\n              {\n                attrs: {\n                  class: 'sidebar-nav-sub'\n                }\n              },\n              [createElement('ul', makeElsLiArray(item.children))]\n            ))\n          }\n\n          acc.push(createElement('li', slots))\n\n          return acc\n        }, [])\n      }\n\n      return createElement(\n        'ul',\n        {\n          attrs: {\n            class: 'sidebar-nav'\n          }\n        },\n        makeElsLiArray(menuData)\n      )\n    }\n  }\n</script>\n\n<style>\n    .sidebar-nav li {\n        position: relative;\n    }\n\n    .sidebar-nav .sidebar-nav-sub > ul {\n        display: block;\n    }\n\n    .sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n        height: 0;\n        overflow: hidden;\n        position: relative;\n        transition: all .228s ease-out;\n        transform: translate3d(0, 0, 0);\n    }\n\n    .sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n        height: 0!important;\n    }\n\n    .sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n        max-height: none;\n        transition: none;\n    }\n</style>"],"sourceRoot":""}]);
 
 // exports
@@ -12343,7 +12224,6 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 // module
 exports.push([module.i, "\n.gallery-dropzone .dz-message {\n  position: relative;\n  margin: 0;\n  display: block!important;\n}\n.gallery-dropzone .dz-message::before {\n  content: '';\n  display: block;\n  padding-top: 100%;\n}\n.gallery-dropzone .dz-message > span {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.gallery-dropzone .dz-preview {\n  display: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/DropzoneGallery.vue"],"names":[],"mappings":";AA6VA;EACA,mBAAA;EACA,UAAA;EACA,yBAAA;CACA;AAEA;EACA,YAAA;EACA,eAAA;EACA,kBAAA;CACA;AAEA;EACA,mBAAA;EACA,QAAA;EACA,OAAA;EACA,YAAA;EACA,aAAA;EACA,qBAAA;EAAA,qBAAA;EAAA,cAAA;EACA,yBAAA;MAAA,sBAAA;UAAA,wBAAA;EACA,0BAAA;MAAA,uBAAA;UAAA,oBAAA;CACA;AAEA;EACA,cAAA;CACA","file":"DropzoneGallery.vue","sourcesContent":["<script>\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import Core from '../core'\n  import VueDropzone from 'vue2-dropzone'\n  import Toggle from './Toggle'\n  import Sortable from '../mixins/Sortable'\n  import ImageEditor from './ImageEditor'\n\n  export default {\n    props: {\n      id: {\n        type: String,\n        default: 'dropzone'\n      },\n      url: {\n        type: String,\n        require: true,\n      },\n\n      images: {\n        type: Array\n      },\n\n      params: {\n        type: Object,\n        default: function () {\n          return {}\n        }\n      },\n\n      errors: {\n        type: Array\n      },\n\n      safeDelete: {\n        type: Boolean,\n        default: true\n      }\n    },\n\n    mixins: [\n      Sortable\n    ],\n\n    components: {\n      VueDropzone,\n      Toggle,\n      bModal,\n      ImageEditor\n    },\n\n    watch: {\n      'images': 'refresh',\n      'errors': 'refresh'\n    },\n\n    data() {\n      return {\n        params$: {\n          url: Core.addApiTokenToUrl(this.url),\n          thumbnailWidth: 150,\n          maxFilesize: 8,\n          addRemoveLinks: false,\n          autoProcessQueue: true,\n          ignoreHiddenFiles: true,\n          dictDefaultMessage: \"<div>Добавить изображение<div><i class=\\\"fa fa-plus-circle\\\" style=\\\"vertical-align:bottom;font-size:40px;\\\"></i></div></div>\",\n          dictFallbackMessage: \"Ваш браузер не поддерживает загрузку файлов при помощи drag'n'drop.\",\n          dictFallbackText: \"Используйте форму ниже, чтобы загрузить файлы.\",\n          dictFileTooBig: \"Размер файла слишком велик ({{filesize}} Mb). Максимальный размер файла: {{maxFilesize}} Mb.\",\n          dictInvalidFileType: \"Вы не можете загружать файлы этого типа.\",\n          dictResponseError: \"Сервер вернул ошибку с кодом: {{statusCode}}.\",\n          dictCancelUpload: \"Отменить загрузку\",\n          dictUploadCanceled: \"Загрузка отменена.\",\n          dictCancelUploadConfirmation: \"Вы уверены, что хотите отменить загрузку?\",\n          dictRemoveFile: \"Удалить файл\",\n          dictMaxFilesExceeded: \"Достигнут лимит количества файлов.\",\n          acceptedFiles: 'image/jpeg, image/png',\n          previewTemplate: '<div class=\\\"dz-preview dz-processing dz-complete dz-image-preview\\\"><div class=\\\"dz-remove\\\" data-dz-remove></div><div class=\\\"dz-image\\\"><a href=\\\"javascript:void(0)\\\" class=\\\"dz-link\\\"><img data-dz-thumbnail /><div class=\\\"dz-details\\\"><div class=\\\"dz-size\\\"><span data-dz-size></span></div><div class=\\\"dz-filename\\\"><i class=\\\"dz-icon fa fa-search\\\"></i></div></div></a></div><div class=\\\"dz-progress\\\"><span class=\\\"dz-upload\\\" data-dz-uploadprogress></span></div><div class=\\\"dz-error-message\\\"><span data-dz-errormessage></span></div><div class=\\\"dz-success-mark\\\"><i class=\\\"dz-icon fa fa-check\\\"></i></div><div class=\\\"dz-error-mark\\\"><i class=\\\"dz-icon fa fa-warning\\\"></i></div>',\n        },\n\n        sortableParams: {\n          update: this.sort\n        },\n\n        editorImage: null,\n\n        type$: null\n      }\n    },\n\n    methods: {\n      initSort() {\n        let params = this.getParams()\n\n        if (params.maxFiles !== 1) {\n          Sortable.methods.initSort.call(this)\n        }\n      },\n\n      getParams() {\n        return {\n          ... this.params$,\n          ... this.params\n        }\n      },\n\n      getInstance() {\n        return this.$refs.dropzone.dropzone\n      },\n\n      fileAdded(file) {\n        let params = this.getParams()\n        if (params.maxFiles && this.images.length < params.maxFiles) {\n          file.noFilesLimit = true\n        }\n      },\n\n      success(file, response) {\n        this.getInstance().removeFile(file)\n\n        this.add(response.image)\n      },\n\n      error(file, errorMessage) {\n        Core.notify(errorMessage, {type: 'error'})\n\n        this.getInstance().removeFile(file)\n\n        this.remove(file)\n      },\n\n      maxfilesreached(files) {\n        for (let i = 0; i < files.length; i++) {\n          if (!files[i].noFilesLimit) {\n            Core.notify(this.getParams().dictMaxFilesExceeded, {type: 'warning'})\n            break\n          }\n        }\n      },\n\n      maxfilesexceeded(file) {\n        let params = this.getParams()\n        let fileSize = (file.size / 1024 / 1024).toFixed(1)\n        let message = params.dictFileTooBig\n\n        message = message.replace('{{filesize}}', fileSize)\n        message = message.replace('{{maxFilesize}}', params.maxFilesize)\n\n        Core.notify(message, {type: 'warning'})\n      },\n\n      makeGallery() {\n        $(this.$refs.gallery).magnificPopup({\n          delegate: '.js-magnific-link',\n          type: 'image',\n          gallery: {\n            enabled: true\n          }\n        });\n      },\n\n      sort() {\n        this.$emit('update:images', this.sortDataBundleByIdsPosition(this.images, this.collectSortIds()))\n      },\n\n      add(image) {\n        this.$emit('update:images', [\n          ... this.images,\n          image\n        ])\n      },\n\n      update(image) {\n        this.$emit('update:images', this.images.map(item => item.id === image.id ? image : item))\n      },\n\n      edit(image) {\n        this.editorImage = image\n        this.$refs.pictureEditModal.show()\n      },\n\n      remove(image) {\n        if (this.safeDelete) {\n          image.deleted = true\n          this.update(image)\n        }\n        else {\n          this.$emit('update:images', this.images.filter(item => item.id !== image.id))\n        }\n      },\n\n      recover(image) {\n        image.deleted = false\n        this.update(image)\n      },\n\n      isDeleted(image) {\n        return image.deleted\n      },\n\n      editorImageSave() {\n        let image = this.editorImage\n        let modifications = this.$refs.imageEditor.getClearedModifications()\n\n        if (Object.keys(modifications) === 0) {\n          if (image.modifications) {\n            delete image.modifications\n          }\n\n          if (image.cropped) {\n            delete image.cropped\n          }\n        }\n        else {\n          image.modifications = modifications\n          image.cropped = this.$refs.imageEditor.getCroppedImage()\n        }\n\n        this.update(image)\n        this.editorImage = null\n      },\n\n      getImageOriginal(image) {\n        return image.cropped ? image.cropped : image.original\n      },\n\n      getImagePreview(image) {\n        if (image.cropped) {\n          return image.cropped\n        }\n\n        if (image.small) {\n          return image.small.srcset ? image.small.srcset : image.small.src\n        }\n\n        return image.original || ''\n      },\n\n      getEditorImageModifications() {\n        return (this.editorImage && this.editorImage.modifications) ? this.editorImage.modifications : {}\n      },\n\n      clear() {\n        this.editorImage = false\n      },\n\n      refresh() {\n        this.makeGallery()\n      },\n\n      hasError(image) {\n        return !!this.errors.find(item => item.toString() === image.id.toString())\n      }\n    },\n\n    computed: {\n      dropzoneIsVisible() {\n        let params = this.getParams()\n\n        if (params.maxFiles && params.maxFiles === this.images.length) {\n          return false\n        }\n\n        return true\n      }\n    },\n\n    mounted() {\n      this.makeGallery()\n    },\n  }\n</script>\n\n<template>\n  <div>\n    <div class=\"gallery gallery-widget\" ref=\"gallery\">\n      <div class=\"row ui-sortable\">\n        <div v-show=\"dropzoneIsVisible\" class=\"col-xs-6 col-sm-3\" style=\"min-width:155px;\">\n          <vue-dropzone\n            ref=\"dropzone\"\n            :id=\"this.id\"\n            class=\"gallery-dropzone\"\n            @vdropzone-success=\"success\"\n            @vdropzone-error=\"error\"\n            @vdropzone-max-files-reached=\"maxfilesreached\"\n            @vdropzone-max-files-exceeded=\"maxfilesexceeded\"\n            @vdropzone-file-added=\"fileAdded\"\n            :options=\"getParams()\"\n            :destroyDropzone=\"true\" />\n        </div>\n\n        <div v-for=\"image in images\" :data-id=\"image.id\" :key=\"image.id\" class=\"col-xs-6 col-sm-3\" style=\"min-width:155px;\">\n          <input type=\"hidden\" name=\"ids\" :value=\"image.id\">\n          <div :class=\"{'edit-photo-card': true, 'edit-photo-card--deleted': image.deleted, 'edit-photo-card--has-error': hasError(image)}\">\n            <a :href=\"getImageOriginal(image)\" class=\"edit-photo-card__preview js-magnific-link\">\n              <div class=\"edit-photo-card__image\" :style=\"`background-image:url(${getImagePreview(image)})`\"></div>\n            </a>\n\n            <div class=\"edit-photo-card__deleted-icon\">\n              <i class=\"fa fa-trash\"></i>\n            </div>\n\n            <div class=\"edit-photo-card__controls\">\n              <div class=\"pull-left\">\n                <a class=\"btn btn-sm btn-primary\" @click=\"edit(image)\" v-if=\"!isDeleted(image)\">\n                  <i class=\"fa fa-crop\"></i>\n                </a>\n              </div>\n\n              <div class=\"pull-right\">\n                <a class=\"btn btn-sm btn-danger\" @click=\"remove(image)\" v-if=\"!isDeleted(image)\">\n                  <i class=\"fa fa-trash-o\"></i>\n                </a>\n\n                <a class=\"btn btn-sm btn-success\" @click=\"recover(image)\" v-if=\"isDeleted(image)\">\n                  <i class=\"fa fa-repeat\"></i> Восстановить\n                </a>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <b-modal\n      ref=\"pictureEditModal\"\n      :no-close-on-backdrop=\"true\"\n      size=\"lg\"\n      title=\"Редактирование изображения\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Применить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @hidden=\"clear\"\n      @ok=\"editorImageSave\">\n\n      <image-editor\n        ref=\"imageEditor\"\n        v-if=\"!!editorImage\"\n        :image=\"editorImage.original\"\n        :modifications=\"getEditorImageModifications()\"/>\n    </b-modal>\n  </div>\n</template>\n\n\n<style>\n  .gallery-dropzone .dz-message {\n    position: relative;\n    margin: 0;\n    display: block!important;\n  }\n\n  .gallery-dropzone .dz-message::before {\n    content: '';\n    display: block;\n    padding-top: 100%;\n  }\n\n  .gallery-dropzone .dz-message > span {\n    position: absolute;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n\n  .gallery-dropzone .dz-preview {\n    display: none;\n  }\n</style>"],"sourceRoot":""}]);
->>>>>>> Stashed changes
 
 // exports
 
@@ -18323,6 +18203,945 @@ var sortable = $.widget("ui.sortable", $.ui.mouse, {
 
 /***/ }),
 
+/***/ "./node_modules/lodash.get/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0;
+
+/** `Object#toString` result references. */
+var funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    symbolTag = '[object Symbol]';
+
+/** Used to match property names within property paths. */
+var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
+    reIsPlainProp = /^\w*$/,
+    reLeadingDot = /^\./,
+    rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to match backslashes in property paths. */
+var reEscapeChar = /\\(\\)?/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/**
+ * Gets the value at `key` of `object`.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
+ */
+function getValue(object, key) {
+  return object == null ? undefined : object[key];
+}
+
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+/** Used for built-in method references. */
+var arrayProto = Array.prototype,
+    funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to detect overreaching core-js shims. */
+var coreJsData = root['__core-js_shared__'];
+
+/** Used to detect methods masquerading as native. */
+var maskSrcKey = (function() {
+  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+  return uid ? ('Symbol(src)_1.' + uid) : '';
+}());
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/** Built-in value references. */
+var Symbol = root.Symbol,
+    splice = arrayProto.splice;
+
+/* Built-in method references that are verified to be native. */
+var Map = getNative(root, 'Map'),
+    nativeCreate = getNative(Object, 'create');
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = Symbol ? Symbol.prototype : undefined,
+    symbolToString = symbolProto ? symbolProto.toString : undefined;
+
+/**
+ * Creates a hash object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function Hash(entries) {
+  var index = -1,
+      length = entries ? entries.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the hash.
+ *
+ * @private
+ * @name clear
+ * @memberOf Hash
+ */
+function hashClear() {
+  this.__data__ = nativeCreate ? nativeCreate(null) : {};
+}
+
+/**
+ * Removes `key` and its value from the hash.
+ *
+ * @private
+ * @name delete
+ * @memberOf Hash
+ * @param {Object} hash The hash to modify.
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function hashDelete(key) {
+  return this.has(key) && delete this.__data__[key];
+}
+
+/**
+ * Gets the hash value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Hash
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function hashGet(key) {
+  var data = this.__data__;
+  if (nativeCreate) {
+    var result = data[key];
+    return result === HASH_UNDEFINED ? undefined : result;
+  }
+  return hasOwnProperty.call(data, key) ? data[key] : undefined;
+}
+
+/**
+ * Checks if a hash value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf Hash
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function hashHas(key) {
+  var data = this.__data__;
+  return nativeCreate ? data[key] !== undefined : hasOwnProperty.call(data, key);
+}
+
+/**
+ * Sets the hash `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Hash
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the hash instance.
+ */
+function hashSet(key, value) {
+  var data = this.__data__;
+  data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+  return this;
+}
+
+// Add methods to `Hash`.
+Hash.prototype.clear = hashClear;
+Hash.prototype['delete'] = hashDelete;
+Hash.prototype.get = hashGet;
+Hash.prototype.has = hashHas;
+Hash.prototype.set = hashSet;
+
+/**
+ * Creates an list cache object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function ListCache(entries) {
+  var index = -1,
+      length = entries ? entries.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the list cache.
+ *
+ * @private
+ * @name clear
+ * @memberOf ListCache
+ */
+function listCacheClear() {
+  this.__data__ = [];
+}
+
+/**
+ * Removes `key` and its value from the list cache.
+ *
+ * @private
+ * @name delete
+ * @memberOf ListCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function listCacheDelete(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    return false;
+  }
+  var lastIndex = data.length - 1;
+  if (index == lastIndex) {
+    data.pop();
+  } else {
+    splice.call(data, index, 1);
+  }
+  return true;
+}
+
+/**
+ * Gets the list cache value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf ListCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function listCacheGet(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  return index < 0 ? undefined : data[index][1];
+}
+
+/**
+ * Checks if a list cache value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf ListCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function listCacheHas(key) {
+  return assocIndexOf(this.__data__, key) > -1;
+}
+
+/**
+ * Sets the list cache `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf ListCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the list cache instance.
+ */
+function listCacheSet(key, value) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    data.push([key, value]);
+  } else {
+    data[index][1] = value;
+  }
+  return this;
+}
+
+// Add methods to `ListCache`.
+ListCache.prototype.clear = listCacheClear;
+ListCache.prototype['delete'] = listCacheDelete;
+ListCache.prototype.get = listCacheGet;
+ListCache.prototype.has = listCacheHas;
+ListCache.prototype.set = listCacheSet;
+
+/**
+ * Creates a map cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function MapCache(entries) {
+  var index = -1,
+      length = entries ? entries.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the map.
+ *
+ * @private
+ * @name clear
+ * @memberOf MapCache
+ */
+function mapCacheClear() {
+  this.__data__ = {
+    'hash': new Hash,
+    'map': new (Map || ListCache),
+    'string': new Hash
+  };
+}
+
+/**
+ * Removes `key` and its value from the map.
+ *
+ * @private
+ * @name delete
+ * @memberOf MapCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function mapCacheDelete(key) {
+  return getMapData(this, key)['delete'](key);
+}
+
+/**
+ * Gets the map value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf MapCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function mapCacheGet(key) {
+  return getMapData(this, key).get(key);
+}
+
+/**
+ * Checks if a map value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf MapCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function mapCacheHas(key) {
+  return getMapData(this, key).has(key);
+}
+
+/**
+ * Sets the map `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf MapCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the map cache instance.
+ */
+function mapCacheSet(key, value) {
+  getMapData(this, key).set(key, value);
+  return this;
+}
+
+// Add methods to `MapCache`.
+MapCache.prototype.clear = mapCacheClear;
+MapCache.prototype['delete'] = mapCacheDelete;
+MapCache.prototype.get = mapCacheGet;
+MapCache.prototype.has = mapCacheHas;
+MapCache.prototype.set = mapCacheSet;
+
+/**
+ * Gets the index at which the `key` is found in `array` of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+
+/**
+ * The base implementation of `_.get` without support for default values.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path of the property to get.
+ * @returns {*} Returns the resolved value.
+ */
+function baseGet(object, path) {
+  path = isKey(path, object) ? [path] : castPath(path);
+
+  var index = 0,
+      length = path.length;
+
+  while (object != null && index < length) {
+    object = object[toKey(path[index++])];
+  }
+  return (index && index == length) ? object : undefined;
+}
+
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+function baseIsNative(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+
+/**
+ * The base implementation of `_.toString` which doesn't convert nullish
+ * values to empty strings.
+ *
+ * @private
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ */
+function baseToString(value) {
+  // Exit early for strings to avoid a performance hit in some environments.
+  if (typeof value == 'string') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return symbolToString ? symbolToString.call(value) : '';
+  }
+  var result = (value + '');
+  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+}
+
+/**
+ * Casts `value` to a path array if it's not one.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @returns {Array} Returns the cast property path array.
+ */
+function castPath(value) {
+  return isArray(value) ? value : stringToPath(value);
+}
+
+/**
+ * Gets the data for `map`.
+ *
+ * @private
+ * @param {Object} map The map to query.
+ * @param {string} key The reference key.
+ * @returns {*} Returns the map data.
+ */
+function getMapData(map, key) {
+  var data = map.__data__;
+  return isKeyable(key)
+    ? data[typeof key == 'string' ? 'string' : 'hash']
+    : data.map;
+}
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+/**
+ * Checks if `value` is a property name and not a property path.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {Object} [object] The object to query keys on.
+ * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
+ */
+function isKey(value, object) {
+  if (isArray(value)) {
+    return false;
+  }
+  var type = typeof value;
+  if (type == 'number' || type == 'symbol' || type == 'boolean' ||
+      value == null || isSymbol(value)) {
+    return true;
+  }
+  return reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
+    (object != null && value in Object(object));
+}
+
+/**
+ * Checks if `value` is suitable for use as unique object key.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+ */
+function isKeyable(value) {
+  var type = typeof value;
+  return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
+    ? (value !== '__proto__')
+    : (value === null);
+}
+
+/**
+ * Checks if `func` has its source masked.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+ */
+function isMasked(func) {
+  return !!maskSrcKey && (maskSrcKey in func);
+}
+
+/**
+ * Converts `string` to a property path array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the property path array.
+ */
+var stringToPath = memoize(function(string) {
+  string = toString(string);
+
+  var result = [];
+  if (reLeadingDot.test(string)) {
+    result.push('');
+  }
+  string.replace(rePropName, function(match, number, quote, string) {
+    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
+  });
+  return result;
+});
+
+/**
+ * Converts `value` to a string key if it's not a string or symbol.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @returns {string|symbol} Returns the key.
+ */
+function toKey(value) {
+  if (typeof value == 'string' || isSymbol(value)) {
+    return value;
+  }
+  var result = (value + '');
+  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+}
+
+/**
+ * Converts `func` to its source code.
+ *
+ * @private
+ * @param {Function} func The function to process.
+ * @returns {string} Returns the source code.
+ */
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString.call(func);
+    } catch (e) {}
+    try {
+      return (func + '');
+    } catch (e) {}
+  }
+  return '';
+}
+
+/**
+ * Creates a function that memoizes the result of `func`. If `resolver` is
+ * provided, it determines the cache key for storing the result based on the
+ * arguments provided to the memoized function. By default, the first argument
+ * provided to the memoized function is used as the map cache key. The `func`
+ * is invoked with the `this` binding of the memoized function.
+ *
+ * **Note:** The cache is exposed as the `cache` property on the memoized
+ * function. Its creation may be customized by replacing the `_.memoize.Cache`
+ * constructor with one whose instances implement the
+ * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
+ * method interface of `delete`, `get`, `has`, and `set`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to have its output memoized.
+ * @param {Function} [resolver] The function to resolve the cache key.
+ * @returns {Function} Returns the new memoized function.
+ * @example
+ *
+ * var object = { 'a': 1, 'b': 2 };
+ * var other = { 'c': 3, 'd': 4 };
+ *
+ * var values = _.memoize(_.values);
+ * values(object);
+ * // => [1, 2]
+ *
+ * values(other);
+ * // => [3, 4]
+ *
+ * object.a = 2;
+ * values(object);
+ * // => [1, 2]
+ *
+ * // Modify the result cache.
+ * values.cache.set(object, ['a', 'b']);
+ * values(object);
+ * // => ['a', 'b']
+ *
+ * // Replace `_.memoize.Cache`.
+ * _.memoize.Cache = WeakMap;
+ */
+function memoize(func, resolver) {
+  if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  var memoized = function() {
+    var args = arguments,
+        key = resolver ? resolver.apply(this, args) : args[0],
+        cache = memoized.cache;
+
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    var result = func.apply(this, args);
+    memoized.cache = cache.set(key, result);
+    return result;
+  };
+  memoized.cache = new (memoize.Cache || MapCache);
+  return memoized;
+}
+
+// Assign cache to `_.memoize`.
+memoize.Cache = MapCache;
+
+/**
+ * Performs a
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * comparison between two values to determine if they are equivalent.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ * var other = { 'a': 1 };
+ *
+ * _.eq(object, object);
+ * // => true
+ *
+ * _.eq(object, other);
+ * // => false
+ *
+ * _.eq('a', 'a');
+ * // => true
+ *
+ * _.eq('a', Object('a'));
+ * // => false
+ *
+ * _.eq(NaN, NaN);
+ * // => true
+ */
+function eq(value, other) {
+  return value === other || (value !== value && other !== other);
+}
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+/**
+ * Converts `value` to a string. An empty string is returned for `null`
+ * and `undefined` values. The sign of `-0` is preserved.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ * @example
+ *
+ * _.toString(null);
+ * // => ''
+ *
+ * _.toString(-0);
+ * // => '-0'
+ *
+ * _.toString([1, 2, 3]);
+ * // => '1,2,3'
+ */
+function toString(value) {
+  return value == null ? '' : baseToString(value);
+}
+
+/**
+ * Gets the value at `path` of `object`. If the resolved value is
+ * `undefined`, the `defaultValue` is returned in its place.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.7.0
+ * @category Object
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path of the property to get.
+ * @param {*} [defaultValue] The value returned for `undefined` resolved values.
+ * @returns {*} Returns the resolved value.
+ * @example
+ *
+ * var object = { 'a': [{ 'b': { 'c': 3 } }] };
+ *
+ * _.get(object, 'a[0].b.c');
+ * // => 3
+ *
+ * _.get(object, ['a', '0', 'b', 'c']);
+ * // => 3
+ *
+ * _.get(object, 'a.b.c', 'default');
+ * // => 'default'
+ */
+function get(object, path, defaultValue) {
+  var result = object == null ? undefined : baseGet(object, path);
+  return result === undefined ? defaultValue : result;
+}
+
+module.exports = get;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
 /***/ "./node_modules/lodash.startcase/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18908,1617 +19727,6 @@ function words(string, pattern, guard) {
 module.exports = startCase;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/global.js")))
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_Hash.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var hashClear = __webpack_require__("./node_modules/lodash/_hashClear.js"),
-    hashDelete = __webpack_require__("./node_modules/lodash/_hashDelete.js"),
-    hashGet = __webpack_require__("./node_modules/lodash/_hashGet.js"),
-    hashHas = __webpack_require__("./node_modules/lodash/_hashHas.js"),
-    hashSet = __webpack_require__("./node_modules/lodash/_hashSet.js");
-
-/**
- * Creates a hash object.
- *
- * @private
- * @constructor
- * @param {Array} [entries] The key-value pairs to cache.
- */
-function Hash(entries) {
-  var index = -1,
-      length = entries == null ? 0 : entries.length;
-
-  this.clear();
-  while (++index < length) {
-    var entry = entries[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-// Add methods to `Hash`.
-Hash.prototype.clear = hashClear;
-Hash.prototype['delete'] = hashDelete;
-Hash.prototype.get = hashGet;
-Hash.prototype.has = hashHas;
-Hash.prototype.set = hashSet;
-
-module.exports = Hash;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_ListCache.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var listCacheClear = __webpack_require__("./node_modules/lodash/_listCacheClear.js"),
-    listCacheDelete = __webpack_require__("./node_modules/lodash/_listCacheDelete.js"),
-    listCacheGet = __webpack_require__("./node_modules/lodash/_listCacheGet.js"),
-    listCacheHas = __webpack_require__("./node_modules/lodash/_listCacheHas.js"),
-    listCacheSet = __webpack_require__("./node_modules/lodash/_listCacheSet.js");
-
-/**
- * Creates an list cache object.
- *
- * @private
- * @constructor
- * @param {Array} [entries] The key-value pairs to cache.
- */
-function ListCache(entries) {
-  var index = -1,
-      length = entries == null ? 0 : entries.length;
-
-  this.clear();
-  while (++index < length) {
-    var entry = entries[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-// Add methods to `ListCache`.
-ListCache.prototype.clear = listCacheClear;
-ListCache.prototype['delete'] = listCacheDelete;
-ListCache.prototype.get = listCacheGet;
-ListCache.prototype.has = listCacheHas;
-ListCache.prototype.set = listCacheSet;
-
-module.exports = ListCache;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_Map.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var getNative = __webpack_require__("./node_modules/lodash/_getNative.js"),
-    root = __webpack_require__("./node_modules/lodash/_root.js");
-
-/* Built-in method references that are verified to be native. */
-var Map = getNative(root, 'Map');
-
-module.exports = Map;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_MapCache.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var mapCacheClear = __webpack_require__("./node_modules/lodash/_mapCacheClear.js"),
-    mapCacheDelete = __webpack_require__("./node_modules/lodash/_mapCacheDelete.js"),
-    mapCacheGet = __webpack_require__("./node_modules/lodash/_mapCacheGet.js"),
-    mapCacheHas = __webpack_require__("./node_modules/lodash/_mapCacheHas.js"),
-    mapCacheSet = __webpack_require__("./node_modules/lodash/_mapCacheSet.js");
-
-/**
- * Creates a map cache object to store key-value pairs.
- *
- * @private
- * @constructor
- * @param {Array} [entries] The key-value pairs to cache.
- */
-function MapCache(entries) {
-  var index = -1,
-      length = entries == null ? 0 : entries.length;
-
-  this.clear();
-  while (++index < length) {
-    var entry = entries[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-// Add methods to `MapCache`.
-MapCache.prototype.clear = mapCacheClear;
-MapCache.prototype['delete'] = mapCacheDelete;
-MapCache.prototype.get = mapCacheGet;
-MapCache.prototype.has = mapCacheHas;
-MapCache.prototype.set = mapCacheSet;
-
-module.exports = MapCache;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_Symbol.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__("./node_modules/lodash/_root.js");
-
-/** Built-in value references. */
-var Symbol = root.Symbol;
-
-module.exports = Symbol;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_arrayMap.js":
-/***/ (function(module, exports) {
-
-/**
- * A specialized version of `_.map` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */
-function arrayMap(array, iteratee) {
-  var index = -1,
-      length = array == null ? 0 : array.length,
-      result = Array(length);
-
-  while (++index < length) {
-    result[index] = iteratee(array[index], index, array);
-  }
-  return result;
-}
-
-module.exports = arrayMap;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_assocIndexOf.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var eq = __webpack_require__("./node_modules/lodash/eq.js");
-
-/**
- * Gets the index at which the `key` is found in `array` of key-value pairs.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {*} key The key to search for.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function assocIndexOf(array, key) {
-  var length = array.length;
-  while (length--) {
-    if (eq(array[length][0], key)) {
-      return length;
-    }
-  }
-  return -1;
-}
-
-module.exports = assocIndexOf;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_baseGet.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var castPath = __webpack_require__("./node_modules/lodash/_castPath.js"),
-    toKey = __webpack_require__("./node_modules/lodash/_toKey.js");
-
-/**
- * The base implementation of `_.get` without support for default values.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} path The path of the property to get.
- * @returns {*} Returns the resolved value.
- */
-function baseGet(object, path) {
-  path = castPath(path, object);
-
-  var index = 0,
-      length = path.length;
-
-  while (object != null && index < length) {
-    object = object[toKey(path[index++])];
-  }
-  return (index && index == length) ? object : undefined;
-}
-
-module.exports = baseGet;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_baseGetTag.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__("./node_modules/lodash/_Symbol.js"),
-    getRawTag = __webpack_require__("./node_modules/lodash/_getRawTag.js"),
-    objectToString = __webpack_require__("./node_modules/lodash/_objectToString.js");
-
-/** `Object#toString` result references. */
-var nullTag = '[object Null]',
-    undefinedTag = '[object Undefined]';
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * The base implementation of `getTag` without fallbacks for buggy environments.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function baseGetTag(value) {
-  if (value == null) {
-    return value === undefined ? undefinedTag : nullTag;
-  }
-  return (symToStringTag && symToStringTag in Object(value))
-    ? getRawTag(value)
-    : objectToString(value);
-}
-
-module.exports = baseGetTag;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_baseIsNative.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isFunction = __webpack_require__("./node_modules/lodash/isFunction.js"),
-    isMasked = __webpack_require__("./node_modules/lodash/_isMasked.js"),
-    isObject = __webpack_require__("./node_modules/lodash/isObject.js"),
-    toSource = __webpack_require__("./node_modules/lodash/_toSource.js");
-
-/**
- * Used to match `RegExp`
- * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
- */
-var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
-
-/** Used to detect host constructors (Safari). */
-var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-/** Used for built-in method references. */
-var funcProto = Function.prototype,
-    objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = funcProto.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Used to detect if a method is native. */
-var reIsNative = RegExp('^' +
-  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
-  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-);
-
-/**
- * The base implementation of `_.isNative` without bad shim checks.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a native function,
- *  else `false`.
- */
-function baseIsNative(value) {
-  if (!isObject(value) || isMasked(value)) {
-    return false;
-  }
-  var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
-  return pattern.test(toSource(value));
-}
-
-module.exports = baseIsNative;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_baseToString.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__("./node_modules/lodash/_Symbol.js"),
-    arrayMap = __webpack_require__("./node_modules/lodash/_arrayMap.js"),
-    isArray = __webpack_require__("./node_modules/lodash/isArray.js"),
-    isSymbol = __webpack_require__("./node_modules/lodash/isSymbol.js");
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0;
-
-/** Used to convert symbols to primitives and strings. */
-var symbolProto = Symbol ? Symbol.prototype : undefined,
-    symbolToString = symbolProto ? symbolProto.toString : undefined;
-
-/**
- * The base implementation of `_.toString` which doesn't convert nullish
- * values to empty strings.
- *
- * @private
- * @param {*} value The value to process.
- * @returns {string} Returns the string.
- */
-function baseToString(value) {
-  // Exit early for strings to avoid a performance hit in some environments.
-  if (typeof value == 'string') {
-    return value;
-  }
-  if (isArray(value)) {
-    // Recursively convert values (susceptible to call stack limits).
-    return arrayMap(value, baseToString) + '';
-  }
-  if (isSymbol(value)) {
-    return symbolToString ? symbolToString.call(value) : '';
-  }
-  var result = (value + '');
-  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-}
-
-module.exports = baseToString;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_castPath.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isArray = __webpack_require__("./node_modules/lodash/isArray.js"),
-    isKey = __webpack_require__("./node_modules/lodash/_isKey.js"),
-    stringToPath = __webpack_require__("./node_modules/lodash/_stringToPath.js"),
-    toString = __webpack_require__("./node_modules/lodash/toString.js");
-
-/**
- * Casts `value` to a path array if it's not one.
- *
- * @private
- * @param {*} value The value to inspect.
- * @param {Object} [object] The object to query keys on.
- * @returns {Array} Returns the cast property path array.
- */
-function castPath(value, object) {
-  if (isArray(value)) {
-    return value;
-  }
-  return isKey(value, object) ? [value] : stringToPath(toString(value));
-}
-
-module.exports = castPath;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_coreJsData.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__("./node_modules/lodash/_root.js");
-
-/** Used to detect overreaching core-js shims. */
-var coreJsData = root['__core-js_shared__'];
-
-module.exports = coreJsData;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_freeGlobal.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
-var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
-
-module.exports = freeGlobal;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/global.js")))
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_getMapData.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isKeyable = __webpack_require__("./node_modules/lodash/_isKeyable.js");
-
-/**
- * Gets the data for `map`.
- *
- * @private
- * @param {Object} map The map to query.
- * @param {string} key The reference key.
- * @returns {*} Returns the map data.
- */
-function getMapData(map, key) {
-  var data = map.__data__;
-  return isKeyable(key)
-    ? data[typeof key == 'string' ? 'string' : 'hash']
-    : data.map;
-}
-
-module.exports = getMapData;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_getNative.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseIsNative = __webpack_require__("./node_modules/lodash/_baseIsNative.js"),
-    getValue = __webpack_require__("./node_modules/lodash/_getValue.js");
-
-/**
- * Gets the native function at `key` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
- */
-function getNative(object, key) {
-  var value = getValue(object, key);
-  return baseIsNative(value) ? value : undefined;
-}
-
-module.exports = getNative;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_getRawTag.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__("./node_modules/lodash/_Symbol.js");
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString = objectProto.toString;
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the raw `toStringTag`.
- */
-function getRawTag(value) {
-  var isOwn = hasOwnProperty.call(value, symToStringTag),
-      tag = value[symToStringTag];
-
-  try {
-    value[symToStringTag] = undefined;
-    var unmasked = true;
-  } catch (e) {}
-
-  var result = nativeObjectToString.call(value);
-  if (unmasked) {
-    if (isOwn) {
-      value[symToStringTag] = tag;
-    } else {
-      delete value[symToStringTag];
-    }
-  }
-  return result;
-}
-
-module.exports = getRawTag;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_getValue.js":
-/***/ (function(module, exports) {
-
-/**
- * Gets the value at `key` of `object`.
- *
- * @private
- * @param {Object} [object] The object to query.
- * @param {string} key The key of the property to get.
- * @returns {*} Returns the property value.
- */
-function getValue(object, key) {
-  return object == null ? undefined : object[key];
-}
-
-module.exports = getValue;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_hashClear.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var nativeCreate = __webpack_require__("./node_modules/lodash/_nativeCreate.js");
-
-/**
- * Removes all key-value entries from the hash.
- *
- * @private
- * @name clear
- * @memberOf Hash
- */
-function hashClear() {
-  this.__data__ = nativeCreate ? nativeCreate(null) : {};
-  this.size = 0;
-}
-
-module.exports = hashClear;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_hashDelete.js":
-/***/ (function(module, exports) {
-
-/**
- * Removes `key` and its value from the hash.
- *
- * @private
- * @name delete
- * @memberOf Hash
- * @param {Object} hash The hash to modify.
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function hashDelete(key) {
-  var result = this.has(key) && delete this.__data__[key];
-  this.size -= result ? 1 : 0;
-  return result;
-}
-
-module.exports = hashDelete;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_hashGet.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var nativeCreate = __webpack_require__("./node_modules/lodash/_nativeCreate.js");
-
-/** Used to stand-in for `undefined` hash values. */
-var HASH_UNDEFINED = '__lodash_hash_undefined__';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Gets the hash value for `key`.
- *
- * @private
- * @name get
- * @memberOf Hash
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function hashGet(key) {
-  var data = this.__data__;
-  if (nativeCreate) {
-    var result = data[key];
-    return result === HASH_UNDEFINED ? undefined : result;
-  }
-  return hasOwnProperty.call(data, key) ? data[key] : undefined;
-}
-
-module.exports = hashGet;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_hashHas.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var nativeCreate = __webpack_require__("./node_modules/lodash/_nativeCreate.js");
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Checks if a hash value for `key` exists.
- *
- * @private
- * @name has
- * @memberOf Hash
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function hashHas(key) {
-  var data = this.__data__;
-  return nativeCreate ? (data[key] !== undefined) : hasOwnProperty.call(data, key);
-}
-
-module.exports = hashHas;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_hashSet.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var nativeCreate = __webpack_require__("./node_modules/lodash/_nativeCreate.js");
-
-/** Used to stand-in for `undefined` hash values. */
-var HASH_UNDEFINED = '__lodash_hash_undefined__';
-
-/**
- * Sets the hash `key` to `value`.
- *
- * @private
- * @name set
- * @memberOf Hash
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- * @returns {Object} Returns the hash instance.
- */
-function hashSet(key, value) {
-  var data = this.__data__;
-  this.size += this.has(key) ? 0 : 1;
-  data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
-  return this;
-}
-
-module.exports = hashSet;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_isKey.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isArray = __webpack_require__("./node_modules/lodash/isArray.js"),
-    isSymbol = __webpack_require__("./node_modules/lodash/isSymbol.js");
-
-/** Used to match property names within property paths. */
-var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
-    reIsPlainProp = /^\w*$/;
-
-/**
- * Checks if `value` is a property name and not a property path.
- *
- * @private
- * @param {*} value The value to check.
- * @param {Object} [object] The object to query keys on.
- * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
- */
-function isKey(value, object) {
-  if (isArray(value)) {
-    return false;
-  }
-  var type = typeof value;
-  if (type == 'number' || type == 'symbol' || type == 'boolean' ||
-      value == null || isSymbol(value)) {
-    return true;
-  }
-  return reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
-    (object != null && value in Object(object));
-}
-
-module.exports = isKey;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_isKeyable.js":
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is suitable for use as unique object key.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
- */
-function isKeyable(value) {
-  var type = typeof value;
-  return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
-    ? (value !== '__proto__')
-    : (value === null);
-}
-
-module.exports = isKeyable;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_isMasked.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var coreJsData = __webpack_require__("./node_modules/lodash/_coreJsData.js");
-
-/** Used to detect methods masquerading as native. */
-var maskSrcKey = (function() {
-  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
-  return uid ? ('Symbol(src)_1.' + uid) : '';
-}());
-
-/**
- * Checks if `func` has its source masked.
- *
- * @private
- * @param {Function} func The function to check.
- * @returns {boolean} Returns `true` if `func` is masked, else `false`.
- */
-function isMasked(func) {
-  return !!maskSrcKey && (maskSrcKey in func);
-}
-
-module.exports = isMasked;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_listCacheClear.js":
-/***/ (function(module, exports) {
-
-/**
- * Removes all key-value entries from the list cache.
- *
- * @private
- * @name clear
- * @memberOf ListCache
- */
-function listCacheClear() {
-  this.__data__ = [];
-  this.size = 0;
-}
-
-module.exports = listCacheClear;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_listCacheDelete.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var assocIndexOf = __webpack_require__("./node_modules/lodash/_assocIndexOf.js");
-
-/** Used for built-in method references. */
-var arrayProto = Array.prototype;
-
-/** Built-in value references. */
-var splice = arrayProto.splice;
-
-/**
- * Removes `key` and its value from the list cache.
- *
- * @private
- * @name delete
- * @memberOf ListCache
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function listCacheDelete(key) {
-  var data = this.__data__,
-      index = assocIndexOf(data, key);
-
-  if (index < 0) {
-    return false;
-  }
-  var lastIndex = data.length - 1;
-  if (index == lastIndex) {
-    data.pop();
-  } else {
-    splice.call(data, index, 1);
-  }
-  --this.size;
-  return true;
-}
-
-module.exports = listCacheDelete;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_listCacheGet.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var assocIndexOf = __webpack_require__("./node_modules/lodash/_assocIndexOf.js");
-
-/**
- * Gets the list cache value for `key`.
- *
- * @private
- * @name get
- * @memberOf ListCache
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function listCacheGet(key) {
-  var data = this.__data__,
-      index = assocIndexOf(data, key);
-
-  return index < 0 ? undefined : data[index][1];
-}
-
-module.exports = listCacheGet;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_listCacheHas.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var assocIndexOf = __webpack_require__("./node_modules/lodash/_assocIndexOf.js");
-
-/**
- * Checks if a list cache value for `key` exists.
- *
- * @private
- * @name has
- * @memberOf ListCache
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function listCacheHas(key) {
-  return assocIndexOf(this.__data__, key) > -1;
-}
-
-module.exports = listCacheHas;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_listCacheSet.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var assocIndexOf = __webpack_require__("./node_modules/lodash/_assocIndexOf.js");
-
-/**
- * Sets the list cache `key` to `value`.
- *
- * @private
- * @name set
- * @memberOf ListCache
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- * @returns {Object} Returns the list cache instance.
- */
-function listCacheSet(key, value) {
-  var data = this.__data__,
-      index = assocIndexOf(data, key);
-
-  if (index < 0) {
-    ++this.size;
-    data.push([key, value]);
-  } else {
-    data[index][1] = value;
-  }
-  return this;
-}
-
-module.exports = listCacheSet;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_mapCacheClear.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var Hash = __webpack_require__("./node_modules/lodash/_Hash.js"),
-    ListCache = __webpack_require__("./node_modules/lodash/_ListCache.js"),
-    Map = __webpack_require__("./node_modules/lodash/_Map.js");
-
-/**
- * Removes all key-value entries from the map.
- *
- * @private
- * @name clear
- * @memberOf MapCache
- */
-function mapCacheClear() {
-  this.size = 0;
-  this.__data__ = {
-    'hash': new Hash,
-    'map': new (Map || ListCache),
-    'string': new Hash
-  };
-}
-
-module.exports = mapCacheClear;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_mapCacheDelete.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var getMapData = __webpack_require__("./node_modules/lodash/_getMapData.js");
-
-/**
- * Removes `key` and its value from the map.
- *
- * @private
- * @name delete
- * @memberOf MapCache
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function mapCacheDelete(key) {
-  var result = getMapData(this, key)['delete'](key);
-  this.size -= result ? 1 : 0;
-  return result;
-}
-
-module.exports = mapCacheDelete;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_mapCacheGet.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var getMapData = __webpack_require__("./node_modules/lodash/_getMapData.js");
-
-/**
- * Gets the map value for `key`.
- *
- * @private
- * @name get
- * @memberOf MapCache
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function mapCacheGet(key) {
-  return getMapData(this, key).get(key);
-}
-
-module.exports = mapCacheGet;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_mapCacheHas.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var getMapData = __webpack_require__("./node_modules/lodash/_getMapData.js");
-
-/**
- * Checks if a map value for `key` exists.
- *
- * @private
- * @name has
- * @memberOf MapCache
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function mapCacheHas(key) {
-  return getMapData(this, key).has(key);
-}
-
-module.exports = mapCacheHas;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_mapCacheSet.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var getMapData = __webpack_require__("./node_modules/lodash/_getMapData.js");
-
-/**
- * Sets the map `key` to `value`.
- *
- * @private
- * @name set
- * @memberOf MapCache
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- * @returns {Object} Returns the map cache instance.
- */
-function mapCacheSet(key, value) {
-  var data = getMapData(this, key),
-      size = data.size;
-
-  data.set(key, value);
-  this.size += data.size == size ? 0 : 1;
-  return this;
-}
-
-module.exports = mapCacheSet;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_memoizeCapped.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var memoize = __webpack_require__("./node_modules/lodash/memoize.js");
-
-/** Used as the maximum memoize cache size. */
-var MAX_MEMOIZE_SIZE = 500;
-
-/**
- * A specialized version of `_.memoize` which clears the memoized function's
- * cache when it exceeds `MAX_MEMOIZE_SIZE`.
- *
- * @private
- * @param {Function} func The function to have its output memoized.
- * @returns {Function} Returns the new memoized function.
- */
-function memoizeCapped(func) {
-  var result = memoize(func, function(key) {
-    if (cache.size === MAX_MEMOIZE_SIZE) {
-      cache.clear();
-    }
-    return key;
-  });
-
-  var cache = result.cache;
-  return result;
-}
-
-module.exports = memoizeCapped;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_nativeCreate.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var getNative = __webpack_require__("./node_modules/lodash/_getNative.js");
-
-/* Built-in method references that are verified to be native. */
-var nativeCreate = getNative(Object, 'create');
-
-module.exports = nativeCreate;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_objectToString.js":
-/***/ (function(module, exports) {
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString = objectProto.toString;
-
-/**
- * Converts `value` to a string using `Object.prototype.toString`.
- *
- * @private
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- */
-function objectToString(value) {
-  return nativeObjectToString.call(value);
-}
-
-module.exports = objectToString;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_root.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var freeGlobal = __webpack_require__("./node_modules/lodash/_freeGlobal.js");
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
-
-module.exports = root;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_stringToPath.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var memoizeCapped = __webpack_require__("./node_modules/lodash/_memoizeCapped.js");
-
-/** Used to match property names within property paths. */
-var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
-
-/** Used to match backslashes in property paths. */
-var reEscapeChar = /\\(\\)?/g;
-
-/**
- * Converts `string` to a property path array.
- *
- * @private
- * @param {string} string The string to convert.
- * @returns {Array} Returns the property path array.
- */
-var stringToPath = memoizeCapped(function(string) {
-  var result = [];
-  if (string.charCodeAt(0) === 46 /* . */) {
-    result.push('');
-  }
-  string.replace(rePropName, function(match, number, quote, subString) {
-    result.push(quote ? subString.replace(reEscapeChar, '$1') : (number || match));
-  });
-  return result;
-});
-
-module.exports = stringToPath;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_toKey.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isSymbol = __webpack_require__("./node_modules/lodash/isSymbol.js");
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0;
-
-/**
- * Converts `value` to a string key if it's not a string or symbol.
- *
- * @private
- * @param {*} value The value to inspect.
- * @returns {string|symbol} Returns the key.
- */
-function toKey(value) {
-  if (typeof value == 'string' || isSymbol(value)) {
-    return value;
-  }
-  var result = (value + '');
-  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-}
-
-module.exports = toKey;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_toSource.js":
-/***/ (function(module, exports) {
-
-/** Used for built-in method references. */
-var funcProto = Function.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = funcProto.toString;
-
-/**
- * Converts `func` to its source code.
- *
- * @private
- * @param {Function} func The function to convert.
- * @returns {string} Returns the source code.
- */
-function toSource(func) {
-  if (func != null) {
-    try {
-      return funcToString.call(func);
-    } catch (e) {}
-    try {
-      return (func + '');
-    } catch (e) {}
-  }
-  return '';
-}
-
-module.exports = toSource;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/eq.js":
-/***/ (function(module, exports) {
-
-/**
- * Performs a
- * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
- * comparison between two values to determine if they are equivalent.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- * @example
- *
- * var object = { 'a': 1 };
- * var other = { 'a': 1 };
- *
- * _.eq(object, object);
- * // => true
- *
- * _.eq(object, other);
- * // => false
- *
- * _.eq('a', 'a');
- * // => true
- *
- * _.eq('a', Object('a'));
- * // => false
- *
- * _.eq(NaN, NaN);
- * // => true
- */
-function eq(value, other) {
-  return value === other || (value !== value && other !== other);
-}
-
-module.exports = eq;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/get.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseGet = __webpack_require__("./node_modules/lodash/_baseGet.js");
-
-/**
- * Gets the value at `path` of `object`. If the resolved value is
- * `undefined`, the `defaultValue` is returned in its place.
- *
- * @static
- * @memberOf _
- * @since 3.7.0
- * @category Object
- * @param {Object} object The object to query.
- * @param {Array|string} path The path of the property to get.
- * @param {*} [defaultValue] The value returned for `undefined` resolved values.
- * @returns {*} Returns the resolved value.
- * @example
- *
- * var object = { 'a': [{ 'b': { 'c': 3 } }] };
- *
- * _.get(object, 'a[0].b.c');
- * // => 3
- *
- * _.get(object, ['a', '0', 'b', 'c']);
- * // => 3
- *
- * _.get(object, 'a.b.c', 'default');
- * // => 'default'
- */
-function get(object, path, defaultValue) {
-  var result = object == null ? undefined : baseGet(object, path);
-  return result === undefined ? defaultValue : result;
-}
-
-module.exports = get;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/isArray.js":
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-module.exports = isArray;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/isFunction.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseGetTag = __webpack_require__("./node_modules/lodash/_baseGetTag.js"),
-    isObject = __webpack_require__("./node_modules/lodash/isObject.js");
-
-/** `Object#toString` result references. */
-var asyncTag = '[object AsyncFunction]',
-    funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]',
-    proxyTag = '[object Proxy]';
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a function, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  if (!isObject(value)) {
-    return false;
-  }
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 9 which returns 'object' for typed arrays and other constructors.
-  var tag = baseGetTag(value);
-  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
-}
-
-module.exports = isFunction;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/isObject.js":
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return value != null && (type == 'object' || type == 'function');
-}
-
-module.exports = isObject;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/isObjectLike.js":
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return value != null && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/isSymbol.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseGetTag = __webpack_require__("./node_modules/lodash/_baseGetTag.js"),
-    isObjectLike = __webpack_require__("./node_modules/lodash/isObjectLike.js");
-
-/** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike(value) && baseGetTag(value) == symbolTag);
-}
-
-module.exports = isSymbol;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/memoize.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var MapCache = __webpack_require__("./node_modules/lodash/_MapCache.js");
-
-/** Error message constants. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/**
- * Creates a function that memoizes the result of `func`. If `resolver` is
- * provided, it determines the cache key for storing the result based on the
- * arguments provided to the memoized function. By default, the first argument
- * provided to the memoized function is used as the map cache key. The `func`
- * is invoked with the `this` binding of the memoized function.
- *
- * **Note:** The cache is exposed as the `cache` property on the memoized
- * function. Its creation may be customized by replacing the `_.memoize.Cache`
- * constructor with one whose instances implement the
- * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
- * method interface of `clear`, `delete`, `get`, `has`, and `set`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to have its output memoized.
- * @param {Function} [resolver] The function to resolve the cache key.
- * @returns {Function} Returns the new memoized function.
- * @example
- *
- * var object = { 'a': 1, 'b': 2 };
- * var other = { 'c': 3, 'd': 4 };
- *
- * var values = _.memoize(_.values);
- * values(object);
- * // => [1, 2]
- *
- * values(other);
- * // => [3, 4]
- *
- * object.a = 2;
- * values(object);
- * // => [1, 2]
- *
- * // Modify the result cache.
- * values.cache.set(object, ['a', 'b']);
- * values(object);
- * // => ['a', 'b']
- *
- * // Replace `_.memoize.Cache`.
- * _.memoize.Cache = WeakMap;
- */
-function memoize(func, resolver) {
-  if (typeof func != 'function' || (resolver != null && typeof resolver != 'function')) {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  var memoized = function() {
-    var args = arguments,
-        key = resolver ? resolver.apply(this, args) : args[0],
-        cache = memoized.cache;
-
-    if (cache.has(key)) {
-      return cache.get(key);
-    }
-    var result = func.apply(this, args);
-    memoized.cache = cache.set(key, result) || cache;
-    return result;
-  };
-  memoized.cache = new (memoize.Cache || MapCache);
-  return memoized;
-}
-
-// Expose `MapCache`.
-memoize.Cache = MapCache;
-
-module.exports = memoize;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/toString.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseToString = __webpack_require__("./node_modules/lodash/_baseToString.js");
-
-/**
- * Converts `value` to a string. An empty string is returned for `null`
- * and `undefined` values. The sign of `-0` is preserved.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- * @example
- *
- * _.toString(null);
- * // => ''
- *
- * _.toString(-0);
- * // => '-0'
- *
- * _.toString([1, 2, 3]);
- * // => '1,2,3'
- */
-function toString(value) {
-  return value == null ? '' : baseToString(value);
-}
-
-module.exports = toString;
-
 
 /***/ }),
 
@@ -31877,7 +31085,7 @@ module.exports = function (css) {
 /* unused harmony export directive */
 /* unused harmony export mixin */
 /* unused harmony export mapFields */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Validator; });
+/* unused harmony export Validator */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ErrorBag; });
 /* unused harmony export Rules */
 /* unused harmony export ErrorComponent */
@@ -38891,7 +38099,7 @@ var index_esm = {
 };
 
 
-/* harmony default export */ __webpack_exports__["c"] = (index_esm);
+/* harmony default export */ __webpack_exports__["b"] = (index_esm);
 
 
 /***/ }),
@@ -39856,7 +39064,7 @@ var render = function() {
                       [
                         _c("td", [
                           _c("span", { staticClass: "prices-table__type" }, [
-                            _vm._v(_vm._s(priceType.title))
+                            _vm._v(_vm._s(_vm.getTitle(priceType)))
                           ])
                         ]),
                         _vm._v(" "),
@@ -39892,10 +39100,9 @@ var render = function() {
                                         name: "validate",
                                         rawName: "v-validate",
                                         value:
-                                          "integer|min_value:1|max_value:" +
-                                          _vm.getCurrencyMaxValue(currency),
+                                          "integer|min_value:1|max_value:4294967295",
                                         expression:
-                                          "`integer|min_value:1|max_value:${getCurrencyMaxValue(currency)}`"
+                                          "'integer|min_value:1|max_value:4294967295'"
                                       }
                                     ],
                                     staticClass: "form-control",
@@ -39936,6 +39143,69 @@ var render = function() {
                                         ],
                                       currency: _vm.getCurrency(currency.code)
                                     }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.prices$[priceType.id][
+                                            currency.code
+                                          ],
+                                        expression:
+                                          "prices$[priceType.id][currency.code]"
+                                      },
+                                      { name: "number", rawName: "v-number" },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value:
+                                          "integer|min_value:1|max_value:" +
+                                          _vm.getCurrencyMaxValue(currency),
+                                        expression:
+                                          "`integer|min_value:1|max_value:${getCurrencyMaxValue(currency)}`"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      name:
+                                        "prices." +
+                                        priceType.id +
+                                        "." +
+                                        currency.code
+                                    },
+                                    domProps: {
+                                      value:
+                                        _vm.prices$[priceType.id][currency.code]
+                                    },
+                                    on: {
+                                      input: [
+                                        function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.prices$[priceType.id],
+                                            currency.code,
+                                            $event.target.value
+                                          )
+                                        },
+                                        _vm.onChange
+                                      ]
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("currency-converter", {
+                                    attrs: {
+                                      value:
+                                        _vm.prices$[priceType.id][
+                                          currency.code
+                                        ],
+                                      currency: _vm.getCurrency(currency.code)
+                                    }
                                   })
                                 ],
                                 1
@@ -39962,14 +39232,16 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    _vm._s(
-                                      _vm.getError(
-                                        "prices." +
-                                          priceType.id +
-                                          "." +
-                                          currency.code
-                                      )
-                                    )
+                                    "\n              " +
+                                      _vm._s(
+                                        _vm.getError(
+                                          "prices." +
+                                            priceType.id +
+                                            "." +
+                                            currency.code
+                                        )
+                                      ) +
+                                      "\n            "
                                   )
                                 ]
                               )
@@ -41576,14 +40848,13 @@ var render = function() {
                           "div",
                           { staticClass: "col-md-8" },
                           [
+                            _vm._v(
+                              "\n<<<<<<< Updated upstream\n                  "
+                            ),
                             _c("tree-select", {
                               attrs: {
-<<<<<<< Updated upstream
                                 activeLanguageCode: _vm.activeLanguageCode,
                                 options: _vm.suppliers,
-=======
-                                options: _vm.suppliersToSelect,
->>>>>>> Stashed changes
                                 selected: _vm.product.supplier_id,
                                 placeholder: "Выберите поставщика"
                               },
@@ -41612,6 +40883,46 @@ var render = function() {
                                   _vm._s(_vm.formErrors.first("supplier_id"))
                                 )
                               ]
+                            ),
+                            _vm._v("\n=======\n                  "),
+                            _c("tree-select", {
+                              attrs: {
+                                options: _vm.suppliersToSelect,
+                                selected: _vm.product.supplier_id,
+                                placeholder: "Выберите поставщика"
+                              },
+                              on: {
+                                "update:selected": function($event) {
+                                  _vm.$set(_vm.product, "supplier_id", $event)
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.formErrors.has("supplier_id"),
+                                    expression: "formErrors.has('supplier_id')"
+                                  }
+                                ],
+                                staticClass: "help-block"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(
+                                      _vm.formErrors.first("supplier_id")
+                                    ) +
+                                    "\n                  "
+                                )
+                              ]
+                            ),
+                            _vm._v(
+                              "\n>>>>>>> Stashed changes\n                "
                             )
                           ],
                           1
@@ -41640,18 +40951,16 @@ var render = function() {
                           "div",
                           { staticClass: "col-md-8" },
                           [
+                            _vm._v(
+                              "\n<<<<<<< Updated upstream\n                  "
+                            ),
                             _c("tree-select-translatable", {
                               attrs: {
                                 options: _vm.categoriesTree,
                                 selected: _vm.product.categories,
                                 multiple: true,
-<<<<<<< Updated upstream
                                 placeholder: "Выберите категорию",
                                 activeLanguageCode: _vm.activeLanguageCode
-=======
-                                params: { closeOnSelect: false },
-                                placeholder: "Выберите категорию"
->>>>>>> Stashed changes
                               },
                               on: {
                                 "update:selected": function($event) {
@@ -41678,6 +40987,48 @@ var render = function() {
                                   _vm._s(_vm.formErrors.first("categories"))
                                 )
                               ]
+                            ),
+                            _vm._v("\n=======\n                  "),
+                            _c("tree-select-translatable", {
+                              attrs: {
+                                activeLanguageCode: _vm.activeLanguageCode,
+                                defaultLanguageCode: _vm.defaultLanguageCode,
+                                options: _vm.categoriesTree,
+                                selected: _vm.product.categories,
+                                multiple: true,
+                                params: { closeOnSelect: false },
+                                placeholder: "Выберите категорию"
+                              },
+                              on: {
+                                "update:selected": function($event) {
+                                  _vm.$set(_vm.product, "categories", $event)
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.formErrors.has("categories"),
+                                    expression: "formErrors.has('categories')"
+                                  }
+                                ],
+                                staticClass: "help-block"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(_vm.formErrors.first("categories")) +
+                                    "\n                  "
+                                )
+                              ]
+                            ),
+                            _vm._v(
+                              "\n>>>>>>> Stashed changes\n                "
                             )
                           ],
                           1
@@ -42112,78 +41463,130 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-lg-6" }, [
-                _c("div", { staticClass: "block" }, [
-                  _vm._m(4),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-horizontal form-bordered" }, [
+              _c(
+                "div",
+                { staticClass: "col-lg-6" },
+                [
+                  _c("div", { staticClass: "block" }, [
+                    _vm._m(4),
+                    _vm._v(" "),
                     _c(
                       "div",
-                      {
-                        class:
-                          "form-group" +
-                          (_vm.formErrors.has("width") ? " has-error" : "")
-                      },
+                      { staticClass: "form-horizontal form-bordered" },
                       [
-                        _vm._m(5),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-9" }, [
-                          _c(
-                            "div",
-                            { staticClass: "input-group" },
-                            [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.product.width,
-                                    expression: "product.width"
-                                  },
-                                  { name: "number", rawName: "v-number" },
-                                  {
-                                    name: "validate",
-                                    rawName: "v-validate",
-                                    value:
-                                      "required|integer|min_value:1|max_value:2147483647",
-                                    expression:
-                                      "'required|integer|min_value:1|max_value:2147483647'"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  type: "text",
-                                  id: "width",
-                                  name: "width"
-                                },
-                                domProps: { value: _vm.product.width },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
+                        _c(
+                          "div",
+                          {
+                            class:
+                              "form-group" +
+                              (_vm.formErrors.has("width") ? " has-error" : "")
+                          },
+                          [
+                            _vm._m(5),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-9" }, [
+                              _c(
+                                "div",
+                                { staticClass: "input-group" },
+                                [
+                                  _vm._v(
+                                    "\n<<<<<<< Updated upstream\n                    "
+                                  ),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.product.width,
+                                        expression: "product.width"
+                                      },
+                                      { name: "number", rawName: "v-number" },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value:
+                                          "required|integer|min_value:1|max_value:4294967295",
+                                        expression:
+                                          "'required|integer|min_value:1|max_value:4294967295'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      id: "width",
+                                      name: "width"
+                                    },
+                                    domProps: { value: _vm.product.width },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.product,
+                                          "width",
+                                          $event.target.value
+                                        )
+                                      }
                                     }
-                                    _vm.$set(
-                                      _vm.product,
-                                      "width",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              }),
+                                  }),
+                                  _vm._v(" "),
+                                  _c("size-converter", {
+                                    attrs: { value: _vm.product.width }
+                                  }),
+                                  _vm._v("\n=======\n                    "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.product.width,
+                                        expression: "product.width"
+                                      },
+                                      { name: "number", rawName: "v-number" },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value:
+                                          "required|integer|min_value:1|max_value:2147483647",
+                                        expression:
+                                          "'required|integer|min_value:1|max_value:2147483647'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      id: "width",
+                                      name: "width"
+                                    },
+                                    domProps: { value: _vm.product.width },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.product,
+                                          "width",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("size-converter", {
+                                    attrs: { value: _vm.product.width }
+                                  }),
+                                  _vm._v(
+                                    "\n>>>>>>> Stashed changes\n                  "
+                                  )
+                                ],
+                                1
+                              ),
                               _vm._v(" "),
-                              _c("size-converter", {
-                                attrs: { value: _vm.product.width }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              directives: [
+                              _c(
+                                "span",
                                 {
-<<<<<<< Updated upstream
                                   directives: [
                                     {
                                       name: "show",
@@ -42200,713 +41603,6 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-=======
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.formErrors.has("width"),
-                                  expression: "formErrors.has('width')"
-                                }
-                              ],
-                              staticClass: "help-block"
-                            },
-                            [
-                              _vm._v(
-                                "\n                  " +
-                                  _vm._s(_vm.formErrors.first("width")) +
-                                  "\n                "
-                              )
-                            ]
-                          )
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        class:
-                          "form-group" +
-                          (_vm.formErrors.has("height") ? " has-error" : "")
-                      },
-                      [
-                        _vm._m(6),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-9" }, [
-                          _c(
-                            "div",
-                            { staticClass: "input-group" },
-                            [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.product.height,
-                                    expression: "product.height"
-                                  },
-                                  { name: "number", rawName: "v-number" },
-                                  {
-                                    name: "validate",
-                                    rawName: "v-validate",
-                                    value:
-                                      "required|integer|min_value:1|max_value:2147483647",
-                                    expression:
-                                      "'required|integer|min_value:1|max_value:2147483647'"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  type: "text",
-                                  id: "height",
-                                  name: "height"
-                                },
-                                domProps: { value: _vm.product.height },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.product,
-                                      "height",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("size-converter", {
-                                attrs: { value: _vm.product.height }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.formErrors.has("height"),
-                                  expression: "formErrors.has('height')"
-                                }
-                              ],
-                              staticClass: "help-block"
-                            },
-                            [
-                              _vm._v(
-                                "\n                  " +
-                                  _vm._s(_vm.formErrors.first("height")) +
-                                  "\n                "
-                              )
-                            ]
-                          )
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        class:
-                          "form-group" +
-                          (_vm.formErrors.has("length") ? " has-error" : "")
-                      },
-                      [
-                        _vm._m(7),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-9" }, [
-                          _c(
-                            "div",
-                            { staticClass: "input-group" },
-                            [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.product.length,
-                                    expression: "product.length"
-                                  },
-                                  { name: "number", rawName: "v-number" },
-                                  {
-                                    name: "validate",
-                                    rawName: "v-validate",
-                                    value:
-                                      "required|integer|min_value:1|max_value:2147483647",
-                                    expression:
-                                      "'required|integer|min_value:1|max_value:2147483647'"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  type: "text",
-                                  id: "length",
-                                  name: "length"
-                                },
-                                domProps: { value: _vm.product.length },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.product,
-                                      "length",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("size-converter", {
-                                attrs: { value: _vm.product.length }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.formErrors.has("length"),
-                                  expression: "formErrors.has('length')"
-                                }
-                              ],
-                              staticClass: "help-block"
-                            },
-                            [
-                              _vm._v(
-                                "\n                  " +
-                                  _vm._s(_vm.formErrors.first("length")) +
-                                  "\n                "
-                              )
-                            ]
-                          )
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        class:
-                          "form-group" +
-                          (_vm.formErrors.has("weight") ? " has-error" : "")
-                      },
-                      [
-                        _vm._m(8),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-9" }, [
-                          _c(
-                            "div",
-                            { staticClass: "input-group" },
-                            [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.product.weight,
-                                    expression: "product.weight"
-                                  },
-                                  { name: "number", rawName: "v-number" },
-                                  {
-                                    name: "validate",
-                                    rawName: "v-validate",
-                                    value:
-                                      "required|integer|min_value:1|max_value:2147483647",
-                                    expression:
-                                      "'required|integer|min_value:1|max_value:2147483647'"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  type: "text",
-                                  id: "weight",
-                                  name: "weight"
-                                },
-                                domProps: { value: _vm.product.weight },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.product,
-                                      "weight",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("weight-converter", {
-                                attrs: { value: _vm.product.weight }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.formErrors.has("weight"),
-                                  expression: "formErrors.has('weight')"
-                                }
-                              ],
-                              staticClass: "help-block"
-                            },
-                            [
-                              _vm._v(
-                                "\n                  " +
-                                  _vm._s(_vm.formErrors.first("weight")) +
-                                  "\n                "
-                              )
-                            ]
-                          )
-                        ])
-                      ]
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _vm.attributes && _vm.attributes.length > 0
-                  ? _c(
-                      "div",
-                      { staticClass: "block" },
-                      [
-                        _vm._m(9),
-                        _vm._v(" "),
-                        _c("attributes-select", {
-                          ref: "attributesSelect",
-                          attrs: {
-                            attributes: _vm.attributes,
-                            languages: _vm.languages,
-                            activeLanguageCode: _vm.activeLanguageCode,
-                            errors: _vm.formErrors,
-                            selectedAttributes: _vm.product.attributes,
-                            selectedOptions: _vm.product.options
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("div", { staticClass: "block" }, [
-                  _vm._m(10),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "block-section" },
-                    [
-                      _vm.type === "edit"
-                        ? _c("dropzone-gallery", {
-                            ref: "gallery",
-                            attrs: {
-                              url: _vm.prepareUrl("image"),
-                              images: _vm.product.images,
-                              errors: _vm.formErrors.collect("images") || []
-                            },
-                            on: {
-                              "update:images": function($event) {
-                                _vm.$set(_vm.product, "images", $event)
-                              }
-                            }
-                          })
-                        : _vm._e()
-                    ],
-                    1
-                  )
-                ])
-              ])
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.product && _vm.product.prices
-          ? _c(
-              "div",
-              { staticClass: "block" },
-              [
-                _vm._m(11),
-                _vm._v(" "),
-                _c("prices-table", {
-                  attrs: {
-                    prices: _vm.product.prices,
-                    activeLanguageCode: _vm.activeLanguageCode,
-                    errors: _vm.formErrors
-                  },
-                  on: {
-                    "update:prices": function($event) {
-                      _vm.$set(_vm.product, "prices", $event)
-                    }
-                  }
-                })
-              ],
-              1
-            )
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c(
-        "b-modal",
-        {
-          ref: "validationModal",
-          attrs: {
-            id: "validationModal",
-            title: "Ошибка валидации",
-            "title-tag": "h3",
-            centered: "",
-            "ok-title": "Ок",
-            "ok-only": "",
-            "hide-header-close": ""
-          }
-        },
-        [_vm._v("\n\n    Проверьте правильность заполнения формы!\n  ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "b-modal",
-        {
-          ref: "removeModal",
-          attrs: {
-            id: "removeModal",
-            title: "Удаление категории",
-            "title-tag": "h3",
-            centered: "",
-            "ok-title": "Удалить",
-            "cancel-title": "Отмена",
-            "hide-header-close": ""
-          },
-          on: { ok: _vm.removeConfirm }
-        },
-        [_vm._v("\n\n    Вы действительно хотите удалить этот товар?\n  ")]
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h1", [
-      _c("strong", [_vm._v("\n          Создание товара\n        ")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "block-title" }, [
-      _c("h2", [
-        _c("i", { staticClass: "fa fa-globe" }),
-        _vm._v(" "),
-        _c("strong", [_vm._v("Языковая")]),
-        _vm._v(" информация\n            ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "block-title" }, [
-      _c("h2", [
-        _c("i", { staticClass: "fa fa-pencil" }),
-        _vm._v(" "),
-        _c("strong", [_vm._v("Основная")]),
-        _vm._v(" информация\n            ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { staticClass: "col-md-3 control-label" }, [
-      _vm._v("\n                Поставщик "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "block-title" }, [
-      _c("h2", [
-        _c("i", { staticClass: "fa fa-truck" }),
-        _vm._v(" "),
-        _c("strong", [_vm._v("Габариты")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "col-md-3 control-label", attrs: { for: "width" } },
-      [
-        _vm._v("\n                Ширина "),
-        _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "col-md-3 control-label", attrs: { for: "height" } },
-      [
-        _vm._v("\n                Высота "),
-        _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "col-md-3 control-label", attrs: { for: "length" } },
-      [
-        _vm._v("\n                Длина "),
-        _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "col-md-3 control-label", attrs: { for: "weight" } },
-      [
-        _vm._v("\n                Вес "),
-        _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "block-title" }, [
-      _c("h2", [
-        _c("i", { staticClass: "fa fa-list" }),
-        _vm._v(" "),
-        _c("strong", [_vm._v("Аттрибуты")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "block-title" }, [
-      _c("h2", [
-        _c("i", { staticClass: "fa fa-image" }),
-        _vm._v(" "),
-        _c("strong", [_vm._v("Изображения")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "block-title" }, [
-      _c("h2", [
-        _c("i", { staticClass: "fa fa-money" }),
-        _vm._v(" "),
-        _c("strong", [_vm._v("Цены")])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-0fb93f40", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-172f7f00\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/priceTypes/PriceTypeEdit.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("shop-quick-nav", { attrs: { active: "price-types" } }),
-      _vm._v(" "),
-      _c("div", { staticClass: "block full" }, [
-        _vm.type === "create"
-          ? _c("div", { staticClass: "block-title clearfix" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "block-title-control" },
-                [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-sm btn-default btn-alt",
-                      on: { click: _vm.redirectToTable }
-                    },
-                    [_c("i", { staticClass: "fa fa-arrow-left" })]
-                  ),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "btn-separator-xs" }),
-                  _vm._v(" "),
-                  _c("language-picker", {
-                    class: { "has-error": _vm.formTranslatesHasError() },
-                    attrs: {
-                      languages: _vm.languages,
-                      activeLanguageCode: _vm.activeLanguageCode
-                    },
-                    on: {
-                      "update:activeLanguageCode": function($event) {
-                        _vm.activeLanguageCode = $event
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "btn-separator-xs" }),
-                  _vm._v(" "),
-                  _vm.userCan("price-types.create")
-                    ? _c(
-                        "a",
-                        {
-                          staticClass: "btn btn-sm btn-success active",
-                          on: { click: _vm.save }
-                        },
-                        [
-                          _c("i", { staticClass: "fa fa-plus-circle" }),
-                          _vm._v(" Создать\n        ")
-                        ]
-                      )
-                    : _vm._e()
-                ],
-                1
-              )
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.type === "edit"
-          ? _c("div", { staticClass: "block-title clearfix" }, [
-              _c("h1", [
-                _c("strong", [
-                  _vm._v(
-                    "\n          Редактирование типа цены #" +
-                      _vm._s(this.id) +
-                      "\n        "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "block-title-control" },
-                [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-sm btn-default btn-alt",
-                      on: { click: _vm.redirectToTable }
-                    },
-                    [_c("i", { staticClass: "fa fa-arrow-left" })]
-                  ),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "btn-separator-xs" }),
-                  _vm._v(" "),
-                  _c("language-picker", {
-                    class: { "has-error": _vm.formTranslatesHasError() },
-                    attrs: {
-                      languages: _vm.languages,
-                      activeLanguageCode: _vm.activeLanguageCode
-                    },
-                    on: {
-                      "update:activeLanguageCode": function($event) {
-                        _vm.activeLanguageCode = $event
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "btn-separator-xs" }),
-                  _vm._v(" "),
-                  _vm.userCan("price-types.edit")
-                    ? _c(
-                        "a",
-                        {
-                          staticClass: "btn btn-sm btn-primary active",
-                          on: { click: _vm.save }
-                        },
-                        [
-                          _c("i", { staticClass: "fa fa-floppy-o" }),
-                          _vm._v(" Сохранить\n        ")
-                        ]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.userCan("price-types.delete")
-                    ? _c(
-                        "a",
-                        {
-                          staticClass: "btn btn-sm btn-danger active",
-                          on: { click: _vm.remove }
-                        },
-                        [_vm._v("\n          Удалить\n        ")]
-                      )
-                    : _vm._e()
-                ],
-                1
-              )
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.priceType
-          ? _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-lg-12" }, [
-                _c(
-                  "div",
-                  {
-                    class:
-                      "block" +
-                      (_vm.langSwitchHovered ? " block-illuminated" : "")
-                  },
-                  [
-                    _vm._m(1),
-                    _vm._v(" "),
-                    _vm._l(_vm.languages, function(language) {
-                      return [
->>>>>>> Stashed changes
                         _c(
                           "div",
                           {
@@ -42922,6 +41618,9 @@ var render = function() {
                                 "div",
                                 { staticClass: "input-group" },
                                 [
+                                  _vm._v(
+                                    "\n<<<<<<< Updated upstream\n                    "
+                                  ),
                                   _c("input", {
                                     directives: [
                                       {
@@ -42963,7 +41662,53 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("size-converter", {
                                     attrs: { value: _vm.product.height }
-                                  })
+                                  }),
+                                  _vm._v("\n=======\n                    "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.product.height,
+                                        expression: "product.height"
+                                      },
+                                      { name: "number", rawName: "v-number" },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value:
+                                          "required|integer|min_value:1|max_value:2147483647",
+                                        expression:
+                                          "'required|integer|min_value:1|max_value:2147483647'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      id: "height",
+                                      name: "height"
+                                    },
+                                    domProps: { value: _vm.product.height },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.product,
+                                          "height",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("size-converter", {
+                                    attrs: { value: _vm.product.height }
+                                  }),
+                                  _vm._v(
+                                    "\n>>>>>>> Stashed changes\n                  "
+                                  )
                                 ],
                                 1
                               ),
@@ -43002,6 +41747,9 @@ var render = function() {
                                 "div",
                                 { staticClass: "input-group" },
                                 [
+                                  _vm._v(
+                                    "\n<<<<<<< Updated upstream\n                    "
+                                  ),
                                   _c("input", {
                                     directives: [
                                       {
@@ -43043,7 +41791,53 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("size-converter", {
                                     attrs: { value: _vm.product.length }
-                                  })
+                                  }),
+                                  _vm._v("\n=======\n                    "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.product.length,
+                                        expression: "product.length"
+                                      },
+                                      { name: "number", rawName: "v-number" },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value:
+                                          "required|integer|min_value:1|max_value:2147483647",
+                                        expression:
+                                          "'required|integer|min_value:1|max_value:2147483647'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      id: "length",
+                                      name: "length"
+                                    },
+                                    domProps: { value: _vm.product.length },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.product,
+                                          "length",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("size-converter", {
+                                    attrs: { value: _vm.product.length }
+                                  }),
+                                  _vm._v(
+                                    "\n>>>>>>> Stashed changes\n                  "
+                                  )
                                 ],
                                 1
                               ),
@@ -43082,6 +41876,9 @@ var render = function() {
                                 "div",
                                 { staticClass: "input-group" },
                                 [
+                                  _vm._v(
+                                    "\n<<<<<<< Updated upstream\n                    "
+                                  ),
                                   _c("input", {
                                     directives: [
                                       {
@@ -43123,7 +41920,53 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("weight-converter", {
                                     attrs: { value: _vm.product.weight }
-                                  })
+                                  }),
+                                  _vm._v("\n=======\n                    "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.product.weight,
+                                        expression: "product.weight"
+                                      },
+                                      { name: "number", rawName: "v-number" },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value:
+                                          "required|integer|min_value:1|max_value:2147483647",
+                                        expression:
+                                          "'required|integer|min_value:1|max_value:2147483647'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      id: "weight",
+                                      name: "weight"
+                                    },
+                                    domProps: { value: _vm.product.weight },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.product,
+                                          "weight",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("weight-converter", {
+                                    attrs: { value: _vm.product.weight }
+                                  }),
+                                  _vm._v(
+                                    "\n>>>>>>> Stashed changes\n                  "
+                                  )
                                 ],
                                 1
                               ),
@@ -43173,6 +42016,7 @@ var render = function() {
                       )
                     : _vm._e(),
                   _vm._v(" "),
+                  _vm._v("\n\n<<<<<<< Updated upstream\n          "),
                   _vm.type === "edit"
                     ? _c("dropzone-gallery", {
                         ref: "gallery",
@@ -43187,7 +42031,35 @@ var render = function() {
                           }
                         }
                       })
-                    : _vm._e()
+                    : _vm._e(),
+                  _vm._v("\n=======\n          "),
+                  _c("div", { staticClass: "block" }, [
+                    _vm._m(10),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "block-section" },
+                      [
+                        _vm.type === "edit"
+                          ? _c("dropzone-gallery", {
+                              ref: "gallery",
+                              attrs: {
+                                url: _vm.prepareUrl("image"),
+                                images: _vm.product.images,
+                                errors: _vm.formErrors.collect("images") || []
+                              },
+                              on: {
+                                "update:images": function($event) {
+                                  _vm.$set(_vm.product, "images", $event)
+                                }
+                              }
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v("\n\n\n>>>>>>> Stashed changes\n        ")
                 ],
                 1
               )
@@ -43199,7 +42071,7 @@ var render = function() {
               "div",
               { staticClass: "block" },
               [
-                _vm._m(10),
+                _vm._m(11),
                 _vm._v(" "),
                 _c("prices-table", {
                   attrs: { prices: _vm.product.prices, errors: _vm.formErrors },
@@ -43229,7 +42101,7 @@ var render = function() {
             "hide-header-close": ""
           }
         },
-        [_vm._v("\n    Проверьте правильность заполнения формы!\n  ")]
+        [_vm._v("\n      Проверьте правильность заполнения формы!\n    ")]
       ),
       _vm._v(" "),
       _c(
@@ -43247,7 +42119,7 @@ var render = function() {
           },
           on: { ok: _vm.removeConfirm }
         },
-        [_vm._v("\n    Вы действительно хотите удалить товар?\n  ")]
+        [_vm._v("\n      Вы действительно хотите удалить товар?\n    ")]
       )
     ],
     1
@@ -43375,6 +42247,18 @@ var staticRenderFns = [
         _c("i", { staticClass: "fa fa-list" }),
         _vm._v(" "),
         _c("strong", [_vm._v("Аттрибуты")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-image" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Изображения")])
       ])
     ])
   },
@@ -43887,204 +42771,7 @@ if (false) {
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-217bccf1\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/categories/CategoriesTable.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("shop-quick-nav", { attrs: { active: "categories" } }),
-      _vm._v(" "),
-      _c("div", { staticClass: "block full" }, [
-        _c("div", { staticClass: "block-title clearfix" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "block-title-control" },
-            [
-              _c("language-picker", {
-                class: { "has-error": _vm.formTranslatesHasError() },
-                attrs: {
-                  languages: _vm.languages,
-                  activeLanguageCode: _vm.activeLanguageCode
-                },
-                on: {
-                  "update:activeLanguageCode": function($event) {
-                    _vm.activeLanguageCode = $event
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _vm.languages.length > 1
-                ? _c("span", { staticClass: "btn-separator-xs" })
-                : _vm._e(),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-sm btn-success active",
-                  attrs: { to: "/shop/categories/create" }
-                },
-                [
-                  _c("i", { staticClass: "fa fa-plus-circle" }),
-                  _vm._v(" Создать")
-                ]
-              )
-            ],
-            1
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "table-responsive" }, [
-          _c(
-            "div",
-            {
-              staticClass:
-                "table table-center table-condensed table-bordered table-hover table-categories table-sortable dataTable no-footer table-sortable"
-            },
-            [
-<<<<<<< Updated upstream
-              _vm._m(1),
-=======
-              _c("div", { staticClass: "table-head" }, [
-                _c("div", { staticClass: "table-row" }, [
-                  _vm.userCan("categories.edit")
-                    ? _c("div", {
-                        staticClass: "table-cell table-cell-column-sort"
-                      })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "table-cell table-cell-column-id" },
-                    [_vm._v("\n              ID\n            ")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "table-cell" }, [
-                    _vm._v("\n              Название\n            ")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "table-cell table-cell-column-slug" },
-                    [_vm._v("\n              Slug\n            ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "table-cell table-cell-column-num" },
-                    [_vm._v("\n              Товаров\n            ")]
-                  ),
-                  _vm._v(" "),
-                  _vm.userCan("categories.edit")
-                    ? _c(
-                        "div",
-                        { staticClass: "table-cell table-cell-column-enabled" },
-                        [_vm._v("\n              Статус\n            ")]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.userCan("categories.delete")
-                    ? _c("div", {
-                        staticClass: "table-cell table-cell-column-delete"
-                      })
-                    : _vm._e()
-                ])
-              ]),
->>>>>>> Stashed changes
-              _vm._v(" "),
-              _vm.items && _vm.items.length
-                ? _c("categories-table-tree", {
-                    attrs: {
-                      tree: _vm.items,
-                      level: "0",
-                      statusChange: _vm.statusChange,
-                      remove: _vm.remove,
-                      activeLanguageCode: _vm.activeLanguageCode
-                    }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              !_vm.items.length
-                ? _c("div", { staticClass: "table-group" }, [_vm._m(2)])
-                : _vm._e()
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "b-modal",
-        {
-          ref: "removeModal",
-          attrs: {
-            id: "removeModal",
-            title: "Удаление категории",
-            "title-tag": "h3",
-            centered: "",
-            "ok-title": "Удалить",
-            "cancel-title": "Отмена",
-            "hide-header-close": ""
-          },
-          on: { ok: _vm.removeConfirm }
-        },
-        [_vm._v("\n    Вы действительно хотите удалить категорию?\n  ")]
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h1", [_c("strong", [_vm._v("Категории")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "table-head" }, [
-      _c("div", { staticClass: "table-row" }, [
-        _c("div", { staticClass: "table-cell" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "table-cell text-center" }, [
-          _vm._v("\n              ID\n            ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "table-cell" }, [
-          _vm._v("\n              Название\n            ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "table-cell" }, [
-          _vm._v("\n              Slug\n            ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "table-cell" }, [
-          _vm._v("\n              Статус\n            ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "table-cell" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "table-row" }, [
-      _c("div", { staticClass: "table-cell table-cell-empty text-center" }, [
-        _vm._v("\n              Список категорий пуст\n            ")
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
+module.exports={render:function(){},staticRenderFns:[]}
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
@@ -44509,21 +43196,41 @@ var render = function() {
                 "table table-middle table-center table-condensed table-bordered table-hover dataTable"
             },
             [
-<<<<<<< Updated upstream
-              _vm._m(1),
-=======
               _c("thead", [
                 _c("tr", [
+                  _vm._v("\n<<<<<<< Updated upstream\n              "),
+                  _c(
+                    "th",
+                    {
+                      staticClass: "text-center",
+                      staticStyle: { width: "128px" }
+                    },
+                    [_vm._v("Id")]
+                  ),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("Название")]),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    {
+                      staticClass: "text-center",
+                      staticStyle: { width: "128px" }
+                    },
+                    [_vm._v("Статус")]
+                  ),
+                  _vm._v(" "),
+                  _c("th", { staticStyle: { width: "128px" } }),
+                  _vm._v("\n=======\n              "),
                   _vm._m(1),
                   _vm._v(" "),
                   _c("th", { staticStyle: { width: "100%" } }, [
-                    _vm._v("\n              Название\n            ")
+                    _vm._v("\n                Название\n              ")
                   ]),
                   _vm._v(" "),
                   _vm.userCan("suppliers.edit")
                     ? _c("th", [
                         _c("span", { staticClass: "table-column-enabled" }, [
-                          _vm._v("\n                Статус\n              ")
+                          _vm._v("\n                  Статус\n                ")
                         ])
                       ])
                     : _vm._e(),
@@ -44532,10 +43239,10 @@ var render = function() {
                     ? _c("th", [
                         _c("span", { staticClass: "table-column-delete" })
                       ])
-                    : _vm._e()
+                    : _vm._e(),
+                  _vm._v("\n>>>>>>> Stashed changes\n            ")
                 ])
               ]),
->>>>>>> Stashed changes
               _vm._v(" "),
               _c(
                 "tbody",
@@ -44593,8 +43300,7 @@ var render = function() {
                             ],
                             1
                           ),
-                          _vm._v(" "),
-<<<<<<< Updated upstream
+                          _vm._v("\n<<<<<<< Updated upstream\n              "),
                           _c("td", { staticClass: "text-center" }, [
                             _c(
                               "a",
@@ -44612,9 +43318,9 @@ var render = function() {
                                 }
                               },
                               [_c("i", { staticClass: "fa fa-times" })]
-                            )
-                          ])
-=======
+                            ),
+                            _vm._v("\n=======\n\n              ")
+                          ]),
                           _vm.userCan("suppliers.delete")
                             ? _c("td", [
                                 _c(
@@ -44634,10 +43340,12 @@ var render = function() {
                                       [_c("i", { staticClass: "fa fa-times" })]
                                     )
                                   ]
+                                ),
+                                _vm._v(
+                                  "\n>>>>>>> Stashed changes\n              "
                                 )
                               ])
                             : _vm._e()
->>>>>>> Stashed changes
                         ])
                       : _vm._e()
                   }),
@@ -44677,7 +43385,7 @@ var render = function() {
           },
           on: { ok: _vm.removeConfirm }
         },
-        [_vm._v("\n\n    Вы действительно хотите удалить поставщика?\n  ")]
+        [_vm._v("\n\n      Вы действительно хотите удалить поставщика?\n    ")]
       )
     ],
     1
@@ -44694,23 +43402,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c(
-          "th",
-          { staticClass: "text-center", staticStyle: { width: "128px" } },
-          [_vm._v("Id")]
-        ),
-        _vm._v(" "),
-        _c("th", [_vm._v("Название")]),
-        _vm._v(" "),
-        _c(
-          "th",
-          { staticClass: "text-center", staticStyle: { width: "128px" } },
-          [_vm._v("Статус")]
-        ),
-        _vm._v(" "),
-        _c("th", { staticStyle: { width: "128px" } })
+    return _c("th", [
+      _c("span", { staticClass: "table-column-id" }, [
+        _vm._v("\n                  ID\n                ")
       ])
     ])
   }
@@ -47616,16 +46310,8 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("div", { staticClass: "table-row" }, [
-<<<<<<< Updated upstream
             _vm._m(0, true),
             _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "table-cell text-center" },
-              [
-                _c("router-link", { attrs: { to: category.url } }, [
-                  _c("strong", [_vm._v(_vm._s(category.id))])
-=======
             _vm.userCan("categories.edit")
               ? _c(
                   "div",
@@ -47639,15 +46325,10 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "table-cell text-center table-cell-column-id" },
+              { staticClass: "table-cell text-center" },
               [
                 _c("router-link", { attrs: { to: category.url } }, [
-                  _c("strong", [
-                    _vm._v(
-                      "\n            " + _vm._s(category.id) + "\n          "
-                    )
-                  ])
->>>>>>> Stashed changes
+                  _c("strong", [_vm._v(_vm._s(category.id))])
                 ])
               ],
               1
@@ -47660,7 +46341,6 @@ var render = function() {
                 category.children
                   ? _c(
                       "span",
-<<<<<<< Updated upstream
                       {
                         class:
                           "btn btn-primary btn-expand" +
@@ -47727,77 +46407,6 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "table-cell text-center" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-danger",
-                  attrs: {
-                    href: "javascript:void(0)",
-                    "data-toggle": "tooltip",
-                    title: "Удалить"
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.remove(category.id)
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-times" })]
-              )
-            ])
-=======
-                      {
-                        class:
-                          "btn btn-primary btn-expand" +
-                          (_vm.isExpanded(category.id) ? " btn-alt" : ""),
-                        on: {
-                          click: function($event) {
-                            _vm.expand(category.id)
-                          }
-                        }
-                      },
-                      [
-                        !_vm.isExpanded(category.id)
-                          ? _c("i", { staticClass: "fa fa-plus" })
-                          : _c("i", { staticClass: "fa fa-minus" })
-                      ]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("router-link", { attrs: { to: category.url } }, [
-                  _c("strong", {
-                    domProps: {
-                      innerHTML: _vm._s(
-                        category.i18n[_vm.activeLanguageCode].title
-                      )
-                    }
-                  })
-                ])
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "table-cell table-cell-column-slug" }, [
-              _c(
-                "a",
-                {
-                  attrs: {
-                    href: category.siteUrl,
-                    target: "_blank",
-                    rel: "external"
-                  }
-                },
-                [
-                  _c("i", { staticClass: "fa fa-external-link" }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "table-slug" }, [
-                    _c("strong", [_vm._v(_vm._s(category.slug))])
-                  ])
-                ]
-              )
-            ]),
-            _vm._v(" "),
             _c("div", { staticClass: "table-cell table-cell-column-num" }, [
               _vm._v(
                 "\n        " + _vm._s(category.products_count) + "\n      "
@@ -47823,27 +46432,21 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
-            _vm.userCan("categories.delete")
-              ? _c(
-                  "div",
-                  { staticClass: "table-cell table-cell-column-delete" },
-                  [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-danger",
-                        on: {
-                          click: function($event) {
-                            _vm.remove(category.id)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "fa fa-times" })]
-                    )
-                  ]
-                )
-              : _vm._e()
->>>>>>> Stashed changes
+            _c("div", { staticClass: "table-cell text-center" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-danger",
+                  attrs: { "data-toggle": "tooltip" },
+                  on: {
+                    click: function($event) {
+                      _vm.remove(category.id)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-times" })]
+              )
+            ])
           ]),
           _vm._v(" "),
           category.children
@@ -47872,7 +46475,6 @@ var render = function() {
     })
   )
 }
-<<<<<<< Updated upstream
 var staticRenderFns = [
   function() {
     var _vm = this
@@ -47885,9 +46487,6 @@ var staticRenderFns = [
     )
   }
 ]
-=======
-var staticRenderFns = []
->>>>>>> Stashed changes
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -47951,8 +46550,6 @@ if (false) {
 
 /***/ }),
 
-<<<<<<< Updated upstream
-=======
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-e1a7fc60\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Avatar.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -48224,7 +46821,6 @@ if (false) {
 
 /***/ }),
 
->>>>>>> Stashed changes
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-fa6524ca\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SearchInput.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -51211,7 +49807,7 @@ module.exports = function listToStyles (parentId, list) {
 /***/ "./node_modules/vue2-dropzone/dist/vue2Dropzone.js":
 /***/ (function(module, exports, __webpack_require__) {
 
-!function(e,o){ true?module.exports=o():"function"==typeof define&&define.amd?define(o):e.vue2Dropzone=o()}(this,function(){"use strict";var e={getSignedURL:function(e,o){var n={filePath:e.name,contentType:e.type};return new Promise(function(t,i){var r=new FormData,s=new XMLHttpRequest,d="function"==typeof o.signingURL?o.signingURL(e):o.signingURL;s.open("POST",d),s.onload=function(){200==s.status?t(JSON.parse(s.response)):i(s.statusText)},s.onerror=function(e){console.error("Network Error : Could not send request to AWS (Maybe CORS errors)"),i(e)},Object.entries(o.headers||{}).forEach(function(e){var o=e[0],n=e[1];s.setRequestHeader(o,n)}),n=Object.assign(n,o.params||{}),Object.entries(n).forEach(function(e){var o=e[0],n=e[1];r.append(o,n)}),s.send(r)})},sendFile:function(e,o){var n=new FormData;return this.getSignedURL(e,o).then(function(o){var t=o.signature;return Object.keys(t).forEach(function(e){n.append(e,t[e])}),n.append("file",e),new Promise(function(e,t){var i=new XMLHttpRequest;i.open("POST",o.postEndpoint),i.onload=function(){if(201==i.status){var o=(new window.DOMParser).parseFromString(i.response,"text/xml").firstChild.children[0].innerHTML;e({success:!0,message:o})}else{var n=(new window.DOMParser).parseFromString(i.response,"text/xml").firstChild.children[0].innerHTML;t({success:!1,message:n+". Request is marked as resolved when returns as status 201"})}},i.onerror=function(e){var o=(new window.DOMParser).parseFromString(i.response,"text/xml").firstChild.children[1].innerHTML;t({success:!1,message:o})},i.send(n)})}).catch(function(e){return e})}};return{render:function(){var e=this.$createElement;return(this._self._c||e)("div",{ref:"dropzoneElement",class:{"vue-dropzone dropzone":this.includeStyling},attrs:{id:this.id}})},staticRenderFns:[],props:{id:{type:String,required:!0},options:{type:Object,required:!0},includeStyling:{type:Boolean,default:!0,required:!1},awss3:{type:Object,required:!1,default:null},destroyDropzone:{type:Boolean,default:!0,required:!1}},data:function(){return{isS3:!1,wasQueueAutoProcess:!0}},computed:{dropzoneSettings:function(){var e={thumbnailWidth:200,thumbnailHeight:200};return Object.keys(this.options).forEach(function(o){e[o]=this.options[o]},this),null!==this.awss3&&(e.autoProcessQueue=!1,this.isS3=!0,void 0!==this.options.autoProcessQueue&&(this.wasQueueAutoProcess=this.options.autoProcessQueue)),e}},methods:{manuallyAddFile:function(e,o){e.manuallyAdded=!0,this.dropzone.emit("addedfile",e),o&&this.dropzone.emit("thumbnail",e,o);for(var n=e.previewElement.querySelectorAll("[data-dz-thumbnail]"),t=0;t<n.length;t++)n[t].style.width=this.dropzoneSettings.thumbnailWidth+"px",n[t].style.height=this.dropzoneSettings.thumbnailHeight+"px",n[t].style["object-fit"]="contain";this.dropzone.emit("complete",e),this.dropzone.options.maxFiles&&this.dropzone.options.maxFiles--,this.dropzone.files.push(e),this.$emit("vdropzone-file-added-manually",e)},setOption:function(e,o){this.dropzone.options[e]=o},removeAllFiles:function(e){this.dropzone.removeAllFiles(e)},processQueue:function(){var e=this,o=this.dropzone;this.isS3&&!this.wasQueueAutoProcess?this.getQueuedFiles().forEach(function(o){e.getSignedAndUploadToS3(o)}):this.dropzone.processQueue(),this.dropzone.on("success",function(){o.options.autoProcessQueue=!0}),this.dropzone.on("queuecomplete",function(){o.options.autoProcessQueue=!1})},init:function(){return this.dropzone.init()},destroy:function(){return this.dropzone.destroy()},updateTotalUploadProgress:function(){return this.dropzone.updateTotalUploadProgress()},getFallbackForm:function(){return this.dropzone.getFallbackForm()},getExistingFallback:function(){return this.dropzone.getExistingFallback()},setupEventListeners:function(){return this.dropzone.setupEventListeners()},removeEventListeners:function(){return this.dropzone.removeEventListeners()},disable:function(){return this.dropzone.disable()},enable:function(){return this.dropzone.enable()},filesize:function(e){return this.dropzone.filesize(e)},accept:function(e,o){return this.dropzone.accept(e,o)},addFile:function(e){return this.dropzone.addFile(e)},removeFile:function(e){this.dropzone.removeFile(e)},getAcceptedFiles:function(){return this.dropzone.getAcceptedFiles()},getRejectedFiles:function(){return this.dropzone.getRejectedFiles()},getFilesWithStatus:function(){return this.dropzone.getFilesWithStatus()},getQueuedFiles:function(){return this.dropzone.getQueuedFiles()},getUploadingFiles:function(){return this.dropzone.getUploadingFiles()},getAddedFiles:function(){return this.dropzone.getAddedFiles()},getActiveFiles:function(){return this.dropzone.getActiveFiles()},getSignedAndUploadToS3:function(o){var n=this;e.sendFile(o,this.awss3).then(function(e){e.success?(o.s3ObjectLocation=e.message,setTimeout(function(){return n.dropzone.processFile(o)}),n.$emit("vdropzone-s3-upload-success",e.message)):"undefined"!=typeof message?n.$emit("vdropzone-s3-upload-error",e.message):n.$emit("vdropzone-s3-upload-error","Network Error : Could not send request to AWS. (Maybe CORS error)")}).catch(function(e){alert(e)})},setAWSSigningURL:function(e){this.isS3&&(this.awss3.signingURL=e)}},mounted:function(){if(!this.$isServer||!this.hasBeenMounted){this.hasBeenMounted=!0;var e=__webpack_require__("./node_modules/dropzone/dist/dropzone.js");e.autoDiscover=!1,this.dropzone=new e(this.$refs.dropzoneElement,this.dropzoneSettings);var o=this;this.dropzone.on("thumbnail",function(e,n){o.$emit("vdropzone-thumbnail",e,n)}),this.dropzone.on("addedfile",function(e){o.duplicateCheck&&this.files.length&&this.files.forEach(function(n){n.name===e.name&&(this.removeFile(e),o.$emit("duplicate-file",e))},this),o.$emit("vdropzone-file-added",e),o.isS3&&o.wasQueueAutoProcess&&o.getSignedAndUploadToS3(e)}),this.dropzone.on("addedfiles",function(e){o.$emit("vdropzone-files-added",e)}),this.dropzone.on("removedfile",function(e){o.$emit("vdropzone-removed-file",e),e.manuallyAdded&&o.dropzone.options.maxFiles++}),this.dropzone.on("success",function(e,n){o.$emit("vdropzone-success",e,n),o.isS3&&o.wasQueueAutoProcess&&o.setOption("autoProcessQueue",!1)}),this.dropzone.on("successmultiple",function(e,n){o.$emit("vdropzone-success-multiple",e,n)}),this.dropzone.on("error",function(e,n,t){o.$emit("vdropzone-error",e,n,t)}),this.dropzone.on("errormultiple",function(e,n,t){o.$emit("vdropzone-error-multiple",e,n,t)}),this.dropzone.on("sending",function(e,n,t){o.isS3&&t.append("s3ObjectLocation",e.s3ObjectLocation),o.$emit("vdropzone-sending",e,n,t)}),this.dropzone.on("sendingmultiple",function(e,n,t){o.$emit("vdropzone-sending-multiple",e,n,t)}),this.dropzone.on("complete",function(e){o.$emit("vdropzone-complete",e)}),this.dropzone.on("completemultiple",function(e){o.$emit("vdropzone-complete-multiple",e)}),this.dropzone.on("canceled",function(e){o.$emit("vdropzone-canceled",e)}),this.dropzone.on("canceledmultiple",function(e){o.$emit("vdropzone-canceled-multiple",e)}),this.dropzone.on("maxfilesreached",function(e){o.$emit("vdropzone-max-files-reached",e)}),this.dropzone.on("maxfilesexceeded",function(e){o.$emit("vdropzone-max-files-exceeded",e)}),this.dropzone.on("processing",function(e){o.$emit("vdropzone-processing",e)}),this.dropzone.on("processing",function(e){o.$emit("vdropzone-processing",e)}),this.dropzone.on("processingmultiple",function(e){o.$emit("vdropzone-processing-multiple",e)}),this.dropzone.on("uploadprogress",function(e,n,t){o.$emit("vdropzone-upload-progress",e,n,t)}),this.dropzone.on("totaluploadprogress",function(e,n,t){o.$emit("vdropzone-total-upload-progress",e,n,t)}),this.dropzone.on("reset",function(){o.$emit("vdropzone-reset")}),this.dropzone.on("queuecomplete",function(){o.$emit("vdropzone-queue-complete")}),this.dropzone.on("drop",function(e){o.$emit("vdropzone-drop",e)}),this.dropzone.on("dragstart",function(e){o.$emit("vdropzone-drag-start",e)}),this.dropzone.on("dragend",function(e){o.$emit("vdropzone-drag-end",e)}),this.dropzone.on("dragenter",function(e){o.$emit("vdropzone-drag-enter",e)}),this.dropzone.on("dragover",function(e){o.$emit("vdropzone-drag-over",e)}),this.dropzone.on("dragleave",function(e){o.$emit("vdropzone-drag-leave",e)}),o.$emit("vdropzone-mounted")}},beforeDestroy:function(){this.destroyDropzone&&this.dropzone.destroy()}}});
+!function(e,o){ true?module.exports=o():"function"==typeof define&&define.amd?define(o):e.vue2Dropzone=o()}(this,function(){"use strict";var e={getSignedURL:function(e,o){var n={filePath:e.name,contentType:e.type};return new Promise(function(t,i){var r=new FormData,s=new XMLHttpRequest,d="function"==typeof o.signingURL?o.signingURL(e):o.signingURL;s.open("POST",d),s.onload=function(){200==s.status?t(JSON.parse(s.response)):i(s.statusText)},s.onerror=function(e){console.error("Network Error : Could not send request to AWS (Maybe CORS errors)"),i(e)},Object.entries(o.headers||{}).forEach(function(e){var o=e[0],n=e[1];s.setRequestHeader(o,n)}),n=Object.assign(n,o.params||{}),Object.entries(n).forEach(function(e){var o=e[0],n=e[1];r.append(o,n)}),s.send(r)})},sendFile:function(e,o,n){var t=n?this.setResponseHandler:this.sendS3Handler;return this.getSignedURL(e,o).then(function(o){return t(o,e)}).catch(function(e){return e})},setResponseHandler:function(e,o){o.s3Signature=e.signature,o.s3Url=e.postEndpoint},sendS3Handler:function(e,o){var n=new FormData,t=e.signature;return Object.keys(t).forEach(function(e){n.append(e,t[e])}),n.append("file",o),new Promise(function(o,t){var i=new XMLHttpRequest;i.open("POST",e.postEndpoint),i.onload=function(){if(201==i.status){var e=(new window.DOMParser).parseFromString(i.response,"text/xml").firstChild.children[0].innerHTML;o({success:!0,message:e})}else{var n=(new window.DOMParser).parseFromString(i.response,"text/xml").firstChild.children[0].innerHTML;t({success:!1,message:n+". Request is marked as resolved when returns as status 201"})}},i.onerror=function(e){var o=(new window.DOMParser).parseFromString(i.response,"text/xml").firstChild.children[1].innerHTML;t({success:!1,message:o})},i.send(n)})}};return{render:function(){var e=this.$createElement;return(this._self._c||e)("div",{ref:"dropzoneElement",class:{"vue-dropzone dropzone":this.includeStyling},attrs:{id:this.id}})},staticRenderFns:[],props:{id:{type:String,required:!0},options:{type:Object,required:!0},includeStyling:{type:Boolean,default:!0,required:!1},awss3:{type:Object,required:!1,default:null},destroyDropzone:{type:Boolean,default:!0,required:!1}},data:function(){return{isS3:!1,isS3OverridesServerPropagation:!1,wasQueueAutoProcess:!0}},computed:{dropzoneSettings:function(){var e={thumbnailWidth:200,thumbnailHeight:200};return Object.keys(this.options).forEach(function(o){e[o]=this.options[o]},this),null!==this.awss3&&(e.autoProcessQueue=!1,this.isS3=!0,this.isS3OverridesServerPropagation=!1===this.awss3.sendFileToServer,void 0!==this.options.autoProcessQueue&&(this.wasQueueAutoProcess=this.options.autoProcessQueue),this.isS3OverridesServerPropagation&&(e.url=function(e){return e[0].s3Url})),e}},methods:{manuallyAddFile:function(e,o){e.manuallyAdded=!0,this.dropzone.emit("addedfile",e),o&&this.dropzone.emit("thumbnail",e,o);for(var n=e.previewElement.querySelectorAll("[data-dz-thumbnail]"),t=0;t<n.length;t++)n[t].style.width=this.dropzoneSettings.thumbnailWidth+"px",n[t].style.height=this.dropzoneSettings.thumbnailHeight+"px",n[t].style["object-fit"]="contain";this.dropzone.emit("complete",e),this.dropzone.options.maxFiles&&this.dropzone.options.maxFiles--,this.dropzone.files.push(e),this.$emit("vdropzone-file-added-manually",e)},setOption:function(e,o){this.dropzone.options[e]=o},removeAllFiles:function(e){this.dropzone.removeAllFiles(e)},processQueue:function(){var e=this,o=this.dropzone;this.isS3&&!this.wasQueueAutoProcess?this.getQueuedFiles().forEach(function(o){e.getSignedAndUploadToS3(o)}):this.dropzone.processQueue(),this.dropzone.on("success",function(){o.options.autoProcessQueue=!0}),this.dropzone.on("queuecomplete",function(){o.options.autoProcessQueue=!1})},init:function(){return this.dropzone.init()},destroy:function(){return this.dropzone.destroy()},updateTotalUploadProgress:function(){return this.dropzone.updateTotalUploadProgress()},getFallbackForm:function(){return this.dropzone.getFallbackForm()},getExistingFallback:function(){return this.dropzone.getExistingFallback()},setupEventListeners:function(){return this.dropzone.setupEventListeners()},removeEventListeners:function(){return this.dropzone.removeEventListeners()},disable:function(){return this.dropzone.disable()},enable:function(){return this.dropzone.enable()},filesize:function(e){return this.dropzone.filesize(e)},accept:function(e,o){return this.dropzone.accept(e,o)},addFile:function(e){return this.dropzone.addFile(e)},removeFile:function(e){this.dropzone.removeFile(e)},getAcceptedFiles:function(){return this.dropzone.getAcceptedFiles()},getRejectedFiles:function(){return this.dropzone.getRejectedFiles()},getFilesWithStatus:function(){return this.dropzone.getFilesWithStatus()},getQueuedFiles:function(){return this.dropzone.getQueuedFiles()},getUploadingFiles:function(){return this.dropzone.getUploadingFiles()},getAddedFiles:function(){return this.dropzone.getAddedFiles()},getActiveFiles:function(){return this.dropzone.getActiveFiles()},getSignedAndUploadToS3:function(o){var n=this,t=e.sendFile(o,this.awss3,this.isS3OverridesServerPropagation);this.isS3OverridesServerPropagation?t.then(function(){setTimeout(function(){return n.dropzone.processFile(o)})}):t.then(function(e){e.success?(o.s3ObjectLocation=e.message,setTimeout(function(){return n.dropzone.processFile(o)}),n.$emit("vdropzone-s3-upload-success",e.message)):"undefined"!=typeof message?n.$emit("vdropzone-s3-upload-error",e.message):n.$emit("vdropzone-s3-upload-error","Network Error : Could not send request to AWS. (Maybe CORS error)")}),t.catch(function(e){alert(e)})},setAWSSigningURL:function(e){this.isS3&&(this.awss3.signingURL=e)}},mounted:function(){if(!this.$isServer||!this.hasBeenMounted){this.hasBeenMounted=!0;var e=__webpack_require__("./node_modules/dropzone/dist/dropzone.js");e.autoDiscover=!1,this.dropzone=new e(this.$refs.dropzoneElement,this.dropzoneSettings);var o=this;this.dropzone.on("thumbnail",function(e,n){o.$emit("vdropzone-thumbnail",e,n)}),this.dropzone.on("addedfile",function(e){o.duplicateCheck&&this.files.length&&this.files.forEach(function(n){n.name===e.name&&(this.removeFile(e),o.$emit("duplicate-file",e))},this),o.$emit("vdropzone-file-added",e),o.isS3&&o.wasQueueAutoProcess&&o.getSignedAndUploadToS3(e)}),this.dropzone.on("addedfiles",function(e){o.$emit("vdropzone-files-added",e)}),this.dropzone.on("removedfile",function(e){o.$emit("vdropzone-removed-file",e),e.manuallyAdded&&o.dropzone.options.maxFiles++}),this.dropzone.on("success",function(e,n){o.$emit("vdropzone-success",e,n),o.isS3&&(o.$emit("vdropzone-s3-upload-success"),o.wasQueueAutoProcess&&o.setOption("autoProcessQueue",!1))}),this.dropzone.on("successmultiple",function(e,n){o.$emit("vdropzone-success-multiple",e,n)}),this.dropzone.on("error",function(e,n,t){o.$emit("vdropzone-error",e,n,t),this.isS3&&o.$emit("vdropzone-s3-upload-error")}),this.dropzone.on("errormultiple",function(e,n,t){o.$emit("vdropzone-error-multiple",e,n,t)}),this.dropzone.on("sending",function(e,n,t){if(o.isS3){if(o.isS3OverridesServerPropagation){var i=e.s3Signature;Object.keys(i).forEach(function(e){t.append(e,i[e])})}}else t.append("s3ObjectLocation",e.s3ObjectLocation);o.$emit("vdropzone-sending",e,n,t)}),this.dropzone.on("sendingmultiple",function(e,n,t){o.$emit("vdropzone-sending-multiple",e,n,t)}),this.dropzone.on("complete",function(e){o.$emit("vdropzone-complete",e)}),this.dropzone.on("completemultiple",function(e){o.$emit("vdropzone-complete-multiple",e)}),this.dropzone.on("canceled",function(e){o.$emit("vdropzone-canceled",e)}),this.dropzone.on("canceledmultiple",function(e){o.$emit("vdropzone-canceled-multiple",e)}),this.dropzone.on("maxfilesreached",function(e){o.$emit("vdropzone-max-files-reached",e)}),this.dropzone.on("maxfilesexceeded",function(e){o.$emit("vdropzone-max-files-exceeded",e)}),this.dropzone.on("processing",function(e){o.$emit("vdropzone-processing",e)}),this.dropzone.on("processing",function(e){o.$emit("vdropzone-processing",e)}),this.dropzone.on("processingmultiple",function(e){o.$emit("vdropzone-processing-multiple",e)}),this.dropzone.on("uploadprogress",function(e,n,t){o.$emit("vdropzone-upload-progress",e,n,t)}),this.dropzone.on("totaluploadprogress",function(e,n,t){o.$emit("vdropzone-total-upload-progress",e,n,t)}),this.dropzone.on("reset",function(){o.$emit("vdropzone-reset")}),this.dropzone.on("queuecomplete",function(){o.$emit("vdropzone-queue-complete")}),this.dropzone.on("drop",function(e){o.$emit("vdropzone-drop",e)}),this.dropzone.on("dragstart",function(e){o.$emit("vdropzone-drag-start",e)}),this.dropzone.on("dragend",function(e){o.$emit("vdropzone-drag-end",e)}),this.dropzone.on("dragenter",function(e){o.$emit("vdropzone-drag-enter",e)}),this.dropzone.on("dragover",function(e){o.$emit("vdropzone-drag-over",e)}),this.dropzone.on("dragleave",function(e){o.$emit("vdropzone-drag-leave",e)}),o.$emit("vdropzone-mounted")}},beforeDestroy:function(){this.destroyDropzone&&this.dropzone.destroy()}}});
 //# sourceMappingURL=vue2Dropzone.js.map
 
 
@@ -51222,7 +49818,6 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-<<<<<<< Updated upstream
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
@@ -51249,72 +49844,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_attributes_AttributesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__components_shop_attributes_AttributesTable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributeEdit__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributeEdit.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributeEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__components_Loading__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_ClearCacheBtn__ = __webpack_require__("./resources/assets/js/components/ClearCacheBtn.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__components_ClearCacheBtn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_MainMenu__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_magnific_popup__ = __webpack_require__("./node_modules/magnific-popup/dist/jquery.magnific-popup.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_magnific_popup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17_magnific_popup__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_select2__ = __webpack_require__("./node_modules/select2/dist/js/select2.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_select2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18_select2__);
-=======
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ui_sortable_npm__ = __webpack_require__("./node_modules/jquery-ui-sortable-npm/jquery-ui-sortable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ui_sortable_npm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery_ui_sortable_npm__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_magnific_popup__ = __webpack_require__("./node_modules/magnific-popup/dist/jquery.magnific-popup.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_magnific_popup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_magnific_popup__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_select2__ = __webpack_require__("./node_modules/select2/dist/js/select2.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_select2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_select2__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vee_validate__ = __webpack_require__("./node_modules/vee-validate/dist/vee-validate.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_shop_Dashboard__ = __webpack_require__("./resources/assets/js/components/shop/Dashboard.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_shop_Dashboard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_shop_Dashboard__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_shop_categories_CategoriesTable__ = __webpack_require__("./resources/assets/js/components/shop/categories/CategoriesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_shop_categories_CategoriesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_shop_categories_CategoriesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_shop_categories_CategoryEdit__ = __webpack_require__("./resources/assets/js/components/shop/categories/CategoryEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_shop_categories_CategoryEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_shop_categories_CategoryEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_shop_products_ProductsTable__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductsTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_shop_products_ProductsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_shop_products_ProductsTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductEdit__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_orders_OrdersTable__ = __webpack_require__("./resources/assets/js/components/shop/orders/OrdersTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_orders_OrdersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_shop_orders_OrdersTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_customers_CustomerEdit__ = __webpack_require__("./resources/assets/js/components/shop/customers/CustomerEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_customers_CustomerEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__components_shop_customers_CustomerEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_customers_CustomersTable__ = __webpack_require__("./resources/assets/js/components/shop/customers/CustomersTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_customers_CustomersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__components_shop_customers_CustomersTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_suppliers_SuppliersTable__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SuppliersTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_suppliers_SuppliersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__components_shop_suppliers_SuppliersTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SupplierEdit__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SupplierEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SupplierEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SupplierEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_shop_attributes_AttributesTable__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_shop_attributes_AttributesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_shop_attributes_AttributesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributeEdit__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributeEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributeEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_shop_priceTypes_PriceTypesTable__ = __webpack_require__("./resources/assets/js/components/shop/priceTypes/PriceTypesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_shop_priceTypes_PriceTypesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__components_shop_priceTypes_PriceTypesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypeEdit__ = __webpack_require__("./resources/assets/js/components/shop/priceTypes/PriceTypeEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypeEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_pages_Admins_AdminsTable__ = __webpack_require__("./resources/assets/js/components/pages/Admins/AdminsTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_pages_Admins_AdminsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20__components_pages_Admins_AdminsTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_pages_Admins_AdminEdit__ = __webpack_require__("./resources/assets/js/components/pages/Admins/AdminEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_pages_Admins_AdminEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_21__components_pages_Admins_AdminEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_pages_Roles_RolesTable__ = __webpack_require__("./resources/assets/js/components/pages/Roles/RolesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_pages_Roles_RolesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22__components_pages_Roles_RolesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_pages_Roles_RoleEdit__ = __webpack_require__("./resources/assets/js/components/pages/Roles/RoleEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_pages_Roles_RoleEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_23__components_pages_Roles_RoleEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24__components_Loading__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_ClearCacheBtn__ = __webpack_require__("./resources/assets/js/components/ClearCacheBtn.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_25__components_ClearCacheBtn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_26__components_MainMenu__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_Avatar__ = __webpack_require__("./resources/assets/js/components/Avatar.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_Avatar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_27__components_Avatar__);
->>>>>>> Stashed changes
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_priceTypes_PriceTypesTable__ = __webpack_require__("./resources/assets/js/components/shop/priceTypes/PriceTypesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_priceTypes_PriceTypesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__components_shop_priceTypes_PriceTypesTable__);
+throw new Error("Cannot find module \"./components/shop/priceTypes/PriceTypeEdit\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_pages_Admins_AdminsTable__ = __webpack_require__("./resources/assets/js/components/pages/Admins/AdminsTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_pages_Admins_AdminsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_pages_Admins_AdminsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_pages_Admins_AdminEdit__ = __webpack_require__("./resources/assets/js/components/pages/Admins/AdminEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_pages_Admins_AdminEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__components_pages_Admins_AdminEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_pages_Roles_RolesTable__ = __webpack_require__("./resources/assets/js/components/pages/Roles/RolesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_pages_Roles_RolesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__components_pages_Roles_RolesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_pages_Roles_RoleEdit__ = __webpack_require__("./resources/assets/js/components/pages/Roles/RoleEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_pages_Roles_RoleEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__components_pages_Roles_RoleEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_Avatar__ = __webpack_require__("./resources/assets/js/components/Avatar.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_Avatar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20__components_Avatar__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_21__components_Loading__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_ClearCacheBtn__ = __webpack_require__("./resources/assets/js/components/ClearCacheBtn.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22__components_ClearCacheBtn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_23__components_MainMenu__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_magnific_popup__ = __webpack_require__("./node_modules/magnific-popup/dist/jquery.magnific-popup.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_magnific_popup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24_magnific_popup__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_select2__ = __webpack_require__("./node_modules/select2/dist/js/select2.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_select2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_25_select2__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -51346,8 +49898,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-<<<<<<< Updated upstream
-=======
 
 
 
@@ -51359,8 +49909,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-
->>>>>>> Stashed changes
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -51369,10 +49917,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 __webpack_require__("./resources/assets/js/bootstrap.js");
 
-window.Vue = __WEBPACK_IMPORTED_MODULE_3_vue___default.a;
+window.Vue = __WEBPACK_IMPORTED_MODULE_0_vue___default.a;
 
-__WEBPACK_IMPORTED_MODULE_3_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_3_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_vee_validate__["c" /* default */], {
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vee_validate__["b" /* default */], {
   fieldsBagName: 'formFields',
   errorBagName: 'formErrors'
 });
@@ -51404,35 +49952,29 @@ $.ajaxSetup({
 // "Компонентом" может быть как созданный через `Vue.extend()`
 // полноценный конструктор, так и просто объект с настройками компонента
 // Вложенные пути будут рассмотрены далее.
-var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_6__components_shop_Dashboard___default.a }, { path: '/shop', redirect: '/shop/products' }, { path: '/shop/categories', component: __WEBPACK_IMPORTED_MODULE_7__components_shop_categories_CategoriesTable___default.a }, { path: '/shop/categories/create', component: __WEBPACK_IMPORTED_MODULE_8__components_shop_categories_CategoryEdit___default.a, props: { type: 'create' } }, { path: '/shop/categories/:id', component: __WEBPACK_IMPORTED_MODULE_8__components_shop_categories_CategoryEdit___default.a, props: function props(route) {
+var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_3__components_shop_Dashboard___default.a }, { path: '/shop', redirect: '/shop/products' }, { path: '/shop/categories', component: __WEBPACK_IMPORTED_MODULE_4__components_shop_categories_CategoriesTable___default.a }, { path: '/shop/categories/create', component: __WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoryEdit___default.a, props: { type: 'create' } }, { path: '/shop/categories/:id', component: __WEBPACK_IMPORTED_MODULE_5__components_shop_categories_CategoryEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/products', component: __WEBPACK_IMPORTED_MODULE_9__components_shop_products_ProductsTable___default.a }, { path: '/shop/products/create', component: __WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductEdit___default.a, props: { type: 'create' } }, { path: '/shop/products/:id', component: __WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/products', component: __WEBPACK_IMPORTED_MODULE_6__components_shop_products_ProductsTable___default.a }, { path: '/shop/products/create', component: __WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductEdit___default.a, props: { type: 'create' } }, { path: '/shop/products/:id', component: __WEBPACK_IMPORTED_MODULE_7__components_shop_products_ProductEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/orders', component: __WEBPACK_IMPORTED_MODULE_11__components_shop_orders_OrdersTable___default.a }, { path: '/shop/suppliers', component: __WEBPACK_IMPORTED_MODULE_14__components_shop_suppliers_SuppliersTable___default.a }, { path: '/shop/suppliers/create', component: __WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SupplierEdit___default.a, props: { type: 'create' } }, { path: '/shop/suppliers/:id', component: __WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SupplierEdit___default.a, props: function props(route) {
-    return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/attributes', component: __WEBPACK_IMPORTED_MODULE_16__components_shop_attributes_AttributesTable___default.a }, { path: '/shop/attributes/create', component: __WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributeEdit___default.a, props: { type: 'create' } }, { path: '/shop/attributes/:id', component: __WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributeEdit___default.a, props: function props(route) {
-    return _extends({}, route.params, { type: 'edit' });
-<<<<<<< Updated upstream
   } }, { path: '/shop/orders', component: __WEBPACK_IMPORTED_MODULE_8__components_shop_orders_OrdersTable___default.a }, { path: '/shop/customers', component: __WEBPACK_IMPORTED_MODULE_9__components_shop_customers_CustomersTable___default.a }, { path: '/shop/suppliers', component: __WEBPACK_IMPORTED_MODULE_10__components_shop_suppliers_SuppliersTable___default.a }, { path: '/shop/suppliers/create', component: __WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SupplierEdit___default.a, props: { type: 'create' } }, { path: '/shop/suppliers/:id', component: __WEBPACK_IMPORTED_MODULE_11__components_shop_suppliers_SupplierEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
   } }, { path: '/shop/attributes', component: __WEBPACK_IMPORTED_MODULE_12__components_shop_attributes_AttributesTable___default.a }, { path: '/shop/attributes/create', component: __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributeEdit___default.a, props: { type: 'create' } }, { path: '/shop/attributes/:id', component: __WEBPACK_IMPORTED_MODULE_13__components_shop_attributes_AttributeEdit___default.a, props: function props(route) {
-=======
-  } }, { path: '/shop/price-types', component: __WEBPACK_IMPORTED_MODULE_18__components_shop_priceTypes_PriceTypesTable___default.a }, { path: '/shop/price-types/create', component: __WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypeEdit___default.a, props: { type: 'create' } }, { path: '/shop/price-types/:id', component: __WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypeEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/customers', component: __WEBPACK_IMPORTED_MODULE_13__components_shop_customers_CustomersTable___default.a }, { path: '/shop/customers/create', component: __WEBPACK_IMPORTED_MODULE_12__components_shop_customers_CustomerEdit___default.a, props: { type: 'create' } }, { path: '/shop/customers/:id', component: __WEBPACK_IMPORTED_MODULE_12__components_shop_customers_CustomerEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/price-types', component: __WEBPACK_IMPORTED_MODULE_14__components_shop_priceTypes_PriceTypesTable___default.a }, { path: '/shop/price-types/create', component: __WEBPACK_IMPORTED_MODULE_15__components_shop_priceTypes_PriceTypeEdit___default.a, props: { type: 'create' } }, { path: '/shop/price-types/:id', component: __WEBPACK_IMPORTED_MODULE_15__components_shop_priceTypes_PriceTypeEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/admins', component: __WEBPACK_IMPORTED_MODULE_20__components_pages_Admins_AdminsTable___default.a }, { path: '/system/admins/create', component: __WEBPACK_IMPORTED_MODULE_21__components_pages_Admins_AdminEdit___default.a, props: { type: 'create' } }, { path: '/system/admins/:id', component: __WEBPACK_IMPORTED_MODULE_21__components_pages_Admins_AdminEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/customers', component: __WEBPACK_IMPORTED_MODULE_9__components_shop_customers_CustomersTable___default.a }, { path: '/shop/customers/create', component: CustomerEdit, props: { type: 'create' } }, { path: '/shop/customers/:id', component: CustomerEdit, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_22__components_pages_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_23__components_pages_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_23__components_pages_Roles_RoleEdit___default.a, props: function props(route) {
+  } }, { path: '/system/admins', component: __WEBPACK_IMPORTED_MODULE_16__components_pages_Admins_AdminsTable___default.a }, { path: '/system/admins/create', component: __WEBPACK_IMPORTED_MODULE_17__components_pages_Admins_AdminEdit___default.a, props: { type: 'create' } }, { path: '/system/admins/:id', component: __WEBPACK_IMPORTED_MODULE_17__components_pages_Admins_AdminEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_22__components_pages_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_23__components_pages_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_23__components_pages_Roles_RoleEdit___default.a, props: function props(route) {
->>>>>>> Stashed changes
+  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_18__components_pages_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_19__components_pages_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_19__components_pages_Roles_RoleEdit___default.a, props: function props(route) {
+    return _extends({}, route.params, { type: 'edit' });
+  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_18__components_pages_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_19__components_pages_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_19__components_pages_Roles_RoleEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
   } }];
 
 // 3. Создаём экземпляр роутера с опцией `routes`
 // Можно передать и другие опции, но пока не будем усложнять
-var router = new __WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]({
+var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
   mode: 'history',
   routes: routes // сокращение от `routes: routes`
 });
@@ -51440,19 +49982,13 @@ var router = new __WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]({
 // 4. Создаём и монтируем корневой экземпляр Vue нашего приложения.
 // Удостоверьтесь, что передали экземпляр роутера в опции `router`,
 // что позволит приложению знать о его наличии
-var app = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
+var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
   router: router,
   components: {
-<<<<<<< Updated upstream
-    Loading: __WEBPACK_IMPORTED_MODULE_14__components_Loading___default.a,
-    ClearCacheBtn: __WEBPACK_IMPORTED_MODULE_15__components_ClearCacheBtn___default.a,
-    MainMenu: __WEBPACK_IMPORTED_MODULE_16__components_MainMenu___default.a
-=======
-    Loading: __WEBPACK_IMPORTED_MODULE_24__components_Loading___default.a,
-    ClearCacheBtn: __WEBPACK_IMPORTED_MODULE_25__components_ClearCacheBtn___default.a,
-    MainMenu: __WEBPACK_IMPORTED_MODULE_26__components_MainMenu___default.a,
-    Avatar: __WEBPACK_IMPORTED_MODULE_27__components_Avatar___default.a
->>>>>>> Stashed changes
+    Loading: __WEBPACK_IMPORTED_MODULE_21__components_Loading___default.a,
+    ClearCacheBtn: __WEBPACK_IMPORTED_MODULE_22__components_ClearCacheBtn___default.a,
+    MainMenu: __WEBPACK_IMPORTED_MODULE_23__components_MainMenu___default.a,
+    Avatar: __WEBPACK_IMPORTED_MODULE_20__components_Avatar___default.a
   },
 
   data: function data() {
@@ -53134,6 +51670,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/shop/priceTypes/PriceTypesTable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/priceTypes/PriceTypesTable.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-e46e3d1e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/priceTypes/PriceTypesTable.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/priceTypes/PriceTypesTable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e46e3d1e", Component.options)
+  } else {
+    hotAPI.reload("data-v-e46e3d1e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/shop/products/ProductEdit.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -54800,288 +53384,9 @@ function transliteration(text, onlyLower) {
 /***/ }),
 
 /***/ "./resources/assets/js/mixins/EntityEdit.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Validation__ = __webpack_require__("./resources/assets/js/mixins/Validation.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Page__ = __webpack_require__("./resources/assets/js/mixins/Page.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_queueHandler__ = __webpack_require__("./resources/assets/js/core/queueHandler.js");
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  mixins: [__WEBPACK_IMPORTED_MODULE_1__Validation__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__Page__["a" /* default */]],
-
-  props: ['type'],
-
-  data: function data() {
-    return {
-      reloadDataOnSave: false
-    };
-  },
-
-
-  methods: {
-    /**
-     * Загрузка данных.
-     */
-    loadData: function loadData() {
-      var _this = this;
-
-      var a = new __WEBPACK_IMPORTED_MODULE_3__core_queueHandler__["a" /* asyncPackageDataCollector */]();
-      a.add(function () {
-        return _this.fetchMainData();
-      });
-
-      if (this.type === 'edit') {
-        a.add(this.fetchEntity());
-      }
-
-      a.onDone(function (data) {
-        _this.initData(data);
-      });
-
-      a.start();
-    },
-
-
-    /**
-     * Загрузка данных модели.
-     *
-     * @returns apiResponse
-     */
-    fetchEntity: function fetchEntity() {
-      var _this2 = this;
-
-      return new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler('get', this.prepareUrl()).notFound(function () {
-        __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].notify('Товар не найден.', { type: 'warning' });
-        _this2.redirectToTable();
-      });
-    },
-
-
-    /**
-     * Возвращает название сущности.
-     *
-     * @return string
-     */
-    getEntityName: function getEntityName() {
-      return this.entityName;
-    },
-
-
-    /**
-     * Возвращает модель.
-     *
-     * @return {[type]} [description]
-     */
-    getEntityModel: function getEntityModel() {
-      return this[this.getEntityName()];
-    },
-
-
-    /**
-     * Установка данных модели.
-     *
-     * @param data
-     */
-    setEntityData: function setEntityData() {
-      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      this[this.entityName] = data;
-    },
-
-
-    /**
-     * Возвращает подготовленные для сохранения данные.
-     *
-     * @returns {{}}
-     */
-    getToSaveData: function getToSaveData() {
-      return _extends({}, this.getEntityModel());
-    },
-
-
-    /**
-     * Инициализация данных.
-     *
-     * @param data
-     */
-    initData: function initData(data) {
-      this.initMainData(data);
-      this.initEntity(data[this.getEntityName()]);
-    },
-
-
-    /**
-     * Инициализация модели сущности.
-     *
-     * @param data
-     */
-    initEntity: function initEntity() {
-      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      this.setEntityData(data);
-    },
-
-
-    /**
-     * Возврат к списку сущностей.
-     */
-    redirectToTable: function redirectToTable() {
-      var currentPath = this.$route.path;
-      var fin = this.$route.path.indexOf('/' + this.id);
-      this.$router.push(currentPath.substr(0, currentPath.length - (currentPath.length - fin)));
-    },
-
-
-    /**
-     * Сохранение сущности.
-     */
-    save: function save() {
-      var _this3 = this;
-
-      this.formErrors.clear();
-
-      this.saveDisabled = true;
-      this.$validator.validateAll().then(function (result) {
-        if (!result) {
-          _this3.saveDisabled = false;
-          _this3.$refs.validationModal.show();
-          return;
-        }
-
-        var data = _this3.getToSaveData();
-
-        if (_this3.reloadDataOnSave !== false) {
-          data = _extends({}, data, {
-            withData: _this3.usedMainData
-          });
-        }
-
-        var requestType = void 0;
-
-        if (_this3.type === 'create') {
-          requestType = 'post';
-        }
-
-        if (_this3.type === 'edit') {
-          requestType = 'put';
-        }
-
-        var request = new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler(requestType, _this3.prepareUrl(), data);
-
-        _this3.saveQueue.add(request).onDone().success(function (response) {
-          return _this3.pullDataFromResponse(response);
-        }).fail(function (response) {
-          if (response.data.errors) {
-            _this3.setValidationErrors(response.data.errors);
-            _this3.$refs.validationModal.show();
-          }
-        }).notFound(function () {
-          __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].notify('Товар был удален до внесения изменений.', { type: 'warning' });
-          _this3.redirectToTable();
-        }).any(function () {
-          _this3.saveDisabled = false;
-        });
-      });
-    },
-
-
-    /**
-     * Инициализация данных модели, полученных из ответ сервера.
-     *
-     * @param response
-     */
-    pullDataFromResponse: function pullDataFromResponse(response) {
-      if (this.reloadDataOnSave) {
-        this.initData(_extends(_defineProperty({}, this.getEntityName(), response.data[this.getEntityName()]), response.data.withData));
-      }
-
-      this.initEntity(response.data[this.getEntityName()]);
-    },
-
-
-    /**
-     * Показ модального окна перед удалением записи.
-     */
-    remove: function remove() {
-      var _ = this;
-
-      if (this.type !== 'edit') return;
-
-      this.$refs.removeModal.show();
-    },
-
-
-    /**
-     * При подтвержении удаления записи.
-     */
-    removeConfirm: function removeConfirm() {
-      var _this4 = this;
-
-      new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler('delete', this.prepareUrl()).success(function () {
-        _this4.redirectToTable();
-      }).start();
-    },
-
-
-    /**
-     * Создание очередей.
-     */
-    createQueue: function createQueue() {
-      this.saveQueue = __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].queueHandler.makeQueue('break', 'entity-save');
-    },
-
-
-    /**
-     * Отчистка очередей.
-     */
-    clearQueue: function clearQueue() {
-      this.saveQueue.clear();
-    },
-
-
-    /**
-     * Сброс комонента.
-     */
-    reset: function reset() {
-      this.clearQueue();
-    }
-  },
-
-  created: function created() {
-<<<<<<< Updated upstream
-=======
-    if (this.type === 'create' && !this.userCan(this.entityName + '.create')) {
-      this.redirectToTable();
-      return;
-    }
-
-    if (this.type === 'edit' && !this.userCan(this.entityName + '.see')) {
-      this.redirectToTable();
-      return;
-    }
-
-    this.addQueue('save', 'break');
->>>>>>> Stashed changes
-    this.loadData();
-    this.createQueue();
-    this.extendSlugChecker();
-  },
-  beforeDestroy: function beforeDestroy() {
-    this.clearQueue();
-  }
-});
+throw new Error("Module build failed: SyntaxError: Unexpected token (240:0)\n\n\u001b[0m \u001b[90m 238 | \u001b[39m\n \u001b[90m 239 | \u001b[39m  created() {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 240 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mUpdated\u001b[39m upstream\u001b[33m:\u001b[39mresources\u001b[33m/\u001b[39massets\u001b[33m/\u001b[39mjs\u001b[33m/\u001b[39mmixins\u001b[33m/\u001b[39m\u001b[33mEntityEdit\u001b[39m\u001b[33m.\u001b[39mjs\n \u001b[90m     | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 241 | \u001b[39m\u001b[33m===\u001b[39m\u001b[33m===\u001b[39m\u001b[33m=\u001b[39m\n \u001b[90m 242 | \u001b[39m    \u001b[36mif\u001b[39m (\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mtype \u001b[33m===\u001b[39m \u001b[32m'create'\u001b[39m \u001b[33m&&\u001b[39m \u001b[33m!\u001b[39m\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39muserCan(\u001b[32m`${this.entityName}.create`\u001b[39m)) {\n \u001b[90m 243 | \u001b[39m      \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mredirectToTable()\u001b[0m\n");
 
 /***/ }),
 
@@ -55550,64 +53855,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 /***/ }),
 
-/***/ "./resources/assets/js/mixins/Validation.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vee_validate__ = __webpack_require__("./node_modules/vee-validate/dist/vee-validate.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Base__ = __webpack_require__("./resources/assets/js/mixins/Base.js");
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  mixins: [__WEBPACK_IMPORTED_MODULE_2__Base__["a" /* default */]],
-
-  methods: {
-    /*
-      Установка ошибок валидации, пришедших с сервера
-     */
-    setValidationErrors: function setValidationErrors() {
-      var errors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      for (var fieldName in errors) {
-        if (this.formErrors.has(fieldName)) {
-          this.formErrors.remove(fieldName);
-        }
-
-        this.formErrors.add(fieldName, errors[fieldName]);
-      }
-    },
-
-
-    /*
-      Добавление метода валидации - проверки url-а
-     */
-    extendSlugChecker: function extendSlugChecker() {
-      var _this = this;
-
-      __WEBPACK_IMPORTED_MODULE_1_vee_validate__["b" /* Validator */].extend('slug_exist', {
-        getMessage: function getMessage(field) {
-          return 'Slug \u0437\u0430\u043D\u044F\u0442.';
-        },
-        validate: function validate(slug) {
-          return new Promise(function (resolve) {
-            new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler('get', _this.prepareUrl('slug'), { slug: slug }).success(function () {
-              return resolve({ valid: true });
-            }).fail(function () {
-              return resolve({ valid: false });
-            }).start();
-          });
-        }
-      });
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./resources/assets/js/resources/AdminEditModel.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -55778,41 +54025,12 @@ var AttributesTableModel = function AttributesTableModel(entityData, languages) 
 
 /***/ }),
 
-<<<<<<< Updated upstream
-=======
-/***/ "./resources/assets/js/resources/Base/BaseModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var BaseModel = function () {
-  function BaseModel() {
-    _classCallCheck(this, BaseModel);
-  }
-
-  _createClass(BaseModel, [{
-    key: "getSchemaFields",
-    value: function getSchemaFields() {
-      return {};
-    }
-  }]);
-
-  return BaseModel;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = (BaseModel);
-
-/***/ }),
-
 /***/ "./resources/assets/js/resources/Base/Model.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema_Schema__ = __webpack_require__("./resources/assets/js/resources/Schema/Schema.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseModel__ = __webpack_require__("./resources/assets/js/resources/Base/BaseModel.js");
+throw new Error("Cannot find module \"../Schema/Schema\"");
+throw new Error("Cannot find module \"./BaseModel\"");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -55832,7 +54050,7 @@ var Model = function (_BaseModel) {
 
     var _this = _possibleConstructorReturn(this, (Model.__proto__ || Object.getPrototypeOf(Model)).call(this, entityData));
 
-    var modelData = new __WEBPACK_IMPORTED_MODULE_0__Schema_Schema__["a" /* default */](_this.getSchemaFields()).combine(entityData);
+    var modelData = new __WEBPACK_IMPORTED_MODULE_0__Schema_Schema___default.a(_this.getSchemaFields()).combine(entityData);
 
     for (var i in modelData) {
       _this[i] = modelData[i];
@@ -55841,128 +54059,16 @@ var Model = function (_BaseModel) {
   }
 
   return Model;
-}(__WEBPACK_IMPORTED_MODULE_1__BaseModel__["a" /* default */]);
+}(__WEBPACK_IMPORTED_MODULE_1__BaseModel___default.a);
 
 /* harmony default export */ __webpack_exports__["a"] = (Model);
 
 /***/ }),
 
-/***/ "./resources/assets/js/resources/Base/ModelI18n.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema_SchemaI18n__ = __webpack_require__("./resources/assets/js/resources/Schema/SchemaI18n.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Model__ = __webpack_require__("./resources/assets/js/resources/Base/Model.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-var ModelI18n = function (_Model) {
-  _inherits(ModelI18n, _Model);
-
-  function ModelI18n() {
-    var entityData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var languages = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-    _classCallCheck(this, ModelI18n);
-
-    var _this = _possibleConstructorReturn(this, (ModelI18n.__proto__ || Object.getPrototypeOf(ModelI18n)).call(this, entityData));
-
-    var i18nData = new __WEBPACK_IMPORTED_MODULE_0__Schema_SchemaI18n__["a" /* default */](_this.getSchemaFields().i18n).combine(entityData.i18n, languages);
-
-    _this.i18n = {};
-
-    for (var i in i18nData) {
-      _this.i18n[i] = i18nData[i];
-    }
-    return _this;
-  }
-
-  return ModelI18n;
-}(__WEBPACK_IMPORTED_MODULE_1__Model__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (ModelI18n);
-
-/***/ }),
-
->>>>>>> Stashed changes
 /***/ "./resources/assets/js/resources/CategoriesTableModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema__ = __webpack_require__("./resources/assets/js/resources/Schema.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Schemai18n__ = __webpack_require__("./resources/assets/js/resources/Schemai18n.js");
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-
-
-
-var langs = void 0;
-
-var schema = {
-  id: '',
-  parent_id: '',
-  slug: '',
-  enabled: true,
-
-  url: function url(data) {
-    return '/shop/categories/' + data.id;
-  },
-  siteUrl: function siteUrl(data) {
-    return '/categories/' + data.slug;
-  },
-  children: function children(data) {
-    if (data.children && data.children instanceof Array && data.children.length > 0) {
-      return data.children.map(function (item) {
-        return new CategoriesTableModel(item, langs);
-      });
-    }
-  }
-};
-
-<<<<<<< Updated upstream
-var i18nSchema = {
-  title: ''
-};
-=======
-  _createClass(CategoriesTableModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      return {
-        id: '',
-        parent_id: '',
-        slug: '',
-        enabled: true,
-        products_count: 0,
-        position: 0,
-
-        url: function url(data) {
-          return '/shop/categories/' + data.id;
-        },
-        siteUrl: function siteUrl(data) {
-          return '/categories/' + data.slug;
-        },
->>>>>>> Stashed changes
-
-var CategoriesTableModel = function CategoriesTableModel(entityData, languages) {
-  _classCallCheck(this, CategoriesTableModel);
-
-  langs = languages;
-
-  return _extends({}, new __WEBPACK_IMPORTED_MODULE_0__Schema__["a" /* default */](schema).combine(entityData), {
-    i18n: new __WEBPACK_IMPORTED_MODULE_1__Schemai18n__["a" /* default */](i18nSchema).combine(entityData.i18n, languages)
-  });
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (CategoriesTableModel);
+throw new Error("Module build failed: SyntaxError: Unexpected token (57:3)\n\n\u001b[0m \u001b[90m 55 | \u001b[39m        title\u001b[33m:\u001b[39m \u001b[32m'<span class=\"label label-danger\">Не заполнено</span>'\u001b[39m\n \u001b[90m 56 | \u001b[39m      }\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 57 | \u001b[39m\u001b[33m>>>\u001b[39m\u001b[33m>>>\u001b[39m\u001b[33m>\u001b[39m \u001b[33mStashed\u001b[39m changes\n \u001b[90m    | \u001b[39m   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 58 | \u001b[39m    }\n \u001b[90m 59 | \u001b[39m  }\n \u001b[90m 60 | \u001b[39m}\u001b[0m\n");
 
 /***/ }),
 
@@ -56306,9 +54412,6 @@ var ProductsTableModelModel = function ProductsTableModelModel(entityData, langu
 
 /***/ }),
 
-<<<<<<< Updated upstream
-/***/ "./resources/assets/js/resources/Schema.js":
-=======
 /***/ "./resources/assets/js/resources/RoleEditModel.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -56398,8 +54501,7 @@ var RolesTableModel = function (_Model) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/resources/Schema/Schema.js":
->>>>>>> Stashed changes
+/***/ "./resources/assets/js/resources/Schema.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -56573,7 +54675,7 @@ var SupplierModel = function SupplierModel(entityData) {
 /***/ "./resources/assets/sass/app.scss":
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: ModuleBuildError: Module build failed: \n  }\n  ^\n      Invalid CSS after \"  }\": expected \"}\", was \"<<<<<<< Updated ups\"\n      in /Users/Urij/code/mossebo-shop-admin/resources/assets/sass/_table.scss (line 236, column 4)\n    at runLoaders (/Users/Urij/code/mossebo-shop-admin/node_modules/webpack/lib/NormalModule.js:195:19)\n    at /Users/Urij/code/mossebo-shop-admin/node_modules/loader-runner/lib/LoaderRunner.js:364:11\n    at /Users/Urij/code/mossebo-shop-admin/node_modules/loader-runner/lib/LoaderRunner.js:230:18\n    at context.callback (/Users/Urij/code/mossebo-shop-admin/node_modules/loader-runner/lib/LoaderRunner.js:111:13)\n    at Object.asyncSassJobQueue.push [as callback] (/Users/Urij/code/mossebo-shop-admin/node_modules/sass-loader/lib/loader.js:55:13)\n    at Object.done [as callback] (/Users/Urij/code/mossebo-shop-admin/node_modules/neo-async/async.js:7921:18)\n    at options.error (/Users/Urij/code/mossebo-shop-admin/node_modules/node-sass/lib/index.js:294:32)");
 
 /***/ }),
 

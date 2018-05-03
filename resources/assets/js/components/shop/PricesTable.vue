@@ -87,8 +87,6 @@
 
       getError(name) {
         return this.errors.first(name) || this.formErrors.first(name)
-<<<<<<< Updated upstream
-=======
       },
 
       // todo: аналогичная функция в TreeSelectTranslatable
@@ -105,7 +103,6 @@
 
       getCurrencyMaxValue(currency) {
         return 2147483647 / Math.pow(10 , currency.precision)
->>>>>>> Stashed changes
       }
     },
 
@@ -129,13 +126,22 @@
 
         <tbody>
           <tr v-for="priceType in priceTypes">
-            <td><span class="prices-table__type">{{ priceType.title }}</span></td>
+            <td>
+              <span class="prices-table__type">{{ getTitle(priceType) }}</span>
+            </td>
+
             <td v-for="currency in currencies" :class="{'has-error': hasError(`prices.${priceType.id}.${currency.code}`)}">
               <div class="input-group">
-<<<<<<< Updated upstream
-                <input type="text" v-model="rPrices[priceType.id][currency.code]" :name="`prices.${priceType.id}.${currency.code}`" @input="onChange" class="form-control" v-number v-validate="'integer|min_value:1|max_value:4294967295'">
-                <currency-converter :value="rPrices[priceType.id][currency.code]" :currency="getCurrency(currency.code)"></currency-converter>
-=======
+                <input
+                  type="text"
+                  v-model="rPrices[priceType.id][currency.code]"
+                  :name="`prices.${priceType.id}.${currency.code}`"
+                  @input="onChange" class="form-control"
+                  v-number
+                  v-validate="'integer|min_value:1|max_value:4294967295'" />
+
+                <currency-converter :value="rPrices[priceType.id][currency.code]" :currency="getCurrency(currency.code)" />
+
                 <input
                   type="text"
                   v-model="prices$[priceType.id][currency.code]"
@@ -145,9 +151,11 @@
                   v-validate="`integer|min_value:1|max_value:${getCurrencyMaxValue(currency)}`">
 
                 <currency-converter :value="prices$[priceType.id][currency.code]" :currency="getCurrency(currency.code)" />
->>>>>>> Stashed changes
               </div>
-              <span v-show="hasError(`prices.${priceType.id}.${currency.code}`)" class="help-block">{{ getError(`prices.${priceType.id}.${currency.code}`) }}</span>
+
+              <span v-show="hasError(`prices.${priceType.id}.${currency.code}`)" class="help-block">
+                {{ getError(`prices.${priceType.id}.${currency.code}`) }}
+              </span>
             </td>
           </tr>
         </tbody>

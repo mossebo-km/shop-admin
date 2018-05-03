@@ -32,9 +32,6 @@
             icon: 'fa fa-list',
             title: 'Аттрибуты'
           },
-
-<<<<<<< Updated upstream
-=======
           {
             url: '/shop/price-types',
             icon: 'fa fa-money',
@@ -47,7 +44,6 @@
             title: 'Покупатели'
           },
 
->>>>>>> Stashed changes
           // {
           //   url: '/shop/orders',
           //   icon: 'gi gi-shop_window',
