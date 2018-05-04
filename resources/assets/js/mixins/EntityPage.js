@@ -42,7 +42,11 @@ export default {
         this.initData(data)
       })
 
-      a.start()
+      this.$nextTick(() => {
+        this.$emit('beforeDataLoad', a)
+
+        a.start()
+      })
     },
 
     /**
@@ -254,5 +258,6 @@ export default {
 
     this.addQueue('save', 'break')
     this.loadData()
+    this.extendSlugChecker()
   },
 }

@@ -582,7 +582,6 @@
           </div>
 
           <!-- Изображения -->
-
           <div class="block">
             <div class="block-title">
               <h2><i class="fa fa-image"></i> <strong>Изображения</strong></h2>
@@ -597,8 +596,6 @@
                 :errors="formErrors.collect('images') || []" />
             </div>
           </div>
-
-
         </div>
       </div>
 

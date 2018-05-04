@@ -25,7 +25,7 @@ class ProductsTableResource extends JsonResource
             'created_at' => dateFormatFull($this->created_at),
             'prices'     => PriceResource::collection($this->prices),
             'image'      => new MediaResource($image),
-            'i18n'        => $this->i18n->toArray()
+            'i18n'       => $this->i18n->toArray()
         ];
     }
 }

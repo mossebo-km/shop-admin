@@ -230,6 +230,7 @@ return [
         'Currencies' => App\Support\Facades\Currencies::class,
         'Languages' => App\Support\Facades\Languages::class,
         'PriceTypes' => App\Support\Facades\PriceTypes::class,
+        'AdminRoles' => App\Support\Facades\AdminRoles::class,
     ],
 
 ];

@@ -6,21 +6,32 @@
       'checked'
     ],
 
+    watch: {
+      checked: 'updateChecked'
+    },
+
     data() {
       return {
-        rChecked: this.checked
+        сhecked$: this.checked
       }
     },
 
     methods: {
       onChange: function() {
-        this.rChecked = !this.rChecked
-        this.$emit('change', this.rChecked)
+        this.сhecked$ = !this.сhecked$
+        this.$emit('change', this.сhecked$)
+      },
+
+      updateChecked() {
+        this.сhecked$ = this.checked
       }
     }
   }
 </script>
 
 <template>
-    <label class="switch switch-info"><input type="checkbox" v-on:click="onChange" v-model="rChecked"><span></span></label>
+  <label class="switch switch-info">
+    <input type="checkbox" v-on:click="onChange" v-model="сhecked$">
+    <span></span>
+  </label>
 </template>

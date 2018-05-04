@@ -32,7 +32,6 @@
             icon: 'fa fa-list',
             title: 'Аттрибуты'
           },
-
           {
             url: '/shop/price-types',
             icon: 'fa fa-money',

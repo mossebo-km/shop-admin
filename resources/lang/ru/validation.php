@@ -97,4 +97,8 @@ return [
             'exists' => 'Опции ":attribute" не сущеуствует.'
         ]
     ],
+
+    'permissions' => [
+        'exists' => 'Права не существуетю',
+    ]
 ];

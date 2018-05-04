@@ -12,7 +12,7 @@ trait Deleteable
      * @param  Integer
      * @return Response
      */
-    public function delete($id)
+    public function destroy($id)
     {
         $model = $this->getModel($id);
 

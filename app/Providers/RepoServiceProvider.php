@@ -27,5 +27,6 @@ class RepoServiceProvider extends ServiceProvider
         $this->app->singleton('currencies', 'App\Repositories\CurrencyRepository');
         $this->app->singleton('languages', 'App\Repositories\LanguageRepository');
         $this->app->singleton('price-types', 'App\Repositories\PriceTypeRepository');
+        $this->app->singleton('roles', 'App\Repositories\AdminRoleRepository');
     }
 }

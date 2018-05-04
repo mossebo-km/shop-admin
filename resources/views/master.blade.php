@@ -37,7 +37,7 @@
         <!-- Modernizr (browser feature detection library) -->
         {{-- <script src="js/vendor/modernizr.min.js"></script> --}}
 
-        <link rel="stylesheet" href="{{ mix('/css/app.css')  }}">
+        <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 
         @yield('styles')
     </head>

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\RequestSaver;
+use App\Support\Traits\Models\CheckPermissionTrait;
 
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
@@ -13,7 +14,7 @@ use App\Support\Traits\Models\HasMediaTrait;
 
 class Admin extends Base\Authenticatable implements HasMedia
 {
-    use Notifiable, StatusChangeable, RequestSaver, HasMediaTrait;
+    use Notifiable, StatusChangeable, RequestSaver, HasMediaTrait, CheckPermissionTrait;
 
     protected $mediaCollectionName = 'image';
 
@@ -23,7 +24,7 @@ class Admin extends Base\Authenticatable implements HasMedia
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'api_token'
     ];
 
     /**
@@ -35,7 +36,7 @@ class Admin extends Base\Authenticatable implements HasMedia
         'password', 'remember_token',
     ];
 
-    protected $needsToSaveFromRequest = ['images'];
+    protected $needsToSaveFromRequest = ['images', 'roles'];
 
     public function roles()
     {
@@ -47,6 +48,11 @@ class Admin extends Base\Authenticatable implements HasMedia
             'id',
             'admin_role_id'
         );
+    }
+
+    public function roleRelations()
+    {
+        return $this->hasMany(AdminRoleRelation::class, 'admin_id');
     }
 
     public function adminLog()
@@ -83,7 +89,7 @@ class Admin extends Base\Authenticatable implements HasMedia
             ->performOnCollections('temp');
     }
 
-    public function getAvatar()
+    public function avatar()
     {
         $image = $this->getMedia($this->mediaCollectionName)->first();
 
@@ -94,5 +100,19 @@ class Admin extends Base\Authenticatable implements HasMedia
         $pathes = $image->getImagePathes();
 
         return $pathes['small']['srcset'];
+    }
+
+    public function _saveRoles($roles = [])
+    {
+        // todo: добавить проверку на доступ к изменению ролей
+
+        $this->roleRelations()->delete();
+
+        foreach ($roles as $roleId) {
+            $this->roleRelations()->save(new AdminRoleRelation([
+                'admin_id' => $this->id,
+                'admin_role_id' => $roleId
+            ]));
+        }
     }
 }

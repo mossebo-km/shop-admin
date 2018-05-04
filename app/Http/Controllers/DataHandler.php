@@ -11,6 +11,7 @@ class DataHandler
         'currencies'  => \Currencies::class,
         'languages'   => \Languages::class,
         'price-types' => \PriceTypes::class,
+        'roles'       => \AdminRoles::class,
     ];
 
     protected static $cacheKey = 'interactionData';

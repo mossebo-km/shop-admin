@@ -16,6 +16,19 @@ class BaseModel extends Model
     }
 
     /**
+     * Проверяет, был ли изменен аттрибут.
+     *
+     * @param $name
+     * @return bool
+     */
+    protected function attributeIsDirty($name)
+    {
+        $dirty = $this->getDirty();
+
+        return isset($dirty[$name]);
+    }
+
+    /**
      * Отсев данных, которые подходят для использования в этой модели.
      *
      * @param  Array

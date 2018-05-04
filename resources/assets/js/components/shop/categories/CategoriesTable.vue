@@ -138,7 +138,7 @@
           <categories-table-tree
             v-if="items && items.length"
             :tree="items"
-            level="0"
+            :level="0"
             :statusChange="statusChange"
             :remove="remove"
             :activeLanguageCode="activeLanguageCode" />

@@ -72,7 +72,7 @@ export default {
      */
     refreshTable() {
       this.fetchItems()
-        .success(response => this.initItems(response.data))
+        .success(response => this.initItems(response.data[this.tableItemsDataName]))
         .start()
     },
   },

@@ -32,22 +32,21 @@ Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData'], 'namespa
     Route::get('data/relevantKey', 'DataController@relevantKey');
     Route::get('cache', 'DataController@cache');
 
-
     // Система администрирования
     Route::group(['prefix' => 'system'], function () {
         Route::get('admins/{admin}/status', 'AdminController@status');
         Route::post('admins/{admin}/image', 'AdminController@imageUpload');
         Route::resource('admins', 'AdminController');
 
-
         // Контроль доступа
         Route::group(['prefix' => 'rbac'], function () {
             Route::resource('roles', 'RoleController');
 
-            Route::resource('permissions', 'PermissionController');
+
+            Route::get('permission-groups/all', 'PermissionGroupController@all');
+            Route::resource('permission-groups', 'PermissionGroupController');
         });
     });
-
 
     // Магазин
     Route::group(['prefix' => 'shop'], function () {

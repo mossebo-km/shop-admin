@@ -28,11 +28,14 @@ import AttributeEdit from './components/shop/attributes/AttributeEdit'
 import PriceTypesTable from './components/shop/priceTypes/PriceTypesTable'
 import PriceTypeEdit from './components/shop/priceTypes/PriceTypeEdit'
 
-import AdminsTable from './components/pages/Admins/AdminsTable'
-import AdminEdit from './components/pages/Admins/AdminEdit'
+import AdminsTable from './components/system/Admins/AdminsTable'
+import AdminEdit from './components/system/Admins/AdminEdit'
 
-import RolesTable from './components/pages/Roles/RolesTable'
-import RoleEdit from './components/pages/Roles/RoleEdit'
+import RolesTable from './components/system/rbac/Roles/RolesTable'
+import RoleEdit from './components/system/rbac/Roles/RoleEdit'
+
+import PermissionGroupsTable from './components/system/rbac/Permissions/PermissionGroupsTable'
+import PermissionGroupEdit from './components/system/rbac/Permissions/PermissionGroupEdit'
 
 import Loading from './components/Loading'
 import ClearCacheBtn from './components/ClearCacheBtn'
@@ -99,6 +102,8 @@ const routes = [
 
   { path: '/shop/orders', component: OrdersTable },
 
+  { path: '/shop/customers', component: CustomersTable },
+
   { path: '/shop/suppliers', component: SuppliersTable },
   { path: '/shop/suppliers/create', component: SupplierEdit, props: { type: 'create' } },
   { path: '/shop/suppliers/:id', component: SupplierEdit, props: route => ({...route.params, type: 'edit'}) },
@@ -126,7 +131,13 @@ const routes = [
   { path: '/system/rbac/roles', component: RolesTable },
   { path: '/system/rbac/roles/create', component: RoleEdit, props: { type: 'create' } },
   { path: '/system/rbac/roles/:id', component: RoleEdit, props: route => ({...route.params, type: 'edit'}) },
+
+  { path: '/system/rbac/permission-groups', component: PermissionGroupsTable },
+  { path: '/system/rbac/permission-groups/create', component: PermissionGroupEdit, props: { type: 'create' } },
+  { path: '/system/rbac/permission-groups/:id', component: PermissionGroupEdit, props: route => ({...route.params, type: 'edit'}) },
 ]
+
+
 
 
 

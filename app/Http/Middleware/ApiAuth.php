@@ -13,11 +13,12 @@ class ApiAuth
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
+     * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
-        if (\Auth::guard()->guest()) {
+        if (\Auth::guard($guard)->guest()) {
             return response('Unauthorized', 401);
         }
 

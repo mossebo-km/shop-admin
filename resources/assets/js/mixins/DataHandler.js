@@ -75,6 +75,10 @@ export default {
       this.categoriesTree = tree.map(item => new CategoriesTreeSelectModel(item, this.languages))
     },
 
+    initRoles(roles = []) {
+      this.roles = this.getSortedData(roles).map(item => new AdminRoleModel(item))
+    },
+
     getEnabledData(data = []) {
       return data.filter(item => !!item.enabled)
     },

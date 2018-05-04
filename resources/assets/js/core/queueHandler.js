@@ -339,18 +339,18 @@ export class asyncPackage {
     })
 
     queue.add(() => new Promise(resolve => {
-      if (typeof this.__onDone === 'function') {
-        this.__resolveOnDone()
-        this.items = undefined
-        this.handlers = undefined
-      }
+      this.__resolveOnDone()
+      this.items = undefined
+      this.handlers = undefined
 
       resolve()
     }))
   }
 
   __resolveOnDone() {
-    this.__onDone()
+    if (typeof this.__onDone === 'function') {
+      this.__onDone()
+    }
   }
 
   onDone(callback) {
@@ -367,6 +367,7 @@ export class asyncPackageDataCollector extends asyncPackage {
   constructor() {
     super()
     this.data = {}
+    this.__onDone = []
   }
 
   __makeItem(asyncItem, handler, itemClass) {
@@ -399,6 +400,12 @@ export class asyncPackageDataCollector extends asyncPackage {
   }
 
   __resolveOnDone() {
-    this.__onDone(this.data)
+    this.__onDone.map(cb => cb(this.data))
+  }
+
+  onDone(callback) {
+    if (typeof callback === "function") {
+      this.__onDone.push(callback)
+    }
   }
 }

@@ -7,11 +7,7 @@ export default class CategoriesTreeSelectModel extends ModelI18n {
     let children = entityData.children
 
     if (children && children instanceof Array && children.length > 0)   {
-      this.children = children.reduce((acc, item) => {
-        acc.push(new CategoriesTreeSelectModel(item, languages))
-
-        return acc
-      }, [])
+      this.children = children.map(item => new CategoriesTreeSelectModel(item, languages))
     }
   }
 
@@ -19,15 +15,6 @@ export default class CategoriesTreeSelectModel extends ModelI18n {
     return {
       id: '',
       parent_id: '',
-      enabled: true,
-
-      url(data) {
-        return '/shop/categories/' + data.id
-      },
-
-      siteUrl(data) {
-        return '/categories/' + data.slug
-      },
 
       i18n: {
         title: '',

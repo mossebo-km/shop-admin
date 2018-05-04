@@ -62,6 +62,7 @@
         <table class="table table-middle table-center table-condensed table-bordered table-hover">
           <thead>
             <tr>
+
               <th>
                 <span class="table-column-id">
                   ID
@@ -81,6 +82,7 @@
               <th v-if="userCan('suppliers.delete')">
                 <span class="table-column-delete"></span>
               </th>
+
             </tr>
           </thead>
 

@@ -69,7 +69,7 @@
 
             {
               title: 'Права',
-              url: '/system/rbac/permissions',
+              url: '/system/rbac/permission-groups',
               icon: 'fa fa-star',
             },
           ]

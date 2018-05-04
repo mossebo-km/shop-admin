@@ -7,11 +7,7 @@ export default class CategoriesTableModel extends ModelI18n {
     let children = entityData.children
 
     if (children && children instanceof Array && children.length > 0)   {
-      this.children = children.reduce((acc, item) => {
-        acc.push(new CategoriesTableModel(item, languages))
-
-        return acc
-      }, [])
+      this.children = children.map(item => new CategoriesTableModel(item, languages))
     }
   }
 

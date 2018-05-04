@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\User;
+use App\Models\Admin;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ProductPolicy
+class AdminPolicy
 {
     use HandlesAuthorization;
 
@@ -16,16 +16,18 @@ class ProductPolicy
      */
     public function __construct()
     {
-        //
+
     }
 
-    public function update()
+    public function before($user, $ability)
     {
-        return true;
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
     }
 
-    public function saveFromRequestData()
+    public function __call($name, $arguments)
     {
-        return false;
+        dd($name, $arguments);
     }
 }

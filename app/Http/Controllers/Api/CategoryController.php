@@ -17,6 +17,8 @@ class CategoryController extends ApiController
 
     protected static $modelClass = Category::class;
 
+    // todo: дерево прогнать через ресурс
+
     /**
      * Список категорий.
      *

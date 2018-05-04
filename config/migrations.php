@@ -2,6 +2,7 @@
 
 return [
 	'Admins' => 'admins',
+
     'AdminLogs' => 'admin_logs',
     'AdminRoles' => 'admin_roles',
     'AdminRoleRelations' => 'admin_role_relations',
@@ -14,8 +15,6 @@ return [
 	'SocialProviders' => 'social_providers',
 
 	'Settings' => 'settings',
-
-	'Roles' => 'roles',
 
 	'Languages' => 'languages',
 

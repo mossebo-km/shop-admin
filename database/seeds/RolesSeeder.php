@@ -8,14 +8,17 @@ class RolesSeeder extends Seeder
         [
             'name' => 'SuperAdmin',
             'description' => '',
+            'importance' => 1
         ],
         [
             'name' => 'Admin',
             'description' => '',
+            'importance' => 2
         ],
         [
             'name' => 'Manager',
             'description' => '',
+            'importance' => 3
         ],
     ];
     /**
@@ -27,7 +30,7 @@ class RolesSeeder extends Seeder
     {
         echo "Seeding Roles\r\n";
 
-        $table = DB::table(Config::get('migrations.Roles'));
+        $table = DB::table(Config::get('migrations.AdminRoles'));
 
         foreach ($this->data as $row) {
             $row['created_at'] = Carbon\Carbon::now()->toDateTimeString();

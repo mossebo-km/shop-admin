@@ -72,7 +72,9 @@ class Price extends Base\BaseModel
     }
 
 
+
     /**
+     *
      * Так как значение цены хранится в integer, надо добавить используемое в валюте количество знаков после запятой.
      * @param  array|array
      * @return bool
