@@ -1375,6 +1375,12 @@ textarea.form-control {
   resize: vertical;
 }
 
+.pagination > li > a,
+.pagination > li > span {
+  width: 30px;
+  text-align: center;
+}
+
 @media (min-width: 1200px) and (max-width: 1599px) {
   .hidden-lg {
     display: none !important;

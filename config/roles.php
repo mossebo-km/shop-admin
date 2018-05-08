@@ -24,5 +24,5 @@ return [
     |
     */
 
-    'superAdminId' => 1
+    'superAdminId' => env('SUPER_ADMIN_ID', 1)
 ];

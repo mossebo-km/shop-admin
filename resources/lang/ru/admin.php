@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Language Lines
@@ -13,34 +12,10 @@ return [
     |
     */
 
-    App\Models\Product::class => [
-        'status' => [
-            'enabled' => 'Товар #:id показан.',
-            'disabled' => 'Товар #:id скрыт.',
-        ],
-        'created' => 'Товар #:id успешно создан.',
-        'updated' => 'Товар #:id успешно изменен.',
-        'deleted' => 'Товар #:id был удален.',
-    ],
-
-    App\Models\Category::class => [
-        'status' => [
-            'enabled' => 'Категория #:id показана.',
-            'disabled' => 'Категория #:id скрыта.',
-        ],
-        'created' => 'Категория #:id успешно создана.',
-        'updated' => 'Категория #:id успешно изменена.',
-        'deleted' => 'Категория #:id была удалена.',
-    ],
-
-    App\Models\Supplier::class => [
-        'status' => [
-            'enabled' => 'Поставщик #:id показан.',
-            'disabled' => 'Поставщик #:id скрыт.',
-        ],
-        'created' => 'Поставщик #:id успешно создан.',
-        'updated' => 'Поставщик #:id успешно изменен.',
-        'deleted' => 'Поставщик #:id был удален.',
+    App\Models\Admin::class => [
+        'created' => 'Администратор #:id создан.',
+        'updated' => 'Администратор #:id изменен.',
+        'deleted' => 'Администратор #:id удален.',
     ],
 
     App\Models\Attribute::class => [
@@ -48,16 +23,66 @@ return [
             'enabled' => 'Аттрибут #:id показан.',
             'disabled' => 'Аттрибут #:id скрыт.',
         ],
-        'created' => 'Аттрибут #:id успешно создан.',
-        'updated' => 'Аттрибут #:id успешно изменен.',
-        'deleted' => 'Аттрибут #:id был удален.',
+        'created' => 'Аттрибут #:id создан.',
+        'updated' => 'Аттрибут #:id изменен.',
+        'deleted' => 'Аттрибут #:id удален.',
+    ],
+
+    App\Models\Category::class => [
+        'status' => [
+            'enabled' => 'Категория #:id показана.',
+            'disabled' => 'Категория #:id скрыта.',
+        ],
+        'created' => 'Категория #:id создана.',
+        'updated' => 'Категория #:id изменена.',
+        'deleted' => 'Категория #:id удалена.',
+    ],
+
+    App\Models\AdminRolePermissionGroup::class => [
+        'created' => 'Группа прав #:id создана.',
+        'updated' => 'Группа прав #:id изменена.',
+        'deleted' => 'Группа прав #:id удалена.',
+    ],
+
+    App\Models\PriceType::class => [
+        'status' => [
+            'enabled' => 'Тип цены #:id показан.',
+            'disabled' => 'Тип цены #:id скрыт.',
+        ],
+        'created' => 'Тип цены #:id создан.',
+        'updated' => 'Тип цены #:id изменен.',
+        'deleted' => 'Тип цены #:id удален.',
+    ],
+
+    App\Models\Product::class => [
+        'status' => [
+            'enabled' => 'Товар #:id показан.',
+            'disabled' => 'Товар #:id скрыт.',
+        ],
+        'created' => 'Товар #:id создан.',
+        'updated' => 'Товар #:id изменен.',
+        'deleted' => 'Товар #:id удален.',
+    ],
+
+    App\Models\AdminRole::class => [
+        'created' => 'Роль #:id создана.',
+        'updated' => 'Роль #:id изменена.',
+        'deleted' => 'Роль #:id удалена.',
+    ],
+
+    App\Models\Supplier::class => [
+        'status' => [
+            'enabled' => 'Поставщик #:id показан.',
+            'disabled' => 'Поставщик #:id скрыт.',
+        ],
+        'created' => 'Поставщик #:id создан.',
+        'updated' => 'Поставщик #:id изменен.',
+        'deleted' => 'Поставщик #:id удален.',
     ],
 
     'positions' => "Позиция сохранена.",
 
-
     'ImageEditor' => [
         'rotate' => 'Невозможно повернуть на заданный угол.',
-
     ]
 ];

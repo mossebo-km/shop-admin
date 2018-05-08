@@ -150,7 +150,7 @@ export default {
 
       if (!this.sortIdsIsChanged(ids)) return
 
-      this.addToQueue('sort', new Core.requestHandler('post', this.prepareUrl('sort'), {ids}))
+      this.addToQueue('sort', new Core.requestHandler('post', this.makePageApiUrl('sort'), {ids}))
     },
   },
 

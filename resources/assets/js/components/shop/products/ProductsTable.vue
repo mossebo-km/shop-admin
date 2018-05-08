@@ -61,12 +61,12 @@
           sortable: true,
           label: 'Название',
           thStyle: {
-            width: this.userCan('prices.see') ? "70%" : "100%"
+            width: this.userCan('shop.prices.see', false) ? "70%" : "100%"
           }
         },
       ]
 
-      if (this.userCan('prices.see')) {
+      if (this.userCan('shop.prices.see', false)) {
         fields.push({
           key: 'price',
           sortable: true,
@@ -76,14 +76,14 @@
         })
       }
 
-      if (this.userCan('products.edit')) {
+      if (this.userCan('edit')) {
         fields.push({
           key: 'enabled',
           sortable: true,
         })
       }
 
-      if (this.userCan('products.delete')) {
+      if (this.userCan('delete')) {
         fields.push({
           key: 'delete',
           sortable: false,
@@ -91,6 +91,7 @@
       }
 
       return {
+        rbacNamespace: 'shop.products',
         loading: false,
         sortBy: 'id',
         sortDesc: false,
@@ -126,7 +127,7 @@
 
       fetchItems ({currentPage, perPage, sortBy, sortDesc}) {
         return new Promise(resolve => {
-          new Core.requestHandler('get', this.prepareUrl(), {
+          new Core.requestHandler('get', this.makePageApiUrl(), {
             currentPage,
             perPage,
             sortBy,
@@ -137,7 +138,7 @@
             .success(response => {
               const data = response.data;
 
-              this.totalRows = parseInt(data.totalRows)
+              this.totalRows = this.nanToZero(parseInt(data.totalRows))
               this.currentPage = parseInt(data.currentPage) || 1
               this.perPage = parseInt(data.perPage)
 
@@ -181,16 +182,20 @@
       refreshTable() {
         this.$refs.table.refresh()
       },
+
+      nanToZero(value) {
+        return isNaN(value) ? 0 : value
+      }
     },
 
     computed: {
       showedFrom() {
-        return (this.currentPage - 1) * this.perPage + 1
+        return this.nanToZero((this.currentPage - 1) * this.perPage + 1)
       },
 
       showedTo() {
         let to = this.currentPage * this.perPage
-        return (to > this.totalRows ? this.totalRows : to)
+        return this.nanToZero(to > this.totalRows ? this.totalRows : to)
       },
 
       showPagination() {
@@ -222,7 +227,7 @@
 
           <span class="btn-separator-xs"></span>
 
-          <router-link v-if="userCan('products.create')" to="/shop/products/create" class="btn btn-sm btn-success active">
+          <router-link v-if="userCan('create')" to="/shop/products/create" class="btn btn-sm btn-success active">
             <i class="fa fa-plus-circle"></i> Создать
           </router-link>
         </div>

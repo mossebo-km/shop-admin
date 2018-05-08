@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,13 +52,29 @@ class Handler extends ExceptionHandler
     {
         // This will replace our 404 response with
         // a JSON response.
-        dd($exception);
         if ($request->wantsJson()) {
-            return response()->json([
-                'message' => 'Resource not found'
-            ], 404);
+            return $this->getJsonResponse($request, $exception);
         }
 
         return parent::render($request, $exception);
+    }
+
+    protected function getJsonResponse($request, Exception $exception)
+    {
+        if ($exception instanceof AuthorizationException) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], 401);
+        }
+
+        if ($exception instanceof HttpResponseException) {
+            return $exception->getResponse();
+        }
+
+        dd($exception);
+
+        return response()->json([
+            'message' => 'Resource not found'
+        ], 404);
     }
 }

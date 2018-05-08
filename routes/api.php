@@ -25,12 +25,12 @@ Route::get('products/all', function() {
         ->header('Access-Control-Allow-Origin', '*');
 });
 
-
 Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData'], 'namespace' => 'Api'], function () {
     Route::post('data', 'DataController@get');
     Route::get('data', 'DataController@get');
     Route::get('data/relevantKey', 'DataController@relevantKey');
     Route::get('cache', 'DataController@cache');
+
 
     // Система администрирования
     Route::group(['prefix' => 'system'], function () {

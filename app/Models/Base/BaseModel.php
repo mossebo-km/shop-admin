@@ -5,7 +5,7 @@ namespace App\Models\Base;
 use Illuminate\Database\Eloquent\Model;
 use Config;
 
-class BaseModel extends Model
+abstract class BaseModel extends Model
 {
     protected $tableIdentif;
 

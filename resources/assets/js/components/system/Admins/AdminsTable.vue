@@ -23,13 +23,23 @@
     data() {
       return {
         tableItemsDataName: 'admins',
+        roles: [],
+        usedMainData: [
+          'roles'
+        ]
       }
     },
 
     methods: {
       initItems (items = []) {
-        this.items = items.map(item => new AdminsTableModel(item))
+        this.items = items.sort((a, b) => b.id - a.id).map(item => new AdminsTableModel(item))
       },
+
+      getRoles(admin) {
+        return admin.roles.map(roleId => {
+          return this.roles.find(item => item.id === roleId)['name']
+        }).join(', ')
+      }
     },
   }
 </script>
@@ -94,9 +104,7 @@
                   <router-link :to="admin.url">{{ admin.name }}</router-link>
                 </td>
 
-                <td style="width: 50%">
-                  {{ admin.role }}
-                </td>
+                <td style="width: 50%" v-html="getRoles(admin)"></td>
 
                 <td v-if="userCan('admins.edit')">
                   <span class="table-column-enabled">

@@ -5,18 +5,9 @@ namespace App\Http\Requests;
 use App\Validation\ValidatorExtend;
 use Illuminate\Validation\Rule;
 
-class AdminSaveRequest extends ApiRequest
+class AdminRequest extends ApiRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
+    // todo: хорошенечко подумать, с чего это вдруг мне надо каждый раз делать проверку "! ($this->isStore() || $this->isUpdate())"
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,14 +15,18 @@ class AdminSaveRequest extends ApiRequest
      */
     public function rules()
     {
+        if (! ($this->isStore() || $this->isUpdate())) {
+            return [];
+        }
+
         // todo: добавить проверку изображения, ролей
 
         $adminsTableName = \Config::get('migrations.Admins');
 
         $rules = [
-            'name'        => 'bail|trim|required|max:255',
-            'email'       => ['bail', 'trim', 'required', 'email', 'max:255'],
-            'enabled'     => 'boolean',
+            'name'    => 'bail|trim|required|max:255',
+            'email'   => ['bail', 'trim', 'required', 'email', 'max:255'],
+            'enabled' => 'boolean',
         ];
 
 

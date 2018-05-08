@@ -269,3 +269,10 @@ textarea.form-control {
   min-height: 200px;
   resize: vertical;
 }
+
+
+.pagination > li > a,
+.pagination > li > span {
+  width: 30px;
+  text-align: center;
+}

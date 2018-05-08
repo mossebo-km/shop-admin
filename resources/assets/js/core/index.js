@@ -5,8 +5,9 @@ import dataHandler from './dataHandler.js'
 import stageHandler from './stageHandler.js'
 import transliteration from './transliteration'
 import queueHandler from './queueHandler'
-import auth from './auth'
+import user from './user'
 import EventsHandler from "./EventsHandler";
+import { asyncPackageDataCollector } from './queueHandler'
 
 /**
  * todo: вынести функции, которые форматируют строки, цифры в отдельную область.
@@ -40,7 +41,7 @@ export default {
   dataHandler,
   stageHandler,
   queueHandler,
-  auth,
+  user,
   events: new EventsHandler(),
 
   transliteration,
@@ -105,31 +106,6 @@ export default {
     return value.replace(',' + ''.padStart(precision, '0'), '')
   },
 
-  /**
-   * Добавление api_token пользователя в url.
-   *
-   * @param url
-   * @returns {string}
-   */
-  addApiTokenToUrl(url) {
-    if (url.indexOf('?') === -1) {
-      url += '?'
-    }
-    else {
-      url += '&'
-    }
-
-    return url + 'api_token=' + this.getApiToken()
-  },
-
-  /**
-   * Получение api_token текущего пользователя.
-   *
-   * @returns {string}
-   */
-  getApiToken() {
-    return window.config.user.token
-  },
 
   /**
    * Преобразование строки в CamelCase регистр.
@@ -221,5 +197,152 @@ export default {
 
       elImg.addEventListener('load', onLoad)
     }
+  },
+
+
+
+
+  /**
+   * Добавление api_token пользователя в url.
+   *
+   * @param url
+   * @returns {string}
+   */
+  addApiTokenToUrl(url) {
+    if (url.indexOf('?') === -1) {
+      url += '?'
+    }
+    else {
+      url += '&'
+    }
+
+    return url + 'api_token=' + this.getApiToken()
+  },
+
+  /**
+   * Получение api_token текущего пользователя.
+   *
+   * @returns {string}
+   */
+  getApiToken() {
+    return this.user.get('token')
+  },
+
+  init() {
+    return new Promise(resolve => {
+      const a = new asyncPackageDataCollector()
+
+      a.add(() => this.user.init())
+
+      a.onDone(data => {
+        resolve()
+      })
+
+      a.start()
+    })
+  },
+
+
+  // todo: что-то с этим сделать.
+  getMainMenuData(){
+    return [
+      {
+        title: 'Магазин',
+        icon: 'fa fa-shopping-bag',
+        children: [
+          {
+            title: 'Товары',
+            url: '/shop/products',
+            icon: 'gi gi-shopping_bag',
+            permission: 'shop.products.menu'
+          },
+
+          {
+            title: 'Категории',
+            url: '/shop/categories',
+            icon: 'fa fa-folder',
+            permission: 'shop.categories.menu'
+          },
+
+          {
+            title: 'Поставщики',
+            url: '/shop/suppliers',
+            icon: 'fa fa-truck',
+            permission: 'shop.suppliers.menu'
+          },
+
+          {
+            title: 'Аттрибуты',
+            url: '/shop/attributes',
+            icon: 'fa fa-list',
+            permission: 'shop.attributes.menu'
+          },
+
+          {
+            title: 'Типы цен',
+            url: '/shop/price-types',
+            icon: 'fa fa-money',
+            permission: 'shop.price-types.menu'
+          },
+
+          {
+            title: 'Покупатели',
+            url: '/shop/customers',
+            icon: 'gi gi-parents',
+            permission: 'shop.customers.menu'
+          },
+        ]
+      },
+
+      {
+        title: 'Система',
+        icon: 'fa fa-gears',
+
+        children: [
+          {
+            title: 'Администраторы',
+            url: '/system/admins',
+            icon: 'fa fa-id-card-o',
+            permission: 'system.admins.menu',
+          },
+
+          {
+            title: 'Контроль доступа',
+            icon: 'fa fa-ban',
+
+            children: [
+              {
+                title: 'Роли',
+                url: '/system/rbac/roles',
+                icon: 'fa fa-group',
+                permission: 'system.rbac.roles.menu',
+              },
+
+              {
+                title: 'Права',
+                url: '/system/rbac/permission-groups',
+                icon: 'fa fa-star',
+                permission: 'system.rbac.permission-groups.menu',
+              },
+            ]
+          },
+
+          {
+            title: 'Настройки',
+            url: '/system/rbac/settings',
+            icon: 'fa fa-gear',
+            permission: 'system.settings.menu',
+          },
+        ]
+      },
+
+      {
+        title: 'Очистить кэш',
+        onClick() {
+          new requestHandler('get', `/api/cache`).start()
+        },
+        icon: 'fa fa-refresh',
+      }
+    ]
   }
 }

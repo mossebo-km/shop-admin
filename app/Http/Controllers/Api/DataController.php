@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Models;
 use App\Http\Controllers\DataHandler;
 
 class DataController extends ApiController
@@ -42,7 +41,7 @@ class DataController extends ApiController
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Кэш отчищен.'
+            'message' => 'Кэш очищен.'
         ], 200);
     }
 }

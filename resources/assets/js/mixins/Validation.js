@@ -28,7 +28,7 @@ export default {
       Validator.extend('slug_exist', {
         getMessage: field => `Slug занят.`,
         validate: slug => new Promise(resolve => {
-          new Core.requestHandler('get', this.prepareUrl('slug'), {slug})
+          new Core.requestHandler('get', this.makePageApiUrl('slug'), {slug})
             .success(() => resolve( {valid: true} ))
             .fail(() => resolve( {valid: false} ))
             .start()

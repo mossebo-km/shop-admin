@@ -135,20 +135,10 @@
         <script src="js/plugins.js"></script> --}}
 
         @php
-            $user = Auth::guard('admin.web')->user();
+            // todo: разобраться с этой ерундой (в частности с суперадминством)
         @endphp
 
-        <script>
-            window.config = {
-                user: {
-                    id: "{{ $user->id }}",
-                    roles: [],
-                    name: "{{ $user->name }}",
-                    token: "{{ $user ->api_token }}"
-                },
-                interactionKey: "{{ \App\Http\Controllers\DataHandler::getRelevantKey() }}",
-            }
-        </script>
+        <script>window.config = {!! getFrontConfig() !!}</script>
 
         <script src="/packages/ckeditor/ckeditor.js" defer></script>
         <script src="{{ mix('/js/manifest.js') }}" defer></script>

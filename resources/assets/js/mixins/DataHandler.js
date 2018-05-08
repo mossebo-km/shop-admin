@@ -76,7 +76,8 @@ export default {
     },
 
     initRoles(roles = []) {
-      this.roles = this.getSortedData(roles).map(item => new AdminRoleModel(item))
+      this.roles = this.getSortedData(roles)
+        // .map(item => new AdminRoleModel(item))
     },
 
     getEnabledData(data = []) {
@@ -84,7 +85,15 @@ export default {
     },
 
     getSortedData(data = []) {
-      return data.sort((a, b) => a.position - b.position)
+      return data.sort((a, b) => {
+        let res = a.position - b.position
+
+        if (res === 0 && a.id && b.id) {
+          res = a.id - b.id
+        }
+
+        return res
+      })
     },
   }
 }

@@ -6,23 +6,10 @@ use App\Validation\ValidatorExtend;
 use App\Models\Attribute;
 use App\Models\AttributeOption;
 
-class ProductSaveRequest extends ApiRequest
+class ProductRequest extends ApiRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        $this->model = $this->route('product');
-
-        if ($this->can('update')) {
-
-        }
-
-        return true;
-    }
+    protected $model = \App\Models\Product::class;
+    protected $permissionsNamespace = 'shop.products';
 
     /**
      * Get the validation rules that apply to the request.
@@ -31,6 +18,13 @@ class ProductSaveRequest extends ApiRequest
      */
     public function rules()
     {
+        if ($this->is('*/image')) {
+            return [];
+        }
+
+        if (! ($this->isStore() || $this->isUpdate())) {
+            return [];
+        }
 
         // todo: добавить проверку изображений
 
@@ -70,7 +64,7 @@ class ProductSaveRequest extends ApiRequest
          *    2.1 Если опция уже существует - проверка существования ее id
          *    2.2 Если не существует - проверка ввода.
          */
-        if ($attributes = $this->formRequest->input('attributes')) {
+        if ($attributes = $this->input('attributes')) {
             $existingAttributeIds = array_column(Attribute::get(['id'])->toArray(), 'id');
 
             foreach ($attributes as $attributeId => $attributeOptions) {
@@ -91,7 +85,7 @@ class ProductSaveRequest extends ApiRequest
                                 foreach (\Languages::enabled() as $language) {
                                     $ruleName = "attributes.{$attributeId}.{$optionId}.{$language['code']}.value";
 
-                                    $validator = \Validator::make($this->formRequest->all(), [
+                                    $validator = \Validator::make($this->all(), [
                                         $ruleName => 'bail|trim|required|max:255',
                                     ]);
 

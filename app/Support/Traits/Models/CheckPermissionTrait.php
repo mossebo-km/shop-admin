@@ -8,7 +8,7 @@ trait CheckPermissionTrait
 
     public function isSuperAdmin()
     {
-        return $this->id === 1 || $this->hasRole(1);
+        return $this->id === (int) \Config::get('roles.superAdminId');
     }
 
     public function hasRole($roleId)
@@ -18,6 +18,10 @@ trait CheckPermissionTrait
 
     public function hasPermission($permissionNameOrId)
     {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
         $permissions = $this->getPermissions();
 
         if (is_int($permissionNameOrId)){
@@ -28,11 +32,15 @@ trait CheckPermissionTrait
         }
     }
 
+    // todo: нужна отчистка кэша
+
     public function getPermissions()
     {
         if ($this->permissions) {
             return $this->permissions;
         }
+
+        \Cache::flush('permissions' . get_class($this));
 
         $this->permissions = \Cache::remember('permissions' . get_class($this), 18000, function () {
             return $this->buildPermissions();
@@ -59,6 +67,6 @@ trait CheckPermissionTrait
             }
         }
 
-        return [];
+        return $permissions;
     }
 }

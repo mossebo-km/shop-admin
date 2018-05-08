@@ -6,6 +6,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VeeValidate from 'vee-validate'
 
+import Core from './core'
+
 import Dashboard from './components/shop/Dashboard'
 
 import CategoriesTable from './components/shop/categories/CategoriesTable'
@@ -151,28 +153,33 @@ const router = new VueRouter({
 // 4. Создаём и монтируем корневой экземпляр Vue нашего приложения.
 // Удостоверьтесь, что передали экземпляр роутера в опции `router`,
 // что позволит приложению знать о его наличии
-const app = new Vue({
-  router,
-  components: {
-    Loading,
-    ClearCacheBtn,
-    MainMenu,
-    Avatar
-  },
 
-  data() {
-    return {
-      loading: false
-    }
-  },
 
-  methods: {
-    loadingStart() {
-      this.loading = true
+
+Core.init().then(() => {
+  const app = new Vue({
+    router,
+    components: {
+      Loading,
+      ClearCacheBtn,
+      MainMenu,
+      Avatar
     },
 
-    loadingEnd() {
-      this.loading = false
+    data() {
+      return {
+        loading: false
+      }
+    },
+
+    methods: {
+      loadingStart() {
+        this.loading = true
+      },
+
+      loadingEnd() {
+        this.loading = false
+      }
     }
-  }
-}).$mount('#app')
+  }).$mount('#app')
+})

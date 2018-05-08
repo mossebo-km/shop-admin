@@ -36,6 +36,7 @@
         "vue2-dropzone": "^3.1.0"
     },
     "dependencies": {
+        "deep-freeze": "0.0.1",
         "nestable": "^0.2.0",
         "vue-cropperjs": "^2.2.0"
     }

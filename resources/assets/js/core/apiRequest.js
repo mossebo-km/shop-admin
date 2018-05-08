@@ -10,7 +10,6 @@ const availableMessageTypes = [
 
 export default class apiRequest {
   constructor(method = 'get', url, data = {}, configParams = {}) {
-    this.isCrashed = false
     this.status = 'crashed'
     this.callbacks = []
     this.fetchRequestCancel = false
@@ -59,19 +58,20 @@ export default class apiRequest {
 
         let response = error.response || {}
 
-        if ('data' in response && typeof response.data === 'object' && response.data !== null && Object.keys(response.data).length !== 0) {
-          this._handleResponse(response)
-          return
-        }
-        else if (response.status >= 500) {
+        if (response.status >= 500) {
           Core.notify('Техническая ошибка. Обратитесь к разработчикам.', {type: 'error'})
-          this.status = 'crashed'
+          return this._done('crashed')
         }
         else if (response.status === 404) {
-          this.status = '404'
+          return this._done('404')
         }
-
-        this._done()
+        else if (response.status === 401) {
+          Core.notify(response.data.message, {type: 'warning'})
+          return this._done('unauthorized')
+        }
+        else if ('data' in response && typeof response.data === 'object' && response.data !== null && Object.keys(response.data).length !== 0) {
+          this._handleResponse(response)
+        }
       })
 
     return this
@@ -88,6 +88,7 @@ export default class apiRequest {
     this.response = response;
 
     const data = response.data
+
     if (data.redirect && this.currentUrl === window.location.href) {
       let redirect = data.redirect
 
@@ -99,25 +100,22 @@ export default class apiRequest {
       return
     }
 
-    this.status = data.status || 'success'
-
     if (data.message) {
-      if (availableMessageTypes.indexOf(this.status) === -1) return
+      let status = availableMessageTypes.indexOf(data.status) !== -1 ? data.status : undefined
 
-      Core.notify(data.message, {
-        type: this.status
-      })
+      Core.notify(data.message, {type: status})
     }
 
     if (data.withData) {
       Core.dataHandler.setDataToStorage(data.withData)
     }
 
-    this._done()
+    this._done(data.status)
   }
 
-  _done() {
+  _done(status = 'success') {
     this.isDone = true
+    this.status = status
 
     this.callbacks.forEach(callback => {
       Core.runCallback(callback, this.response)
@@ -135,7 +133,7 @@ export default class apiRequest {
 
   success(callback) {
     this._onDone(() => {
-      if (this.status !== 'error' && this.status !== 'crashed') {
+      if (this.status === 'success') {
         Core.runCallback(callback, this.response)
       }
     })
@@ -145,7 +143,17 @@ export default class apiRequest {
 
   fail(callback) {
     this._onDone(() => {
-      if (this.status === 'error') {
+      if (this.status === 'error' || this.status === 'unauthorized') {
+        Core.runCallback(callback, this.response)
+      }
+    })
+
+    return this
+  }
+
+  unauthorized(callback) {
+    this._onDone(() => {
+      if (this.status === 'unauthorized') {
         Core.runCallback(callback, this.response)
       }
     })

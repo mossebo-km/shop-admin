@@ -27,7 +27,7 @@ class AdminsSeeder extends Seeder
             'roles' => [3],
             'name' => 'Диана Шамонова',
             'email' => 'product@mossebo.market',
-            'password' => '731256'
+            'password' => 'jd&haU'
         ],
         [
             'roles' => [3],
@@ -35,7 +35,43 @@ class AdminsSeeder extends Seeder
             'email' => 'product8@mossebo.market',
             'password' => 'ua6%1jaD'
         ],
+
+//        [
+//            'roles' => [3],
+//            'name' => 'Мария Нестерова',
+//            'email' => 'product81@mossebo.market',
+//            'password' => '#5L%qV0u'
+//        ],
+//        [
+//            'roles' => [3],
+//            'name' => 'Мария Нестерова',
+//            'email' => 'product82@mossebo.market',
+//            'password' => 'VBRFqk~Q'
+//        ],
+//        [
+//            'roles' => [3],
+//            'name' => 'Мария Нестерова',
+//            'email' => 'product83@mossebo.market',
+//            'password' => 'O||}zpbu'
+//        ],
+//        [
+//            'roles' => [3],
+//            'name' => 'Мария Нестерова',
+//            'email' => 'product84@mossebo.market',
+//            'password' => 'LfnTtt7z'
+//        ],
+//        [
+//            'roles' => [3],
+//            'name' => 'Мария Нестерова',
+//            'email' => 'product85@mossebo.market',
+//            'password' => 'We4O7?}H'
+//        ],
     ];
+
+
+
+
+
 
     /**
      * Run the database seeds.

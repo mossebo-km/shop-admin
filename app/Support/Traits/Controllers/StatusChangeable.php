@@ -2,7 +2,6 @@
 
 namespace App\Support\Traits\Controllers;
 
-// use App\Contracts\Models\CanChangeStatus;
 use App\Events\Entity\EntityStatusChanged;
 
 trait StatusChangeable

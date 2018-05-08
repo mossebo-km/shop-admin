@@ -5,18 +5,8 @@ namespace App\Http\Requests;
 use App\Validation\ValidatorExtend;
 use Illuminate\Validation\Rule;
 
-class CategorySaveRequest extends ApiRequest
+class CategoryRequest extends ApiRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,6 +14,10 @@ class CategorySaveRequest extends ApiRequest
      */
     public function rules()
     {
+        if (! ($this->isStore() || $this->isUpdate())) {
+            return [];
+        }
+
         $categoriesTableName = \Config::get('migrations.Categories');
 
         $rules = [
@@ -32,7 +26,7 @@ class CategorySaveRequest extends ApiRequest
             'slug' => ['bail', 'trim', 'required', 'between:3,255']
         ];
 
-        if ($this->isCreate()) {
+        if ($this->isStore()) {
             $rules['slug'][] = Rule::unique($categoriesTableName);
         }
 

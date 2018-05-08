@@ -108,7 +108,6 @@ class RamRepository implements RamRepositoryContract {
     }
 
     // todo: переделать это замечательное творение
-
     protected function clearCacheDeep($modificatorName = false, $modificators = [], $count = 0)
     {
         if (! $modificatorName) {

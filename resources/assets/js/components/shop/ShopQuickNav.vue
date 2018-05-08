@@ -1,4 +1,8 @@
 <script>
+  import {menuItems} from '../MainMenu'
+  import Core from '../../core'
+  import Base from '../../mixins/Base'
+
   export default {
     name: 'shop-quick-nav',
 
@@ -6,68 +10,64 @@
       'active'
     ],
 
+    mixins: [
+      Base
+    ],
+
     data() {
       return {
-        links: [
-          {
-            url: '/shop/products',
-            icon: 'gi gi-shopping_bag',
-            title: 'Товары'
-          },
-
-          {
-            url: '/shop/categories',
-            icon: 'fa fa-folder',
-            title: 'Категории'
-          },
-
-          {
-            url: '/shop/suppliers',
-            icon: 'fa fa-truck',
-            title: 'Поставщики'
-          },
-
-          {
-            url: '/shop/attributes',
-            icon: 'fa fa-list',
-            title: 'Аттрибуты'
-          },
-          {
-            url: '/shop/price-types',
-            icon: 'fa fa-money',
-            title: 'Типы цен'
-          },
-
-          {
-            url: '/shop/customers',
-            icon: 'gi gi-parents',
-            title: 'Покупатели'
-          },
-
-          // {
-          //   url: '/shop/orders',
-          //   icon: 'gi gi-shop_window',
-          //   title: 'Заказы'
-          // },
-        ]
+        items: []
       }
     },
 
     methods: {
+      prepareItems(menuItems = []) {
+        return menuItems.reduce((acc, item) => {
+          if (item.permission && !this.userCan(item.permission)) {
+            return acc
+          }
+
+          if (item.children instanceof Array && item.children.length > 0) {
+            let children = this.prepareItems(item.children)
+
+            if (children.length === 0) {
+              return acc
+            }
+
+            acc.push({
+              ... item,
+              children
+            })
+
+            return acc
+          }
+
+          acc.push(item)
+
+          return acc
+        }, [])
+      },
+
       isActive(item) {
         return item.url.indexOf( this.active ) !== -1
       }
+    },
+
+    mounted() {
+      this.items = this.prepareItems(Core.getMainMenuData()[0].children)
     }
   }
 
 </script>
 
 <template>
-  <div class="content-header">
+  <div class="content-header" v-if="items.length > 0">
     <ul class="nav-horizontal text-center">
-      <li v-for="(item, index) in links" :class="{ active: isActive(item) }">
-        <router-link :to="item.url"><i :class="item.icon"></i> {{ item.title }}</router-link>
-      </li>
+      <template v-for="item in items">
+        <li :class="{ active: isActive(item) }" :key="item.url">
+          <router-link :to="item.url"><i :class="item.icon"></i> {{ item.title }}</router-link>
+        </li>
+      </template>
     </ul>
   </div>
 </template>

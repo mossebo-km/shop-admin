@@ -2,20 +2,13 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 
-class ImageUploadRequest extends FormRequest
+class ImageUploadRequest extends ApiRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
+
+    // todo: разобраться с правами на загрузку изображений
+    // По сути надо дождаться повторения ситуации и тогда решить что делать.
 
     protected function failedValidation(Validator $validator)
     {

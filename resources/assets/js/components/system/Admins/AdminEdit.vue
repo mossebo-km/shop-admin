@@ -32,6 +32,7 @@
       return {
         entityName: 'admin',
         admin: null,
+        roles: [],
         usedMainData: [
           'roles'
         ]
@@ -75,6 +76,13 @@
         else {
           return []
         }
+      },
+
+      initRoles(roles = []) {
+        this.roles = this.getSortedData(roles).map(({id, name}) => ({
+          id,
+          title: name
+        }))
       },
     },
 
@@ -183,7 +191,7 @@
         </div>
 
         <div class="form-group">
-          <label class="col-md-3 control-label" for="email">
+          <label class="col-md-3 control-label">
             Аватар
           </label>
 
@@ -192,7 +200,7 @@
               ref="gallery"
               v-if="type === 'edit'"
               :params="{maxFiles: 1}"
-              :url="prepareUrl('image')"
+              :url="makePageApiUrl('image')"
               :images="dropzoneImage"
               @update:images="updateImage"
               :safeDelete="false"
@@ -242,6 +250,64 @@
         </div>
 
       </div>
+
+      <div class="block full">
+        <div class="block-title clearfix">
+          <h1>
+            <strong>
+              Изменение пароля
+            </strong>
+          </h1>
+        </div>
+
+        <div class="form-horizontal form-bordered" v-if="admin">
+          <div :class="`form-group${formErrors.has('old-password') ? ' has-error' : ''}`">
+            <label class="col-md-3 control-label" for="old-password">
+              Старый <span class="text-danger">*</span>
+            </label>
+
+            <div class="col-md-9">
+              <input type="password" class="form-control" id="old-password" v-model="admin['old--password']" name="old-password" v-validate="'max:255'">
+
+              <span v-show="formErrors.has('old-password')" class="help-block">
+              {{ formErrors.first('old-password') }}
+            </span>
+            </div>
+          </div>
+
+
+          <div :class="`form-group${formErrors.has('new-password') ? ' has-error' : ''}`">
+            <label class="col-md-3 control-label" for="new-password">
+              Новый <span class="text-danger">*</span>
+            </label>
+
+            <div class="col-md-9">
+              <input type="password" class="form-control" id="new-password" v-model="admin['new-password']" name="new-password" v-validate="'min:8|max:255'">
+
+              <span v-show="formErrors.has('new-password')" class="help-block">
+              {{ formErrors.first('new-password') }}
+            </span>
+            </div>
+          </div>
+
+          <div :class="`form-group${formErrors.has('confirm-password') ? ' has-error' : ''}`">
+            <label class="col-md-3 control-label" for="confirm-password">
+              Подтверждение <span class="text-danger">*</span>
+            </label>
+
+            <div class="col-md-9">
+              <input type="password" class="form-control" id="confirm-password" v-model="admin['confirm-password']" name="confirm-password" v-validate="'max:255|confirmed:new-password'">
+
+              <span v-show="formErrors.has('confirm-password')" class="help-block">
+              {{ formErrors.first('confirm-password') }}
+            </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
     </div>
 
     <b-modal

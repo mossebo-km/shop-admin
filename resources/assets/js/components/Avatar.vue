@@ -31,7 +31,7 @@
       this.setSrc(this.src)
 
       Core.events.on('system.avatar-changed', (userId, src) => {
-        if (Core.auth.getUserId() === userId) {
+        if (Core.user.getId() === userId) {
           this.setSrc(src)
         }
       })

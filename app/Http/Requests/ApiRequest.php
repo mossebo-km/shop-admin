@@ -7,6 +7,11 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ApiRequest extends Request
 {
+    public function __construct()
+    {
+        $this->guard = 'admin.api';
+    }
+
     protected function failedValidation(Validator $validator)
     {
         if ($validator->fails()) {
@@ -21,5 +26,12 @@ class ApiRequest extends Request
             'status' => 'error',
             'errors' => $errors,
         ], 422));
+    }
+
+    public function rules()
+    {
+        return [
+            //
+        ];
     }
 }

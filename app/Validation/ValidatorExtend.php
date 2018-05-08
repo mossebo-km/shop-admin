@@ -6,6 +6,8 @@ use Validator;
 
 class ValidatorExtend
 {
+    // todo: удалить эту шляпу.
+
     /**
      * Получение primary key модели.
      *
@@ -75,17 +77,13 @@ class ValidatorExtend
      * @param null $parentFieldName
      * @return bool
      */
-    protected static function _parentIdAvailable($modelClassName, $recordId, $parentId, $parentFieldName = null)
+    protected static function _parentIdAvailable($modelClassName, $recordId, $parentId)
     {
         if ((int) $parentId === 0) {
             return true;
         }
 
-        if (is_null($parentFieldName)) {
-            $parentFieldName = 'parent_id';
-        }
-
-        $childrensIds = \Categories::getAllChildsIds($recordId);
+        $childrensIds = \App\Models\Category::getDescendantIds($recordId);
         $childrensIds[] = $recordId;
 
         return !in_array($parentId, $childrensIds);

@@ -5,18 +5,8 @@ namespace App\Http\Requests;
 use App\Models\AdminRolePermission;
 use App\Validation\ValidatorExtend;
 
-class PermissionGroupSaveRequest extends ApiRequest
+class PermissionGroupRequest extends ApiRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,6 +14,10 @@ class PermissionGroupSaveRequest extends ApiRequest
      */
     public function rules()
     {
+        if (! ($this->isStore() || $this->isUpdate())) {
+            return [];
+        }
+
         $permissionGroupsTableName = \Config::get('migrations.AdminRolePermissionGroups');
 
         $rules = [
@@ -39,7 +33,7 @@ class PermissionGroupSaveRequest extends ApiRequest
             $rules['parent_id'][] = "parent_id_available:{$modelName}," . $id;
         }
 
-        foreach ($this->formRequest->input('permissions') as $permissionId => $permission) {
+        foreach ($this->input('permissions') as $permissionId => $permission) {
             if ($isUpdate) {
                 $existingAttributeOptionsIds = array_column(AdminRolePermission::where('group_id', $id)->get(['id'])->toArray(), 'id');
             }
@@ -62,7 +56,7 @@ class PermissionGroupSaveRequest extends ApiRequest
                         }
                     }
 
-                    $validator = \Validator::make($this->formRequest->all(), $permissionRules);
+                    $validator = \Validator::make($this->all(), $permissionRules);
 
                     if ($validator->fails()) {
                         foreach ($validator->errors()->messages() as $fieldName => $messages) {

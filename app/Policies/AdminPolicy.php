@@ -26,8 +26,10 @@ class AdminPolicy
         }
     }
 
-    public function __call($name, $arguments)
+    public function __call($permission, $arguments)
     {
-        dd($name, $arguments);
+        $user = $arguments[0];
+
+        return $user->hasPermission($permission);
     }
 }

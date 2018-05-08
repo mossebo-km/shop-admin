@@ -55,7 +55,7 @@ export default {
      * @returns apiResponse
      */
     fetchEntity() {
-      return new Core.requestHandler('get', this.prepareUrl())
+      return new Core.requestHandler('get', this.makePageApiUrl())
         .notFound(() => {
           Core.notify('Товар не найден.', {type: 'warning'})
           this.redirectToTable()
@@ -182,13 +182,27 @@ export default {
             requestType = 'put'
           }
 
-          const request = new Core.requestHandler(requestType, this.prepareUrl(), data)
+          const request = new Core.requestHandler(requestType, this.makePageApiUrl(), data)
+            .success(response => {
+              if (this.type === 'create') {
+                window.location.href = this.makePageUrl(response.data.id)
+              }
 
-          this.addToQueue('save', request).onDone()
-            .success(response => this.pullDataFromResponse(response))
+              if (this.type === 'edit') {
+                this.pullDataFromResponse(response)
+              }
+            })
             .fail(response => {
-              if (response.data.errors) {
-                this.setValidationErrors(response.data.errors)
+              let errors
+
+              try {
+                errors = response.data.errors
+              }
+              catch(e) {}
+
+              this.setValidationErrors(errors || [])
+
+              if (errors) {
                 this.$refs.validationModal.show()
               }
             })
@@ -196,6 +210,8 @@ export default {
               Core.notify('Товар был удален до внесения изменений.', {type: 'warning'})
               this.redirectToTable()
             })
+
+          this.addToQueue('save', request)
         })
     },
 
@@ -230,7 +246,7 @@ export default {
      * При подтвержении удаления записи.
      */
     removeConfirm() {
-      new Core.requestHandler('delete', this.prepareUrl())
+      new Core.requestHandler('delete', this.makePageApiUrl())
         .success(() => {
           this.redirectToTable()
         })
@@ -246,12 +262,12 @@ export default {
   },
 
   created() {
-    if (this.type === 'create' && !this.userCan(`${this.entityName}.create`)) {
+    if (this.type === 'create' && !this.userCan(`create`)) {
       this.redirectToTable()
       return
     }
 
-    if (this.type === 'edit' && !this.userCan(`${this.entityName}.see`)) {
+    if (this.type === 'edit' && !this.userCan(`see`)) {
       this.redirectToTable()
       return
     }

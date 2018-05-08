@@ -7,12 +7,12 @@ export default {
      *
      * @returns {*}
      */
-    userCan(action) {
-      // if (['attribute.edit', 'attribute.create', 'attribute.delete'].indexOf(action) !== -1) {
-      //   return true
-      // }
+    userCan(action, addNamespace = true) {
+      if (this.rbacNamespace && addNamespace) {
+        action = ([this.rbacNamespace, action]).join('.')
+      }
 
-      return Core.auth.isSuperAdmin(action)
+      return Core.user.can(action)
     },
   },
 }

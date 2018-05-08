@@ -1,107 +1,23 @@
 <script>
   import Core from '../core'
-  const menuData = [
-    {
-      title: 'Магазин',
-      icon: 'fa fa-shopping-bag',
-      children: [
-        {
-          title: 'Товары',
-          url: '/shop/products',
-          icon: 'gi gi-shopping_bag',
-        },
-
-        {
-          title: 'Категории',
-          url: '/shop/categories',
-          icon: 'fa fa-folder'
-        },
-
-        {
-          title: 'Поставщики',
-          url: '/shop/suppliers',
-          icon: 'fa fa-truck',
-        },
-
-        {
-          title: 'Аттрибуты',
-          url: '/shop/attributes',
-          icon: 'fa fa-list',
-        },
-
-        {
-          title: 'Типы цен',
-          url: '/shop/price-types',
-          icon: 'fa fa-money',
-        },
-
-        {
-          title: 'Покупатели',
-          url: '/shop/customers',
-          icon: 'gi gi-parents',
-        },
-      ]
-    },
-
-    {
-      title: 'Система',
-      icon: 'fa fa-gears',
-      rights: 'system.show-in-menu',
-
-      children: [
-        {
-          title: 'Администраторы',
-          url: '/system/admins',
-          icon: 'fa fa-id-card-o',
-          rights: 'admins.show-in-menu'
-        },
-
-        {
-          title: 'Контроль доступа',
-          icon: 'fa fa-ban',
-
-          children: [
-            {
-              title: 'Роли',
-              url: '/system/rbac/roles',
-              icon: 'fa fa-group',
-            },
-
-            {
-              title: 'Права',
-              url: '/system/rbac/permission-groups',
-              icon: 'fa fa-star',
-            },
-          ]
-        },
-
-        {
-          title: 'Настройки',
-          url: '/system/rbac/settings',
-          icon: 'fa fa-gear',
-        },
-      ]
-    },
-
-    {
-      title: 'Отчистить кэш',
-      onClick() {
-        new Core.requestHandler('get', `/api/cache`).start()
-      },
-      icon: 'fa fa-refresh',
-    }
-  ]
+  import Base from '../mixins/Base'
 
   export default {
     name: "main-menu",
 
     data() {
-      return {}
+      return {
+        items: []
+      }
     },
 
     watch: {
       '$route': 'checkExpanded'
     },
+
+    mixins: [
+      Base
+    ],
 
     mounted() {
       this.init()
@@ -210,10 +126,40 @@
       expandLinkClick(elLink) {
         elLink.classList.toggle('manual')
         this.expandToggle(elLink, elLink.nextSibling)
+      },
+
+      prepareItems(menuItems = []) {
+        return menuItems.reduce((acc, item) => {
+          if (item.permission && !this.userCan(item.permission)) {
+            return acc
+          }
+
+          if (item.children instanceof Array && item.children.length > 0) {
+            let children = this.prepareItems(item.children)
+
+            if (children.length === 0) {
+              return acc
+            }
+
+            acc.push({
+              ... item,
+              children
+            })
+
+            return acc
+          }
+
+          acc.push(item)
+
+          return acc
+        }, [])
       }
     },
 
     render(createElement) {
+      this.items = this.prepareItems(Core.getMainMenuData())
+
+
       let makeTitleEl = (title) => {
         return createElement(
           'span',
@@ -369,7 +315,7 @@
             class: 'sidebar-nav'
           }
         },
-        makeElsLiArray(menuData)
+        makeElsLiArray(this.items)
       )
     }
   }

@@ -45,6 +45,7 @@
 
     data() {
       return {
+        rbacNamespace: 'shop.products',
         entityName: 'product',
         product: null,
 
@@ -182,7 +183,7 @@
 
             <span class="btn-separator-xs"></span>
 
-            <a v-if="userCan('products.create')" class="btn btn-sm btn-success active" @click="save">
+            <a v-if="userCan('create')" class="btn btn-sm btn-success active" @click="save">
               <i class="fa fa-plus-circle"></i> Создать
             </a>
         </div>
@@ -209,11 +210,11 @@
 
             <span class="btn-separator-xs"></span>
 
-            <a v-if="userCan('products.edit')" class="btn btn-sm btn-primary active" @click="save">
+            <a v-if="userCan('edit')" class="btn btn-sm btn-primary active" @click="save">
               <i class="fa fa-floppy-o"></i> Сохранить
             </a>
 
-            <a v-if="userCan('products.delete')" class="btn btn-sm btn-danger active" @click="remove">
+            <a v-if="userCan('delete')" class="btn btn-sm btn-danger active" @click="remove">
               Удалить
             </a>
         </div>
@@ -582,7 +583,7 @@
           </div>
 
           <!-- Изображения -->
-          <div class="block">
+          <div class="block" v-if="type === 'edit'">
             <div class="block-title">
               <h2><i class="fa fa-image"></i> <strong>Изображения</strong></h2>
             </div>
@@ -591,7 +592,7 @@
               <dropzone-gallery
                 ref="gallery"
                 v-if="type === 'edit'"
-                :url="prepareUrl('image')"
+                :url="makePageApiUrl('image')"
                 :images.sync="product.images"
                 :errors="formErrors.collect('images') || []" />
             </div>

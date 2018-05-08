@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request as IlluminateRequest;
 
 abstract class Request extends FormRequest
 {
@@ -27,16 +26,92 @@ abstract class Request extends FormRequest
      */
     protected $model;
 
+    protected $requestNamespace;
+
     /**
      * Constructor
      *
      * @return void
      * @author
      **/
-    public function __construct(IlluminateRequest $request)
+    public function __construct()
     {
-        $this->guard = config('auth.api');
-        $this->formRequest = $request;
+        // todo: разобраться с guard
+        $this->guard = config('admin.api');
+    }
+
+
+    public function authorize()
+    {
+        return $this->authorizeAction($this->getAction());
+    }
+
+    protected function getAction()
+    {
+        $pathArray = $this->getPathArray();
+
+        $lastSlug = $pathArray[count($pathArray) - 1];
+
+        try {
+            $id = $this->getId();
+        }
+        catch(\Exception $e) {
+            $id = 0;
+        }
+
+        if ($lastSlug != $id) {
+            return $lastSlug;
+        }
+
+        if ($this->isCreate() || $this->isStore()) {
+            return 'create';
+        }
+
+        if ($this->isEdit()) {
+            return 'edit';
+        }
+
+        if ($this->isUpdate()) {
+            return 'update';
+        }
+
+        if ($this->isDelete()) {
+            return 'delete';
+        }
+
+        return 'edit';
+    }
+
+    protected function authorizeAction($action)
+    {
+        $methodName = '_authorize' . ucfirst($action);
+
+        if (method_exists($this, $methodName)) {
+            return call_user_func([$this, $methodName]);
+        }
+
+        return $this->can($action);
+    }
+
+    /**
+     * Возвращает полное название права.
+     *
+     * @param $action
+     * @return string
+     */
+    protected function getPermissionFullName($action)
+    {
+        return $this->permissionsNamespace . '.' . $action;
+    }
+
+    /**
+     * Получение пользователя из запроса.
+     *
+     * @return mixed
+     */
+    protected function getRequestUser()
+    {
+        return $this->user($this->guard);
     }
 
     /**
@@ -46,7 +121,9 @@ abstract class Request extends FormRequest
      **/
     protected function can($action)
     {
-        return $this->formRequest->user($this->guard)->can($action, $this->model);
+        $user = $this->getRequestUser();
+
+        return $user->hasPermission($this->getPermissionFullName($action)) || $user->can($action, $this->model);
     }
 
     /**
@@ -57,7 +134,7 @@ abstract class Request extends FormRequest
     protected function isWorkflow()
     {
 
-        if ($this->formRequest->isMethod('PATCH') && $this->formRequest->has('status')) {
+        if ($this->isMethod('PATCH') && $this->has('status')) {
             return true;
         }
 
@@ -73,7 +150,7 @@ abstract class Request extends FormRequest
     protected function getStep()
     {
 
-        if ($this->formRequest->isMethod('PATCH') && $this->formRequest->has('status')) {
+        if ($this->isMethod('PATCH') && $this->has('status')) {
             return true;
         }
 
@@ -89,7 +166,7 @@ abstract class Request extends FormRequest
     protected function isCreate()
     {
 
-        if ($this->formRequest->is('*/create')) {
+        if ($this->is('*/create')) {
             return true;
         }
 
@@ -105,7 +182,7 @@ abstract class Request extends FormRequest
     protected function isStore()
     {
 
-        if ($this->formRequest->isMethod('POST')) {
+        if ($this->isMethod('POST')) {
             return true;
         }
 
@@ -121,7 +198,7 @@ abstract class Request extends FormRequest
     {
 
         if (
-            $this->formRequest->is('*/edit')) {
+            $this->is('*/edit')) {
             return true;
         }
 
@@ -137,8 +214,8 @@ abstract class Request extends FormRequest
     protected function isUpdate()
     {
 
-        if ($this->formRequest->isMethod('PUT') ||
-            $this->formRequest->isMethod('PATCH')) {
+        if ($this->isMethod('PUT') ||
+            $this->isMethod('PATCH')) {
             return true;
         }
 
@@ -154,25 +231,42 @@ abstract class Request extends FormRequest
     protected function isDelete()
     {
 
-        if ($this->formRequest->isMethod('DELETE')) {
+        if ($this->isMethod('DELETE')) {
             return true;
         }
 
         return false;
-
     }
 
+    /**
+     * Получение id текущей сущности.
+     *
+     * @return mixed
+     * @throws \Exception
+     */
     protected function getId()
     {
-        $pathArray = explode('/', trim($this->formRequest->getPathinfo(), '/'));
-        $patternArray = explode('/', trim(\Route::getCurrentRoute()->uri, '/'));
-
-        $diff = array_diff_assoc($pathArray, $patternArray);
+        $diff = $this->getRouteDiff();
 
         if (count($diff) !== 1) {
             throw new \Exception('Id не найден.');
         }
 
-        return array_pop($diff);
+        return (int) array_pop($diff);
+    }
+
+    protected function getRoutePatternArray()
+    {
+        return explode('/', trim(\Route::getCurrentRoute()->uri, '/'));
+    }
+
+    protected function getPathArray()
+    {
+        return explode('/', trim($this->getPathinfo(), '/'));
+    }
+
+    protected function getRouteDiff()
+    {
+        return array_diff_assoc($this->getPathArray(), $this->getRoutePatternArray());
     }
 }

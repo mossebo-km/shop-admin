@@ -4,18 +4,8 @@ namespace App\Http\Requests;
 
 use App\Models\AttributeOption;
 
-class AttributeSaveRequest extends ApiRequest
+class AttributeRequest extends ApiRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,6 +13,10 @@ class AttributeSaveRequest extends ApiRequest
      */
     public function rules()
     {
+        if (! ($this->isStore() || $this->isUpdate())) {
+            return [];
+        }
+
         $rules = [
             'enabled' => 'boolean',
             'selectable' => 'nullable|boolean',
@@ -34,7 +28,7 @@ class AttributeSaveRequest extends ApiRequest
             $rules["i18n.{$language['code']}.title"] = 'bail|trim|required|max:255';
         }
 
-        foreach ($this->formRequest->input('options') as $optionId => $option) {
+        foreach ($this->input('options') as $optionId => $option) {
             if ($this->isUpdate()) {
                 $existingAttributeOptionsIds = array_column(AttributeOption::where('attribute_id', $this->getId())->get(['id'])->toArray(), 'id');
             }
@@ -60,7 +54,7 @@ class AttributeSaveRequest extends ApiRequest
                         }
                     }
 
-                    $validator = \Validator::make($this->formRequest->all(), $optionRules);
+                    $validator = \Validator::make($this->all(), $optionRules);
 
                     if ($validator->fails()) {
                         foreach ($validator->errors()->messages() as $fieldName => $messages) {

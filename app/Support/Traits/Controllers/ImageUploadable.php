@@ -10,14 +10,12 @@ trait ImageUploadable {
     * Загрузка изображений для конкретного товара.
     *
     * @param ImageUploadRequest $request
-    * @param Integer $product
+    * @param Integer $entityId
     * @return \Illuminate\Http\JsonResponse
     */
-    public function imageUpload(ImageUploadRequest $request, int $id)
+    public function imageUpload(ImageUploadRequest $request, $entityId)
     {
-        $model = self::$modelClass::where('id', $id)->firstOrFail();
-
-        $image = $model->addImageFromFile($request->file('file'));
+        $image = static::getModel($entityId)->addImageFromFile($request->file('file'));
 
         return response()->json([
             'status' => 'success',

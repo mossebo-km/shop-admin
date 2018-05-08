@@ -32,18 +32,6 @@ class Category extends Base\BaseModelI18n
         return $this->hasMany(CategoryProduct::class, 'category_id');
     }
 
-//    public function products()
-//    {
-//        return $this->hasManyThrough(
-//            Product::class,
-//            CategoryProduct::class,
-//            'product_id',
-//            'category_id',
-//            'id',
-//            'id'
-//        );
-//    }
-
     public function products()
     {
         return $this->hasManyThrough(
@@ -58,5 +46,17 @@ class Category extends Base\BaseModelI18n
             self::where('parent_id', $this->id)->update(['parent_id' => 0]);
             parent::delete();
         });
+    }
+
+    /**
+     * Получение id-шников всех потомков.
+     *
+     * @param int $parentId
+     * @param array $acc
+     * @return array
+     */
+    public static function getDescendantIds($parentId = 0)
+    {
+        return array_column(self::descendantsOf($parentId)->toArray(), 'id');
     }
 }

@@ -4,7 +4,7 @@ namespace App\Models\Base;
 
 use Config;
 
-class BaseModelI18n extends BaseModel
+abstract class BaseModelI18n extends BaseModel
 {
     protected $translateTableName;
     protected $translateRelationField;

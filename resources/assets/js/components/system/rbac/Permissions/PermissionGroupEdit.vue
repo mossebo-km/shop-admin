@@ -49,7 +49,7 @@
       /**
        * Инициализация модели данных.
        */
-      initEntity(data) {
+      initEntity(data = {}) {
         this.setEntityData(new PermissionGroupEditModel(data))
 
         if (this.type === 'edit') {
@@ -58,7 +58,7 @@
       },
 
       initPermissions(data = []) {
-        this.permissions = this.sortPermissions(data.map(item => this.makePermission(item)))
+        this.permissions = this.getSortedData(data).map(item => this.makePermission(item))
       },
 
       getToSaveData() {
@@ -145,11 +145,11 @@
           return permission.id === item.id ? permission : item
         })
 
-        this.permission = this.sortPermissions(permissions)
+        this.permissions = this.sortPermissions(permissions)
       },
 
       changePosition() {
-        this.permission = this.sortPermissions(this.setDataBundlePositionsByIds(this.permissions, this.collectSortIds()))
+        this.permissions = this.sortPermissions(this.setDataBundlePositionsByIds(this.permissions, this.collectSortIds()))
       },
 
       sortPermissions(permissions) {
@@ -348,12 +348,12 @@
                     <td>
                       <div>
                         <div v-if="permission.isNew || userCan('rbac.groups.remove-permission')">
-                          <a v-if="!permission.deleted" class="btn btn-danger" @click="removePermission(permission)">
-                            <i class="fa fa-times"></i>
+                          <a v-if="permission.deleted" class="btn btn-success table-remove-restore__restore" @click="restorePermission(permission)">
+                            <i class="fa fa-repeat"></i>
                           </a>
 
-                          <a v-else class="btn btn-success table-remove-restore__restore" @click="restorePermission(permission)">
-                            <i class="fa fa-repeat"></i>
+                          <a v-else class="btn btn-danger" @click="removePermission(permission)">
+                            <i class="fa fa-times"></i>
                           </a>
                         </div>
                       </div>

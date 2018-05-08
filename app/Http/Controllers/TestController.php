@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Request;
 use App\Models\Product;
 
 class TestController extends Controller

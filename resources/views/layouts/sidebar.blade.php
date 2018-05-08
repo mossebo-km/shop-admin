@@ -12,7 +12,7 @@
             <!-- User Info -->
             <div class="sidebar-section sidebar-user clearfix sidebar-nav-mini-hide">
                 <div class="sidebar-user-avatar">
-                    <avatar :src="'{{ Auth::guard('admin.web')->user()->getAvatar() }}'"></avatar>
+                    <avatar :src="'{{ Auth::guard('admin.web')->user()->avatar() }}'"></avatar>
                 </div>
 
                 <div class="sidebar-user-name">

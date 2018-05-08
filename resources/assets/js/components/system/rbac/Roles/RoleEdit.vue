@@ -42,11 +42,12 @@
     },
 
     methods: {
-      initEntity(data) {
+      initEntity(data = {}) {
         this.setEntityData(new RoleEditModel(data))
         this.selectedPermissions = data.permissions || []
       },
 
+      // todo: это чудо надо понять, простить и переделать
       makeGroup(list = [], acc = []) {
         return list.reduce((acc, item) => {
           if (item.permissions instanceof Array && item.permissions.length > 0) {
@@ -249,7 +250,7 @@
           </div>
         </div>
 
-        <div class="col-sm-12">
+        <div class="col-sm-12" v-if="permissionGroups.length > 0">
           <div class="block">
             <div class="block-title clearfix">
               <h2>

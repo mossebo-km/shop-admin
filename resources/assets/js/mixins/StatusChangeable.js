@@ -16,7 +16,7 @@ export default {
      * @param id
      */
     statusChange(id) {
-      this.addToQueue('status', new Core.requestHandler('get', this.prepareUrl(`${id}/status`)))
+      this.addToQueue('status', new Core.requestHandler('get', this.makePageApiUrl(`${id}/status`)))
     },
   },
 

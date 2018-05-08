@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\ApiRequest;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -12,8 +13,17 @@ class ApiController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function __construct()
+    protected $request;
+    protected static $modelClass;
+    protected static $entityName;
+    protected static $editResource;
+    protected static $tableResource;
+
+
+    public function __construct(ApiRequest $request)
     {
+        $this->request = $request;
+
         if (! \Auth::guard('admin.api')->check()) {
             throw new HttpResponseException(response()->json([
                 'status' => 'error',
@@ -33,5 +43,48 @@ class ApiController extends BaseController
             "admin." . ($useModelClass ? static::$modelClass . '.' : '') . $identif,
             $params ?: []
         );
+    }
+
+    /**
+     * Данные сущности.
+     *
+     * @param Integer $id
+     * @return array
+     */
+    public function show($id)
+    {
+        $entityName = static::$entityName;
+
+        return [
+            "{$entityName}" => static::toResource(static::getModel($id)),
+        ];
+    }
+
+    /**
+     * Преобразование сущности в ресурс.
+     *
+     * @param array $entity
+     * @return array
+     */
+    protected static function toResource($entity = [])
+    {
+        if (empty($entity)) {
+            return [];
+        }
+
+        if (isset($entity[0])) {
+            if (! empty(static::$tableResource)) {
+                return static::$tableResource::collection($entity);
+            }
+            else {
+                return $entity;
+            }
+        }
+
+        if (! empty(static::$editResource)) {
+            return new static::$editResource($entity);
+        }
+
+        return $entity;
     }
 }

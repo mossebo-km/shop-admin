@@ -99,7 +99,7 @@ class AdminRolePermissionGroup extends Base\BaseModel
      */
     protected function buildNamespace()
     {
-        $namespace = lcfirst(preg_replace("/\s/", '', ucwords(preg_replace("/[^a-zA-Z]/", " ", $this->name))));
+        $namespace = lcfirst(preg_replace("/[^a-zA-Z]/", "-", $this->name));
 
         if ($this->parent_id) {
             if ($parent = $this->parent) {

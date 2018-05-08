@@ -44,7 +44,7 @@ export default {
      * Загрузка списка.
      */
     fetchItems() {
-      return new Core.requestHandler('get', this.prepareUrl())
+      return new Core.requestHandler('get', this.makePageApiUrl())
     },
     /**
      * Показ окна для удаления записи.
@@ -62,7 +62,7 @@ export default {
      * Удаление записи.
      */
     removeConfirm() {
-      new Core.requestHandler('delete', this.prepareUrl(`${this.toRemoveId}`))
+      new Core.requestHandler('delete', this.makePageApiUrl(`${this.toRemoveId}`))
         .success(() => this.refreshTable())
         .start()
     },
@@ -78,6 +78,11 @@ export default {
   },
 
   created() {
+    if (!this.userCan(`see`)) {
+      this.$router.push('/')
+      return
+    }
+
     this.loadData()
   }
 }

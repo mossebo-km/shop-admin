@@ -16,21 +16,24 @@ export default {
   },
 
   methods: {
-    /*
-      Подготавливает url.
-    */
-    prepareUrl(segment, segmentIsUrl = false) {
-      let url
+    makePageUrl(segment, segmentIsUrl = false) {
+      let url = segmentIsUrl ? segment : this.componentInitializedWithUrl.replace('create', '')
 
-      url = segmentIsUrl ? segment : this.componentInitializedWithUrl.replace('create', '')
-
-      url = Core.trim(url, '/')
+      url = '/' + Core.trim(url, '/')
 
       if (segment && !segmentIsUrl) {
         url += '/' + Core.trim(segment, '/')
       }
 
-      return `/api/${url}`
+      return url
+    },
+    /*
+      Подготавливает url.
+    */
+    makePageApiUrl(segment, segmentIsUrl) {
+      let url = this.makePageUrl(segment, segmentIsUrl)
+
+      return `/api${url}`
     },
   },
 
