@@ -100,7 +100,7 @@ class RamRepository implements RamRepositoryContract {
         $this->collection = null;
 
         if (count($this->modificators) === 0) {
-
+            \Cache::forget($this->_getCacheKey());
             return;
         }
 

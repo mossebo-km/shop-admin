@@ -10,17 +10,23 @@ trait RequestSaver
      * @param array $data
      * @return self
      */
-    public function saveFromRequestData(Array $data): self
+    public function saveFromRequestData(array $data): self
     {
         \DB::transaction(function() use($data) {
-            if ($this->id) {
-                $this->update($this->getFillableData($data));
-            }
-            else {
-                $this->fill($this->getFillableData($data))->save();
+            $fillable = $this->getFillableData($data);
+
+            foreach (array_keys($fillable) as $toUnset) {
+                unset($data[$toUnset]);
             }
 
             $this->handleRelationData($data);
+
+            if ($this->id) {
+                $this->update($fillable);
+            }
+            else {
+                $this->fill($fillable)->save();
+            }
         });
 
         return $this;
@@ -31,11 +37,11 @@ trait RequestSaver
      *
      * @param array $data
      */
-    protected function handleRelationData(Array $data): void
+    protected function handleRelationData(array $data): void
     {
         foreach ($this->needsToSaveFromRequest ?: [] as $stepName) {
-            $methodName = '_save' . ucfirst($stepName);
-            $stepData = isset($data[$stepName]) ? $data[$stepName] : [];
+            $methodName = '_save' . camelize($stepName);
+            $stepData = isset($data[$stepName]) ? $data[$stepName] : null;
 
             if (method_exists($this, $methodName)) {
                 call_user_func([$this, $methodName], $stepData);

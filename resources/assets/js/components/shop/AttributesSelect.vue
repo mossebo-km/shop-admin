@@ -276,6 +276,8 @@
       </div>
     </div>
 
+
+
     <div :class="`form-group${errors.has(`attributes.${attribute.id}`) ? ' has-error' : ''}`" v-for="attribute in selected" :key="attribute.id">
       <loading :loading="!! attribute.request" style="min-height: 36px;">
         <label class="col-md-3 control-label" :for="`attribute-${attribute.id}`">{{attribute.i18n[activeLanguageCode].title}}</label>

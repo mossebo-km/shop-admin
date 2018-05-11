@@ -6,17 +6,19 @@ trait CheckPermissionTrait
 {
     protected $permissions = [];
 
-    public function isSuperAdmin()
+    protected $importance;
+
+    public function isSuperAdmin(): bool
     {
         return $this->id === (int) \Config::get('roles.superAdminId');
     }
 
-    public function hasRole($roleId)
+    public function hasRole(int $roleId): bool
     {
         return $this->roleRelations()->where('admin_role_id', $roleId)->exists();
     }
 
-    public function hasPermission($permissionNameOrId)
+    public function hasPermission($permissionNameOrId): bool
     {
         if ($this->isSuperAdmin()) {
             return true;
@@ -34,7 +36,7 @@ trait CheckPermissionTrait
 
     // todo: нужна отчистка кэша
 
-    public function getPermissions()
+    public function getPermissions(): array
     {
         if ($this->permissions) {
             return $this->permissions;
@@ -49,7 +51,7 @@ trait CheckPermissionTrait
         return $this->permissions;
     }
 
-    protected function buildPermissions()
+    protected function buildPermissions(): array
     {
         $roles = $this->roles()->with(['groups' => function($query) {
             return $query->with(['permissions' => function($query) {
@@ -68,5 +70,27 @@ trait CheckPermissionTrait
         }
 
         return $permissions;
+    }
+
+    public function hasEnoughImportance(int $importanceValue): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        if ($this->getImportance() < $importanceValue) {
+            return false;
+        }
+
+        return false;
+    }
+
+    protected function getImportance()
+    {
+        if (is_null($this->importance)) {
+            $this->importance = min(array_column($this->roles->all('importance'), 'importance'));
+        }
+
+        return $this->importance;
     }
 }

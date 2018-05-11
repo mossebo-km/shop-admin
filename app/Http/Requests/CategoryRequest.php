@@ -12,12 +12,8 @@ class CategoryRequest extends ApiRequest
      *
      * @return array
      */
-    public function rules()
+    protected function getEntityRules()
     {
-        if (! ($this->isStore() || $this->isUpdate())) {
-            return [];
-        }
-
         $categoriesTableName = \Config::get('migrations.Categories');
 
         $rules = [

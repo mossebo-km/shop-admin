@@ -11,8 +11,9 @@ use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Models\Media;
 use App\Support\Traits\Models\HasMediaTrait;
+use App\Contracts\Models\HasPermissions;
 
-class Admin extends Base\Authenticatable implements HasMedia
+class Admin extends Base\Authenticatable implements HasMedia, HasPermissions
 {
     use Notifiable, StatusChangeable, RequestSaver, HasMediaTrait, CheckPermissionTrait;
 
@@ -36,7 +37,7 @@ class Admin extends Base\Authenticatable implements HasMedia
         'password', 'remember_token',
     ];
 
-    protected $needsToSaveFromRequest = ['images', 'roles'];
+    protected $needsToSaveFromRequest = ['images', 'roles', 'new_password'];
 
     public function roles()
     {
@@ -104,8 +105,6 @@ class Admin extends Base\Authenticatable implements HasMedia
 
     public function _saveRoles($roles = [])
     {
-        // todo: добавить проверку на доступ к изменению ролей
-
         $this->roleRelations()->delete();
 
         foreach ($roles as $roleId) {
@@ -113,6 +112,13 @@ class Admin extends Base\Authenticatable implements HasMedia
                 'admin_id' => $this->id,
                 'admin_role_id' => $roleId
             ]));
+        }
+    }
+
+    public function _saveNewPassword($newPassword = null)
+    {
+        if (! is_null($newPassword)) {
+            $this->setAttribute('password', encodePassword($newPassword));
         }
     }
 }

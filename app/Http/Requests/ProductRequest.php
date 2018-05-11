@@ -5,9 +5,12 @@ namespace App\Http\Requests;
 use App\Validation\ValidatorExtend;
 use App\Models\Attribute;
 use App\Models\AttributeOption;
+use App\Support\Traits\Requests\HasImages;
 
 class ProductRequest extends ApiRequest
 {
+    use HasImages;
+
     protected $model = \App\Models\Product::class;
     protected $permissionsNamespace = 'shop.products';
 
@@ -16,18 +19,8 @@ class ProductRequest extends ApiRequest
      *
      * @return array
      */
-    public function rules()
+    protected function getEntityRules()
     {
-        if ($this->is('*/image')) {
-            return [];
-        }
-
-        if (! ($this->isStore() || $this->isUpdate())) {
-            return [];
-        }
-
-        // todo: добавить проверку изображений
-
         ValidatorExtend::manyRecordsExists();
 
         $suppliersTableName = \Config::get('migrations.Suppliers');
@@ -59,9 +52,10 @@ class ProductRequest extends ApiRequest
             }
         }
 
-        /* 1. Проверка на существование аттрибута
+        /**
+         * 1. Проверка на существование аттрибута.
          * 2. Далее проверка опций:
-         *    2.1 Если опция уже существует - проверка существования ее id
+         *    2.1 Если опция уже существует - проверка существования ее id.
          *    2.2 Если не существует - проверка ввода.
          */
         if ($attributes = $this->input('attributes')) {
@@ -104,6 +98,8 @@ class ProductRequest extends ApiRequest
                 ];
             }
         }
+
+        $this->setImagesRule($rules);
 
         return $rules;
     }

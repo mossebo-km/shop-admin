@@ -14,6 +14,6 @@ class EntityDeletedListener
      */
     public function handle(EntityDeleted $event)
     {
-        \App\Http\Controllers\DataHandler::clearCache();
+        \App\Http\Controllers\DataHandler::clearCache($event->getModelClassName());
     }
 }

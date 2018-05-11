@@ -27,11 +27,4 @@ class ApiRequest extends Request
             'errors' => $errors,
         ], 422));
     }
-
-    public function rules()
-    {
-        return [
-            //
-        ];
-    }
 }

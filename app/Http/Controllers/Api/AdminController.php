@@ -23,6 +23,8 @@ class AdminController extends ApiController
     protected static $editResource = AdminEditResource::class;
     protected static $tableResource = AdminsTableResource::class;
 
+    // todo: протестировать хорошенько роли.
+
     /**
      * Список администраторов.
      *

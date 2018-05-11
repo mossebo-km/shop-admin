@@ -258,18 +258,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone__ = __webpack_require__("./node_modules/vue2-dropzone/dist/vue2Dropzone.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_dropzone__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Toggle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ImageEditor__ = __webpack_require__("./resources/assets/js/components/ImageEditor.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ImageEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ImageEditor__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vee_validate__ = __webpack_require__("./node_modules/vee-validate/dist/vee-validate.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone__ = __webpack_require__("./node_modules/vue2-dropzone/dist/vue2Dropzone.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_dropzone__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ImageEditor__ = __webpack_require__("./resources/assets/js/components/ImageEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ImageEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__ImageEditor__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+
 
 
 
@@ -302,7 +305,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
 
     errors: {
-      type: Array
+      type: __WEBPACK_IMPORTED_MODULE_0_vee_validate__["a" /* ErrorBag */]
     },
 
     safeDelete: {
@@ -311,24 +314,25 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     }
   },
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_Sortable__["a" /* default */]],
 
   components: {
-    VueDropzone: __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone___default.a,
-    Toggle: __WEBPACK_IMPORTED_MODULE_3__Toggle___default.a,
-    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    ImageEditor: __WEBPACK_IMPORTED_MODULE_5__ImageEditor___default.a
+    VueDropzone: __WEBPACK_IMPORTED_MODULE_3_vue2_dropzone___default.a,
+    Toggle: __WEBPACK_IMPORTED_MODULE_4__Toggle___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    ImageEditor: __WEBPACK_IMPORTED_MODULE_6__ImageEditor___default.a
   },
 
   watch: {
     'images': 'refresh',
-    'errors': 'refresh'
+    'errors': 'refresh',
+    'formErrors': 'refresh'
   },
 
   data: function data() {
     return {
       params$: {
-        url: __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].addApiTokenToUrl(this.url),
+        url: __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].addApiTokenToUrl(this.url),
         thumbnailWidth: 150,
         maxFilesize: 8,
         addRemoveLinks: false,
@@ -365,7 +369,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var params = this.getParams();
 
       if (params.maxFiles !== 1) {
-        __WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__["a" /* default */].methods.initSort.call(this);
+        __WEBPACK_IMPORTED_MODULE_5__mixins_Sortable__["a" /* default */].methods.initSort.call(this);
       }
     },
     getParams: function getParams() {
@@ -386,7 +390,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       this.add(response.image);
     },
     error: function error(file, errorMessage) {
-      __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].notify(errorMessage, { type: 'error' });
+      __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].notify(errorMessage, { type: 'error' });
 
       this.getInstance().removeFile(file);
 
@@ -395,7 +399,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     maxfilesreached: function maxfilesreached(files) {
       for (var i = 0; i < files.length; i++) {
         if (!files[i].noFilesLimit) {
-          __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].notify(this.getParams().dictMaxFilesExceeded, { type: 'warning' });
+          __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].notify(this.getParams().dictMaxFilesExceeded, { type: 'warning' });
           break;
         }
       }
@@ -408,7 +412,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       message = message.replace('{{filesize}}', fileSize);
       message = message.replace('{{maxFilesize}}', params.maxFilesize);
 
-      __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].notify(message, { type: 'warning' });
+      __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].notify(message, { type: 'warning' });
     },
     makeGallery: function makeGallery() {
       $(this.$refs.gallery).magnificPopup({
@@ -494,10 +498,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     refresh: function refresh() {
       this.makeGallery();
     },
-    hasError: function hasError(image) {
-      return !!this.errors.find(function (item) {
-        return item.toString() === image.id.toString();
-      });
+    hasError: function hasError(imageIndex) {
+      return this.errors.has('images.' + imageIndex);
     }
   },
 
@@ -12866,7 +12868,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.gallery-dropzone .dz-message {\n  position: relative;\n  margin: 0;\n  display: block!important;\n}\n.gallery-dropzone .dz-message::before {\n  content: '';\n  display: block;\n  padding-top: 100%;\n}\n.gallery-dropzone .dz-message > span {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.gallery-dropzone .dz-preview {\n  display: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/DropzoneGallery.vue"],"names":[],"mappings":";AA6VA;EACA,mBAAA;EACA,UAAA;EACA,yBAAA;CACA;AAEA;EACA,YAAA;EACA,eAAA;EACA,kBAAA;CACA;AAEA;EACA,mBAAA;EACA,QAAA;EACA,OAAA;EACA,YAAA;EACA,aAAA;EACA,qBAAA;EAAA,qBAAA;EAAA,cAAA;EACA,yBAAA;MAAA,sBAAA;UAAA,wBAAA;EACA,0BAAA;MAAA,uBAAA;UAAA,oBAAA;CACA;AAEA;EACA,cAAA;CACA","file":"DropzoneGallery.vue","sourcesContent":["<script>\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import Core from '../core'\n  import VueDropzone from 'vue2-dropzone'\n  import Toggle from './Toggle'\n  import Sortable from '../mixins/Sortable'\n  import ImageEditor from './ImageEditor'\n\n  export default {\n    props: {\n      id: {\n        type: String,\n        default: 'dropzone'\n      },\n      url: {\n        type: String,\n        require: true,\n      },\n\n      images: {\n        type: Array\n      },\n\n      params: {\n        type: Object,\n        default: function () {\n          return {}\n        }\n      },\n\n      errors: {\n        type: Array\n      },\n\n      safeDelete: {\n        type: Boolean,\n        default: true\n      }\n    },\n\n    mixins: [\n      Sortable\n    ],\n\n    components: {\n      VueDropzone,\n      Toggle,\n      bModal,\n      ImageEditor\n    },\n\n    watch: {\n      'images': 'refresh',\n      'errors': 'refresh'\n    },\n\n    data() {\n      return {\n        params$: {\n          url: Core.addApiTokenToUrl(this.url),\n          thumbnailWidth: 150,\n          maxFilesize: 8,\n          addRemoveLinks: false,\n          autoProcessQueue: true,\n          ignoreHiddenFiles: true,\n          dictDefaultMessage: \"<div>Добавить изображение<div><i class=\\\"fa fa-plus-circle\\\" style=\\\"vertical-align:bottom;font-size:40px;\\\"></i></div></div>\",\n          dictFallbackMessage: \"Ваш браузер не поддерживает загрузку файлов при помощи drag'n'drop.\",\n          dictFallbackText: \"Используйте форму ниже, чтобы загрузить файлы.\",\n          dictFileTooBig: \"Размер файла слишком велик ({{filesize}} Mb). Максимальный размер файла: {{maxFilesize}} Mb.\",\n          dictInvalidFileType: \"Вы не можете загружать файлы этого типа.\",\n          dictResponseError: \"Сервер вернул ошибку с кодом: {{statusCode}}.\",\n          dictCancelUpload: \"Отменить загрузку\",\n          dictUploadCanceled: \"Загрузка отменена.\",\n          dictCancelUploadConfirmation: \"Вы уверены, что хотите отменить загрузку?\",\n          dictRemoveFile: \"Удалить файл\",\n          dictMaxFilesExceeded: \"Достигнут лимит количества файлов.\",\n          acceptedFiles: 'image/jpeg, image/png',\n          previewTemplate: '<div class=\\\"dz-preview dz-processing dz-complete dz-image-preview\\\"><div class=\\\"dz-remove\\\" data-dz-remove></div><div class=\\\"dz-image\\\"><a href=\\\"javascript:void(0)\\\" class=\\\"dz-link\\\"><img data-dz-thumbnail /><div class=\\\"dz-details\\\"><div class=\\\"dz-size\\\"><span data-dz-size></span></div><div class=\\\"dz-filename\\\"><i class=\\\"dz-icon fa fa-search\\\"></i></div></div></a></div><div class=\\\"dz-progress\\\"><span class=\\\"dz-upload\\\" data-dz-uploadprogress></span></div><div class=\\\"dz-error-message\\\"><span data-dz-errormessage></span></div><div class=\\\"dz-success-mark\\\"><i class=\\\"dz-icon fa fa-check\\\"></i></div><div class=\\\"dz-error-mark\\\"><i class=\\\"dz-icon fa fa-warning\\\"></i></div>',\n        },\n\n        sortableParams: {\n          update: this.sort\n        },\n\n        editorImage: null,\n\n        type$: null\n      }\n    },\n\n    methods: {\n      initSort() {\n        let params = this.getParams()\n\n        if (params.maxFiles !== 1) {\n          Sortable.methods.initSort.call(this)\n        }\n      },\n\n      getParams() {\n        return {\n          ... this.params$,\n          ... this.params\n        }\n      },\n\n      getInstance() {\n        return this.$refs.dropzone.dropzone\n      },\n\n      fileAdded(file) {\n        let params = this.getParams()\n        if (params.maxFiles && this.images.length < params.maxFiles) {\n          file.noFilesLimit = true\n        }\n      },\n\n      success(file, response) {\n        this.getInstance().removeFile(file)\n\n        this.add(response.image)\n      },\n\n      error(file, errorMessage) {\n        Core.notify(errorMessage, {type: 'error'})\n\n        this.getInstance().removeFile(file)\n\n        this.remove(file)\n      },\n\n      maxfilesreached(files) {\n        for (let i = 0; i < files.length; i++) {\n          if (!files[i].noFilesLimit) {\n            Core.notify(this.getParams().dictMaxFilesExceeded, {type: 'warning'})\n            break\n          }\n        }\n      },\n\n      maxfilesexceeded(file) {\n        let params = this.getParams()\n        let fileSize = (file.size / 1024 / 1024).toFixed(1)\n        let message = params.dictFileTooBig\n\n        message = message.replace('{{filesize}}', fileSize)\n        message = message.replace('{{maxFilesize}}', params.maxFilesize)\n\n        Core.notify(message, {type: 'warning'})\n      },\n\n      makeGallery() {\n        $(this.$refs.gallery).magnificPopup({\n          delegate: '.js-magnific-link',\n          type: 'image',\n          gallery: {\n            enabled: true\n          }\n        });\n      },\n\n      sort() {\n        this.$emit('update:images', this.sortDataBundleByIdsPosition(this.images, this.collectSortIds()))\n      },\n\n      add(image) {\n        this.$emit('update:images', [\n          ... this.images,\n          image\n        ])\n      },\n\n      update(image) {\n        this.$emit('update:images', this.images.map(item => item.id === image.id ? image : item))\n      },\n\n      edit(image) {\n        this.editorImage = image\n        this.$refs.pictureEditModal.show()\n      },\n\n      remove(image) {\n        if (this.safeDelete) {\n          image.deleted = true\n          this.update(image)\n        }\n        else {\n          this.$emit('update:images', this.images.filter(item => item.id !== image.id))\n        }\n      },\n\n      recover(image) {\n        image.deleted = false\n        this.update(image)\n      },\n\n      isDeleted(image) {\n        return image.deleted\n      },\n\n      editorImageSave() {\n        let image = this.editorImage\n        let modifications = this.$refs.imageEditor.getClearedModifications()\n\n        if (Object.keys(modifications) === 0) {\n          if (image.modifications) {\n            delete image.modifications\n          }\n\n          if (image.cropped) {\n            delete image.cropped\n          }\n        }\n        else {\n          image.modifications = modifications\n          image.cropped = this.$refs.imageEditor.getCroppedImage()\n        }\n\n        this.update(image)\n        this.editorImage = null\n      },\n\n      getImageOriginal(image) {\n        return image.cropped ? image.cropped : image.original\n      },\n\n      getImagePreview(image) {\n        if (image.cropped) {\n          return image.cropped\n        }\n\n        if (image.small) {\n          return image.small.srcset ? image.small.srcset : image.small.src\n        }\n\n        return image.original || ''\n      },\n\n      getEditorImageModifications() {\n        return (this.editorImage && this.editorImage.modifications) ? this.editorImage.modifications : {}\n      },\n\n      clear() {\n        this.editorImage = false\n      },\n\n      refresh() {\n        this.makeGallery()\n      },\n\n      hasError(image) {\n        return !!this.errors.find(item => item.toString() === image.id.toString())\n      }\n    },\n\n    computed: {\n      dropzoneIsVisible() {\n        let params = this.getParams()\n\n        if (params.maxFiles && params.maxFiles === this.images.length) {\n          return false\n        }\n\n        return true\n      }\n    },\n\n    mounted() {\n      this.makeGallery()\n    },\n  }\n</script>\n\n<template>\n  <div>\n    <div class=\"gallery gallery-widget\" ref=\"gallery\">\n      <div class=\"row ui-sortable\">\n        <div v-show=\"dropzoneIsVisible\" class=\"col-xs-6 col-sm-3\" style=\"min-width:155px;\">\n          <vue-dropzone\n            ref=\"dropzone\"\n            :id=\"this.id\"\n            class=\"gallery-dropzone\"\n            @vdropzone-success=\"success\"\n            @vdropzone-error=\"error\"\n            @vdropzone-max-files-reached=\"maxfilesreached\"\n            @vdropzone-max-files-exceeded=\"maxfilesexceeded\"\n            @vdropzone-file-added=\"fileAdded\"\n            :options=\"getParams()\"\n            :destroyDropzone=\"true\" />\n        </div>\n\n        <div v-for=\"image in images\" :data-id=\"image.id\" :key=\"image.id\" class=\"col-xs-6 col-sm-3\" style=\"min-width:155px;\">\n          <input type=\"hidden\" name=\"ids\" :value=\"image.id\">\n          <div :class=\"{'edit-photo-card': true, 'edit-photo-card--deleted': image.deleted, 'edit-photo-card--has-error': hasError(image)}\">\n            <a :href=\"getImageOriginal(image)\" class=\"edit-photo-card__preview js-magnific-link\">\n              <div class=\"edit-photo-card__image\" :style=\"`background-image:url(${getImagePreview(image)})`\"></div>\n            </a>\n\n            <div class=\"edit-photo-card__deleted-icon\">\n              <i class=\"fa fa-trash\"></i>\n            </div>\n\n            <div class=\"edit-photo-card__controls\">\n              <div class=\"pull-left\">\n                <a class=\"btn btn-sm btn-primary\" @click=\"edit(image)\" v-if=\"!isDeleted(image)\">\n                  <i class=\"fa fa-crop\"></i>\n                </a>\n              </div>\n\n              <div class=\"pull-right\">\n                <a class=\"btn btn-sm btn-danger\" @click=\"remove(image)\" v-if=\"!isDeleted(image)\">\n                  <i class=\"fa fa-trash-o\"></i>\n                </a>\n\n                <a class=\"btn btn-sm btn-success\" @click=\"recover(image)\" v-if=\"isDeleted(image)\">\n                  <i class=\"fa fa-repeat\"></i> Восстановить\n                </a>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <b-modal\n      ref=\"pictureEditModal\"\n      :no-close-on-backdrop=\"true\"\n      size=\"lg\"\n      title=\"Редактирование изображения\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Применить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @hidden=\"clear\"\n      @ok=\"editorImageSave\">\n\n      <image-editor\n        ref=\"imageEditor\"\n        v-if=\"!!editorImage\"\n        :image=\"editorImage.original\"\n        :modifications=\"getEditorImageModifications()\"/>\n    </b-modal>\n  </div>\n</template>\n\n\n<style>\n  .gallery-dropzone .dz-message {\n    position: relative;\n    margin: 0;\n    display: block!important;\n  }\n\n  .gallery-dropzone .dz-message::before {\n    content: '';\n    display: block;\n    padding-top: 100%;\n  }\n\n  .gallery-dropzone .dz-message > span {\n    position: absolute;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n\n  .gallery-dropzone .dz-preview {\n    display: none;\n  }\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.gallery-dropzone .dz-message {\n  position: relative;\n  margin: 0;\n  display: block!important;\n}\n.gallery-dropzone .dz-message::before {\n  content: '';\n  display: block;\n  padding-top: 100%;\n}\n.gallery-dropzone .dz-message > span {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.gallery-dropzone .dz-preview {\n  display: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/DropzoneGallery.vue"],"names":[],"mappings":";AAiWA;EACA,mBAAA;EACA,UAAA;EACA,yBAAA;CACA;AAEA;EACA,YAAA;EACA,eAAA;EACA,kBAAA;CACA;AAEA;EACA,mBAAA;EACA,QAAA;EACA,OAAA;EACA,YAAA;EACA,aAAA;EACA,qBAAA;EAAA,qBAAA;EAAA,cAAA;EACA,yBAAA;MAAA,sBAAA;UAAA,wBAAA;EACA,0BAAA;MAAA,uBAAA;UAAA,oBAAA;CACA;AAEA;EACA,cAAA;CACA","file":"DropzoneGallery.vue","sourcesContent":["<script>\n  import {ErrorBag} from 'vee-validate'\n\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import Core from '../core'\n  import VueDropzone from 'vue2-dropzone'\n  import Toggle from './Toggle'\n  import Sortable from '../mixins/Sortable'\n  import ImageEditor from './ImageEditor'\n\n  export default {\n    props: {\n      id: {\n        type: String,\n        default: 'dropzone'\n      },\n      url: {\n        type: String,\n        require: true,\n      },\n\n      images: {\n        type: Array\n      },\n\n      params: {\n        type: Object,\n        default: function () {\n          return {}\n        }\n      },\n\n      errors: {\n        type: ErrorBag\n      },\n\n      safeDelete: {\n        type: Boolean,\n        default: true\n      }\n    },\n\n    mixins: [\n      Sortable\n    ],\n\n    components: {\n      VueDropzone,\n      Toggle,\n      bModal,\n      ImageEditor\n    },\n\n    watch: {\n      'images': 'refresh',\n      'errors': 'refresh',\n      'formErrors': 'refresh'\n    },\n\n    data() {\n      return {\n        params$: {\n          url: Core.addApiTokenToUrl(this.url),\n          thumbnailWidth: 150,\n          maxFilesize: 8,\n          addRemoveLinks: false,\n          autoProcessQueue: true,\n          ignoreHiddenFiles: true,\n          dictDefaultMessage: \"<div>Добавить изображение<div><i class=\\\"fa fa-plus-circle\\\" style=\\\"vertical-align:bottom;font-size:40px;\\\"></i></div></div>\",\n          dictFallbackMessage: \"Ваш браузер не поддерживает загрузку файлов при помощи drag'n'drop.\",\n          dictFallbackText: \"Используйте форму ниже, чтобы загрузить файлы.\",\n          dictFileTooBig: \"Размер файла слишком велик ({{filesize}} Mb). Максимальный размер файла: {{maxFilesize}} Mb.\",\n          dictInvalidFileType: \"Вы не можете загружать файлы этого типа.\",\n          dictResponseError: \"Сервер вернул ошибку с кодом: {{statusCode}}.\",\n          dictCancelUpload: \"Отменить загрузку\",\n          dictUploadCanceled: \"Загрузка отменена.\",\n          dictCancelUploadConfirmation: \"Вы уверены, что хотите отменить загрузку?\",\n          dictRemoveFile: \"Удалить файл\",\n          dictMaxFilesExceeded: \"Достигнут лимит количества файлов.\",\n          acceptedFiles: 'image/jpeg, image/png',\n          previewTemplate: '<div class=\\\"dz-preview dz-processing dz-complete dz-image-preview\\\"><div class=\\\"dz-remove\\\" data-dz-remove></div><div class=\\\"dz-image\\\"><a href=\\\"javascript:void(0)\\\" class=\\\"dz-link\\\"><img data-dz-thumbnail /><div class=\\\"dz-details\\\"><div class=\\\"dz-size\\\"><span data-dz-size></span></div><div class=\\\"dz-filename\\\"><i class=\\\"dz-icon fa fa-search\\\"></i></div></div></a></div><div class=\\\"dz-progress\\\"><span class=\\\"dz-upload\\\" data-dz-uploadprogress></span></div><div class=\\\"dz-error-message\\\"><span data-dz-errormessage></span></div><div class=\\\"dz-success-mark\\\"><i class=\\\"dz-icon fa fa-check\\\"></i></div><div class=\\\"dz-error-mark\\\"><i class=\\\"dz-icon fa fa-warning\\\"></i></div>',\n        },\n\n        sortableParams: {\n          update: this.sort\n        },\n\n        editorImage: null,\n\n        type$: null\n      }\n    },\n\n    methods: {\n      initSort() {\n        let params = this.getParams()\n\n        if (params.maxFiles !== 1) {\n          Sortable.methods.initSort.call(this)\n        }\n      },\n\n      getParams() {\n        return {\n          ... this.params$,\n          ... this.params\n        }\n      },\n\n      getInstance() {\n        return this.$refs.dropzone.dropzone\n      },\n\n      fileAdded(file) {\n        let params = this.getParams()\n        if (params.maxFiles && this.images.length < params.maxFiles) {\n          file.noFilesLimit = true\n        }\n      },\n\n      success(file, response) {\n        this.getInstance().removeFile(file)\n\n        this.add(response.image)\n      },\n\n      error(file, errorMessage) {\n        Core.notify(errorMessage, {type: 'error'})\n\n        this.getInstance().removeFile(file)\n\n        this.remove(file)\n      },\n\n      maxfilesreached(files) {\n        for (let i = 0; i < files.length; i++) {\n          if (!files[i].noFilesLimit) {\n            Core.notify(this.getParams().dictMaxFilesExceeded, {type: 'warning'})\n            break\n          }\n        }\n      },\n\n      maxfilesexceeded(file) {\n        let params = this.getParams()\n        let fileSize = (file.size / 1024 / 1024).toFixed(1)\n        let message = params.dictFileTooBig\n\n        message = message.replace('{{filesize}}', fileSize)\n        message = message.replace('{{maxFilesize}}', params.maxFilesize)\n\n        Core.notify(message, {type: 'warning'})\n      },\n\n      makeGallery() {\n        $(this.$refs.gallery).magnificPopup({\n          delegate: '.js-magnific-link',\n          type: 'image',\n          gallery: {\n            enabled: true\n          }\n        });\n      },\n\n      sort() {\n        this.$emit('update:images', this.sortDataBundleByIdsPosition(this.images, this.collectSortIds()))\n      },\n\n      add(image) {\n        this.$emit('update:images', [\n          ... this.images,\n          image\n        ])\n      },\n\n      update(image) {\n        this.$emit('update:images', this.images.map(item => item.id === image.id ? image : item))\n      },\n\n      edit(image) {\n        this.editorImage = image\n        this.$refs.pictureEditModal.show()\n      },\n\n      remove(image) {\n        if (this.safeDelete) {\n          image.deleted = true\n          this.update(image)\n        }\n        else {\n          this.$emit('update:images', this.images.filter(item => item.id !== image.id))\n        }\n      },\n\n      recover(image) {\n        image.deleted = false\n        this.update(image)\n      },\n\n      isDeleted(image) {\n        return image.deleted\n      },\n\n      editorImageSave() {\n        let image = this.editorImage\n        let modifications = this.$refs.imageEditor.getClearedModifications()\n\n        if (Object.keys(modifications) === 0) {\n          if (image.modifications) {\n            delete image.modifications\n          }\n\n          if (image.cropped) {\n            delete image.cropped\n          }\n        }\n        else {\n          image.modifications = modifications\n          image.cropped = this.$refs.imageEditor.getCroppedImage()\n        }\n\n        this.update(image)\n        this.editorImage = null\n      },\n\n      getImageOriginal(image) {\n        return image.cropped ? image.cropped : image.original\n      },\n\n      getImagePreview(image) {\n        if (image.cropped) {\n          return image.cropped\n        }\n\n        if (image.small) {\n          return image.small.srcset ? image.small.srcset : image.small.src\n        }\n\n        return image.original || ''\n      },\n\n      getEditorImageModifications() {\n        return (this.editorImage && this.editorImage.modifications) ? this.editorImage.modifications : {}\n      },\n\n      clear() {\n        this.editorImage = false\n      },\n\n      refresh() {\n        this.makeGallery()\n      },\n\n      hasError(imageIndex) {\n        return this.errors.has(`images.${imageIndex}`)\n      }\n    },\n\n    computed: {\n      dropzoneIsVisible() {\n        let params = this.getParams()\n\n        if (params.maxFiles && params.maxFiles === this.images.length) {\n          return false\n        }\n\n        return true\n      }\n    },\n\n    mounted() {\n      this.makeGallery()\n    },\n  }\n</script>\n\n<template>\n  <div>\n    <div class=\"gallery gallery-widget\" ref=\"gallery\">\n      <div class=\"row ui-sortable\">\n        <div v-show=\"dropzoneIsVisible\" class=\"col-xs-6 col-sm-3\" style=\"min-width:155px;\">\n          <vue-dropzone\n            ref=\"dropzone\"\n            :id=\"this.id\"\n            class=\"gallery-dropzone\"\n            @vdropzone-success=\"success\"\n            @vdropzone-error=\"error\"\n            @vdropzone-max-files-reached=\"maxfilesreached\"\n            @vdropzone-max-files-exceeded=\"maxfilesexceeded\"\n            @vdropzone-file-added=\"fileAdded\"\n            :options=\"getParams()\"\n            :destroyDropzone=\"true\" />\n        </div>\n\n        <div v-for=\"(image, index) in images\" :data-id=\"image.id\" :key=\"image.id\" class=\"col-xs-6 col-sm-3\" style=\"min-width:155px;\">\n          <input type=\"hidden\" name=\"ids\" :value=\"image.id\">\n\n          <div :class=\"{'edit-photo-card': true, 'edit-photo-card--deleted': image.deleted, 'edit-photo-card--has-error': hasError(index)}\">\n            <a :href=\"getImageOriginal(image)\" class=\"edit-photo-card__preview js-magnific-link\">\n              <div class=\"edit-photo-card__image\" :style=\"`background-image:url(${getImagePreview(image)})`\"></div>\n            </a>\n\n            <div class=\"edit-photo-card__deleted-icon\">\n              <i class=\"fa fa-trash\"></i>\n            </div>\n\n            <div class=\"edit-photo-card__controls\">\n              <div class=\"pull-left\">\n                <a class=\"btn btn-sm btn-primary\" @click=\"edit(image)\" v-if=\"!isDeleted(image)\">\n                  <i class=\"fa fa-crop\"></i>\n                </a>\n              </div>\n\n              <div class=\"pull-right\">\n                <a class=\"btn btn-sm btn-danger\" @click=\"remove(image)\" v-if=\"!isDeleted(image)\">\n                  <i class=\"fa fa-trash-o\"></i>\n                </a>\n\n                <a class=\"btn btn-sm btn-success\" @click=\"recover(image)\" v-if=\"isDeleted(image)\">\n                  <i class=\"fa fa-repeat\"></i> Восстановить\n                </a>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <b-modal\n      ref=\"pictureEditModal\"\n      :no-close-on-backdrop=\"true\"\n      size=\"lg\"\n      title=\"Редактирование изображения\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Применить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @hidden=\"clear\"\n      @ok=\"editorImageSave\">\n\n      <image-editor\n        ref=\"imageEditor\"\n        v-if=\"!!editorImage\"\n        :image=\"editorImage.original\"\n        :modifications=\"getEditorImageModifications()\"/>\n    </b-modal>\n  </div>\n</template>\n\n\n<style>\n  .gallery-dropzone .dz-message {\n    position: relative;\n    margin: 0;\n    display: block!important;\n  }\n\n  .gallery-dropzone .dz-message::before {\n    content: '';\n    display: block;\n    padding-top: 100%;\n  }\n\n  .gallery-dropzone .dz-message > span {\n    position: absolute;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n\n  .gallery-dropzone .dz-preview {\n    display: none;\n  }\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -42575,7 +42577,7 @@ var render = function() {
                                 attrs: {
                                   url: _vm.makePageApiUrl("image"),
                                   images: _vm.product.images,
-                                  errors: _vm.formErrors.collect("images") || []
+                                  errors: _vm.formErrors
                                 },
                                 on: {
                                   "update:images": function($event) {
@@ -44834,7 +44836,7 @@ var render = function() {
                             url: _vm.makePageApiUrl("image"),
                             images: _vm.dropzoneImage,
                             safeDelete: false,
-                            errors: _vm.formErrors.collect("image") || []
+                            errors: _vm.formErrors
                           },
                           on: { "update:images": _vm.updateImage }
                         })
@@ -44979,7 +44981,7 @@ var render = function() {
                   {
                     class:
                       "form-group" +
-                      (_vm.formErrors.has("old-password") ? " has-error" : "")
+                      (_vm.formErrors.has("old_password") ? " has-error" : "")
                   },
                   [
                     _vm._m(4),
@@ -44990,8 +44992,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.admin["old--password"],
-                            expression: "admin['old--password']"
+                            value: _vm.admin["old_password"],
+                            expression: "admin['old_password']"
                           },
                           {
                             name: "validate",
@@ -45004,9 +45006,9 @@ var render = function() {
                         attrs: {
                           type: "password",
                           id: "old-password",
-                          name: "old-password"
+                          name: "old_password"
                         },
-                        domProps: { value: _vm.admin["old--password"] },
+                        domProps: { value: _vm.admin["old_password"] },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -45014,7 +45016,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.admin,
-                              "old--password",
+                              "old_password",
                               $event.target.value
                             )
                           }
@@ -45028,8 +45030,8 @@ var render = function() {
                             {
                               name: "show",
                               rawName: "v-show",
-                              value: _vm.formErrors.has("old-password"),
-                              expression: "formErrors.has('old-password')"
+                              value: _vm.formErrors.has("old_password"),
+                              expression: "formErrors.has('old_password')"
                             }
                           ],
                           staticClass: "help-block"
@@ -45037,7 +45039,7 @@ var render = function() {
                         [
                           _vm._v(
                             "\n            " +
-                              _vm._s(_vm.formErrors.first("old-password")) +
+                              _vm._s(_vm.formErrors.first("old_password")) +
                               "\n          "
                           )
                         ]
@@ -45051,7 +45053,7 @@ var render = function() {
                   {
                     class:
                       "form-group" +
-                      (_vm.formErrors.has("new-password") ? " has-error" : "")
+                      (_vm.formErrors.has("new_password") ? " has-error" : "")
                   },
                   [
                     _vm._m(5),
@@ -45062,8 +45064,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.admin["new-password"],
-                            expression: "admin['new-password']"
+                            value: _vm.admin["new_password"],
+                            expression: "admin['new_password']"
                           },
                           {
                             name: "validate",
@@ -45076,9 +45078,9 @@ var render = function() {
                         attrs: {
                           type: "password",
                           id: "new-password",
-                          name: "new-password"
+                          name: "new_password"
                         },
-                        domProps: { value: _vm.admin["new-password"] },
+                        domProps: { value: _vm.admin["new_password"] },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -45086,7 +45088,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.admin,
-                              "new-password",
+                              "new_password",
                               $event.target.value
                             )
                           }
@@ -45100,8 +45102,8 @@ var render = function() {
                             {
                               name: "show",
                               rawName: "v-show",
-                              value: _vm.formErrors.has("new-password"),
-                              expression: "formErrors.has('new-password')"
+                              value: _vm.formErrors.has("new_password"),
+                              expression: "formErrors.has('new_password')"
                             }
                           ],
                           staticClass: "help-block"
@@ -45109,7 +45111,7 @@ var render = function() {
                         [
                           _vm._v(
                             "\n            " +
-                              _vm._s(_vm.formErrors.first("new-password")) +
+                              _vm._s(_vm.formErrors.first("new_password")) +
                               "\n          "
                           )
                         ]
@@ -45123,7 +45125,7 @@ var render = function() {
                   {
                     class:
                       "form-group" +
-                      (_vm.formErrors.has("confirm-password")
+                      (_vm.formErrors.has("new_password_confirmation")
                         ? " has-error"
                         : "")
                   },
@@ -45136,23 +45138,25 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.admin["confirm-password"],
-                            expression: "admin['confirm-password']"
+                            value: _vm.admin["new_password_confirmation"],
+                            expression: "admin['new_password_confirmation']"
                           },
                           {
                             name: "validate",
                             rawName: "v-validate",
-                            value: "max:255|confirmed:new-password",
-                            expression: "'max:255|confirmed:new-password'"
+                            value: "max:255|confirmed:new_password",
+                            expression: "'max:255|confirmed:new_password'"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: {
                           type: "password",
                           id: "confirm-password",
-                          name: "confirm-password"
+                          name: "new_password_confirmation"
                         },
-                        domProps: { value: _vm.admin["confirm-password"] },
+                        domProps: {
+                          value: _vm.admin["new_password_confirmation"]
+                        },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -45160,7 +45164,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.admin,
-                              "confirm-password",
+                              "new_password_confirmation",
                               $event.target.value
                             )
                           }
@@ -45174,8 +45178,11 @@ var render = function() {
                             {
                               name: "show",
                               rawName: "v-show",
-                              value: _vm.formErrors.has("confirm-password"),
-                              expression: "formErrors.has('confirm-password')"
+                              value: _vm.formErrors.has(
+                                "new_password_confirmation"
+                              ),
+                              expression:
+                                "formErrors.has('new_password_confirmation')"
                             }
                           ],
                           staticClass: "help-block"
@@ -45183,7 +45190,11 @@ var render = function() {
                         [
                           _vm._v(
                             "\n            " +
-                              _vm._s(_vm.formErrors.first("confirm-password")) +
+                              _vm._s(
+                                _vm.formErrors.first(
+                                  "new_password_confirmation"
+                                )
+                              ) +
                               "\n          "
                           )
                         ]
@@ -48409,7 +48420,7 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _vm._l(_vm.images, function(image) {
+            _vm._l(_vm.images, function(image, index) {
               return _c(
                 "div",
                 {
@@ -48430,7 +48441,7 @@ var render = function() {
                       class: {
                         "edit-photo-card": true,
                         "edit-photo-card--deleted": image.deleted,
-                        "edit-photo-card--has-error": _vm.hasError(image)
+                        "edit-photo-card--has-error": _vm.hasError(index)
                       }
                     },
                     [

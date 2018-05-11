@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 
-class ImageUploadRequest extends ApiRequest
+class ImageUploadRequest extends FormRequest
 {
 
     // todo: разобраться с правами на загрузку изображений

@@ -14,6 +14,6 @@ class EntityCreatedListener
      */
     public function handle(EntityCreated $event)
     {
-        \App\Http\Controllers\DataHandler::clearCache();
+        \App\Http\Controllers\DataHandler::clearCache($event->getModelClassName());
     }
 }

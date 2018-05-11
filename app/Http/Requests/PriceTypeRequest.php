@@ -9,12 +9,8 @@ class PriceTypeRequest extends ApiRequest
      *
      * @return array
      */
-    public function rules()
+    protected function getEntityRules()
     {
-        if (! ($this->isStore() || $this->isUpdate())) {
-            return [];
-        }
-
         $rules = [
             'enabled' => 'boolean',
         ];

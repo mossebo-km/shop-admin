@@ -4,33 +4,62 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use Illuminate\Database\Eloquent\Model;
+use \App\Contracts\Models\HasPermissions;
+
 abstract class Request extends FormRequest
 {
     /**
-     * Auth guard for the current controller.
+     * Guard он и есть guard.
      *
      * @var array
      */
     protected $guard;
 
     /**
-     * User for the current request.
+     * Пользователь запроса.
      *
      * @var array
      */
     protected $formRequest;
 
-    /* Model for the current request.
+    /**
+     * Класс модели запроса.
      *
-     * @var array
+     * @var string
      */
     protected $model;
 
+    /**
+     * Id текущей сущности (если есть).
+     *
+     * @var string
+     */
+    protected $id;
+
+    /**
+     * Экземпляр сущности текущего запроса.
+     *
+     * @var \Illuminate\Database\Eloquent\Model
+     */
+    protected $entity;
+
+    /**
+     * Пользователь, выполняющий запрос.
+     *
+     * @var \Illuminate\Database\Eloquent\Model
+     */
+    protected $requestUser;
+
+
+    /**
+     * Namespace прав запроса.
+     *
+     * @var string
+     */
     protected $requestNamespace;
 
     /**
-     * Constructor
-     *
      * @return void
      * @author
      **/
@@ -40,13 +69,22 @@ abstract class Request extends FormRequest
         $this->guard = config('admin.api');
     }
 
-
-    public function authorize()
+    /**
+     * Проверка прав пользователя на совершение текущего действия.
+     *
+     * @return bool
+     */
+    public function authorize(): bool
     {
         return $this->authorizeAction($this->getAction());
     }
 
-    protected function getAction()
+    /**
+     * Получение текущего действия.
+     *
+     * @return string
+     */
+    protected function getAction(): string
     {
         $pathArray = $this->getPathArray();
 
@@ -82,7 +120,13 @@ abstract class Request extends FormRequest
         return 'edit';
     }
 
-    protected function authorizeAction($action)
+    /**
+     * Проверка прав пользователя на действие.
+     *
+     * @param string $action
+     * @return bool
+     */
+    protected function authorizeAction(string $action): bool
     {
         $methodName = '_authorize' . ucfirst($action);
 
@@ -99,7 +143,7 @@ abstract class Request extends FormRequest
      * @param $action
      * @return string
      */
-    protected function getPermissionFullName($action)
+    protected function getPermissionFullName($action): string
     {
         return $this->permissionsNamespace . '.' . $action;
     }
@@ -107,11 +151,15 @@ abstract class Request extends FormRequest
     /**
      * Получение пользователя из запроса.
      *
-     * @return mixed
+     * @return \App\Contracts\Models\HasPermissions
      */
-    protected function getRequestUser()
+    protected function getRequestUser(): HasPermissions
     {
-        return $this->user($this->guard);
+        if (is_null($this->requestUser)) {
+            $this->requestUser = $this->user($this->guard);
+        }
+
+        return $this->requestUser;
     }
 
     /**
@@ -119,7 +167,7 @@ abstract class Request extends FormRequest
      *
      * @return bool
      **/
-    protected function can($action)
+    protected function can($action): bool
     {
         $user = $this->getRequestUser();
 
@@ -127,61 +175,34 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Check the process is verify.
-     *
      * @return bool
      **/
-    protected function isWorkflow()
+    protected function isWorkflow(): bool
     {
-
         if ($this->isMethod('PATCH') && $this->has('status')) {
             return true;
         }
 
         return false;
-
     }
 
     /**
-     * Check the process is verify.
-     *
      * @return bool
-     **/
-    protected function getStep()
+     */
+    protected function isCreate(): bool
     {
-
-        if ($this->isMethod('PATCH') && $this->has('status')) {
-            return true;
-        }
-
-        return false;
-
-    }
-
-    /**
-     * Check the process is verify.
-     *
-     * @return bool
-     **/
-    protected function isCreate()
-    {
-
         if ($this->is('*/create')) {
             return true;
         }
 
         return false;
-
     }
 
     /**
-     * Check the process is store.
-     *
      * @return bool
-     **/
-    protected function isStore()
+     */
+    protected function isStore(): bool
     {
-
         if ($this->isMethod('POST')) {
             return true;
         }
@@ -190,47 +211,36 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Check the process is edit.
-     *
      * @return bool
-     **/
-    protected function isEdit()
+     */
+    protected function isEdit(): bool
     {
-
         if (
             $this->is('*/edit')) {
             return true;
         }
 
         return false;
-
     }
 
     /**
-     * Check the process is update.
-     *
      * @return bool
-     **/
-    protected function isUpdate()
+     */
+    protected function isUpdate(): bool
     {
-
         if ($this->isMethod('PUT') ||
             $this->isMethod('PATCH')) {
             return true;
         }
 
         return false;
-
     }
 
     /**
-     * Check the process is verify.
-     *
      * @return bool
-     **/
-    protected function isDelete()
+     */
+    protected function isDelete(): bool
     {
-
         if ($this->isMethod('DELETE')) {
             return true;
         }
@@ -239,34 +249,93 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Получение id текущей сущности.
+     * Нужны ли правила для валидации модели.
      *
-     * @return mixed
-     * @throws \Exception
+     * @return bool
      */
-    protected function getId()
+    protected function needsEntityRules(): bool
     {
-        $diff = $this->getRouteDiff();
-
-        if (count($diff) !== 1) {
-            throw new \Exception('Id не найден.');
-        }
-
-        return (int) array_pop($diff);
+        return $this->isStore() || $this->isUpdate();
     }
 
+
+    /**
+     * Текущий паттерн роута в виде массива.
+     *
+     * @return array
+     */
     protected function getRoutePatternArray()
     {
         return explode('/', trim(\Route::getCurrentRoute()->uri, '/'));
     }
 
-    protected function getPathArray()
+    /**
+     * Текущий путь в виде массива.
+     *
+     * @return array
+     */
+    protected function getPathArray(): array
     {
         return explode('/', trim($this->getPathinfo(), '/'));
     }
 
-    protected function getRouteDiff()
+    /**
+     * Возвращает отличия тукущего пути от паттерна роутов.
+     *
+     * @return array
+     */
+    protected function getRouteDiff(): array
     {
         return array_diff_assoc($this->getPathArray(), $this->getRoutePatternArray());
+    }
+
+    /**
+     * Получение id текущей сущности.
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    protected function getId(): int
+    {
+        if (is_null($this->id)) {
+            $diff = $this->getRouteDiff();
+
+            if (count($diff) !== 1) {
+                throw new \Exception('Id не найден.');
+            }
+
+            $this->id = (int) array_pop($diff);
+        }
+
+        return $this->id;
+    }
+
+    /**
+     * Получение текущей сущности.
+     *
+     * @return \Illuminate\Database\Eloquent\Model
+     * @throws \Exception
+     */
+    protected function getEntity(): Model
+    {
+        if (is_null($this->entity)) {
+            $this->entity = $this->model::findOrFail($this->getId());
+        }
+
+        return $this->entity;
+    }
+
+    public function rules()
+    {
+        if ($this->needsEntityRules()) {
+            return $this->getEntityRules();
+        }
+
+        return [];
+    }
+
+    protected function getEntityRules()
+    {
+        return [];
     }
 }

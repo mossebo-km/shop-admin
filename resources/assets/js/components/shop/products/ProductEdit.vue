@@ -594,7 +594,7 @@
                 v-if="type === 'edit'"
                 :url="makePageApiUrl('image')"
                 :images.sync="product.images"
-                :errors="formErrors.collect('images') || []" />
+                :errors="formErrors" />
             </div>
           </div>
         </div>
@@ -603,7 +603,9 @@
 
       <div class="block" v-if="product && product.prices">
         <div class="block-title">
-          <h2><i class="fa fa-money"></i> <strong>Цены</strong></h2>
+          <h2>
+            <i class="fa fa-money"></i> <strong>Цены</strong>
+          </h2>
         </div>
 
         <prices-table :prices.sync="product.prices" :activeLanguageCode="activeLanguageCode" :errors="formErrors" />

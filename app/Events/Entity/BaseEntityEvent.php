@@ -31,6 +31,11 @@ class BaseEntityEvent implements EntityChangeEvent
         return $this->model;
     }
 
+    public function getModelClassName()
+    {
+        return get_class($this->model);
+    }
+
     public function getName()
     {
         return $this->name;

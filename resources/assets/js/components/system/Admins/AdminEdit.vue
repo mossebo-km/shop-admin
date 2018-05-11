@@ -204,7 +204,7 @@
               :images="dropzoneImage"
               @update:images="updateImage"
               :safeDelete="false"
-              :errors="formErrors.collect('image') || []" />
+              :errors="formErrors" />
           </div>
         </div>
 
@@ -261,45 +261,45 @@
         </div>
 
         <div class="form-horizontal form-bordered" v-if="admin">
-          <div :class="`form-group${formErrors.has('old-password') ? ' has-error' : ''}`">
+          <div :class="`form-group${formErrors.has('old_password') ? ' has-error' : ''}`">
             <label class="col-md-3 control-label" for="old-password">
               Старый <span class="text-danger">*</span>
             </label>
 
             <div class="col-md-9">
-              <input type="password" class="form-control" id="old-password" v-model="admin['old--password']" name="old-password" v-validate="'max:255'">
+              <input type="password" class="form-control" id="old-password" v-model="admin['old_password']" name="old_password" v-validate="'max:255'">
 
-              <span v-show="formErrors.has('old-password')" class="help-block">
-              {{ formErrors.first('old-password') }}
+              <span v-show="formErrors.has('old_password')" class="help-block">
+              {{ formErrors.first('old_password') }}
             </span>
             </div>
           </div>
 
 
-          <div :class="`form-group${formErrors.has('new-password') ? ' has-error' : ''}`">
+          <div :class="`form-group${formErrors.has('new_password') ? ' has-error' : ''}`">
             <label class="col-md-3 control-label" for="new-password">
               Новый <span class="text-danger">*</span>
             </label>
 
             <div class="col-md-9">
-              <input type="password" class="form-control" id="new-password" v-model="admin['new-password']" name="new-password" v-validate="'min:8|max:255'">
+              <input type="password" class="form-control" id="new-password" v-model="admin['new_password']" name="new_password" v-validate="'min:8|max:255'">
 
-              <span v-show="formErrors.has('new-password')" class="help-block">
-              {{ formErrors.first('new-password') }}
+              <span v-show="formErrors.has('new_password')" class="help-block">
+              {{ formErrors.first('new_password') }}
             </span>
             </div>
           </div>
 
-          <div :class="`form-group${formErrors.has('confirm-password') ? ' has-error' : ''}`">
+          <div :class="`form-group${formErrors.has('new_password_confirmation') ? ' has-error' : ''}`">
             <label class="col-md-3 control-label" for="confirm-password">
               Подтверждение <span class="text-danger">*</span>
             </label>
 
             <div class="col-md-9">
-              <input type="password" class="form-control" id="confirm-password" v-model="admin['confirm-password']" name="confirm-password" v-validate="'max:255|confirmed:new-password'">
+              <input type="password" class="form-control" id="confirm-password" v-model="admin['new_password_confirmation']" name="new_password_confirmation" v-validate="'max:255|confirmed:new_password'">
 
-              <span v-show="formErrors.has('confirm-password')" class="help-block">
-              {{ formErrors.first('confirm-password') }}
+              <span v-show="formErrors.has('new_password_confirmation')" class="help-block">
+              {{ formErrors.first('new_password_confirmation') }}
             </span>
             </div>
           </div>

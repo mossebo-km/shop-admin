@@ -12,12 +12,8 @@ class PermissionGroupRequest extends ApiRequest
      *
      * @return array
      */
-    public function rules()
+    protected function getEntityRules()
     {
-        if (! ($this->isStore() || $this->isUpdate())) {
-            return [];
-        }
-
         $permissionGroupsTableName = \Config::get('migrations.AdminRolePermissionGroups');
 
         $rules = [

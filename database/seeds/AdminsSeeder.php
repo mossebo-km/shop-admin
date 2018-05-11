@@ -69,10 +69,6 @@ class AdminsSeeder extends Seeder
     ];
 
 
-
-
-
-
     /**
      * Run the database seeds.
      *
@@ -87,7 +83,7 @@ class AdminsSeeder extends Seeder
                 'name' => $row['name'],
                 'roles' => $row['roles'],
                 'email' => $row['email'],
-                'password' => \Hash::make($row['password']),
+                'password' => encodePassword($row['password']),
                 'api_token' => str_random(60)
             ]);
         }

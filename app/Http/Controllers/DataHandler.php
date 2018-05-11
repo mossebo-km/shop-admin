@@ -34,9 +34,6 @@ class DataHandler
      */
     public static function getRelevantKey()
     {
-        // todo: Добавить отдельное кэширование для каждого типа данных.
-
-//        \Cache::flush();
         return \Cache::remember(self::$cacheKey, 18000, function () {
             return md5(uniqid());
         });
@@ -49,9 +46,7 @@ class DataHandler
      */
     public static function clearCache($dataTypeOrModelClassName = false)
     {
-        // todo: Добавить отчистку кэша по типу данных.
-
-        if (!$dataTypeOrModelClassName) {
+        if (! $dataTypeOrModelClassName) {
             self::clearAllCache();
             return;
         }

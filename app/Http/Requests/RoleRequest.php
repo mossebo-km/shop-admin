@@ -9,12 +9,9 @@ class RoleRequest extends ApiRequest
      *
      * @return array
      */
-    public function rules()
+    protected function getEntityRules()
     {
-        if (! ($this->isStore() || $this->isUpdate())) {
-            return [];
-        }
-
+        // todo: сделать валидацию ролей.
         return [
             //
         ];

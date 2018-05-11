@@ -14,6 +14,6 @@ class EntityUpdatedListener
      */
     public function handle(EntityUpdated $event)
     {
-        \App\Http\Controllers\DataHandler::clearCache();
+        \App\Http\Controllers\DataHandler::clearCache($event->getModelClassName());
     }
 }

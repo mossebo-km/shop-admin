@@ -6,6 +6,7 @@ use App\Models\Attribute;
 
 use App\Http\Resources\AttributeEditResource;
 use App\Http\Resources\AttributesTableResource;
+use App\Http\Resources\AttributeOptionResource;
 
 use App\Support\Traits\Controllers\Creatable;
 use App\Support\Traits\Controllers\Updatable;
@@ -33,5 +34,13 @@ class AttributeController extends ApiController
         return [
             'attributes' => static::toResource(self::$modelClass::get()),
         ];
+    }
+
+    public function options(Attribute $attribute)
+    {
+        return response()->json([
+            'status' => 'success',
+            'options' => AttributeOptionResource::collection($attribute->options()->with('i18n')->get()),
+        ], 200);
     }
 }

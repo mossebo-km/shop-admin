@@ -9,12 +9,8 @@ class SupplierRequest extends ApiRequest
      *
      * @return array
      */
-    public function rules()
+    protected function getEntityRules()
     {
-        if (! ($this->isStore() || $this->isUpdate())) {
-            return [];
-        }
-
         return [
             'name'        => 'bail|required|max:255',
             'description' => 'max:2048',
