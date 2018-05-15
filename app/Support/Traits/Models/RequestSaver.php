@@ -41,10 +41,14 @@ trait RequestSaver
     {
         foreach ($this->needsToSaveFromRequest ?: [] as $stepName) {
             $methodName = '_save' . camelize($stepName);
-            $stepData = isset($data[$stepName]) ? $data[$stepName] : null;
 
             if (method_exists($this, $methodName)) {
-                call_user_func([$this, $methodName], $stepData);
+                if (isset($data[$stepName])) {
+                    call_user_func([$this, $methodName], $data[$stepName]);
+                }
+                else {
+                    call_user_func([$this, $methodName]);
+                }
             }
         }
     }

@@ -294,47 +294,47 @@ export default {
         ]
       },
 
-      {
-        title: 'Система',
-        icon: 'fa fa-gears',
-
-        children: [
-          {
-            title: 'Администраторы',
-            url: '/system/admins',
-            icon: 'fa fa-id-card-o',
-            permission: 'system.admins.menu',
-          },
-
-          {
-            title: 'Контроль доступа',
-            icon: 'fa fa-ban',
-
-            children: [
-              {
-                title: 'Роли',
-                url: '/system/rbac/roles',
-                icon: 'fa fa-group',
-                permission: 'system.rbac.roles.menu',
-              },
-
-              {
-                title: 'Права',
-                url: '/system/rbac/permission-groups',
-                icon: 'fa fa-star',
-                permission: 'system.rbac.permission-groups.menu',
-              },
-            ]
-          },
-
-          {
-            title: 'Настройки',
-            url: '/system/rbac/settings',
-            icon: 'fa fa-gear',
-            permission: 'system.settings.menu',
-          },
-        ]
-      },
+      // {
+      //   title: 'Система',
+      //   icon: 'fa fa-gears',
+      //
+      //   children: [
+      //     {
+      //       title: 'Администраторы',
+      //       url: '/system/admins',
+      //       icon: 'fa fa-id-card-o',
+      //       permission: 'system.admins.menu',
+      //     },
+      //
+      //     {
+      //       title: 'Контроль доступа',
+      //       icon: 'fa fa-ban',
+      //
+      //       children: [
+      //         {
+      //           title: 'Роли',
+      //           url: '/system/rbac/roles',
+      //           icon: 'fa fa-group',
+      //           permission: 'system.rbac.roles.menu',
+      //         },
+      //
+      //         {
+      //           title: 'Права',
+      //           url: '/system/rbac/permission-groups',
+      //           icon: 'fa fa-star',
+      //           permission: 'system.rbac.permission-groups.menu',
+      //         },
+      //       ]
+      //     },
+      //
+      //     {
+      //       title: 'Настройки',
+      //       url: '/system/rbac/settings',
+      //       icon: 'fa fa-gear',
+      //       permission: 'system.settings.menu',
+      //     },
+      //   ]
+      // },
 
       {
         title: 'Очистить кэш',

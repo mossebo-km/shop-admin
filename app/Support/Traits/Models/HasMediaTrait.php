@@ -19,7 +19,14 @@ trait HasMediaTrait {
     protected function _saveImages(Array $imagesData = [])
     {
         $existingImages = $this->media()->get();
-        $ids = array_column($imagesData, 'id');
+
+        if (is_null($imagesData)) {
+            $ids = [];
+        }
+        else {
+            $ids = array_column($imagesData, 'id');
+        }
+
 
         foreach ($existingImages as $image) {
             $index = array_search($image->id, $ids);

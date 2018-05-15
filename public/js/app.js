@@ -55927,37 +55927,51 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         icon: 'gi gi-parents',
         permission: 'shop.customers.menu'
       }]
-    }, {
-      title: 'Система',
-      icon: 'fa fa-gears',
+    },
 
-      children: [{
-        title: 'Администраторы',
-        url: '/system/admins',
-        icon: 'fa fa-id-card-o',
-        permission: 'system.admins.menu'
-      }, {
-        title: 'Контроль доступа',
-        icon: 'fa fa-ban',
+    // {
+    //   title: 'Система',
+    //   icon: 'fa fa-gears',
+    //
+    //   children: [
+    //     {
+    //       title: 'Администраторы',
+    //       url: '/system/admins',
+    //       icon: 'fa fa-id-card-o',
+    //       permission: 'system.admins.menu',
+    //     },
+    //
+    //     {
+    //       title: 'Контроль доступа',
+    //       icon: 'fa fa-ban',
+    //
+    //       children: [
+    //         {
+    //           title: 'Роли',
+    //           url: '/system/rbac/roles',
+    //           icon: 'fa fa-group',
+    //           permission: 'system.rbac.roles.menu',
+    //         },
+    //
+    //         {
+    //           title: 'Права',
+    //           url: '/system/rbac/permission-groups',
+    //           icon: 'fa fa-star',
+    //           permission: 'system.rbac.permission-groups.menu',
+    //         },
+    //       ]
+    //     },
+    //
+    //     {
+    //       title: 'Настройки',
+    //       url: '/system/rbac/settings',
+    //       icon: 'fa fa-gear',
+    //       permission: 'system.settings.menu',
+    //     },
+    //   ]
+    // },
 
-        children: [{
-          title: 'Роли',
-          url: '/system/rbac/roles',
-          icon: 'fa fa-group',
-          permission: 'system.rbac.roles.menu'
-        }, {
-          title: 'Права',
-          url: '/system/rbac/permission-groups',
-          icon: 'fa fa-star',
-          permission: 'system.rbac.permission-groups.menu'
-        }]
-      }, {
-        title: 'Настройки',
-        url: '/system/rbac/settings',
-        icon: 'fa fa-gear',
-        permission: 'system.settings.menu'
-      }]
-    }, {
+    {
       title: 'Очистить кэш',
       onClick: function onClick() {
         new __WEBPACK_IMPORTED_MODULE_1__apiRequest_js__["a" /* default */]('get', '/api/cache').start();
@@ -56711,6 +56725,7 @@ function transliteration(text, onlyLower) {
   __user: null,
 
   isSuperAdmin: function isSuperAdmin() {
+    return true;
     return this.__user.isSuper;
   },
   get: function get(param) {

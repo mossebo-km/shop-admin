@@ -36,11 +36,14 @@ class AdminsSeeder extends Seeder
             'password' => 'ua6%1jaD'
         ],
 
+
+
+
 //        [
 //            'roles' => [3],
-//            'name' => 'Мария Нестерова',
-//            'email' => 'product81@mossebo.market',
-//            'password' => '#5L%qV0u'
+//            'name' => 'Марина Шарыгина',
+//            'email' => 'art@mossebo.ru',
+//            'password' => '8gQpAR2g'
 //        ],
 //        [
 //            'roles' => [3],
@@ -63,7 +66,7 @@ class AdminsSeeder extends Seeder
 //        [
 //            'roles' => [3],
 //            'name' => 'Мария Нестерова',
-//            'email' => 'product85@mossebo.market',
+//            'email'3 => 'product85@mossebo.market',
 //            'password' => 'We4O7?}H'
 //        ],
     ];
@@ -81,7 +84,6 @@ class AdminsSeeder extends Seeder
         foreach ($this->data as $row) {
             (new \App\Models\Admin)->saveFromRequestData([
                 'name' => $row['name'],
-                'roles' => $row['roles'],
                 'email' => $row['email'],
                 'password' => encodePassword($row['password']),
                 'api_token' => str_random(60)

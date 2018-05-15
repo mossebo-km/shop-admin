@@ -255,7 +255,9 @@ abstract class Request extends FormRequest
      */
     protected function needsEntityRules(): bool
     {
-        return $this->isStore() || $this->isUpdate();
+        $action = $this->getAction;
+
+        return $action === 'edit' || $action === 'create';
     }
 
 

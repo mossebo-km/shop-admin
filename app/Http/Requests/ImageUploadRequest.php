@@ -7,6 +7,10 @@ use Illuminate\Contracts\Validation\Validator;
 
 class ImageUploadRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        return true;
+    }
 
     // todo: разобраться с правами на загрузку изображений
     // По сути надо дождаться повторения ситуации и тогда решить что делать.

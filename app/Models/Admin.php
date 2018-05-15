@@ -103,7 +103,7 @@ class Admin extends Base\Authenticatable implements HasMedia, HasPermissions
         return $pathes['small']['srcset'];
     }
 
-    public function _saveRoles($roles = [])
+    public function _saveRoles(Array $roles = [])
     {
         $this->roleRelations()->delete();
 
