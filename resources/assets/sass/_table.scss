@@ -306,6 +306,13 @@ div.ui-sortable-placeholder {
 .table-cell-column-slug {
   width: 250px;
   justify-content: flex-start;
+  overflow: hidden;
+
+  & a {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }
 
 .table-slug {

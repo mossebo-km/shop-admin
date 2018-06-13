@@ -1121,6 +1121,13 @@ div.ui-sortable-placeholder::before {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
+  overflow: hidden;
+}
+
+.table-cell-column-slug a {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .table-slug {
