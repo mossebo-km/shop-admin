@@ -18,7 +18,7 @@ class PriceTypeEditResource extends JsonResource
             'enabled'    => $this->enabled,
             'created_at' => dateFormatFull($this->created_at),
             'updated_at' => dateFormatFull($this->updated_at),
-            'i18n'       => $this->i18n()->get()->toArray()
+            'i18n'       => $this->i18n->toArray()
         ];
     }
 }

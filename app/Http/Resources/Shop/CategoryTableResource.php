@@ -22,7 +22,7 @@ class CategoryTableResource extends JsonResource
              'enabled'        => $this->enabled,
              'products_count' => $this->products_count,
              'position'       => $this->position,
-             'i18n'           => $this->i18n()->get()->toArray(),
+             'i18n'           => $this->i18n->toArray(),
          ];
 
          if ($this->relationNotEmpty('image')) {

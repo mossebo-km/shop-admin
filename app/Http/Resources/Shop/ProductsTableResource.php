@@ -23,7 +23,7 @@ class ProductsTableResource extends JsonResource
             'enabled'    => $this->enabled,
             'created_at' => dateFormatFull($this->created_at),
             'prices'     => PriceResource::collection($this->prices),
-            'image'      => new MediaResource($this->getMedia()->first()),
+            'image'      => new MediaResource($this->image),
             'i18n'       => $this->i18n->toArray()
         ];
     }

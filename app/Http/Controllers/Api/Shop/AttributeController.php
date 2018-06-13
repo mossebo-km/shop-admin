@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\ApiController;
 
 use App\Models\Shop\Attribute;
 
+use Attributes;
+
 use App\Http\Resources\Shop\AttributeEditResource;
 use App\Http\Resources\Shop\AttributesTableResource;
 use App\Http\Resources\Shop\AttributeOptionResource;
@@ -28,7 +30,7 @@ class AttributeController extends ApiController
     public function index()
     {
         return [
-            'attributes' => static::toResource(self::$modelClass::get()),
+            'attributes' => static::toResource(Attributes::getCollection('i18n')),
         ];
     }
 

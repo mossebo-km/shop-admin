@@ -30,7 +30,7 @@ class PriceTypeController extends ApiController
     public function index()
     {
         return [
-            'price-types' => static::toResource(PriceTypes::getCollection()),
+            'price-types' => static::toResource(PriceTypes::getCollection('i18n')),
         ];
     }
 }
