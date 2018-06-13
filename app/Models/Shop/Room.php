@@ -11,7 +11,6 @@ class Room extends BaseRoom implements HasMedia
     use StructureTrait;
 
     protected $fillable = [
-        'parent_id',
         'slug',
         'enabled',
         'position'

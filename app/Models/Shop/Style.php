@@ -11,7 +11,6 @@ class Style extends BaseStyle implements HasMedia
     use StructureTrait;
 
     protected $fillable = [
-        'parent_id',
         'slug',
         'enabled',
         'position'
