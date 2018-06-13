@@ -103,7 +103,7 @@
 
               <td style="width: 100%">
                 <router-link v-bind:to="priceType.url">
-                  <strong v-html="priceType.i18n[activeLanguageCode].title"></strong>
+                  <span v-html="priceType.i18n[activeLanguageCode].title"></span>
                 </router-link>
               </td>
 

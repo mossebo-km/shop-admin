@@ -96,9 +96,7 @@
 
         <div class="table-cell text-center table-cell-column-id">
           <router-link :to="item.url">
-            <strong>
-              {{ item.id }}
-            </strong>
+            {{ item.id }}
           </router-link>
         </div>
 
@@ -121,7 +119,7 @@
           </span>
 
           <router-link :to="item.url">
-            <strong v-html="item.i18n[activeLanguageCode].title"></strong>
+            <span v-html="item.i18n[activeLanguageCode].title"></span>
           </router-link>
         </div>
 
@@ -130,7 +128,7 @@
             <i class="fa fa-external-link"></i>
 
             <div class="table-slug">
-              <strong>{{ item.slug }}</strong>
+              {{ item.slug }}
             </div>
           </a>
         </div>

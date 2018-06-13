@@ -16,12 +16,12 @@ class RoomProduct extends BaseRoomProduct
 
     public $timestamps = false;
 
-    public function rooms()
+    public function room()
     {
         return $this->belongsTo(Room::class, 'room_id');
     }
 
-    public function products()
+    public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
     }

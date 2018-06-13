@@ -16,12 +16,12 @@ class ProductAttribute extends BaseProductAttribute
 
     public $timestamps = false;
 
-    public function attributes()
+    public function attribute()
     {
         return $this->belongsTo(Attribute::class, 'attribute_id');
     }
 
-    public function products()
+    public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
     }

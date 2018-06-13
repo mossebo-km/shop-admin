@@ -45011,7 +45011,7 @@ var render = function() {
                                     { attrs: { to: product.item.url } },
                                     [
                                       _c(
-                                        "strong",
+                                        "span",
                                         { staticClass: "table-column-id" },
                                         [
                                           _vm._v(
@@ -45190,13 +45190,11 @@ var render = function() {
                               key: "price",
                               fn: function(product) {
                                 return [
-                                  _c("strong", [
-                                    _vm._v(
-                                      "\n                " +
-                                        _vm._s(_vm.getItemPrice(product.item)) +
-                                        "\n              "
-                                    )
-                                  ])
+                                  _vm._v(
+                                    "\n              " +
+                                      _vm._s(_vm.getItemPrice(product.item)) +
+                                      "\n            "
+                                  )
                                 ]
                               }
                             },
@@ -46821,7 +46819,7 @@ var render = function() {
                       ? _c("tr", [
                           _c("td", { staticClass: "text-center" }, [
                             _c(
-                              "strong",
+                              "span",
                               { staticClass: "table-column-id" },
                               [
                                 _c(
@@ -48012,7 +48010,13 @@ var render = function() {
                               _c(
                                 "router-link",
                                 { attrs: { to: attribute.url } },
-                                [_c("strong", [_vm._v(_vm._s(attribute.id))])]
+                                [
+                                  _vm._v(
+                                    "\n                  " +
+                                      _vm._s(attribute.id) +
+                                      "\n                "
+                                  )
+                                ]
                               )
                             ],
                             1
@@ -48027,14 +48031,14 @@ var render = function() {
                               "router-link",
                               { attrs: { to: attribute.url } },
                               [
-                                _c("strong", [
-                                  _vm._v(
+                                _vm._v(
+                                  "\n                " +
                                     _vm._s(
                                       attribute.i18n[_vm.activeLanguageCode]
                                         .title
-                                    )
-                                  )
-                                ])
+                                    ) +
+                                    "\n              "
+                                )
                               ]
                             )
                           ],
@@ -49349,7 +49353,11 @@ var render = function() {
                               { staticClass: "table-column-id" },
                               [
                                 _c("router-link", { attrs: { to: item.url } }, [
-                                  _c("strong", [_vm._v(_vm._s(item.id))])
+                                  _vm._v(
+                                    "\n                    " +
+                                      _vm._s(item.id) +
+                                      "\n                  "
+                                  )
                                 ])
                               ],
                               1
@@ -49385,13 +49393,13 @@ var render = function() {
                             { staticStyle: { width: "100%" } },
                             [
                               _c("router-link", { attrs: { to: item.url } }, [
-                                _c("strong", [
-                                  _vm._v(
+                                _vm._v(
+                                  "\n                  " +
                                     _vm._s(
                                       item.i18n[_vm.activeLanguageCode].title
-                                    )
-                                  )
-                                ])
+                                    ) +
+                                    "\n                "
+                                )
                               ])
                             ],
                             1
@@ -50405,7 +50413,11 @@ var render = function() {
                               { staticClass: "table-column-id" },
                               [
                                 _c("router-link", { attrs: { to: item.url } }, [
-                                  _c("strong", [_vm._v(_vm._s(item.id))])
+                                  _vm._v(
+                                    "\n                      " +
+                                      _vm._s(item.id) +
+                                      "\n                    "
+                                  )
                                 ])
                               ],
                               1
@@ -50441,13 +50453,13 @@ var render = function() {
                             { staticStyle: { width: "100%" } },
                             [
                               _c("router-link", { attrs: { to: item.url } }, [
-                                _c("strong", [
-                                  _vm._v(
+                                _vm._v(
+                                  "\n                  " +
                                     _vm._s(
                                       item.i18n[_vm.activeLanguageCode].title
-                                    )
-                                  )
-                                ])
+                                    ) +
+                                    "\n                "
+                                )
                               ])
                             ],
                             1
@@ -50893,9 +50905,7 @@ var render = function() {
               { staticClass: "table-cell text-center table-cell-column-id" },
               [
                 _c("router-link", { attrs: { to: item.url } }, [
-                  _c("strong", [
-                    _vm._v("\n            " + _vm._s(item.id) + "\n          ")
-                  ])
+                  _vm._v("\n          " + _vm._s(item.id) + "\n        ")
                 ])
               ],
               1
@@ -50945,7 +50955,7 @@ var render = function() {
                   : _vm._e(),
                 _vm._v(" "),
                 _c("router-link", { attrs: { to: item.url } }, [
-                  _c("strong", {
+                  _c("span", {
                     domProps: {
                       innerHTML: _vm._s(item.i18n[_vm.activeLanguageCode].title)
                     }
@@ -50969,7 +50979,9 @@ var render = function() {
                   _c("i", { staticClass: "fa fa-external-link" }),
                   _vm._v(" "),
                   _c("div", { staticClass: "table-slug" }, [
-                    _c("strong", [_vm._v(_vm._s(item.slug))])
+                    _vm._v(
+                      "\n            " + _vm._s(item.slug) + "\n          "
+                    )
                   ])
                 ]
               )
@@ -52433,7 +52445,7 @@ var render = function() {
                               "router-link",
                               { attrs: { to: priceType.url } },
                               [
-                                _c("strong", {
+                                _c("span", {
                                   domProps: {
                                     innerHTML: _vm._s(
                                       priceType.i18n[_vm.activeLanguageCode]

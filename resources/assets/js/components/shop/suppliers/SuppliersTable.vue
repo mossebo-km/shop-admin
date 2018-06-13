@@ -84,9 +84,9 @@
           <tbody>
             <tr v-if="items && items.length" v-for="supplier in items">
               <td class="text-center">
-                <strong class="table-column-id">
+                <span class="table-column-id">
                   <router-link :to="supplier.url">{{ supplier.id }}</router-link>
-                </strong>
+                </span>
               </td>
 
               <td style="width: 100%">

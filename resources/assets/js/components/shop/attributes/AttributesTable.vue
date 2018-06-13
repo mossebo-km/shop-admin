@@ -100,14 +100,14 @@
               <td>
                 <span class="table-column-id">
                   <router-link v-bind:to="attribute.url">
-                    <strong>{{ attribute.id }}</strong>
+                    {{ attribute.id }}
                   </router-link>
                 </span>
               </td>
 
               <td style="width:100%">
                 <router-link v-bind:to="attribute.url">
-                  <strong>{{ attribute.i18n[activeLanguageCode].title }}</strong>
+                  {{ attribute.i18n[activeLanguageCode].title }}
                 </router-link>
               </td>
 

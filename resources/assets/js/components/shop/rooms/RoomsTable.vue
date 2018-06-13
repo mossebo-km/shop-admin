@@ -114,7 +114,7 @@
                 <td>
                     <span class="table-column-id">
                       <router-link v-bind:to="item.url">
-                        <strong>{{ item.id }}</strong>
+                        {{ item.id }}
                       </router-link>
                     </span>
                 </td>
@@ -131,7 +131,7 @@
 
                 <td style="width:100%">
                   <router-link v-bind:to="item.url">
-                    <strong>{{ item.i18n[activeLanguageCode].title }}</strong>
+                    {{ item.i18n[activeLanguageCode].title }}
                   </router-link>
                 </td>
 

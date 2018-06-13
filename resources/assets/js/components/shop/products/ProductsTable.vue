@@ -367,9 +367,9 @@
 
               <template slot="id" slot-scope="product">
                 <router-link :to="product.item.url">
-                  <strong class="table-column-id">
+                  <span class="table-column-id">
                     {{ product.item.id }}
-                  </strong>
+                  </span>
                 </router-link>
               </template>
 
@@ -424,9 +424,7 @@
               </template>
 
               <template slot="price" slot-scope="product">
-                <strong>
-                  {{ getItemPrice(product.item) }}
-                </strong>
+                {{ getItemPrice(product.item) }}
               </template>
 
               <!--  Дата создания  -->
