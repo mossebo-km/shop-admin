@@ -13,38 +13,41 @@ use Spatie\MediaLibrary\Models\Media;
 use App\Support\Traits\Models\HasMediaTrait;
 use App\Contracts\Models\HasPermissions;
 
-class Admin extends Base\Authenticatable implements HasMedia, HasPermissions
+use MosseboShopCore\Models\Base\Authenticatable;
+
+class Admin extends Authenticatable implements HasMedia, HasPermissions
 {
     use Notifiable, StatusChangeable, RequestSaver, HasMediaTrait, CheckPermissionTrait;
 
-    protected $mediaCollectionName = 'image';
+    protected $tableIdentif = 'Admins';
+    protected $relationFieldName = 'admin_id';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token'
+        'api_token',
+        'email',
+        'name',
+        'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
-    protected $needsToSaveFromRequest = ['images', 'roles', 'new_password'];
+    protected $needsToSaveFromRequest = [
+        'images',
+        'new_password',
+        'roles',
+    ];
+
+    protected $mediaCollectionName = 'image';
 
     public function roles()
     {
         return $this->hasManyThrough(
             AdminRole::class,
             AdminRoleRelation::class,
-            'admin_id',
+            $this->relationFieldName,
             'id',
             'id',
             'admin_role_id'
@@ -53,12 +56,12 @@ class Admin extends Base\Authenticatable implements HasMedia, HasPermissions
 
     public function roleRelations()
     {
-        return $this->hasMany(AdminRoleRelation::class, 'admin_id');
+        return $this->hasMany(AdminRoleRelation::class, $this->relationFieldName);
     }
 
     public function adminLog()
     {
-        return $this->hasMany(AdminLog::class, 'admin_id');
+        return $this->hasMany(AdminLog::class, $this->relationFieldName);
     }
 
     /**
@@ -73,14 +76,14 @@ class Admin extends Base\Authenticatable implements HasMedia, HasPermissions
             ->crop(Manipulations::CROP_CENTER, 400, 400)
             ->background('fff')
             ->withResponsiveImages()
-            ->performOnCollections('image');
+            ->performOnCollections($this->mediaCollectionName);
 
         $this->addMediaConversion('thumb')
             ->crop(Manipulations::CROP_CENTER, 128, 128)
             ->background('fff')
             ->withResponsiveImages()
             ->nonQueued()
-            ->performOnCollections('image');
+            ->performOnCollections($this->mediaCollectionName);
 
         $this->addMediaConversion('small')
             ->crop(Manipulations::CROP_CENTER, 400, 400)

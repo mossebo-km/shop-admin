@@ -15,14 +15,14 @@ class AdminEditResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'enabled' => $this->enabled,
-            'roles' => array_column($this->roles()->get(['id'])->toArray(), 'id'),
+            'id'         => $this->id,
+            'name'       => $this->name,
+            'email'      => $this->email,
+            'enabled'    => $this->enabled,
+            'roles'      => array_column($this->roles()->get(['id'])->toArray(), 'id'),
             'created_at' => dateFormatFull($this->created_at),
             'updated_at' => dateFormatFull($this->updated_at),
-            'image'      => new MediaResource($this->getMedia('image')->first()),
+            'image'      => new MediaResource($this->getMedia($this->mediaCollectionName)->first()),
         ];
     }
 }

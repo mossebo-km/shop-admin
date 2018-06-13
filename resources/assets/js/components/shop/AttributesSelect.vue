@@ -8,7 +8,7 @@
 
   import DataHandler from '../../mixins/DataHandler'
 
-  import OptionSelectModel from '../../resources/OptionSelectModel'
+  import OptionSelectModel from '../../resources/Shop/OptionSelectModel'
   import HandleableException from '../../exceptions/HandleableException'
 
   export default {
@@ -69,6 +69,10 @@
 
       getAttributesSelectedOptions() {
         return this.innerAttributes.reduce((acc, attribute) => {
+          if (this.selectedAttributesIds.indexOf(attribute.id) === -1) {
+            return acc
+          }
+
           if (attribute.request) {
             throw new HandleableException('Дождитесь окончания загрузки значений аттрибута.', 'warning')
           }

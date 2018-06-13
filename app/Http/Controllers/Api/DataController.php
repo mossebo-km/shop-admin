@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\DataHandler;
 
+// todo: надо прогонять через ресурсы
+
 class DataController extends ApiController
 {
     public function relevantKey()

@@ -5,21 +5,24 @@ namespace App\Models;
 use App\Support\Traits\Models\Positionable;
 use App\Support\Traits\Models\RequestSaver;
 
-class AdminRole extends Base\BaseModel
+use MosseboShopCore\Models\Base\BaseModel;
+
+class AdminRole extends BaseModel
 {
     use Positionable, RequestSaver;
 
     protected $tableIdentif = 'AdminRoles';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    protected $relationFieldName = 'admin_role_id';
+
     protected $fillable = [
-        'name', 'importance', 'position'
+        'name',
+        'importance',
+        'position'
     ];
 
-    protected $needsToSaveFromRequest = ['permissions'];
+    protected $needsToSaveFromRequest = [
+        'permissions'
+    ];
 
     public function admins()
     {
@@ -33,19 +36,11 @@ class AdminRole extends Base\BaseModel
         );
     }
 
-    public function products()
-    {
-        return $this->hasManyThrough(
-            Product::class, CategoryProduct::class,
-            'category_id', 'id', 'id', 'product_id'
-        );
-    }
-
     public function groups()
     {
         return $this->hasManyThrough(
             AdminRolePermissionGroup::class, AdminRolePermissionRelation::class,
-            'admin_role_id',  'id', 'id', 'admin_role_permission_group_id'
+            $this->relationFieldName,  'id', 'id', 'admin_role_permission_group_id'
         );
     }
 
@@ -53,13 +48,13 @@ class AdminRole extends Base\BaseModel
     {
         return $this->hasManyThrough(
             AdminRolePermission::class, AdminRolePermissionRelation::class,
-            'admin_role_permission_id', 'id', 'id', 'admin_role_id'
+            $this->relationFieldName, 'id', 'id', 'admin_role_permission_id'
         );
     }
 
     public function permissionRelations()
     {
-        return $this->hasMany(AdminRolePermissionRelation::class, 'admin_role_id');
+        return $this->hasMany(AdminRolePermissionRelation::class, $this->relationFieldName);
     }
 
     public function _savePermissions($permissionsIds = [])

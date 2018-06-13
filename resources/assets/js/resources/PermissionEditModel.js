@@ -1,4 +1,4 @@
-import Model from './Base/Model'
+import Model from './base/Model'
 import Core from "../core";
 
 export default class PermissionEditModel extends Model {

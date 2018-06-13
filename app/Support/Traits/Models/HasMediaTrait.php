@@ -9,7 +9,32 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait as BaseHasMediaTrait;
 use App\Exceptions\AdminException;
 
 trait HasMediaTrait {
-    use BaseHasMediaTrait;
+    use BaseHasMediaTrait {
+        BaseHasMediaTrait::getMedia as baseGetMedia;
+    }
+
+    public function getMedia(string $collectionName = null, $filters = [])
+    {
+        if (is_null($collectionName)) {
+            $collectionName = $this->mediaCollectionName ?: '';
+        }
+
+        return $this->baseGetMedia($collectionName, $filters);
+    }
+
+    public function image()
+    {
+        return $this->morphOne(config('medialibrary.media_model'), 'model')
+            ->where('collection_name', $this->mediaCollectionName)
+            ->orderBy('order_column', 'asc');
+    }
+
+    public function images()
+    {
+        return $this->media()
+            ->where('collection_name', $this->mediaCollectionName)
+            ->orderBy('order_column', 'asc');
+    }
 
     /**
      * Сохранение изображений товара.

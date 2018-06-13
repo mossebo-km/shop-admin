@@ -81,6 +81,10 @@
   margin: 0 -20px 5px;
 }
 
+.dropzone .dz-message {
+  font-size: 18px;
+}
+
 .edit-photo-card {
   position: relative;
   z-index: 1;
@@ -1375,10 +1379,20 @@ textarea.form-control {
   resize: vertical;
 }
 
+.pagination > li {
+  display: inline-block;
+  vertical-align: bottom;
+}
+
 .pagination > li > a,
 .pagination > li > span {
   width: 30px;
+  padding: 6px 0;
   text-align: center;
+}
+
+.select2-selection__clear {
+  height: 22px;
 }
 
 @media (min-width: 1200px) and (max-width: 1599px) {

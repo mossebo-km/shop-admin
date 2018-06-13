@@ -1,6 +1,8 @@
-import CategoriesTreeSelectModel from '../resources/CategoriesTreeSelectModel'
-import PriceTypeDataModel from '../resources/PriceTypeDataModel'
-import SupplierDataModel from '../resources/SupplierDataModel'
+import CategoriesTreeSelectModel from '../resources/shop/CategoriesTreeSelectModel'
+import PriceTypeDataModel from '../resources/shop/PriceTypeDataModel'
+import SupplierDataModel from '../resources/shop/SupplierDataModel'
+import RoomDataModel from '../resources/shop/RoomDataModel'
+import StyleDataModel from '../resources/shop/StyleDataModel'
 
 import Core from "../core";
 
@@ -73,6 +75,14 @@ export default {
 
     initCategoriesTree(tree = []) {
       this.categoriesTree = tree.map(item => new CategoriesTreeSelectModel(item, this.languages))
+    },
+
+    initStyles(styles) {
+      this.styles = this.getSortedData(this.getEnabledData(styles)).map(item => new StyleDataModel(item, this.languages))
+    },
+
+    initRooms(rooms) {
+      this.rooms = this.getSortedData(this.getEnabledData(rooms)).map(item => new RoomDataModel(item, this.languages))
     },
 
     initRoles(roles = []) {

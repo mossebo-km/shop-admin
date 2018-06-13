@@ -24,12 +24,6 @@ class AdminController extends ApiController
     protected static $tableResource = AdminsTableResource::class;
 
     // todo: протестировать хорошенько роли.
-
-    /**
-     * Список администраторов.
-     *
-     * @return array
-     */
     public function index()
     {
         return [

@@ -4,13 +4,12 @@
   import Sortable from '../../../mixins/Sortable'
 
   import bModal from 'bootstrap-vue/es/components/modal/modal'
-  import ShopQuickNav from '../ShopQuickNav'
   import LanguagePicker from '../../LanguagePicker'
   import LanguageIdentif from '../../LanguageIdentif'
   import Toggle from '../../Toggle'
 
-  import AttributeModel from '../../../resources/AttributeModel'
-  import OptionModel from '../../../resources/OptionModel'
+  import AttributeModel from '../../../resources/shop/AttributeModel'
+  import OptionModel from '../../../resources/shop/OptionModel'
 
 
   export default {
@@ -23,7 +22,6 @@
     ],
 
     components: {
-      ShopQuickNav,
       LanguagePicker,
       LanguageIdentif,
       bModal,
@@ -199,8 +197,6 @@
 
 <template>
   <div>
-    <shop-quick-nav active="attributes" />
-
     <div class="block full">
       <div class="block-title clearfix" v-if="type === 'create'">
         <h1>

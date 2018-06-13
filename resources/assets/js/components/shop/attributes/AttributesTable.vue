@@ -4,14 +4,12 @@
   import StatusChangeable from '../../../mixins/StatusChangeable'
   import Translatable from '../../../mixins/Translatable'
 
-
-  import ShopQuickNav from '../ShopQuickNav'
   import Toggle from '../../Toggle'
   import LanguagePicker from '../../LanguagePicker'
 
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
-  import AttributesTableModel from '../../../resources/AttributesTableModel'
+  import AttributesTableModel from '../../../resources/shop/AttributesTableModel'
 
 
   export default {
@@ -27,7 +25,6 @@
     components: {
       Toggle,
       LanguagePicker,
-      ShopQuickNav,
       bModal
     },
 
@@ -43,7 +40,7 @@
 
     methods: {
       initItems (items = []) {
-        this.items = this.getSortedData(items).map(item => new AttributesTableModel(item, this.languages))
+        this.items = this.getSortedData(items.map(item => new AttributesTableModel(item, this.languages)))
       },
     }
   }
@@ -51,8 +48,6 @@
 
 <template>
   <div>
-    <shop-quick-nav active="attributes" />
-
     <div class="block full">
       <div class="block-title clearfix">
         <h1><strong>Аттрибуты</strong></h1>

@@ -19,7 +19,7 @@ class AdminRequest extends ApiRequest
      */
     public function getEntityRules()
     {
-        $adminsTableName = \Config::get('migrations.Admins');
+        $adminsTableName = \Config::get('tables.Admins');
 
         $rules = [
             'name'    => 'bail|trim|required|max:255',

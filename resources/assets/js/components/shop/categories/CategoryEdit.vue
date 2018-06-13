@@ -1,7 +1,6 @@
 <script>
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
-  import ShopQuickNav from '../ShopQuickNav'
   import Core from '../../../core'
   import TreeSelectTranslatable from '../../TreeSelectTranslatable'
   import CKEditor from '../../CKEditor'
@@ -9,8 +8,9 @@
 
   import EntityPage from '../../../mixins/EntityPage'
   import Translatable from '../../../mixins/Translatable'
+  import ImageUpload from '../../../mixins/ImageUpload'
 
-  import CategoryModel from '../../../resources/CategoryModel'
+  import CategoryModel from '../../../resources/shop/CategoryModel'
 
 
   export default {
@@ -18,7 +18,8 @@
 
     mixins: [
       EntityPage,
-      Translatable
+      Translatable,
+      ImageUpload
     ],
 
     props: [
@@ -41,7 +42,6 @@
     },
 
     components: {
-      ShopQuickNav,
       TreeSelectTranslatable,
       'ckeditor': CKEditor,
       LanguagePicker,
@@ -57,7 +57,7 @@
       },
 
       /**
-       * Автозаполнение slug из заголовка категории.
+       * Автозаполнение slug из заголовка.
        */
       slugAutocomplete() {
         let model = this.getEntityModel()
@@ -69,8 +69,6 @@
 
 <template>
   <div>
-    <shop-quick-nav active="categories" />
-
     <div class="block full">
       <div class="block-title clearfix" v-if="type === 'create'">
         <h1>
@@ -89,7 +87,8 @@
           <language-picker
             :languages="languages"
             :activeLanguageCode.sync="activeLanguageCode"
-            :class="{'has-error': formTranslatesHasError()}" />
+            :class="{'has-error': formTranslatesHasError()}"
+          ></language-picker>
 
           <span class="btn-separator-xs"></span>
 
@@ -278,6 +277,25 @@
                   <span v-show="formErrors.has('parent_id')" class="help-block">
                     {{ formErrors.first('parent_id') }}
                   </span>
+                </div>
+              </div>
+
+              <div v-if="type === 'edit'" class="form-group">
+                <label class="col-md-3 control-label">
+                  Изображение
+                </label>
+
+                <div class="col-md-9">
+                  <dropzone-gallery
+                    ref="gallery"
+                    v-if="type === 'edit'"
+                    :params="{maxFiles: 1}"
+                    :url="makePageApiUrl('image')"
+                    :images="dropzoneImage"
+                    @update:images="updateImage"
+                    :safeDelete="false"
+                    :errors="formErrors"
+                  ></dropzone-gallery>
                 </div>
               </div>
 

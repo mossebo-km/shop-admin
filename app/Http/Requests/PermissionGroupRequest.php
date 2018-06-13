@@ -7,14 +7,12 @@ use App\Validation\ValidatorExtend;
 
 class PermissionGroupRequest extends ApiRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
+    protected $model = \App\Models\AdminRolePermissionGroup::class;
+    protected $permissionsNamespace = 'system.permission-group';
+
     protected function getEntityRules()
     {
-        $permissionGroupsTableName = \Config::get('migrations.AdminRolePermissionGroups');
+        $permissionGroupsTableName = \Config::get('tables.AdminRolePermissionGroups');
 
         $rules = [
             'name' => 'nullable|trim|max:255',
@@ -23,10 +21,9 @@ class PermissionGroupRequest extends ApiRequest
 
         if ($isUpdate = $this->isUpdate()) {
             $id = $this->getId();
-            $modelName = 'App\Models\AdminRolePermissionGroups';
             ValidatorExtend::parentIdAvailable();
 
-            $rules['parent_id'][] = "parent_id_available:{$modelName}," . $id;
+            $rules['parent_id'][] = "parent_id_available:{$this->model}," . $id;
         }
 
         foreach ($this->input('permissions') as $permissionId => $permission) {

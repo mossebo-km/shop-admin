@@ -1801,7 +1801,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Loading__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_DataHandler__ = __webpack_require__("./resources/assets/js/mixins/DataHandler.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__resources_OptionSelectModel__ = __webpack_require__("./resources/assets/js/resources/OptionSelectModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__resources_Shop_OptionSelectModel__ = __webpack_require__("./resources/assets/js/resources/Shop/OptionSelectModel.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__exceptions_HandleableException__ = __webpack_require__("./resources/assets/js/exceptions/HandleableException.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1889,6 +1889,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var _this = this;
 
       return this.innerAttributes.reduce(function (acc, attribute) {
+        if (_this.selectedAttributesIds.indexOf(attribute.id) === -1) {
+          return acc;
+        }
+
         if (attribute.request) {
           throw new __WEBPACK_IMPORTED_MODULE_6__exceptions_HandleableException__["a" /* default */]('Дождитесь окончания загрузки значений аттрибута.', 'warning');
         }
@@ -1986,7 +1990,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             selectedOptions.push(item.id);
           }
 
-          return new __WEBPACK_IMPORTED_MODULE_5__resources_OptionSelectModel__["a" /* default */](item, _this3.languages);
+          return new __WEBPACK_IMPORTED_MODULE_5__resources_Shop_OptionSelectModel__["a" /* default */](item, _this3.languages);
         });
 
         _this3.updateAttribute(attribute.id, {
@@ -2309,20 +2313,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguageIdentif__ = __webpack_require__("./resources/assets/js/components/LanguageIdentif.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguageIdentif___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__LanguageIdentif__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__Toggle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_AttributeModel__ = __webpack_require__("./resources/assets/js/resources/AttributeModel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__resources_OptionModel__ = __webpack_require__("./resources/assets/js/resources/OptionModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguageIdentif__ = __webpack_require__("./resources/assets/js/components/LanguageIdentif.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguageIdentif___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__LanguageIdentif__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__resources_shop_AttributeModel__ = __webpack_require__("./resources/assets/js/resources/shop/AttributeModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_shop_OptionModel__ = __webpack_require__("./resources/assets/js/resources/shop/OptionModel.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 
 
 
@@ -2342,11 +2343,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_Translatable__["a" /* default */]],
 
   components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_4__ShopQuickNav___default.a,
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default.a,
-    LanguageIdentif: __WEBPACK_IMPORTED_MODULE_6__LanguageIdentif___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default.a,
+    LanguageIdentif: __WEBPACK_IMPORTED_MODULE_5__LanguageIdentif___default.a,
     bModal: __WEBPACK_IMPORTED_MODULE_3_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    Toggle: __WEBPACK_IMPORTED_MODULE_7__Toggle___default.a
+    Toggle: __WEBPACK_IMPORTED_MODULE_6__Toggle___default.a
   },
 
   props: ['id', 'type'],
@@ -2386,7 +2386,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
      * Инициализация модели данных.
      */
     initEntity: function initEntity(data) {
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_8__resources_AttributeModel__["a" /* default */](data, this.languages));
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_7__resources_shop_AttributeModel__["a" /* default */](data, this.languages));
 
       if (this.type === 'edit') {
         this.initOptions(data.options);
@@ -2433,7 +2433,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     makeOption: function makeOption() {
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      var option = new __WEBPACK_IMPORTED_MODULE_9__resources_OptionModel__["a" /* default */](data, this.languages);
+      var option = new __WEBPACK_IMPORTED_MODULE_8__resources_shop_OptionModel__["a" /* default */](data, this.languages);
 
       if (data.id) {
         option.isNew = false;
@@ -2513,15 +2513,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Toggle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_AttributesTableModel__ = __webpack_require__("./resources/assets/js/resources/AttributesTableModel.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__resources_shop_AttributesTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/AttributesTableModel.js");
 
 
 
@@ -2541,10 +2538,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_Translatable__["a" /* default */]],
 
   components: {
-    Toggle: __WEBPACK_IMPORTED_MODULE_5__Toggle___default.a,
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default.a,
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_4__ShopQuickNav___default.a,
-    bModal: __WEBPACK_IMPORTED_MODULE_7_bootstrap_vue_es_components_modal_modal__["a" /* default */]
+    Toggle: __WEBPACK_IMPORTED_MODULE_4__Toggle___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_6_bootstrap_vue_es_components_modal_modal__["a" /* default */]
   },
 
   data: function data() {
@@ -2562,9 +2558,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-      this.items = this.getSortedData(items).map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_8__resources_AttributesTableModel__["a" /* default */](item, _this.languages);
-      });
+      this.items = this.getSortedData(items.map(function (item) {
+        return new __WEBPACK_IMPORTED_MODULE_7__resources_shop_AttributesTableModel__["a" /* default */](item, _this.languages);
+      }));
     }
   }
 });
@@ -2580,17 +2576,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CategoriesTableTree__ = __webpack_require__("./resources/assets/js/components/shop/categories/CategoriesTableTree.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CategoriesTableTree___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__CategoriesTableTree__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__resources_CategoriesTableModel__ = __webpack_require__("./resources/assets/js/resources/CategoriesTableModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_shop_CategoriesTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/CategoriesTableModel.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 
 
 
@@ -2612,13 +2605,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'categories-table',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_7__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__["a" /* default */]],
 
   components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_3__ShopQuickNav___default.a,
     bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
     CategoriesTableTree: __WEBPACK_IMPORTED_MODULE_2__CategoriesTableTree___default.a,
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default.a
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_3__LanguagePicker___default.a
   },
 
   watch: {
@@ -2645,9 +2637,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
       var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-      this.items = items.map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_9__resources_CategoriesTableModel__["a" /* default */](item, _this.languages);
-      });
+      this.items = this.getSortedData(items.map(function (item) {
+        return new __WEBPACK_IMPORTED_MODULE_8__resources_shop_CategoriesTableModel__["a" /* default */](item, _this.languages);
+      }));
     },
     expandAll: function expandAll() {
       __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].events.trigger('categories-expand-all');
@@ -2754,18 +2746,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelectTranslatable__ = __webpack_require__("./resources/assets/js/components/TreeSelectTranslatable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelectTranslatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__TreeSelectTranslatable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__CKEditor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_CategoryModel__ = __webpack_require__("./resources/assets/js/resources/CategoryModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelectTranslatable__ = __webpack_require__("./resources/assets/js/components/TreeSelectTranslatable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelectTranslatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__TreeSelectTranslatable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__CKEditor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_ImageUpload__ = __webpack_require__("./resources/assets/js/mixins/ImageUpload.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_shop_CategoryModel__ = __webpack_require__("./resources/assets/js/resources/shop/CategoryModel.js");
 
 
 
@@ -2783,7 +2774,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'category-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_6__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_ImageUpload__["a" /* default */]],
 
   props: ['id'],
 
@@ -2801,10 +2792,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default.a,
-    TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_3__TreeSelectTranslatable___default.a,
-    'ckeditor': __WEBPACK_IMPORTED_MODULE_4__CKEditor___default.a,
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default.a,
+    TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_2__TreeSelectTranslatable___default.a,
+    'ckeditor': __WEBPACK_IMPORTED_MODULE_3__CKEditor___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default.a,
     bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */]
   },
 
@@ -2813,16 +2803,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
      * Инициализация модели данных.
      */
     initEntity: function initEntity(data) {
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_8__resources_CategoryModel__["a" /* default */](data, this.languages));
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_8__resources_shop_CategoryModel__["a" /* default */](data, this.languages));
     },
 
 
     /**
-     * Автозаполнение slug из заголовка категории.
+     * Автозаполнение slug из заголовка.
      */
     slugAutocomplete: function slugAutocomplete() {
       var model = this.getEntityModel();
-      model.slug = __WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].makeUrl(model.i18n[this.activeLanguageCode].title);
+      model.slug = __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].makeUrl(model.i18n[this.activeLanguageCode].title);
     }
   }
 });
@@ -2834,17 +2824,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ShopQuickNav__);
-
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'customer-edit',
-
-  components: {
-    'shop-quick-nav': __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav___default.a
-  }
+  name: 'customer-edit'
 });
 
 /***/ }),
@@ -2854,17 +2836,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ShopQuickNav__);
-
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'customers-table',
-
-  components: {
-    'shop-quick-nav': __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav___default.a
-  }
+  name: 'customers-table'
 });
 
 /***/ }),
@@ -2874,17 +2848,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ShopQuickNav__);
-
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'orders-table',
-
-  components: {
-    'shop-quick-nav': __WEBPACK_IMPORTED_MODULE_0__ShopQuickNav___default.a
-  }
+  name: 'orders-table'
 });
 
 /***/ }),
@@ -2895,16 +2861,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__CKEditor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__resources_PriceTypeModel__ = __webpack_require__("./resources/assets/js/resources/PriceTypeModel.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__CKEditor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__resources_shop_PriceTypeModel__ = __webpack_require__("./resources/assets/js/resources/shop/PriceTypeModel.js");
 
 
 
@@ -2919,13 +2882,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'price-type-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_Translatable__["a" /* default */]],
 
   components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default.a,
-    'ckeditor': __WEBPACK_IMPORTED_MODULE_2__CKEditor___default.a,
+    'ckeditor': __WEBPACK_IMPORTED_MODULE_1__CKEditor___default.a,
     bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_3__LanguagePicker___default.a
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_2__LanguagePicker___default.a
   },
 
   props: ['id'],
@@ -2941,7 +2903,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     initEntity: function initEntity(data) {
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_6__resources_PriceTypeModel__["a" /* default */](data, this.languages));
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_5__resources_shop_PriceTypeModel__["a" /* default */](data, this.languages));
     }
   }
 });
@@ -2954,19 +2916,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Toggle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_PriceTypesTableModel__ = __webpack_require__("./resources/assets/js/resources/PriceTypesTableModel.js");
-
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__resources_shop_PriceTypesTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/PriceTypesTableModel.js");
 
 
 
@@ -2983,13 +2941,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'price-type-table',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_Translatable__["a" /* default */]],
 
   components: {
-    Toggle: __WEBPACK_IMPORTED_MODULE_6__Toggle___default.a,
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default.a,
+    Toggle: __WEBPACK_IMPORTED_MODULE_5__Toggle___default.a,
     bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_7__LanguagePicker___default.a
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default.a
   },
 
   props: ['id'],
@@ -3008,9 +2965,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-      this.items = this.getSortedData(items).map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_8__resources_PriceTypesTableModel__["a" /* default */](item, _this.languages);
-      });
+      this.items = this.getSortedData(items.map(function (item) {
+        return new __WEBPACK_IMPORTED_MODULE_7__resources_shop_PriceTypesTableModel__["a" /* default */](item, _this.languages);
+      }));
     }
   }
 });
@@ -3024,34 +2981,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__TreeSelect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable__ = __webpack_require__("./resources/assets/js/components/TreeSelectTranslatable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__CKEditor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__PricesTable__ = __webpack_require__("./resources/assets/js/components/shop/PricesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__PricesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__PricesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__DropzoneGallery__ = __webpack_require__("./resources/assets/js/components/DropzoneGallery.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__DropzoneGallery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__DropzoneGallery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__AttributesSelect__ = __webpack_require__("./resources/assets/js/components/shop/AttributesSelect.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__AttributesSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__AttributesSelect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__converters_WeightConverter__ = __webpack_require__("./resources/assets/js/components/converters/WeightConverter.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__converters_WeightConverter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__converters_WeightConverter__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__converters_SizeConverter__ = __webpack_require__("./resources/assets/js/components/converters/SizeConverter.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__converters_SizeConverter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__converters_SizeConverter__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__core_queueHandler__ = __webpack_require__("./resources/assets/js/core/queueHandler.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__resources_ProductModel__ = __webpack_require__("./resources/assets/js/resources/ProductModel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__resources_ProductAttributesModel__ = __webpack_require__("./resources/assets/js/resources/ProductAttributesModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__TreeSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelectTranslatable__ = __webpack_require__("./resources/assets/js/components/TreeSelectTranslatable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelectTranslatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__TreeSelectTranslatable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__CKEditor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__PricesTable__ = __webpack_require__("./resources/assets/js/components/shop/PricesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__PricesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__PricesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__DropzoneGallery__ = __webpack_require__("./resources/assets/js/components/DropzoneGallery.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__DropzoneGallery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__DropzoneGallery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__AttributesSelect__ = __webpack_require__("./resources/assets/js/components/shop/AttributesSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__AttributesSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__AttributesSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__converters_WeightConverter__ = __webpack_require__("./resources/assets/js/components/converters/WeightConverter.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__converters_WeightConverter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__converters_WeightConverter__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__converters_SizeConverter__ = __webpack_require__("./resources/assets/js/components/converters/SizeConverter.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__converters_SizeConverter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__converters_SizeConverter__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__core_queueHandler__ = __webpack_require__("./resources/assets/js/core/queueHandler.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__resources_shop_ProductModel__ = __webpack_require__("./resources/assets/js/resources/shop/ProductModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__resources_shop_ProductAttributesModel__ = __webpack_require__("./resources/assets/js/resources/shop/ProductAttributesModel.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 
 
 
@@ -3083,9 +3037,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'product-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_9__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_10__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_8__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__mixins_Translatable__["a" /* default */]],
 
-  directives: _extends({}, __WEBPACK_IMPORTED_MODULE_12__directives_number__["a" /* default */]),
+  directives: _extends({}, __WEBPACK_IMPORTED_MODULE_11__directives_number__["a" /* default */]),
 
   props: ['id'],
 
@@ -3102,30 +3056,29 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       priceTypes: [],
       suppliers: [],
 
-      usedMainData: ['languages', 'price-types', 'currencies', 'categories-tree', 'suppliers']
+      usedMainData: ['languages', 'price-types', 'currencies', 'categories-tree', 'suppliers', 'rooms', 'styles']
     };
   },
 
 
   components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_2__ShopQuickNav___default.a,
-    TreeSelect: __WEBPACK_IMPORTED_MODULE_3__TreeSelect___default.a,
-    TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable___default.a,
-    'ckeditor': __WEBPACK_IMPORTED_MODULE_5__CKEditor___default.a,
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default.a,
+    TreeSelect: __WEBPACK_IMPORTED_MODULE_2__TreeSelect___default.a,
+    TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_3__TreeSelectTranslatable___default.a,
+    'ckeditor': __WEBPACK_IMPORTED_MODULE_4__CKEditor___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default.a,
     bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    DropzoneGallery: __WEBPACK_IMPORTED_MODULE_8__DropzoneGallery___default.a,
-    PricesTable: __WEBPACK_IMPORTED_MODULE_7__PricesTable___default.a,
-    WeightConverter: __WEBPACK_IMPORTED_MODULE_13__converters_WeightConverter___default.a,
-    SizeConverter: __WEBPACK_IMPORTED_MODULE_14__converters_SizeConverter___default.a,
-    AttributesSelect: __WEBPACK_IMPORTED_MODULE_11__AttributesSelect___default.a
+    DropzoneGallery: __WEBPACK_IMPORTED_MODULE_7__DropzoneGallery___default.a,
+    PricesTable: __WEBPACK_IMPORTED_MODULE_6__PricesTable___default.a,
+    WeightConverter: __WEBPACK_IMPORTED_MODULE_12__converters_WeightConverter___default.a,
+    SizeConverter: __WEBPACK_IMPORTED_MODULE_13__converters_SizeConverter___default.a,
+    AttributesSelect: __WEBPACK_IMPORTED_MODULE_10__AttributesSelect___default.a
   },
 
   methods: {
     loadData: function loadData() {
       var _this = this;
 
-      var a = new __WEBPACK_IMPORTED_MODULE_15__core_queueHandler__["a" /* asyncPackageDataCollector */]();
+      var a = new __WEBPACK_IMPORTED_MODULE_14__core_queueHandler__["a" /* asyncPackageDataCollector */]();
       a.add(function () {
         return _this.fetchMainData();
       });
@@ -3155,7 +3108,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
      * @param data
      */
     initEntity: function initEntity(data) {
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_16__resources_ProductModel__["a" /* default */](data, this.languages));
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_15__resources_shop_ProductModel__["a" /* default */](data, this.languages));
     },
     initAttributes: function initAttributes() {
       var _this2 = this;
@@ -3163,10 +3116,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.attributes = this.getSortedData(this.getEnabledData(data)).map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_17__resources_ProductAttributesModel__["a" /* default */](item, _this2.languages);
+        return new __WEBPACK_IMPORTED_MODULE_16__resources_shop_ProductAttributesModel__["a" /* default */](item, _this2.languages);
       });
     },
     getToSaveData: function getToSaveData() {
+      console.log(this.getEntityModel());
       return _extends({}, this.getEntityModel(), {
         images: this.getToSaveImages(),
         attributes: this.getToSaveAttributes()
@@ -3200,6 +3154,26 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
           title: supplier.name
         };
       });
+    },
+    roomsToSelect: function roomsToSelect() {
+      var _this3 = this;
+
+      return this.rooms.map(function (room) {
+        return {
+          id: room.id,
+          title: room.i18n[_this3.activeLanguageCode].title
+        };
+      });
+    },
+    stylesToSelect: function stylesToSelect() {
+      var _this4 = this;
+
+      return this.styles.map(function (style) {
+        return {
+          id: style.id,
+          title: style.i18n[_this4.activeLanguageCode].title
+        };
+      });
     }
   }
 });
@@ -3218,22 +3192,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_bootstrap_vue_es_components_dropdown_dropdown__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/dropdown/dropdown.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_bootstrap_vue_es_components_dropdown_dropdown_item__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/dropdown/dropdown-item.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__Toggle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__Loading__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__SearchInput__ = __webpack_require__("./resources/assets/js/components/SearchInput.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__SearchInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__SearchInput__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Dropdown__ = __webpack_require__("./resources/assets/js/components/Dropdown.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Dropdown___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__Dropdown__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__resources_ProductsTableModel__ = __webpack_require__("./resources/assets/js/resources/ProductsTableModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__Loading__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__SearchInput__ = __webpack_require__("./resources/assets/js/components/SearchInput.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__SearchInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__SearchInput__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Dropdown__ = __webpack_require__("./resources/assets/js/components/Dropdown.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Dropdown___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__Dropdown__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__resources_shop_ProductsTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/ProductsTableModel.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
 
@@ -3256,25 +3229,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+var defaultTableState = {
+  sortBy: 'id',
+  sortDesc: false,
+  page: 1,
+  perPage: 15,
+  searchPhrase: ''
+};
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'products-table',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_15__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_13__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_14__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_14__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_12__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_13__mixins_Translatable__["a" /* default */]],
 
   components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_7__ShopQuickNav___default.a,
-    Toggle: __WEBPACK_IMPORTED_MODULE_8__Toggle___default.a,
-    Loading: __WEBPACK_IMPORTED_MODULE_9__Loading___default.a,
+    Toggle: __WEBPACK_IMPORTED_MODULE_7__Toggle___default.a,
+    Loading: __WEBPACK_IMPORTED_MODULE_8__Loading___default.a,
     bTable: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_table_table__["a" /* default */],
     bPagination: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_pagination_pagination__["a" /* default */],
     bFormSelect: __WEBPACK_IMPORTED_MODULE_2_bootstrap_vue_es_components_form_select_form_select__["a" /* default */],
     bModal: __WEBPACK_IMPORTED_MODULE_3_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    SearchInput: __WEBPACK_IMPORTED_MODULE_10__SearchInput___default.a,
+    SearchInput: __WEBPACK_IMPORTED_MODULE_9__SearchInput___default.a,
     bDropdown: __WEBPACK_IMPORTED_MODULE_4_bootstrap_vue_es_components_dropdown_dropdown__["a" /* default */],
     bDropdownItem: __WEBPACK_IMPORTED_MODULE_5_bootstrap_vue_es_components_dropdown_dropdown_item__["a" /* default */],
-    Dropdown: __WEBPACK_IMPORTED_MODULE_11__Dropdown___default.a,
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_12__LanguagePicker___default.a
+    Dropdown: __WEBPACK_IMPORTED_MODULE_10__Dropdown___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_11__LanguagePicker___default.a
   },
 
   data: function data() {
@@ -3317,33 +3296,108 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     }
 
-    return {
+    return _extends({
       rbacNamespace: 'shop.products',
       loading: false,
-      sortBy: 'id',
-      sortDesc: false,
-      currentPage: 1,
-      perPage: 15,
       totalRows: 0,
-      perPageOptions: [15, 30, 60],
-      searchPhrase: '',
+      perPageOptions: [15, 30, 60]
+    }, defaultTableState, {
       fields: fields,
 
       priceTypes: [],
       activePriceType: null,
 
       usedMainData: ['languages', 'price-types']
-    };
+    });
+  },
+  created: function created() {
+    var _this = this;
+
+    var query = window.location.search.replace('?', '');
+
+    if (_.isEmpty(query)) return;
+
+    query.split('&').forEach(function (item) {
+      item = item.split('=');
+
+      var key = item[0];
+      var value = item[1];
+
+      var methodName = 'getValid' + __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].camelize(key, true);
+
+      _this[key] = _this[methodName](value);
+    });
   },
 
 
   methods: {
+    getValidSortBy: function getValidSortBy(value) {
+      if (this.fields.find(function (field) {
+        return field.key === value;
+      })) {
+        return value;
+      }
+
+      return defaultTableState.sortBy;
+    },
+    getValidSortDesc: function getValidSortDesc(value) {
+      if (_.isBoolean(value)) {
+        return value;
+      }
+
+      if (value === 'true') {
+        return true;
+      }
+
+      if (value === 'false') {
+        return false;
+      }
+
+      return defaultTableState.sortDesc;
+    },
+    getValidPage: function getValidPage(value) {
+      value = parseInt(value);
+      return isNaN(value) ? defaultTableState.page : value;
+    },
+    getValidPerPage: function getValidPerPage(value) {
+      value = parseInt(value);
+
+      if (this.perPageOptions.indexOf(value) !== -1) {
+        return value;
+      }
+
+      return this.perPageOptions[0];
+    },
+    getValidSearchPhrase: function getValidSearchPhrase(value) {
+      return value;
+    },
+    setHistoryState: function setHistoryState() {
+      var _this2 = this;
+
+      var queryArr = Object.keys(defaultTableState).reduce(function (acc, key) {
+        if (!isNaN(_this2[key]) && _this2[key] !== defaultTableState[key]) {
+          acc.push(encodeURIComponent(key) + '=' + encodeURIComponent(_this2[key]));
+        }
+
+        return acc;
+      }, []);
+
+      var pathWithQuery = window.location.pathname;
+
+      if (queryArr.length > 0) {
+        pathWithQuery += '?' + queryArr.join('&');
+      }
+
+      if (this.$router.path !== pathWithQuery) {
+        this.$router.push(pathWithQuery);
+      }
+    },
     loadData: function loadData() {
-      var _this = this;
+      var _this3 = this;
 
       this.fetchMainData().then(function (data) {
-        _this.initMainData(data);
-        _this.activePriceType = _this.priceTypes[0].id;
+        _this3.initMainData(data);
+        _this3.activePriceType = _this3.priceTypes[0].id;
       });
     },
 
@@ -3353,7 +3407,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     */
 
     fetchItems: function fetchItems(_ref) {
-      var _this2 = this;
+      var _this4 = this;
 
       var currentPage = _ref.currentPage,
           perPage = _ref.perPage,
@@ -3361,24 +3415,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           sortDesc = _ref.sortDesc;
 
       return new Promise(function (resolve) {
-        new __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].requestHandler('get', _this2.makePageApiUrl(), {
-          currentPage: currentPage,
+        new __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].requestHandler('get', _this4.makePageApiUrl(), {
+          page: currentPage,
           perPage: perPage,
           sortBy: sortBy,
           sortType: sortDesc ? 'desc' : 'asc',
-          search: _this2.searchPhrase,
-          priceType: _this2.activePriceType
+          search: _this4.searchPhrase,
+          priceType: _this4.activePriceType
         }).success(function (response) {
           var data = response.data;
 
-          _this2.totalRows = _this2.nanToZero(parseInt(data.totalRows));
-          _this2.currentPage = parseInt(data.currentPage) || 1;
-          _this2.perPage = parseInt(data.perPage);
+          _this4.totalRows = _this4.nanToZero(parseInt(data.totalRows));
+          _this4.page = parseInt(data.page) || 1;
+          _this4.perPage = parseInt(data.perPage);
 
           var items = data.products || [];
 
           resolve(items.map(function (item) {
-            return new __WEBPACK_IMPORTED_MODULE_16__resources_ProductsTableModel__["a" /* default */](item, _this2.languages);
+            return new __WEBPACK_IMPORTED_MODULE_15__resources_shop_ProductsTableModel__["a" /* default */](item, _this4.languages);
           }));
         }).start();
       });
@@ -3393,25 +3447,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     },
     getItemPrice: function getItemPrice(item) {
-      var _this3 = this;
+      var _this5 = this;
 
       var price = item.prices.find(function (item) {
-        return item.price_type_id == _this3.activePriceType && item.currency_code == 'RUB';
+        return item.price_type_id == _this5.activePriceType && item.currency_code == 'RUB';
       }) || { formatted: '' };
 
       return price.formatted;
     },
     sortingChanged: function sortingChanged(ctx) {
-      ctx.currentPage = 1;
+      ctx.page = 1;
     },
     search: function search(phrase) {
       if (this.searchPhrase != phrase) {
+        this.page = 1;
         this.searchPhrase = phrase;
         this.refreshTable();
       }
     },
+    setPerPage: function setPerPage(value) {
+      this.perPage = value;
+      this.page = 1;
+    },
     refreshTable: function refreshTable() {
-      this.$refs.table.refresh();
+      var _this6 = this;
+
+      this.$nextTick(function () {
+        _this6.$refs.table.refresh();
+      });
     },
     nanToZero: function nanToZero(value) {
       return isNaN(value) ? 0 : value;
@@ -3420,22 +3483,309 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   computed: {
     showedFrom: function showedFrom() {
-      return this.nanToZero((this.currentPage - 1) * this.perPage + 1);
+      return this.nanToZero((this.page - 1) * this.perPage + 1);
     },
     showedTo: function showedTo() {
-      var to = this.currentPage * this.perPage;
+      var to = this.page * this.perPage;
       return this.nanToZero(to > this.totalRows ? this.totalRows : to);
     },
     showPagination: function showPagination() {
       return this.perPage < this.totalRows;
     },
     activePriceTypeTitle: function activePriceTypeTitle() {
-      var _this4 = this;
+      var _this7 = this;
 
       var priceType = this.priceTypes.find(function (item) {
-        return item.id == _this4.activePriceType;
+        return item.id == _this7.activePriceType;
       });
       return priceType.i18n[this.activeLanguageCode].title;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/rooms/RoomEdit.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelectTranslatable__ = __webpack_require__("./resources/assets/js/components/TreeSelectTranslatable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelectTranslatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__TreeSelectTranslatable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__CKEditor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_ImageUpload__ = __webpack_require__("./resources/assets/js/mixins/ImageUpload.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_shop_RoomModel__ = __webpack_require__("./resources/assets/js/resources/shop/RoomModel.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'room-edit',
+
+  mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_ImageUpload__["a" /* default */]],
+
+  props: ['id'],
+
+  data: function data() {
+    return {
+      entityName: 'room',
+      room: null,
+      roomsTree: [],
+
+      usedMainData: ['languages', 'rooms-tree'],
+
+      reloadDataOnSave: true
+    };
+  },
+
+
+  components: {
+    TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_2__TreeSelectTranslatable___default.a,
+    'ckeditor': __WEBPACK_IMPORTED_MODULE_3__CKEditor___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */]
+  },
+
+  methods: {
+    /**
+     * Инициализация модели данных.
+     */
+    initEntity: function initEntity(data) {
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_8__resources_shop_RoomModel__["a" /* default */](data, this.languages));
+    },
+
+
+    /**
+     * Автозаполнение slug из заголовка.
+     */
+    slugAutocomplete: function slugAutocomplete() {
+      var model = this.getEntityModel();
+      model.slug = __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].makeUrl(model.i18n[this.activeLanguageCode].title);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/rooms/RoomsTable.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__resources_shop_RoomsTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/RoomsTableModel.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'rooms-table',
+
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__["a" /* default */]],
+
+  components: {
+    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    Toggle: __WEBPACK_IMPORTED_MODULE_6__Toggle___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_1__LanguagePicker___default.a
+  },
+
+  watch: {
+    items: 'refreshSort'
+  },
+
+  data: function data() {
+    return {
+      tableItemsDataName: 'rooms',
+
+      usedMainData: ['languages']
+    };
+  },
+
+
+  methods: {
+    initItems: function initItems() {
+      var _this = this;
+
+      var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.items = this.getSortedData(items.map(function (item) {
+        return new __WEBPACK_IMPORTED_MODULE_7__resources_shop_RoomsTableModel__["a" /* default */](item, _this.languages);
+      }));
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/styles/StyleEdit.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelectTranslatable__ = __webpack_require__("./resources/assets/js/components/TreeSelectTranslatable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelectTranslatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__TreeSelectTranslatable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__CKEditor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_ImageUpload__ = __webpack_require__("./resources/assets/js/mixins/ImageUpload.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_Shop_StyleModel__ = __webpack_require__("./resources/assets/js/resources/Shop/StyleModel.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'style-edit',
+
+  mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_ImageUpload__["a" /* default */]],
+
+  props: ['id'],
+
+  data: function data() {
+    return {
+      entityName: 'style',
+      style: null,
+
+      usedMainData: ['languages'],
+
+      reloadDataOnSave: true
+    };
+  },
+
+
+  components: {
+    TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_2__TreeSelectTranslatable___default.a,
+    'ckeditor': __WEBPACK_IMPORTED_MODULE_3__CKEditor___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */]
+  },
+
+  methods: {
+    /**
+     * Инициализация модели данных.
+     */
+    initEntity: function initEntity(data) {
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_8__resources_Shop_StyleModel__["a" /* default */](data, this.languages));
+    },
+
+
+    /**
+     * Автозаполнение slug из заголовка категории.
+     */
+    slugAutocomplete: function slugAutocomplete() {
+      var model = this.getEntityModel();
+      model.slug = __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].makeUrl(model.i18n[this.activeLanguageCode].title);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/styles/StylesTable.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__resources_shop_StylesTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/StylesTableModel.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'styles-table',
+
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__["a" /* default */]],
+
+  components: {
+    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    Toggle: __WEBPACK_IMPORTED_MODULE_6__Toggle___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_1__LanguagePicker___default.a
+  },
+
+  data: function data() {
+    return {
+      tableItemsDataName: 'styles',
+
+      usedMainData: ['languages']
+    };
+  },
+
+
+  methods: {
+    initItems: function initItems() {
+      var _this = this;
+
+      var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.items = this.getSortedData(items.map(function (item) {
+        return new __WEBPACK_IMPORTED_MODULE_7__resources_shop_StylesTableModel__["a" /* default */](item, _this.languages);
+      }));
     }
   }
 });
@@ -3448,15 +3798,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__CKEditor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__resources_SupplierModel__ = __webpack_require__("./resources/assets/js/resources/SupplierModel.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__CKEditor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__resources_shop_SupplierModel__ = __webpack_require__("./resources/assets/js/resources/shop/SupplierModel.js");
 
 
 
@@ -3470,12 +3817,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'supplier-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_EntityPage__["a" /* default */]],
 
   components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default.a,
-    'ckeditor': __WEBPACK_IMPORTED_MODULE_2__CKEditor___default.a,
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_3__LanguagePicker___default.a,
+    'ckeditor': __WEBPACK_IMPORTED_MODULE_1__CKEditor___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_2__LanguagePicker___default.a,
     bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */]
   },
 
@@ -3491,7 +3837,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     initEntity: function initEntity(data) {
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_5__resources_SupplierModel__["a" /* default */](data));
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_4__resources_shop_SupplierModel__["a" /* default */](data));
     }
   }
 });
@@ -3504,16 +3850,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__ = __webpack_require__("./resources/assets/js/components/shop/ShopQuickNav.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShopQuickNav__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Toggle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__resources_SuppliersTableModel__ = __webpack_require__("./resources/assets/js/resources/SuppliersTableModel.js");
-
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__resources_shop_SuppliersTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/SuppliersTableModel.js");
 
 
 
@@ -3527,12 +3869,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'suppliers-table',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_TablePage__["a" /* default */]],
 
   components: {
-    ShopQuickNav: __WEBPACK_IMPORTED_MODULE_1__ShopQuickNav___default.a,
     bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    Toggle: __WEBPACK_IMPORTED_MODULE_5__Toggle___default.a
+    Toggle: __WEBPACK_IMPORTED_MODULE_4__Toggle___default.a
   },
 
   data: function data() {
@@ -3547,7 +3888,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.items = items.map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_6__resources_SuppliersTableModel__["a" /* default */](item);
+        return new __WEBPACK_IMPORTED_MODULE_5__resources_shop_SuppliersTableModel__["a" /* default */](item);
       });
     }
   }
@@ -3564,11 +3905,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__TreeSelect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DropzoneGallery__ = __webpack_require__("./resources/assets/js/components/DropzoneGallery.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DropzoneGallery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__DropzoneGallery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_ImageUpload__ = __webpack_require__("./resources/assets/js/mixins/ImageUpload.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__resources_AdminEditModel__ = __webpack_require__("./resources/assets/js/resources/AdminEditModel.js");
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
 
@@ -3584,12 +3923,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'admin-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_ImageUpload__["a" /* default */]],
 
   components: {
     bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    TreeSelect: __WEBPACK_IMPORTED_MODULE_2__TreeSelect___default.a,
-    DropzoneGallery: __WEBPACK_IMPORTED_MODULE_3__DropzoneGallery___default.a
+    TreeSelect: __WEBPACK_IMPORTED_MODULE_2__TreeSelect___default.a
   },
 
   props: ['id'],
@@ -3612,32 +3950,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
       __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].events.trigger('system.avatar-changed', entity.id, entity.image ? entity.image.small.srcset : false);
     },
-    updateImage: function updateImage() {
-      var images = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-      if (images.length) {
-        this[this.getEntityName()].image = images[0];
-      } else {
-        this[this.getEntityName()].image = false;
-      }
-    },
-    getToSaveData: function getToSaveData() {
-      return _extends({}, this.getEntityModel(), {
-        images: this.getToSaveImage()
-      });
-    },
-    getToSaveImage: function getToSaveImage() {
-      var image = this.getEntityModel().image;
-
-      if (image) {
-        return [{
-          id: image.id,
-          modifications: image.modifications
-        }];
-      } else {
-        return [];
-      }
-    },
     initRoles: function initRoles() {
       var roles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
@@ -3649,13 +3961,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
           title: name
         };
       });
-    }
-  },
-
-  computed: {
-    dropzoneImage: function dropzoneImage() {
-      var entity = this.getEntityModel();
-      return entity.image ? [entity.image] : [];
     }
   }
 });
@@ -39152,6 +39457,955 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-01ead964\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/rooms/RoomEdit.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "block full" }, [
+        _vm.type === "create"
+          ? _c("div", { staticClass: "block-title clearfix" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-default btn-alt",
+                      on: { click: _vm.redirectToTable }
+                    },
+                    [_c("i", { staticClass: "fa fa-arrow-left" })]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c("language-picker", {
+                    class: { "has-error": _vm.formTranslatesHasError() },
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _vm.userCan("categories.create")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-success active",
+                          on: { click: _vm.save }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-plus-circle" }),
+                          _vm._v(" Создать\n        ")
+                        ]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.type === "edit"
+          ? _c("div", { staticClass: "block-title" }, [
+              _c("h1", [
+                _c("strong", [
+                  _vm._v(
+                    "\n          Редактирование комнаты #" +
+                      _vm._s(this.id) +
+                      "\n        "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-default btn-alt",
+                      on: { click: _vm.redirectToTable }
+                    },
+                    [_c("i", { staticClass: "fa fa-arrow-left" })]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c("language-picker", {
+                    class: { "has-error": _vm.formTranslatesHasError() },
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _vm.userCan("categories.edit")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-primary active",
+                          on: { click: _vm.save }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-floppy-o" }),
+                          _vm._v(" Сохранить\n        ")
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.userCan("categories.delete")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-danger active",
+                          on: { click: _vm.remove }
+                        },
+                        [_vm._v("\n          Удалить\n        ")]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.room
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-lg-6" }, [
+                _c(
+                  "div",
+                  {
+                    class:
+                      "block" +
+                      (_vm.langSwitchHovered ? " block-illuminated" : "")
+                  },
+                  [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _vm._l(_vm.languages, function(language) {
+                      return [
+                        _c(
+                          "div",
+                          {
+                            key: language.code,
+                            class:
+                              "form-horizontal form-bordered" +
+                              (_vm.activeLanguageCode === language.code
+                                ? ""
+                                : " in-space")
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.formErrors.has(
+                                    "i18n." + language.code + ".title"
+                                  )
+                                    ? " has-error"
+                                    : "")
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "col-md-3 control-label",
+                                    attrs: { for: "title-" + language.code }
+                                  },
+                                  [
+                                    _vm._v("\n                  Название "),
+                                    _c("span", { staticClass: "text-danger" }, [
+                                      _vm._v("*")
+                                    ])
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-9" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.room.i18n[language.code].title,
+                                        expression:
+                                          "room.i18n[language.code].title"
+                                      },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value: "required|max:255",
+                                        expression: "'required|max:255'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      id: "title-" + language.code,
+                                      name: "i18n." + language.code + ".title"
+                                    },
+                                    domProps: {
+                                      value: _vm.room.i18n[language.code].title
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.room.i18n[language.code],
+                                          "title",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.formErrors.has(
+                                            "i18n." + language.code + ".title"
+                                          ),
+                                          expression:
+                                            "formErrors.has(`i18n.${language.code}.title`)"
+                                        }
+                                      ],
+                                      staticClass: "help-block"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm.formErrors.first(
+                                              "i18n." + language.code + ".title"
+                                            )
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.formErrors.has(
+                                    "i18n." + language.code + ".description"
+                                  )
+                                    ? " has-error"
+                                    : "")
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "col-md-3 control-label",
+                                    attrs: {
+                                      for: "description-" + language.code
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                  Описание\n                "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "col-md-9" },
+                                  [
+                                    _c("ckeditor", {
+                                      attrs: {
+                                        id: "description-" + language.code,
+                                        content:
+                                          _vm.room.i18n[language.code]
+                                            .description,
+                                        name:
+                                          "i18n." +
+                                          language.code +
+                                          ".description"
+                                      },
+                                      on: {
+                                        "update:content": function($event) {
+                                          _vm.$set(
+                                            _vm.room.i18n[language.code],
+                                            "description",
+                                            $event
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        directives: [
+                                          {
+                                            name: "show",
+                                            rawName: "v-show",
+                                            value: _vm.formErrors.has(
+                                              "i18n." +
+                                                language.code +
+                                                ".description"
+                                            ),
+                                            expression:
+                                              "formErrors.has(`i18n.${language.code}.description`)"
+                                          }
+                                        ],
+                                        staticClass: "help-block"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                    " +
+                                            _vm._s(
+                                              _vm.formErrors.first(
+                                                "i18n." +
+                                                  language.code +
+                                                  ".description"
+                                              )
+                                            ) +
+                                            "\n                  "
+                                        )
+                                      ]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.formErrors.has(
+                                    "i18n." + language.code + ".meta_title"
+                                  )
+                                    ? " has-error"
+                                    : "")
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "col-md-3 control-label",
+                                    attrs: { for: "title-" + language.code }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                  Мета-заголовок\n                "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-9" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.room.i18n[language.code]
+                                            .meta_title,
+                                        expression:
+                                          "room.i18n[language.code].meta_title"
+                                      },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value: "max:255",
+                                        expression: "'max:255'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      id: "title-" + language.code,
+                                      name:
+                                        "i18n." + language.code + ".meta_title"
+                                    },
+                                    domProps: {
+                                      value:
+                                        _vm.room.i18n[language.code].meta_title
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.room.i18n[language.code],
+                                          "meta_title",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.formErrors.has(
+                                            "i18n." +
+                                              language.code +
+                                              ".meta_title"
+                                          ),
+                                          expression:
+                                            "formErrors.has(`i18n.${language.code}.meta_title`)"
+                                        }
+                                      ],
+                                      staticClass: "help-block"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm.formErrors.first(
+                                              "i18n." +
+                                                language.code +
+                                                ".meta_title"
+                                            )
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.formErrors.has(
+                                    "i18n." +
+                                      language.code +
+                                      ".meta_description"
+                                  )
+                                    ? " has-error"
+                                    : "")
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "col-md-3 control-label",
+                                    attrs: { for: "title-" + language.code }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                  Мета-описание\n                "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-9" }, [
+                                  _c("textarea", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.room.i18n[language.code]
+                                            .meta_description,
+                                        expression:
+                                          "room.i18n[language.code].meta_description"
+                                      },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value: "max:65000",
+                                        expression: "'max:65000'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      id: "meta-description-" + language.code,
+                                      name:
+                                        "i18n." +
+                                        language.code +
+                                        ".meta_description"
+                                    },
+                                    domProps: {
+                                      value:
+                                        _vm.room.i18n[language.code]
+                                          .meta_description
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.room.i18n[language.code],
+                                          "meta_description",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.formErrors.has(
+                                            "i18n." +
+                                              language.code +
+                                              ".meta_description"
+                                          ),
+                                          expression:
+                                            "formErrors.has(`i18n.${language.code}.meta_description`)"
+                                        }
+                                      ],
+                                      staticClass: "help-block"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm.formErrors.first(
+                                              "i18n." +
+                                                language.code +
+                                                ".meta_description"
+                                            )
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    })
+                  ],
+                  2
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-lg-6" }, [
+                _c("div", { staticClass: "block" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-horizontal form-bordered" }, [
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("slug") ? " has-error" : "")
+                      },
+                      [
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-9" }, [
+                          _c("div", { staticClass: "input-group" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.room.slug,
+                                  expression: "room.slug"
+                                },
+                                {
+                                  name: "validate",
+                                  rawName: "v-validate",
+                                  value: "required|min:3|max:255|slug_exist",
+                                  expression:
+                                    "'required|min:3|max:255|slug_exist'"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "text",
+                                id: "slug",
+                                name: "slug",
+                                required: ""
+                              },
+                              domProps: { value: _vm.room.slug },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.room,
+                                    "slug",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn input-group-addon",
+                                on: { click: _vm.slugAutocomplete }
+                              },
+                              [
+                                _c("i", { staticClass: "fa fa-refresh" }),
+                                _vm._v(" Автозаполнение\n                  ")
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.formErrors.has("slug"),
+                                  expression: "formErrors.has('slug')"
+                                }
+                              ],
+                              staticClass: "help-block"
+                            },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.formErrors.first("slug")) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.type === "edit"
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [
+                              _vm._v(
+                                "\n                Изображение\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "col-md-9" },
+                            [
+                              _vm.type === "edit"
+                                ? _c("dropzone-gallery", {
+                                    ref: "gallery",
+                                    attrs: {
+                                      params: { maxFiles: 1 },
+                                      url: _vm.makePageApiUrl("image"),
+                                      images: _vm.dropzoneImage,
+                                      safeDelete: false,
+                                      errors: _vm.formErrors
+                                    },
+                                    on: { "update:images": _vm.updateImage }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("enabled") ? " has-error" : "")
+                      },
+                      [
+                        _c("label", { staticClass: "col-md-3 control-label" }, [
+                          _vm._v(
+                            "\n                Опубликовано\n              "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-9" }, [
+                          _c(
+                            "label",
+                            { staticClass: "switch switch-primary" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.room.enabled,
+                                    expression: "room.enabled"
+                                  }
+                                ],
+                                attrs: { type: "checkbox" },
+                                domProps: {
+                                  checked: Array.isArray(_vm.room.enabled)
+                                    ? _vm._i(_vm.room.enabled, null) > -1
+                                    : _vm.room.enabled
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$a = _vm.room.enabled,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = null,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          _vm.$set(
+                                            _vm.room,
+                                            "enabled",
+                                            $$a.concat([$$v])
+                                          )
+                                      } else {
+                                        $$i > -1 &&
+                                          _vm.$set(
+                                            _vm.room,
+                                            "enabled",
+                                            $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1))
+                                          )
+                                      }
+                                    } else {
+                                      _vm.$set(_vm.room, "enabled", $$c)
+                                    }
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("span")
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.formErrors.has("enabled"),
+                                  expression: "formErrors.has('enabled')"
+                                }
+                              ],
+                              staticClass: "help-block"
+                            },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.formErrors.first("enabled")) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.room.created_at
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [
+                              _vm._v(
+                                "\n                Дата создания\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-9" }, [
+                            _c("p", { staticClass: "form-control-static" }, [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.room.created_at) +
+                                  "\n                "
+                              )
+                            ])
+                          ])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.room.updated_at
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [
+                              _vm._v(
+                                "\n                Последнее изменение\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-9" }, [
+                            _c("p", { staticClass: "form-control-static" }, [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.room.updated_at) +
+                                  "\n                "
+                              )
+                            ])
+                          ])
+                        ])
+                      : _vm._e()
+                  ])
+                ])
+              ])
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "validationModal",
+          attrs: {
+            id: "validationModal",
+            title: "Ошибка валидации",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Ок",
+            "ok-only": "",
+            "hide-header-close": ""
+          }
+        },
+        [_vm._v("\n\n    Проверьте правильность заполнения формы!\n  ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "removeModal",
+          attrs: {
+            id: "removeModal",
+            title: "Удаление комнаты",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Удалить",
+            "cancel-title": "Отмена",
+            "hide-header-close": ""
+          },
+          on: { ok: _vm.removeConfirm }
+        },
+        [_vm._v("\n\n    Вы действительно хотите удалить эту комнату?\n  ")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [
+      _c("strong", [_vm._v("\n          Создание комнаты\n        ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-globe" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Языковая")]),
+        _vm._v(" информация\n            ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-pencil" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Основная")]),
+        _vm._v(" информация\n            ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "col-md-3 control-label", attrs: { for: "slug" } },
+      [
+        _vm._v("\n                Slug "),
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-01ead964", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-029c26aa\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/system/rbac/Permissions/PermissionGroupEdit.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39961,8 +41215,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("shop-quick-nav", { attrs: { active: "attributes" } }),
-      _vm._v(" "),
       _c("div", { staticClass: "block full" }, [
         _vm.type === "create"
           ? _c("div", { staticClass: "block-title clearfix" }, [
@@ -41027,8 +42279,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("shop-quick-nav", { attrs: { active: "products" } }),
-      _vm._v(" "),
       _c("div", { staticClass: "block full" }, [
         _vm.type === "create"
           ? _c("div", { staticClass: "block-title clearfix" }, [
@@ -41701,6 +42951,116 @@ var render = function() {
                       {
                         class:
                           "form-group" +
+                          (_vm.formErrors.has("rooms") ? " has-error" : "")
+                      },
+                      [
+                        _vm._m(4),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-md-8" },
+                          [
+                            _c("tree-select", {
+                              attrs: {
+                                options: _vm.roomsToSelect,
+                                selected: _vm.product.rooms,
+                                multiple: true,
+                                placeholder: "Выберите комнату"
+                              },
+                              on: {
+                                "update:selected": function($event) {
+                                  _vm.$set(_vm.product, "rooms", $event)
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.formErrors.has("rooms"),
+                                    expression: "formErrors.has('rooms')"
+                                  }
+                                ],
+                                staticClass: "help-block"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.formErrors.first("rooms")) +
+                                    "\n                "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("styles") ? " has-error" : "")
+                      },
+                      [
+                        _vm._m(5),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-md-8" },
+                          [
+                            _c("tree-select", {
+                              attrs: {
+                                options: _vm.stylesToSelect,
+                                selected: _vm.product.styles,
+                                multiple: true,
+                                placeholder: "Выберите стиль"
+                              },
+                              on: {
+                                "update:selected": function($event) {
+                                  _vm.$set(_vm.product, "styles", $event)
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.formErrors.has("styles"),
+                                    expression: "formErrors.has('styles')"
+                                  }
+                                ],
+                                staticClass: "help-block"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.formErrors.first("styles")) +
+                                    "\n                "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
                           (_vm.formErrors.has("enabled") ? " has-error" : "")
                       },
                       [
@@ -42191,7 +43551,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "col-lg-6" }, [
                 _c("div", { staticClass: "block" }, [
-                  _vm._m(4),
+                  _vm._m(6),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-horizontal form-bordered" }, [
                     _c(
@@ -42202,7 +43562,7 @@ var render = function() {
                           (_vm.formErrors.has("width") ? " has-error" : "")
                       },
                       [
-                        _vm._m(5),
+                        _vm._m(7),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
                           _c(
@@ -42288,7 +43648,7 @@ var render = function() {
                           (_vm.formErrors.has("height") ? " has-error" : "")
                       },
                       [
-                        _vm._m(6),
+                        _vm._m(8),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
                           _c(
@@ -42374,7 +43734,7 @@ var render = function() {
                           (_vm.formErrors.has("length") ? " has-error" : "")
                       },
                       [
-                        _vm._m(7),
+                        _vm._m(9),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
                           _c(
@@ -42460,7 +43820,7 @@ var render = function() {
                           (_vm.formErrors.has("weight") ? " has-error" : "")
                       },
                       [
-                        _vm._m(8),
+                        _vm._m(10),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
                           _c(
@@ -42545,7 +43905,7 @@ var render = function() {
                       "div",
                       { staticClass: "block" },
                       [
-                        _vm._m(9),
+                        _vm._m(11),
                         _vm._v(" "),
                         _c("attributes-select", {
                           ref: "attributesSelect",
@@ -42565,7 +43925,7 @@ var render = function() {
                 _vm._v(" "),
                 _vm.type === "edit"
                   ? _c("div", { staticClass: "block" }, [
-                      _vm._m(10),
+                      _vm._m(12),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -42600,7 +43960,7 @@ var render = function() {
               "div",
               { staticClass: "block" },
               [
-                _vm._m(11),
+                _vm._m(13),
                 _vm._v(" "),
                 _c("prices-table", {
                   attrs: {
@@ -42699,6 +44059,24 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { staticClass: "col-md-3 control-label" }, [
       _vm._v("\n                Поставщик "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "col-md-3 control-label" }, [
+      _vm._v("\n                Комнаты "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "col-md-3 control-label" }, [
+      _vm._v("\n                Стили "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -42824,8 +44202,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("shop-quick-nav", { attrs: { active: "price-types" } }),
-      _vm._v(" "),
       _c("div", { staticClass: "block full" }, [
         _vm.type === "create"
           ? _c("div", { staticClass: "block-title clearfix" }, [
@@ -43456,8 +44832,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("shop-quick-nav", { attrs: { active: "products" } }),
-      _vm._v(" "),
       _c(
         "div",
         { staticClass: "block full" },
@@ -43533,11 +44907,11 @@ var render = function() {
                                       "per-page": _vm.perPage
                                     },
                                     model: {
-                                      value: _vm.currentPage,
+                                      value: _vm.page,
                                       callback: function($$v) {
-                                        _vm.currentPage = $$v
+                                        _vm.page = $$v
                                       },
-                                      expression: "currentPage"
+                                      expression: "page"
                                     }
                                   })
                                 ],
@@ -43596,13 +44970,14 @@ var render = function() {
                             items: _vm.fetchItems,
                             fields: _vm.fields,
                             busy: _vm.loading,
-                            "current-page": _vm.currentPage,
+                            "current-page": _vm.page,
                             "per-page": _vm.perPage,
                             "empty-text": "Список товаров пуст.",
                             "empty-filtered-text":
                               "Товары с такими параметрами не найдены."
                           },
                           on: {
+                            refreshed: _vm.setHistoryState,
                             "update:sortBy": function($event) {
                               _vm.sortBy = $event
                             },
@@ -43955,11 +45330,11 @@ var render = function() {
                                       "per-page": _vm.perPage
                                     },
                                     model: {
-                                      value: _vm.currentPage,
+                                      value: _vm.page,
                                       callback: function($$v) {
-                                        _vm.currentPage = $$v
+                                        _vm.page = $$v
                                       },
-                                      expression: "currentPage"
+                                      expression: "page"
                                     }
                                   })
                                 ],
@@ -43975,14 +45350,11 @@ var render = function() {
                             "label",
                             [
                               _c("b-form-select", {
-                                attrs: { options: _vm.perPageOptions },
-                                model: {
-                                  value: _vm.perPage,
-                                  callback: function($$v) {
-                                    _vm.perPage = $$v
-                                  },
-                                  expression: "perPage"
-                                }
+                                attrs: {
+                                  options: _vm.perPageOptions,
+                                  value: _vm.perPage
+                                },
+                                on: { change: _vm.setPerPage }
                               })
                             ],
                             1
@@ -44065,8 +45437,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("shop-quick-nav", { attrs: { active: "categories" } }),
-      _vm._v(" "),
       _c("div", { staticClass: "block full" }, [
         _c("div", { staticClass: "block-title clearfix" }, [
           _vm._m(0),
@@ -44153,6 +45523,12 @@ var render = function() {
                     "div",
                     { staticClass: "table-cell table-cell-column-id" },
                     [_vm._v("\n              ID\n            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "table-cell table-cell-column-image" },
+                    [_vm._v("\n              Изображение\n            ")]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "table-cell" }, [
@@ -44521,7 +45897,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("shop-quick-nav", { attrs: { active: "orders" } })], 1)
+  return _c("div")
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -45355,11 +46731,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [_c("shop-quick-nav", { attrs: { active: "customers" } })],
-    1
-  )
+  return _c("div")
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -45383,8 +46755,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("shop-quick-nav", { attrs: { active: "suppliers" } }),
-      _vm._v(" "),
       _c("div", { staticClass: "block full" }, [
         _c("div", { staticClass: "block-title clearfix" }, [
           _vm._m(0),
@@ -45771,11 +47141,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [_c("shop-quick-nav", { attrs: { active: "customers" } })],
-    1
-  )
+  return _c("div")
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -46531,8 +47897,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("shop-quick-nav", { attrs: { active: "attributes" } }),
-      _vm._v(" "),
       _c("div", { staticClass: "block full" }, [
         _c("div", { staticClass: "block-title clearfix" }, [
           _vm._m(0),
@@ -46825,8 +48189,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("shop-quick-nav", { attrs: { active: "categories" } }),
-      _vm._v(" "),
       _c("div", { staticClass: "block full" }, [
         _vm.type === "create"
           ? _c("div", { staticClass: "block-title clearfix" }, [
@@ -47548,6 +48910,41 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
+                    _vm.type === "edit"
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [
+                              _vm._v(
+                                "\n                Изображение\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "col-md-9" },
+                            [
+                              _vm.type === "edit"
+                                ? _c("dropzone-gallery", {
+                                    ref: "gallery",
+                                    attrs: {
+                                      params: { maxFiles: 1 },
+                                      url: _vm.makePageApiUrl("image"),
+                                      images: _vm.dropzoneImage,
+                                      safeDelete: false,
+                                      errors: _vm.formErrors
+                                    },
+                                    on: { "update:images": _vm.updateImage }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
                     _c(
                       "div",
                       {
@@ -47826,6 +49223,308 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-678b7831\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/styles/StylesTable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "block full" }, [
+        _c("div", { staticClass: "block-title clearfix" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _vm.userCan("styles.create")
+            ? _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c("language-picker", {
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-sm btn-success active",
+                      attrs: { to: "/shop/styles/create" }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-plus-circle" }),
+                      _vm._v(" Создать\n        ")
+                    ]
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "table-responsive" }, [
+          _c("div", { staticClass: "table-responsive" }, [
+            _c(
+              "table",
+              {
+                staticClass:
+                  "table table-middle table-center table-condensed table-bordered table-hover table-sortable"
+              },
+              [
+                _c("thead", [
+                  _c("tr", [
+                    _vm.userCan("styles.edit")
+                      ? _c("th", [
+                          _c("span", { staticClass: "table-column-sort" })
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("th", { staticStyle: { width: "100%" } }, [
+                      _vm._v("Название")
+                    ]),
+                    _vm._v(" "),
+                    _vm.userCan("styles.edit")
+                      ? _c("th", [
+                          _c("span", { staticClass: "table-column-enabled" }, [
+                            _vm._v(
+                              "\n                  Статус\n                "
+                            )
+                          ])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.userCan("styles.delete")
+                      ? _c("th", [
+                          _c("span", { staticClass: "table-column-delete" })
+                        ])
+                      : _vm._e()
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  { staticClass: "ui-sortable" },
+                  [
+                    _vm._l(_vm.items, function(item) {
+                      return _c(
+                        "tr",
+                        { key: item.id, staticClass: "js-sort-item" },
+                        [
+                          _vm.userCan("styles.edit")
+                            ? _c(
+                                "td",
+                                {
+                                  staticClass:
+                                    "table-sort-handler js-sort-handler"
+                                },
+                                [
+                                  _c("span", [
+                                    _c("input", {
+                                      attrs: { type: "hidden", name: "ids" },
+                                      domProps: { value: item.id }
+                                    })
+                                  ])
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "span",
+                              { staticClass: "table-column-id" },
+                              [
+                                _c("router-link", { attrs: { to: item.url } }, [
+                                  _c("strong", [_vm._v(_vm._s(item.id))])
+                                ])
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "span",
+                              { staticClass: "table-column-image" },
+                              [
+                                _c("router-link", { attrs: { to: item.url } }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "product-preview-image" },
+                                    [
+                                      _c("img", {
+                                        attrs: {
+                                          src: item.image.src,
+                                          srcset: item.image.srcset + " 2x"
+                                        }
+                                      })
+                                    ]
+                                  )
+                                ])
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticStyle: { width: "100%" } },
+                            [
+                              _c("router-link", { attrs: { to: item.url } }, [
+                                _c("strong", [
+                                  _vm._v(
+                                    _vm._s(
+                                      item.i18n[_vm.activeLanguageCode].title
+                                    )
+                                  )
+                                ])
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _vm.userCan("styles.edit")
+                            ? _c("td", [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "table-column-enabled table-remove-restore__restore"
+                                  },
+                                  [
+                                    _c("toggle", {
+                                      attrs: { checked: item.enabled },
+                                      on: {
+                                        change: function($event) {
+                                          _vm.statusChange(item.id)
+                                        }
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.userCan("styles.delete")
+                            ? _c("td", [
+                                _c(
+                                  "span",
+                                  { staticClass: "table-column-delete" },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-danger",
+                                        on: {
+                                          click: function($event) {
+                                            _vm.remove(item.id)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-times" })]
+                                    )
+                                  ]
+                                )
+                              ])
+                            : _vm._e()
+                        ]
+                      )
+                    }),
+                    _vm._v(" "),
+                    !(_vm.items && _vm.items.length)
+                      ? _c("tr", [
+                          _c(
+                            "td",
+                            {
+                              staticClass: "text-center",
+                              attrs: { colspan: "6" }
+                            },
+                            [_vm._v("Список стилей пуст")]
+                          )
+                        ])
+                      : _vm._e()
+                  ],
+                  2
+                )
+              ]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "removeModal",
+          attrs: {
+            id: "removeModal",
+            title: "Удаление стиля",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Удалить",
+            "cancel-title": "Отмена",
+            "hide-header-close": ""
+          },
+          on: { ok: _vm.removeConfirm }
+        },
+        [_vm._v("\n\n    Вы действительно хотите удалить стиль?\n  ")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [_c("strong", [_vm._v("\n          Стили\n        ")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "table-column-id" }, [_vm._v("ID")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "table-column-image" }, [
+        _vm._v("\n                  Изображение\n                ")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-678b7831", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6964cc4c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/converters/SizeConverter.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -47859,8 +49558,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("shop-quick-nav", { attrs: { active: "suppliers" } }),
-      _vm._v(" "),
       _c("div", { staticClass: "block full" }, [
         _vm.type === "create"
           ? _c("div", { staticClass: "block-title clearfix" }, [
@@ -48582,6 +50279,308 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7921b8bf\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/rooms/RoomsTable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "block full" }, [
+        _c("div", { staticClass: "block-title clearfix" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _vm.userCan("rooms.create")
+            ? _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c("language-picker", {
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-sm btn-success active",
+                      attrs: { to: "/shop/rooms/create" }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-plus-circle" }),
+                      _vm._v(" Создать\n        ")
+                    ]
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "table-responsive" }, [
+          _c("div", { staticClass: "table-responsive" }, [
+            _c(
+              "table",
+              {
+                staticClass:
+                  "table table-middle table-center table-condensed table-bordered table-hover table-sortable table-attributes"
+              },
+              [
+                _c("thead", [
+                  _c("tr", [
+                    _vm.userCan("rooms.edit")
+                      ? _c("th", [
+                          _c("span", { staticClass: "table-column-sort" })
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("th", { staticStyle: { width: "100%" } }, [
+                      _vm._v("Название")
+                    ]),
+                    _vm._v(" "),
+                    _vm.userCan("rooms.edit")
+                      ? _c("th", [
+                          _c("span", { staticClass: "table-column-enabled" }, [
+                            _vm._v(
+                              "\n                    Статус\n                  "
+                            )
+                          ])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.userCan("rooms.delete")
+                      ? _c("th", [
+                          _c("span", { staticClass: "table-column-delete" })
+                        ])
+                      : _vm._e()
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  { staticClass: "ui-sortable" },
+                  [
+                    _vm._l(_vm.items, function(item) {
+                      return _c(
+                        "tr",
+                        { key: item.id, staticClass: "js-sort-item" },
+                        [
+                          _vm.userCan("rooms.edit")
+                            ? _c(
+                                "td",
+                                {
+                                  staticClass:
+                                    "table-sort-handler js-sort-handler"
+                                },
+                                [
+                                  _c("span", [
+                                    _c("input", {
+                                      attrs: { type: "hidden", name: "ids" },
+                                      domProps: { value: item.id }
+                                    })
+                                  ])
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "span",
+                              { staticClass: "table-column-id" },
+                              [
+                                _c("router-link", { attrs: { to: item.url } }, [
+                                  _c("strong", [_vm._v(_vm._s(item.id))])
+                                ])
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "span",
+                              { staticClass: "table-column-image" },
+                              [
+                                _c("router-link", { attrs: { to: item.url } }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "product-preview-image" },
+                                    [
+                                      _c("img", {
+                                        attrs: {
+                                          src: item.image.src,
+                                          srcset: item.image.srcset + " 2x"
+                                        }
+                                      })
+                                    ]
+                                  )
+                                ])
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticStyle: { width: "100%" } },
+                            [
+                              _c("router-link", { attrs: { to: item.url } }, [
+                                _c("strong", [
+                                  _vm._v(
+                                    _vm._s(
+                                      item.i18n[_vm.activeLanguageCode].title
+                                    )
+                                  )
+                                ])
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _vm.userCan("rooms.edit")
+                            ? _c("td", [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "table-column-enabled table-remove-restore__restore"
+                                  },
+                                  [
+                                    _c("toggle", {
+                                      attrs: { checked: item.enabled },
+                                      on: {
+                                        change: function($event) {
+                                          _vm.statusChange(item.id)
+                                        }
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.userCan("rooms.delete")
+                            ? _c("td", [
+                                _c(
+                                  "span",
+                                  { staticClass: "table-column-delete" },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-danger",
+                                        on: {
+                                          click: function($event) {
+                                            _vm.remove(item.id)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-times" })]
+                                    )
+                                  ]
+                                )
+                              ])
+                            : _vm._e()
+                        ]
+                      )
+                    }),
+                    _vm._v(" "),
+                    !(_vm.items && _vm.items.length)
+                      ? _c("tr", [
+                          _c(
+                            "td",
+                            {
+                              staticClass: "text-center",
+                              attrs: { colspan: "6" }
+                            },
+                            [_vm._v("Список комнат пуст")]
+                          )
+                        ])
+                      : _vm._e()
+                  ],
+                  2
+                )
+              ]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "removeModal",
+          attrs: {
+            id: "removeModal",
+            title: "Удаление комнаты",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Удалить",
+            "cancel-title": "Отмена",
+            "hide-header-close": ""
+          },
+          on: { ok: _vm.removeConfirm }
+        },
+        [_vm._v("\n\n    Вы действительно хотите удалить комнату?\n  ")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [_c("strong", [_vm._v("\n          Комнаты\n        ")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "table-column-id" }, [_vm._v("ID")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "table-column-image" }, [
+        _vm._v("\n                  Изображение\n                ")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7921b8bf", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8da83876\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/AttributesSelect.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -48904,6 +50903,24 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
+              { staticClass: "table-cell text-center table-cell-column-image" },
+              [
+                _c("router-link", { attrs: { to: item.url } }, [
+                  _c("div", { staticClass: "product-preview-image" }, [
+                    _c("img", {
+                      attrs: {
+                        src: item.image.src,
+                        srcset: item.image.srcset + " 2x"
+                      }
+                    })
+                  ])
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
               { staticClass: "table-cell lev" },
               [
                 item.children
@@ -49036,6 +51053,955 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-9ed25da2", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-b13cf180\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/styles/StyleEdit.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "block full" }, [
+        _vm.type === "create"
+          ? _c("div", { staticClass: "block-title clearfix" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-default btn-alt",
+                      on: { click: _vm.redirectToTable }
+                    },
+                    [_c("i", { staticClass: "fa fa-arrow-left" })]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c("language-picker", {
+                    class: { "has-error": _vm.formTranslatesHasError() },
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _vm.userCan("styles.create")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-success active",
+                          on: { click: _vm.save }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-plus-circle" }),
+                          _vm._v(" Создать\n        ")
+                        ]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.type === "edit"
+          ? _c("div", { staticClass: "block-title" }, [
+              _c("h1", [
+                _c("strong", [
+                  _vm._v(
+                    "\n          Редактирование стиля #" +
+                      _vm._s(this.id) +
+                      "\n        "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-default btn-alt",
+                      on: { click: _vm.redirectToTable }
+                    },
+                    [_c("i", { staticClass: "fa fa-arrow-left" })]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c("language-picker", {
+                    class: { "has-error": _vm.formTranslatesHasError() },
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _vm.userCan("styles.edit")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-primary active",
+                          on: { click: _vm.save }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-floppy-o" }),
+                          _vm._v(" Сохранить\n        ")
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.userCan("styles.delete")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-danger active",
+                          on: { click: _vm.remove }
+                        },
+                        [_vm._v("\n          Удалить\n        ")]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.style
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-lg-6" }, [
+                _c(
+                  "div",
+                  {
+                    class:
+                      "block" +
+                      (_vm.langSwitchHovered ? " block-illuminated" : "")
+                  },
+                  [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _vm._l(_vm.languages, function(language) {
+                      return [
+                        _c(
+                          "div",
+                          {
+                            key: language.code,
+                            class:
+                              "form-horizontal form-bordered" +
+                              (_vm.activeLanguageCode === language.code
+                                ? ""
+                                : " in-space")
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.formErrors.has(
+                                    "i18n." + language.code + ".title"
+                                  )
+                                    ? " has-error"
+                                    : "")
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "col-md-3 control-label",
+                                    attrs: { for: "title-" + language.code }
+                                  },
+                                  [
+                                    _vm._v("\n                  Название "),
+                                    _c("span", { staticClass: "text-danger" }, [
+                                      _vm._v("*")
+                                    ])
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-9" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.style.i18n[language.code].title,
+                                        expression:
+                                          "style.i18n[language.code].title"
+                                      },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value: "required|max:255",
+                                        expression: "'required|max:255'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      id: "title-" + language.code,
+                                      name: "i18n." + language.code + ".title"
+                                    },
+                                    domProps: {
+                                      value: _vm.style.i18n[language.code].title
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.style.i18n[language.code],
+                                          "title",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.formErrors.has(
+                                            "i18n." + language.code + ".title"
+                                          ),
+                                          expression:
+                                            "formErrors.has(`i18n.${language.code}.title`)"
+                                        }
+                                      ],
+                                      staticClass: "help-block"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm.formErrors.first(
+                                              "i18n." + language.code + ".title"
+                                            )
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.formErrors.has(
+                                    "i18n." + language.code + ".description"
+                                  )
+                                    ? " has-error"
+                                    : "")
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "col-md-3 control-label",
+                                    attrs: {
+                                      for: "description-" + language.code
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                  Описание\n                "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "col-md-9" },
+                                  [
+                                    _c("ckeditor", {
+                                      attrs: {
+                                        id: "description-" + language.code,
+                                        content:
+                                          _vm.style.i18n[language.code]
+                                            .description,
+                                        name:
+                                          "i18n." +
+                                          language.code +
+                                          ".description"
+                                      },
+                                      on: {
+                                        "update:content": function($event) {
+                                          _vm.$set(
+                                            _vm.style.i18n[language.code],
+                                            "description",
+                                            $event
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        directives: [
+                                          {
+                                            name: "show",
+                                            rawName: "v-show",
+                                            value: _vm.formErrors.has(
+                                              "i18n." +
+                                                language.code +
+                                                ".description"
+                                            ),
+                                            expression:
+                                              "formErrors.has(`i18n.${language.code}.description`)"
+                                          }
+                                        ],
+                                        staticClass: "help-block"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                    " +
+                                            _vm._s(
+                                              _vm.formErrors.first(
+                                                "i18n." +
+                                                  language.code +
+                                                  ".description"
+                                              )
+                                            ) +
+                                            "\n                  "
+                                        )
+                                      ]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.formErrors.has(
+                                    "i18n." + language.code + ".meta_title"
+                                  )
+                                    ? " has-error"
+                                    : "")
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "col-md-3 control-label",
+                                    attrs: { for: "title-" + language.code }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                  Мета-заголовок\n                "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-9" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.style.i18n[language.code]
+                                            .meta_title,
+                                        expression:
+                                          "style.i18n[language.code].meta_title"
+                                      },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value: "max:255",
+                                        expression: "'max:255'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      id: "title-" + language.code,
+                                      name:
+                                        "i18n." + language.code + ".meta_title"
+                                    },
+                                    domProps: {
+                                      value:
+                                        _vm.style.i18n[language.code].meta_title
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.style.i18n[language.code],
+                                          "meta_title",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.formErrors.has(
+                                            "i18n." +
+                                              language.code +
+                                              ".meta_title"
+                                          ),
+                                          expression:
+                                            "formErrors.has(`i18n.${language.code}.meta_title`)"
+                                        }
+                                      ],
+                                      staticClass: "help-block"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm.formErrors.first(
+                                              "i18n." +
+                                                language.code +
+                                                ".meta_title"
+                                            )
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.formErrors.has(
+                                    "i18n." +
+                                      language.code +
+                                      ".meta_description"
+                                  )
+                                    ? " has-error"
+                                    : "")
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "col-md-3 control-label",
+                                    attrs: { for: "title-" + language.code }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                  Мета-описание\n                "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-9" }, [
+                                  _c("textarea", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.style.i18n[language.code]
+                                            .meta_description,
+                                        expression:
+                                          "style.i18n[language.code].meta_description"
+                                      },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value: "max:65000",
+                                        expression: "'max:65000'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      id: "meta-description-" + language.code,
+                                      name:
+                                        "i18n." +
+                                        language.code +
+                                        ".meta_description"
+                                    },
+                                    domProps: {
+                                      value:
+                                        _vm.style.i18n[language.code]
+                                          .meta_description
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.style.i18n[language.code],
+                                          "meta_description",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.formErrors.has(
+                                            "i18n." +
+                                              language.code +
+                                              ".meta_description"
+                                          ),
+                                          expression:
+                                            "formErrors.has(`i18n.${language.code}.meta_description`)"
+                                        }
+                                      ],
+                                      staticClass: "help-block"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm.formErrors.first(
+                                              "i18n." +
+                                                language.code +
+                                                ".meta_description"
+                                            )
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    })
+                  ],
+                  2
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-lg-6" }, [
+                _c("div", { staticClass: "block" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-horizontal form-bordered" }, [
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("slug") ? " has-error" : "")
+                      },
+                      [
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-9" }, [
+                          _c("div", { staticClass: "input-group" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.style.slug,
+                                  expression: "style.slug"
+                                },
+                                {
+                                  name: "validate",
+                                  rawName: "v-validate",
+                                  value: "required|min:3|max:255|slug_exist",
+                                  expression:
+                                    "'required|min:3|max:255|slug_exist'"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "text",
+                                id: "slug",
+                                name: "slug",
+                                required: ""
+                              },
+                              domProps: { value: _vm.style.slug },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.style,
+                                    "slug",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn input-group-addon",
+                                on: { click: _vm.slugAutocomplete }
+                              },
+                              [
+                                _c("i", { staticClass: "fa fa-refresh" }),
+                                _vm._v(" Автозаполнение\n                  ")
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.formErrors.has("slug"),
+                                  expression: "formErrors.has('slug')"
+                                }
+                              ],
+                              staticClass: "help-block"
+                            },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.formErrors.first("slug")) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.type === "edit"
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [
+                              _vm._v(
+                                "\n                Изображение\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "col-md-9" },
+                            [
+                              _vm.type === "edit"
+                                ? _c("dropzone-gallery", {
+                                    ref: "gallery",
+                                    attrs: {
+                                      params: { maxFiles: 1 },
+                                      url: _vm.makePageApiUrl("image"),
+                                      images: _vm.dropzoneImage,
+                                      safeDelete: false,
+                                      errors: _vm.formErrors
+                                    },
+                                    on: { "update:images": _vm.updateImage }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("enabled") ? " has-error" : "")
+                      },
+                      [
+                        _c("label", { staticClass: "col-md-3 control-label" }, [
+                          _vm._v(
+                            "\n                Опубликовано\n              "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-9" }, [
+                          _c(
+                            "label",
+                            { staticClass: "switch switch-primary" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.style.enabled,
+                                    expression: "style.enabled"
+                                  }
+                                ],
+                                attrs: { type: "checkbox" },
+                                domProps: {
+                                  checked: Array.isArray(_vm.style.enabled)
+                                    ? _vm._i(_vm.style.enabled, null) > -1
+                                    : _vm.style.enabled
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$a = _vm.style.enabled,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = null,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          _vm.$set(
+                                            _vm.style,
+                                            "enabled",
+                                            $$a.concat([$$v])
+                                          )
+                                      } else {
+                                        $$i > -1 &&
+                                          _vm.$set(
+                                            _vm.style,
+                                            "enabled",
+                                            $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1))
+                                          )
+                                      }
+                                    } else {
+                                      _vm.$set(_vm.style, "enabled", $$c)
+                                    }
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("span")
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.formErrors.has("enabled"),
+                                  expression: "formErrors.has('enabled')"
+                                }
+                              ],
+                              staticClass: "help-block"
+                            },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.formErrors.first("enabled")) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.style.created_at
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [
+                              _vm._v(
+                                "\n                Дата создания\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-9" }, [
+                            _c("p", { staticClass: "form-control-static" }, [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.style.created_at) +
+                                  "\n                "
+                              )
+                            ])
+                          ])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.style.updated_at
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [
+                              _vm._v(
+                                "\n                Последнее изменение\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-9" }, [
+                            _c("p", { staticClass: "form-control-static" }, [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.style.updated_at) +
+                                  "\n                "
+                              )
+                            ])
+                          ])
+                        ])
+                      : _vm._e()
+                  ])
+                ])
+              ])
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "validationModal",
+          attrs: {
+            id: "validationModal",
+            title: "Ошибка валидации",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Ок",
+            "ok-only": "",
+            "hide-header-close": ""
+          }
+        },
+        [_vm._v("\n\n    Проверьте правильность заполнения формы!\n  ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "removeModal",
+          attrs: {
+            id: "removeModal",
+            title: "Удаление стиля",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Удалить",
+            "cancel-title": "Отмена",
+            "hide-header-close": ""
+          },
+          on: { ok: _vm.removeConfirm }
+        },
+        [_vm._v("\n\n    Вы действительно хотите удалить этот стиль?\n  ")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [
+      _c("strong", [_vm._v("\n          Создание стиля\n        ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-globe" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Языковая")]),
+        _vm._v(" информация\n            ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-pencil" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Основная")]),
+        _vm._v(" информация\n            ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "col-md-3 control-label", attrs: { for: "slug" } },
+      [
+        _vm._v("\n                Slug "),
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b13cf180", module.exports)
   }
 }
 
@@ -49356,8 +52322,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("shop-quick-nav", { attrs: { active: "price-types" } }),
-      _vm._v(" "),
       _c("div", { staticClass: "block full" }, [
         _c("div", { staticClass: "block-title clearfix" }, [
           _vm._m(0),
@@ -52800,49 +55764,63 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_shop_categories_CategoriesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_shop_categories_CategoriesTable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_shop_categories_CategoryEdit__ = __webpack_require__("./resources/assets/js/components/shop/categories/CategoryEdit.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_shop_categories_CategoryEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_shop_categories_CategoryEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductsTable__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductsTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductsTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_products_ProductEdit__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_products_ProductEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_shop_products_ProductEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_orders_OrdersTable__ = __webpack_require__("./resources/assets/js/components/shop/orders/OrdersTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_orders_OrdersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__components_shop_orders_OrdersTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_customers_CustomerEdit__ = __webpack_require__("./resources/assets/js/components/shop/customers/CustomerEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_customers_CustomerEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__components_shop_customers_CustomerEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_customers_CustomersTable__ = __webpack_require__("./resources/assets/js/components/shop/customers/CustomersTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_customers_CustomersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__components_shop_customers_CustomersTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SuppliersTable__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SuppliersTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SuppliersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SuppliersTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_shop_suppliers_SupplierEdit__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SupplierEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_shop_suppliers_SupplierEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_shop_suppliers_SupplierEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributesTable__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_shop_attributes_AttributeEdit__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributeEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_shop_attributes_AttributeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__components_shop_attributes_AttributeEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypesTable__ = __webpack_require__("./resources/assets/js/components/shop/priceTypes/PriceTypesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_shop_priceTypes_PriceTypeEdit__ = __webpack_require__("./resources/assets/js/components/shop/priceTypes/PriceTypeEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_shop_priceTypes_PriceTypeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20__components_shop_priceTypes_PriceTypeEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_system_Admins_AdminsTable__ = __webpack_require__("./resources/assets/js/components/system/Admins/AdminsTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_system_Admins_AdminsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_21__components_system_Admins_AdminsTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_system_Admins_AdminEdit__ = __webpack_require__("./resources/assets/js/components/system/Admins/AdminEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_system_Admins_AdminEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22__components_system_Admins_AdminEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_system_rbac_Roles_RolesTable__ = __webpack_require__("./resources/assets/js/components/system/rbac/Roles/RolesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_system_rbac_Roles_RolesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_23__components_system_rbac_Roles_RolesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_system_rbac_Roles_RoleEdit__ = __webpack_require__("./resources/assets/js/components/system/rbac/Roles/RoleEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_system_rbac_Roles_RoleEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24__components_system_rbac_Roles_RoleEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_system_rbac_Permissions_PermissionGroupsTable__ = __webpack_require__("./resources/assets/js/components/system/rbac/Permissions/PermissionGroupsTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_system_rbac_Permissions_PermissionGroupsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_25__components_system_rbac_Permissions_PermissionGroupsTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_system_rbac_Permissions_PermissionGroupEdit__ = __webpack_require__("./resources/assets/js/components/system/rbac/Permissions/PermissionGroupEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_system_rbac_Permissions_PermissionGroupEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_26__components_system_rbac_Permissions_PermissionGroupEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_27__components_Loading__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_ClearCacheBtn__ = __webpack_require__("./resources/assets/js/components/ClearCacheBtn.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_28__components_ClearCacheBtn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_29__components_MainMenu__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_Avatar__ = __webpack_require__("./resources/assets/js/components/Avatar.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_Avatar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_30__components_Avatar__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_rooms_RoomsTable__ = __webpack_require__("./resources/assets/js/components/shop/rooms/RoomsTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_shop_rooms_RoomsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_shop_rooms_RoomsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_rooms_RoomEdit__ = __webpack_require__("./resources/assets/js/components/shop/rooms/RoomEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_shop_rooms_RoomEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_shop_rooms_RoomEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_styles_StylesTable__ = __webpack_require__("./resources/assets/js/components/shop/styles/StylesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_shop_styles_StylesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__components_shop_styles_StylesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_styles_StyleEdit__ = __webpack_require__("./resources/assets/js/components/shop/styles/StyleEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_shop_styles_StyleEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__components_shop_styles_StyleEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_products_ProductsTable__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductsTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_shop_products_ProductsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__components_shop_products_ProductsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_shop_products_ProductEdit__ = __webpack_require__("./resources/assets/js/components/shop/products/ProductEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_shop_products_ProductEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__components_shop_products_ProductEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_shop_orders_OrdersTable__ = __webpack_require__("./resources/assets/js/components/shop/orders/OrdersTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_shop_orders_OrdersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_shop_orders_OrdersTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_shop_customers_CustomerEdit__ = __webpack_require__("./resources/assets/js/components/shop/customers/CustomerEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_shop_customers_CustomerEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__components_shop_customers_CustomerEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_shop_customers_CustomersTable__ = __webpack_require__("./resources/assets/js/components/shop/customers/CustomersTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_shop_customers_CustomersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__components_shop_customers_CustomersTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_shop_suppliers_SuppliersTable__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SuppliersTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_shop_suppliers_SuppliersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__components_shop_suppliers_SuppliersTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_shop_suppliers_SupplierEdit__ = __webpack_require__("./resources/assets/js/components/shop/suppliers/SupplierEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_shop_suppliers_SupplierEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20__components_shop_suppliers_SupplierEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_shop_attributes_AttributesTable__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_shop_attributes_AttributesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_21__components_shop_attributes_AttributesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_shop_attributes_AttributeEdit__ = __webpack_require__("./resources/assets/js/components/shop/attributes/AttributeEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_shop_attributes_AttributeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22__components_shop_attributes_AttributeEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_shop_priceTypes_PriceTypesTable__ = __webpack_require__("./resources/assets/js/components/shop/priceTypes/PriceTypesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_shop_priceTypes_PriceTypesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_23__components_shop_priceTypes_PriceTypesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_shop_priceTypes_PriceTypeEdit__ = __webpack_require__("./resources/assets/js/components/shop/priceTypes/PriceTypeEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_shop_priceTypes_PriceTypeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24__components_shop_priceTypes_PriceTypeEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_system_Admins_AdminsTable__ = __webpack_require__("./resources/assets/js/components/system/Admins/AdminsTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_system_Admins_AdminsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_25__components_system_Admins_AdminsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_system_Admins_AdminEdit__ = __webpack_require__("./resources/assets/js/components/system/Admins/AdminEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_system_Admins_AdminEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_26__components_system_Admins_AdminEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_system_rbac_Roles_RolesTable__ = __webpack_require__("./resources/assets/js/components/system/rbac/Roles/RolesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_system_rbac_Roles_RolesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_27__components_system_rbac_Roles_RolesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_system_rbac_Roles_RoleEdit__ = __webpack_require__("./resources/assets/js/components/system/rbac/Roles/RoleEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_system_rbac_Roles_RoleEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_28__components_system_rbac_Roles_RoleEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_system_rbac_Permissions_PermissionGroupsTable__ = __webpack_require__("./resources/assets/js/components/system/rbac/Permissions/PermissionGroupsTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_system_rbac_Permissions_PermissionGroupsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_29__components_system_rbac_Permissions_PermissionGroupsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_system_rbac_Permissions_PermissionGroupEdit__ = __webpack_require__("./resources/assets/js/components/system/rbac/Permissions/PermissionGroupEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_system_rbac_Permissions_PermissionGroupEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_30__components_system_rbac_Permissions_PermissionGroupEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_31__components_Loading__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_ClearCacheBtn__ = __webpack_require__("./resources/assets/js/components/ClearCacheBtn.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_32__components_ClearCacheBtn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_33__components_MainMenu__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_Avatar__ = __webpack_require__("./resources/assets/js/components/Avatar.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_Avatar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_34__components_Avatar__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+
 
 
 
@@ -52924,7 +55902,7 @@ window.CKEDITOR_BASEPATH = '/js/vendor/ckeditor/';
 
 $.ajaxSetup({
   headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
   }
 });
 
@@ -52935,23 +55913,27 @@ $.ajaxSetup({
 // Вложенные пути будут рассмотрены далее.
 var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_7__components_shop_Dashboard___default.a }, { path: '/shop', redirect: '/shop/products' }, { path: '/shop/categories', component: __WEBPACK_IMPORTED_MODULE_8__components_shop_categories_CategoriesTable___default.a }, { path: '/shop/categories/create', component: __WEBPACK_IMPORTED_MODULE_9__components_shop_categories_CategoryEdit___default.a, props: { type: 'create' } }, { path: '/shop/categories/:id', component: __WEBPACK_IMPORTED_MODULE_9__components_shop_categories_CategoryEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/products', component: __WEBPACK_IMPORTED_MODULE_10__components_shop_products_ProductsTable___default.a }, { path: '/shop/products/create', component: __WEBPACK_IMPORTED_MODULE_11__components_shop_products_ProductEdit___default.a, props: { type: 'create' } }, { path: '/shop/products/:id', component: __WEBPACK_IMPORTED_MODULE_11__components_shop_products_ProductEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/rooms', component: __WEBPACK_IMPORTED_MODULE_10__components_shop_rooms_RoomsTable___default.a }, { path: '/shop/rooms/create', component: __WEBPACK_IMPORTED_MODULE_11__components_shop_rooms_RoomEdit___default.a, props: { type: 'create' } }, { path: '/shop/rooms/:id', component: __WEBPACK_IMPORTED_MODULE_11__components_shop_rooms_RoomEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/orders', component: __WEBPACK_IMPORTED_MODULE_12__components_shop_orders_OrdersTable___default.a }, { path: '/shop/customers', component: __WEBPACK_IMPORTED_MODULE_14__components_shop_customers_CustomersTable___default.a }, { path: '/shop/suppliers', component: __WEBPACK_IMPORTED_MODULE_15__components_shop_suppliers_SuppliersTable___default.a }, { path: '/shop/suppliers/create', component: __WEBPACK_IMPORTED_MODULE_16__components_shop_suppliers_SupplierEdit___default.a, props: { type: 'create' } }, { path: '/shop/suppliers/:id', component: __WEBPACK_IMPORTED_MODULE_16__components_shop_suppliers_SupplierEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/styles', component: __WEBPACK_IMPORTED_MODULE_12__components_shop_styles_StylesTable___default.a }, { path: '/shop/styles/create', component: __WEBPACK_IMPORTED_MODULE_13__components_shop_styles_StyleEdit___default.a, props: { type: 'create' } }, { path: '/shop/styles/:id', component: __WEBPACK_IMPORTED_MODULE_13__components_shop_styles_StyleEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/attributes', component: __WEBPACK_IMPORTED_MODULE_17__components_shop_attributes_AttributesTable___default.a }, { path: '/shop/attributes/create', component: __WEBPACK_IMPORTED_MODULE_18__components_shop_attributes_AttributeEdit___default.a, props: { type: 'create' } }, { path: '/shop/attributes/:id', component: __WEBPACK_IMPORTED_MODULE_18__components_shop_attributes_AttributeEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/products', component: __WEBPACK_IMPORTED_MODULE_14__components_shop_products_ProductsTable___default.a }, { path: '/shop/products/create', component: __WEBPACK_IMPORTED_MODULE_15__components_shop_products_ProductEdit___default.a, props: { type: 'create' } }, { path: '/shop/products/:id', component: __WEBPACK_IMPORTED_MODULE_15__components_shop_products_ProductEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/price-types', component: __WEBPACK_IMPORTED_MODULE_19__components_shop_priceTypes_PriceTypesTable___default.a }, { path: '/shop/price-types/create', component: __WEBPACK_IMPORTED_MODULE_20__components_shop_priceTypes_PriceTypeEdit___default.a, props: { type: 'create' } }, { path: '/shop/price-types/:id', component: __WEBPACK_IMPORTED_MODULE_20__components_shop_priceTypes_PriceTypeEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/orders', component: __WEBPACK_IMPORTED_MODULE_16__components_shop_orders_OrdersTable___default.a }, { path: '/shop/customers', component: __WEBPACK_IMPORTED_MODULE_18__components_shop_customers_CustomersTable___default.a }, { path: '/shop/suppliers', component: __WEBPACK_IMPORTED_MODULE_19__components_shop_suppliers_SuppliersTable___default.a }, { path: '/shop/suppliers/create', component: __WEBPACK_IMPORTED_MODULE_20__components_shop_suppliers_SupplierEdit___default.a, props: { type: 'create' } }, { path: '/shop/suppliers/:id', component: __WEBPACK_IMPORTED_MODULE_20__components_shop_suppliers_SupplierEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/customers', component: __WEBPACK_IMPORTED_MODULE_14__components_shop_customers_CustomersTable___default.a }, { path: '/shop/customers/create', component: __WEBPACK_IMPORTED_MODULE_13__components_shop_customers_CustomerEdit___default.a, props: { type: 'create' } }, { path: '/shop/customers/:id', component: __WEBPACK_IMPORTED_MODULE_13__components_shop_customers_CustomerEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/attributes', component: __WEBPACK_IMPORTED_MODULE_21__components_shop_attributes_AttributesTable___default.a }, { path: '/shop/attributes/create', component: __WEBPACK_IMPORTED_MODULE_22__components_shop_attributes_AttributeEdit___default.a, props: { type: 'create' } }, { path: '/shop/attributes/:id', component: __WEBPACK_IMPORTED_MODULE_22__components_shop_attributes_AttributeEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/admins', component: __WEBPACK_IMPORTED_MODULE_21__components_system_Admins_AdminsTable___default.a }, { path: '/system/admins/create', component: __WEBPACK_IMPORTED_MODULE_22__components_system_Admins_AdminEdit___default.a, props: { type: 'create' } }, { path: '/system/admins/:id', component: __WEBPACK_IMPORTED_MODULE_22__components_system_Admins_AdminEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/price-types', component: __WEBPACK_IMPORTED_MODULE_23__components_shop_priceTypes_PriceTypesTable___default.a }, { path: '/shop/price-types/create', component: __WEBPACK_IMPORTED_MODULE_24__components_shop_priceTypes_PriceTypeEdit___default.a, props: { type: 'create' } }, { path: '/shop/price-types/:id', component: __WEBPACK_IMPORTED_MODULE_24__components_shop_priceTypes_PriceTypeEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_23__components_system_rbac_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_24__components_system_rbac_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_24__components_system_rbac_Roles_RoleEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/customers', component: __WEBPACK_IMPORTED_MODULE_18__components_shop_customers_CustomersTable___default.a }, { path: '/shop/customers/create', component: __WEBPACK_IMPORTED_MODULE_17__components_shop_customers_CustomerEdit___default.a, props: { type: 'create' } }, { path: '/shop/customers/:id', component: __WEBPACK_IMPORTED_MODULE_17__components_shop_customers_CustomerEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_23__components_system_rbac_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_24__components_system_rbac_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_24__components_system_rbac_Roles_RoleEdit___default.a, props: function props(route) {
+  } }, { path: '/system/admins', component: __WEBPACK_IMPORTED_MODULE_25__components_system_Admins_AdminsTable___default.a }, { path: '/system/admins/create', component: __WEBPACK_IMPORTED_MODULE_26__components_system_Admins_AdminEdit___default.a, props: { type: 'create' } }, { path: '/system/admins/:id', component: __WEBPACK_IMPORTED_MODULE_26__components_system_Admins_AdminEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/rbac/permission-groups', component: __WEBPACK_IMPORTED_MODULE_25__components_system_rbac_Permissions_PermissionGroupsTable___default.a }, { path: '/system/rbac/permission-groups/create', component: __WEBPACK_IMPORTED_MODULE_26__components_system_rbac_Permissions_PermissionGroupEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/permission-groups/:id', component: __WEBPACK_IMPORTED_MODULE_26__components_system_rbac_Permissions_PermissionGroupEdit___default.a, props: function props(route) {
+  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_27__components_system_rbac_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_28__components_system_rbac_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_28__components_system_rbac_Roles_RoleEdit___default.a, props: function props(route) {
+    return _extends({}, route.params, { type: 'edit' });
+  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_27__components_system_rbac_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_28__components_system_rbac_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_28__components_system_rbac_Roles_RoleEdit___default.a, props: function props(route) {
+    return _extends({}, route.params, { type: 'edit' });
+  } }, { path: '/system/rbac/permission-groups', component: __WEBPACK_IMPORTED_MODULE_29__components_system_rbac_Permissions_PermissionGroupsTable___default.a }, { path: '/system/rbac/permission-groups/create', component: __WEBPACK_IMPORTED_MODULE_30__components_system_rbac_Permissions_PermissionGroupEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/permission-groups/:id', component: __WEBPACK_IMPORTED_MODULE_30__components_system_rbac_Permissions_PermissionGroupEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
   } }];
 
@@ -52971,10 +55953,10 @@ __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].init().then(function () {
   var app = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
     router: router,
     components: {
-      Loading: __WEBPACK_IMPORTED_MODULE_27__components_Loading___default.a,
-      ClearCacheBtn: __WEBPACK_IMPORTED_MODULE_28__components_ClearCacheBtn___default.a,
-      MainMenu: __WEBPACK_IMPORTED_MODULE_29__components_MainMenu___default.a,
-      Avatar: __WEBPACK_IMPORTED_MODULE_30__components_Avatar___default.a
+      Loading: __WEBPACK_IMPORTED_MODULE_31__components_Loading___default.a,
+      ClearCacheBtn: __WEBPACK_IMPORTED_MODULE_32__components_ClearCacheBtn___default.a,
+      MainMenu: __WEBPACK_IMPORTED_MODULE_33__components_MainMenu___default.a,
+      Avatar: __WEBPACK_IMPORTED_MODULE_34__components_Avatar___default.a
     },
 
     data: function data() {
@@ -52993,6 +55975,22 @@ __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].init().then(function () {
       }
     }
   }).$mount('#app');
+});
+
+var isFirstTime = true;
+
+router.afterEach(function () {
+  if (isFirstTime) {
+    isFirstTime = false;
+  } else {
+    var previousPath = window.location.href.replace(window.location.origin, '');
+
+    setTimeout(function () {
+      window.history.replaceState(_extends({}, window.history.state, {
+        previousPath: previousPath
+      }), '', window.location.href);
+    });
+  }
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
@@ -54705,6 +57703,198 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/shop/rooms/RoomEdit.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/rooms/RoomEdit.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-01ead964\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/rooms/RoomEdit.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/rooms/RoomEdit.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-01ead964", Component.options)
+  } else {
+    hotAPI.reload("data-v-01ead964", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/shop/rooms/RoomsTable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/rooms/RoomsTable.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7921b8bf\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/rooms/RoomsTable.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/rooms/RoomsTable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7921b8bf", Component.options)
+  } else {
+    hotAPI.reload("data-v-7921b8bf", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/shop/styles/StyleEdit.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/styles/StyleEdit.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-b13cf180\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/styles/StyleEdit.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/styles/StyleEdit.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b13cf180", Component.options)
+  } else {
+    hotAPI.reload("data-v-b13cf180", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/shop/styles/StylesTable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/styles/StylesTable.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-678b7831\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/styles/StylesTable.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/styles/StylesTable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-678b7831", Component.options)
+  } else {
+    hotAPI.reload("data-v-678b7831", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/shop/suppliers/SupplierEdit.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -55644,6 +58834,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 /**
  * todo: вынести функции, которые форматируют строки, цифры в отдельную область.
+ * todo: пересмотреть все с учетом loadash
  */
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -55906,6 +59097,16 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         url: '/shop/categories',
         icon: 'fa fa-folder',
         permission: 'shop.categories.menu'
+      }, {
+        title: 'Комнаты',
+        url: '/shop/rooms',
+        icon: 'fa fa-bath',
+        permission: 'shop.rooms.menu'
+      }, {
+        title: 'Стили',
+        url: '/shop/styles',
+        icon: 'fa fa-home',
+        permission: 'shop.styles.menu'
       }, {
         title: 'Поставщики',
         url: '/shop/suppliers',
@@ -56672,7 +59873,7 @@ var asyncPackageDataCollector = function (_asyncPackage) {
     data = this.get(identif);
 
     if (data) {
-      helper.runCallback(callback, data);
+      __WEBPACK_IMPORTED_MODULE_0____["a" /* default */].runCallback(callback, data);
     } else {
       try {
         getDataFunc(function (data) {
@@ -56874,10 +60075,14 @@ var HandleableException = function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__resources_CategoriesTreeSelectModel__ = __webpack_require__("./resources/assets/js/resources/CategoriesTreeSelectModel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__resources_PriceTypeDataModel__ = __webpack_require__("./resources/assets/js/resources/PriceTypeDataModel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__resources_SupplierDataModel__ = __webpack_require__("./resources/assets/js/resources/SupplierDataModel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__resources_shop_CategoriesTreeSelectModel__ = __webpack_require__("./resources/assets/js/resources/shop/CategoriesTreeSelectModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__resources_shop_PriceTypeDataModel__ = __webpack_require__("./resources/assets/js/resources/shop/PriceTypeDataModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__resources_shop_SupplierDataModel__ = __webpack_require__("./resources/assets/js/resources/shop/SupplierDataModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__resources_shop_RoomDataModel__ = __webpack_require__("./resources/assets/js/resources/shop/RoomDataModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__resources_shop_StyleDataModel__ = __webpack_require__("./resources/assets/js/resources/shop/StyleDataModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+
+
 
 
 
@@ -56912,7 +60117,7 @@ var HandleableException = function () {
      */
     fetchMainData: function fetchMainData() {
       if (this.usedMainData) {
-        return __WEBPACK_IMPORTED_MODULE_3__core__["a" /* default */].dataHandler.get(this.usedMainData);
+        return __WEBPACK_IMPORTED_MODULE_5__core__["a" /* default */].dataHandler.get(this.usedMainData);
       } else {
         return new Promise(function (resolve) {
           return resolve([]);
@@ -56934,12 +60139,12 @@ var HandleableException = function () {
       this.usedMainData.forEach(function (label) {
         if (!label in data) return;
 
-        var methodName = 'init' + __WEBPACK_IMPORTED_MODULE_3__core__["a" /* default */].camelize(label, true);
+        var methodName = 'init' + __WEBPACK_IMPORTED_MODULE_5__core__["a" /* default */].camelize(label, true);
 
         if (typeof _this2[methodName] === "function") {
           _this2[methodName](data[label]);
         } else {
-          var variableName = __WEBPACK_IMPORTED_MODULE_3__core__["a" /* default */].camelize(label);
+          var variableName = __WEBPACK_IMPORTED_MODULE_5__core__["a" /* default */].camelize(label);
           _this2[variableName] = data[label];
         }
       });
@@ -56955,7 +60160,7 @@ var HandleableException = function () {
       var prices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.priceTypes = this.getSortedData(this.getEnabledData(prices)).map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_1__resources_PriceTypeDataModel__["a" /* default */](item, _this3.languages);
+        return new __WEBPACK_IMPORTED_MODULE_1__resources_shop_PriceTypeDataModel__["a" /* default */](item, _this3.languages);
       });
     },
     initLanguages: function initLanguages() {
@@ -56967,7 +60172,7 @@ var HandleableException = function () {
       var suppliers = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.suppliers = this.getSortedData(this.getEnabledData(suppliers)).map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_2__resources_SupplierDataModel__["a" /* default */](item);
+        return new __WEBPACK_IMPORTED_MODULE_2__resources_shop_SupplierDataModel__["a" /* default */](item);
       });
     },
     initCategoriesTree: function initCategoriesTree() {
@@ -56976,7 +60181,21 @@ var HandleableException = function () {
       var tree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.categoriesTree = tree.map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_0__resources_CategoriesTreeSelectModel__["a" /* default */](item, _this4.languages);
+        return new __WEBPACK_IMPORTED_MODULE_0__resources_shop_CategoriesTreeSelectModel__["a" /* default */](item, _this4.languages);
+      });
+    },
+    initStyles: function initStyles(styles) {
+      var _this5 = this;
+
+      this.styles = this.getSortedData(this.getEnabledData(styles)).map(function (item) {
+        return new __WEBPACK_IMPORTED_MODULE_4__resources_shop_StyleDataModel__["a" /* default */](item, _this5.languages);
+      });
+    },
+    initRooms: function initRooms(rooms) {
+      var _this6 = this;
+
+      this.rooms = this.getSortedData(this.getEnabledData(rooms)).map(function (item) {
+        return new __WEBPACK_IMPORTED_MODULE_3__resources_shop_RoomDataModel__["a" /* default */](item, _this6.languages);
       });
     },
     initRoles: function initRoles() {
@@ -57169,6 +60388,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           break;
       }
 
+      if (window.history.state) {
+        var previousPath = window.history.state.previousPath;
+
+        if (previousPath && previousPath !== path && previousPath.indexOf(path) !== -1) {
+          this.$router.go(-1);
+          return;
+        }
+      }
+
       this.$router.push(path);
     },
 
@@ -57311,6 +60539,60 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./resources/assets/js/mixins/ImageUpload.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_DropzoneGallery__ = __webpack_require__("./resources/assets/js/components/DropzoneGallery.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_DropzoneGallery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_DropzoneGallery__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  components: {
+    DropzoneGallery: __WEBPACK_IMPORTED_MODULE_0__components_DropzoneGallery___default.a
+  },
+
+  methods: {
+    getToSaveData: function getToSaveData() {
+      return _extends({}, this.getEntityModel(), {
+        images: this.getToSaveImage()
+      });
+    },
+    getToSaveImage: function getToSaveImage() {
+      var image = this.getEntityModel().image;
+
+      if (image) {
+        return [{
+          id: image.id,
+          modifications: image.modifications
+        }];
+      } else {
+        return [];
+      }
+    },
+    updateImage: function updateImage() {
+      var images = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      if (images.length) {
+        this[this.getEntityName()].image = images[0];
+      } else {
+        this[this.getEntityName()].image = false;
+      }
+    }
+  },
+
+  computed: {
+    dropzoneImage: function dropzoneImage() {
+      var entity = this.getEntityModel();
+      return entity.image ? [entity.image] : [];
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/mixins/Page.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -57322,6 +60604,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+// todo: history api
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   mixins: [__WEBPACK_IMPORTED_MODULE_1__Base__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__DataHandler__["a" /* default */]],
@@ -57989,7 +61273,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_Model__ = __webpack_require__("./resources/assets/js/resources/Base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58028,7 +61312,7 @@ var AdminEditModel = function (_Model) {
   }]);
 
   return AdminEditModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_Model__["a" /* default */]);
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (AdminEditModel);
 
@@ -58038,7 +61322,7 @@ var AdminEditModel = function (_Model) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_Model__ = __webpack_require__("./resources/assets/js/resources/Base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58076,490 +61360,9 @@ var AdminsTableModel = function (_Model) {
   }]);
 
   return AdminsTableModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_Model__["a" /* default */]);
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (AdminsTableModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/AttributeModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/Base/ModelI18n.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var AttributeModel = function (_ModelI18n) {
-  _inherits(AttributeModel, _ModelI18n);
-
-  function AttributeModel() {
-    _classCallCheck(this, AttributeModel);
-
-    return _possibleConstructorReturn(this, (AttributeModel.__proto__ || Object.getPrototypeOf(AttributeModel)).apply(this, arguments));
-  }
-
-  _createClass(AttributeModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      return {
-        layout_class: '',
-        selectable: false,
-        enabled: true,
-        i18n: {
-          title: ''
-        }
-      };
-    }
-  }]);
-
-  return AttributeModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (AttributeModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/AttributesTableModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/Base/ModelI18n.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var AttributesTableModel = function (_ModelI18n) {
-  _inherits(AttributesTableModel, _ModelI18n);
-
-  function AttributesTableModel() {
-    _classCallCheck(this, AttributesTableModel);
-
-    return _possibleConstructorReturn(this, (AttributesTableModel.__proto__ || Object.getPrototypeOf(AttributesTableModel)).apply(this, arguments));
-  }
-
-  _createClass(AttributesTableModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      return {
-        id: '',
-        enabled: true,
-
-        url: function url(data) {
-          return '/shop/attributes/' + data.id;
-        },
-
-
-        i18n: {
-          title: ''
-        }
-      };
-    }
-  }]);
-
-  return AttributesTableModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (AttributesTableModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/Base/BaseModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var BaseModel = function () {
-  function BaseModel() {
-    _classCallCheck(this, BaseModel);
-  }
-
-  _createClass(BaseModel, [{
-    key: "getSchemaFields",
-    value: function getSchemaFields() {
-      return {};
-    }
-  }]);
-
-  return BaseModel;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = (BaseModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/Base/Model.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema_Schema__ = __webpack_require__("./resources/assets/js/resources/Schema/Schema.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseModel__ = __webpack_require__("./resources/assets/js/resources/Base/BaseModel.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var Model = function (_BaseModel) {
-  _inherits(Model, _BaseModel);
-
-  function Model() {
-    var entityData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, Model);
-
-    var _this = _possibleConstructorReturn(this, (Model.__proto__ || Object.getPrototypeOf(Model)).call(this, entityData));
-
-    var modelData = new __WEBPACK_IMPORTED_MODULE_0__Schema_Schema__["a" /* default */](_this.getSchemaFields()).combine(entityData);
-
-    for (var i in modelData) {
-      _this[i] = modelData[i];
-    }
-    return _this;
-  }
-
-  return Model;
-}(__WEBPACK_IMPORTED_MODULE_1__BaseModel__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (Model);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/Base/ModelI18n.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema_SchemaI18n__ = __webpack_require__("./resources/assets/js/resources/Schema/SchemaI18n.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Model__ = __webpack_require__("./resources/assets/js/resources/Base/Model.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-var ModelI18n = function (_Model) {
-  _inherits(ModelI18n, _Model);
-
-  function ModelI18n() {
-    var entityData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var languages = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-    _classCallCheck(this, ModelI18n);
-
-    var _this = _possibleConstructorReturn(this, (ModelI18n.__proto__ || Object.getPrototypeOf(ModelI18n)).call(this, entityData));
-
-    var i18nData = new __WEBPACK_IMPORTED_MODULE_0__Schema_SchemaI18n__["a" /* default */](_this.getSchemaFields().i18n).combine(entityData.i18n, languages);
-
-    _this.i18n = {};
-
-    for (var i in i18nData) {
-      _this.i18n[i] = i18nData[i];
-    }
-    return _this;
-  }
-
-  return ModelI18n;
-}(__WEBPACK_IMPORTED_MODULE_1__Model__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (ModelI18n);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/CategoriesTableModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/Base/ModelI18n.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var CategoriesTableModel = function (_ModelI18n) {
-  _inherits(CategoriesTableModel, _ModelI18n);
-
-  function CategoriesTableModel(entityData, languages) {
-    _classCallCheck(this, CategoriesTableModel);
-
-    var _this = _possibleConstructorReturn(this, (CategoriesTableModel.__proto__ || Object.getPrototypeOf(CategoriesTableModel)).call(this, entityData, languages));
-
-    var children = entityData.children;
-
-    if (children && children instanceof Array && children.length > 0) {
-      _this.children = children.map(function (item) {
-        return new CategoriesTableModel(item, languages);
-      });
-    }
-    return _this;
-  }
-
-  _createClass(CategoriesTableModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      return {
-        id: '',
-        parent_id: '',
-        slug: '',
-        enabled: true,
-        products_count: 0,
-        position: 0,
-
-        url: function url(data) {
-          return '/shop/categories/' + data.id;
-        },
-        siteUrl: function siteUrl(data) {
-          return '/categories/' + data.slug;
-        },
-
-
-        i18n: {
-          title: '<span class="label label-danger">Не заполнено</span>'
-        }
-      };
-    }
-  }]);
-
-  return CategoriesTableModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (CategoriesTableModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/CategoriesTreeSelectModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/Base/ModelI18n.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var CategoriesTreeSelectModel = function (_ModelI18n) {
-  _inherits(CategoriesTreeSelectModel, _ModelI18n);
-
-  function CategoriesTreeSelectModel(entityData, languages) {
-    _classCallCheck(this, CategoriesTreeSelectModel);
-
-    var _this = _possibleConstructorReturn(this, (CategoriesTreeSelectModel.__proto__ || Object.getPrototypeOf(CategoriesTreeSelectModel)).call(this, entityData, languages));
-
-    var children = entityData.children;
-
-    if (children && children instanceof Array && children.length > 0) {
-      _this.children = children.map(function (item) {
-        return new CategoriesTreeSelectModel(item, languages);
-      });
-    }
-    return _this;
-  }
-
-  _createClass(CategoriesTreeSelectModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      return {
-        id: '',
-        parent_id: '',
-
-        i18n: {
-          title: ''
-        }
-      };
-    }
-  }]);
-
-  return CategoriesTreeSelectModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (CategoriesTreeSelectModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/CategoryModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/Base/ModelI18n.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var CategoryModel = function (_ModelI18n) {
-  _inherits(CategoryModel, _ModelI18n);
-
-  function CategoryModel() {
-    _classCallCheck(this, CategoryModel);
-
-    return _possibleConstructorReturn(this, (CategoryModel.__proto__ || Object.getPrototypeOf(CategoryModel)).apply(this, arguments));
-  }
-
-  _createClass(CategoryModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      return {
-        parent_id: '',
-        slug: '',
-        enabled: true,
-
-        created_at: null,
-        updated_at: null,
-
-        i18n: {
-          title: '',
-          description: '',
-          meta_title: '',
-          meta_description: ''
-        }
-      };
-    }
-  }]);
-
-  return CategoryModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (CategoryModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/OptionModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/Base/ModelI18n.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-var OptionModel = function (_ModelI18n) {
-  _inherits(OptionModel, _ModelI18n);
-
-  function OptionModel() {
-    _classCallCheck(this, OptionModel);
-
-    return _possibleConstructorReturn(this, (OptionModel.__proto__ || Object.getPrototypeOf(OptionModel)).apply(this, arguments));
-  }
-
-  _createClass(OptionModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      return {
-        id: function id(data) {
-          return data.id ? data.id : __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].uniqueId();
-        },
-
-        enabled: true,
-        position: 0,
-
-        i18n: {
-          value: ''
-        }
-      };
-    }
-  }]);
-
-  return OptionModel;
-}(__WEBPACK_IMPORTED_MODULE_1__Base_ModelI18n__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (OptionModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/OptionSelectModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/Base/ModelI18n.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-var OptionSelectModel = function (_ModelI18n) {
-  _inherits(OptionSelectModel, _ModelI18n);
-
-  function OptionSelectModel() {
-    _classCallCheck(this, OptionSelectModel);
-
-    return _possibleConstructorReturn(this, (OptionSelectModel.__proto__ || Object.getPrototypeOf(OptionSelectModel)).apply(this, arguments));
-  }
-
-  _createClass(OptionSelectModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      return {
-        id: function id(data) {
-          return data.id ? data.id : __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].uniqueId();
-        },
-
-        i18n: {
-          title: function title(data) {
-            return data.value;
-          }
-        }
-      };
-    }
-  }]);
-
-  return OptionSelectModel;
-}(__WEBPACK_IMPORTED_MODULE_1__Base_ModelI18n__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (OptionSelectModel);
 
 /***/ }),
 
@@ -58567,7 +61370,7 @@ var OptionSelectModel = function (_ModelI18n) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_Model__ = __webpack_require__("./resources/assets/js/resources/Base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core__ = __webpack_require__("./resources/assets/js/core/index.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -58603,7 +61406,7 @@ var PermissionEditModel = function (_Model) {
   }]);
 
   return PermissionEditModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_Model__["a" /* default */]);
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (PermissionEditModel);
 
@@ -58613,7 +61416,7 @@ var PermissionEditModel = function (_Model) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_Model__ = __webpack_require__("./resources/assets/js/resources/Base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58650,7 +61453,7 @@ var PermissionGroupEditModel = function (_Model) {
   }]);
 
   return PermissionGroupEditModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_Model__["a" /* default */]);
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (PermissionGroupEditModel);
 
@@ -58660,7 +61463,7 @@ var PermissionGroupEditModel = function (_Model) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_Model__ = __webpack_require__("./resources/assets/js/resources/Base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PermissionGroupsTreeSelectModel__ = __webpack_require__("./resources/assets/js/resources/PermissionGroupsTreeSelectModel.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -58708,7 +61511,7 @@ var PermissionGroupsTableModel = function (_Model) {
   }]);
 
   return PermissionGroupsTableModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_Model__["a" /* default */]);
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (PermissionGroupsTableModel);
 
@@ -58718,7 +61521,7 @@ var PermissionGroupsTableModel = function (_Model) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_Model__ = __webpack_require__("./resources/assets/js/resources/Base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58762,375 +61565,9 @@ var PermissionGroupsTreeSelectModel = function (_Model) {
   }]);
 
   return PermissionGroupsTreeSelectModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_Model__["a" /* default */]);
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (PermissionGroupsTreeSelectModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/PriceTypeDataModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/Base/ModelI18n.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var PriceTypeDataModel = function (_ModelI18n) {
-  _inherits(PriceTypeDataModel, _ModelI18n);
-
-  function PriceTypeDataModel() {
-    _classCallCheck(this, PriceTypeDataModel);
-
-    return _possibleConstructorReturn(this, (PriceTypeDataModel.__proto__ || Object.getPrototypeOf(PriceTypeDataModel)).apply(this, arguments));
-  }
-
-  _createClass(PriceTypeDataModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      return {
-        id: '',
-
-        i18n: {
-          title: '',
-          description: ''
-        }
-      };
-    }
-  }]);
-
-  return PriceTypeDataModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (PriceTypeDataModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/PriceTypeModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/Base/ModelI18n.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var PriceTypeModel = function (_ModelI18n) {
-  _inherits(PriceTypeModel, _ModelI18n);
-
-  function PriceTypeModel() {
-    _classCallCheck(this, PriceTypeModel);
-
-    return _possibleConstructorReturn(this, (PriceTypeModel.__proto__ || Object.getPrototypeOf(PriceTypeModel)).apply(this, arguments));
-  }
-
-  _createClass(PriceTypeModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      return {
-        id: '',
-        enabled: true,
-
-        created_at: null,
-        updated_at: null,
-
-        i18n: {
-          title: '',
-          description: ''
-        }
-      };
-    }
-  }]);
-
-  return PriceTypeModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (PriceTypeModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/PriceTypesTableModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/Base/ModelI18n.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var PriceTypeModel = function (_ModelI18n) {
-  _inherits(PriceTypeModel, _ModelI18n);
-
-  function PriceTypeModel() {
-    _classCallCheck(this, PriceTypeModel);
-
-    return _possibleConstructorReturn(this, (PriceTypeModel.__proto__ || Object.getPrototypeOf(PriceTypeModel)).apply(this, arguments));
-  }
-
-  _createClass(PriceTypeModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      return {
-        id: '',
-        enabled: true,
-        position: 0,
-
-        created_at: null,
-        updated_at: null,
-
-        url: function url(data) {
-          return '/shop/price-types/' + data.id;
-        },
-
-        i18n: {
-          title: '<span class="label label-danger">Не заполнено</span>'
-        }
-      };
-    }
-  }]);
-
-  return PriceTypeModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (PriceTypeModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/PricesTableModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var PricesTableModel = function PricesTableModel() {
-  var prices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-  _classCallCheck(this, PricesTableModel);
-
-  return prices.reduce(function (acc, item) {
-    if (!(item.price_type_id in acc)) {
-      acc[item.price_type_id] = {};
-    }
-
-    acc[item.price_type_id][item.currency_code] = item.value;
-
-    return acc;
-  }, {});
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (PricesTableModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/ProductAttributesModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/Base/ModelI18n.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var ProductAttributesModel = function (_ModelI18n) {
-  _inherits(ProductAttributesModel, _ModelI18n);
-
-  function ProductAttributesModel() {
-    _classCallCheck(this, ProductAttributesModel);
-
-    return _possibleConstructorReturn(this, (ProductAttributesModel.__proto__ || Object.getPrototypeOf(ProductAttributesModel)).apply(this, arguments));
-  }
-
-  _createClass(ProductAttributesModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      return {
-        id: '',
-        enabled: true,
-
-        i18n: {
-          title: ''
-        }
-      };
-    }
-  }]);
-
-  return ProductAttributesModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (ProductAttributesModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/ProductModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/Base/ModelI18n.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PricesTableModel__ = __webpack_require__("./resources/assets/js/resources/PricesTableModel.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var ProductModel = function (_ModelI18n) {
-  _inherits(ProductModel, _ModelI18n);
-
-  function ProductModel() {
-    _classCallCheck(this, ProductModel);
-
-    return _possibleConstructorReturn(this, (ProductModel.__proto__ || Object.getPrototypeOf(ProductModel)).apply(this, arguments));
-  }
-
-  _createClass(ProductModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      return {
-        supplier_id: 0,
-        quantity: 1,
-        is_new: false,
-        is_popular: false,
-        is_payable: true,
-        enabled: true,
-
-        created_at: null,
-        updated_at: null,
-
-        width: 0,
-        height: 0,
-        length: 0,
-        weight: 0,
-
-        categories: [],
-        images: [],
-        attributes: [],
-        options: [],
-
-        prices: function prices(data) {
-          return new __WEBPACK_IMPORTED_MODULE_1__PricesTableModel__["a" /* default */](data.prices);
-        },
-
-
-        i18n: {
-          title: '',
-          description: '',
-          meta_title: '',
-          meta_description: ''
-        }
-      };
-    }
-  }]);
-
-  return ProductModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (ProductModel);
-
-/***/ }),
-
-/***/ "./resources/assets/js/resources/ProductsTableModel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/Base/ModelI18n.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var ProductAttributesModel = function (_ModelI18n) {
-  _inherits(ProductAttributesModel, _ModelI18n);
-
-  function ProductAttributesModel() {
-    _classCallCheck(this, ProductAttributesModel);
-
-    return _possibleConstructorReturn(this, (ProductAttributesModel.__proto__ || Object.getPrototypeOf(ProductAttributesModel)).apply(this, arguments));
-  }
-
-  _createClass(ProductAttributesModel, [{
-    key: 'getSchemaFields',
-    value: function getSchemaFields() {
-      var self = this;
-
-      return {
-        id: '',
-
-        image: function image(data) {
-          try {
-            return {
-              src: data.image.thumb.src,
-              srcset: data.image.thumb.srcset
-            };
-          } catch (e) {
-            return self.getDefaultImage();
-          }
-        },
-
-
-        is_new: false,
-        is_payable: false,
-        prices: [],
-        created_at: '',
-        enabled: false,
-
-        url: function url(data) {
-          return '/shop/products/' + data.id;
-        },
-
-        i18n: {
-          title: '<span class="label label-danger">Не заполнено</span>'
-        }
-      };
-    }
-  }, {
-    key: 'getDefaultImage',
-    value: function getDefaultImage() {
-      return {
-        src: '/img/no-photo.jpg',
-        srcset: '/img/no-photo.jpg'
-      };
-    }
-  }]);
-
-  return ProductAttributesModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_ModelI18n__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (ProductAttributesModel);
 
 /***/ }),
 
@@ -59138,7 +61575,7 @@ var ProductAttributesModel = function (_ModelI18n) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_Model__ = __webpack_require__("./resources/assets/js/resources/Base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -59173,7 +61610,7 @@ var RoleEditModel = function (_Model) {
   }]);
 
   return RoleEditModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_Model__["a" /* default */]);
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (RoleEditModel);
 
@@ -59183,7 +61620,7 @@ var RoleEditModel = function (_Model) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_Model__ = __webpack_require__("./resources/assets/js/resources/Base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -59218,13 +61655,254 @@ var RolesTableModel = function (_Model) {
   }]);
 
   return RolesTableModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_Model__["a" /* default */]);
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (RolesTableModel);
 
 /***/ }),
 
-/***/ "./resources/assets/js/resources/Schema/Schema.js":
+/***/ "./resources/assets/js/resources/Shop/OptionSelectModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_index__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+var OptionSelectModel = function (_ModelI18n) {
+  _inherits(OptionSelectModel, _ModelI18n);
+
+  function OptionSelectModel() {
+    _classCallCheck(this, OptionSelectModel);
+
+    return _possibleConstructorReturn(this, (OptionSelectModel.__proto__ || Object.getPrototypeOf(OptionSelectModel)).apply(this, arguments));
+  }
+
+  _createClass(OptionSelectModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: function id(data) {
+          return data.id ? data.id : __WEBPACK_IMPORTED_MODULE_0__core_index__["a" /* default */].uniqueId();
+        },
+
+        i18n: {
+          title: function title(data) {
+            return data.value;
+          }
+        }
+      };
+    }
+  }]);
+
+  return OptionSelectModel;
+}(__WEBPACK_IMPORTED_MODULE_1__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (OptionSelectModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/Shop/StyleModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var StyleModel = function (_ModelI18n) {
+  _inherits(StyleModel, _ModelI18n);
+
+  function StyleModel() {
+    _classCallCheck(this, StyleModel);
+
+    return _possibleConstructorReturn(this, (StyleModel.__proto__ || Object.getPrototypeOf(StyleModel)).apply(this, arguments));
+  }
+
+  _createClass(StyleModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        slug: '',
+        enabled: true,
+
+        image: false,
+
+        created_at: null,
+        updated_at: null,
+
+        i18n: {
+          title: '',
+          description: '',
+          meta_title: '',
+          meta_description: ''
+        }
+      };
+    }
+  }]);
+
+  return StyleModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (StyleModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/base/BaseModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var BaseModel = function () {
+  function BaseModel() {
+    _classCallCheck(this, BaseModel);
+  }
+
+  _createClass(BaseModel, [{
+    key: "getSchemaFields",
+    value: function getSchemaFields() {
+      return {};
+    }
+  }]);
+
+  return BaseModel;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (BaseModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/base/HasImage.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+function getDefaultImage() {
+  return {
+    src: '/img/no-photo.jpg',
+    srcset: '/img/no-photo.jpg'
+  };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (function (imageType) {
+  return function (data) {
+    try {
+      return {
+        src: data.image[imageType].src,
+        srcset: data.image[imageType].srcset
+      };
+    } catch (e) {
+      return getDefaultImage();
+    }
+  };
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/base/Model.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__schema_Schema__ = __webpack_require__("./resources/assets/js/resources/schema/Schema.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseModel__ = __webpack_require__("./resources/assets/js/resources/base/BaseModel.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var Model = function (_BaseModel) {
+  _inherits(Model, _BaseModel);
+
+  function Model() {
+    var entityData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Model);
+
+    var _this = _possibleConstructorReturn(this, (Model.__proto__ || Object.getPrototypeOf(Model)).call(this, entityData));
+
+    var modelData = new __WEBPACK_IMPORTED_MODULE_0__schema_Schema__["a" /* default */](_this.getSchemaFields()).combine(entityData);
+
+    for (var i in modelData) {
+      _this[i] = modelData[i];
+    }
+    return _this;
+  }
+
+  return Model;
+}(__WEBPACK_IMPORTED_MODULE_1__BaseModel__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (Model);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/base/ModelI18n.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__schema_SchemaI18n__ = __webpack_require__("./resources/assets/js/resources/schema/SchemaI18n.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+var ModelI18n = function (_Model) {
+  _inherits(ModelI18n, _Model);
+
+  function ModelI18n() {
+    var entityData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var languages = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+    _classCallCheck(this, ModelI18n);
+
+    var _this = _possibleConstructorReturn(this, (ModelI18n.__proto__ || Object.getPrototypeOf(ModelI18n)).call(this, entityData));
+
+    var i18nData = new __WEBPACK_IMPORTED_MODULE_0__schema_SchemaI18n__["a" /* default */](_this.getSchemaFields().i18n).combine(entityData.i18n, languages);
+
+    _this.i18n = {};
+
+    for (var i in i18nData) {
+      _this.i18n[i] = i18nData[i];
+    }
+    return _this;
+  }
+
+  return ModelI18n;
+}(__WEBPACK_IMPORTED_MODULE_1__Model__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (ModelI18n);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/schema/Schema.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -59313,11 +61991,11 @@ var Schema = function () {
 
 /***/ }),
 
-/***/ "./resources/assets/js/resources/Schema/SchemaI18n.js":
+/***/ "./resources/assets/js/resources/schema/SchemaI18n.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema__ = __webpack_require__("./resources/assets/js/resources/Schema/Schema.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Schema__ = __webpack_require__("./resources/assets/js/resources/schema/Schema.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
@@ -59372,11 +62050,964 @@ var SchemaI18n = function (_Schema) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/resources/SupplierDataModel.js":
+/***/ "./resources/assets/js/resources/shop/AttributeModel.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_Model__ = __webpack_require__("./resources/assets/js/resources/Base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var AttributeModel = function (_ModelI18n) {
+  _inherits(AttributeModel, _ModelI18n);
+
+  function AttributeModel() {
+    _classCallCheck(this, AttributeModel);
+
+    return _possibleConstructorReturn(this, (AttributeModel.__proto__ || Object.getPrototypeOf(AttributeModel)).apply(this, arguments));
+  }
+
+  _createClass(AttributeModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        layout_class: '',
+        selectable: false,
+        enabled: true,
+        i18n: {
+          title: ''
+        }
+      };
+    }
+  }]);
+
+  return AttributeModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (AttributeModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/AttributesTableModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var AttributesTableModel = function (_ModelI18n) {
+  _inherits(AttributesTableModel, _ModelI18n);
+
+  function AttributesTableModel() {
+    _classCallCheck(this, AttributesTableModel);
+
+    return _possibleConstructorReturn(this, (AttributesTableModel.__proto__ || Object.getPrototypeOf(AttributesTableModel)).apply(this, arguments));
+  }
+
+  _createClass(AttributesTableModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        enabled: true,
+
+        url: function url(data) {
+          return '/shop/attributes/' + data.id;
+        },
+
+
+        i18n: {
+          title: ''
+        }
+      };
+    }
+  }]);
+
+  return AttributesTableModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (AttributesTableModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/CategoriesTableModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__base_HasImage__ = __webpack_require__("./resources/assets/js/resources/base/HasImage.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var CategoriesTableModel = function (_ModelI18n) {
+  _inherits(CategoriesTableModel, _ModelI18n);
+
+  function CategoriesTableModel(entityData, languages) {
+    _classCallCheck(this, CategoriesTableModel);
+
+    var _this = _possibleConstructorReturn(this, (CategoriesTableModel.__proto__ || Object.getPrototypeOf(CategoriesTableModel)).call(this, entityData, languages));
+
+    var children = entityData.children;
+
+    if (children && children instanceof Array && children.length > 0) {
+      _this.children = children.map(function (item) {
+        return new CategoriesTableModel(item, languages);
+      }).sort(function (a, b) {
+        return a.position - b.position;
+      });
+    }
+    return _this;
+  }
+
+  _createClass(CategoriesTableModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        parent_id: '',
+        slug: '',
+        enabled: true,
+        products_count: 0,
+        position: 0,
+
+        image: Object(__WEBPACK_IMPORTED_MODULE_1__base_HasImage__["a" /* default */])('small'),
+
+        url: function url(data) {
+          return '/shop/categories/' + data.id;
+        },
+        siteUrl: function siteUrl(data) {
+          return '/catalog/' + data.slug;
+        },
+
+
+        i18n: {
+          title: '<span class="label label-danger">Не заполнено</span>'
+        }
+      };
+    }
+  }]);
+
+  return CategoriesTableModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (CategoriesTableModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/CategoriesTreeSelectModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var CategoriesTreeSelectModel = function (_ModelI18n) {
+  _inherits(CategoriesTreeSelectModel, _ModelI18n);
+
+  function CategoriesTreeSelectModel(entityData, languages) {
+    _classCallCheck(this, CategoriesTreeSelectModel);
+
+    var _this = _possibleConstructorReturn(this, (CategoriesTreeSelectModel.__proto__ || Object.getPrototypeOf(CategoriesTreeSelectModel)).call(this, entityData, languages));
+
+    var children = entityData.children;
+
+    if (children && children instanceof Array && children.length > 0) {
+      _this.children = children.map(function (item) {
+        return new CategoriesTreeSelectModel(item, languages);
+      });
+    }
+    return _this;
+  }
+
+  _createClass(CategoriesTreeSelectModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        parent_id: '',
+
+        i18n: {
+          title: ''
+        }
+      };
+    }
+  }]);
+
+  return CategoriesTreeSelectModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (CategoriesTreeSelectModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/CategoryModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var CategoryModel = function (_ModelI18n) {
+  _inherits(CategoryModel, _ModelI18n);
+
+  function CategoryModel() {
+    _classCallCheck(this, CategoryModel);
+
+    return _possibleConstructorReturn(this, (CategoryModel.__proto__ || Object.getPrototypeOf(CategoryModel)).apply(this, arguments));
+  }
+
+  _createClass(CategoryModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        parent_id: '',
+        slug: '',
+        enabled: true,
+
+        image: false,
+
+        created_at: null,
+        updated_at: null,
+
+        i18n: {
+          title: '',
+          description: '',
+          meta_title: '',
+          meta_description: ''
+        }
+      };
+    }
+  }]);
+
+  return CategoryModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (CategoryModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/OptionModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_index__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+var OptionModel = function (_ModelI18n) {
+  _inherits(OptionModel, _ModelI18n);
+
+  function OptionModel() {
+    _classCallCheck(this, OptionModel);
+
+    return _possibleConstructorReturn(this, (OptionModel.__proto__ || Object.getPrototypeOf(OptionModel)).apply(this, arguments));
+  }
+
+  _createClass(OptionModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: function id(data) {
+          return data.id ? data.id : __WEBPACK_IMPORTED_MODULE_0__core_index__["a" /* default */].uniqueId();
+        },
+
+        enabled: true,
+        position: 0,
+
+        i18n: {
+          value: ''
+        }
+      };
+    }
+  }]);
+
+  return OptionModel;
+}(__WEBPACK_IMPORTED_MODULE_1__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (OptionModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/PriceTypeDataModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var PriceTypeDataModel = function (_ModelI18n) {
+  _inherits(PriceTypeDataModel, _ModelI18n);
+
+  function PriceTypeDataModel() {
+    _classCallCheck(this, PriceTypeDataModel);
+
+    return _possibleConstructorReturn(this, (PriceTypeDataModel.__proto__ || Object.getPrototypeOf(PriceTypeDataModel)).apply(this, arguments));
+  }
+
+  _createClass(PriceTypeDataModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        enabled: false,
+
+        i18n: {
+          title: '',
+          description: ''
+        }
+      };
+    }
+  }]);
+
+  return PriceTypeDataModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (PriceTypeDataModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/PriceTypeModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var PriceTypeModel = function (_ModelI18n) {
+  _inherits(PriceTypeModel, _ModelI18n);
+
+  function PriceTypeModel() {
+    _classCallCheck(this, PriceTypeModel);
+
+    return _possibleConstructorReturn(this, (PriceTypeModel.__proto__ || Object.getPrototypeOf(PriceTypeModel)).apply(this, arguments));
+  }
+
+  _createClass(PriceTypeModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        enabled: true,
+
+        created_at: null,
+        updated_at: null,
+
+        i18n: {
+          title: '',
+          description: ''
+        }
+      };
+    }
+  }]);
+
+  return PriceTypeModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (PriceTypeModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/PriceTypesTableModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var PriceTypeModel = function (_ModelI18n) {
+  _inherits(PriceTypeModel, _ModelI18n);
+
+  function PriceTypeModel() {
+    _classCallCheck(this, PriceTypeModel);
+
+    return _possibleConstructorReturn(this, (PriceTypeModel.__proto__ || Object.getPrototypeOf(PriceTypeModel)).apply(this, arguments));
+  }
+
+  _createClass(PriceTypeModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        enabled: true,
+        position: 0,
+
+        created_at: null,
+        updated_at: null,
+
+        url: function url(data) {
+          return '/shop/price-types/' + data.id;
+        },
+
+        i18n: {
+          title: '<span class="label label-danger">Не заполнено</span>'
+        }
+      };
+    }
+  }]);
+
+  return PriceTypeModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (PriceTypeModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/PricesTableModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var PricesTableModel = function PricesTableModel() {
+  var prices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+  _classCallCheck(this, PricesTableModel);
+
+  return prices.reduce(function (acc, item) {
+    if (!(item.price_type_id in acc)) {
+      acc[item.price_type_id] = {};
+    }
+
+    acc[item.price_type_id][item.currency_code] = item.value;
+
+    return acc;
+  }, {});
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (PricesTableModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/ProductAttributesModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var ProductAttributesModel = function (_ModelI18n) {
+  _inherits(ProductAttributesModel, _ModelI18n);
+
+  function ProductAttributesModel() {
+    _classCallCheck(this, ProductAttributesModel);
+
+    return _possibleConstructorReturn(this, (ProductAttributesModel.__proto__ || Object.getPrototypeOf(ProductAttributesModel)).apply(this, arguments));
+  }
+
+  _createClass(ProductAttributesModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        enabled: true,
+
+        i18n: {
+          title: ''
+        }
+      };
+    }
+  }]);
+
+  return ProductAttributesModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (ProductAttributesModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/ProductModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PricesTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/PricesTableModel.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var ProductModel = function (_ModelI18n) {
+  _inherits(ProductModel, _ModelI18n);
+
+  function ProductModel() {
+    _classCallCheck(this, ProductModel);
+
+    return _possibleConstructorReturn(this, (ProductModel.__proto__ || Object.getPrototypeOf(ProductModel)).apply(this, arguments));
+  }
+
+  _createClass(ProductModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        supplier_id: 0,
+        quantity: 1,
+        is_new: false,
+        is_popular: false,
+        is_payable: true,
+        enabled: true,
+
+        created_at: null,
+        updated_at: null,
+
+        width: 0,
+        height: 0,
+        length: 0,
+        weight: 0,
+
+        categories: [],
+        rooms: [],
+        styles: [],
+
+        images: [],
+        attributes: [],
+        options: [],
+
+        prices: function prices(data) {
+          return new __WEBPACK_IMPORTED_MODULE_1__PricesTableModel__["a" /* default */](data.prices);
+        },
+
+
+        i18n: {
+          title: '',
+          description: '',
+          meta_title: '',
+          meta_description: ''
+        }
+      };
+    }
+  }]);
+
+  return ProductModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (ProductModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/ProductsTableModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__base_HasImage__ = __webpack_require__("./resources/assets/js/resources/base/HasImage.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var ProductAttributesModel = function (_ModelI18n) {
+  _inherits(ProductAttributesModel, _ModelI18n);
+
+  function ProductAttributesModel() {
+    _classCallCheck(this, ProductAttributesModel);
+
+    return _possibleConstructorReturn(this, (ProductAttributesModel.__proto__ || Object.getPrototypeOf(ProductAttributesModel)).apply(this, arguments));
+  }
+
+  _createClass(ProductAttributesModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      var self = this;
+
+      return {
+        id: '',
+
+        image: Object(__WEBPACK_IMPORTED_MODULE_1__base_HasImage__["a" /* default */])('thumb'),
+
+        is_new: false,
+        is_payable: false,
+        prices: [],
+        created_at: '',
+        enabled: false,
+
+        url: function url(data) {
+          return '/shop/products/' + data.id;
+        },
+
+        i18n: {
+          title: '<span class="label label-danger">Не заполнено</span>'
+        }
+
+      };
+    }
+  }]);
+
+  return ProductAttributesModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (ProductAttributesModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/RoomDataModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var RoomDataModel = function (_ModelI18n) {
+  _inherits(RoomDataModel, _ModelI18n);
+
+  function RoomDataModel() {
+    _classCallCheck(this, RoomDataModel);
+
+    return _possibleConstructorReturn(this, (RoomDataModel.__proto__ || Object.getPrototypeOf(RoomDataModel)).apply(this, arguments));
+  }
+
+  _createClass(RoomDataModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        enabled: false,
+
+        i18n: {
+          title: '',
+          description: ''
+        }
+      };
+    }
+  }]);
+
+  return RoomDataModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (RoomDataModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/RoomModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var RoomModel = function (_ModelI18n) {
+  _inherits(RoomModel, _ModelI18n);
+
+  function RoomModel() {
+    _classCallCheck(this, RoomModel);
+
+    return _possibleConstructorReturn(this, (RoomModel.__proto__ || Object.getPrototypeOf(RoomModel)).apply(this, arguments));
+  }
+
+  _createClass(RoomModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        slug: '',
+        enabled: true,
+
+        image: false,
+
+        created_at: null,
+        updated_at: null,
+
+        i18n: {
+          title: '',
+          description: '',
+          meta_title: '',
+          meta_description: ''
+        }
+      };
+    }
+  }]);
+
+  return RoomModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (RoomModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/RoomsTableModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__base_HasImage__ = __webpack_require__("./resources/assets/js/resources/base/HasImage.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var RoomsTableModel = function (_ModelI18n) {
+  _inherits(RoomsTableModel, _ModelI18n);
+
+  function RoomsTableModel() {
+    _classCallCheck(this, RoomsTableModel);
+
+    return _possibleConstructorReturn(this, (RoomsTableModel.__proto__ || Object.getPrototypeOf(RoomsTableModel)).apply(this, arguments));
+  }
+
+  _createClass(RoomsTableModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        slug: '',
+        enabled: true,
+        products_count: 0,
+        position: 0,
+
+        image: Object(__WEBPACK_IMPORTED_MODULE_1__base_HasImage__["a" /* default */])('small'),
+
+        created_at: null,
+        updated_at: null,
+
+        url: function url(data) {
+          return '/shop/rooms/' + data.id;
+        },
+        siteUrl: function siteUrl(data) {
+          return '/rooms/' + data.slug;
+        },
+
+
+        i18n: {
+          title: '<span class="label label-danger">Не заполнено</span>'
+        }
+      };
+    }
+  }]);
+
+  return RoomsTableModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (RoomsTableModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/StyleDataModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var StyleDataModel = function (_ModelI18n) {
+  _inherits(StyleDataModel, _ModelI18n);
+
+  function StyleDataModel() {
+    _classCallCheck(this, StyleDataModel);
+
+    return _possibleConstructorReturn(this, (StyleDataModel.__proto__ || Object.getPrototypeOf(StyleDataModel)).apply(this, arguments));
+  }
+
+  _createClass(StyleDataModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        enabled: false,
+
+        i18n: {
+          title: '',
+          description: ''
+        }
+      };
+    }
+  }]);
+
+  return StyleDataModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (StyleDataModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/StylesTableModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__base_HasImage__ = __webpack_require__("./resources/assets/js/resources/base/HasImage.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var StylesTableModel = function (_ModelI18n) {
+  _inherits(StylesTableModel, _ModelI18n);
+
+  function StylesTableModel() {
+    _classCallCheck(this, StylesTableModel);
+
+    return _possibleConstructorReturn(this, (StylesTableModel.__proto__ || Object.getPrototypeOf(StylesTableModel)).apply(this, arguments));
+  }
+
+  _createClass(StylesTableModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        slug: '',
+        enabled: true,
+        products_count: 0,
+        position: 0,
+
+        image: Object(__WEBPACK_IMPORTED_MODULE_1__base_HasImage__["a" /* default */])('small'),
+
+        created_at: null,
+        updated_at: null,
+
+        url: function url(data) {
+          return '/shop/styles/' + data.id;
+        },
+        siteUrl: function siteUrl(data) {
+          return '/styles/' + data.slug;
+        },
+
+
+        i18n: {
+          title: '<span class="label label-danger">Не заполнено</span>'
+        }
+      };
+    }
+  }]);
+
+  return StylesTableModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (StylesTableModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/SupplierDataModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -59407,17 +63038,17 @@ var SupplierDataModel = function (_Model) {
   }]);
 
   return SupplierDataModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_Model__["a" /* default */]);
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (SupplierDataModel);
 
 /***/ }),
 
-/***/ "./resources/assets/js/resources/SupplierModel.js":
+/***/ "./resources/assets/js/resources/shop/SupplierModel.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_Model__ = __webpack_require__("./resources/assets/js/resources/Base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -59452,17 +63083,17 @@ var ProductAttributesModel = function (_Model) {
   }]);
 
   return ProductAttributesModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_Model__["a" /* default */]);
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (ProductAttributesModel);
 
 /***/ }),
 
-/***/ "./resources/assets/js/resources/SuppliersTableModel.js":
+/***/ "./resources/assets/js/resources/shop/SuppliersTableModel.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Base_Model__ = __webpack_require__("./resources/assets/js/resources/Base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -59503,7 +63134,7 @@ var ProductAttributesModel = function (_Model) {
   }]);
 
   return ProductAttributesModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Base_Model__["a" /* default */]);
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (ProductAttributesModel);
 

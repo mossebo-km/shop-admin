@@ -4,9 +4,9 @@
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
   import TreeSelect from '../../TreeSelect'
-  import DropzoneGallery from '../../DropzoneGallery'
 
   import EntityPage from '../../../mixins/EntityPage'
+  import ImageUpload from '../../../mixins/ImageUpload'
 
   import AdminEditModel from '../../../resources/AdminEditModel'
 
@@ -15,13 +15,13 @@
     name: 'admin-edit',
 
     mixins: [
-      EntityPage
+      EntityPage,
+      ImageUpload
     ],
 
     components: {
       bModal,
-      TreeSelect,
-      DropzoneGallery
+      TreeSelect
     },
 
     props: [
@@ -48,36 +48,6 @@
         Core.events.trigger('system.avatar-changed', entity.id, entity.image ? entity.image.small.srcset : false)
       },
 
-      updateImage(images = []) {
-        if (images.length) {
-          this[this.getEntityName()].image = images[0]
-        }
-        else {
-          this[this.getEntityName()].image = false
-        }
-      },
-
-      getToSaveData() {
-        return {
-          ... this.getEntityModel(),
-          images: this.getToSaveImage(),
-        }
-      },
-
-      getToSaveImage() {
-        let image = this.getEntityModel().image
-
-        if (image) {
-          return [{
-            id: image.id,
-            modifications: image.modifications
-          }]
-        }
-        else {
-          return []
-        }
-      },
-
       initRoles(roles = []) {
         this.roles = this.getSortedData(roles).map(({id, name}) => ({
           id,
@@ -85,13 +55,6 @@
         }))
       },
     },
-
-    computed: {
-      dropzoneImage() {
-        let entity = this.getEntityModel()
-        return entity.image ? [entity.image] : []
-      }
-    }
   }
 </script>
 
@@ -204,7 +167,8 @@
               :images="dropzoneImage"
               @update:images="updateImage"
               :safeDelete="false"
-              :errors="formErrors" />
+              :errors="formErrors"
+            ></dropzone-gallery>
           </div>
         </div>
 

@@ -134,6 +134,15 @@ export default {
           break
       }
 
+      if (window.history.state) {
+        let previousPath = window.history.state.previousPath
+
+        if (previousPath && previousPath !== path && previousPath.indexOf(path) !== -1) {
+          this.$router.go(-1)
+          return
+        }
+      }
+
       this.$router.push(path)
     },
 

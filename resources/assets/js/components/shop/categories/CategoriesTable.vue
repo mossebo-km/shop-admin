@@ -4,7 +4,6 @@
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
   import CategoriesTableTree from './CategoriesTableTree'
-  import ShopQuickNav from '../ShopQuickNav'
   import LanguagePicker from '../../LanguagePicker'
 
   import TablePage from '../../../mixins/TablePage'
@@ -12,7 +11,7 @@
   import StatusChangeable from '../../../mixins/StatusChangeable'
   import Translatable from '../../../mixins/Translatable'
 
-  import CategoriesTableModel from '../../../resources/CategoriesTableModel'
+  import CategoriesTableModel from '../../../resources/shop/CategoriesTableModel'
 
   /*
     todo: Разобраться с сортировкой. Пересмотреть формат таблицы.
@@ -28,7 +27,6 @@
     ],
 
     components : {
-      ShopQuickNav,
       bModal,
       CategoriesTableTree,
       LanguagePicker
@@ -57,7 +55,7 @@
       },
 
       initItems(items = []) {
-        this.items = items.map(item => new CategoriesTableModel(item, this.languages))
+        this.items = this.getSortedData(items.map(item => new CategoriesTableModel(item, this.languages)))
       },
 
       expandAll() {
@@ -73,8 +71,6 @@
 
 <template>
   <div>
-    <shop-quick-nav active="categories" />
-
     <div class="block full">
       <div class="block-title clearfix">
         <h1>
@@ -115,6 +111,10 @@
                 ID
               </div>
 
+              <div class="table-cell table-cell-column-image">
+                Изображение
+              </div>
+
               <div class="table-cell">
                 Название
               </div>
@@ -141,7 +141,8 @@
             :level="0"
             :statusChange="statusChange"
             :remove="remove"
-            :activeLanguageCode="activeLanguageCode" />
+            :activeLanguageCode="activeLanguageCode"
+          ></categories-table-tree>
 
           <div v-if="!items.length" class="table-group">
             <div class="table-row">

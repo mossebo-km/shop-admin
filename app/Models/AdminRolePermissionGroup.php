@@ -6,14 +6,19 @@ use Kalnoy\Nestedset\NodeTrait;
 use App\Support\Traits\Models\Positionable;
 use App\Support\Traits\Models\RequestSaver;
 
-class AdminRolePermissionGroup extends Base\BaseModel
+use MosseboShopCore\Models\Base\BaseModel;
+
+class AdminRolePermissionGroup extends BaseModel
 {
     use NodeTrait, Positionable, RequestSaver;
 
     protected $tableIdentif = 'AdminRolePermissionGroups';
 
     protected $fillable = [
-        'parent_id', 'name', 'namespace', 'position'
+        'parent_id',
+        'name',
+        'namespace',
+        'position'
     ];
 
     protected $dates = [
@@ -21,7 +26,9 @@ class AdminRolePermissionGroup extends Base\BaseModel
         'updated_at'
     ];
 
-    protected $needsToSaveFromRequest = ['permissions'];
+    protected $needsToSaveFromRequest = [
+        'permissions'
+    ];
 
     public function __construct()
     {
@@ -59,6 +66,18 @@ class AdminRolePermissionGroup extends Base\BaseModel
                 $descendantOrSelf->permissions()->delete();
             }
         });
+    }
+
+    public function roles()
+    {
+        return $this->hasManyThrough(
+            AdminRole::class,
+            AdminRolePermissionRelation::class,
+            'admin_role_permission_group_id',
+            'id',
+            'id',
+            'admin_role_id'
+        );
     }
 
     public function permissions()

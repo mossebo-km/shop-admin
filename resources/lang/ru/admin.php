@@ -18,7 +18,19 @@ return [
         'deleted' => 'Администратор #:id удален.',
     ],
 
-    App\Models\Attribute::class => [
+    App\Models\AdminRolePermissionGroup::class => [
+        'created' => 'Группа прав #:id создана.',
+        'updated' => 'Группа прав #:id изменена.',
+        'deleted' => 'Группа прав #:id удалена.',
+    ],
+
+    App\Models\AdminRole::class => [
+        'created' => 'Роль #:id создана.',
+        'updated' => 'Роль #:id изменена.',
+        'deleted' => 'Роль #:id удалена.',
+    ],
+
+    App\Models\Shop\Attribute::class => [
         'status' => [
             'enabled' => 'Аттрибут #:id показан.',
             'disabled' => 'Аттрибут #:id скрыт.',
@@ -28,7 +40,7 @@ return [
         'deleted' => 'Аттрибут #:id удален.',
     ],
 
-    App\Models\Category::class => [
+    App\Models\Shop\Category::class => [
         'status' => [
             'enabled' => 'Категория #:id показана.',
             'disabled' => 'Категория #:id скрыта.',
@@ -38,13 +50,7 @@ return [
         'deleted' => 'Категория #:id удалена.',
     ],
 
-    App\Models\AdminRolePermissionGroup::class => [
-        'created' => 'Группа прав #:id создана.',
-        'updated' => 'Группа прав #:id изменена.',
-        'deleted' => 'Группа прав #:id удалена.',
-    ],
-
-    App\Models\PriceType::class => [
+    App\Models\Shop\PriceType::class => [
         'status' => [
             'enabled' => 'Тип цены #:id показан.',
             'disabled' => 'Тип цены #:id скрыт.',
@@ -54,7 +60,7 @@ return [
         'deleted' => 'Тип цены #:id удален.',
     ],
 
-    App\Models\Product::class => [
+    App\Models\Shop\Product::class => [
         'status' => [
             'enabled' => 'Товар #:id показан.',
             'disabled' => 'Товар #:id скрыт.',
@@ -64,13 +70,7 @@ return [
         'deleted' => 'Товар #:id удален.',
     ],
 
-    App\Models\AdminRole::class => [
-        'created' => 'Роль #:id создана.',
-        'updated' => 'Роль #:id изменена.',
-        'deleted' => 'Роль #:id удалена.',
-    ],
-
-    App\Models\Supplier::class => [
+    App\Models\Shop\Supplier::class => [
         'status' => [
             'enabled' => 'Поставщик #:id показан.',
             'disabled' => 'Поставщик #:id скрыт.',

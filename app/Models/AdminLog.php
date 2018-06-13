@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
-class AdminLog extends Base\BaseModel
+use MosseboShopCore\Models\Base\BaseModel;
+
+class AdminLog extends BaseModel
 {
     protected $tableIdentif = 'AdminLogs';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'admin_id', 'type', 'message',
+        'admin_id',
+        'type',
+        'message',
     ];
 
     public $timestamps = false;

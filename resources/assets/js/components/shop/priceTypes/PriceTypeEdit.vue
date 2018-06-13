@@ -1,14 +1,13 @@
 <script>
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
-  import ShopQuickNav from '../ShopQuickNav'
   import CKEditor from '../../CKEditor'
   import LanguagePicker from '../../LanguagePicker'
 
   import EntityPage from '../../../mixins/EntityPage'
   import Translatable from '../../../mixins/Translatable'
 
-  import PriceTypeModel from '../../../resources/PriceTypeModel'
+  import PriceTypeModel from '../../../resources/shop/PriceTypeModel'
 
   export default {
     name: 'price-type-edit',
@@ -19,7 +18,6 @@
     ],
 
     components: {
-      ShopQuickNav,
       'ckeditor': CKEditor,
       bModal,
       LanguagePicker
@@ -49,8 +47,6 @@
 
 <template>
   <div>
-    <shop-quick-nav active="price-types" />
-
     <div class="block full">
       <div class="block-title clearfix" v-if="type === 'create'">
         <h1>

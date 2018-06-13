@@ -11,6 +11,7 @@ import { asyncPackageDataCollector } from './queueHandler'
 
 /**
  * todo: вынести функции, которые форматируют строки, цифры в отдельную область.
+ * todo: пересмотреть все с учетом loadash
  */
 
 export default {
@@ -262,6 +263,20 @@ export default {
             url: '/shop/categories',
             icon: 'fa fa-folder',
             permission: 'shop.categories.menu'
+          },
+
+          {
+            title: 'Комнаты',
+            url: '/shop/rooms',
+            icon: 'fa fa-bath',
+            permission: 'shop.rooms.menu'
+          },
+
+          {
+            title: 'Стили',
+            url: '/shop/styles',
+            icon: 'fa fa-home',
+            permission: 'shop.styles.menu'
           },
 
           {

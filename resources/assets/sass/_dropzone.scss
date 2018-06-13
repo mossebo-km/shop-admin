@@ -33,5 +33,9 @@
 }
 
 .dropzone.dz-started .dz-message {
-  //display: block;
+  //display: none;
+}
+
+.dropzone .dz-message {
+  font-size: 18px;
 }

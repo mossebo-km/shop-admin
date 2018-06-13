@@ -1,8 +1,6 @@
 <script>
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
-  import ShopQuickNav from '../ShopQuickNav'
-
   import TablePage from '../../../mixins/TablePage'
   import Sortable from '../../../mixins/Sortable'
   import StatusChangeable from '../../../mixins/StatusChangeable'
@@ -11,7 +9,7 @@
   import Toggle from '../../Toggle'
   import LanguagePicker from '../../LanguagePicker'
 
-  import PriceTypesTableModel from '../../../resources/PriceTypesTableModel'
+  import PriceTypesTableModel from '../../../resources/shop/PriceTypesTableModel'
 
   export default {
     name: 'price-type-table',
@@ -25,7 +23,6 @@
 
     components: {
       Toggle,
-      ShopQuickNav,
       bModal,
       LanguagePicker
     },
@@ -45,7 +42,7 @@
 
     methods: {
       initItems (items = []) {
-        this.items = this.getSortedData(items).map(item => new PriceTypesTableModel(item, this.languages))
+        this.items = this.getSortedData(items.map(item => new PriceTypesTableModel(item, this.languages)))
       },
     }
   }
@@ -53,8 +50,6 @@
 
 <template>
   <div>
-    <shop-quick-nav active="price-types" />
-
     <div class="block full">
       <div class="block-title clearfix">
         <h1>

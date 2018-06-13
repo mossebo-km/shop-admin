@@ -1,14 +1,12 @@
 <script>
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
-  import ShopQuickNav from '../ShopQuickNav'
-
   import TablePage from '../../../mixins/TablePage'
   import Sortable from '../../../mixins/Sortable'
   import StatusChangeable from '../../../mixins/StatusChangeable'
   import Toggle from '../../Toggle'
 
-  import SuppliersTableModel from '../../../resources/SuppliersTableModel'
+  import SuppliersTableModel from '../../../resources/shop/SuppliersTableModel'
 
   export default {
     name: 'suppliers-table',
@@ -20,7 +18,6 @@
     ],
 
     components : {
-      ShopQuickNav,
       bModal,
       Toggle,
     },
@@ -41,8 +38,6 @@
 
 <template>
   <div>
-    <shop-quick-nav active="suppliers" />
-
     <div class="block full">
       <div class="block-title clearfix">
         <h1>

@@ -1,5 +1,5 @@
 <script>
-  import {ErrorBag} from 'vee-validate'
+  import { ErrorBag } from 'vee-validate'
   import number from '../../directives/number'
   import Loading from '../Loading.vue'
   import CurrencyConverter from '../converters/CurrencyConverter'

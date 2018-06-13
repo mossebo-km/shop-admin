@@ -271,8 +271,20 @@ textarea.form-control {
 }
 
 
-.pagination > li > a,
-.pagination > li > span {
-  width: 30px;
-  text-align: center;
+.pagination > li {
+  display: inline-block;
+  vertical-align: bottom;
+
+  & > a,
+  & > span {
+    width: 30px;
+    padding: 6px 0;
+    text-align: center;
+  }
+}
+
+
+
+.select2-selection__clear {
+  height: 22px;
 }

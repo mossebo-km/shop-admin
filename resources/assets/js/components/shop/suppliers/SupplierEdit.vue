@@ -1,13 +1,12 @@
 <script>
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
-  import ShopQuickNav from '../ShopQuickNav'
   import CKEditor from '../../CKEditor'
   import LanguagePicker from '../../LanguagePicker'
 
   import EntityPage from '../../../mixins/EntityPage'
 
-  import SupplierModel from '../../../resources/SupplierModel'
+  import SupplierModel from '../../../resources/shop/SupplierModel'
 
 
   export default {
@@ -18,7 +17,6 @@
     ],
 
     components: {
-      ShopQuickNav,
       'ckeditor': CKEditor,
       LanguagePicker,
       bModal
@@ -45,8 +43,6 @@
 
 <template>
   <div>
-    <shop-quick-nav active="suppliers" />
-
     <div class="block full">
       <div class="block-title clearfix" v-if="type === 'create'">
         <h1>

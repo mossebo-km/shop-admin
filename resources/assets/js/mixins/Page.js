@@ -3,6 +3,8 @@ import Core from '../core'
 import Base from './Base'
 import DataHandler from './DataHandler'
 
+// todo: history api
+
 export default {
   mixins: [
     Base,

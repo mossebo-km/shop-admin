@@ -15,11 +15,11 @@ class AdminPermissionGroupEditResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->name,
-            'parent_id' => $this->parent_id,
+            'name'        => $this->name,
+            'parent_id'   => $this->parent_id,
 
-            'created_at' => dateFormatFull($this->created_at),
-            'updated_at' => dateFormatFull($this->updated_at),
+            'created_at'  => dateFormatFull($this->created_at),
+            'updated_at'  => dateFormatFull($this->updated_at),
             'permissions' => $this->permissions()->get()->toArray()
         ];
     }

@@ -15,12 +15,12 @@ class AdminsTableResource extends JsonResource
     public function toArray($request)
     {
         return [
-          'id' => $this->id,
-          'name' => $this->name,
-          'email' => $this->email,
+          'id'      => $this->id,
+          'name'    => $this->name,
+          'email'   => $this->email,
           'enabled' => $this->enabled,
-          'roles' => array_column($this->roles()->get(['id'])->toArray(), 'id'),
-          'image' => new MediaResource($this->getMedia('image')->first()),
+          'roles'   => array_column($this->roles()->get(['id'])->toArray(), 'id'),
+          'image'   => new MediaResource($this->getMedia()->first()),
         ];
     }
 }

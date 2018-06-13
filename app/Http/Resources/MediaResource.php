@@ -15,9 +15,9 @@ class MediaResource extends JsonResource
     public function toArray($request)
     {
         return array_merge($this->getImagePathes(), [
-            'id'       => $this->id,
-            'size'     => $this->size,
-            'type'     => $this->mime_type,
+            'id'   => $this->id,
+            'size' => $this->size,
+            'type' => $this->mime_type,
         ]);
     }
 }

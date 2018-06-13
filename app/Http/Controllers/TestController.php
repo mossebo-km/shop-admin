@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Request;
 use App\Models\Product;
 
 class TestController extends Controller
@@ -41,14 +40,8 @@ class TestController extends Controller
     }
 
     public function test() {
-//        $product = Product::first();
-//        $products = Product::all();
-        $products = Product::with('prices')->first();
+        $attribute = \App\Models\AdminRolePermissionGroup::orderBy('id', 'asc')->first();
 
-
-
-        echo "<pre>";
-        print_r($products);
-        return;
+        dd($attribute->id, $attribute->roles()->get());
     }
 }

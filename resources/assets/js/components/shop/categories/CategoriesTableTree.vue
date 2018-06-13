@@ -102,6 +102,14 @@
           </router-link>
         </div>
 
+        <div class="table-cell text-center table-cell-column-image">
+          <router-link :to="item.url">
+            <div class="product-preview-image">
+              <img :src="item.image.src" :srcset="`${item.image.srcset} 2x`">
+            </div>
+          </router-link>
+        </div>
+
         <div class="table-cell lev">
           <span
             v-if="item.children"
@@ -150,7 +158,8 @@
         :statusChange="statusChange"
         :remove="remove"
         :activeLanguageCode="activeLanguageCode"
-        :parentId="item.id" />
+        :parentId="item.id"
+      ></categories-table-tree>
     </div>
   </div>
 </template>

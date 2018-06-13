@@ -59,7 +59,7 @@ export default {
     data = this.get(identif)
 
     if (data) {
-      helper.runCallback(callback, data)
+      Core.runCallback(callback, data)
     }
     else {
       try {

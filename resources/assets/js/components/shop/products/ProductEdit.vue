@@ -3,7 +3,6 @@
 
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
-  import ShopQuickNav from '../ShopQuickNav'
   import TreeSelect from '../../TreeSelect'
   import TreeSelectTranslatable from '../../TreeSelectTranslatable'
   import CKEditor from '../../CKEditor'
@@ -22,8 +21,8 @@
 
   import { asyncPackageDataCollector } from '../../../core/queueHandler'
 
-  import ProductModel from '../../../resources/ProductModel'
-  import ProductAttributesModel from '../../../resources/ProductAttributesModel'
+  import ProductModel from '../../../resources/shop/ProductModel'
+  import ProductAttributesModel from '../../../resources/shop/ProductAttributesModel'
 
   // todo: добавить поддержку ролей
 
@@ -62,12 +61,13 @@
           'currencies',
           'categories-tree',
           'suppliers',
+          'rooms',
+          'styles',
         ]
       }
     },
 
     components: {
-      ShopQuickNav,
       TreeSelect,
       TreeSelectTranslatable,
       'ckeditor': CKEditor,
@@ -118,6 +118,7 @@
       },
 
       getToSaveData() {
+        console.log(this.getEntityModel())
         return {
           ... this.getEntityModel(),
           images: this.getToSaveImages(),
@@ -152,6 +153,22 @@
           id: supplier.id,
           title: supplier.name
         }))
+      },
+
+      roomsToSelect() {
+        return this.rooms.map(room => {
+          return {
+            id: room.id,
+            title: room.i18n[this.activeLanguageCode].title
+          }
+        })
+      },
+
+      stylesToSelect() {
+        return this.styles.map(style => ({
+          id: style.id,
+          title: style.i18n[this.activeLanguageCode].title
+        }))
       }
     }
   }
@@ -159,8 +176,6 @@
 
 <template>
   <div>
-    <shop-quick-nav active="products" />
-
     <div class="block full">
       <div class="block-title clearfix" v-if="type === 'create'">
         <h1>
@@ -324,6 +339,42 @@
 
                   <span v-show="formErrors.has('categories')" class="help-block">
                     {{ formErrors.first('categories') }}
+                  </span>
+                </div>
+              </div>
+
+              <div :class="`form-group${formErrors.has('rooms') ? ' has-error' : ''}`">
+                <label class="col-md-3 control-label">
+                  Комнаты <span class="text-danger">*</span>
+                </label>
+
+                <div class="col-md-8">
+                  <tree-select
+                    :options="roomsToSelect"
+                    :selected.sync="product.rooms"
+                    :multiple="true"
+                    placeholder="Выберите комнату" />
+
+                  <span v-show="formErrors.has('rooms')" class="help-block">
+                    {{ formErrors.first('rooms') }}
+                  </span>
+                </div>
+              </div>
+
+              <div :class="`form-group${formErrors.has('styles') ? ' has-error' : ''}`">
+                <label class="col-md-3 control-label">
+                  Стили <span class="text-danger">*</span>
+                </label>
+
+                <div class="col-md-8">
+                  <tree-select
+                    :options="stylesToSelect"
+                    :selected.sync="product.styles"
+                    :multiple="true"
+                    placeholder="Выберите стиль" />
+
+                  <span v-show="formErrors.has('styles')" class="help-block">
+                    {{ formErrors.first('styles') }}
                   </span>
                 </div>
               </div>

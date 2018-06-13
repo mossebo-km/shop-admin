@@ -1,4 +1,4 @@
-import Model from './Base/Model'
+import Model from './base/Model'
 import PermissionGroupsTreeSelectModel from "./PermissionGroupsTreeSelectModel";
 
 export default class PermissionGroupsTableModel extends Model {

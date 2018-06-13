@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models;
 
+// todo: либо список репозиториев, либо методы
+
 class DataHandler
 {
     protected static $repositories = [
         'categories'  => \Categories::class,
+        'rooms'       => \Rooms::class,
+        'styles'      => \Styles::class,
         'currencies'  => \Currencies::class,
         'languages'   => \Languages::class,
         'price-types' => \PriceTypes::class,
@@ -24,7 +28,7 @@ class DataHandler
      */
     public function keyIsRelevant($key)
     {
-        return $key == self::getRelevantKey();
+        return $key == static::getRelevantKey();
     }
 
     /**
@@ -34,7 +38,7 @@ class DataHandler
      */
     public static function getRelevantKey()
     {
-        return \Cache::remember(self::$cacheKey, 18000, function () {
+        return \Cache::remember(static::$cacheKey, 18000, function () {
             return md5(uniqid());
         });
     }
@@ -47,22 +51,22 @@ class DataHandler
     public static function clearCache($dataTypeOrModelClassName = false)
     {
         if (! $dataTypeOrModelClassName) {
-            self::clearAllCache();
+            static::clearAllCache();
             return;
         }
 
-        if (isset(self::$repositories[$dataTypeOrModelClassName])) {
-            self::$repositories[$dataTypeOrModelClassName]::clearCache();
-            \Cache::forget(self::$cacheKey);
+        if (isset(static::$repositories[$dataTypeOrModelClassName])) {
+            static::$repositories[$dataTypeOrModelClassName]::clearCache();
+            \Cache::forget(static::$cacheKey);
             return;
         }
 
         $modelClassName = $dataTypeOrModelClassName;
 
-        foreach (self::$repositories as $repo) {
+        foreach (static::$repositories as $repo) {
             if ($repo::getModelClassName() === $modelClassName) {
                 $repo::clearCache();
-                \Cache::forget(self::$cacheKey);
+                \Cache::forget(static::$cacheKey);
                 return;
             }
         }
@@ -70,11 +74,11 @@ class DataHandler
 
     public static function clearAllCache()
     {
-        foreach (self::$repositories as $repository) {
+        foreach (static::$repositories as $repository) {
             $repository::clearCache();
         }
 
-        \Cache::forget(self::$cacheKey);
+        \Cache::forget(static::$cacheKey);
     }
 
     /**
@@ -88,24 +92,24 @@ class DataHandler
         $data = [];
 
         foreach ($labels as $label) {
-            if (isset(self::$repositories[$label])) {
-                self::_connectFromRepository($label, $data);
+            $methodName = static::_getMethodName($label);
+
+            if (method_exists(__CLASS__, $methodName)) {
+                try {
+                    $data[$label] = call_user_func([__CLASS__, $methodName]);
+                } catch (\Exception $e) {
+                    dd($e);
+                }
             }
-            else {
-                self::_connectFromMethod($label, $data);
+            elseif (isset(static::$repositories[$label])) {
+                $data[$label] = static::_getRepository($label)::all();
             }
         }
 
         return $data;
     }
 
-    /**
-     * Получение данных из метода.
-     *
-     * @param $label
-     * @param $data
-     */
-    protected static function _connectFromMethod($label, &$data)
+    protected static function _getMethodName($label)
     {
         $methodName = '_get';
 
@@ -113,44 +117,7 @@ class DataHandler
             $methodName .= ucfirst($value);
         }
 
-        if (method_exists(__CLASS__, $methodName)) {
-            try {
-                $data[$label] = call_user_func([__CLASS__, $methodName]);
-            } catch (\Exception $e) {
-                dd($e);
-            }
-        }
-    }
-
-    /**
-     * Получение данных из репозитория.
-     *
-     * @param $label
-     * @param $data
-     */
-    protected static function _connectFromRepository($label, &$data)
-    {
-        $data[$label] = self::_getRepository($label)::all();
-    }
-
-    /**
-     * Дерево категорий.
-     *
-     * @return mixed
-     */
-    protected static function _getCategoriesTree()
-    {
-        return self::_getRepository('categories')::getTree(['i18n']);
-    }
-
-    /**
-     * Поставщики.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    protected static function _getSuppliers()
-    {
-        return Models\Supplier::all();
+        return $methodName;
     }
 
     /**
@@ -160,6 +127,49 @@ class DataHandler
      */
     protected static function _getRepository($label)
     {
-        return self::$repositories[$label];
+        return static::$repositories[$label];
+    }
+
+    /**
+     * Дерево категорий.
+     *
+     * @return mixed
+     */
+    protected static function _getCategoriesTree()
+    {
+        return static::_getRepository('categories')::getTree([
+            'i18n'
+        ]);
+    }
+
+    /**
+     * Поставщики.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    protected static function _getSuppliers()
+    {
+        return Models\Shop\Supplier::all();
+    }
+
+    protected static function _getPriceTypes()
+    {
+        return static::_getRepository('price-types')::getCollection([
+            'i18n'
+        ]);
+    }
+
+    protected static function _getRooms()
+    {
+        return static::_getRepository('rooms')::getCollection([
+            'i18n'
+        ]);
+    }
+
+    protected static function _getStyles()
+    {
+        return static::_getRepository('styles')::getCollection([
+            'i18n'
+        ]);
     }
 }

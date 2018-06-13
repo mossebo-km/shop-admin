@@ -19,14 +19,14 @@ trait RequestSaver
                 unset($data[$toUnset]);
             }
 
-            $this->handleRelationData($data);
-
             if ($this->id) {
                 $this->update($fillable);
             }
             else {
                 $this->fill($fillable)->save();
             }
+
+            $this->handleRelationData($data);
         });
 
         return $this;

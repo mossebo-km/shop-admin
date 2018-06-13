@@ -13,6 +13,12 @@ import Dashboard from './components/shop/Dashboard'
 import CategoriesTable from './components/shop/categories/CategoriesTable'
 import CategoryEdit from './components/shop/categories/CategoryEdit'
 
+import RoomsTable from './components/shop/rooms/RoomsTable'
+import RoomEdit from './components/shop/rooms/RoomEdit'
+
+import StylesTable from './components/shop/styles/StylesTable'
+import StyleEdit from './components/shop/styles/StyleEdit'
+
 import ProductsTable from './components/shop/products/ProductsTable'
 import ProductEdit from './components/shop/products/ProductEdit'
 
@@ -81,7 +87,7 @@ window.CKEDITOR_BASEPATH = '/js/vendor/ckeditor/';
 
 $.ajaxSetup({
     headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     }
 });
 
@@ -97,6 +103,14 @@ const routes = [
   { path: '/shop/categories', component: CategoriesTable },
   { path: '/shop/categories/create', component: CategoryEdit, props: { type: 'create' } },
   { path: '/shop/categories/:id', component: CategoryEdit, props: route => ({...route.params, type: 'edit'}) },
+
+  { path: '/shop/rooms', component: RoomsTable },
+  { path: '/shop/rooms/create', component: RoomEdit, props: { type: 'create' } },
+  { path: '/shop/rooms/:id', component: RoomEdit, props: route => ({...route.params, type: 'edit'}) },
+
+  { path: '/shop/styles', component: StylesTable },
+  { path: '/shop/styles/create', component: StyleEdit, props: { type: 'create' } },
+  { path: '/shop/styles/:id', component: StyleEdit, props: route => ({...route.params, type: 'edit'}) },
 
   { path: '/shop/products', component: ProductsTable },
   { path: '/shop/products/create', component: ProductEdit, props: { type: 'create' } },
@@ -183,3 +197,22 @@ Core.init().then(() => {
     }
   }).$mount('#app')
 })
+
+let isFirstTime = true
+
+router.afterEach(() => {
+  if (isFirstTime) {
+    isFirstTime = false
+  }
+  else {
+    let previousPath = window.location.href.replace(window.location.origin, '')
+
+    setTimeout(() => {
+      window.history.replaceState({
+        ... window.history.state,
+        previousPath
+      }, '', window.location.href)
+    })
+  }
+})
+

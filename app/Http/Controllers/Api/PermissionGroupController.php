@@ -22,9 +22,6 @@ class PermissionGroupController extends ApiController
     protected static $editResource = AdminPermissionGroupEditResource::class;
     protected static $tableResource = AdminPermissionGroupsTableResource::class;
 
-    /**
-     * @return array
-     */
     public function index()
     {
         return [

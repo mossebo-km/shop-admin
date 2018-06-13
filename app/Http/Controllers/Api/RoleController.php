@@ -21,9 +21,6 @@ class RoleController extends ApiController
     protected static $editResource = RoleEditResource::class;
     protected static $tableResource = RolesTableResource::class;
 
-    /**
-     * @return array
-     */
     public function index()
     {
         return [

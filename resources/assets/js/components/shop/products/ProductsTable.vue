@@ -8,7 +8,6 @@
 
   import Core from '../../../core'
 
-  import ShopQuickNav from '../ShopQuickNav'
   import Toggle from '../../Toggle'
   import Loading from '../../Loading'
   import SearchInput from '../../SearchInput'
@@ -19,7 +18,15 @@
   import Translatable from '../../../mixins/Translatable'
   import StatusChangeable from '../../../mixins/StatusChangeable'
 
-  import ProductsTableModel from '../../../resources/ProductsTableModel'
+  import ProductsTableModel from '../../../resources/shop/ProductsTableModel'
+
+  const defaultTableState = {
+    sortBy: 'id',
+    sortDesc: false,
+    page: 1,
+    perPage: 15,
+    searchPhrase: '',
+  }
 
 
   export default {
@@ -32,7 +39,6 @@
     ],
 
     components : {
-      ShopQuickNav,
       Toggle,
       Loading,
       bTable,
@@ -93,13 +99,9 @@
       return {
         rbacNamespace: 'shop.products',
         loading: false,
-        sortBy: 'id',
-        sortDesc: false,
-        currentPage: 1,
-        perPage: 15,
         totalRows: 0,
         perPageOptions: [ 15, 30, 60 ],
-        searchPhrase: '',
+        ... defaultTableState,
         fields,
 
         priceTypes: [],
@@ -112,7 +114,87 @@
       }
     },
 
+    created() {
+      let query = window.location.search.replace('?', '')
+
+      if (_.isEmpty(query)) return
+
+      query.split('&').forEach(item => {
+        item = item.split('=')
+
+        let key = item[0]
+        let value = item[1]
+
+        let methodName = 'getValid' + Core.camelize(key, true)
+
+        this[key] = this[methodName](value)
+      })
+    },
+
     methods: {
+      getValidSortBy(value) {
+        if (this.fields.find(field => field.key === value)) {
+          return value
+        }
+
+        return defaultTableState.sortBy
+      },
+
+      getValidSortDesc(value) {
+        if (_.isBoolean(value)) {
+          return value
+        }
+
+        if (value === 'true') {
+          return true
+        }
+
+        if (value === 'false') {
+          return false
+        }
+
+        return defaultTableState.sortDesc
+      },
+
+      getValidPage(value) {
+        value = parseInt(value)
+        return isNaN(value) ? defaultTableState.page : value
+      },
+
+      getValidPerPage(value) {
+        value = parseInt(value)
+
+        if (this.perPageOptions.indexOf(value) !== -1) {
+          return value
+        }
+
+        return this.perPageOptions[0]
+      },
+
+      getValidSearchPhrase(value) {
+        return value
+      },
+
+      setHistoryState() {
+        let queryArr = Object.keys(defaultTableState).reduce((acc, key) => {
+          if (!isNaN(this[key]) && this[key] !== defaultTableState[key]) {
+            acc.push(encodeURIComponent(key) + '=' + encodeURIComponent(this[key]))
+          }
+
+          return acc
+        }, [])
+
+        let pathWithQuery = window.location.pathname
+
+        if (queryArr.length > 0) {
+          pathWithQuery += '?' + queryArr.join('&')
+        }
+
+        if (this.$router.path !== pathWithQuery) {
+          this.$router.push(pathWithQuery)
+        }
+      },
+
       loadData() {
         this.fetchMainData()
           .then(data => {
@@ -128,7 +210,7 @@
       fetchItems ({currentPage, perPage, sortBy, sortDesc}) {
         return new Promise(resolve => {
           new Core.requestHandler('get', this.makePageApiUrl(), {
-            currentPage,
+            page: currentPage,
             perPage,
             sortBy,
             sortType: sortDesc ? 'desc' : 'asc',
@@ -139,7 +221,7 @@
               const data = response.data;
 
               this.totalRows = this.nanToZero(parseInt(data.totalRows))
-              this.currentPage = parseInt(data.currentPage) || 1
+              this.page = parseInt(data.page) || 1
               this.perPage = parseInt(data.perPage)
 
               const items = data.products || []
@@ -169,18 +251,26 @@
       },
 
       sortingChanged(ctx) {
-        ctx.currentPage = 1
+        ctx.page = 1
       },
 
       search(phrase) {
         if (this.searchPhrase != phrase) {
+          this.page = 1
           this.searchPhrase = phrase
           this.refreshTable()
         }
       },
 
+      setPerPage(value) {
+        this.perPage = value
+        this.page = 1
+      },
+
       refreshTable() {
-        this.$refs.table.refresh()
+        this.$nextTick(() => {
+          this.$refs.table.refresh()
+        })
       },
 
       nanToZero(value) {
@@ -190,11 +280,11 @@
 
     computed: {
       showedFrom() {
-        return this.nanToZero((this.currentPage - 1) * this.perPage + 1)
+        return this.nanToZero((this.page - 1) * this.perPage + 1)
       },
 
       showedTo() {
-        let to = this.currentPage * this.perPage
+        let to = this.page * this.perPage
         return this.nanToZero(to > this.totalRows ? this.totalRows : to)
       },
 
@@ -212,8 +302,6 @@
 
 <template>
   <div>
-    <shop-quick-nav active="products" />
-
     <div class="block full">
       <div class="block-title clearfix">
         <h1>
@@ -239,7 +327,7 @@
             <div class="row">
               <div class="col-sm-6 col-xs-12 clearfix">
                 <div class="dataTables_paginate paging_bootstrap" v-if="showPagination">
-                  <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0" />
+                  <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="page" class="my-0" />
                 </div>
               </div>
 
@@ -254,6 +342,7 @@
             </div>
 
             <b-table
+              @refreshed="setHistoryState"
               v-if="priceTypes.length"
               show-empty
               stacked="md"
@@ -263,7 +352,7 @@
               :items="fetchItems"
               :fields="fields"
               :busy.sync="loading"
-              :current-page="currentPage"
+              :current-page="page"
               :per-page="perPage"
               @sort-changed="sortingChanged"
               empty-text="Список товаров пуст."
@@ -382,7 +471,12 @@
             <div class="row">
               <div class="col-sm-6 col-xs-12 clearfix">
                 <div class="dataTables_paginate paging_bootstrap" v-if="showPagination">
-                  <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0" />
+                  <b-pagination
+                    :total-rows="totalRows"
+                    :per-page="perPage"
+                    v-model="page"
+                    class="my-0"
+                  />
                 </div>
               </div>
 
@@ -390,7 +484,7 @@
               <div class="col-sm-6 col-xs-6">
                 <div class="dataTables_length">
                   <label>
-                    <b-form-select :options="perPageOptions" v-model="perPage" />
+                    <b-form-select :options="perPageOptions" :value="perPage" @change="setPerPage" />
                   </label>
                 </div>
 
