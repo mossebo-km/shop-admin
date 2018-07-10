@@ -1402,6 +1402,10 @@ textarea.form-control {
   height: 22px;
 }
 
+.dataTable thead th {
+  white-space: nowrap;
+}
+
 @media (min-width: 1200px) and (max-width: 1599px) {
   .hidden-lg {
     display: none !important;

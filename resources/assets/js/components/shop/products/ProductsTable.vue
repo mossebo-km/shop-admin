@@ -26,6 +26,7 @@
     page: 1,
     perPage: 15,
     searchPhrase: '',
+    type: 'all'
   }
 
 
@@ -101,6 +102,11 @@
         loading: false,
         totalRows: 0,
         perPageOptions: [ 15, 30, 60 ],
+        types: {
+          all: 'Все',
+          popular: 'Популярные',
+          new: 'Новинки',
+        },
         ... defaultTableState,
         fields,
 
@@ -125,9 +131,7 @@
         let key = item[0]
         let value = item[1]
 
-        let methodName = 'getValid' + Core.camelize(key, true)
-
-        this[key] = this[methodName](value)
+        this[key] = this.getValid(key, value)
       })
     },
 
@@ -161,6 +165,10 @@
         return isNaN(value) ? defaultTableState.page : value
       },
 
+      getValidType(value) {
+        return value in this.types ? value : defaultTableState.type
+      },
+
       getValidPerPage(value) {
         value = parseInt(value)
 
@@ -175,9 +183,17 @@
         return value
       },
 
+      getValid(key, value) {
+        let methodName = 'getValid' + Core.camelize(key, true)
+
+        return this[methodName](value)
+      },
+
       setHistoryState() {
         let queryArr = Object.keys(defaultTableState).reduce((acc, key) => {
-          if (!isNaN(this[key]) && this[key] !== defaultTableState[key]) {
+          let validValue = this.getValid(key, this[key])
+
+          if (validValue !== defaultTableState[key]) {
             acc.push(encodeURIComponent(key) + '=' + encodeURIComponent(this[key]))
           }
 
@@ -215,14 +231,15 @@
             sortBy,
             sortType: sortDesc ? 'desc' : 'asc',
             search: this.searchPhrase,
-            priceType: this.activePriceType
+            priceType: this.activePriceType,
+            type: this.type
           })
             .success(response => {
               const data = response.data;
 
-              this.totalRows = this.nanToZero(parseInt(data.totalRows))
+              this.totalRows = this.nanToNum(parseInt(data.totalRows))
               this.page = parseInt(data.page) || 1
-              this.perPage = parseInt(data.perPage)
+              this.perPage = this.nanToNum(parseInt(data.perPage))
 
               const items = data.products || []
 
@@ -230,6 +247,14 @@
             })
             .start()
         })
+      },
+
+      setType(type) {
+        if (this.type === type) return
+
+        this.type = type
+
+        this.refreshTable()
       },
 
       setActivePriceType(id) {
@@ -273,19 +298,19 @@
         })
       },
 
-      nanToZero(value) {
-        return isNaN(value) ? 0 : value
+      nanToNum(value, num = 0) {
+        return isNaN(value) ? num : value
       }
     },
 
     computed: {
       showedFrom() {
-        return this.nanToZero((this.page - 1) * this.perPage + 1)
+        return this.nanToNum((this.page - 1) * this.perPage + 1)
       },
 
       showedTo() {
         let to = this.page * this.perPage
-        return this.nanToZero(to > this.totalRows ? this.totalRows : to)
+        return this.nanToNum(to > this.totalRows ? this.totalRows : to)
       },
 
       showPagination() {
@@ -325,13 +350,21 @@
         <div class="table-responsive" style="overflow: visible">
           <div class="dataTables_wrapper form-inline no-footer">
             <div class="row">
-              <div class="col-sm-6 col-xs-12 clearfix">
+              <div class="col-sm-4 col-xs-12 clearfix">
                 <div class="dataTables_paginate paging_bootstrap" v-if="showPagination">
                   <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="page" class="my-0" />
                 </div>
               </div>
 
-              <div class="col-sm-6 col-xs-6 clearfix">
+              <div class="col-sm-4 col-xs-12 text-center clearfix">
+                <div class="btn-group">
+                  <template v-for="(title, typeIdentif) in types">
+                    <button :class="{'btn btn-primary': true, 'btn-alt': type !== typeIdentif}" @click="setType(typeIdentif)">{{ title }}</button>
+                  </template>
+                </div>
+              </div>
+
+              <div class="col-sm-4 col-xs-12 clearfix">
                 <div class="dataTables_filter pull-right">
                   <div class="input-group">
                     <search-input placeholder="Поиск" class="form-control" type="search" aria-controls="example-datatable" @change="search" />

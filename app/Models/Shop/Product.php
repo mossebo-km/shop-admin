@@ -320,6 +320,19 @@ class Product extends BaseProduct implements HasMedia
 
         return $query->first()->toArray();
     }
+
+    public static function enabled()
+    {
+        $supplierTableName = config('tables.Suppliers');
+        $productTableName = config('tables.Products');
+
+        return self::select(\DB::raw("{$productTableName}.*"))
+            ->where("{$productTableName}.enabled", 1)
+            ->leftJoin("{$supplierTableName}", function($join) use($supplierTableName, $productTableName) {
+                $join->on("{$supplierTableName}.id", '=', "{$productTableName}.supplier_id")
+                    ->where("{$supplierTableName}.enabled", true);
+            });
+    }
 }
 
 

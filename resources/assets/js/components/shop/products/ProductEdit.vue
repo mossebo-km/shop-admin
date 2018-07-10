@@ -345,7 +345,7 @@
 
               <div :class="`form-group${formErrors.has('rooms') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label">
-                  Комнаты <span class="text-danger">*</span>
+                  Комнаты
                 </label>
 
                 <div class="col-md-8">
@@ -363,7 +363,7 @@
 
               <div :class="`form-group${formErrors.has('styles') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label">
-                  Стили <span class="text-danger">*</span>
+                  Стили
                 </label>
 
                 <div class="col-md-8">

@@ -93,6 +93,14 @@ class ProductController extends ApiController
                 });
             }
 
+            if ($type === 'popular') {
+                $query = $query->where("{$productsTableName}.is_popular", true);
+            }
+
+            if ($type === 'new') {
+                $query = $query->where("{$productsTableName}.is_new", true);
+            }
+
             return $query->select("{$productsTableName}.*")
                 ->orderBy('id', $sortType)
                 ->with(['i18n', 'prices', 'image', 'categoryRelations', 'roomRelations', 'styleRelations'])

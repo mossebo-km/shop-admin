@@ -40,4 +40,9 @@ class Room extends BaseRoom implements HasMedia
             $this->relationFieldName, 'id', 'id', 'product_id'
         );
     }
+
+    public function productCounts()
+    {
+        return $this->hasMany(ProductCount::class, $this->relationFieldName);
+    }
 }

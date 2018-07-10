@@ -31,7 +31,7 @@ trait HasMediaTrait {
 
     public function images()
     {
-        return $this->media()
+        return $this->morphMany(config('medialibrary.media_model'), 'model')
             ->where('collection_name', $this->mediaCollectionName)
             ->orderBy('order_column', 'asc');
     }

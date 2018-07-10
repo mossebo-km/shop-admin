@@ -3234,7 +3234,8 @@ var defaultTableState = {
   sortDesc: false,
   page: 1,
   perPage: 15,
-  searchPhrase: ''
+  searchPhrase: '',
+  type: 'all'
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3300,7 +3301,12 @@ var defaultTableState = {
       rbacNamespace: 'shop.products',
       loading: false,
       totalRows: 0,
-      perPageOptions: [15, 30, 60]
+      perPageOptions: [15, 30, 60],
+      types: {
+        all: 'Все',
+        popular: 'Популярные',
+        new: 'Новинки'
+      }
     }, defaultTableState, {
       fields: fields,
 
@@ -3323,9 +3329,7 @@ var defaultTableState = {
       var key = item[0];
       var value = item[1];
 
-      var methodName = 'getValid' + __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].camelize(key, true);
-
-      _this[key] = _this[methodName](value);
+      _this[key] = _this.getValid(key, value);
     });
   },
 
@@ -3359,6 +3363,9 @@ var defaultTableState = {
       value = parseInt(value);
       return isNaN(value) ? defaultTableState.page : value;
     },
+    getValidType: function getValidType(value) {
+      return value in this.types ? value : defaultTableState.type;
+    },
     getValidPerPage: function getValidPerPage(value) {
       value = parseInt(value);
 
@@ -3371,11 +3378,18 @@ var defaultTableState = {
     getValidSearchPhrase: function getValidSearchPhrase(value) {
       return value;
     },
+    getValid: function getValid(key, value) {
+      var methodName = 'getValid' + __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].camelize(key, true);
+
+      return this[methodName](value);
+    },
     setHistoryState: function setHistoryState() {
       var _this2 = this;
 
       var queryArr = Object.keys(defaultTableState).reduce(function (acc, key) {
-        if (!isNaN(_this2[key]) && _this2[key] !== defaultTableState[key]) {
+        var validValue = _this2.getValid(key, _this2[key]);
+
+        if (validValue !== defaultTableState[key]) {
           acc.push(encodeURIComponent(key) + '=' + encodeURIComponent(_this2[key]));
         }
 
@@ -3421,13 +3435,14 @@ var defaultTableState = {
           sortBy: sortBy,
           sortType: sortDesc ? 'desc' : 'asc',
           search: _this4.searchPhrase,
-          priceType: _this4.activePriceType
+          priceType: _this4.activePriceType,
+          type: _this4.type
         }).success(function (response) {
           var data = response.data;
 
-          _this4.totalRows = _this4.nanToZero(parseInt(data.totalRows));
+          _this4.totalRows = _this4.nanToNum(parseInt(data.totalRows));
           _this4.page = parseInt(data.page) || 1;
-          _this4.perPage = parseInt(data.perPage);
+          _this4.perPage = _this4.nanToNum(parseInt(data.perPage));
 
           var items = data.products || [];
 
@@ -3436,6 +3451,13 @@ var defaultTableState = {
           }));
         }).start();
       });
+    },
+    setType: function setType(type) {
+      if (this.type === type) return;
+
+      this.type = type;
+
+      this.refreshTable();
     },
     setActivePriceType: function setActivePriceType(id) {
       if (this.activePriceType === id) return;
@@ -3476,18 +3498,20 @@ var defaultTableState = {
         _this6.$refs.table.refresh();
       });
     },
-    nanToZero: function nanToZero(value) {
-      return isNaN(value) ? 0 : value;
+    nanToNum: function nanToNum(value) {
+      var num = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+      return isNaN(value) ? num : value;
     }
   },
 
   computed: {
     showedFrom: function showedFrom() {
-      return this.nanToZero((this.page - 1) * this.perPage + 1);
+      return this.nanToNum((this.page - 1) * this.perPage + 1);
     },
     showedTo: function showedTo() {
       var to = this.page * this.perPage;
-      return this.nanToZero(to > this.totalRows ? this.totalRows : to);
+      return this.nanToNum(to > this.totalRows ? this.totalRows : to);
     },
     showPagination: function showPagination() {
       return this.perPage < this.totalRows;
@@ -42954,7 +42978,9 @@ var render = function() {
                           (_vm.formErrors.has("rooms") ? " has-error" : "")
                       },
                       [
-                        _vm._m(4),
+                        _c("label", { staticClass: "col-md-3 control-label" }, [
+                          _vm._v("\n                Комнаты\n              ")
+                        ]),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -43009,7 +43035,9 @@ var render = function() {
                           (_vm.formErrors.has("styles") ? " has-error" : "")
                       },
                       [
-                        _vm._m(5),
+                        _c("label", { staticClass: "col-md-3 control-label" }, [
+                          _vm._v("\n                Стили\n              ")
+                        ]),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -43551,7 +43579,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "col-lg-6" }, [
                 _c("div", { staticClass: "block" }, [
-                  _vm._m(6),
+                  _vm._m(4),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-horizontal form-bordered" }, [
                     _c(
@@ -43562,7 +43590,7 @@ var render = function() {
                           (_vm.formErrors.has("width") ? " has-error" : "")
                       },
                       [
-                        _vm._m(7),
+                        _vm._m(5),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
                           _c(
@@ -43648,7 +43676,7 @@ var render = function() {
                           (_vm.formErrors.has("height") ? " has-error" : "")
                       },
                       [
-                        _vm._m(8),
+                        _vm._m(6),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
                           _c(
@@ -43734,7 +43762,7 @@ var render = function() {
                           (_vm.formErrors.has("length") ? " has-error" : "")
                       },
                       [
-                        _vm._m(9),
+                        _vm._m(7),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
                           _c(
@@ -43820,7 +43848,7 @@ var render = function() {
                           (_vm.formErrors.has("weight") ? " has-error" : "")
                       },
                       [
-                        _vm._m(10),
+                        _vm._m(8),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
                           _c(
@@ -43905,7 +43933,7 @@ var render = function() {
                       "div",
                       { staticClass: "block" },
                       [
-                        _vm._m(11),
+                        _vm._m(9),
                         _vm._v(" "),
                         _c("attributes-select", {
                           ref: "attributesSelect",
@@ -43925,7 +43953,7 @@ var render = function() {
                 _vm._v(" "),
                 _vm.type === "edit"
                   ? _c("div", { staticClass: "block" }, [
-                      _vm._m(12),
+                      _vm._m(10),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -43960,7 +43988,7 @@ var render = function() {
               "div",
               { staticClass: "block" },
               [
-                _vm._m(13),
+                _vm._m(11),
                 _vm._v(" "),
                 _c("prices-table", {
                   attrs: {
@@ -44059,24 +44087,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { staticClass: "col-md-3 control-label" }, [
       _vm._v("\n                Поставщик "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { staticClass: "col-md-3 control-label" }, [
-      _vm._v("\n                Комнаты "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { staticClass: "col-md-3 control-label" }, [
-      _vm._v("\n                Стили "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -44890,7 +44900,7 @@ var render = function() {
                     _c("div", { staticClass: "row" }, [
                       _c(
                         "div",
-                        { staticClass: "col-sm-6 col-xs-12 clearfix" },
+                        { staticClass: "col-sm-4 col-xs-12 clearfix" },
                         [
                           _vm.showPagination
                             ? _c(
@@ -44921,40 +44931,79 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-6 col-xs-6 clearfix" }, [
-                        _c(
-                          "div",
-                          { staticClass: "dataTables_filter pull-right" },
-                          [
-                            _c(
-                              "div",
-                              { staticClass: "input-group" },
-                              [
-                                _c("search-input", {
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    placeholder: "Поиск",
-                                    type: "search",
-                                    "aria-controls": "example-datatable"
-                                  },
-                                  on: { change: _vm.search }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "a",
-                                  {
-                                    staticClass: "input-group-addon",
-                                    attrs: { href: "javascript:void(0)" },
-                                    on: { click: _vm.search }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-search" })]
-                                )
-                              ],
-                              1
-                            )
-                          ]
-                        )
-                      ])
+                      _c(
+                        "div",
+                        {
+                          staticClass: "col-sm-4 col-xs-12 text-center clearfix"
+                        },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "btn-group" },
+                            [
+                              _vm._l(_vm.types, function(title, typeIdentif) {
+                                return [
+                                  _c(
+                                    "button",
+                                    {
+                                      class: {
+                                        "btn btn-primary": true,
+                                        "btn-alt": _vm.type !== typeIdentif
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.setType(typeIdentif)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(title))]
+                                  )
+                                ]
+                              })
+                            ],
+                            2
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-sm-4 col-xs-12 clearfix" },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "dataTables_filter pull-right" },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "input-group" },
+                                [
+                                  _c("search-input", {
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      placeholder: "Поиск",
+                                      type: "search",
+                                      "aria-controls": "example-datatable"
+                                    },
+                                    on: { change: _vm.search }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "input-group-addon",
+                                      attrs: { href: "javascript:void(0)" },
+                                      on: { click: _vm.search }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-search" })]
+                                  )
+                                ],
+                                1
+                              )
+                            ]
+                          )
+                        ]
+                      )
                     ]),
                     _vm._v(" "),
                     _vm.priceTypes.length
@@ -58396,12 +58445,12 @@ var EventsHandler = function () {
       this.__checkCallback(callback);
 
       var _ = this;
-      var hander = function hander() {
+      var handler = function handler() {
         callback.apply(null, arguments);
-        _.off(name, hander);
+        _.off(name, handler);
       };
 
-      this.on(name, hander);
+      this.on(name, handler);
     }
   }, {
     key: 'off',

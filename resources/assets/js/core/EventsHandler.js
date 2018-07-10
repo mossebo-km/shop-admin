@@ -37,12 +37,12 @@ export default class EventsHandler {
     this.__checkCallback(callback)
 
     let _ = this
-    let hander = function() {
+    let handler = function() {
       callback.apply(null, arguments)
-      _.off(name, hander)
+      _.off(name, handler)
     }
 
-    this.on(name, hander)
+    this.on(name, handler)
   }
 
   off(name, callback) {
