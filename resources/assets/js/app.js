@@ -50,6 +50,9 @@ import ClearCacheBtn from './components/ClearCacheBtn'
 import MainMenu from './components/MainMenu'
 import Avatar from './components/Avatar'
 
+import ReviewsTable from './components/reviews/ReviewsTable'
+import ReviewEdit from './components/reviews/ReviewEdit'
+
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -151,6 +154,12 @@ const routes = [
   { path: '/system/rbac/permission-groups', component: PermissionGroupsTable },
   { path: '/system/rbac/permission-groups/create', component: PermissionGroupEdit, props: { type: 'create' } },
   { path: '/system/rbac/permission-groups/:id', component: PermissionGroupEdit, props: route => ({...route.params, type: 'edit'}) },
+
+
+  { path: '/reviews', component: ReviewsTable },
+  { path: '/reviews/:id', component: ReviewEdit, props: route => ({...route.params, type: 'edit'}) },
+
+
 ]
 
 

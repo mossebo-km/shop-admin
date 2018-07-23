@@ -309,6 +309,13 @@ export default {
         ]
       },
 
+      {
+        title: 'Отзывы',
+        url: '/reviews',
+        icon: 'fa fa-comment',
+        permission: 'reviews.menu'
+      },
+
       // {
       //   title: 'Система',
       //   icon: 'fa fa-gears',

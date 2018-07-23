@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('shop:product-counts')->dailyAt('04:00');
+        $schedule->command('shop:search-index')->everyFiveMinutes();
     }
 
     /**

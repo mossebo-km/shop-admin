@@ -34,6 +34,11 @@ Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData'], 'namespa
         });
     });
 
+
+    Route::get('reviews/{review}/status', 'ReviewController@status');
+    Route::post('reviews/{review}/confirmed', 'ReviewController@imageUpload');
+    Route::resource('reviews', 'ReviewController');
+
     // Магазин
     Route::group(['prefix' => 'shop', 'namespace' => 'Shop'], function () {
         Route::get('products/{product}/status', 'ProductController@status');

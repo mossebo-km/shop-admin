@@ -54,7 +54,7 @@ export default class apiRequest {
         this._handleResponse(response)
       })
       .catch(error => {
-        if (error.constructor.name === 'Cancel') return
+        if (axios.isCancel(error)) return
 
         let response = error.response || {}
 

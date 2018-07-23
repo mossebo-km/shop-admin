@@ -1,7 +1,7 @@
 import ModelI18n from '../base/ModelI18n'
 import HasImage from '../base/HasImage'
 
-export default class ProductAttributesModel extends ModelI18n {
+export default class ProductsTableModel extends ModelI18n {
   getSchemaFields() {
     let self = this
 
@@ -23,8 +23,6 @@ export default class ProductAttributesModel extends ModelI18n {
       i18n: {
         title: '<span class="label label-danger">Не заполнено</span>'
       },
-
-
     }
   }
 }

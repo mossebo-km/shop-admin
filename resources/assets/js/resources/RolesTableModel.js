@@ -6,7 +6,7 @@ export default class RolesTableModel extends Model {
       id: '',
       name: '',
 
-      url: function (data) {
+      url (data) {
         return '/system/rbac/roles/' + data.id
       },
     }

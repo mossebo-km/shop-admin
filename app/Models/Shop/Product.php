@@ -11,12 +11,13 @@ use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\Sluggable;
 use App\Support\Traits\Models\RequestSaver;
 use App\Support\Traits\Models\I18nTrait;
+use Laravel\Scout\Searchable;
 
 use MosseboShopCore\Models\Shop\Product as BaseProduct;
 
 class Product extends BaseProduct implements HasMedia
 {
-    use HasMediaTrait, StatusChangeable, Sluggable, RequestSaver, I18nTrait;
+    use HasMediaTrait, StatusChangeable, Sluggable, RequestSaver, I18nTrait, Searchable;
 
     protected $fillable = [
         'supplier_id',
@@ -48,6 +49,46 @@ class Product extends BaseProduct implements HasMedia
         'attributes'
     ];
 
+    public function toSearchableArray()
+    {
+        $index = [
+            $this->id
+        ];
+
+        foreach ($this->attributeOptions as $option) {
+            foreach ($option->i18n as $translate) {
+                $index[] = $translate->value;
+            }
+        }
+
+        foreach ($this->categories as $category) {
+            foreach ($category->i18n as $translate) {
+                $index[] = $translate->title;
+            }
+        }
+
+        foreach ($this->styles as $style) {
+            foreach ($style->i18n as $translate) {
+                $index[] = $translate->title;
+            }
+        }
+
+        foreach ($this->rooms as $room) {
+            foreach ($room->i18n as $translate) {
+                $index[] = $translate->title;
+            }
+        }
+
+        foreach ($this->i18n as $translate) {
+            $index[] = $translate->title;
+            $index[] = $translate->description;
+        }
+
+        return [
+            'index' => join(' ', preg_replace('/\s\s+/', ' ', $index))
+        ];
+    }
+
     public function prices()
     {
         return $this->morphMany(Price::class, 'item');
@@ -62,7 +103,7 @@ class Product extends BaseProduct implements HasMedia
     {
         return $this->hasManyThrough(
             Category::class, CategoryProduct::class,
-            $this->relationFieldName, 'id'
+            $this->relationFieldName, 'id', 'id', 'category_id'
         );
     }
 
@@ -75,7 +116,7 @@ class Product extends BaseProduct implements HasMedia
     {
         return $this->hasManyThrough(
             Room::class, RoomProduct::class,
-            $this->relationFieldName, 'id'
+            $this->relationFieldName, 'id', 'id', 'room_id'
         );
     }
 
@@ -88,7 +129,7 @@ class Product extends BaseProduct implements HasMedia
     {
         return $this->hasManyThrough(
             Style::class, StyleProduct::class,
-            $this->relationFieldName, 'id'
+            $this->relationFieldName, 'id', 'id', 'style_id'
         );
     }
 

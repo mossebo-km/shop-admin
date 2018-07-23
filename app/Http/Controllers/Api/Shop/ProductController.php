@@ -44,7 +44,7 @@ class ProductController extends ApiController
         ];
     }
 
-        // Убрать две функции ниже хз куда.
+        //todo: Убрать две функции ниже хз куда.
         public function _paginate(Array $params = []): LengthAwarePaginator
         {
             $pagination = $this->_makePagination($params);

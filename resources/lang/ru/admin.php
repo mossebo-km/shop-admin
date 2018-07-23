@@ -80,6 +80,16 @@ return [
         'deleted' => 'Поставщик #:id удален.',
     ],
 
+    App\Models\Review::class => [
+        'status' => [
+            'enabled' => 'Отзыв #:id одобрен.',
+            'disabled' => 'Отзыв #:id ожидает модерации.',
+        ],
+        'created' => 'Отзыв #:id создан.',
+        'updated' => 'Отзыв #:id изменен.',
+        'deleted' => 'Отзыв #:id удален.',
+    ],
+
     'positions' => "Позиция сохранена.",
 
     'ImageEditor' => [

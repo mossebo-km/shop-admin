@@ -71,5 +71,10 @@ class AppServiceProvider extends ServiceProvider
             ->when(ApiControllers\Shop\SupplierController::class)
             ->needs(ApiRequest::class)
             ->give(Requests\Shop\SupplierRequest::class);
+
+        $this->app
+            ->when(ApiControllers\ReviewController::class)
+            ->needs(ApiRequest::class)
+            ->give(Requests\ReviewRequest::class);
     }
 }

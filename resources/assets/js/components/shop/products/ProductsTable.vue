@@ -29,7 +29,6 @@
     type: 'all'
   }
 
-
   export default {
     name: 'products-table',
 
