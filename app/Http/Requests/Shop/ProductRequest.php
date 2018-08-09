@@ -31,6 +31,20 @@ class ProductRequest extends ApiRequest
             'categories'  => "nullable|many_records_exists:\App\Models\Shop\Category",
             'styles'      => "nullable|many_records_exists:\App\Models\Shop\Style",
             'rooms'       => "nullable|many_records_exists:\App\Models\Shop\Room",
+            'related'     => [
+                'nullable',
+                'many_records_exists:\App\Models\Shop\Product',
+
+                function($attribute, $value, $fail) {
+                    if (! is_array($value)) {
+                        $value = [$value];
+                    }
+
+                    if (in_array($this->id, $value)) {
+                        return $fail(trans("validation.self_id"));
+                    }
+                }
+            ],
             'width'       => 'bail|required|integer|min:0',
             'height'      => 'bail|required|integer|min:0',
             'length'      => 'bail|required|integer|min:0',
@@ -43,6 +57,12 @@ class ProductRequest extends ApiRequest
             $rules["i18n.{$language['code']}.description"]      = 'trim|max:65000';
             $rules["i18n.{$language['code']}.meta_title"]       = 'trim|max:255';
             $rules["i18n.{$language['code']}.meta_description"] = 'trim|max:65000';
+        }
+
+        foreach (\PriceTypes::enabled() as $priceType) {
+            foreach (\Currencies::enabled() as $currency) {
+                $rules["prices.{$priceType->id}.{$currency->code}"] = 'nullable|numeric|max:' . $currency->getMaxValue();
+            }
         }
 
         foreach (\PriceTypes::enabled() as $priceType) {
@@ -66,7 +86,7 @@ class ProductRequest extends ApiRequest
 
                     function($attribute, $value, $fail) use($existingAttributeIds, $attributeId) {
                         if (! in_array($attributeId, $existingAttributeIds)) {
-                            return $fail(\Lang::get("validation.attributes.exists", ['attribute' => $attributeId]));
+                            return $fail(trans("validation.attributes.exists", ['attribute' => $attributeId]));
                         }
                     },
 

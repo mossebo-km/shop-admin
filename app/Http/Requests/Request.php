@@ -101,8 +101,12 @@ abstract class Request extends FormRequest
             return $lastSlug;
         }
 
-        if ($this->isCreate() || $this->isStore()) {
+        if ($this->isCreate()) {
             return 'create';
+        }
+
+        if ($this->isStore()) {
+            return 'store';
         }
 
         if ($this->isEdit()) {
@@ -255,9 +259,9 @@ abstract class Request extends FormRequest
      */
     protected function needsEntityRules(): bool
     {
-        $action = $this->getAction;
+        $action = $this->getAction();
 
-        return $action === 'edit' || $action === 'create';
+        return in_array($action, ['store', 'update', 'delete']);
     }
 
 

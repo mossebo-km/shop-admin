@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Api\Shop;
 
 use App\Http\Controllers\Api\ApiController;
 
+use Illuminate\Http\Request;
 use Config;
 
 use App\Models\Shop\Product;
 
 use App\Http\Resources\Shop\ProductEditResource;
 use App\Http\Resources\Shop\ProductsTableResource;
+use App\Http\Resources\Shop\ProductRelatedSearchResource;
 
 use App\Support\Traits\Controllers\Creatable;
 use App\Support\Traits\Controllers\Updatable;
@@ -106,4 +108,52 @@ class ProductController extends ApiController
                 ->with(['i18n', 'prices', 'image', 'categoryRelations', 'roomRelations', 'styleRelations'])
                 ->paginate($perPage, null, null, $page);
         }
+
+    /**
+     * Поиск товаров
+     */
+    public function query(Request $request, $productId)
+    {
+        $ids = $this->searchResultToIds(
+            $this->search($request->input('q'))->take(5)
+        );
+
+        $products = Product::with([
+            'i18n',
+        ])
+            ->whereIn('id', $ids)
+            ->where('id', '!=', $productId)->get();
+
+        return [
+            'status' => 'success',
+            'result' => ProductRelatedSearchResource::collection($products)
+        ];
+    }
+
+    protected function search($query)
+    {
+        return Product::search($query, function($client, $query, $params) {
+            $params['body'] = [
+                'from' => 0,
+                'size' => 10000,
+                'query' => [
+                    'match' => [
+                        'index' => [
+                            'query' => "*{$query}*",
+//                            'query' => '*',
+                            'fuzziness' => 'auto',
+                            'operator' => 'and'
+                        ]
+                    ]
+                ]
+            ];
+
+            return $client->search($params);
+        })->get();
+    }
+
+    protected function searchResultToIds($result)
+    {
+        return array_column($result->toArray(),'id');
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Shop\Product;
+use App\Models\City;
 use Carbon\Carbon;
 
 class SearchIndex extends Command
@@ -39,6 +40,12 @@ class SearchIndex extends Command
      */
     public function handle()
     {
+//        $this->productsIndex();
+        $this->citiesIndex();
+    }
+
+    protected function productsIndex()
+    {
         $products = Product::with(
             ['attributeOptions' => function($query) {
                 $query->with('i18n');
@@ -54,14 +61,32 @@ class SearchIndex extends Command
             }],
             'i18n'
         )
-        ->whereNull('indexed_at')
-        ->orWhere('indexed_at', '<', Carbon::now()->subDay()->toDateTimeString())
-        ->take(10)->get();
+            ->whereNull('indexed_at')
+            ->orWhere('indexed_at', '<', Carbon::now()->subDay()->toDateTimeString())
+            ->take(5)
+            ->inRandomOrder()
+            ->get();
 
         $products->each(function($product) {
             $product->indexed_at = Carbon::now()->toDateTimeString();
 
             $product->save();
+        });
+    }
+
+    protected function citiesIndex()
+    {
+        $cities = City::with('region')
+            ->whereNull('indexed_at')
+            ->orWhere('indexed_at', '<', Carbon::now()->subDay()->toDateTimeString())
+            ->take(10)
+            ->inRandomOrder()
+            ->get();
+
+        $cities->each(function($city) {
+            $city->indexed_at = Carbon::now()->toDateTimeString();
+
+            $city->save();
         });
     }
 }

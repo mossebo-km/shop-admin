@@ -59,11 +59,11 @@ class ReviewController extends ApiController
                 }]);
 
                 if ($type === 'confirmed') {
-                    $query = $query->where('confirmed', true);
+                    $query = $query->where('enabled', 1)->where('confirmed', true);
                 }
 
                 if ($type === 'unconfirmed') {
-                    $query = $query->where('confirmed', false);
+                    $query = $query->where('enabled', 1)->where('confirmed', false);
                 }
 
                 if ($type === 'removed') {

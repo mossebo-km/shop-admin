@@ -7,7 +7,7 @@ export default class RoomDataModel extends ModelI18n {
       enabled: false,
 
       i18n: {
-        title: '',
+        title: 'Не заполнено',
         description: ''
       }
     }

@@ -17,7 +17,7 @@ export default class CategoriesTreeSelectModel extends ModelI18n {
       parent_id: '',
 
       i18n: {
-        title: '',
+        title: 'Не заполнено',
       }
     }
   }

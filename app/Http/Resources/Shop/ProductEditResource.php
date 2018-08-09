@@ -37,6 +37,7 @@ class ProductEditResource extends JsonResource
             'categories'  => ProductCategoriesResource::collection($this->categoryRelations),
             'rooms'       => ProductRoomsResource::collection($this->roomRelations),
             'styles'      => ProductStylesResource::collection($this->styleRelations),
+            'related'     => ProductRelatedSearchResource::collection($this->related),
             'i18n'        => $this->i18n()->get()->toArray(),
             'attributes'  => $attributesIds,
             'options'     => $optionsIds

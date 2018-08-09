@@ -4,9 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-use \App\Http\Requests\ApiRequest;
-use \App\Http\Controllers\Api as ApiControllers;
-use \App\Http\Requests;
+use App\Http\Requests\ApiRequest;
+use App\Http\Controllers\Api as ApiControllers;
+use App\Http\Requests;
 
 class AppServiceProvider extends ServiceProvider
 {

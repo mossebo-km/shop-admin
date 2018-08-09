@@ -7,7 +7,7 @@ export default class StyleDataModel extends ModelI18n {
       enabled: false,
 
       i18n: {
-        title: '',
+        title: 'Не заполнено',
         description: ''
       }
     }

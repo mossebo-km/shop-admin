@@ -4,16 +4,16 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrderStatusesTable extends Migration
+class CreateDeliveryTypesTable extends Migration
 {
     public function up()
     {
-        echo "Create OrderStatuses Table\r\n";
+        echo "Create DeliveryTypes Table\r\n";
 
-        Schema::create(config('tables.OrderStatuses'), function (Blueprint $table) {
+        Schema::create(config('tables.DeliveryTypes'), function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->increments('id')->index();
-            $table->string('color', 64)->nullable();
+            $table->increments('id');
+            $table->boolean('enabled')->default(1);
             $table->integer('position')->unsigned()->default(0);
         });
     }

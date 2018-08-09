@@ -46,7 +46,8 @@ class Product extends BaseProduct implements HasMedia
         'styles',
         'images',
         'prices',
-        'attributes'
+        'attributes',
+        'related'
     ];
 
     public function toSearchableArray()
@@ -84,8 +85,10 @@ class Product extends BaseProduct implements HasMedia
             $index[] = $translate->description;
         }
 
+        $index = array_unique($index);
+
         return [
-            'index' => join(' ', preg_replace('/\s\s+/', ' ', $index))
+            'index' => join(' ', preg_replace('/\s\s+/', ' ', $index)),
         ];
     }
 
@@ -162,6 +165,19 @@ class Product extends BaseProduct implements HasMedia
     public function supplier()
     {
         return $this->hasOne(Supplier::class, 'id', 'supplier_id');
+    }
+
+    public function relatedRelations()
+    {
+        return $this->hasMany(RelatedProduct::class, $this->relationFieldName);
+    }
+
+    public function related()
+    {
+        return $this->hasManyThrough(
+            Product::class, RelatedProduct::class,
+            $this->relationFieldName, 'id', 'id', 'related_id'
+        );
     }
 
     /**
@@ -327,6 +343,16 @@ class Product extends BaseProduct implements HasMedia
                         ]));
                     }
                 }
+            }
+        }
+
+        protected function _saveRelated(Array $relatedIds)
+        {
+            $relatedRelations = $this->relatedRelations();
+            $relatedRelations->delete();
+
+            foreach ($relatedIds as $relatedId) {
+                $relatedRelations->save(new RelatedProduct(['related_id' => $relatedId]));
             }
         }
 

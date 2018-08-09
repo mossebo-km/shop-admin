@@ -3,6 +3,10 @@
 
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
+  import AjaxMultiselect from '../../AjaxMultiselect'
+  import AxajMultiselectModel from '../../../resources/AxajMultiselectModel'
+
+
   import TreeSelect from '../../TreeSelect'
   import TreeSelectTranslatable from '../../TreeSelectTranslatable'
   import CKEditor from '../../CKEditor'
@@ -77,7 +81,8 @@
       PricesTable,
       WeightConverter,
       SizeConverter,
-      AttributesSelect
+      AttributesSelect,
+      AjaxMultiselect
     },
 
     methods: {
@@ -118,7 +123,6 @@
       },
 
       getToSaveData() {
-        console.log(this.getEntityModel())
         return {
           ... this.getEntityModel(),
           images: this.getToSaveImages(),
@@ -144,6 +148,21 @@
         if (! attributesSelect) return {}
 
         return attributesSelect.getAttributesSelectedOptions()
+      },
+
+      relatedSearchUrl() {
+        return '/api' + window.location.pathname + '/search'
+      },
+
+      relatedLinkMaker(option) {
+        let linkEl = document.createElement('a')
+
+        linkEl.setAttribute('href', '/shop/products/' + option.id)
+        linkEl.setAttribute('target', '_blank')
+
+        linkEl.innerHTML = option.text
+
+        return linkEl
       },
     },
 
@@ -498,6 +517,32 @@
             </div>
           </div>
 
+          <div class="block" v-if="type === 'edit'">
+            <div class="block-title clearfix">
+              <h2>
+                <i class="fa fa-clone"></i> <strong>Похожие товары</strong>
+              </h2>
+            </div>
+
+            <div class="block-section">
+              <div :class="`form-group${formErrors.has('related') ? ' has-error' : ''}`">
+                <div class="input-group">
+                  <ajax-multiselect
+                    :url="relatedSearchUrl()"
+                    :languages="languages"
+                    :activeLanguageCode="activeLanguageCode"
+                    :selected.sync="product.related"
+                    :options="product.relatedOptions"
+                    :link-url-maker="relatedLinkMaker"
+                  ></ajax-multiselect>
+                </div>
+
+                <span v-show="formErrors.has('related')" class="help-block">
+                    {{ formErrors.first('related') }}
+                  </span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Габариты -->

@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData'], 'namespa
     // Магазин
     Route::group(['prefix' => 'shop', 'namespace' => 'Shop'], function () {
         Route::get('products/{product}/status', 'ProductController@status');
+        Route::get('products/{product}/search', 'ProductController@query');
         Route::post('products/{product}/image', 'ProductController@imageUpload');
         Route::resource('products', 'ProductController');
 

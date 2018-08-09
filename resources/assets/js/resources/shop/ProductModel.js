@@ -27,6 +27,14 @@ export default class ProductModel extends ModelI18n {
       attributes: [],
       options: [],
 
+      related(data) {
+        return (data.related || []).map(item => item.id)
+      },
+
+      relatedOptions(data) {
+        return data.related || []
+      },
+
       prices(data) {
         return new PricesTableModel(data.prices)
       },

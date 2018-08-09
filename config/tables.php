@@ -20,6 +20,9 @@ return [
     'CountriesI18n' => 'countries_i18n',
     'Cities' => 'cities',
     'CitiesI18n' => 'cities_i18n',
+    'PostCodes' => 'post_codes',
+
+    'Regions' => 'regions',
 
     'Languages' => 'languages',
 
@@ -48,10 +51,11 @@ return [
 
     'ProductCounts' => 'shop_product_counts',
 
+    'RelatedProducts' => 'shop_related_products',
+
   // 'ProductsFields' => 'shop_product_fields',
   // 'ProductsFieldsI18' => 'shop_product_fields_i18',
   // 'ProductsFieldsData' => 'shop_product_fields_data',
-  // 'ProductsSimilar' => 'shop_product_similar',
 
     'Suppliers' => 'shop_suppliers',
     'SuppliersI18n' => 'shop_suppliers_i18n',
@@ -65,9 +69,18 @@ return [
   // 'ComplectsI18' => 'shop_complects_i18',
   // 'ComplectProducts' => 'shop_complect_products',
 
+
+    'DeliveryTypes' => 'shop_delivery_types',
+    'DeliveryTypesI18n' => 'shop_delivery_types_i18n',
+
+    'PayTypes' => 'shop_pay_types',
+    'PayTypesI18n' => 'shop_pay_types_i18n',
+
     'Orders' => 'shop_orders',
     'OrderProducts' => 'shop_order_products',
+    'OrderProductAttributeOptions' => 'shop_order_product_attribute_options',
     'OrderStatuses' => 'shop_order_statuses',
+    'OrderStatusesI18n' => 'shop_order_statuses_i18n',
     'OrdersTemp' => 'shop_orders_temp',
 
   // 'Reviews' => 'reviews',
@@ -91,5 +104,12 @@ return [
     'Cart' => 'shop_cart',
     'Media' => 'media',
 
-    'Reviews' => 'reviews'
+    'Reviews' => 'reviews',
+
+
+    'MsbTransactions' => 'msb_transactions',
+
+    'PromoCodes'      => 'promo_codes',
+    'PromoConditions' => 'promo_conditions',
+    'PromoUses'       => 'promo_uses',
 ];

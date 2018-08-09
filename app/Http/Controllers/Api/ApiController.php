@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Collection;
 
 class ApiController extends BaseController
 {
@@ -68,23 +69,10 @@ class ApiController extends BaseController
      */
     protected static function toResource($entity = [])
     {
-        if (empty($entity)) {
-            return [];
+        if ($entity instanceof Collection) {
+            return static::$tableResource::collection($entity);
         }
 
-        if (isset($entity[0])) {
-            if (! empty(static::$tableResource)) {
-                return static::$tableResource::collection($entity);
-            }
-            else {
-                return $entity;
-            }
-        }
-
-        if (! empty(static::$editResource)) {
-            return new static::$editResource($entity);
-        }
-
-        return $entity;
+        return new static::$editResource($entity);
     }
 }

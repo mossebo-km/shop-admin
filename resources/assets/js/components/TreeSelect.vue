@@ -132,17 +132,6 @@
         this.inited = false
       },
 
-      // reset() {
-      //   if (this.destroyed) return
-      //
-      //   this.initOptions()
-      //
-      //   this.$nextTick(() => {
-      //     this.select()
-      //     $(document).find('.select2-results__option:hover').trigger('mouseover')
-      //   })
-      // },
-
       reset() {
         this.destroy()
 
@@ -196,42 +185,47 @@
       },
 
       bindSelect2Events() {
-        this.$$el.on('select2:selecting', e => {
-          let {id, text} = e.params.args.data
+        let events = {
+          selecting: e => {
+            let {id, text} = e.params.args.data
 
-          if (id === text && !this.options.find(item => item.id === id)) {
-            this.createOption(text)
-            this.$$el.select2('close')
-          }
-          else {
-            if (this.multiple) {
-              this.setSelected([
-                ... this.rSelected,
-                id
-              ])
+            if (id === text && !this.options.find(item => item.id === id)) {
+              this.createOption(text)
+              this.$$el.select2('close')
             }
             else {
-              this.setSelected(id)
+              if (this.multiple) {
+                this.setSelected([
+                  ... this.rSelected,
+                  id
+                ])
+              }
+              else {
+                this.setSelected(id)
+              }
+            }
+          },
+
+          unselecting: e => {
+            if (this.multiple) {
+              this.setSelected(this.rSelected.filter(id => id.toString() !== e.params.args.data.id.toString()))
+            }
+            else {
+              this.setSelected(null)
             }
           }
-        })
+        }
 
-        this.$$el.on('select2:unselecting', e => {
-          if (this.multiple) {
-            this.setSelected(this.rSelected.filter(id => id.toString() !== e.params.args.data.id.toString()))
+        if (this.params && this.params.events) {
+          events = {
+            ... events,
+            ... this.params.events
           }
-          else {
-            this.setSelected(null)
-          }
-        })
+        }
 
-        // if (this.params && this.params.events) {
-        //   let events = this.params.events
-        //
-        //   for (let name in events) {
-        //     this.$$el.on(`select2:${name}`, events[name])
-        //   }
-        // }
+        for (let name in events) {
+          this.$$el.on(`select2:${name}`, events[name])
+        }
       }
     },
 
@@ -251,6 +245,8 @@
 
 <template>
   <select class="select2" :multiple="multiple" style="width:100%">
-    <option v-for="option in buildedOptions" :value="option.id" :disabled="option.disabled" :selected="option.selected" :key="option.id">{{ option.title }}</option>
+    <option v-for="option in buildedOptions" :value="option.id" :disabled="option.disabled" :selected="option.selected" :key="option.id">
+      {{ option.title }}
+    </option>
   </select>
 </template>
