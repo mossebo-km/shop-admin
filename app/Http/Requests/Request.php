@@ -261,7 +261,7 @@ abstract class Request extends FormRequest
     {
         $action = $this->getAction();
 
-        return in_array($action, ['store', 'update', 'delete']);
+        return in_array($action, ['store', 'update']);
     }
 
 
