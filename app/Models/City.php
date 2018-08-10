@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use MosseboShopCore\Models\City as BaseCity;
-use Laravel\Scout\Searchable;
 
 class City extends BaseCity
 {
-    use Searchable;
-
     protected $fillable = [
         'lat',
         'lon',
@@ -17,6 +14,23 @@ class City extends BaseCity
         'short_name',
         'postal_code',
         'enabled',
+    ];
+
+    protected $mapping = [
+        'properties' => [
+            'id' => [
+                'type' => 'integer',
+            ],
+            'name' => [
+                'type' => 'text',
+            ],
+            'short_name' => [
+                'type' => 'text',
+            ],
+            'region' => [
+                'type' => 'text',
+            ],
+        ]
     ];
 
 

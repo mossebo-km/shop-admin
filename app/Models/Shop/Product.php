@@ -11,13 +11,12 @@ use App\Support\Traits\Models\StatusChangeable;
 use App\Support\Traits\Models\Sluggable;
 use App\Support\Traits\Models\RequestSaver;
 use App\Support\Traits\Models\I18nTrait;
-use Laravel\Scout\Searchable;
 
 use MosseboShopCore\Models\Shop\Product as BaseProduct;
 
 class Product extends BaseProduct implements HasMedia
 {
-    use HasMediaTrait, StatusChangeable, Sluggable, RequestSaver, I18nTrait, Searchable;
+    use HasMediaTrait, StatusChangeable, Sluggable, RequestSaver, I18nTrait;
 
     protected $fillable = [
         'supplier_id',
