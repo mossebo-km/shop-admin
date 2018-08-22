@@ -26,7 +26,7 @@ class ReviewResource extends JsonResource
             $data['unconfirmed'] = true;
         }
 
-        $item = $this->resource->item()->first();
+        $item = $this->resource->item;
 
         if ($item instanceof Product) {
             $data['product'] = new Shop\ProductsTableResource($item);
@@ -36,9 +36,9 @@ class ReviewResource extends JsonResource
             $data['user'] = new UserResource($this->resource->user);
         }
 
-        if ($this->relationNotEmpty('likesAndDislikes')) {
+//        if ($this->relationNotEmpty('likesAndDislikes')) {
             $data['likes'] = new LikeResource($this->resource);
-        }
+//        }
 
         return $data;
     }

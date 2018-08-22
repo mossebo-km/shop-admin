@@ -71,7 +71,7 @@ class ReviewController extends ApiController
                 }
 
                 return $query->orderBy('id', 'desc')
-                    ->with('user', 'likesAndDislikes')
+                    ->with('user', 'likesCounter', 'dislikesCounter', 'likes', 'dislikes')
                     ->paginate($perPage, null, null, $page);
             }
 

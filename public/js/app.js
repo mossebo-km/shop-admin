@@ -2113,6 +2113,11 @@ var defaultTableState = {
 
       this.fetchMainData().then(function (data) {
         _this2.initMainData(data);
+
+        if (typeof _this2.fetchItemsCb === 'function') {
+          _this2.fetchItemsCb();
+          _this2.fetchItemsCb = undefined;
+        }
       });
     },
     getValidPage: function getValidPage(value) {
@@ -2193,9 +2198,17 @@ var defaultTableState = {
 
           _this4.countByType = byType;
 
-          resolve(items.map(function (item) {
-            return new __WEBPACK_IMPORTED_MODULE_11__resources_ReviewsModel__["a" /* default */](item, _this4.languages);
-          }));
+          if (_this4.languages.length) {
+            resolve(items.map(function (item) {
+              return new __WEBPACK_IMPORTED_MODULE_11__resources_ReviewsModel__["a" /* default */](item, _this4.languages);
+            }));
+          } else {
+            _this4.fetchItemsCb = function () {
+              resolve(items.map(function (item) {
+                return new __WEBPACK_IMPORTED_MODULE_11__resources_ReviewsModel__["a" /* default */](item, _this4.languages);
+              }));
+            };
+          }
         }).start();
       });
     },
@@ -76025,7 +76038,7 @@ var render = function() {
                       attrs: {
                         "show-empty": "",
                         stacked: "md",
-                        items: _vm.languages.length ? _vm.fetchItems : null,
+                        items: _vm.fetchItems,
                         fields: _vm.fields,
                         busy: _vm.loading,
                         "current-page": _vm.page,

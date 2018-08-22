@@ -143,6 +143,11 @@
         this.fetchMainData()
           .then(data => {
             this.initMainData(data)
+
+            if (typeof this.fetchItemsCb === 'function') {
+              this.fetchItemsCb()
+              this.fetchItemsCb = undefined
+            }
           })
       },
 
@@ -221,7 +226,14 @@
 
               this.countByType = byType
 
-              resolve(items.map(item => new ReviewsModel(item, this.languages)))
+              if (this.languages.length) {
+                resolve(items.map(item => new ReviewsModel(item, this.languages)))
+              }
+              else {
+                this.fetchItemsCb = () => {
+                  resolve(items.map(item => new ReviewsModel(item, this.languages)))
+                }
+              }
             })
             .start()
         })
@@ -323,7 +335,7 @@
               show-empty
               stacked="md"
               ref="table"
-              :items="languages.length ? fetchItems : null"
+              :items="fetchItems"
               :fields="fields"
               :busy.sync="loading"
               :current-page="page"
