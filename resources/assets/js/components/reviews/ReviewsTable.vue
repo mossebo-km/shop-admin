@@ -323,7 +323,7 @@
               show-empty
               stacked="md"
               ref="table"
-              :items="fetchItems"
+              :items="languages.length ? fetchItems : null"
               :fields="fields"
               :busy.sync="loading"
               :current-page="page"

@@ -76025,7 +76025,7 @@ var render = function() {
                       attrs: {
                         "show-empty": "",
                         stacked: "md",
-                        items: _vm.fetchItems,
+                        items: _vm.languages.length ? _vm.fetchItems : null,
                         fields: _vm.fields,
                         busy: _vm.loading,
                         "current-page": _vm.page,
