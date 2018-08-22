@@ -40,7 +40,7 @@ class SearchIndex extends Command
      */
     public function handle()
     {
-//        $this->productsIndex();
+        $this->productsIndex();
         $this->citiesIndex();
     }
 
