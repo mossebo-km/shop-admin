@@ -199,7 +199,7 @@ class PromoCodeRequest extends ApiRequest
 
         $rules[$attribute] = [
             'bail', 'required', 'integer', 'min:1',
-            'max:' . floor($currency->getMaxValue()),
+            'max:' . floor($currency->getMaxPriceValue()),
         ];
     }
 }

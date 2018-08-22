@@ -61,7 +61,7 @@ class ProductRequest extends ApiRequest
 
         foreach (\PriceTypes::enabled() as $priceType) {
             foreach (\Currencies::enabled() as $currency) {
-                $rules["prices.{$priceType->id}.{$currency->code}"] = 'nullable|numeric|max:' . $currency->getMaxValue();
+                $rules["prices.{$priceType->id}.{$currency->code}"] = 'nullable|numeric|max:' . $currency->getMaxPriceValue();
             }
         }
 
