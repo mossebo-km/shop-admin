@@ -153,7 +153,7 @@
                   :name="`prices.${priceType.id}.${currency.code}`"
                   @input="onChange" class="form-control"
                   v-number
-                  v-validate="`decimals|min_value:1|max_value:${getCurrencyMaxValue(currency)}`">
+                  v-validate="`decimal|min_value:1|max_value:${getCurrencyMaxValue(currency)}`">
 
                 <currency-converter :value="prices$[priceType.id][currency.code]" :currency="getCurrency(currency.code)" />
               </div>
