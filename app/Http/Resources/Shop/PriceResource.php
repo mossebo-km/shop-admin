@@ -16,7 +16,7 @@ class PriceResource extends JsonResource
     {
         return [
             'formatted'     => $this->getFormatted(), // нужно ли?
-            'value'         => $this->getValue(),
+            'value'         => $this->value,
             'price_type_id' => $this->price_type_id,
             'currency_code' => $this->currency_code
         ];
