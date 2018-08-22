@@ -29,19 +29,4 @@ class Price extends BasePrice
     {
         return $this->belongsTo(Currency::class, 'currency_code', 'code');
     }
-
-    /**
-     *
-     * Так как значение цены хранится в integer, надо добавить используемое в валюте количество знаков после запятой.
-     * @param  array|array
-     * @return bool
-     */
-    public function save(Array $options = []): bool
-    {
-        if ($this->value) {
-            $this->value = $this->value * $this->getDivider();
-        }
-
-        return parent::save($options);
-    }
 }

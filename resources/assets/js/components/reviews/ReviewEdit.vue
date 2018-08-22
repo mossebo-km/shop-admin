@@ -10,7 +10,7 @@
 
 
   export default {
-    name: 'supplier-edit',
+    name: 'review-edit',
 
     mixins: [
       EntityPage

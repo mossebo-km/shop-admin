@@ -293,7 +293,9 @@
 
       refreshTable() {
         this.$nextTick(() => {
-          this.$refs.table.refresh()
+          if (this.$refs.table) {
+            this.$refs.table.refresh()
+          }
         })
       },
 

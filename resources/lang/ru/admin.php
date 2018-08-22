@@ -90,6 +90,16 @@ return [
         'deleted' => 'Отзыв #:id удален.',
     ],
 
+    App\Models\Shop\Promo\PromoCode::class => [
+        'status' => [
+            'enabled' => 'Промокод #:id задействован.',
+            'disabled' => 'Промокод #:id отключен.',
+        ],
+        'created' => 'Промокод #:id создан.',
+        'updated' => 'Промокод #:id изменен.',
+        'deleted' => 'Промокод #:id удален.',
+    ],
+
     'positions' => "Позиция сохранена.",
 
     'ImageEditor' => [

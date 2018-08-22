@@ -17,13 +17,6 @@ abstract class Request extends FormRequest
     protected $guard;
 
     /**
-     * Пользователь запроса.
-     *
-     * @var array
-     */
-    protected $formRequest;
-
-    /**
      * Класс модели запроса.
      *
      * @var string

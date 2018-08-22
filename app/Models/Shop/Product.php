@@ -49,6 +49,14 @@ class Product extends BaseProduct implements HasMedia
         'related'
     ];
 
+    protected $mapping = [
+        'properties' => [
+            'index' => [
+                'type' => 'text',
+            ],
+        ]
+    ];
+
     public function toSearchableArray()
     {
         $index = [

@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Shop;
 
 use App\Http\Requests\ApiRequest;
-
 use App\Models\Shop\AttributeOption;
 
 class AttributeRequest extends ApiRequest

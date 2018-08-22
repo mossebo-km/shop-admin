@@ -36,6 +36,11 @@ import AttributeEdit from './components/shop/attributes/AttributeEdit'
 import PriceTypesTable from './components/shop/priceTypes/PriceTypesTable'
 import PriceTypeEdit from './components/shop/priceTypes/PriceTypeEdit'
 
+import PromoCodesTable from './components/shop/promoCodes/PromoCodesTable'
+import PromoCodeEdit from './components/shop/promoCodes/PromoCodeEdit'
+
+
+
 import AdminsTable from './components/system/Admins/AdminsTable'
 import AdminEdit from './components/system/Admins/AdminEdit'
 
@@ -52,6 +57,8 @@ import Avatar from './components/Avatar'
 
 import ReviewsTable from './components/reviews/ReviewsTable'
 import ReviewEdit from './components/reviews/ReviewEdit'
+
+
 
 
 /**
@@ -135,6 +142,10 @@ const routes = [
   { path: '/shop/price-types/create', component: PriceTypeEdit, props: { type: 'create' } },
   { path: '/shop/price-types/:id', component: PriceTypeEdit, props: route => ({...route.params, type: 'edit'}) },
 
+  { path: '/shop/promo-codes', component: PromoCodesTable },
+  { path: '/shop/promo-codes/create', component: PromoCodeEdit, props: { type: 'create' } },
+  { path: '/shop/promo-codes/:id', component: PromoCodeEdit, props: route => ({...route.params, type: 'edit'}) },
+
   { path: '/shop/customers', component: CustomersTable },
   { path: '/shop/customers/create', component: CustomerEdit, props: { type: 'create' } },
   { path: '/shop/customers/:id', component: CustomerEdit, props: route => ({...route.params, type: 'edit'}) },
@@ -202,6 +213,10 @@ Core.init().then(() => {
 
       loadingEnd() {
         this.loading = false
+      },
+
+      config() {
+        return Core.config.apply(Core, arguments)
       }
     }
   }).$mount('#app')
@@ -225,3 +240,16 @@ router.afterEach(() => {
   }
 })
 
+jQuery.extend(true, jQuery.fn.datetimepicker.defaults, {
+  icons: {
+    time: 'gi gi-clock',
+    date: 'gi gi-calendar',
+    up: 'fa fa-chevron-up',
+    down: 'fa fa-chevron-down',
+    previous: 'fa fa-chevron-left',
+    next: 'fa fa-chevron-right',
+    today: 'gi gi-calendar-check',
+    clear: 'fa fa-trash',
+    close: 'fa fa-times'
+  }
+});

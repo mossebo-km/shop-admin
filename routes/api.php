@@ -78,5 +78,8 @@ Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData'], 'namespa
         Route::post('price-types/sort', 'PriceTypeController@positions');
         Route::get('price-types/{priceType}/status', 'PriceTypeController@status');
         Route::resource('price-types', 'PriceTypeController');
+
+        Route::get('promo-codes/{promoCode}/status', 'PromoCodeController@status');
+        Route::resource('promo-codes', 'PromoCodeController');
     });
 });

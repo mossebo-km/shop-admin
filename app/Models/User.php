@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 
-use MosseboShopCore\Models\Base\Authenticatable;
+use MosseboShopCore\Models\User as BaseUser;
 
 use Cog\Contracts\Love\Liker\Models\Liker as LikerContract;
 use Cog\Laravel\Love\Liker\Models\Traits\Liker;
+use App\Models\Shop\Promo\PromoUse;
 
-class User extends Authenticatable implements LikerContract
+class User extends BaseUser implements LikerContract
 {
     use Liker, Notifiable;
 
@@ -29,4 +30,14 @@ class User extends Authenticatable implements LikerContract
         'created_at',
         'updated_at'
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, $this->relationFieldName, 'id');
+    }
+
+    public function promoCodeUses()
+    {
+        return $this->hasMany(PromoUse::class, $this->relationFieldName, 'id');
+    }
 }

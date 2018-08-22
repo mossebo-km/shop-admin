@@ -15,6 +15,20 @@ import { asyncPackageDataCollector } from './queueHandler'
  */
 
 export default {
+  // ['отзыв', 'отзыва', 'отзывов']
+  pluralize(value, titles) {
+    let cases = [2, 0, 1, 1, 1, 2]
+    return titles[ (value % 100 > 4 && value % 100 < 20) ? 2 : cases[(value % 10 < 5) ? value % 10 : 5] ]
+  },
+
+  translate(key) {
+    return _.get(window.config.translates, key)
+  },
+
+  config(key) {
+    return _.get(window.config, key)
+  },
+
   /**
    * Запуск callback (с проверкой - функция ли это).
    *
@@ -298,6 +312,33 @@ export default {
             url: '/shop/price-types',
             icon: 'fa fa-money',
             permission: 'shop.price-types.menu'
+          },
+
+          {
+            title: 'Акции и промо',
+            icon: 'fa fa-star',
+            permission: 'shop.promo.menu',
+
+            children: [
+              {
+                title: 'Баннеры',
+                url: '/shop/promo-codes',
+                icon: 'fa fa-image',
+                permission: 'shop.banners.menu'
+              },
+              {
+                title: 'Акционные товары',
+                url: '/shop/sale',
+                icon: 'fa fa-percent',
+                permission: 'shop.sale.menu'
+              },
+              {
+                title: 'Промокоды',
+                url: '/shop/promo-codes',
+                icon: 'fa fa-ticket',
+                permission: 'shop.promo-codes.menu'
+              },
+            ]
           },
 
           {

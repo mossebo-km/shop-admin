@@ -3,6 +3,7 @@
 namespace App\Validation;
 
 use Validator;
+use \App\Models\Shop\Category;
 
 class ValidatorExtend
 {
@@ -83,7 +84,7 @@ class ValidatorExtend
             return true;
         }
 
-        $childrensIds = \App\Models\Category::getDescendantIds($recordId);
+        $childrensIds = Category::getDescendantIds($recordId);
         $childrensIds[] = $recordId;
 
         return !in_array($parentId, $childrensIds);

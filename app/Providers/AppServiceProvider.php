@@ -19,9 +19,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
-        // Нужно, чтобы убрать base64svg placeholder из базы
-        $this->app->bind('Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator', 'App\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator');
-
         $this->app
             ->when(ApiControllers\AdminController::class)
             ->needs(ApiRequest::class)
@@ -36,6 +33,12 @@ class AppServiceProvider extends ServiceProvider
             ->when(ApiControllers\RoleController::class)
             ->needs(ApiRequest::class)
             ->give(Requests\RoleRequest::class);
+
+        $this->app
+            ->when(ApiControllers\ReviewController::class)
+            ->needs(ApiRequest::class)
+            ->give(Requests\ReviewRequest::class);
+
 
         $this->app
             ->when(ApiControllers\Shop\AttributeController::class)
@@ -73,8 +76,8 @@ class AppServiceProvider extends ServiceProvider
             ->give(Requests\Shop\SupplierRequest::class);
 
         $this->app
-            ->when(ApiControllers\ReviewController::class)
+            ->when(ApiControllers\Shop\PromoCodeController::class)
             ->needs(ApiRequest::class)
-            ->give(Requests\ReviewRequest::class);
+            ->give(Requests\Shop\PromoCodeRequest::class);
     }
 }

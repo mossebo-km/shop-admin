@@ -122,9 +122,8 @@
               </tr>
             </template>
 
-
             <tr v-if="! (items && items.length)">
-              <td class="text-center" colspan="4">
+              <td class="text-center" colspan="5">
                 Список администраторов пуст.
               </td>
             </tr>

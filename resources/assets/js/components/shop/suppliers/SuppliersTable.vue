@@ -42,7 +42,7 @@
       <div class="block-title clearfix">
         <h1>
           <strong>
-            Категории
+            Поставщики
           </strong>
         </h1>
 

@@ -82,16 +82,12 @@ if (!mix.inProduction()) {
 }
 
 mix.autoload({
-    jquery: ['$', 'window.jQuery', 'jQuery']
+  jquery: ['$', 'window.jQuery', 'jQuery'],
+  vue: ['Vue', 'window.Vue'],
+  moment: ['moment', 'window.moment'],
 });
 
 mix.setResourceRoot(path.normalize(publicDir));
 mix.setPublicPath(path.normalize(publicDir));
-
-mix.browserSync({
-  proxy: {
-    target: "localhost:8000"
-  }
-});
 
 

@@ -8,10 +8,18 @@ class FrontConfigController extends Controller
     {
         $config = [
             'user' => self::getUserConifg(),
-            'interactionKey' => DataHandler::getRelevantKey()
+            'interactionKey' => DataHandler::getRelevantKey(),
+            'shop' => config('shop')
         ];
 
+        static::__connectTranslates($config);
+
         return json_encode($config, JSON_UNESCAPED_UNICODE);
+    }
+
+    protected static function __connectTranslates(& $config)
+    {
+        $config['translates'] = trans('js');
     }
 
     protected static function getUserConifg()

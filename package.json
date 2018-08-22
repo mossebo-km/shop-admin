@@ -37,7 +37,9 @@
     },
     "dependencies": {
         "deep-freeze": "0.0.1",
+        "moment": "^2.22.2",
         "nestable": "^0.2.0",
+        "vue-bootstrap-datetimepicker": "^4.1.4",
         "vue-cropperjs": "^2.2.0"
     }
 }

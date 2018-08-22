@@ -4,26 +4,25 @@
   import bFormSelect from 'bootstrap-vue/es/components/form-select/form-select'
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
-  import Core from '../../core'
+  import Core from '../../../core'
 
-  import Toggle from '../Toggle'
-  import Loading from '../Loading'
-  import LanguagePicker from '../LanguagePicker'
+  import Toggle from '../../Toggle'
+  import Loading from '../../Loading'
 
-  import TablePage from '../../mixins/TablePage'
-  import Translatable from '../../mixins/Translatable'
-  import StatusChangeable from '../../mixins/StatusChangeable'
-  import ReviewsModel from '../../resources/ReviewsModel'
+  import TablePage from '../../../mixins/TablePage'
+  import Translatable from '../../../mixins/Translatable'
+  import StatusChangeable from '../../../mixins/StatusChangeable'
+  import PromoCodesTableModel from '../../../resources/shop/promo/PromoCodesTableModel'
 
   const defaultTableState = {
     page: 1,
-    perPage: 15,
+    perPage: 30,
     type: 'all'
   }
 
 
   export default {
-    name: 'reviews-table',
+    name: 'promo-codes-table',
 
     mixins: [
       StatusChangeable,
@@ -38,7 +37,6 @@
       bPagination,
       bFormSelect,
       bModal,
-      LanguagePicker
     },
 
     data () {
@@ -48,35 +46,35 @@
           sortable: false,
         },
         {
-          key: 'rate',
+          key: 'name',
           sortable: false,
-          label: 'Оценка',
+          label: 'Код',
         },
         {
-          key: 'text',
+          key: 'discount',
           sortable: false,
-          label: 'Текст',
+          label: 'Скидка',
           thStyle: {
-            width: this.userCan('see') ? "40%" : "100%"
+            width: "40%"
           }
         },
       ]
 
       if (this.userCan('see')) {
         fields.push({
-          key: 'user_name',
+          key: 'quantity',
           sortable: false,
-          label: 'Пользователь',
+          label: 'Использований',
           thStyle: {
-            width: "30%"
+            width: "40%"
           }
         })
       }
 
       if (this.userCan('see')) {
         fields.push({
-          key: 'entity',
-          label: 'Отзыв о',
+          key: 'conditions',
+          label: 'Условия',
           sortable: false,
           thStyle: {
             width: "30%"
@@ -99,21 +97,23 @@
       }
 
       return {
-        rbacNamespace: 'reviews',
+        rbacNamespace: 'promo-codes',
         loading: false,
         totalRows: 0,
         perPageOptions: [ 15, 30, 60 ],
         types: {
           all: 'Все',
-          confirmed: 'Подтвержденные',
-          unconfirmed: 'Неподтвержденные',
-          deleted: 'Удаленные пользователем',
+          enabled: 'Активные',
+          old: 'Завершенные',
+          disabled: 'Отмененные',
         },
         ... defaultTableState,
         fields,
 
+        currencies: null,
+
         usedMainData: [
-          'languages',
+          'currencies',
         ],
 
         countByType: {
@@ -140,10 +140,8 @@
 
     methods: {
       loadData() {
-        this.fetchMainData()
-          .then(data => {
-            this.initMainData(data)
-          })
+          this.fetchMainData()
+            .then(this.initMainData)
       },
 
       getValidPage(value) {
@@ -211,17 +209,9 @@
               this.page = parseInt(data.page) || 1
               this.perPage = this.nanToNum(parseInt(data.perPage))
 
-              const items = data.reviews || []
+              const items = data['promo-codes'] || []
 
-              let byType = {}
-
-              for (let key in this.countByType) {
-                byType[key] = key in data ? data[key] : 0
-              }
-
-              this.countByType = byType
-
-              resolve(items.map(item => new ReviewsModel(item, this.languages)))
+              resolve(items.map(item => new PromoCodesTableModel(item, this.currencies)))
             })
             .start()
         })
@@ -275,15 +265,18 @@
 <template>
   <div>
     <div class="block full">
+
       <div class="block-title clearfix">
         <h1>
           <strong>
-            Отзывы
+            Промокоды
           </strong>
         </h1>
 
         <div class="block-title-control">
-          <language-picker :languages="languages" :activeLanguageCode.sync="activeLanguageCode" />
+          <router-link v-if="userCan('create')" to="/shop/promo-codes/create" class="btn btn-sm btn-success active">
+            <i class="fa fa-plus-circle"></i> Создать
+          </router-link>
         </div>
       </div>
 
@@ -323,103 +316,96 @@
               show-empty
               stacked="md"
               ref="table"
-              :items="fetchItems"
+              :items="currencies ? fetchItems : null"
               :fields="fields"
               :busy.sync="loading"
               :current-page="page"
               :per-page="perPage"
-              empty-text="Список отзывов пуст."
-              empty-filtered-text="Отзывы с такими параметрами не найдены."
+              empty-text="Список промокодов пуст."
+              empty-filtered-text="Промокоды с такими параметрами не найдены."
               style="margin-bottom: 0"
               class="table table-vcenter table-condensed table-hover table-bordered no-footer">
 
               <!--  ID  -->
 
-              <template slot="HEAD_id" slot-scope="review">
+              <template slot="HEAD_id" slot-scope="promoCode">
                 <span class="table-column-id">ID</span>
               </template>
 
-              <template slot="id" slot-scope="review">
-                <router-link :to="review.item.url">
+              <template slot="id" slot-scope="promoCode">
+                <router-link :to="promoCode.item.url">
                   <span class="table-column-id">
-                    {{ review.item.id }}
+                    {{ promoCode.item.id }}
                   </span>
                 </router-link>
               </template>
 
-              <!--  Оценка  -->
+              <!--  Код  -->
 
-              <template slot="rate" slot-scope="review">
-                  <span class="table-column-id">
-                    {{ review.item.rate }}
+              <template slot="name" slot-scope="promoCode">
+                <router-link :to="promoCode.item.url">
+                  <span class="table-column-promocode">
+                    {{ promoCode.item.name }}
                   </span>
-              </template>
-
-              <!--  Текст  -->
-
-              <template slot="HEAD_text" slot-scope="review">
-                Текст
-              </template>
-
-              <template slot="text" slot-scope="review">
-                <router-link :to="review.item.url">
-                  {{ review.item.text }}
                 </router-link>
               </template>
 
-              <!--  Название  -->
+              <!--  Количество  -->
 
-              <template slot="user_name" slot-scope="review">
-                <a :href="review.item.user.url" target="_blank">
-                  {{ review.item.user.full_name }}
-                </a>
-              </template>
+              <template slot="quantity" slot-scope="promoCode">
+                <template v-for="quantityString in promoCode.item.quantityStrings">
+                  <div v-html="quantityString"></div>
+                </template>
 
-              <!--  Отзыв о  -->
+                <template v-if="promoCode.item.uses_percent">
+                  <div class="promo-progress">
+                    <div class="promo-progress__num">
+                      {{ promoCode.item.uses_count }}/{{ promoCode.item.quantity }}
+                    </div>
 
-              <template slot="entity" slot-scope="review">
-                <template v-if="review.item.product">
-                  товаре:
+                    <div class="promo-progress__progress">
+                      <div class="progress">
+                        <div class="progress-bar progress-bar-info" role="progressbar" :style="{width: promoCode.item.uses_percent + '%'}">
+                          {{ promoCode.item.uses_percent }}%
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                  <a :href="review.item.product.url" target="_blank">
-                    {{ review.item.product.i18n[activeLanguageCode].title }}
-                  </a>
                 </template>
               </template>
 
-              <!--  Дата создания  -->
+              <!--  Условия  -->
 
-              <template slot="HEAD_created_at" slot-scope="review">
-                <span class="table-column-date">Создан</span>
-              </template>
-
-              <template slot="created_at" slot-scope="review">
-                <span class="table-column-date">
-                  {{ review.item.created_at }}
+              <template slot="conditions" slot-scope="promoCode">
+                <span class="table-column-conditions">
+                  <template v-for="condition in promoCode.item.conditions">
+                    <div v-html="condition.toString()"></div>
+                  </template>
                 </span>
               </template>
 
               <!--  Статус  -->
 
-              <template slot="HEAD_enabled" slot-scope="review">
+              <template slot="HEAD_enabled" slot-scope="promoCode">
                 <span class="table-column-enabled">Статус</span>
               </template>
 
-              <template slot="enabled" slot-scope="review">
+              <template slot="enabled" slot-scope="promoCode">
                 <span class="table-column-enabled">
-                  <toggle @change="statusChange(review.item.id)" :checked="review.item.confirmed" :key="review.item.id" />
+                  <toggle @change="statusChange(promoCode.item.id)" :checked="promoCode.item.enabled" :key="promoCode.item.id" />
                 </span>
               </template>
 
               <!--  Удаление  -->
 
-              <template slot="HEAD_delete" slot-scope="review">
+              <template slot="HEAD_delete" slot-scope="promoCode">
                 <span class="table-column-delete"></span>
               </template>
 
-              <template slot="delete" slot-scope="review">
+              <template slot="delete" slot-scope="promoCode">
                 <span class="table-column-delete">
-                  <a class="btn btn-danger" @click="remove(review.item.id)">
+                  <a class="btn btn-danger" @click="remove(promoCode.item.id)">
                     <i class="fa fa-times"></i>
                   </a>
                 </span>
@@ -456,17 +442,36 @@
       </loading>
     </div>
 
-    <b-modal id="removeModal"
-             ref="removeModal"
-             title="Удаление отзыва"
-             title-tag="h3"
-             centered
-             ok-title="Удалить"
-             cancel-title="Отмена"
-             hide-header-close
-             @ok="removeConfirm">
+    <b-modal
+      id="removeModal"
+      ref="removeModal"
+      title="Удаление промокода"
+      title-tag="h3"
+      centered
+      ok-title="Удалить"
+      cancel-title="Отмена"
+      hide-header-close
+      @ok="removeConfirm">
 
-      Вы действительно хотите удалить отзыв?
+      Вы действительно хотите удалить промокод?
     </b-modal>
   </div>
 </template>
+
+
+<style>
+  .promo-progress {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .promo-progress__progress {
+    width: 100%;
+    margin-left: 15px;
+  }
+
+  .promo-progress .progress {
+    margin-bottom: 0;
+  }
+</style>

@@ -49,7 +49,7 @@
       },
 
       isActive(item) {
-        return item.url.indexOf( this.active ) !== -1
+        return item.url && item.url.indexOf( this.active ) !== -1
       }
     },
 
@@ -64,7 +64,7 @@
   <div class="content-header" v-if="items.length > 0">
     <ul class="nav-horizontal text-center">
       <template v-for="item in items">
-        <li :class="{ active: isActive(item) }" :key="item.url">
+        <li v-if="item.url" :class="{ active: isActive(item) }" :key="item.url">
           <router-link :to="item.url"><i :class="item.icon"></i> {{ item.title }}</router-link>
         </li>
       </template>

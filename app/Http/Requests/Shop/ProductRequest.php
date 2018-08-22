@@ -65,12 +65,6 @@ class ProductRequest extends ApiRequest
             }
         }
 
-        foreach (\PriceTypes::enabled() as $priceType) {
-            foreach (\Currencies::enabled() as $currency) {
-                $rules["prices.{$priceType->id}.{$currency->code}"] = 'nullable|numeric|max:' . $currency->getMaxValue();
-            }
-        }
-
         /**
          * 1. Проверка на существование аттрибута.
          * 2. Далее проверка опций:
