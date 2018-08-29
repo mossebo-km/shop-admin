@@ -2188,8 +2188,6 @@ var defaultTableState = {
           _this4.page = parseInt(data.page) || 1;
           _this4.perPage = _this4.nanToNum(parseInt(data.perPage));
 
-          var items = data.reviews || [];
-
           var byType = {};
 
           for (var key in _this4.countByType) {
@@ -2198,7 +2196,9 @@ var defaultTableState = {
 
           _this4.countByType = byType;
 
-          if (_this4.languages.length) {
+          var items = data.reviews || [];
+
+          if (_this4.languages) {
             resolve(items.map(function (item) {
               return new __WEBPACK_IMPORTED_MODULE_11__resources_ReviewsModel__["a" /* default */](item, _this4.languages);
             }));
@@ -3034,6 +3034,270 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/badges/BadgePreview.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'BadgePreview',
+
+  props: ['icon', 'color', 'title', 'text'],
+
+  mounted: function mounted() {
+    $(this.$el).tooltip();
+  }
+});
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/badges/BadgeTypeEdit.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__TreeSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__resources_shop_badge_BadgeTypeModel__ = __webpack_require__("./resources/assets/js/resources/shop/badge/BadgeTypeModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__BadgePreview__ = __webpack_require__("./resources/assets/js/components/shop/badges/BadgePreview.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__BadgePreview___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__BadgePreview__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_v_color__ = __webpack_require__("./node_modules/v-color/dist/index.esm.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'badge-type',
+
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_Translatable__["a" /* default */]],
+
+  props: ['id'],
+
+  data: function data() {
+    return {
+      entityName: 'badge-type',
+      badgeType: null,
+
+      usedMainData: ['languages'],
+
+      reloadDataOnSave: false
+    };
+  },
+
+
+  components: {
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_2__LanguagePicker___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    ColorPicker: __WEBPACK_IMPORTED_MODULE_8_v_color__["a" /* default */],
+    BadgePreview: __WEBPACK_IMPORTED_MODULE_7__BadgePreview___default.a,
+    TreeSelect: __WEBPACK_IMPORTED_MODULE_5__TreeSelect___default.a
+  },
+
+  methods: {
+    /**
+     * Инициализация модели данных.
+     */
+    initEntity: function initEntity(data) {
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_6__resources_shop_badge_BadgeTypeModel__["a" /* default */](data, this.languages));
+    },
+    setColor: function setColor(color) {
+      this.badgeType.color = color.hex;
+    }
+  },
+
+  computed: {
+    iconsToTree: function iconsToTree() {
+      return (__WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].config('shop.badges.icons') || []).map(function (item) {
+        return {
+          id: item,
+          title: item
+        };
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/badges/BadgeTypesTable.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__BadgePreview__ = __webpack_require__("./resources/assets/js/components/shop/badges/BadgePreview.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__BadgePreview___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__BadgePreview__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_shop_badge_BadgeTypesTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/badge/BadgeTypesTableModel.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'badge-types-table',
+
+  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_Translatable__["a" /* default */]],
+
+  components: {
+    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    Toggle: __WEBPACK_IMPORTED_MODULE_6__Toggle___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_1__LanguagePicker___default.a,
+    BadgePreview: __WEBPACK_IMPORTED_MODULE_7__BadgePreview___default.a
+  },
+
+  data: function data() {
+    return {
+      tableItemsDataName: 'badge-types',
+
+      usedMainData: ['languages']
+    };
+  },
+
+
+  methods: {
+    initItems: function initItems() {
+      var _this = this;
+
+      var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.items = this.getSortedData(items.map(function (item) {
+        return new __WEBPACK_IMPORTED_MODULE_8__resources_shop_badge_BadgeTypesTableModel__["a" /* default */](item, _this.languages);
+      }));
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/badges/BadgesSelect.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_DataHandler__ = __webpack_require__("./resources/assets/js/mixins/DataHandler.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BadgePreview__ = __webpack_require__("./resources/assets/js/components/shop/badges/BadgePreview.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BadgePreview___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__BadgePreview__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Loading__);
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'badges-select',
+
+  mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_DataHandler__["a" /* default */]],
+
+  components: {
+    BadgePreview: __WEBPACK_IMPORTED_MODULE_1__BadgePreview___default.a,
+    Loading: __WEBPACK_IMPORTED_MODULE_2__Loading___default.a
+  },
+
+  props: {
+    id: null,
+    languages: null,
+    activeLanguageCode: null,
+    selected: {
+      default: function _default() {
+        return [];
+      }
+    }
+  },
+
+  data: function data() {
+    return {
+      usedMainData: ['badge-types'],
+
+      badgeTypes: null,
+      loading: true
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    this.loadData().then(function () {
+      return _this.loading = false;
+    });
+  },
+
+
+  methods: {
+    isActive: function isActive(badgeType) {
+      return this.selected.indexOf(badgeType.id) !== -1;
+    },
+    toggle: function toggle(badgeType) {
+      if (this.isActive(badgeType)) {
+        this.select(this.selected.filter(function (id) {
+          return badgeType.id !== id;
+        }));
+      } else {
+        this.select([].concat(_toConsumableArray(this.selected), [badgeType.id]));
+      }
+    },
+    select: function select(selected) {
+      this.$emit('update:selected', selected);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/categories/CategoriesTable.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3450,23 +3714,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AjaxMultiselect__ = __webpack_require__("./resources/assets/js/components/AjaxMultiselect.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AjaxMultiselect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AjaxMultiselect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__resources_AxajMultiselectModel__ = __webpack_require__("./resources/assets/js/resources/AxajMultiselectModel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__TreeSelect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__TreeSelectTranslatable__ = __webpack_require__("./resources/assets/js/components/TreeSelectTranslatable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__TreeSelectTranslatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__TreeSelectTranslatable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__CKEditor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__PricesTable__ = __webpack_require__("./resources/assets/js/components/shop/PricesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__PricesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__PricesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__DropzoneGallery__ = __webpack_require__("./resources/assets/js/components/DropzoneGallery.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__DropzoneGallery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__DropzoneGallery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__AttributesSelect__ = __webpack_require__("./resources/assets/js/components/shop/AttributesSelect.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__AttributesSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__AttributesSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__TreeSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable__ = __webpack_require__("./resources/assets/js/components/TreeSelectTranslatable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__CKEditor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__PricesTable__ = __webpack_require__("./resources/assets/js/components/shop/PricesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__PricesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__PricesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__DropzoneGallery__ = __webpack_require__("./resources/assets/js/components/DropzoneGallery.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__DropzoneGallery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__DropzoneGallery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__AttributesSelect__ = __webpack_require__("./resources/assets/js/components/shop/AttributesSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__AttributesSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__AttributesSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__badges_BadgesSelect__ = __webpack_require__("./resources/assets/js/components/shop/badges/BadgesSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__badges_BadgesSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__badges_BadgesSelect__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__converters_WeightConverter__ = __webpack_require__("./resources/assets/js/components/converters/WeightConverter.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__converters_WeightConverter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__converters_WeightConverter__);
@@ -3481,6 +3746,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
+
+// import AxajMultiselectModel from '../../../resources/AxajMultiselectModel'
 
 
 
@@ -3510,7 +3777,22 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'product-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_10__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_11__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_9__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_10__mixins_Translatable__["a" /* default */]],
+
+  components: {
+    TreeSelect: __WEBPACK_IMPORTED_MODULE_3__TreeSelect___default.a,
+    TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_4__TreeSelectTranslatable___default.a,
+    'ckeditor': __WEBPACK_IMPORTED_MODULE_5__CKEditor___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    DropzoneGallery: __WEBPACK_IMPORTED_MODULE_8__DropzoneGallery___default.a,
+    PricesTable: __WEBPACK_IMPORTED_MODULE_7__PricesTable___default.a,
+    WeightConverter: __WEBPACK_IMPORTED_MODULE_14__converters_WeightConverter___default.a,
+    SizeConverter: __WEBPACK_IMPORTED_MODULE_15__converters_SizeConverter___default.a,
+    AttributesSelect: __WEBPACK_IMPORTED_MODULE_11__AttributesSelect___default.a,
+    AjaxMultiselect: __WEBPACK_IMPORTED_MODULE_2__AjaxMultiselect___default.a,
+    BadgesSelect: __WEBPACK_IMPORTED_MODULE_12__badges_BadgesSelect___default.a
+  },
 
   directives: _extends({}, __WEBPACK_IMPORTED_MODULE_13__directives_number__["a" /* default */]),
 
@@ -3533,20 +3815,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     };
   },
 
-
-  components: {
-    TreeSelect: __WEBPACK_IMPORTED_MODULE_4__TreeSelect___default.a,
-    TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_5__TreeSelectTranslatable___default.a,
-    'ckeditor': __WEBPACK_IMPORTED_MODULE_6__CKEditor___default.a,
-    LanguagePicker: __WEBPACK_IMPORTED_MODULE_7__LanguagePicker___default.a,
-    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    DropzoneGallery: __WEBPACK_IMPORTED_MODULE_9__DropzoneGallery___default.a,
-    PricesTable: __WEBPACK_IMPORTED_MODULE_8__PricesTable___default.a,
-    WeightConverter: __WEBPACK_IMPORTED_MODULE_14__converters_WeightConverter___default.a,
-    SizeConverter: __WEBPACK_IMPORTED_MODULE_15__converters_SizeConverter___default.a,
-    AttributesSelect: __WEBPACK_IMPORTED_MODULE_12__AttributesSelect___default.a,
-    AjaxMultiselect: __WEBPACK_IMPORTED_MODULE_2__AjaxMultiselect___default.a
-  },
 
   methods: {
     loadData: function loadData() {
@@ -4030,14 +4298,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__TreeSelect__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__resources_shop_promo_PromoCodeModel__ = __webpack_require__("./resources/assets/js/resources/shop/promo/PromoCodeModel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment__ = __webpack_require__("./node_modules/moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__resources_shop_promo_PromoCodeModel__ = __webpack_require__("./resources/assets/js/resources/shop/promo/PromoCodeModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_moment__ = __webpack_require__("./node_modules/moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__core__ = __webpack_require__("./resources/assets/js/core/index.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -4058,12 +4331,12 @@ function makeCondition(key) {
   switch (key) {
     case 'min_summ':
       conditionFields.value = 0;
-      conditionFields.currency = 'RUB';
+      conditionFields.currency_code = 'RUB';
       break;
 
     case 'product_expensive':
       conditionFields.value = 0;
-      conditionFields.currency = 'RUB';
+      conditionFields.currency_code = 'RUB';
       break;
 
     case 'products_quantity':
@@ -4091,15 +4364,16 @@ var datePickerConfig = {
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'supplier-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__["a" /* default */]],
 
-  directives: _extends({}, __WEBPACK_IMPORTED_MODULE_7__directives_number__["a" /* default */]),
+  directives: _extends({}, __WEBPACK_IMPORTED_MODULE_9__directives_number__["a" /* default */]),
 
   components: {
     'ckeditor': __WEBPACK_IMPORTED_MODULE_2__CKEditor___default.a,
     bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
     datePicker: __WEBPACK_IMPORTED_MODULE_0_vue_bootstrap_datetimepicker___default.a,
-    TreeSelect: __WEBPACK_IMPORTED_MODULE_3__TreeSelect___default.a
+    TreeSelect: __WEBPACK_IMPORTED_MODULE_3__TreeSelect___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default.a
   },
 
   props: ['id'],
@@ -4113,10 +4387,10 @@ var datePickerConfig = {
       promoType: null,
 
       conditions: {
-        'min_summ': __WEBPACK_IMPORTED_MODULE_8__core__["a" /* default */].translate('shop.promo.conditions.types.min_summ'),
-        'product_expensive': __WEBPACK_IMPORTED_MODULE_8__core__["a" /* default */].translate('shop.promo.conditions.types.product_expensive'),
-        'products_quantity': __WEBPACK_IMPORTED_MODULE_8__core__["a" /* default */].translate('shop.promo.conditions.types.products_quantity'),
-        'first_order': __WEBPACK_IMPORTED_MODULE_8__core__["a" /* default */].translate('shop.promo.conditions.types.first_order')
+        'min_summ': __WEBPACK_IMPORTED_MODULE_10__core__["a" /* default */].translate('shop.promo.conditions.types.min_summ'),
+        'product_expensive': __WEBPACK_IMPORTED_MODULE_10__core__["a" /* default */].translate('shop.promo.conditions.types.product_expensive'),
+        'products_quantity': __WEBPACK_IMPORTED_MODULE_10__core__["a" /* default */].translate('shop.promo.conditions.types.products_quantity'),
+        'first_order': __WEBPACK_IMPORTED_MODULE_10__core__["a" /* default */].translate('shop.promo.conditions.types.first_order')
       },
 
       savedPromoTypeValues: {
@@ -4144,14 +4418,14 @@ var datePickerConfig = {
 
       dateFinishConfig: _extends({}, datePickerConfig),
 
-      usedMainData: ['currencies']
+      usedMainData: ['currencies', 'languages']
     };
   },
 
 
   methods: {
     initEntity: function initEntity(data) {
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_5__resources_shop_promo_PromoCodeModel__["a" /* default */](data));
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_7__resources_shop_promo_PromoCodeModel__["a" /* default */](data, this.languages));
     },
     datePickerShow: function datePickerShow(field) {
       if (_.isNil(this.promoCode[field])) {
@@ -4163,7 +4437,7 @@ var datePickerConfig = {
     dateStartChange: function dateStartChange() {
       if (this.promoCode.date_start) {
         this.dateFinishConfig = _extends({}, this.dateFinishConfig, {
-          disabledDates: [[__WEBPACK_IMPORTED_MODULE_6_moment___default()(0), this.$refs.dateStart.dp.viewDate()]]
+          disabledDates: [[__WEBPACK_IMPORTED_MODULE_8_moment___default()(0), this.$refs.dateStart.dp.viewDate()]]
         });
       } else {
         this.dateFinishConfig.disabledDates = null;
@@ -4230,6 +4504,9 @@ var datePickerConfig = {
 
         return acc;
       }, {});
+    },
+    inputPromo: function inputPromo(e) {
+      this.promoCode.name = e.target.value.toUpperCase();
     }
   },
 
@@ -4435,7 +4712,16 @@ var defaultTableState = {
 
   methods: {
     loadData: function loadData() {
-      this.fetchMainData().then(this.initMainData);
+      var _this2 = this;
+
+      this.fetchMainData().then(function (data) {
+        _this2.initMainData(data);
+
+        if (typeof _this2.fetchItemsCb === 'function') {
+          _this2.fetchItemsCb();
+          _this2.fetchItemsCb = undefined;
+        }
+      });
     },
     getValidPage: function getValidPage(value) {
       value = parseInt(value);
@@ -4459,13 +4745,13 @@ var defaultTableState = {
       return this[methodName](value);
     },
     setHistoryState: function setHistoryState() {
-      var _this2 = this;
+      var _this3 = this;
 
       var queryArr = Object.keys(defaultTableState).reduce(function (acc, key) {
-        var validValue = _this2.getValid(key, _this2[key]);
+        var validValue = _this3.getValid(key, _this3[key]);
 
         if (validValue !== defaultTableState[key]) {
-          acc.push(encodeURIComponent(key) + '=' + encodeURIComponent(_this2[key]));
+          acc.push(encodeURIComponent(key) + '=' + encodeURIComponent(_this3[key]));
         }
 
         return acc;
@@ -4488,28 +4774,36 @@ var defaultTableState = {
     */
 
     fetchItems: function fetchItems(_ref) {
-      var _this3 = this;
+      var _this4 = this;
 
       var currentPage = _ref.currentPage,
           perPage = _ref.perPage;
 
       return new Promise(function (resolve) {
-        new __WEBPACK_IMPORTED_MODULE_4__core__["a" /* default */].requestHandler('get', _this3.makePageApiUrl(), {
+        new __WEBPACK_IMPORTED_MODULE_4__core__["a" /* default */].requestHandler('get', _this4.makePageApiUrl(), {
           page: currentPage,
           perPage: perPage,
-          type: _this3.type
+          type: _this4.type
         }).success(function (response) {
           var data = response.data;
 
-          _this3.totalRows = _this3.nanToNum(parseInt(data.totalRows));
-          _this3.page = parseInt(data.page) || 1;
-          _this3.perPage = _this3.nanToNum(parseInt(data.perPage));
+          _this4.totalRows = _this4.nanToNum(parseInt(data.totalRows));
+          _this4.page = parseInt(data.page) || 1;
+          _this4.perPage = _this4.nanToNum(parseInt(data.perPage));
 
           var items = data['promo-codes'] || [];
 
-          resolve(items.map(function (item) {
-            return new __WEBPACK_IMPORTED_MODULE_10__resources_shop_promo_PromoCodesTableModel__["a" /* default */](item, _this3.currencies);
-          }));
+          if (_this4.currencies) {
+            resolve(items.map(function (item) {
+              return new __WEBPACK_IMPORTED_MODULE_10__resources_shop_promo_PromoCodesTableModel__["a" /* default */](item, _this4.currencies);
+            }));
+          } else {
+            _this4.fetchItemsCb = function () {
+              resolve(items.map(function (item) {
+                return new __WEBPACK_IMPORTED_MODULE_10__resources_shop_promo_PromoCodesTableModel__["a" /* default */](item, _this4.currencies);
+              }));
+            };
+          }
         }).start();
       });
     },
@@ -4528,10 +4822,10 @@ var defaultTableState = {
       this.page = 1;
     },
     refreshTable: function refreshTable() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.$nextTick(function () {
-        _this4.$refs.table.refresh();
+        _this5.$refs.table.refresh();
       });
     },
     nanToNum: function nanToNum(value) {
@@ -14210,7 +14504,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.promo-progress {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  margin-top: 8px;\n}\n.promo-progress__progress {\n  width: 100%;\n  margin-left: 15px;\n}\n.promo-progress .progress {\n  margin-bottom: 0;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/shop/promoCodes/resources/assets/js/components/shop/promoCodes/PromoCodesTable.vue"],"names":[],"mappings":";AA8cA;EACA,qBAAA;EAAA,qBAAA;EAAA,cAAA;EACA,0BAAA;MAAA,uBAAA;UAAA,oBAAA;EACA,gBAAA;CACA;AAEA;EACA,YAAA;EACA,kBAAA;CACA;AAEA;EACA,iBAAA;CACA","file":"PromoCodesTable.vue","sourcesContent":["<script>\n  import bTable from 'bootstrap-vue/es/components/table/table'\n  import bPagination from 'bootstrap-vue/es/components/pagination/pagination'\n  import bFormSelect from 'bootstrap-vue/es/components/form-select/form-select'\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import Core from '../../../core'\n\n  import Toggle from '../../Toggle'\n  import Loading from '../../Loading'\n\n  import TablePage from '../../../mixins/TablePage'\n  import Translatable from '../../../mixins/Translatable'\n  import StatusChangeable from '../../../mixins/StatusChangeable'\n  import PromoCodesTableModel from '../../../resources/shop/promo/PromoCodesTableModel'\n\n  const defaultTableState = {\n    page: 1,\n    perPage: 30,\n    type: 'all'\n  }\n\n\n  export default {\n    name: 'promo-codes-table',\n\n    mixins: [\n      StatusChangeable,\n      TablePage,\n      Translatable,\n    ],\n\n    components : {\n      Toggle,\n      Loading,\n      bTable,\n      bPagination,\n      bFormSelect,\n      bModal,\n    },\n\n    data () {\n      let fields = [\n        {\n          key: 'id',\n          sortable: false,\n        },\n        {\n          key: 'name',\n          sortable: false,\n          label: 'Код',\n        },\n        {\n          key: 'discount',\n          sortable: false,\n          label: 'Скидка',\n          thStyle: {\n            width: \"40%\"\n          }\n        },\n      ]\n\n      if (this.userCan('see')) {\n        fields.push({\n          key: 'quantity',\n          sortable: false,\n          label: 'Использований',\n          thStyle: {\n            width: \"40%\"\n          }\n        })\n      }\n\n      if (this.userCan('see')) {\n        fields.push({\n          key: 'conditions',\n          label: 'Условия',\n          sortable: false,\n          thStyle: {\n            width: \"30%\"\n          }\n        })\n      }\n\n      if (this.userCan('edit')) {\n        fields.push({\n          key: 'enabled',\n          sortable: false,\n        })\n      }\n\n      if (this.userCan('delete')) {\n        fields.push({\n          key: 'delete',\n          sortable: false,\n        })\n      }\n\n      return {\n        rbacNamespace: 'promo-codes',\n        loading: false,\n        totalRows: 0,\n        perPageOptions: [ 15, 30, 60 ],\n        types: {\n          all: 'Все',\n          enabled: 'Активные',\n          old: 'Завершенные',\n          disabled: 'Отмененные',\n        },\n        ... defaultTableState,\n        fields,\n\n        currencies: null,\n\n        usedMainData: [\n          'currencies',\n        ],\n\n        countByType: {\n          unconfirmed: 0,\n          deleted: 0,\n        }\n      }\n    },\n\n    created() {\n      let query = window.location.search.replace('?', '')\n\n      if (_.isEmpty(query)) return\n\n      query.split('&').forEach(item => {\n        item = item.split('=')\n\n        let key = item[0]\n        let value = item[1]\n\n        this[key] = this.getValid(key, value)\n      })\n    },\n\n    methods: {\n      loadData() {\n          this.fetchMainData()\n            .then(this.initMainData)\n      },\n\n      getValidPage(value) {\n        value = parseInt(value)\n        return isNaN(value) ? defaultTableState.page : value\n      },\n\n      getValidType(value) {\n        return value in this.types ? value : defaultTableState.type\n      },\n\n      getValidPerPage(value) {\n        value = parseInt(value)\n\n        if (this.perPageOptions.indexOf(value) !== -1) {\n          return value\n        }\n\n        return this.perPageOptions[0]\n      },\n\n      getValid(key, value) {\n        let methodName = 'getValid' + Core.camelize(key, true)\n\n        return this[methodName](value)\n      },\n\n      setHistoryState() {\n        let queryArr = Object.keys(defaultTableState).reduce((acc, key) => {\n          let validValue = this.getValid(key, this[key])\n\n          if (validValue !== defaultTableState[key]) {\n            acc.push(encodeURIComponent(key) + '=' + encodeURIComponent(this[key]))\n          }\n\n          return acc\n        }, [])\n\n        let pathWithQuery = window.location.pathname\n\n        if (queryArr.length > 0) {\n          pathWithQuery += '?' + queryArr.join('&')\n        }\n\n        if (this.$router.path !== pathWithQuery) {\n          this.$router.push(pathWithQuery)\n        }\n      },\n\n      /*\n        Загрузка списка.\n      */\n\n      fetchItems ({currentPage, perPage}) {\n        return new Promise(resolve => {\n          new Core.requestHandler('get', this.makePageApiUrl(), {\n            page: currentPage,\n            perPage,\n            type: this.type\n          })\n            .success(response => {\n              const data = response.data\n\n              this.totalRows = this.nanToNum(parseInt(data.totalRows))\n              this.page = parseInt(data.page) || 1\n              this.perPage = this.nanToNum(parseInt(data.perPage))\n\n              const items = data['promo-codes'] || []\n\n              resolve(items.map(item => new PromoCodesTableModel(item, this.currencies)))\n            })\n            .start()\n        })\n      },\n\n      setType(type) {\n        if (this.type === type) return\n\n        this.type = type\n\n        this.refreshTable()\n      },\n\n      sortingChanged(ctx) {\n        ctx.page = 1\n      },\n\n      setPerPage(value) {\n        this.perPage = value\n        this.page = 1\n      },\n\n      refreshTable() {\n        this.$nextTick(() => {\n          this.$refs.table.refresh()\n        })\n      },\n\n      nanToNum(value, num = 0) {\n        return isNaN(value) ? num : value\n      }\n    },\n\n    computed: {\n      showedFrom() {\n        return this.nanToNum((this.page - 1) * this.perPage + 1)\n      },\n\n      showedTo() {\n        let to = this.page * this.perPage\n        return this.nanToNum(to > this.totalRows ? this.totalRows : to)\n      },\n\n      showPagination() {\n        return this.perPage < this.totalRows;\n      },\n    },\n  }\n</script>\n\n<template>\n  <div>\n    <div class=\"block full\">\n\n      <div class=\"block-title clearfix\">\n        <h1>\n          <strong>\n            Промокоды\n          </strong>\n        </h1>\n\n        <div class=\"block-title-control\">\n          <router-link v-if=\"userCan('create')\" to=\"/shop/promo-codes/create\" class=\"btn btn-sm btn-success active\">\n            <i class=\"fa fa-plus-circle\"></i> Создать\n          </router-link>\n        </div>\n      </div>\n\n      <loading :loading=\"loading\">\n        <div class=\"table-responsive\" style=\"overflow: visible\">\n          <div class=\"dataTables_wrapper form-inline no-footer\">\n            <div class=\"row\">\n              <div class=\"col-sm-6 col-xs-12 clearfix\">\n                <div class=\"dataTables_paginate paging_bootstrap\" v-if=\"showPagination\">\n                  <b-pagination :total-rows=\"totalRows\" :per-page=\"perPage\" v-model=\"page\" class=\"my-0\" />\n                </div>\n              </div>\n\n              <div class=\"col-sm-6 col-xs-12 text-center clearfix\">\n                <div class=\"pull-right\">\n                  <div class=\"btn-group\">\n                    <template v-for=\"(title, typeIdentif) in types\">\n                      <button\n                        :class=\"{'btn btn-primary': true, 'active': type === typeIdentif}\"\n                        @click=\"setType(typeIdentif)\"\n                      >\n                        {{ title }}\n\n                        <template v-if=\"typeIdentif in countByType && countByType[typeIdentif] > 0\">\n                          <span class=\"badge\">{{ countByType[typeIdentif] }}</span>\n                        </template>\n\n                      </button>\n                    </template>\n                  </div>\n                </div>\n              </div>\n            </div>\n\n            <b-table\n              @refreshed=\"setHistoryState\"\n              show-empty\n              stacked=\"md\"\n              ref=\"table\"\n              :items=\"currencies ? fetchItems : null\"\n              :fields=\"fields\"\n              :busy.sync=\"loading\"\n              :current-page=\"page\"\n              :per-page=\"perPage\"\n              empty-text=\"Список промокодов пуст.\"\n              empty-filtered-text=\"Промокоды с такими параметрами не найдены.\"\n              style=\"margin-bottom: 0\"\n              class=\"table table-vcenter table-condensed table-hover table-bordered no-footer\">\n\n              <!--  ID  -->\n\n              <template slot=\"HEAD_id\" slot-scope=\"promoCode\">\n                <span class=\"table-column-id\">ID</span>\n              </template>\n\n              <template slot=\"id\" slot-scope=\"promoCode\">\n                <router-link :to=\"promoCode.item.url\">\n                  <span class=\"table-column-id\">\n                    {{ promoCode.item.id }}\n                  </span>\n                </router-link>\n              </template>\n\n              <!--  Код  -->\n\n              <template slot=\"name\" slot-scope=\"promoCode\">\n                <router-link :to=\"promoCode.item.url\">\n                  <span class=\"table-column-promocode\">\n                    {{ promoCode.item.name }}\n                  </span>\n                </router-link>\n              </template>\n\n              <!--  Количество  -->\n\n              <template slot=\"quantity\" slot-scope=\"promoCode\">\n                <template v-for=\"quantityString in promoCode.item.quantityStrings\">\n                  <div v-html=\"quantityString\"></div>\n                </template>\n\n                <template v-if=\"promoCode.item.uses_percent\">\n                  <div class=\"promo-progress\">\n                    <div class=\"promo-progress__num\">\n                      {{ promoCode.item.uses_count }}/{{ promoCode.item.quantity }}\n                    </div>\n\n                    <div class=\"promo-progress__progress\">\n                      <div class=\"progress\">\n                        <div class=\"progress-bar progress-bar-info\" role=\"progressbar\" :style=\"{width: promoCode.item.uses_percent + '%'}\">\n                          {{ promoCode.item.uses_percent }}%\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n\n                </template>\n              </template>\n\n              <!--  Условия  -->\n\n              <template slot=\"conditions\" slot-scope=\"promoCode\">\n                <span class=\"table-column-conditions\">\n                  <template v-for=\"condition in promoCode.item.conditions\">\n                    <div v-html=\"condition.toString()\"></div>\n                  </template>\n                </span>\n              </template>\n\n              <!--  Статус  -->\n\n              <template slot=\"HEAD_enabled\" slot-scope=\"promoCode\">\n                <span class=\"table-column-enabled\">Статус</span>\n              </template>\n\n              <template slot=\"enabled\" slot-scope=\"promoCode\">\n                <span class=\"table-column-enabled\">\n                  <toggle @change=\"statusChange(promoCode.item.id)\" :checked=\"promoCode.item.enabled\" :key=\"promoCode.item.id\" />\n                </span>\n              </template>\n\n              <!--  Удаление  -->\n\n              <template slot=\"HEAD_delete\" slot-scope=\"promoCode\">\n                <span class=\"table-column-delete\"></span>\n              </template>\n\n              <template slot=\"delete\" slot-scope=\"promoCode\">\n                <span class=\"table-column-delete\">\n                  <a class=\"btn btn-danger\" @click=\"remove(promoCode.item.id)\">\n                    <i class=\"fa fa-times\"></i>\n                  </a>\n                </span>\n              </template>\n            </b-table>\n\n            <div class=\"row\">\n              <div class=\"col-sm-6 col-xs-12 clearfix\">\n                <div class=\"dataTables_paginate paging_bootstrap\" v-if=\"showPagination\">\n                  <b-pagination\n                    :total-rows=\"totalRows\"\n                    :per-page=\"perPage\"\n                    v-model=\"page\"\n                    class=\"my-0\"\n                  />\n                </div>\n              </div>\n\n              <div class=\"col-sm-6 col-xs-6\">\n                <div class=\"dataTables_length\">\n                  <label>\n                    <b-form-select :options=\"perPageOptions\" :value=\"perPage\" @change=\"setPerPage\" />\n                  </label>\n                </div>\n\n                <div class=\"dataTables_info\" role=\"status\" aria-live=\"polite\">\n                  <strong>{{ showedFrom }}</strong> - <strong>{{ showedTo }}</strong> из <strong>{{ totalRows }}</strong>\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </div>\n      </loading>\n    </div>\n\n    <b-modal\n      id=\"removeModal\"\n      ref=\"removeModal\"\n      title=\"Удаление промокода\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Удалить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @ok=\"removeConfirm\">\n\n      Вы действительно хотите удалить промокод?\n    </b-modal>\n  </div>\n</template>\n\n\n<style>\n  .promo-progress {\n    display: flex;\n    align-items: center;\n    margin-top: 8px;\n  }\n\n  .promo-progress__progress {\n    width: 100%;\n    margin-left: 15px;\n  }\n\n  .promo-progress .progress {\n    margin-bottom: 0;\n  }\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.promo-progress {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  margin-top: 8px;\n}\n.promo-progress__progress {\n  width: 100%;\n  margin-left: 15px;\n}\n.promo-progress .progress {\n  margin-bottom: 0;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/shop/promoCodes/resources/assets/js/components/shop/promoCodes/PromoCodesTable.vue"],"names":[],"mappings":";AA2dA;EACA,qBAAA;EAAA,qBAAA;EAAA,cAAA;EACA,0BAAA;MAAA,uBAAA;UAAA,oBAAA;EACA,gBAAA;CACA;AAEA;EACA,YAAA;EACA,kBAAA;CACA;AAEA;EACA,iBAAA;CACA","file":"PromoCodesTable.vue","sourcesContent":["<script>\n  import bTable from 'bootstrap-vue/es/components/table/table'\n  import bPagination from 'bootstrap-vue/es/components/pagination/pagination'\n  import bFormSelect from 'bootstrap-vue/es/components/form-select/form-select'\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import Core from '../../../core'\n\n  import Toggle from '../../Toggle'\n  import Loading from '../../Loading'\n\n  import TablePage from '../../../mixins/TablePage'\n  import Translatable from '../../../mixins/Translatable'\n  import StatusChangeable from '../../../mixins/StatusChangeable'\n  import PromoCodesTableModel from '../../../resources/shop/promo/PromoCodesTableModel'\n\n  const defaultTableState = {\n    page: 1,\n    perPage: 30,\n    type: 'all'\n  }\n\n  export default {\n    name: 'promo-codes-table',\n\n    mixins: [\n      StatusChangeable,\n      TablePage,\n      Translatable,\n    ],\n\n    components : {\n      Toggle,\n      Loading,\n      bTable,\n      bPagination,\n      bFormSelect,\n      bModal,\n    },\n\n    data () {\n      let fields = [\n        {\n          key: 'id',\n          sortable: false,\n        },\n        {\n          key: 'name',\n          sortable: false,\n          label: 'Код',\n        },\n        {\n          key: 'discount',\n          sortable: false,\n          label: 'Скидка',\n          thStyle: {\n            width: \"40%\"\n          }\n        },\n      ]\n\n      if (this.userCan('see')) {\n        fields.push({\n          key: 'quantity',\n          sortable: false,\n          label: 'Использований',\n          thStyle: {\n            width: \"40%\"\n          }\n        })\n      }\n\n      if (this.userCan('see')) {\n        fields.push({\n          key: 'conditions',\n          label: 'Условия',\n          sortable: false,\n          thStyle: {\n            width: \"30%\"\n          }\n        })\n      }\n\n      if (this.userCan('edit')) {\n        fields.push({\n          key: 'enabled',\n          sortable: false,\n        })\n      }\n\n      if (this.userCan('delete')) {\n        fields.push({\n          key: 'delete',\n          sortable: false,\n        })\n      }\n\n      return {\n        rbacNamespace: 'promo-codes',\n        loading: false,\n        totalRows: 0,\n        perPageOptions: [ 15, 30, 60 ],\n        types: {\n          all: 'Все',\n          enabled: 'Активные',\n          old: 'Завершенные',\n          disabled: 'Отмененные',\n        },\n        ... defaultTableState,\n        fields,\n\n        currencies: null,\n\n        usedMainData: [\n          'currencies',\n        ],\n\n        countByType: {\n          unconfirmed: 0,\n          deleted: 0,\n        }\n      }\n    },\n\n    created() {\n      let query = window.location.search.replace('?', '')\n\n      if (_.isEmpty(query)) return\n\n      query.split('&').forEach(item => {\n        item = item.split('=')\n\n        let key = item[0]\n        let value = item[1]\n\n        this[key] = this.getValid(key, value)\n      })\n    },\n\n    methods: {\n      loadData() {\n          this.fetchMainData()\n            .then(data => {\n              this.initMainData(data)\n\n              if (typeof this.fetchItemsCb === 'function') {\n                this.fetchItemsCb()\n                this.fetchItemsCb = undefined\n              }\n            })\n      },\n\n      getValidPage(value) {\n        value = parseInt(value)\n        return isNaN(value) ? defaultTableState.page : value\n      },\n\n      getValidType(value) {\n        return value in this.types ? value : defaultTableState.type\n      },\n\n      getValidPerPage(value) {\n        value = parseInt(value)\n\n        if (this.perPageOptions.indexOf(value) !== -1) {\n          return value\n        }\n\n        return this.perPageOptions[0]\n      },\n\n      getValid(key, value) {\n        let methodName = 'getValid' + Core.camelize(key, true)\n\n        return this[methodName](value)\n      },\n\n      setHistoryState() {\n        let queryArr = Object.keys(defaultTableState).reduce((acc, key) => {\n          let validValue = this.getValid(key, this[key])\n\n          if (validValue !== defaultTableState[key]) {\n            acc.push(encodeURIComponent(key) + '=' + encodeURIComponent(this[key]))\n          }\n\n          return acc\n        }, [])\n\n        let pathWithQuery = window.location.pathname\n\n        if (queryArr.length > 0) {\n          pathWithQuery += '?' + queryArr.join('&')\n        }\n\n        if (this.$router.path !== pathWithQuery) {\n          this.$router.push(pathWithQuery)\n        }\n      },\n\n      /*\n        Загрузка списка.\n      */\n\n      fetchItems ({currentPage, perPage}) {\n        return new Promise(resolve => {\n          new Core.requestHandler('get', this.makePageApiUrl(), {\n            page: currentPage,\n            perPage,\n            type: this.type\n          })\n            .success(response => {\n              const data = response.data\n\n              this.totalRows = this.nanToNum(parseInt(data.totalRows))\n              this.page = parseInt(data.page) || 1\n              this.perPage = this.nanToNum(parseInt(data.perPage))\n\n              const items = data['promo-codes'] || []\n\n              if (this.currencies) {\n                resolve(items.map(item => new PromoCodesTableModel(item, this.currencies)))\n              }\n              else {\n                this.fetchItemsCb = () => {\n                  resolve(items.map(item => new PromoCodesTableModel(item, this.currencies)))\n                }\n              }\n            })\n            .start()\n        })\n      },\n\n      setType(type) {\n        if (this.type === type) return\n\n        this.type = type\n\n        this.refreshTable()\n      },\n\n      sortingChanged(ctx) {\n        ctx.page = 1\n      },\n\n      setPerPage(value) {\n        this.perPage = value\n        this.page = 1\n      },\n\n      refreshTable() {\n        this.$nextTick(() => {\n          this.$refs.table.refresh()\n        })\n      },\n\n      nanToNum(value, num = 0) {\n        return isNaN(value) ? num : value\n      }\n    },\n\n    computed: {\n      showedFrom() {\n        return this.nanToNum((this.page - 1) * this.perPage + 1)\n      },\n\n      showedTo() {\n        let to = this.page * this.perPage\n        return this.nanToNum(to > this.totalRows ? this.totalRows : to)\n      },\n\n      showPagination() {\n        return this.perPage < this.totalRows;\n      },\n    },\n  }\n</script>\n\n<template>\n  <div>\n    <div class=\"block full\">\n\n      <div class=\"block-title clearfix\">\n        <h1>\n          <strong>\n            Промокоды\n          </strong>\n        </h1>\n\n        <div class=\"block-title-control\">\n          <router-link v-if=\"userCan('create')\" to=\"/shop/promo-codes/create\" class=\"btn btn-sm btn-success active\">\n            <i class=\"fa fa-plus-circle\"></i> Создать\n          </router-link>\n        </div>\n      </div>\n\n      <loading :loading=\"loading\">\n        <div class=\"table-responsive\" style=\"overflow: visible\">\n          <div class=\"dataTables_wrapper form-inline no-footer\">\n            <div class=\"row\">\n              <div class=\"col-sm-6 col-xs-12 clearfix\">\n                <div class=\"dataTables_paginate paging_bootstrap\" v-if=\"showPagination\">\n                  <b-pagination :total-rows=\"totalRows\" :per-page=\"perPage\" v-model=\"page\" class=\"my-0\" />\n                </div>\n              </div>\n\n              <div class=\"col-sm-6 col-xs-12 text-center clearfix\">\n                <div class=\"pull-right\">\n                  <div class=\"btn-group\">\n                    <template v-for=\"(title, typeIdentif) in types\">\n                      <button\n                        :class=\"{'btn btn-primary': true, 'active': type === typeIdentif}\"\n                        @click=\"setType(typeIdentif)\"\n                      >\n                        {{ title }}\n\n                        <template v-if=\"typeIdentif in countByType && countByType[typeIdentif] > 0\">\n                          <span class=\"badge\">{{ countByType[typeIdentif] }}</span>\n                        </template>\n\n                      </button>\n                    </template>\n                  </div>\n                </div>\n              </div>\n            </div>\n\n            <b-table\n              @refreshed=\"setHistoryState\"\n              show-empty\n              stacked=\"md\"\n              ref=\"table\"\n              :items=\"fetchItems\"\n              :fields=\"fields\"\n              :busy.sync=\"loading\"\n              :current-page=\"page\"\n              :per-page=\"perPage\"\n              empty-text=\"Список промокодов пуст.\"\n              empty-filtered-text=\"Промокоды с такими параметрами не найдены.\"\n              style=\"margin-bottom: 0\"\n              class=\"table table-vcenter table-condensed table-hover table-bordered no-footer\">\n\n              <!--  ID  -->\n\n              <template slot=\"HEAD_id\" slot-scope=\"promoCode\">\n                <span class=\"table-column-id\">ID</span>\n              </template>\n\n              <template slot=\"id\" slot-scope=\"promoCode\">\n                <router-link :to=\"promoCode.item.url\">\n                  <span class=\"table-column-id\">\n                    {{ promoCode.item.id }}\n                  </span>\n                </router-link>\n              </template>\n\n              <!--  Код  -->\n\n              <template slot=\"name\" slot-scope=\"promoCode\">\n                <router-link :to=\"promoCode.item.url\">\n                  <span class=\"table-column-promocode\">\n                    {{ promoCode.item.name }}\n                  </span>\n                </router-link>\n              </template>\n\n              <!--  Количество  -->\n\n              <template slot=\"quantity\" slot-scope=\"promoCode\">\n                <template v-for=\"quantityString in promoCode.item.quantityStrings\">\n                  <div v-html=\"quantityString\"></div>\n                </template>\n\n                <template v-if=\"promoCode.item.uses_percent\">\n                  <div class=\"promo-progress\">\n                    <div class=\"promo-progress__num\">\n                      {{ promoCode.item.uses_count }}/{{ promoCode.item.quantity }}\n                    </div>\n\n                    <div class=\"promo-progress__progress\">\n                      <div class=\"progress\">\n                        <div class=\"progress-bar progress-bar-info\" role=\"progressbar\" :style=\"{width: promoCode.item.uses_percent + '%'}\">\n                          {{ promoCode.item.uses_percent }}%\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n\n                </template>\n              </template>\n\n              <!--  Условия  -->\n\n              <template slot=\"conditions\" slot-scope=\"promoCode\">\n                <span class=\"table-column-conditions\">\n                  <template v-for=\"condition in promoCode.item.conditions\">\n                    <div v-html=\"condition.toString()\"></div>\n                  </template>\n                </span>\n              </template>\n\n              <!--  Статус  -->\n\n              <template slot=\"HEAD_enabled\" slot-scope=\"promoCode\">\n                <span class=\"table-column-enabled\">Статус</span>\n              </template>\n\n              <template slot=\"enabled\" slot-scope=\"promoCode\">\n                <span class=\"table-column-enabled\">\n                  <toggle @change=\"statusChange(promoCode.item.id)\" :checked=\"promoCode.item.enabled\" :key=\"promoCode.item.id\" />\n                </span>\n              </template>\n\n              <!--  Удаление  -->\n\n              <template slot=\"HEAD_delete\" slot-scope=\"promoCode\">\n                <span class=\"table-column-delete\"></span>\n              </template>\n\n              <template slot=\"delete\" slot-scope=\"promoCode\">\n                <span class=\"table-column-delete\">\n                  <a class=\"btn btn-danger\" @click=\"remove(promoCode.item.id)\">\n                    <i class=\"fa fa-times\"></i>\n                  </a>\n                </span>\n              </template>\n            </b-table>\n\n            <div class=\"row\">\n              <div class=\"col-sm-6 col-xs-12 clearfix\">\n                <div class=\"dataTables_paginate paging_bootstrap\" v-if=\"showPagination\">\n                  <b-pagination\n                    :total-rows=\"totalRows\"\n                    :per-page=\"perPage\"\n                    v-model=\"page\"\n                    class=\"my-0\"\n                  />\n                </div>\n              </div>\n\n              <div class=\"col-sm-6 col-xs-6\">\n                <div class=\"dataTables_length\">\n                  <label>\n                    <b-form-select :options=\"perPageOptions\" :value=\"perPage\" @change=\"setPerPage\" />\n                  </label>\n                </div>\n\n                <div class=\"dataTables_info\" role=\"status\" aria-live=\"polite\">\n                  <strong>{{ showedFrom }}</strong> - <strong>{{ showedTo }}</strong> из <strong>{{ totalRows }}</strong>\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </div>\n      </loading>\n    </div>\n\n    <b-modal\n      id=\"removeModal\"\n      ref=\"removeModal\"\n      title=\"Удаление промокода\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Удалить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @ok=\"removeConfirm\">\n\n      Вы действительно хотите удалить промокод?\n    </b-modal>\n  </div>\n</template>\n\n\n<style>\n  .promo-progress {\n    display: flex;\n    align-items: center;\n    margin-top: 8px;\n  }\n\n  .promo-progress__progress {\n    width: 100%;\n    margin-left: 15px;\n  }\n\n  .promo-progress .progress {\n    margin-bottom: 0;\n  }\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -14255,7 +14549,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.unlimited {\n  margin: 3px 0 0 16px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  cursor: pointer;\n}\n.unlimited .help-inline {\n  vertical-align: middle;\n  margin: 0 0 0 5px;\n}\n.date-picker {\n  max-width: 150px;\n}\n.price-input-group {\n  max-width: 200px;\n}\n.price-input-group .input-group-addon {\n  width: 80px;\n  padding: 0;\n  border: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/shop/promoCodes/resources/assets/js/components/shop/promoCodes/PromoCodeEdit.vue"],"names":[],"mappings":";AA65BA;EACA,qBAAA;EACA,0BAAA;KAAA,uBAAA;MAAA,sBAAA;UAAA,kBAAA;EACA,gBAAA;CACA;AAEA;EACA,uBAAA;EACA,kBAAA;CACA;AAEA;EACA,iBAAA;CACA;AAEA;EACA,iBAAA;CACA;AAEA;EACA,YAAA;EACA,WAAA;EACA,aAAA;CACA","file":"PromoCodeEdit.vue","sourcesContent":["<script>\n  import datePicker from 'vue-bootstrap-datetimepicker'\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import CKEditor from '../../CKEditor'\n  import TreeSelect from '../../TreeSelect'\n\n  import EntityPage from '../../../mixins/EntityPage'\n\n  import PromoCodeModel from '../../../resources/shop/promo/PromoCodeModel'\n  import moment from 'moment'\n  import number from '../../../directives/number'\n  import Core from '../../../core'\n\n  function makeCondition(key) {\n    let conditionFields = {}\n\n    switch (key) {\n      case 'min_summ':\n        conditionFields.value = 0\n        conditionFields.currency = 'RUB'\n        break;\n\n      case 'product_expensive':\n        conditionFields.value = 0\n        conditionFields.currency = 'RUB'\n        break;\n\n      case 'products_quantity':\n        conditionFields.value = 0\n        break;\n\n      case 'first_order':\n        conditionFields.value = false\n        break;\n    }\n\n    return conditionFields\n  }\n\n  const datePickerConfig = {\n    locale: 'ru',\n\n    format: 'DD-MM-YYYY HH:mm:ss',\n    useCurrent: false,\n    sideBySide: false,\n    showClear: true,\n    showClose: true,\n  }\n\n  export default {\n    name: 'supplier-edit',\n\n    mixins: [\n      EntityPage\n    ],\n\n    directives: {\n      ... number,\n    },\n\n    components: {\n      'ckeditor': CKEditor,\n      bModal,\n      datePicker,\n      TreeSelect\n    },\n\n    props: [\n      'id',\n    ],\n\n    data() {\n      return {\n        entityName: 'promo-code',\n\n        promoCode: null,\n\n        promoType: null,\n\n        conditions: {\n          'min_summ': Core.translate('shop.promo.conditions.types.min_summ'),\n          'product_expensive': Core.translate('shop.promo.conditions.types.product_expensive'),\n          'products_quantity': Core.translate('shop.promo.conditions.types.products_quantity'),\n          'first_order': Core.translate('shop.promo.conditions.types.first_order'),\n        },\n\n        savedPromoTypeValues: {\n          percent: {\n            percent: this.$root.config('shop.promo.discount.percent.max_percent'),\n            amount: 0,\n            currency_code: null,\n          },\n\n          amount: {\n            percent: this.$root.config('shop.promo.discount.amount.max_percent'),\n            amount: 0,\n            currency_code: 'RUB',\n          }\n        },\n\n        selectedCondition: null,\n\n        savedQuantities: {\n          quantity: 1,\n          quantity_per_user: 1,\n        },\n\n        dateStartConfig: {\n          ... datePickerConfig\n        },\n\n        dateFinishConfig: {\n          ... datePickerConfig\n        },\n\n        usedMainData: [\n          'currencies',\n        ]\n      }\n    },\n\n    methods: {\n      initEntity(data) {\n        this.setEntityData(new PromoCodeModel(data))\n      },\n\n      datePickerShow(field) {\n        if (_.isNil(this.promoCode[field])) {\n          this.promoCode[field] = new Date()\n\n          this.promoCode[field].setHours(0, 0, 0, 0)\n        }\n      },\n\n      dateStartChange() {\n        if (this.promoCode.date_start) {\n          this.dateFinishConfig = {\n            ... this.dateFinishConfig,\n            disabledDates: [\n              [moment(0), this.$refs.dateStart.dp.viewDate()]\n            ]\n          }\n        }\n        else {\n          this.dateFinishConfig.disabledDates = null\n        }\n      },\n\n      setEntityData() {\n        EntityPage.methods.setEntityData.apply(this, arguments)\n\n        this.detectPromoType()\n      },\n\n      detectPromoType() {\n        if (this.type === 'create') {\n          this.promoType = 'percent'\n\n          for (let key in this.savedPromoTypeValues[this.promoType]) {\n            this.promoCode[key] = this.savedPromoTypeValues[this.promoType][key]\n          }\n        }\n        else {\n          if (this.promoCode.amount) {\n            this.promoType = 'amount'\n          }\n          else {\n            this.promoType = 'percent'\n          }\n        }\n      },\n\n      setPromoType(type, isInit = false) {\n        for (let key in this.savedPromoTypeValues[this.promoType]) {\n          this.savedPromoTypeValues[this.promoType][key] = this.promoCode[key]\n        }\n\n        this.promoType = type\n\n        for (let key in this.savedPromoTypeValues[type]) {\n          this.promoCode[key] = this.savedPromoTypeValues[type][key]\n        }\n      },\n\n      setUnlimited(key) {\n        if (this.promoCode[key] < 0) {\n          this.promoCode[key] = this.savedQuantities[key]\n        }\n        else {\n          this.savedQuantities[key] = this.promoCode[key]\n          this.promoCode[key] = -1\n        }\n      },\n\n      selectCondition(key) {\n        this.selectedCondition = key\n      },\n\n      addCondition() {\n        if (this.selectedCondition && ! (this.selectedCondition in this.promoCode.conditions)) {\n          this.promoCode.conditions = {\n            ... this.promoCode.conditions,\n            [this.selectedCondition]: makeCondition(this.selectedCondition)\n          }\n        }\n\n        this.selectedCondition = null\n      },\n\n      removeCondition(key) {\n        this.promoCode.conditions = Object.keys(this.promoCode.conditions).reduce((acc, conditionKey) => {\n          if (conditionKey !== key) {\n            acc[conditionKey] = this.promoCode.conditions[key]\n          }\n\n          return acc\n        }, {})\n      }\n    },\n\n    computed: {\n      currenciesToSelect() {\n        return this.currencies.map(currency => ({\n          id: currency.code,\n          title: currency.code,\n        }))\n      },\n\n      conditionsToSelect() {\n        return Object.keys(this.conditions).reduce((acc, key) => {\n          if (! (key in this.promoCode.conditions)) {\n            acc.push({\n              id: key,\n              title: this.conditions[key],\n            })\n          }\n\n          return acc\n        }, [])\n      },\n\n      hasNotSelectedConditions() {\n        return this.conditionsToSelect.length !== 0\n      },\n\n      promoTypeSelectOptions() {\n        return [\n          {\n            id: 'percent',\n            title: 'процентах'\n          },\n\n          {\n            id: 'amount',\n            title: 'валюте'\n          }\n        ]\n      }\n    }\n  }\n\n  // id: '',\n  // date_start: '',\n  // date_finish: '',\n  // quantity: '',\n  // once: '',\n  // user_related: '',\n  // percent: '',\n  // amount: '',\n\n\n\n</script>\n\n\n\n<template>\n  <div>\n    <div class=\"block full\">\n      <div class=\"block-title clearfix\" v-if=\"type === 'create'\">\n        <h1>\n          <strong>\n            Создание промокода\n          </strong>\n        </h1>\n\n        <div class=\"block-title-control\">\n          <a class=\"btn btn-sm btn-default btn-alt\" @click=\"redirectToTable\">\n            <i class=\"fa fa-arrow-left\"></i>\n          </a>\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <a v-if=\"userCan('promo-codes.create')\" class=\"btn btn-sm btn-success active\" @click=\"save\">\n            <i class=\"fa fa-plus-circle\"></i> Создать\n          </a>\n        </div>\n      </div>\n\n      <div class=\"block-title clearfix\" v-if=\"type === 'edit'\">\n        <h1>\n          <strong>\n            Редактирование промокода #{{ this.id }}\n          </strong>\n        </h1>\n\n        <div class=\"block-title-control\">\n          <a class=\"btn btn-sm btn-default btn-alt\" @click=\"redirectToTable\">\n            <i class=\"fa fa-arrow-left\"></i>\n          </a>\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <a v-if=\"userCan('promo-codes.edit')\" class=\"btn btn-sm btn-primary active\" @click=\"save\">\n            <i class=\"fa fa-floppy-o\"></i> Сохранить\n          </a>\n\n          <a v-if=\"userCan('promo-codes.delete')\" class=\"btn btn-sm btn-danger active\" @click=\"remove\">\n            Удалить\n          </a>\n        </div>\n      </div>\n\n      <div class=\"row\" v-if=\"promoCode\">\n        <div class=\"col-lg-6\">\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-pencil\"></i> <strong>Основная</strong> информация\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div :class=\"`form-group${formErrors.has('name') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"name\">\n                  Код <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <input type=\"text\" class=\"form-control\" id=\"name\" v-model=\"promoCode.name\" name=\"name\" v-validate=\"'required|min:3|max:255'\">\n\n                  <span v-show=\"formErrors.has('name')\" class=\"help-block\">\n                    {{ formErrors.first('name') }}\n                  </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\">\n                <label class=\"col-md-3 control-label\" for=\"promo-type-select\">\n                  Скидка в <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <tree-select\n                    id=\"promo-type-select\"\n                    name=\"promo-type-select\"\n                    :options=\"promoTypeSelectOptions\"\n                    :selected=\"promoType\"\n                    @update:selected=\"setPromoType\"\n                    :params=\"{minimumResultsForSearch: -1, allowClear: false}\"\n                    placeholder=\"Выберите тип\" />\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('enabled') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\">\n                  Задействован\n                </label>\n\n                <div class=\"col-md-9\">\n                  <label class=\"switch switch-primary\">\n                    <input type=\"checkbox\" v-model=\"promoCode.enabled\">\n                    <span></span>\n                  </label>\n\n                  <span v-show=\"formErrors.has('enabled')\" class=\"help-block\">\n                    {{ formErrors.first('enabled') }}\n                  </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\" v-if=\"promoCode.uses_count\">\n                <label class=\"col-md-3 control-label\">\n                  Количество использований\n                </label>\n\n                <div class=\"col-md-9\">\n                  <p class=\"form-control-static\">\n                    {{ promoCode.uses_count }}\n                  </p>\n                </div>\n              </div>\n\n              <div class=\"form-group\" v-if=\"promoCode.created_at\">\n                <label class=\"col-md-3 control-label\">\n                  Дата создания\n                </label>\n\n                <div class=\"col-md-9\">\n                  <p class=\"form-control-static\">\n                    {{ promoCode.created_at }}\n                  </p>\n                </div>\n              </div>\n\n              <div class=\"form-group\" v-if=\"promoCode.updated_at\">\n                <label class=\"col-md-3 control-label\">\n                  Последнее изменение\n                </label>\n\n                <div class=\"col-md-9\">\n                  <p class=\"form-control-static\">\n                    {{ promoCode.updated_at }}\n                  </p>\n                </div>\n              </div>\n\n            </div>\n          </div>\n\n\n          <!-- Скидка -->\n\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-percent\"></i> <strong>Скидка</strong>\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\" v-if=\"promoType === 'percent'\">\n\n              <div :class=\"`form-group${formErrors.has('percent') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"percent\">\n                  Процент скидки <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <input\n                    type=\"number\"\n                    class=\"form-control\"\n                    id=\"percent\"\n                    v-model=\"promoCode.percent\"\n                    v-number\n                    name=\"percent\"\n                    v-validate=\"'required|max_value:' + $root.config('shop.promo.discount.percent.max_percent')\"\n                  >\n\n                  <span v-show=\"formErrors.has('percent')\" class=\"help-block\">\n                    {{ formErrors.first('percent') }}\n                  </span>\n                </div>\n              </div>\n\n            </div>\n\n            <div class=\"form-horizontal form-bordered\" v-if=\"promoType === 'amount'\">\n\n              <div :class=\"`form-group${formErrors.has('amount') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"amount\">\n                  Сумма <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <div class=\"input-group price-input-group\">\n                    <input\n                      type=\"number\"\n                      class=\"form-control\"\n                      id=\"amount\"\n                      v-model=\"promoCode.amount\"\n                      v-number\n                      name=\"amount\"\n                      v-validate=\"'required|max_value:2147483647'\"\n                    >\n\n                    <div class=\"input-group-addon\">\n                      <tree-select\n                        name=\"currency_code\"\n                        :options=\"currenciesToSelect\"\n                        :selected.sync=\"promoCode.currency_code\"\n                        :params=\"{minimumResultsForSearch: -1, allowClear: false}\"/>\n                    </div>\n                  </div>\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('percent') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"percent\">\n                  Максимальный процент скидки <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <input\n                    type=\"number\"\n                    class=\"form-control\"\n                    id=\"percent\"\n                    v-model=\"promoCode.percent\"\n                    v-number\n                    name=\"percent\"\n                    v-validate=\"'required|max_value:' + $root.config('shop.promo.discount.amount.max_percent')\"\n                  >\n\n                  <span v-show=\"formErrors.has('percent')\" class=\"help-block\">\n                    {{ formErrors.first('percent') }}\n                  </span>\n                </div>\n              </div>\n\n\n            </div>\n\n          </div>\n\n\n          <!-- Количество использований -->\n\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-hashtag\"></i> <strong>Количество</strong> использований\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div :class=\"`form-group${formErrors.has('quantity') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\">\n                  Общее\n                </label>\n\n                <div class=\"col-md-9\">\n                  <div class=\"clearfix\">\n                    <div class=\"pull-left\">\n                      <input\n                        style=\"max-width: 100px\"\n                        class=\"form-control\"\n                        id=\"quantity\"\n                        v-model=\"promoCode.quantity < 0 ? savedQuantities.quantity : promoCode.quantity\"\n                        name=\"quantity\"\n                        v-number\n                        :disabled=\"promoCode.quantity < 0\"\n                        v-validate=\"promoCode.quantity < 0 ? '' : 'required|integer|min_value:1|max_value:2147483647'\">\n                    </div>\n\n                    <div class=\"pull-left unlimited\">\n                      <label class=\"switch switch-primary\">\n                        <input\n                          type=\"checkbox\"\n                          id=\"quantity-unlimited\"\n                          @change=\"setUnlimited('quantity')\"\n                          :checked=\"promoCode.quantity < 0\"\n                        >\n                        <span></span>\n                      </label>\n\n                      <label class=\"help-inline\" for=\"quantity-unlimited\">\n                        Неограниченно\n                      </label>\n                    </div>\n                  </div>\n\n                  <span v-show=\"formErrors.has('quantity')\" class=\"help-block\">\n                    {{ formErrors.first('quantity') }}\n                  </span>\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('quantity_per_user') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\">\n                  На одного пользователя\n                </label>\n\n                <div class=\"col-md-9 clearfix\">\n                  <div class=\"clearfix\">\n                    <div class=\"pull-left\">\n                      <input\n                        style=\"max-width: 100px\"\n                        class=\"form-control\"\n                        id=\"quantity_per_user\"\n                        v-model=\"promoCode.quantity_per_user < 0 ? savedQuantities.quantity_per_user : promoCode.quantity_per_user\"\n                        name=\"quantity_per_user\"\n                        v-number\n                        :disabled=\"promoCode.quantity_per_user < 0\"\n                        v-validate=\"promoCode.quantity_per_user < 0 ? '' : 'required|integer|min_value:1|max_value:2147483647'\">\n                    </div>\n\n                    <div class=\"pull-left unlimited\">\n                      <label class=\"switch switch-primary\">\n                        <input\n                          type=\"checkbox\"\n                          id=\"quantity_per_user-unlimited\"\n                          @change=\"setUnlimited('quantity_per_user')\"\n                          :checked=\"promoCode.quantity_per_user < 0\"\n                        >\n                        <span></span>\n                      </label>\n\n                      <label class=\"help-inline\" for=\"quantity_per_user-unlimited\">\n                        Неограниченно\n                      </label>\n                    </div>\n                  </div>\n\n                  <span v-show=\"formErrors.has('quantity_per_user')\" class=\"help-block\">\n                    {{ formErrors.first('quantity_per_user') }}\n                  </span>\n                </div>\n              </div>\n            </div>\n\n          </div>\n\n\n          <!-- Срок использования -->\n\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-calendar\"></i> <strong>Срок</strong> использования\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n\n              <div :class=\"`form-group${formErrors.has('date_start') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"date_start\">\n                  Дата начала\n                </label>\n\n                <div class=\"col-md-9\">\n                  <date-picker\n                    id=\"date_start\"\n                    name=\"date_start\"\n                    ref=\"dateStart\"\n                    @dp-show=\"datePickerShow('date_start')\"\n                    @dp-change=\"dateStartChange()\"\n                    v-model=\"promoCode.date_start\"\n                    :config=\"dateStartConfig\"\n                    class=\"date-picker\"\n                  ></date-picker>\n\n                  <span v-show=\"formErrors.has('date_start')\" class=\"help-block\">\n                    {{ formErrors.first('date_start') }}\n                  </span>\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('date_finish') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"date_finish\">\n                  Дата завершения\n                </label>\n\n                <div class=\"col-md-9\">\n                  <date-picker\n                    id=\"date_finish\"\n                    name=\"date_finish\"\n                    ref=\"dateStart\"\n                    @dp-show=\"datePickerShow('date_finish')\"\n                    v-model=\"promoCode.date_finish\"\n                    :config=\"dateFinishConfig\"\n                    class=\"date-picker\"\n                  ></date-picker>\n\n                  <span v-show=\"formErrors.has('date_finish')\" class=\"help-block\">\n                    {{ formErrors.first('date_finish') }}\n                  </span>\n                </div>\n              </div>\n\n            </div>\n          </div>\n        </div>\n\n\n        <!-- Дополнительные условия -->\n\n        <div class=\"col-lg-6\">\n          <div v-if=\"hasNotSelectedConditions\" class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-bars\"></i> <strong>Дополнительные</strong> условия\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <label class=\"col-md-3 control-label\" for=\"conditions\">\n                  Условия\n                </label>\n\n                <div class=\"col-md-9 clearfix\">\n                  <div class=\"input-group\">\n                    <tree-select\n                      name=\"conditions\"\n                      :options=\"conditionsToSelect\"\n                      @update:selected=\"selectCondition\"\n                      :params=\"{minimumResultsForSearch: -1}\"\n                      placeholder=\"Выберите условие\" />\n\n                    <a @click=\"addCondition\" class=\"input-group-addon btn btn-primary\">\n                      <i class=\"fa fa-plus-circle\"></i>\n                    </a>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Минимальная сумма заказа -->\n\n          <div v-if=\"promoCode.conditions.min_summ\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-shopping-cart\"></i>\n                <strong>Минимальная</strong> сумма заказа\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('min_summ')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <div :class=\"`form-group${formErrors.has('conditions.min_summ.value') ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" for=\"condition-min-summ-value\">\n                    Сумма <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <div class=\"input-group price-input-group\">\n                      <input\n                        type=\"number\"\n                        class=\"form-control\"\n                        id=\"condition-min-summ-value\"\n                        v-model=\"promoCode.conditions.min_summ.value\"\n                        v-number\n                        name=\"conditions[min_summ][value]\"\n                        v-validate=\"'required|max_value:2147483647'\"\n                      >\n\n                      <div class=\"input-group-addon\">\n                        <tree-select\n                          name=\"conditions[min_summ][currency]\"\n                          :options=\"currenciesToSelect\"\n                          :selected.sync=\"promoCode.conditions.min_summ.currency\"\n                          :params=\"{minimumResultsForSearch: -1, allowClear: false}\"/>\n                      </div>\n                    </div>\n\n                    <span v-show=\"formErrors.has('conditions.min_summ.value')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.min_summ.value') }}\n                    </span>\n\n                    <span v-show=\"formErrors.has('conditions.min_summ.currency')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.min_summ.currency') }}\n                    </span>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Минимальная цена товара в корзине -->\n\n          <div v-if=\"promoCode.conditions.product_expensive\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-tv\"></i>\n                <strong>Минимальная</strong> цена товара в корзине\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('product_expensive')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <div :class=\"`form-group${formErrors.has('conditions.product_expensive.value') ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" for=\"product-expensive-summ-value\">\n                    Цена <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <div class=\"input-group price-input-group\">\n                      <input\n                        type=\"number\"\n                        class=\"form-control\"\n                        id=\"product-expensive-summ-value\"\n                        v-model=\"promoCode.conditions.product_expensive.value\"\n                        v-number\n                        name=\"conditions[product_expensive][value]\"\n                        v-validate=\"'required|max_value:2147483647'\"\n                      >\n\n                      <div class=\"input-group-addon\">\n                        <tree-select\n                          name=\"conditions[product_expensive][currency]\"\n                          :options=\"currenciesToSelect\"\n                          :selected.sync=\"promoCode.conditions.product_expensive.currency\"\n                          :params=\"{minimumResultsForSearch: -1, allowClear: false}\"/>\n                      </div>\n                    </div>\n\n                    <span v-show=\"formErrors.has('conditions.product_expensive.value')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.product_expensive.value') }}\n                    </span>\n\n                    <span v-show=\"formErrors.has('conditions.product_expensive.currency')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.product_expensive.currency') }}\n                    </span>\n                  </div>\n\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Минимальное количество товаров в корзине -->\n\n          <div v-if=\"promoCode.conditions.products_quantity\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-shopping-cart\"></i>\n                <strong>Минимальное</strong> количество товаров в корзине\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('products_quantity')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <div :class=\"`form-group${formErrors.has('conditions.products_quantity.value') ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" for=\"product-quantity-summ-value\">\n                    Количество <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <input\n                      type=\"number\"\n                      class=\"form-control\"\n                      id=\"product-quantity-summ-value\"\n                      v-model=\"promoCode.conditions.products_quantity.value\"\n                      v-number\n                      name=\"conditions[products_quantity][value]\"\n                      v-validate=\"'required|max_value:2147483647'\"\n                    >\n\n                    <span v-show=\"formErrors.has('conditions.products_quantity.value')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.products_quantity.value') }}\n                    </span>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Первый заказ -->\n\n          <div v-if=\"promoCode.conditions.first_order\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-certificate\"></i>\n                <strong>Первый</strong> заказ\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('first_order')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              Промокод будет срабатывать только для первого заказа учетной записи.\n            </div>\n          </div>\n\n        </div>\n      </div>\n    </div>\n\n    <b-modal\n      id=\"validationModal\"\n      ref=\"validationModal\"\n      title=\"Ошибка валидации\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Ок\"\n      ok-only\n      hide-header-close>\n\n      Проверьте правильность заполнения формы!\n    </b-modal>\n\n    <b-modal\n      id=\"removeModal\"\n      ref=\"removeModal\"\n      title=\"Удаление промокода\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Удалить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @ok=\"removeConfirm\">\n\n      Вы действительно хотите удалить промокод?\n    </b-modal>\n  </div>\n</template>\n\n<style>\n  .unlimited {\n    margin: 3px 0 0 16px;\n    user-select: none;\n    cursor: pointer;\n  }\n\n  .unlimited .help-inline {\n    vertical-align: middle;\n    margin: 0 0 0 5px;\n  }\n\n  .date-picker {\n    max-width: 150px;\n  }\n\n  .price-input-group {\n    max-width: 200px;\n  }\n\n  .price-input-group .input-group-addon {\n    width: 80px;\n    padding: 0;\n    border: none;\n  }\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.unlimited {\n  margin: 3px 0 0 16px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  cursor: pointer;\n}\n.unlimited .help-inline {\n  vertical-align: middle;\n  margin: 0 0 0 5px;\n}\n.date-picker {\n  max-width: 150px;\n}\n.price-input-group {\n  max-width: 200px;\n}\n.price-input-group .input-group-addon {\n  width: 80px;\n  padding: 0;\n  border: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/shop/promoCodes/resources/assets/js/components/shop/promoCodes/PromoCodeEdit.vue"],"names":[],"mappings":";AAu/BA;EACA,qBAAA;EACA,0BAAA;KAAA,uBAAA;MAAA,sBAAA;UAAA,kBAAA;EACA,gBAAA;CACA;AAEA;EACA,uBAAA;EACA,kBAAA;CACA;AAEA;EACA,iBAAA;CACA;AAEA;EACA,iBAAA;CACA;AAEA;EACA,YAAA;EACA,WAAA;EACA,aAAA;CACA","file":"PromoCodeEdit.vue","sourcesContent":["<script>\n  import datePicker from 'vue-bootstrap-datetimepicker'\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import CKEditor from '../../CKEditor'\n  import TreeSelect from '../../TreeSelect'\n\n  import EntityPage from '../../../mixins/EntityPage'\n  import Translatable from '../../../mixins/Translatable'\n  import LanguagePicker from '../../LanguagePicker'\n\n  import PromoCodeModel from '../../../resources/shop/promo/PromoCodeModel'\n  import moment from 'moment'\n  import number from '../../../directives/number'\n  import Core from '../../../core'\n\n  function makeCondition(key) {\n    let conditionFields = {}\n\n    switch (key) {\n      case 'min_summ':\n        conditionFields.value = 0\n        conditionFields.currency_code = 'RUB'\n        break;\n\n      case 'product_expensive':\n        conditionFields.value = 0\n        conditionFields.currency_code = 'RUB'\n        break;\n\n      case 'products_quantity':\n        conditionFields.value = 0\n        break;\n\n      case 'first_order':\n        conditionFields.value = false\n        break;\n    }\n\n    return conditionFields\n  }\n\n  const datePickerConfig = {\n    locale: 'ru',\n\n    format: 'DD-MM-YYYY HH:mm:ss',\n    useCurrent: false,\n    sideBySide: false,\n    showClear: true,\n    showClose: true,\n  }\n\n  export default {\n    name: 'supplier-edit',\n\n    mixins: [\n      EntityPage,\n      Translatable\n    ],\n\n    directives: {\n      ... number,\n    },\n\n    components: {\n      'ckeditor': CKEditor,\n      bModal,\n      datePicker,\n      TreeSelect,\n      LanguagePicker\n    },\n\n    props: [\n      'id',\n    ],\n\n    data() {\n      return {\n        entityName: 'promo-code',\n\n        promoCode: null,\n\n        promoType: null,\n\n        conditions: {\n          'min_summ':          Core.translate('shop.promo.conditions.types.min_summ'),\n          'product_expensive': Core.translate('shop.promo.conditions.types.product_expensive'),\n          'products_quantity': Core.translate('shop.promo.conditions.types.products_quantity'),\n          'first_order':       Core.translate('shop.promo.conditions.types.first_order'),\n        },\n\n        savedPromoTypeValues: {\n          percent: {\n            percent: this.$root.config('shop.promo.discount.percent.max_percent'),\n            amount: 0,\n            currency_code: null,\n          },\n\n          amount: {\n            percent: this.$root.config('shop.promo.discount.amount.max_percent'),\n            amount: 0,\n            currency_code: 'RUB',\n          }\n        },\n\n        selectedCondition: null,\n\n        savedQuantities: {\n          quantity: 1,\n          quantity_per_user: 1,\n        },\n\n        dateStartConfig: {\n          ... datePickerConfig\n        },\n\n        dateFinishConfig: {\n          ... datePickerConfig\n        },\n\n        usedMainData: [\n          'currencies',\n          'languages'\n        ]\n      }\n    },\n\n    methods: {\n      initEntity(data) {\n        this.setEntityData(new PromoCodeModel(data, this.languages))\n      },\n\n      datePickerShow(field) {\n        if (_.isNil(this.promoCode[field])) {\n          this.promoCode[field] = new Date()\n\n          this.promoCode[field].setHours(0, 0, 0, 0)\n        }\n      },\n\n      dateStartChange() {\n        if (this.promoCode.date_start) {\n          this.dateFinishConfig = {\n            ... this.dateFinishConfig,\n            disabledDates: [\n              [moment(0), this.$refs.dateStart.dp.viewDate()]\n            ]\n          }\n        }\n        else {\n          this.dateFinishConfig.disabledDates = null\n        }\n      },\n\n      setEntityData() {\n        EntityPage.methods.setEntityData.apply(this, arguments)\n\n        this.detectPromoType()\n      },\n\n      detectPromoType() {\n        if (this.type === 'create') {\n          this.promoType = 'percent'\n\n          for (let key in this.savedPromoTypeValues[this.promoType]) {\n            this.promoCode[key] = this.savedPromoTypeValues[this.promoType][key]\n          }\n        }\n        else {\n          if (this.promoCode.amount) {\n            this.promoType = 'amount'\n          }\n          else {\n            this.promoType = 'percent'\n          }\n        }\n      },\n\n      setPromoType(type, isInit = false) {\n        for (let key in this.savedPromoTypeValues[this.promoType]) {\n          this.savedPromoTypeValues[this.promoType][key] = this.promoCode[key]\n        }\n\n        this.promoType = type\n\n        for (let key in this.savedPromoTypeValues[type]) {\n          this.promoCode[key] = this.savedPromoTypeValues[type][key]\n        }\n      },\n\n      setUnlimited(key) {\n        if (this.promoCode[key] < 0) {\n          this.promoCode[key] = this.savedQuantities[key]\n        }\n        else {\n          this.savedQuantities[key] = this.promoCode[key]\n          this.promoCode[key] = -1\n        }\n      },\n\n      selectCondition(key) {\n        this.selectedCondition = key\n      },\n\n      addCondition() {\n        if (this.selectedCondition && ! (this.selectedCondition in this.promoCode.conditions)) {\n          this.promoCode.conditions = {\n            ... this.promoCode.conditions,\n            [this.selectedCondition]: makeCondition(this.selectedCondition)\n          }\n        }\n\n        this.selectedCondition = null\n      },\n\n      removeCondition(key) {\n        this.promoCode.conditions = Object.keys(this.promoCode.conditions).reduce((acc, conditionKey) => {\n          if (conditionKey !== key) {\n            acc[conditionKey] = this.promoCode.conditions[key]\n          }\n\n          return acc\n        }, {})\n      },\n\n      inputPromo(e) {\n          this.promoCode.name = e.target.value.toUpperCase()\n      }\n    },\n\n    computed: {\n      currenciesToSelect() {\n        return this.currencies.map(currency => ({\n          id: currency.code,\n          title: currency.code,\n        }))\n      },\n\n      conditionsToSelect() {\n        return Object.keys(this.conditions).reduce((acc, key) => {\n          if (! (key in this.promoCode.conditions)) {\n            acc.push({\n              id: key,\n              title: this.conditions[key],\n            })\n          }\n\n          return acc\n        }, [])\n      },\n\n      hasNotSelectedConditions() {\n        return this.conditionsToSelect.length !== 0\n      },\n\n      promoTypeSelectOptions() {\n        return [\n          {\n            id: 'percent',\n            title: 'процентах'\n          },\n\n          {\n            id: 'amount',\n            title: 'валюте'\n          }\n        ]\n      }\n    }\n  }\n\n  // id: '',\n  // date_start: '',\n  // date_finish: '',\n  // quantity: '',\n  // once: '',\n  // user_related: '',\n  // percent: '',\n  // amount: '',\n\n\n\n</script>\n\n\n\n<template>\n  <div>\n    <div class=\"block full\">\n      <div class=\"block-title clearfix\" v-if=\"type === 'create'\">\n        <h1>\n          <strong>\n            Создание промокода\n          </strong>\n        </h1>\n\n        <div class=\"block-title-control\">\n          <a class=\"btn btn-sm btn-default btn-alt\" @click=\"redirectToTable\">\n            <i class=\"fa fa-arrow-left\"></i>\n          </a>\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <language-picker\n            :languages=\"languages\"\n            :activeLanguageCode.sync=\"activeLanguageCode\"\n            :class=\"{'has-error': formTranslatesHasError()}\" />\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <a v-if=\"userCan('promo-codes.create')\" class=\"btn btn-sm btn-success active\" @click=\"save\">\n            <i class=\"fa fa-plus-circle\"></i> Создать\n          </a>\n        </div>\n      </div>\n\n      <div class=\"block-title clearfix\" v-if=\"type === 'edit'\">\n        <h1>\n          <strong>\n            Редактирование промокода #{{ this.id }}\n          </strong>\n        </h1>\n\n        <div class=\"block-title-control\">\n          <a class=\"btn btn-sm btn-default btn-alt\" @click=\"redirectToTable\">\n            <i class=\"fa fa-arrow-left\"></i>\n          </a>\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <language-picker\n            :languages=\"languages\"\n            :activeLanguageCode.sync=\"activeLanguageCode\"\n            :class=\"{'has-error': formTranslatesHasError()}\" />\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <a v-if=\"userCan('promo-codes.edit')\" class=\"btn btn-sm btn-primary active\" @click=\"save\">\n            <i class=\"fa fa-floppy-o\"></i> Сохранить\n          </a>\n\n          <a v-if=\"userCan('promo-codes.delete')\" class=\"btn btn-sm btn-danger active\" @click=\"remove\">\n            Удалить\n          </a>\n        </div>\n      </div>\n\n      <div class=\"row\" v-if=\"promoCode\">\n        <div class=\"col-lg-6\">\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-pencil\"></i> <strong>Основная</strong> информация\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div :class=\"`form-group${formErrors.has('name') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"name\">\n                  Код <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <input\n                    type=\"text\"\n                    class=\"form-control\"\n                    id=\"name\"\n                    name=\"name\"\n                    :value=\"promoCode.name\"\n                    @input=\"inputPromo\"\n                    v-validate=\"'required|min:3|max:255'\"\n                  >\n\n                  <span v-show=\"formErrors.has('name')\" class=\"help-block\">\n                    {{ formErrors.first('name') }}\n                  </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\">\n                <label class=\"col-md-3 control-label\" for=\"promo-type-select\">\n                  Скидка в <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <tree-select\n                    id=\"promo-type-select\"\n                    name=\"promo-type-select\"\n                    :options=\"promoTypeSelectOptions\"\n                    :selected=\"promoType\"\n                    @update:selected=\"setPromoType\"\n                    :params=\"{minimumResultsForSearch: -1, allowClear: false}\"\n                    placeholder=\"Выберите тип\" />\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('enabled') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\">\n                  Задействован\n                </label>\n\n                <div class=\"col-md-9\">\n                  <label class=\"switch switch-primary\">\n                    <input type=\"checkbox\" v-model=\"promoCode.enabled\">\n                    <span></span>\n                  </label>\n\n                  <span v-show=\"formErrors.has('enabled')\" class=\"help-block\">\n                    {{ formErrors.first('enabled') }}\n                  </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\" v-if=\"promoCode.uses_count\">\n                <label class=\"col-md-3 control-label\">\n                  Количество использований\n                </label>\n\n                <div class=\"col-md-9\">\n                  <p class=\"form-control-static\">\n                    {{ promoCode.uses_count }}\n                  </p>\n                </div>\n              </div>\n\n              <div class=\"form-group\" v-if=\"promoCode.created_at\">\n                <label class=\"col-md-3 control-label\">\n                  Дата создания\n                </label>\n\n                <div class=\"col-md-9\">\n                  <p class=\"form-control-static\">\n                    {{ promoCode.created_at }}\n                  </p>\n                </div>\n              </div>\n\n              <div class=\"form-group\" v-if=\"promoCode.updated_at\">\n                <label class=\"col-md-3 control-label\">\n                  Последнее изменение\n                </label>\n\n                <div class=\"col-md-9\">\n                  <p class=\"form-control-static\">\n                    {{ promoCode.updated_at }}\n                  </p>\n                </div>\n              </div>\n\n            </div>\n          </div>\n\n\n          <!-- Скидка -->\n\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-percent\"></i> <strong>Скидка</strong>\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\" v-if=\"promoType === 'percent'\">\n\n              <div :class=\"`form-group${formErrors.has('percent') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"percent\">\n                  Процент скидки <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <input\n                    type=\"number\"\n                    class=\"form-control\"\n                    id=\"percent\"\n                    v-model=\"promoCode.percent\"\n                    v-number\n                    name=\"percent\"\n                    v-validate=\"'required|max_value:' + $root.config('shop.promo.discount.percent.max_percent')\"\n                  >\n\n                  <span v-show=\"formErrors.has('percent')\" class=\"help-block\">\n                    {{ formErrors.first('percent') }}\n                  </span>\n                </div>\n              </div>\n\n            </div>\n\n            <div class=\"form-horizontal form-bordered\" v-if=\"promoType === 'amount'\">\n\n              <div :class=\"`form-group${formErrors.has('amount') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"amount\">\n                  Сумма <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <div class=\"input-group price-input-group\">\n                    <input\n                      type=\"number\"\n                      class=\"form-control\"\n                      id=\"amount\"\n                      v-model=\"promoCode.amount\"\n                      v-number\n                      name=\"amount\"\n                      v-validate=\"'required|max_value:2147483647'\"\n                    >\n\n                    <div class=\"input-group-addon\">\n                      <tree-select\n                        name=\"currency_code\"\n                        :options=\"currenciesToSelect\"\n                        :selected.sync=\"promoCode.currency_code\"\n                        :params=\"{minimumResultsForSearch: -1, allowClear: false}\"/>\n                    </div>\n                  </div>\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('percent') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"percent\">\n                  Максимальный процент скидки <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <input\n                    type=\"number\"\n                    class=\"form-control\"\n                    id=\"percent\"\n                    v-model=\"promoCode.percent\"\n                    v-number\n                    name=\"percent\"\n                    v-validate=\"'required|max_value:' + $root.config('shop.promo.discount.amount.max_percent')\"\n                  >\n\n                  <span v-show=\"formErrors.has('percent')\" class=\"help-block\">\n                    {{ formErrors.first('percent') }}\n                  </span>\n                </div>\n              </div>\n\n\n            </div>\n\n          </div>\n\n\n          <!-- Количество использований -->\n\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-hashtag\"></i> <strong>Количество</strong> использований\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div :class=\"`form-group${formErrors.has('quantity') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\">\n                  Общее\n                </label>\n\n                <div class=\"col-md-9\">\n                  <div class=\"clearfix\">\n                    <div class=\"pull-left\">\n                      <input\n                        style=\"max-width: 100px\"\n                        class=\"form-control\"\n                        id=\"quantity\"\n                        v-model=\"promoCode.quantity < 0 ? savedQuantities.quantity : promoCode.quantity\"\n                        name=\"quantity\"\n                        v-number\n                        :disabled=\"promoCode.quantity < 0\"\n                        v-validate=\"promoCode.quantity < 0 ? '' : 'required|integer|min_value:1|max_value:2147483647'\">\n                    </div>\n\n                    <div class=\"pull-left unlimited\">\n                      <label class=\"switch switch-primary\">\n                        <input\n                          type=\"checkbox\"\n                          id=\"quantity-unlimited\"\n                          @change=\"setUnlimited('quantity')\"\n                          :checked=\"promoCode.quantity < 0\"\n                        >\n                        <span></span>\n                      </label>\n\n                      <label class=\"help-inline\" for=\"quantity-unlimited\">\n                        Неограниченно\n                      </label>\n                    </div>\n                  </div>\n\n                  <span v-show=\"formErrors.has('quantity')\" class=\"help-block\">\n                    {{ formErrors.first('quantity') }}\n                  </span>\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('quantity_per_user') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\">\n                  На одного пользователя\n                </label>\n\n                <div class=\"col-md-9 clearfix\">\n                  <div class=\"clearfix\">\n                    <div class=\"pull-left\">\n                      <input\n                        style=\"max-width: 100px\"\n                        class=\"form-control\"\n                        id=\"quantity_per_user\"\n                        v-model=\"promoCode.quantity_per_user < 0 ? savedQuantities.quantity_per_user : promoCode.quantity_per_user\"\n                        name=\"quantity_per_user\"\n                        v-number\n                        :disabled=\"promoCode.quantity_per_user < 0\"\n                        v-validate=\"promoCode.quantity_per_user < 0 ? '' : 'required|integer|min_value:1|max_value:2147483647'\">\n                    </div>\n\n                    <div class=\"pull-left unlimited\">\n                      <label class=\"switch switch-primary\">\n                        <input\n                          type=\"checkbox\"\n                          id=\"quantity_per_user-unlimited\"\n                          @change=\"setUnlimited('quantity_per_user')\"\n                          :checked=\"promoCode.quantity_per_user < 0\"\n                        >\n                        <span></span>\n                      </label>\n\n                      <label class=\"help-inline\" for=\"quantity_per_user-unlimited\">\n                        Неограниченно\n                      </label>\n                    </div>\n                  </div>\n\n                  <span v-show=\"formErrors.has('quantity_per_user')\" class=\"help-block\">\n                    {{ formErrors.first('quantity_per_user') }}\n                  </span>\n                </div>\n              </div>\n            </div>\n\n          </div>\n\n\n          <!-- Срок использования -->\n\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-calendar\"></i> <strong>Срок</strong> использования\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n\n              <div :class=\"`form-group${formErrors.has('date_start') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"date_start\">\n                  Дата начала\n                </label>\n\n                <div class=\"col-md-9\">\n                  <date-picker\n                    id=\"date_start\"\n                    name=\"date_start\"\n                    ref=\"dateStart\"\n                    @dp-show=\"datePickerShow('date_start')\"\n                    @dp-change=\"dateStartChange()\"\n                    v-model=\"promoCode.date_start\"\n                    :config=\"dateStartConfig\"\n                    class=\"date-picker\"\n                  ></date-picker>\n\n                  <span v-show=\"formErrors.has('date_start')\" class=\"help-block\">\n                    {{ formErrors.first('date_start') }}\n                  </span>\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('date_finish') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"date_finish\">\n                  Дата завершения\n                </label>\n\n                <div class=\"col-md-9\">\n                  <date-picker\n                    id=\"date_finish\"\n                    name=\"date_finish\"\n                    ref=\"dateStart\"\n                    @dp-show=\"datePickerShow('date_finish')\"\n                    v-model=\"promoCode.date_finish\"\n                    :config=\"dateFinishConfig\"\n                    class=\"date-picker\"\n                  ></date-picker>\n\n                  <span v-show=\"formErrors.has('date_finish')\" class=\"help-block\">\n                    {{ formErrors.first('date_finish') }}\n                  </span>\n                </div>\n              </div>\n\n            </div>\n          </div>\n        </div>\n\n\n        <!-- Дополнительные условия -->\n\n        <div class=\"col-lg-6\">\n          <div :class=\"`block${langSwitchHovered ? ' block-illuminated' : ''}`\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-globe\"></i> <strong>Языковая</strong> информация\n              </h2>\n            </div>\n\n            <template v-for=\"language in languages\">\n              <div :class=\"`form-horizontal form-bordered${activeLanguageCode === language.code ? '' : ' in-space'}`\" :key=\"language.code\">\n\n                <div :class=\"`form-group${formErrors.has(`i18n.${language.code}.title`) ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" :for=\"`title-${language.code}`\">\n                    Название <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <input\n                      type=\"text\"\n                      class=\"form-control\"\n                      :id=\"`title-${language.code}`\"\n                      v-model=\"promoCode.i18n[language.code].title\"\n                      :name=\"`i18n.${language.code}.title`\"\n                      v-validate=\"'required|max:255'\"\n                    >\n\n                    <span\n                      v-show=\"formErrors.has(`i18n.${language.code}.title`)\"\n                      class=\"help-block\"\n                    >\n                      {{ formErrors.first(`i18n.${language.code}.title`) }}\n                    </span>\n                  </div>\n                </div>\n\n                <div :class=\"`form-group${formErrors.has(`i18n.${language.code}.description`) ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" :for=\"`description-${language.code}`\">Описание</label>\n\n                  <div class=\"col-md-9\">\n                    <ckeditor\n                      :id=\"`description-${language.code}`\"\n                      :content.sync=\"promoCode.i18n[language.code].description\"\n                      :name=\"`i18n.${language.code}.description`\"\n                    />\n\n                    <span\n                      v-show=\"formErrors.has(`i18n.${language.code}.description`)\"\n                      class=\"help-block\"\n                    >\n                      {{ formErrors.first(`i18n.${language.code}.description`) }}\n                    </span>\n                  </div>\n                </div>\n              </div>\n            </template>\n\n          </div>\n\n\n\n          <div v-if=\"hasNotSelectedConditions\" class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-bars\"></i> <strong>Дополнительные</strong> условия\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <label class=\"col-md-3 control-label\" for=\"conditions\">\n                  Условия\n                </label>\n\n                <div class=\"col-md-9 clearfix\">\n                  <div class=\"input-group\">\n                    <tree-select\n                      name=\"conditions\"\n                      :options=\"conditionsToSelect\"\n                      @update:selected=\"selectCondition\"\n                      :params=\"{minimumResultsForSearch: -1}\"\n                      placeholder=\"Выберите условие\" />\n\n                    <a @click=\"addCondition\" class=\"input-group-addon btn btn-primary\">\n                      <i class=\"fa fa-plus-circle\"></i>\n                    </a>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Минимальная сумма заказа -->\n\n          <div v-if=\"promoCode.conditions.min_summ\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-shopping-cart\"></i>\n                <strong>Минимальная</strong> сумма заказа\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('min_summ')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <div :class=\"`form-group${formErrors.has('conditions.min_summ.value') ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" for=\"condition-min-summ-value\">\n                    Сумма <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <div class=\"input-group price-input-group\">\n                      <input\n                        type=\"number\"\n                        class=\"form-control\"\n                        id=\"condition-min-summ-value\"\n                        v-model=\"promoCode.conditions.min_summ.value\"\n                        v-number\n                        name=\"conditions[min_summ][value]\"\n                        v-validate=\"'required|max_value:2147483647'\"\n                      >\n\n                      <div class=\"input-group-addon\">\n                        <tree-select\n                          name=\"conditions[min_summ][currency_code]\"\n                          :options=\"currenciesToSelect\"\n                          :selected.sync=\"promoCode.conditions.min_summ.currency_code\"\n                          :params=\"{minimumResultsForSearch: -1, allowClear: false}\"/>\n                      </div>\n                    </div>\n\n                    <span v-show=\"formErrors.has('conditions.min_summ.value')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.min_summ.value') }}\n                    </span>\n\n                    <span v-show=\"formErrors.has('conditions.min_summ.currency_code')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.min_summ.currency_code') }}\n                    </span>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Минимальная цена товара в корзине -->\n\n          <div v-if=\"promoCode.conditions.product_expensive\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-tv\"></i>\n                <strong>Минимальная</strong> цена товара в корзине\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('product_expensive')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <div :class=\"`form-group${formErrors.has('conditions.product_expensive.value') ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" for=\"product-expensive-summ-value\">\n                    Цена <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <div class=\"input-group price-input-group\">\n                      <input\n                        type=\"number\"\n                        class=\"form-control\"\n                        id=\"product-expensive-summ-value\"\n                        v-model=\"promoCode.conditions.product_expensive.value\"\n                        v-number\n                        name=\"conditions[product_expensive][value]\"\n                        v-validate=\"'required|max_value:2147483647'\"\n                      >\n\n                      <div class=\"input-group-addon\">\n                        <tree-select\n                          name=\"conditions[product_expensive][currency_code]\"\n                          :options=\"currenciesToSelect\"\n                          :selected.sync=\"promoCode.conditions.product_expensive.currency_code\"\n                          :params=\"{minimumResultsForSearch: -1, allowClear: false}\"/>\n                      </div>\n                    </div>\n\n                    <span v-show=\"formErrors.has('conditions.product_expensive.value')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.product_expensive.value') }}\n                    </span>\n\n                    <span v-show=\"formErrors.has('conditions.product_expensive.currency_code')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.product_expensive.currency_code') }}\n                    </span>\n                  </div>\n\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Минимальное количество товаров в корзине -->\n\n          <div v-if=\"promoCode.conditions.products_quantity\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-shopping-cart\"></i>\n                <strong>Минимальное</strong> количество товаров в корзине\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('products_quantity')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <div :class=\"`form-group${formErrors.has('conditions.products_quantity.value') ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" for=\"product-quantity-summ-value\">\n                    Количество <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <input\n                      type=\"number\"\n                      class=\"form-control\"\n                      id=\"product-quantity-summ-value\"\n                      v-model=\"promoCode.conditions.products_quantity.value\"\n                      v-number\n                      name=\"conditions[products_quantity][value]\"\n                      v-validate=\"'required|max_value:2147483647'\"\n                    >\n\n                    <span v-show=\"formErrors.has('conditions.products_quantity.value')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.products_quantity.value') }}\n                    </span>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Первый заказ -->\n\n          <div v-if=\"promoCode.conditions.first_order\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-certificate\"></i>\n                <strong>Первый</strong> заказ\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('first_order')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              Промокод будет срабатывать только для первого заказа учетной записи.\n            </div>\n          </div>\n\n        </div>\n      </div>\n    </div>\n\n    <b-modal\n      id=\"validationModal\"\n      ref=\"validationModal\"\n      title=\"Ошибка валидации\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Ок\"\n      ok-only\n      hide-header-close>\n\n      Проверьте правильность заполнения формы!\n    </b-modal>\n\n    <b-modal\n      id=\"removeModal\"\n      ref=\"removeModal\"\n      title=\"Удаление промокода\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Удалить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @ok=\"removeConfirm\">\n\n      Вы действительно хотите удалить промокод?\n    </b-modal>\n  </div>\n</template>\n\n<style>\n  .unlimited {\n    margin: 3px 0 0 16px;\n    user-select: none;\n    cursor: pointer;\n  }\n\n  .unlimited .help-inline {\n    vertical-align: middle;\n    margin: 0 0 0 5px;\n  }\n\n  .date-picker {\n    max-width: 150px;\n  }\n\n  .price-input-group {\n    max-width: 200px;\n  }\n\n  .price-input-group .input-group-addon {\n    width: 80px;\n    padding: 0;\n    border: none;\n  }\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -24426,6 +24720,3415 @@ function words(string, pattern, guard) {
 module.exports = startCase;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_DataView.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getNative = __webpack_require__("./node_modules/lodash/_getNative.js"),
+    root = __webpack_require__("./node_modules/lodash/_root.js");
+
+/* Built-in method references that are verified to be native. */
+var DataView = getNative(root, 'DataView');
+
+module.exports = DataView;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_Hash.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var hashClear = __webpack_require__("./node_modules/lodash/_hashClear.js"),
+    hashDelete = __webpack_require__("./node_modules/lodash/_hashDelete.js"),
+    hashGet = __webpack_require__("./node_modules/lodash/_hashGet.js"),
+    hashHas = __webpack_require__("./node_modules/lodash/_hashHas.js"),
+    hashSet = __webpack_require__("./node_modules/lodash/_hashSet.js");
+
+/**
+ * Creates a hash object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function Hash(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+// Add methods to `Hash`.
+Hash.prototype.clear = hashClear;
+Hash.prototype['delete'] = hashDelete;
+Hash.prototype.get = hashGet;
+Hash.prototype.has = hashHas;
+Hash.prototype.set = hashSet;
+
+module.exports = Hash;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_ListCache.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var listCacheClear = __webpack_require__("./node_modules/lodash/_listCacheClear.js"),
+    listCacheDelete = __webpack_require__("./node_modules/lodash/_listCacheDelete.js"),
+    listCacheGet = __webpack_require__("./node_modules/lodash/_listCacheGet.js"),
+    listCacheHas = __webpack_require__("./node_modules/lodash/_listCacheHas.js"),
+    listCacheSet = __webpack_require__("./node_modules/lodash/_listCacheSet.js");
+
+/**
+ * Creates an list cache object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function ListCache(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+// Add methods to `ListCache`.
+ListCache.prototype.clear = listCacheClear;
+ListCache.prototype['delete'] = listCacheDelete;
+ListCache.prototype.get = listCacheGet;
+ListCache.prototype.has = listCacheHas;
+ListCache.prototype.set = listCacheSet;
+
+module.exports = ListCache;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_Map.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getNative = __webpack_require__("./node_modules/lodash/_getNative.js"),
+    root = __webpack_require__("./node_modules/lodash/_root.js");
+
+/* Built-in method references that are verified to be native. */
+var Map = getNative(root, 'Map');
+
+module.exports = Map;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_MapCache.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var mapCacheClear = __webpack_require__("./node_modules/lodash/_mapCacheClear.js"),
+    mapCacheDelete = __webpack_require__("./node_modules/lodash/_mapCacheDelete.js"),
+    mapCacheGet = __webpack_require__("./node_modules/lodash/_mapCacheGet.js"),
+    mapCacheHas = __webpack_require__("./node_modules/lodash/_mapCacheHas.js"),
+    mapCacheSet = __webpack_require__("./node_modules/lodash/_mapCacheSet.js");
+
+/**
+ * Creates a map cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function MapCache(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+// Add methods to `MapCache`.
+MapCache.prototype.clear = mapCacheClear;
+MapCache.prototype['delete'] = mapCacheDelete;
+MapCache.prototype.get = mapCacheGet;
+MapCache.prototype.has = mapCacheHas;
+MapCache.prototype.set = mapCacheSet;
+
+module.exports = MapCache;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_Promise.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getNative = __webpack_require__("./node_modules/lodash/_getNative.js"),
+    root = __webpack_require__("./node_modules/lodash/_root.js");
+
+/* Built-in method references that are verified to be native. */
+var Promise = getNative(root, 'Promise');
+
+module.exports = Promise;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_Set.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getNative = __webpack_require__("./node_modules/lodash/_getNative.js"),
+    root = __webpack_require__("./node_modules/lodash/_root.js");
+
+/* Built-in method references that are verified to be native. */
+var Set = getNative(root, 'Set');
+
+module.exports = Set;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_SetCache.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var MapCache = __webpack_require__("./node_modules/lodash/_MapCache.js"),
+    setCacheAdd = __webpack_require__("./node_modules/lodash/_setCacheAdd.js"),
+    setCacheHas = __webpack_require__("./node_modules/lodash/_setCacheHas.js");
+
+/**
+ *
+ * Creates an array cache object to store unique values.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [values] The values to cache.
+ */
+function SetCache(values) {
+  var index = -1,
+      length = values == null ? 0 : values.length;
+
+  this.__data__ = new MapCache;
+  while (++index < length) {
+    this.add(values[index]);
+  }
+}
+
+// Add methods to `SetCache`.
+SetCache.prototype.add = SetCache.prototype.push = setCacheAdd;
+SetCache.prototype.has = setCacheHas;
+
+module.exports = SetCache;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_Stack.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var ListCache = __webpack_require__("./node_modules/lodash/_ListCache.js"),
+    stackClear = __webpack_require__("./node_modules/lodash/_stackClear.js"),
+    stackDelete = __webpack_require__("./node_modules/lodash/_stackDelete.js"),
+    stackGet = __webpack_require__("./node_modules/lodash/_stackGet.js"),
+    stackHas = __webpack_require__("./node_modules/lodash/_stackHas.js"),
+    stackSet = __webpack_require__("./node_modules/lodash/_stackSet.js");
+
+/**
+ * Creates a stack cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function Stack(entries) {
+  var data = this.__data__ = new ListCache(entries);
+  this.size = data.size;
+}
+
+// Add methods to `Stack`.
+Stack.prototype.clear = stackClear;
+Stack.prototype['delete'] = stackDelete;
+Stack.prototype.get = stackGet;
+Stack.prototype.has = stackHas;
+Stack.prototype.set = stackSet;
+
+module.exports = Stack;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_Symbol.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var root = __webpack_require__("./node_modules/lodash/_root.js");
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_Uint8Array.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var root = __webpack_require__("./node_modules/lodash/_root.js");
+
+/** Built-in value references. */
+var Uint8Array = root.Uint8Array;
+
+module.exports = Uint8Array;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_WeakMap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getNative = __webpack_require__("./node_modules/lodash/_getNative.js"),
+    root = __webpack_require__("./node_modules/lodash/_root.js");
+
+/* Built-in method references that are verified to be native. */
+var WeakMap = getNative(root, 'WeakMap');
+
+module.exports = WeakMap;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_arrayFilter.js":
+/***/ (function(module, exports) {
+
+/**
+ * A specialized version of `_.filter` for arrays without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} predicate The function invoked per iteration.
+ * @returns {Array} Returns the new filtered array.
+ */
+function arrayFilter(array, predicate) {
+  var index = -1,
+      length = array == null ? 0 : array.length,
+      resIndex = 0,
+      result = [];
+
+  while (++index < length) {
+    var value = array[index];
+    if (predicate(value, index, array)) {
+      result[resIndex++] = value;
+    }
+  }
+  return result;
+}
+
+module.exports = arrayFilter;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_arrayLikeKeys.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseTimes = __webpack_require__("./node_modules/lodash/_baseTimes.js"),
+    isArguments = __webpack_require__("./node_modules/lodash/isArguments.js"),
+    isArray = __webpack_require__("./node_modules/lodash/isArray.js"),
+    isBuffer = __webpack_require__("./node_modules/lodash/isBuffer.js"),
+    isIndex = __webpack_require__("./node_modules/lodash/_isIndex.js"),
+    isTypedArray = __webpack_require__("./node_modules/lodash/isTypedArray.js");
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Creates an array of the enumerable property names of the array-like `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @param {boolean} inherited Specify returning inherited property names.
+ * @returns {Array} Returns the array of property names.
+ */
+function arrayLikeKeys(value, inherited) {
+  var isArr = isArray(value),
+      isArg = !isArr && isArguments(value),
+      isBuff = !isArr && !isArg && isBuffer(value),
+      isType = !isArr && !isArg && !isBuff && isTypedArray(value),
+      skipIndexes = isArr || isArg || isBuff || isType,
+      result = skipIndexes ? baseTimes(value.length, String) : [],
+      length = result.length;
+
+  for (var key in value) {
+    if ((inherited || hasOwnProperty.call(value, key)) &&
+        !(skipIndexes && (
+           // Safari 9 has enumerable `arguments.length` in strict mode.
+           key == 'length' ||
+           // Node.js 0.10 has enumerable non-index properties on buffers.
+           (isBuff && (key == 'offset' || key == 'parent')) ||
+           // PhantomJS 2 has enumerable non-index properties on typed arrays.
+           (isType && (key == 'buffer' || key == 'byteLength' || key == 'byteOffset')) ||
+           // Skip index properties.
+           isIndex(key, length)
+        ))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = arrayLikeKeys;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_arrayPush.js":
+/***/ (function(module, exports) {
+
+/**
+ * Appends the elements of `values` to `array`.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {Array} values The values to append.
+ * @returns {Array} Returns `array`.
+ */
+function arrayPush(array, values) {
+  var index = -1,
+      length = values.length,
+      offset = array.length;
+
+  while (++index < length) {
+    array[offset + index] = values[index];
+  }
+  return array;
+}
+
+module.exports = arrayPush;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_arraySome.js":
+/***/ (function(module, exports) {
+
+/**
+ * A specialized version of `_.some` for arrays without support for iteratee
+ * shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} predicate The function invoked per iteration.
+ * @returns {boolean} Returns `true` if any element passes the predicate check,
+ *  else `false`.
+ */
+function arraySome(array, predicate) {
+  var index = -1,
+      length = array == null ? 0 : array.length;
+
+  while (++index < length) {
+    if (predicate(array[index], index, array)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+module.exports = arraySome;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_assocIndexOf.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var eq = __webpack_require__("./node_modules/lodash/eq.js");
+
+/**
+ * Gets the index at which the `key` is found in `array` of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+
+module.exports = assocIndexOf;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseClamp.js":
+/***/ (function(module, exports) {
+
+/**
+ * The base implementation of `_.clamp` which doesn't coerce arguments.
+ *
+ * @private
+ * @param {number} number The number to clamp.
+ * @param {number} [lower] The lower bound.
+ * @param {number} upper The upper bound.
+ * @returns {number} Returns the clamped number.
+ */
+function baseClamp(number, lower, upper) {
+  if (number === number) {
+    if (upper !== undefined) {
+      number = number <= upper ? number : upper;
+    }
+    if (lower !== undefined) {
+      number = number >= lower ? number : lower;
+    }
+  }
+  return number;
+}
+
+module.exports = baseClamp;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseGetAllKeys.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayPush = __webpack_require__("./node_modules/lodash/_arrayPush.js"),
+    isArray = __webpack_require__("./node_modules/lodash/isArray.js");
+
+/**
+ * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
+ * `keysFunc` and `symbolsFunc` to get the enumerable property names and
+ * symbols of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Function} keysFunc The function to get the keys of `object`.
+ * @param {Function} symbolsFunc The function to get the symbols of `object`.
+ * @returns {Array} Returns the array of property names and symbols.
+ */
+function baseGetAllKeys(object, keysFunc, symbolsFunc) {
+  var result = keysFunc(object);
+  return isArray(object) ? result : arrayPush(result, symbolsFunc(object));
+}
+
+module.exports = baseGetAllKeys;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseGetTag.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Symbol = __webpack_require__("./node_modules/lodash/_Symbol.js"),
+    getRawTag = __webpack_require__("./node_modules/lodash/_getRawTag.js"),
+    objectToString = __webpack_require__("./node_modules/lodash/_objectToString.js");
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+module.exports = baseGetTag;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseIsArguments.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__("./node_modules/lodash/_baseGetTag.js"),
+    isObjectLike = __webpack_require__("./node_modules/lodash/isObjectLike.js");
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]';
+
+/**
+ * The base implementation of `_.isArguments`.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ */
+function baseIsArguments(value) {
+  return isObjectLike(value) && baseGetTag(value) == argsTag;
+}
+
+module.exports = baseIsArguments;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseIsEqual.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseIsEqualDeep = __webpack_require__("./node_modules/lodash/_baseIsEqualDeep.js"),
+    isObjectLike = __webpack_require__("./node_modules/lodash/isObjectLike.js");
+
+/**
+ * The base implementation of `_.isEqual` which supports partial comparisons
+ * and tracks traversed objects.
+ *
+ * @private
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @param {boolean} bitmask The bitmask flags.
+ *  1 - Unordered comparison
+ *  2 - Partial comparison
+ * @param {Function} [customizer] The function to customize comparisons.
+ * @param {Object} [stack] Tracks traversed `value` and `other` objects.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ */
+function baseIsEqual(value, other, bitmask, customizer, stack) {
+  if (value === other) {
+    return true;
+  }
+  if (value == null || other == null || (!isObjectLike(value) && !isObjectLike(other))) {
+    return value !== value && other !== other;
+  }
+  return baseIsEqualDeep(value, other, bitmask, customizer, baseIsEqual, stack);
+}
+
+module.exports = baseIsEqual;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseIsEqualDeep.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Stack = __webpack_require__("./node_modules/lodash/_Stack.js"),
+    equalArrays = __webpack_require__("./node_modules/lodash/_equalArrays.js"),
+    equalByTag = __webpack_require__("./node_modules/lodash/_equalByTag.js"),
+    equalObjects = __webpack_require__("./node_modules/lodash/_equalObjects.js"),
+    getTag = __webpack_require__("./node_modules/lodash/_getTag.js"),
+    isArray = __webpack_require__("./node_modules/lodash/isArray.js"),
+    isBuffer = __webpack_require__("./node_modules/lodash/isBuffer.js"),
+    isTypedArray = __webpack_require__("./node_modules/lodash/isTypedArray.js");
+
+/** Used to compose bitmasks for value comparisons. */
+var COMPARE_PARTIAL_FLAG = 1;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * A specialized version of `baseIsEqual` for arrays and objects which performs
+ * deep comparisons and tracks traversed objects enabling objects with circular
+ * references to be compared.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} [stack] Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
+  var objIsArr = isArray(object),
+      othIsArr = isArray(other),
+      objTag = objIsArr ? arrayTag : getTag(object),
+      othTag = othIsArr ? arrayTag : getTag(other);
+
+  objTag = objTag == argsTag ? objectTag : objTag;
+  othTag = othTag == argsTag ? objectTag : othTag;
+
+  var objIsObj = objTag == objectTag,
+      othIsObj = othTag == objectTag,
+      isSameTag = objTag == othTag;
+
+  if (isSameTag && isBuffer(object)) {
+    if (!isBuffer(other)) {
+      return false;
+    }
+    objIsArr = true;
+    objIsObj = false;
+  }
+  if (isSameTag && !objIsObj) {
+    stack || (stack = new Stack);
+    return (objIsArr || isTypedArray(object))
+      ? equalArrays(object, other, bitmask, customizer, equalFunc, stack)
+      : equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
+  }
+  if (!(bitmask & COMPARE_PARTIAL_FLAG)) {
+    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
+        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
+
+    if (objIsWrapped || othIsWrapped) {
+      var objUnwrapped = objIsWrapped ? object.value() : object,
+          othUnwrapped = othIsWrapped ? other.value() : other;
+
+      stack || (stack = new Stack);
+      return equalFunc(objUnwrapped, othUnwrapped, bitmask, customizer, stack);
+    }
+  }
+  if (!isSameTag) {
+    return false;
+  }
+  stack || (stack = new Stack);
+  return equalObjects(object, other, bitmask, customizer, equalFunc, stack);
+}
+
+module.exports = baseIsEqualDeep;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseIsNative.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isFunction = __webpack_require__("./node_modules/lodash/isFunction.js"),
+    isMasked = __webpack_require__("./node_modules/lodash/_isMasked.js"),
+    isObject = __webpack_require__("./node_modules/lodash/isObject.js"),
+    toSource = __webpack_require__("./node_modules/lodash/_toSource.js");
+
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+function baseIsNative(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+  var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+
+module.exports = baseIsNative;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseIsTypedArray.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__("./node_modules/lodash/_baseGetTag.js"),
+    isLength = __webpack_require__("./node_modules/lodash/isLength.js"),
+    isObjectLike = __webpack_require__("./node_modules/lodash/isObjectLike.js");
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    funcTag = '[object Function]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    objectTag = '[object Object]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    weakMapTag = '[object WeakMap]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    dataViewTag = '[object DataView]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/** Used to identify `toStringTag` values of typed arrays. */
+var typedArrayTags = {};
+typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+typedArrayTags[uint32Tag] = true;
+typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
+typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+typedArrayTags[dataViewTag] = typedArrayTags[dateTag] =
+typedArrayTags[errorTag] = typedArrayTags[funcTag] =
+typedArrayTags[mapTag] = typedArrayTags[numberTag] =
+typedArrayTags[objectTag] = typedArrayTags[regexpTag] =
+typedArrayTags[setTag] = typedArrayTags[stringTag] =
+typedArrayTags[weakMapTag] = false;
+
+/**
+ * The base implementation of `_.isTypedArray` without Node.js optimizations.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+ */
+function baseIsTypedArray(value) {
+  return isObjectLike(value) &&
+    isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
+}
+
+module.exports = baseIsTypedArray;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseKeys.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isPrototype = __webpack_require__("./node_modules/lodash/_isPrototype.js"),
+    nativeKeys = __webpack_require__("./node_modules/lodash/_nativeKeys.js");
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function baseKeys(object) {
+  if (!isPrototype(object)) {
+    return nativeKeys(object);
+  }
+  var result = [];
+  for (var key in Object(object)) {
+    if (hasOwnProperty.call(object, key) && key != 'constructor') {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = baseKeys;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseTimes.js":
+/***/ (function(module, exports) {
+
+/**
+ * The base implementation of `_.times` without support for iteratee shorthands
+ * or max array length checks.
+ *
+ * @private
+ * @param {number} n The number of times to invoke `iteratee`.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the array of results.
+ */
+function baseTimes(n, iteratee) {
+  var index = -1,
+      result = Array(n);
+
+  while (++index < n) {
+    result[index] = iteratee(index);
+  }
+  return result;
+}
+
+module.exports = baseTimes;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseUnary.js":
+/***/ (function(module, exports) {
+
+/**
+ * The base implementation of `_.unary` without support for storing metadata.
+ *
+ * @private
+ * @param {Function} func The function to cap arguments for.
+ * @returns {Function} Returns the new capped function.
+ */
+function baseUnary(func) {
+  return function(value) {
+    return func(value);
+  };
+}
+
+module.exports = baseUnary;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_cacheHas.js":
+/***/ (function(module, exports) {
+
+/**
+ * Checks if a `cache` value for `key` exists.
+ *
+ * @private
+ * @param {Object} cache The cache to query.
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function cacheHas(cache, key) {
+  return cache.has(key);
+}
+
+module.exports = cacheHas;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_coreJsData.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var root = __webpack_require__("./node_modules/lodash/_root.js");
+
+/** Used to detect overreaching core-js shims. */
+var coreJsData = root['__core-js_shared__'];
+
+module.exports = coreJsData;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_equalArrays.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var SetCache = __webpack_require__("./node_modules/lodash/_SetCache.js"),
+    arraySome = __webpack_require__("./node_modules/lodash/_arraySome.js"),
+    cacheHas = __webpack_require__("./node_modules/lodash/_cacheHas.js");
+
+/** Used to compose bitmasks for value comparisons. */
+var COMPARE_PARTIAL_FLAG = 1,
+    COMPARE_UNORDERED_FLAG = 2;
+
+/**
+ * A specialized version of `baseIsEqualDeep` for arrays with support for
+ * partial deep comparisons.
+ *
+ * @private
+ * @param {Array} array The array to compare.
+ * @param {Array} other The other array to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} stack Tracks traversed `array` and `other` objects.
+ * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
+ */
+function equalArrays(array, other, bitmask, customizer, equalFunc, stack) {
+  var isPartial = bitmask & COMPARE_PARTIAL_FLAG,
+      arrLength = array.length,
+      othLength = other.length;
+
+  if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
+    return false;
+  }
+  // Assume cyclic values are equal.
+  var stacked = stack.get(array);
+  if (stacked && stack.get(other)) {
+    return stacked == other;
+  }
+  var index = -1,
+      result = true,
+      seen = (bitmask & COMPARE_UNORDERED_FLAG) ? new SetCache : undefined;
+
+  stack.set(array, other);
+  stack.set(other, array);
+
+  // Ignore non-index properties.
+  while (++index < arrLength) {
+    var arrValue = array[index],
+        othValue = other[index];
+
+    if (customizer) {
+      var compared = isPartial
+        ? customizer(othValue, arrValue, index, other, array, stack)
+        : customizer(arrValue, othValue, index, array, other, stack);
+    }
+    if (compared !== undefined) {
+      if (compared) {
+        continue;
+      }
+      result = false;
+      break;
+    }
+    // Recursively compare arrays (susceptible to call stack limits).
+    if (seen) {
+      if (!arraySome(other, function(othValue, othIndex) {
+            if (!cacheHas(seen, othIndex) &&
+                (arrValue === othValue || equalFunc(arrValue, othValue, bitmask, customizer, stack))) {
+              return seen.push(othIndex);
+            }
+          })) {
+        result = false;
+        break;
+      }
+    } else if (!(
+          arrValue === othValue ||
+            equalFunc(arrValue, othValue, bitmask, customizer, stack)
+        )) {
+      result = false;
+      break;
+    }
+  }
+  stack['delete'](array);
+  stack['delete'](other);
+  return result;
+}
+
+module.exports = equalArrays;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_equalByTag.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Symbol = __webpack_require__("./node_modules/lodash/_Symbol.js"),
+    Uint8Array = __webpack_require__("./node_modules/lodash/_Uint8Array.js"),
+    eq = __webpack_require__("./node_modules/lodash/eq.js"),
+    equalArrays = __webpack_require__("./node_modules/lodash/_equalArrays.js"),
+    mapToArray = __webpack_require__("./node_modules/lodash/_mapToArray.js"),
+    setToArray = __webpack_require__("./node_modules/lodash/_setToArray.js");
+
+/** Used to compose bitmasks for value comparisons. */
+var COMPARE_PARTIAL_FLAG = 1,
+    COMPARE_UNORDERED_FLAG = 2;
+
+/** `Object#toString` result references. */
+var boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    symbolTag = '[object Symbol]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    dataViewTag = '[object DataView]';
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = Symbol ? Symbol.prototype : undefined,
+    symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
+
+/**
+ * A specialized version of `baseIsEqualDeep` for comparing objects of
+ * the same `toStringTag`.
+ *
+ * **Note:** This function only supports comparing values with tags of
+ * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {string} tag The `toStringTag` of the objects to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} stack Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
+  switch (tag) {
+    case dataViewTag:
+      if ((object.byteLength != other.byteLength) ||
+          (object.byteOffset != other.byteOffset)) {
+        return false;
+      }
+      object = object.buffer;
+      other = other.buffer;
+
+    case arrayBufferTag:
+      if ((object.byteLength != other.byteLength) ||
+          !equalFunc(new Uint8Array(object), new Uint8Array(other))) {
+        return false;
+      }
+      return true;
+
+    case boolTag:
+    case dateTag:
+    case numberTag:
+      // Coerce booleans to `1` or `0` and dates to milliseconds.
+      // Invalid dates are coerced to `NaN`.
+      return eq(+object, +other);
+
+    case errorTag:
+      return object.name == other.name && object.message == other.message;
+
+    case regexpTag:
+    case stringTag:
+      // Coerce regexes to strings and treat strings, primitives and objects,
+      // as equal. See http://www.ecma-international.org/ecma-262/7.0/#sec-regexp.prototype.tostring
+      // for more details.
+      return object == (other + '');
+
+    case mapTag:
+      var convert = mapToArray;
+
+    case setTag:
+      var isPartial = bitmask & COMPARE_PARTIAL_FLAG;
+      convert || (convert = setToArray);
+
+      if (object.size != other.size && !isPartial) {
+        return false;
+      }
+      // Assume cyclic values are equal.
+      var stacked = stack.get(object);
+      if (stacked) {
+        return stacked == other;
+      }
+      bitmask |= COMPARE_UNORDERED_FLAG;
+
+      // Recursively compare objects (susceptible to call stack limits).
+      stack.set(object, other);
+      var result = equalArrays(convert(object), convert(other), bitmask, customizer, equalFunc, stack);
+      stack['delete'](object);
+      return result;
+
+    case symbolTag:
+      if (symbolValueOf) {
+        return symbolValueOf.call(object) == symbolValueOf.call(other);
+      }
+  }
+  return false;
+}
+
+module.exports = equalByTag;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_equalObjects.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getAllKeys = __webpack_require__("./node_modules/lodash/_getAllKeys.js");
+
+/** Used to compose bitmasks for value comparisons. */
+var COMPARE_PARTIAL_FLAG = 1;
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * A specialized version of `baseIsEqualDeep` for objects with support for
+ * partial deep comparisons.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} stack Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
+  var isPartial = bitmask & COMPARE_PARTIAL_FLAG,
+      objProps = getAllKeys(object),
+      objLength = objProps.length,
+      othProps = getAllKeys(other),
+      othLength = othProps.length;
+
+  if (objLength != othLength && !isPartial) {
+    return false;
+  }
+  var index = objLength;
+  while (index--) {
+    var key = objProps[index];
+    if (!(isPartial ? key in other : hasOwnProperty.call(other, key))) {
+      return false;
+    }
+  }
+  // Assume cyclic values are equal.
+  var stacked = stack.get(object);
+  if (stacked && stack.get(other)) {
+    return stacked == other;
+  }
+  var result = true;
+  stack.set(object, other);
+  stack.set(other, object);
+
+  var skipCtor = isPartial;
+  while (++index < objLength) {
+    key = objProps[index];
+    var objValue = object[key],
+        othValue = other[key];
+
+    if (customizer) {
+      var compared = isPartial
+        ? customizer(othValue, objValue, key, other, object, stack)
+        : customizer(objValue, othValue, key, object, other, stack);
+    }
+    // Recursively compare objects (susceptible to call stack limits).
+    if (!(compared === undefined
+          ? (objValue === othValue || equalFunc(objValue, othValue, bitmask, customizer, stack))
+          : compared
+        )) {
+      result = false;
+      break;
+    }
+    skipCtor || (skipCtor = key == 'constructor');
+  }
+  if (result && !skipCtor) {
+    var objCtor = object.constructor,
+        othCtor = other.constructor;
+
+    // Non `Object` object instances with different constructors are not equal.
+    if (objCtor != othCtor &&
+        ('constructor' in object && 'constructor' in other) &&
+        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
+          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
+      result = false;
+    }
+  }
+  stack['delete'](object);
+  stack['delete'](other);
+  return result;
+}
+
+module.exports = equalObjects;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_freeGlobal.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+module.exports = freeGlobal;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_getAllKeys.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetAllKeys = __webpack_require__("./node_modules/lodash/_baseGetAllKeys.js"),
+    getSymbols = __webpack_require__("./node_modules/lodash/_getSymbols.js"),
+    keys = __webpack_require__("./node_modules/lodash/keys.js");
+
+/**
+ * Creates an array of own enumerable property names and symbols of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names and symbols.
+ */
+function getAllKeys(object) {
+  return baseGetAllKeys(object, keys, getSymbols);
+}
+
+module.exports = getAllKeys;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_getMapData.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isKeyable = __webpack_require__("./node_modules/lodash/_isKeyable.js");
+
+/**
+ * Gets the data for `map`.
+ *
+ * @private
+ * @param {Object} map The map to query.
+ * @param {string} key The reference key.
+ * @returns {*} Returns the map data.
+ */
+function getMapData(map, key) {
+  var data = map.__data__;
+  return isKeyable(key)
+    ? data[typeof key == 'string' ? 'string' : 'hash']
+    : data.map;
+}
+
+module.exports = getMapData;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_getNative.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseIsNative = __webpack_require__("./node_modules/lodash/_baseIsNative.js"),
+    getValue = __webpack_require__("./node_modules/lodash/_getValue.js");
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+module.exports = getNative;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_getRawTag.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Symbol = __webpack_require__("./node_modules/lodash/_Symbol.js");
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag),
+      tag = value[symToStringTag];
+
+  try {
+    value[symToStringTag] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
+    }
+  }
+  return result;
+}
+
+module.exports = getRawTag;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_getSymbols.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayFilter = __webpack_require__("./node_modules/lodash/_arrayFilter.js"),
+    stubArray = __webpack_require__("./node_modules/lodash/stubArray.js");
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Built-in value references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeGetSymbols = Object.getOwnPropertySymbols;
+
+/**
+ * Creates an array of the own enumerable symbols of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of symbols.
+ */
+var getSymbols = !nativeGetSymbols ? stubArray : function(object) {
+  if (object == null) {
+    return [];
+  }
+  object = Object(object);
+  return arrayFilter(nativeGetSymbols(object), function(symbol) {
+    return propertyIsEnumerable.call(object, symbol);
+  });
+};
+
+module.exports = getSymbols;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_getTag.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var DataView = __webpack_require__("./node_modules/lodash/_DataView.js"),
+    Map = __webpack_require__("./node_modules/lodash/_Map.js"),
+    Promise = __webpack_require__("./node_modules/lodash/_Promise.js"),
+    Set = __webpack_require__("./node_modules/lodash/_Set.js"),
+    WeakMap = __webpack_require__("./node_modules/lodash/_WeakMap.js"),
+    baseGetTag = __webpack_require__("./node_modules/lodash/_baseGetTag.js"),
+    toSource = __webpack_require__("./node_modules/lodash/_toSource.js");
+
+/** `Object#toString` result references. */
+var mapTag = '[object Map]',
+    objectTag = '[object Object]',
+    promiseTag = '[object Promise]',
+    setTag = '[object Set]',
+    weakMapTag = '[object WeakMap]';
+
+var dataViewTag = '[object DataView]';
+
+/** Used to detect maps, sets, and weakmaps. */
+var dataViewCtorString = toSource(DataView),
+    mapCtorString = toSource(Map),
+    promiseCtorString = toSource(Promise),
+    setCtorString = toSource(Set),
+    weakMapCtorString = toSource(WeakMap);
+
+/**
+ * Gets the `toStringTag` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+var getTag = baseGetTag;
+
+// Fallback for data views, maps, sets, and weak maps in IE 11 and promises in Node.js < 6.
+if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
+    (Map && getTag(new Map) != mapTag) ||
+    (Promise && getTag(Promise.resolve()) != promiseTag) ||
+    (Set && getTag(new Set) != setTag) ||
+    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
+  getTag = function(value) {
+    var result = baseGetTag(value),
+        Ctor = result == objectTag ? value.constructor : undefined,
+        ctorString = Ctor ? toSource(Ctor) : '';
+
+    if (ctorString) {
+      switch (ctorString) {
+        case dataViewCtorString: return dataViewTag;
+        case mapCtorString: return mapTag;
+        case promiseCtorString: return promiseTag;
+        case setCtorString: return setTag;
+        case weakMapCtorString: return weakMapTag;
+      }
+    }
+    return result;
+  };
+}
+
+module.exports = getTag;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_getValue.js":
+/***/ (function(module, exports) {
+
+/**
+ * Gets the value at `key` of `object`.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
+ */
+function getValue(object, key) {
+  return object == null ? undefined : object[key];
+}
+
+module.exports = getValue;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_hashClear.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var nativeCreate = __webpack_require__("./node_modules/lodash/_nativeCreate.js");
+
+/**
+ * Removes all key-value entries from the hash.
+ *
+ * @private
+ * @name clear
+ * @memberOf Hash
+ */
+function hashClear() {
+  this.__data__ = nativeCreate ? nativeCreate(null) : {};
+  this.size = 0;
+}
+
+module.exports = hashClear;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_hashDelete.js":
+/***/ (function(module, exports) {
+
+/**
+ * Removes `key` and its value from the hash.
+ *
+ * @private
+ * @name delete
+ * @memberOf Hash
+ * @param {Object} hash The hash to modify.
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function hashDelete(key) {
+  var result = this.has(key) && delete this.__data__[key];
+  this.size -= result ? 1 : 0;
+  return result;
+}
+
+module.exports = hashDelete;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_hashGet.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var nativeCreate = __webpack_require__("./node_modules/lodash/_nativeCreate.js");
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Gets the hash value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Hash
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function hashGet(key) {
+  var data = this.__data__;
+  if (nativeCreate) {
+    var result = data[key];
+    return result === HASH_UNDEFINED ? undefined : result;
+  }
+  return hasOwnProperty.call(data, key) ? data[key] : undefined;
+}
+
+module.exports = hashGet;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_hashHas.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var nativeCreate = __webpack_require__("./node_modules/lodash/_nativeCreate.js");
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Checks if a hash value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf Hash
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function hashHas(key) {
+  var data = this.__data__;
+  return nativeCreate ? (data[key] !== undefined) : hasOwnProperty.call(data, key);
+}
+
+module.exports = hashHas;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_hashSet.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var nativeCreate = __webpack_require__("./node_modules/lodash/_nativeCreate.js");
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/**
+ * Sets the hash `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Hash
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the hash instance.
+ */
+function hashSet(key, value) {
+  var data = this.__data__;
+  this.size += this.has(key) ? 0 : 1;
+  data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+  return this;
+}
+
+module.exports = hashSet;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_isIndex.js":
+/***/ (function(module, exports) {
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  var type = typeof value;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+
+  return !!length &&
+    (type == 'number' ||
+      (type != 'symbol' && reIsUint.test(value))) &&
+        (value > -1 && value % 1 == 0 && value < length);
+}
+
+module.exports = isIndex;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_isKeyable.js":
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is suitable for use as unique object key.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+ */
+function isKeyable(value) {
+  var type = typeof value;
+  return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
+    ? (value !== '__proto__')
+    : (value === null);
+}
+
+module.exports = isKeyable;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_isMasked.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var coreJsData = __webpack_require__("./node_modules/lodash/_coreJsData.js");
+
+/** Used to detect methods masquerading as native. */
+var maskSrcKey = (function() {
+  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+  return uid ? ('Symbol(src)_1.' + uid) : '';
+}());
+
+/**
+ * Checks if `func` has its source masked.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+ */
+function isMasked(func) {
+  return !!maskSrcKey && (maskSrcKey in func);
+}
+
+module.exports = isMasked;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_isPrototype.js":
+/***/ (function(module, exports) {
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+  return value === proto;
+}
+
+module.exports = isPrototype;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_listCacheClear.js":
+/***/ (function(module, exports) {
+
+/**
+ * Removes all key-value entries from the list cache.
+ *
+ * @private
+ * @name clear
+ * @memberOf ListCache
+ */
+function listCacheClear() {
+  this.__data__ = [];
+  this.size = 0;
+}
+
+module.exports = listCacheClear;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_listCacheDelete.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var assocIndexOf = __webpack_require__("./node_modules/lodash/_assocIndexOf.js");
+
+/** Used for built-in method references. */
+var arrayProto = Array.prototype;
+
+/** Built-in value references. */
+var splice = arrayProto.splice;
+
+/**
+ * Removes `key` and its value from the list cache.
+ *
+ * @private
+ * @name delete
+ * @memberOf ListCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function listCacheDelete(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    return false;
+  }
+  var lastIndex = data.length - 1;
+  if (index == lastIndex) {
+    data.pop();
+  } else {
+    splice.call(data, index, 1);
+  }
+  --this.size;
+  return true;
+}
+
+module.exports = listCacheDelete;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_listCacheGet.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var assocIndexOf = __webpack_require__("./node_modules/lodash/_assocIndexOf.js");
+
+/**
+ * Gets the list cache value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf ListCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function listCacheGet(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  return index < 0 ? undefined : data[index][1];
+}
+
+module.exports = listCacheGet;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_listCacheHas.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var assocIndexOf = __webpack_require__("./node_modules/lodash/_assocIndexOf.js");
+
+/**
+ * Checks if a list cache value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf ListCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function listCacheHas(key) {
+  return assocIndexOf(this.__data__, key) > -1;
+}
+
+module.exports = listCacheHas;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_listCacheSet.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var assocIndexOf = __webpack_require__("./node_modules/lodash/_assocIndexOf.js");
+
+/**
+ * Sets the list cache `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf ListCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the list cache instance.
+ */
+function listCacheSet(key, value) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    ++this.size;
+    data.push([key, value]);
+  } else {
+    data[index][1] = value;
+  }
+  return this;
+}
+
+module.exports = listCacheSet;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_mapCacheClear.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Hash = __webpack_require__("./node_modules/lodash/_Hash.js"),
+    ListCache = __webpack_require__("./node_modules/lodash/_ListCache.js"),
+    Map = __webpack_require__("./node_modules/lodash/_Map.js");
+
+/**
+ * Removes all key-value entries from the map.
+ *
+ * @private
+ * @name clear
+ * @memberOf MapCache
+ */
+function mapCacheClear() {
+  this.size = 0;
+  this.__data__ = {
+    'hash': new Hash,
+    'map': new (Map || ListCache),
+    'string': new Hash
+  };
+}
+
+module.exports = mapCacheClear;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_mapCacheDelete.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getMapData = __webpack_require__("./node_modules/lodash/_getMapData.js");
+
+/**
+ * Removes `key` and its value from the map.
+ *
+ * @private
+ * @name delete
+ * @memberOf MapCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function mapCacheDelete(key) {
+  var result = getMapData(this, key)['delete'](key);
+  this.size -= result ? 1 : 0;
+  return result;
+}
+
+module.exports = mapCacheDelete;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_mapCacheGet.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getMapData = __webpack_require__("./node_modules/lodash/_getMapData.js");
+
+/**
+ * Gets the map value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf MapCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function mapCacheGet(key) {
+  return getMapData(this, key).get(key);
+}
+
+module.exports = mapCacheGet;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_mapCacheHas.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getMapData = __webpack_require__("./node_modules/lodash/_getMapData.js");
+
+/**
+ * Checks if a map value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf MapCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function mapCacheHas(key) {
+  return getMapData(this, key).has(key);
+}
+
+module.exports = mapCacheHas;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_mapCacheSet.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getMapData = __webpack_require__("./node_modules/lodash/_getMapData.js");
+
+/**
+ * Sets the map `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf MapCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the map cache instance.
+ */
+function mapCacheSet(key, value) {
+  var data = getMapData(this, key),
+      size = data.size;
+
+  data.set(key, value);
+  this.size += data.size == size ? 0 : 1;
+  return this;
+}
+
+module.exports = mapCacheSet;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_mapToArray.js":
+/***/ (function(module, exports) {
+
+/**
+ * Converts `map` to its key-value pairs.
+ *
+ * @private
+ * @param {Object} map The map to convert.
+ * @returns {Array} Returns the key-value pairs.
+ */
+function mapToArray(map) {
+  var index = -1,
+      result = Array(map.size);
+
+  map.forEach(function(value, key) {
+    result[++index] = [key, value];
+  });
+  return result;
+}
+
+module.exports = mapToArray;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_nativeCreate.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getNative = __webpack_require__("./node_modules/lodash/_getNative.js");
+
+/* Built-in method references that are verified to be native. */
+var nativeCreate = getNative(Object, 'create');
+
+module.exports = nativeCreate;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_nativeKeys.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var overArg = __webpack_require__("./node_modules/lodash/_overArg.js");
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeKeys = overArg(Object.keys, Object);
+
+module.exports = nativeKeys;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_nodeUtil.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__("./node_modules/lodash/_freeGlobal.js");
+
+/** Detect free variable `exports`. */
+var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/** Detect free variable `process` from Node.js. */
+var freeProcess = moduleExports && freeGlobal.process;
+
+/** Used to access faster Node.js helpers. */
+var nodeUtil = (function() {
+  try {
+    // Use `util.types` for Node.js 10+.
+    var types = freeModule && freeModule.require && freeModule.require('util').types;
+
+    if (types) {
+      return types;
+    }
+
+    // Legacy `process.binding('util')` for Node.js < 10.
+    return freeProcess && freeProcess.binding && freeProcess.binding('util');
+  } catch (e) {}
+}());
+
+module.exports = nodeUtil;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_objectToString.js":
+/***/ (function(module, exports) {
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+
+module.exports = objectToString;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_overArg.js":
+/***/ (function(module, exports) {
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+module.exports = overArg;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_root.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var freeGlobal = __webpack_require__("./node_modules/lodash/_freeGlobal.js");
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+module.exports = root;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_setCacheAdd.js":
+/***/ (function(module, exports) {
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/**
+ * Adds `value` to the array cache.
+ *
+ * @private
+ * @name add
+ * @memberOf SetCache
+ * @alias push
+ * @param {*} value The value to cache.
+ * @returns {Object} Returns the cache instance.
+ */
+function setCacheAdd(value) {
+  this.__data__.set(value, HASH_UNDEFINED);
+  return this;
+}
+
+module.exports = setCacheAdd;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_setCacheHas.js":
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is in the array cache.
+ *
+ * @private
+ * @name has
+ * @memberOf SetCache
+ * @param {*} value The value to search for.
+ * @returns {number} Returns `true` if `value` is found, else `false`.
+ */
+function setCacheHas(value) {
+  return this.__data__.has(value);
+}
+
+module.exports = setCacheHas;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_setToArray.js":
+/***/ (function(module, exports) {
+
+/**
+ * Converts `set` to an array of its values.
+ *
+ * @private
+ * @param {Object} set The set to convert.
+ * @returns {Array} Returns the values.
+ */
+function setToArray(set) {
+  var index = -1,
+      result = Array(set.size);
+
+  set.forEach(function(value) {
+    result[++index] = value;
+  });
+  return result;
+}
+
+module.exports = setToArray;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_stackClear.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var ListCache = __webpack_require__("./node_modules/lodash/_ListCache.js");
+
+/**
+ * Removes all key-value entries from the stack.
+ *
+ * @private
+ * @name clear
+ * @memberOf Stack
+ */
+function stackClear() {
+  this.__data__ = new ListCache;
+  this.size = 0;
+}
+
+module.exports = stackClear;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_stackDelete.js":
+/***/ (function(module, exports) {
+
+/**
+ * Removes `key` and its value from the stack.
+ *
+ * @private
+ * @name delete
+ * @memberOf Stack
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function stackDelete(key) {
+  var data = this.__data__,
+      result = data['delete'](key);
+
+  this.size = data.size;
+  return result;
+}
+
+module.exports = stackDelete;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_stackGet.js":
+/***/ (function(module, exports) {
+
+/**
+ * Gets the stack value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Stack
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function stackGet(key) {
+  return this.__data__.get(key);
+}
+
+module.exports = stackGet;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_stackHas.js":
+/***/ (function(module, exports) {
+
+/**
+ * Checks if a stack value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf Stack
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function stackHas(key) {
+  return this.__data__.has(key);
+}
+
+module.exports = stackHas;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_stackSet.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var ListCache = __webpack_require__("./node_modules/lodash/_ListCache.js"),
+    Map = __webpack_require__("./node_modules/lodash/_Map.js"),
+    MapCache = __webpack_require__("./node_modules/lodash/_MapCache.js");
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE = 200;
+
+/**
+ * Sets the stack `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Stack
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the stack cache instance.
+ */
+function stackSet(key, value) {
+  var data = this.__data__;
+  if (data instanceof ListCache) {
+    var pairs = data.__data__;
+    if (!Map || (pairs.length < LARGE_ARRAY_SIZE - 1)) {
+      pairs.push([key, value]);
+      this.size = ++data.size;
+      return this;
+    }
+    data = this.__data__ = new MapCache(pairs);
+  }
+  data.set(key, value);
+  this.size = data.size;
+  return this;
+}
+
+module.exports = stackSet;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_toSource.js":
+/***/ (function(module, exports) {
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/**
+ * Converts `func` to its source code.
+ *
+ * @private
+ * @param {Function} func The function to convert.
+ * @returns {string} Returns the source code.
+ */
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString.call(func);
+    } catch (e) {}
+    try {
+      return (func + '');
+    } catch (e) {}
+  }
+  return '';
+}
+
+module.exports = toSource;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/clamp.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseClamp = __webpack_require__("./node_modules/lodash/_baseClamp.js"),
+    toNumber = __webpack_require__("./node_modules/lodash/toNumber.js");
+
+/**
+ * Clamps `number` within the inclusive `lower` and `upper` bounds.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Number
+ * @param {number} number The number to clamp.
+ * @param {number} [lower] The lower bound.
+ * @param {number} upper The upper bound.
+ * @returns {number} Returns the clamped number.
+ * @example
+ *
+ * _.clamp(-10, -5, 5);
+ * // => -5
+ *
+ * _.clamp(10, -5, 5);
+ * // => 5
+ */
+function clamp(number, lower, upper) {
+  if (upper === undefined) {
+    upper = lower;
+    lower = undefined;
+  }
+  if (upper !== undefined) {
+    upper = toNumber(upper);
+    upper = upper === upper ? upper : 0;
+  }
+  if (lower !== undefined) {
+    lower = toNumber(lower);
+    lower = lower === lower ? lower : 0;
+  }
+  return baseClamp(toNumber(number), lower, upper);
+}
+
+module.exports = clamp;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/debounce.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__("./node_modules/lodash/isObject.js"),
+    now = __webpack_require__("./node_modules/lodash/now.js"),
+    toNumber = __webpack_require__("./node_modules/lodash/toNumber.js");
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        timeWaiting = wait - timeSinceLastCall;
+
+    return maxing
+      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+      : timeWaiting;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+module.exports = debounce;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/eq.js":
+/***/ (function(module, exports) {
+
+/**
+ * Performs a
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * comparison between two values to determine if they are equivalent.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ * var other = { 'a': 1 };
+ *
+ * _.eq(object, object);
+ * // => true
+ *
+ * _.eq(object, other);
+ * // => false
+ *
+ * _.eq('a', 'a');
+ * // => true
+ *
+ * _.eq('a', Object('a'));
+ * // => false
+ *
+ * _.eq(NaN, NaN);
+ * // => true
+ */
+function eq(value, other) {
+  return value === other || (value !== value && other !== other);
+}
+
+module.exports = eq;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isArguments.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseIsArguments = __webpack_require__("./node_modules/lodash/_baseIsArguments.js"),
+    isObjectLike = __webpack_require__("./node_modules/lodash/isObjectLike.js");
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Built-in value references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+var isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsArguments : function(value) {
+  return isObjectLike(value) && hasOwnProperty.call(value, 'callee') &&
+    !propertyIsEnumerable.call(value, 'callee');
+};
+
+module.exports = isArguments;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isArray.js":
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+module.exports = isArray;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isArrayLike.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isFunction = __webpack_require__("./node_modules/lodash/isFunction.js"),
+    isLength = __webpack_require__("./node_modules/lodash/isLength.js");
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(value.length) && !isFunction(value);
+}
+
+module.exports = isArrayLike;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isBuffer.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__("./node_modules/lodash/_root.js"),
+    stubFalse = __webpack_require__("./node_modules/lodash/stubFalse.js");
+
+/** Detect free variable `exports`. */
+var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/** Built-in value references. */
+var Buffer = moduleExports ? root.Buffer : undefined;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
+
+/**
+ * Checks if `value` is a buffer.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.3.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+ * @example
+ *
+ * _.isBuffer(new Buffer(2));
+ * // => true
+ *
+ * _.isBuffer(new Uint8Array(2));
+ * // => false
+ */
+var isBuffer = nativeIsBuffer || stubFalse;
+
+module.exports = isBuffer;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isEqual.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseIsEqual = __webpack_require__("./node_modules/lodash/_baseIsEqual.js");
+
+/**
+ * Performs a deep comparison between two values to determine if they are
+ * equivalent.
+ *
+ * **Note:** This method supports comparing arrays, array buffers, booleans,
+ * date objects, error objects, maps, numbers, `Object` objects, regexes,
+ * sets, strings, symbols, and typed arrays. `Object` objects are compared
+ * by their own, not inherited, enumerable properties. Functions and DOM
+ * nodes are compared by strict equality, i.e. `===`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ * var other = { 'a': 1 };
+ *
+ * _.isEqual(object, other);
+ * // => true
+ *
+ * object === other;
+ * // => false
+ */
+function isEqual(value, other) {
+  return baseIsEqual(value, other);
+}
+
+module.exports = isEqual;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isFunction.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__("./node_modules/lodash/_baseGetTag.js"),
+    isObject = __webpack_require__("./node_modules/lodash/isObject.js");
+
+/** `Object#toString` result references. */
+var asyncTag = '[object AsyncFunction]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    proxyTag = '[object Proxy]';
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  if (!isObject(value)) {
+    return false;
+  }
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 9 which returns 'object' for typed arrays and other constructors.
+  var tag = baseGetTag(value);
+  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+}
+
+module.exports = isFunction;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isLength.js":
+/***/ (function(module, exports) {
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+module.exports = isLength;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isObject.js":
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+module.exports = isObject;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isObjectLike.js":
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isSymbol.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__("./node_modules/lodash/_baseGetTag.js"),
+    isObjectLike = __webpack_require__("./node_modules/lodash/isObjectLike.js");
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && baseGetTag(value) == symbolTag);
+}
+
+module.exports = isSymbol;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isTypedArray.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseIsTypedArray = __webpack_require__("./node_modules/lodash/_baseIsTypedArray.js"),
+    baseUnary = __webpack_require__("./node_modules/lodash/_baseUnary.js"),
+    nodeUtil = __webpack_require__("./node_modules/lodash/_nodeUtil.js");
+
+/* Node.js helper references. */
+var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
+
+/**
+ * Checks if `value` is classified as a typed array.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+ * @example
+ *
+ * _.isTypedArray(new Uint8Array);
+ * // => true
+ *
+ * _.isTypedArray([]);
+ * // => false
+ */
+var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
+
+module.exports = isTypedArray;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/keys.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayLikeKeys = __webpack_require__("./node_modules/lodash/_arrayLikeKeys.js"),
+    baseKeys = __webpack_require__("./node_modules/lodash/_baseKeys.js"),
+    isArrayLike = __webpack_require__("./node_modules/lodash/isArrayLike.js");
+
+/**
+ * Creates an array of the own enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects. See the
+ * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+ * for more details.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keys(new Foo);
+ * // => ['a', 'b'] (iteration order is not guaranteed)
+ *
+ * _.keys('hi');
+ * // => ['0', '1']
+ */
+function keys(object) {
+  return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
+}
+
+module.exports = keys;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/now.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var root = __webpack_require__("./node_modules/lodash/_root.js");
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+module.exports = now;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/stubArray.js":
+/***/ (function(module, exports) {
+
+/**
+ * This method returns a new empty array.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {Array} Returns the new empty array.
+ * @example
+ *
+ * var arrays = _.times(2, _.stubArray);
+ *
+ * console.log(arrays);
+ * // => [[], []]
+ *
+ * console.log(arrays[0] === arrays[1]);
+ * // => false
+ */
+function stubArray() {
+  return [];
+}
+
+module.exports = stubArray;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/stubFalse.js":
+/***/ (function(module, exports) {
+
+/**
+ * This method returns `false`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {boolean} Returns `false`.
+ * @example
+ *
+ * _.times(2, _.stubFalse);
+ * // => [false, false]
+ */
+function stubFalse() {
+  return false;
+}
+
+module.exports = stubFalse;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/throttle.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var debounce = __webpack_require__("./node_modules/lodash/debounce.js"),
+    isObject = __webpack_require__("./node_modules/lodash/isObject.js");
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/**
+ * Creates a throttled function that only invokes `func` at most once per
+ * every `wait` milliseconds. The throttled function comes with a `cancel`
+ * method to cancel delayed `func` invocations and a `flush` method to
+ * immediately invoke them. Provide `options` to indicate whether `func`
+ * should be invoked on the leading and/or trailing edge of the `wait`
+ * timeout. The `func` is invoked with the last arguments provided to the
+ * throttled function. Subsequent calls to the throttled function return the
+ * result of the last `func` invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the throttled function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.throttle` and `_.debounce`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to throttle.
+ * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=true]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new throttled function.
+ * @example
+ *
+ * // Avoid excessively updating the position while scrolling.
+ * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+ *
+ * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
+ * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
+ * jQuery(element).on('click', throttled);
+ *
+ * // Cancel the trailing throttled invocation.
+ * jQuery(window).on('popstate', throttled.cancel);
+ */
+function throttle(func, wait, options) {
+  var leading = true,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  if (isObject(options)) {
+    leading = 'leading' in options ? !!options.leading : leading;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+  return debounce(func, wait, {
+    'leading': leading,
+    'maxWait': wait,
+    'trailing': trailing
+  });
+}
+
+module.exports = throttle;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/toNumber.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__("./node_modules/lodash/isObject.js"),
+    isSymbol = __webpack_require__("./node_modules/lodash/isSymbol.js");
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = toNumber;
+
 
 /***/ }),
 
@@ -52526,6 +56229,955 @@ module.exports = function (css) {
 
 /***/ }),
 
+/***/ "./node_modules/v-color/dist/index.esm.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Vue, __webpack_provided_window_dot_Vue) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_throttle__ = __webpack_require__("./node_modules/lodash/throttle.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_throttle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_throttle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_clamp__ = __webpack_require__("./node_modules/lodash/clamp.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_clamp___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash_clamp__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash_isEqual__ = __webpack_require__("./node_modules/lodash/isEqual.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash_isEqual___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash_isEqual__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_debounce__ = __webpack_require__("./node_modules/lodash/debounce.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_debounce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_lodash_debounce__);
+
+
+
+
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var invariant = function(condition, format, a, b, c, d, e, f) {
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error(
+        'Minified exception occurred; use the non-minified dev environment ' +
+        'for the full error message and additional helpful warnings.'
+      );
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(
+        format.replace(/%s/g, function() { return args[argIndex++]; })
+      );
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+};
+
+var browser = invariant;
+
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+var index = shouldUseNative() ? Object.assign : function (target, source) {
+	var arguments$1 = arguments;
+
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments$1[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+var component = /-?\d+(\.\d+)?%?/g;
+function extractComponents(color) {
+  return color.match(component);
+}
+
+var extractComponents_1 = extractComponents;
+
+var extractComponents$1 = /*#__PURE__*/Object.freeze({
+  default: extractComponents_1,
+  __moduleExports: extractComponents_1
+});
+
+function clamp$1(val, min, max) {
+  return Math.min(Math.max(val, min), max);
+}
+
+var clamp_1 = clamp$1;
+
+var clamp$2 = /*#__PURE__*/Object.freeze({
+  default: clamp_1,
+  __moduleExports: clamp_1
+});
+
+var require$$0 = ( extractComponents$1 && extractComponents_1 ) || extractComponents$1;
+
+var require$$1 = ( clamp$2 && clamp_1 ) || clamp$2;
+
+var extractComponents$2 = require$$0;
+var clamp$3 = require$$1;
+
+function parseHslComponent(component, i) {
+  component = parseFloat(component);
+
+  switch(i) {
+    case 0:
+      return clamp$3(component, 0, 360);
+    case 1:
+    case 2:
+      return clamp$3(component, 0, 100);
+    case 3:
+      return clamp$3(component, 0, 1);
+  }
+}
+
+function hsl(color) {
+  return extractComponents$2(color).map(parseHslComponent);
+}
+
+var hsl_1 = hsl;
+
+var hsl$1 = /*#__PURE__*/Object.freeze({
+  default: hsl_1,
+  __moduleExports: hsl_1
+});
+
+function expand(hex) {
+  var result = "#";
+
+  for (var i = 1; i < hex.length; i++) {
+    var val = hex.charAt(i);
+    result += val + val;
+  }
+
+  return result;
+}
+
+function hex(hex) {
+  // #RGB or #RGBA
+  if(hex.length === 4 || hex.length === 5) {
+    hex = expand(hex);
+  }
+
+  var rgb = [
+    parseInt(hex.substring(1,3), 16),
+    parseInt(hex.substring(3,5), 16),
+    parseInt(hex.substring(5,7), 16)
+  ];
+
+  // #RRGGBBAA
+  if (hex.length === 9) {
+    var alpha = parseFloat((parseInt(hex.substring(7,9), 16) / 255).toFixed(2));
+    rgb.push(alpha);
+  }
+
+  return rgb;
+}
+
+var hex_1 = hex;
+
+var hex$1 = /*#__PURE__*/Object.freeze({
+  default: hex_1,
+  __moduleExports: hex_1
+});
+
+var extractComponents$3 = require$$0;
+var clamp$4 = require$$1;
+
+function parseRgbComponent(component, i) {
+  if (i < 3) {
+    if (component.indexOf('%') != -1) {
+      return Math.round(255 * clamp$4(parseInt(component, 10), 0, 100)/100);
+    } else {
+      return clamp$4(parseInt(component, 10), 0, 255);
+    }
+  } else {
+    return clamp$4(parseFloat(component), 0, 1);
+  } 
+}
+
+function rgb(color) {
+  return extractComponents$3(color).map(parseRgbComponent);
+}
+
+var rgb_1 = rgb;
+
+var rgb$1 = /*#__PURE__*/Object.freeze({
+  default: rgb_1,
+  __moduleExports: rgb_1
+});
+
+function hsl2rgb(hsl) {
+  var h = hsl[0] / 360,
+      s = hsl[1] / 100,
+      l = hsl[2] / 100,
+      t1, t2, t3, rgb, val;
+
+  if (s == 0) {
+    val = l * 255;
+    return [val, val, val];
+  }
+
+  if (l < 0.5)
+    { t2 = l * (1 + s); }
+  else
+    { t2 = l + s - l * s; }
+  t1 = 2 * l - t2;
+
+  rgb = [0, 0, 0];
+  for (var i = 0; i < 3; i++) {
+    t3 = h + 1 / 3 * - (i - 1);
+    t3 < 0 && t3++;
+    t3 > 1 && t3--;
+
+    if (6 * t3 < 1)
+      { val = t1 + (t2 - t1) * 6 * t3; }
+    else if (2 * t3 < 1)
+      { val = t2; }
+    else if (3 * t3 < 2)
+      { val = t1 + (t2 - t1) * (2 / 3 - t3) * 6; }
+    else
+      { val = t1; }
+
+    rgb[i] = val * 255;
+  }
+
+  return rgb;
+}
+
+var hsl2rgb_1 = hsl2rgb;
+
+var require$$0$1 = ( hsl$1 && hsl_1 ) || hsl$1;
+
+var require$$1$1 = ( hex$1 && hex_1 ) || hex$1;
+
+var require$$2 = ( rgb$1 && rgb_1 ) || rgb$1;
+
+var hsl$2 = require$$0$1;
+var hex$2 = require$$1$1;
+var rgb$2 = require$$2;
+var hsl2rgb$1 = hsl2rgb_1;
+
+function hsl2rgbParse(color) {
+  var h = hsl$2(color);
+  var r = hsl2rgb$1(h);
+
+  // handle alpha since hsl2rgb doesn't know (or care!) about it
+  if(h.length === 4) {
+    r.push(h[3]);
+  }
+
+  return r;
+}
+
+var space2parser = {
+  "#" : hex$2,
+  "hsl" : hsl2rgbParse,
+  "rgb" : rgb$2
+};
+
+function parse(color) {
+  for(var scheme in space2parser) {
+    if(color.indexOf(scheme) === 0) {
+      return space2parser[scheme](color);
+    }
+  }
+}
+
+parse.rgb = rgb$2;
+parse.hsl = hsl$2;
+parse.hex = hex$2;
+
+var index$1 = parse;
+
+function rgb2hsv(rgb) {
+  var r = rgb[0],
+      g = rgb[1],
+      b = rgb[2],
+      min = Math.min(r, g, b),
+      max = Math.max(r, g, b),
+      delta = max - min,
+      h, s, v;
+
+  if (max == 0)
+    { s = 0; }
+  else
+    { s = (delta/max * 1000)/10; }
+
+  if (max == min)
+    { h = 0; }
+  else if (r == max)
+    { h = (g - b) / delta; }
+  else if (g == max)
+    { h = 2 + (b - r) / delta; }
+  else if (b == max)
+    { h = 4 + (r - g) / delta; }
+
+  h = Math.min(h * 60, 360);
+
+  if (h < 0)
+    { h += 360; }
+
+  v = ((max / 255) * 1000) / 10;
+
+  return [h, s, v];
+}
+
+var rgb2hsv_1 = rgb2hsv;
+
+var clamp$5 = require$$1;
+
+function componentToHex(c) {
+  var value = Math.round(clamp$5(c, 0, 255));
+  var hex   = value.toString(16);
+
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgb2hex(rgb) {
+  var alpha = rgb.length === 4 ? componentToHex(rgb[3] * 255) : "";
+
+  return "#" + componentToHex(rgb[0]) + componentToHex(rgb[1]) + componentToHex(rgb[2]) + alpha;
+}
+
+var rgb2hex_1 = rgb2hex;
+
+function hsv2hsl(hsv) {
+  var h = hsv[0],
+      s = hsv[1] / 100,
+      v = hsv[2] / 100,
+      sl, l;
+
+  l = (2 - s) * v;
+  sl = s * v;
+  sl /= (l <= 1) ? l : 2 - l;
+  sl = sl || 0;
+  l /= 2;
+  return [h, sl * 100, l * 100];
+}
+
+var hsv2hsl_1 = hsv2hsl;
+
+function hsv2rgb(hsv) {
+  var h = hsv[0] / 60,
+      s = hsv[1] / 100,
+      v = hsv[2] / 100,
+      hi = Math.floor(h) % 6;
+
+  var f = h - Math.floor(h),
+      p = 255 * v * (1 - s),
+      q = 255 * v * (1 - (s * f)),
+      t = 255 * v * (1 - (s * (1 - f))),
+      v = 255 * v;
+
+  switch(hi) {
+    case 0:
+      return [v, t, p];
+    case 1:
+      return [q, v, p];
+    case 2:
+      return [p, v, t];
+    case 3:
+      return [p, q, v];
+    case 4:
+      return [t, p, v];
+    case 5:
+      return [v, p, q];
+  }
+}
+
+var hsv2rgb_1 = hsv2rgb;
+
+var toPrecision = function (num, precision) {
+  var p = precision | 0;
+  return p > 0 ? parseFloat(num.toFixed(p)) : num
+};
+
+var VueCtrlComponent = {
+  name: 'v-ctrl',
+  abstract: true,
+  props: {
+    direction: {
+      type: String,
+      default: 'h',
+      validator: function validator (val) {
+        return ['v', 'h', 'vh', 'hv'].indexOf(val) > -1
+      }
+    },
+    throttle: {
+      type: Number,
+      default: 80
+    },
+    precision: {
+      type: Number
+    }
+  },
+
+  methods: {
+    msdown: function msdown (e) {
+      e.preventDefault();
+      document.addEventListener('mousemove', this.msmove);
+      document.addEventListener('mouseup', this.msup);
+      this.next(e);
+    },
+  
+    msmove: function msmove (e) {
+      e.preventDefault();
+      this.next(e);
+    },
+  
+    msup: function msup (e) {
+      this.next(e);
+      document.removeEventListener('mousemove', this.msmove);
+      document.removeEventListener('mouseup', this.msup);
+    },
+  
+    notify: function notify (val) {
+      if (__WEBPACK_IMPORTED_MODULE_2_lodash_isEqual___default()(this.memo, val) === false) {
+        this.memo = val;
+        this.$emit('change', val);
+      }
+    },
+
+    next: function next (ref) {
+      if ( ref === void 0 ) { ref = {}; }
+      var clientX = ref.clientX; if ( clientX === void 0 ) { clientX = 0; }
+      var clientY = ref.clientY; if ( clientY === void 0 ) { clientY = 0; }
+
+      var ref$1 = this;
+      var direction = ref$1.direction;
+      var adjust = ref$1.adjust;
+      var rect = this.$el.getBoundingClientRect();
+
+      var left = rect.left;
+      var width = rect.width;
+      var deltaX = clientX - left;
+      var x = adjust(deltaX / width);
+
+      if (direction === 'h') {
+        return this.notify(x)
+      }
+  
+      var top = rect.top;
+      var height = rect.height;
+      var deltaY = clientY - top;
+      var y = adjust(deltaY / height);
+
+      if (direction === 'v') {
+        return this.notify(y)
+      }
+
+      // both direction
+      this.notify([x, y]);
+    },
+
+    adjust: function adjust (num) {
+      return toPrecision(__WEBPACK_IMPORTED_MODULE_1_lodash_clamp___default()(num, 0, 1), this.precision)
+    }
+  },
+
+  render: function render (h) {
+    return this.$slots.default[0]
+  },
+
+  created: function created () {
+    var ref = this;
+    var msdown = ref.msdown;
+    var msmove = ref.msmove;
+
+    this.msdown = msdown.bind(this);
+    this.msmove = __WEBPACK_IMPORTED_MODULE_0_lodash_throttle___default()(msmove.bind(this), this.throttle);
+
+    this.memo = null;
+  },
+
+  mounted: function mounted () {
+    this.$el.addEventListener('mousedown', this.msdown);
+  },
+
+  destroyed: function destroyed () {
+    this.$el.removeEventListener('mousedown', this.msdown);
+  },
+
+  install: function install () {
+    Vue.component(VueCtrlComponent.name, VueCtrlComponent);
+  }
+};
+
+if (typeof window !== 'undefined' && __webpack_provided_window_dot_Vue) {
+  Vue.use(VueCtrlComponent);
+}
+
+var index$2 = { VueCtrlComponent: VueCtrlComponent };
+
+var colorModes = Object.freeze({
+  rgba: ['r', 'g', 'b', 'a'],
+  hsla: ['h', 's', 'l', 'a'],
+  hex: ['hex']
+});
+
+var VColorComponent = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"cp__wrapper"},[_c('v-ctrl',{attrs:{"direction":"vh","precision":2,"throttle":80},on:{"change":_vm.onSaturationChange}},[_c('div',{staticClass:"cp__v-ctrl cp__saturation"},[_c('div',{staticClass:"msk-hue",style:(_vm.styles.saturationPane)}),_vm._v(" "),_c('div',{staticClass:"msk-white"}),_vm._v(" "),_c('div',{staticClass:"msk-black"}),_vm._v(" "),_c('p',{staticClass:"cp__thumb",style:(_vm.styles.saturationThumb)})])]),_vm._v(" "),_c('div',{staticClass:"cp__ctrl-pane"},[_c('div',[_c('div',{staticClass:"cp__preview"},[_c('div',{style:(_vm.styles.preview)})]),_vm._v(" "),_c('div',{staticClass:"cp__tracks"},[_c('v-ctrl',{attrs:{"direction":"h","precision":2,"throttle":80},on:{"change":_vm.onHueChange}},[_c('div',{staticClass:"cp__v-ctrl cp__ctrl-bar cp__ctrl-hue"},[_c('div',{staticClass:"cp__thumb",style:(_vm.styles.hueThumb)})])]),_vm._v(" "),_c('v-ctrl',{attrs:{"direction":"h","precision":2,"throttle":80},on:{"change":_vm.onAlphaChange}},[_c('div',{staticClass:"cp__v-ctrl cp__ctrl-alpha"},[_c('div',{staticClass:"cp__thumb",style:(_vm.styles.alphaThumb)}),_vm._v(" "),_c('div',{staticClass:"cp__ctrl-bar",style:(_vm.styles.alphaTrack)})])])],1)]),_vm._v(" "),_c('div',{staticStyle:{"margin-top":"10px"}},[_c('div',{staticClass:"cp__fm-fields"},_vm._l((_vm.colorModes[_vm.currentMode]),function(k){return _c('div',{key:k},[_c('div',{staticStyle:{"position":"relative"}},[_c('input',{attrs:{"type":_vm.constrains[k].type,"maxlength":_vm.constrains[k].maxlength},domProps:{"value":_vm.colorModel[k]},on:{"change":function($event){_vm.handleInput(k, $event);}}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(k))])])])})),_vm._v(" "),_c('div',{staticClass:"cp__fm-switcher"},[_c('div',{on:{"click":function($event){_vm.changecurrentMode();}}},[_c('svg',{attrs:{"viewBox":"0 0 24 24"}},[_c('path',{attrs:{"fill":"#333","d":"M12,5.83L15.17,9L16.58,7.59L12,3L7.41,7.59L8.83,9L12,5.83Z"}}),_vm._v(" "),_c('path',{attrs:{"fill":"#333","d":"M12,18.17L8.83,15L7.42,16.41L12,21L16.59,16.41L15.17,15Z"}})])])])])])],1)},staticRenderFns: [],
+  name: 'color-picker',
+  props: {
+    color: {
+      type: String,
+      default: '#ff0000'
+    }
+  },
+
+  components: {
+    'v-ctrl': index$2.VueCtrlComponent
+  },
+
+  data: function data () {
+    var ref = this;
+    var color = ref.color;
+
+    var commonNumber = {
+      type: 'number',
+      maxlength: 3,
+    };
+    var percentValue = {
+      type: 'string',
+      maxlength: 4
+    };
+
+    return Object.assign({}, this.digestProp(color),
+      {currentMode: getColorType(color),
+      colorModes: colorModes,
+      colorModel: {
+        hex: '',
+        r: '',
+        g: '',
+        b: '',
+        h: '',
+        s: '',
+        l: '',
+        a: ''
+      },
+      constrains: {
+        r: commonNumber,
+        g: commonNumber,
+        b: commonNumber,
+        h: commonNumber,
+        s: percentValue,
+        l: percentValue,
+        a: {
+          type: 'number',
+          maxlength: 4
+        },
+        hex: {
+          type: 'string',
+          maxlength: 9
+        }
+      }})
+  },
+
+  watch: {
+    color: {
+      immediate: true,
+      handler: function handler (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          index(this, this.digestProp(newVal));
+        }
+      }
+    },
+    rgba: {
+      immediate: true,
+      handler: function handler (newVal, oldVal) {
+        if (("" + newVal) !== ("" + oldVal)) {
+          this.emitChange();
+        }
+      }
+    }
+  },
+
+  computed: {
+    hsva: function hsva () {
+      var ref = this;
+      var hue = ref.hue;
+      var alpha = ref.alpha;
+      var ref_saturation = ref.saturation;
+      var x = ref_saturation.x;
+      var y = ref_saturation.y;
+      return [
+        hue * 360,
+        x * 100,
+        (1 - y) * 100,
+        alpha
+      ]
+    },
+
+    rgba: function rgba () {
+      var ref = this;
+      var alpha = ref.alpha;
+      var hsva = ref.hsva;
+      var ref$1 = hsv2rgb_1(hsva);
+      var r = ref$1[0];
+      var g = ref$1[1];
+      var b = ref$1[2];
+      return [
+        Math.round(r),
+        Math.round(g),
+        Math.round(b),
+        alpha
+      ]
+    },
+
+    hsla: function hsla () {
+      var ref = this;
+      var alpha = ref.alpha;
+      var hsva = ref.hsva;
+      var ref$1 = hsv2hsl_1(hsva);
+      var h = ref$1[0];
+      var s = ref$1[1];
+      var l = ref$1[2];
+      return [
+        Math.round(h),
+        ((Math.round(s)) + "%"),
+        ((Math.round(l)) + "%"),
+        alpha
+      ]
+    },
+
+    hex: function hex () {
+      return rgb2hex_1(this.rgba)
+    },
+
+    previewBorderColor: function previewBorderColor () {
+      var ref = this.rgba;
+      var r = ref[0];
+      var g = ref[1];
+      var b = ref[2];
+      if ((r + g + b) / 3 > 235) {
+        return "rgba(160,160,160,0.8)"
+      }
+      return 'transparent'
+    },
+
+    styles: function styles () {
+      var ref = this;
+      var rgba = ref.rgba;
+      var alpha = ref.alpha;
+      var hue = ref.hue;
+      var saturation = ref.saturation;
+      var strRGB = rgba.slice(0, 3).join(', ');
+
+      var strHueRGB = hsl2rgb_1([hue * 360, 100, 50])
+        .map(function (v) { return Math.round(v); })
+        .join(', ');
+
+      return {
+        preview: {
+          backgroundColor: ("rgba(" + (rgba.join(', ')) + ")"),
+          borderColor: this.previewBorderColor
+        },
+        saturationPane: {
+          backgroundColor: ("rgb(" + strHueRGB + ")")
+        },
+        saturationThumb: {
+          left: toPercent(saturation.x),
+          top: toPercent(saturation.y)
+        },
+        alphaTrack: {
+          backgroundImage: "linear-gradient(to right, " +
+            "rgba(" + strRGB + ", 0) 0%, rgb(" + strRGB + ") 100%)"
+        },
+        alphaThumb: {
+          left: toPercent(alpha)
+        },
+        hueThumb: {
+          left: toPercent(1 - hue)
+        }
+      }
+    }
+  },
+
+  methods: {
+    digestProp: function digestProp (val) {
+      var rgba = index$1(val);
+      var alpha = rgba[3] == null ? 1 : rgba[3];
+      var ref = rgb2hsv_1(rgba);
+      var hue = ref[0];
+      var saturation = ref[1];
+      var value = ref[2];
+
+      // format of alpha: `.2f`
+      // according to Chrome DevTool
+      var _alpha = parseFloat(alpha.toFixed(2));
+
+      return {
+        alpha: _alpha,
+        hue: hue / 360,
+        saturation: {
+          x: saturation / 100,
+          y: 1 - value / 100
+        }
+      }
+    },
+    onSaturationChange: function onSaturationChange (ref) {
+      var x = ref[0];
+      var y = ref[1];
+
+      this.saturation = { x: x, y: y };
+    },
+    onHueChange: function onHueChange (e) {
+      this.hue = 1 - e;
+    },
+    onAlphaChange: function onAlphaChange (e) {
+      // format of alpha: `.2f`
+      // according to Chrome DevTool
+      this.alpha = parseFloat(e.toFixed(2));
+    },
+
+    emitChange: function emitChange () {
+      var ref = this;
+      var alpha = ref.alpha;
+      var hex = ref.hex;
+      var rgba = ref.rgba;
+      var hsla = ref.hsla;
+      var hexVal = simplifyHex(
+        alpha === 1 ? hex.slice(0, 7) : hex
+      );
+
+      this.$emit('change', {
+        rgba: rgba,
+        hsla: hsla,
+        hex: hexVal
+      });
+
+      // this ensures that every component in
+      // our model is up to date
+      var h = hsla[0];
+      var s = hsla[1];
+      var l = hsla[2];
+      var r = rgba[0];
+      var g = rgba[1];
+      var b = rgba[2];
+      var shortHex = index(this.colorModel, {
+        r: r, g: g, b: b, h: h, s: s, l: l,
+        a: alpha,
+        hex: hexVal
+      });
+    },
+
+    changecurrentMode: function changecurrentMode () {
+      var modes = Object.keys(this.colorModes);
+      var index$$1 = modes.indexOf(this.currentMode);
+      this.currentMode = modes[(index$$1 + 1) % modes.length];
+    },
+
+    handleInput: function handleInput (type, event) {
+      var ref = this;
+      var currentMode = ref.currentMode;
+      var colorModel = ref.colorModel;
+      var value = event.target.value;
+      var num = Number(value);
+      var changed = false;
+
+      switch (type) {
+        case 'a':
+          if (colorModel[type] !== num && !isNaN(num)) {
+            colorModel[type] = __WEBPACK_IMPORTED_MODULE_1_lodash_clamp___default()(num, 0, 1);
+            changed = true;
+          }
+          break
+
+        case 'r':
+        case 'g':
+        case 'b':
+          if (colorModel[type] !== num && !isNaN(num)) {
+            colorModel[type] = __WEBPACK_IMPORTED_MODULE_1_lodash_clamp___default()(num, 0, 255) | 0;
+            changed = true;
+          }
+          break
+
+        case 'h':
+          if (colorModel[type] !== num && !isNaN(num)) {
+            colorModel[type] = __WEBPACK_IMPORTED_MODULE_1_lodash_clamp___default()(num, 0, 360) | 0;
+            changed = true;
+          }
+          break
+
+        case 's':
+        case 'l':
+          if (value.slice(-1) === '%' && colorModel[type] !== value) {
+            num = parseFloat(value);
+            colorModel[type] = (__WEBPACK_IMPORTED_MODULE_1_lodash_clamp___default()(num, 0, 360) | 0) + "%";
+            changed = true;
+          }
+          break
+
+        case 'hex':
+          if (value[0] === '#') {
+            if (colorModel[type] !== value && index$1(value).every(function (i) { return !isNaN(i); })) {
+              colorModel[type] = simplifyHex(value);
+              changed = true;
+            }
+          }
+          break
+      }
+
+      if (changed) {
+        var h = colorModel.h;
+        var s = colorModel.s;
+        var l = colorModel.l;
+        var r = colorModel.r;
+        var g = colorModel.g;
+        var b = colorModel.b;
+        var a = colorModel.a;
+        var hex = colorModel.hex;
+        var literal = hex;
+
+        if (currentMode === 'rgba') {
+          literal = "rgba(" + ([r, g, b, a]) + ")";
+        } else if (currentMode === 'hsla') {
+          literal = "hsla(" + ([h, s, l, a]) + ")";
+        }
+
+        index(this, this.digestProp(literal));
+      }
+    }
+  },
+
+  created: function created () {
+    this.handleInput = __WEBPACK_IMPORTED_MODULE_3_lodash_debounce___default()(this.handleInput.bind(this), 50);
+  }
+}
+
+function toPercent (n, precision) {
+  if ( precision === void 0 ) precision = 3;
+
+  // eslint-disable-next-line
+  var num = (n * 100).toPrecision(precision | 0);
+  return (num + "%")
+}
+
+function getColorType (color) {
+  if (color[0] === '#') {
+    return 'hex'
+  }
+
+  if (color.indexOf('rgb') === 0) {
+    return 'rgba'
+  }
+
+  if (color.indexOf('hsl') === 0) {
+    return 'hsla'
+  }
+
+  browser(false, (color + " is not valid color value!"));
+}
+
+function simplifyHex (val) {
+  return val.replace(/#([0-9a-f])\1([0-9a-f])\2([0-9a-f])\3([0-9a-f]?)\4$/, '#$1$2$3$4')
+}
+
+VColorComponent.install = function (Vue) {
+  Vue.config.devtools = "production" !== 'production';
+  Vue.component(VColorComponent.name, VColorComponent);
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (VColorComponent);
+//# sourceMappingURL=index.esm.js.map
+
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/vue/dist/vue.common.js"), __webpack_require__("./node_modules/vue/dist/vue.common.js")))
+
+/***/ }),
+
 /***/ "./node_modules/vee-validate/dist/vee-validate.esm.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -64514,12 +69166,36 @@ var render = function() {
                         )
                       ])
                     ])
-                  : _vm._e()
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "block" }, [
+                  _vm._m(5),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "block-section" },
+                    [
+                      _c("badges-select", {
+                        attrs: {
+                          languages: _vm.languages,
+                          activeLanguageCode: _vm.activeLanguageCode,
+                          selected: _vm.product.badges
+                        },
+                        on: {
+                          "update:selected": function($event) {
+                            _vm.$set(_vm.product, "badges", $event)
+                          }
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-lg-6" }, [
                 _c("div", { staticClass: "block" }, [
-                  _vm._m(5),
+                  _vm._m(6),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-horizontal form-bordered" }, [
                     _c(
@@ -64530,7 +69206,7 @@ var render = function() {
                           (_vm.formErrors.has("width") ? " has-error" : "")
                       },
                       [
-                        _vm._m(6),
+                        _vm._m(7),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
                           _c(
@@ -64616,7 +69292,7 @@ var render = function() {
                           (_vm.formErrors.has("height") ? " has-error" : "")
                       },
                       [
-                        _vm._m(7),
+                        _vm._m(8),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
                           _c(
@@ -64702,7 +69378,7 @@ var render = function() {
                           (_vm.formErrors.has("length") ? " has-error" : "")
                       },
                       [
-                        _vm._m(8),
+                        _vm._m(9),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
                           _c(
@@ -64788,7 +69464,7 @@ var render = function() {
                           (_vm.formErrors.has("weight") ? " has-error" : "")
                       },
                       [
-                        _vm._m(9),
+                        _vm._m(10),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
                           _c(
@@ -64873,7 +69549,7 @@ var render = function() {
                       "div",
                       { staticClass: "block" },
                       [
-                        _vm._m(10),
+                        _vm._m(11),
                         _vm._v(" "),
                         _c("attributes-select", {
                           ref: "attributesSelect",
@@ -64893,7 +69569,7 @@ var render = function() {
                 _vm._v(" "),
                 _vm.type === "edit"
                   ? _c("div", { staticClass: "block" }, [
-                      _vm._m(11),
+                      _vm._m(12),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -64928,7 +69604,7 @@ var render = function() {
               "div",
               { staticClass: "block" },
               [
-                _vm._m(12),
+                _vm._m(13),
                 _vm._v(" "),
                 _c("prices-table", {
                   attrs: {
@@ -65039,6 +69715,18 @@ var staticRenderFns = [
         _c("i", { staticClass: "fa fa-clone" }),
         _vm._v(" "),
         _c("strong", [_vm._v("Похожие товары")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title clearfix" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-clone" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Бейджи")])
       ])
     ])
   },
@@ -66582,7 +71270,7 @@ var render = function() {
                       attrs: {
                         "show-empty": "",
                         stacked: "md",
-                        items: _vm.currencies ? _vm.fetchItems : null,
+                        items: _vm.fetchItems,
                         fields: _vm.fields,
                         busy: _vm.loading,
                         "current-page": _vm.page,
@@ -68546,6 +73234,70 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-35d55e69\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/badges/BadgesSelect.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "loading",
+    { staticStyle: { "min-height": "32px" }, attrs: { loading: _vm.loading } },
+    [
+      _c("div", { staticClass: "badges-select" }, [
+        _c(
+          "div",
+          { staticClass: "badges-select__container" },
+          _vm._l(_vm.badgeTypes, function(badgeType) {
+            return _c(
+              "div",
+              { key: badgeType.id, staticClass: "badges-select__item" },
+              [
+                _c(
+                  "div",
+                  {
+                    class: {
+                      "badges-select__button": true,
+                      "is-active": _vm.isActive(badgeType)
+                    },
+                    on: {
+                      click: function($event) {
+                        _vm.toggle(badgeType)
+                      }
+                    }
+                  },
+                  [
+                    _c("badge-preview", {
+                      attrs: {
+                        icon: badgeType.icon,
+                        color: badgeType.color,
+                        title: badgeType.i18n[_vm.activeLanguageCode].title
+                      }
+                    })
+                  ],
+                  1
+                )
+              ]
+            )
+          })
+        )
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-35d55e69", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3950337e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ImageEditor.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -68747,6 +73499,558 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-45a5b403", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-4b43cd5a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/badges/BadgeTypeEdit.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "block full" }, [
+        _vm.type === "create"
+          ? _c("div", { staticClass: "block-title clearfix" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-default btn-alt",
+                      on: { click: _vm.redirectToTable }
+                    },
+                    [_c("i", { staticClass: "fa fa-arrow-left" })]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c("language-picker", {
+                    class: { "has-error": _vm.formTranslatesHasError() },
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _vm.userCan("badge-types.create")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-success active",
+                          on: { click: _vm.save }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-plus-circle" }),
+                          _vm._v(" Создать\n        ")
+                        ]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.type === "edit"
+          ? _c("div", { staticClass: "block-title" }, [
+              _c("h1", [
+                _c("strong", [
+                  _vm._v(
+                    "\n          Редактирование бейджа #" +
+                      _vm._s(_vm.id) +
+                      "\n        "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-default btn-alt",
+                      on: { click: _vm.redirectToTable }
+                    },
+                    [_c("i", { staticClass: "fa fa-arrow-left" })]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c("language-picker", {
+                    class: { "has-error": _vm.formTranslatesHasError() },
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _vm.userCan("badge-types.edit")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-primary active",
+                          on: { click: _vm.save }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-floppy-o" }),
+                          _vm._v(" Сохранить\n        ")
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.userCan("badge-types.delete")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-danger active",
+                          on: { click: _vm.remove }
+                        },
+                        [_vm._v("\n          Удалить\n        ")]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.badgeType
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-lg-6" }, [
+                _c("div", { staticClass: "block" }, [
+                  _c("div", { staticClass: "block-title clearfix" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "block-title-control" },
+                      [
+                        _c("badge-preview", {
+                          attrs: {
+                            color: _vm.badgeType.color,
+                            icon: _vm.badgeType.icon,
+                            title:
+                              _vm.badgeType.i18n[_vm.activeLanguageCode].title,
+                            text: _vm.badgeType.has_value ? "-20%" : undefined
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-horizontal form-bordered" }, [
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("icon") ? " has-error" : "")
+                      },
+                      [
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-md-9" },
+                          [
+                            _c("tree-select", {
+                              attrs: {
+                                options: _vm.iconsToTree,
+                                selected: _vm.badgeType.icon,
+                                placeholder: "Выберите иконку"
+                              },
+                              on: {
+                                "update:selected": function($event) {
+                                  _vm.$set(_vm.badgeType, "icon", $event)
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.formErrors.has("icon"),
+                                    expression: "formErrors.has('icon')"
+                                  }
+                                ],
+                                staticClass: "help-block"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.formErrors.first("icon")) +
+                                    "\n                "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("color") ? " has-error" : "")
+                      },
+                      [
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-md-9" },
+                          [
+                            _c("color-picker", {
+                              attrs: {
+                                color: _vm.badgeType.color || undefined
+                              },
+                              on: { change: _vm.setColor }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.formErrors.has("color"),
+                                    expression: "formErrors.has('color')"
+                                  }
+                                ],
+                                staticClass: "help-block"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.formErrors.first("color")) +
+                                    "\n                "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.badgeType.created_at
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [
+                              _vm._v(
+                                "\n                Дата создания\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-9" }, [
+                            _c("p", { staticClass: "form-control-static" }, [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.badgeType.created_at) +
+                                  "\n                "
+                              )
+                            ])
+                          ])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.badgeType.updated_at
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [
+                              _vm._v(
+                                "\n                Последнее изменение\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-9" }, [
+                            _c("p", { staticClass: "form-control-static" }, [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.badgeType.updated_at) +
+                                  "\n                "
+                              )
+                            ])
+                          ])
+                        ])
+                      : _vm._e()
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-lg-6" }, [
+                _c(
+                  "div",
+                  {
+                    class:
+                      "block" +
+                      (_vm.langSwitchHovered ? " block-illuminated" : "")
+                  },
+                  [
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _vm._l(_vm.languages, function(language) {
+                      return [
+                        _c(
+                          "div",
+                          {
+                            key: language.code,
+                            class:
+                              "form-horizontal form-bordered" +
+                              (_vm.activeLanguageCode === language.code
+                                ? ""
+                                : " in-space")
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.formErrors.has(
+                                    "i18n." + language.code + ".title"
+                                  )
+                                    ? " has-error"
+                                    : "")
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "col-md-3 control-label",
+                                    attrs: { for: "title-" + language.code }
+                                  },
+                                  [
+                                    _vm._v("\n                  Название "),
+                                    _c("span", { staticClass: "text-danger" }, [
+                                      _vm._v("*")
+                                    ])
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-9" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.badgeType.i18n[language.code]
+                                            .title,
+                                        expression:
+                                          "badgeType.i18n[language.code].title"
+                                      },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value: "required|max:255",
+                                        expression: "'required|max:255'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      id: "title-" + language.code,
+                                      name: "i18n." + language.code + ".title"
+                                    },
+                                    domProps: {
+                                      value:
+                                        _vm.badgeType.i18n[language.code].title
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.badgeType.i18n[language.code],
+                                          "title",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.formErrors.has(
+                                            "i18n." + language.code + ".title"
+                                          ),
+                                          expression:
+                                            "formErrors.has(`i18n.${language.code}.title`)"
+                                        }
+                                      ],
+                                      staticClass: "help-block"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm.formErrors.first(
+                                              "i18n." + language.code + ".title"
+                                            )
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    })
+                  ],
+                  2
+                )
+              ])
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "validationModal",
+          attrs: {
+            id: "validationModal",
+            title: "Ошибка валидации",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Ок",
+            "ok-only": "",
+            "hide-header-close": ""
+          }
+        },
+        [_vm._v("\n\n    Проверьте правильность заполнения формы!\n  ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "removeModal",
+          attrs: {
+            id: "removeModal",
+            title: "Удаление бейджа",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Удалить",
+            "cancel-title": "Отмена",
+            "hide-header-close": ""
+          },
+          on: { ok: _vm.removeConfirm }
+        },
+        [_vm._v("\n\n    Вы действительно хотите удалить бейдж?\n  ")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [
+      _c("strong", [_vm._v("\n          Создание бейджа\n        ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h2", [
+      _c("i", { staticClass: "fa fa-pencil" }),
+      _vm._v(" "),
+      _c("strong", [_vm._v("Основная")]),
+      _vm._v(" информация\n            ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "col-md-3 control-label" }, [
+      _vm._v("\n                Иконка "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "col-md-3 control-label" }, [
+      _vm._v("\n                Цвет "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-globe" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Языковая")]),
+        _vm._v(" информация\n            ")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4b43cd5a", module.exports)
   }
 }
 
@@ -69417,6 +74721,62 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-55018f74", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-556e4642\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/badges/BadgePreview.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "badge",
+      style: { backgroundColor: _vm.color },
+      attrs: { "data-original-title": _vm.title }
+    },
+    [
+      _c(
+        "div",
+        { staticClass: "badge__content" },
+        [
+          _vm.icon
+            ? [
+                _c("svg", { staticClass: "badge__icon" }, [
+                  _c("use", {
+                    attrs: {
+                      "xlink:href": "/vendor/images/badges.svg#" + _vm.icon
+                    }
+                  })
+                ])
+              ]
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.text
+            ? [
+                _c("div", { staticClass: "badge__text" }, [
+                  _vm._v("\n        " + _vm._s(_vm.text) + "\n      ")
+                ])
+              ]
+            : _vm._e()
+        ],
+        2
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-556e4642", module.exports)
   }
 }
 
@@ -72452,32 +77812,52 @@ var render = function() {
           ? _c("div", { staticClass: "block-title clearfix" }, [
               _vm._m(0),
               _vm._v(" "),
-              _c("div", { staticClass: "block-title-control" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-sm btn-default btn-alt",
-                    on: { click: _vm.redirectToTable }
-                  },
-                  [_c("i", { staticClass: "fa fa-arrow-left" })]
-                ),
-                _vm._v(" "),
-                _c("span", { staticClass: "btn-separator-xs" }),
-                _vm._v(" "),
-                _vm.userCan("promo-codes.create")
-                  ? _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-sm btn-success active",
-                        on: { click: _vm.save }
-                      },
-                      [
-                        _c("i", { staticClass: "fa fa-plus-circle" }),
-                        _vm._v(" Создать\n        ")
-                      ]
-                    )
-                  : _vm._e()
-              ])
+              _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-default btn-alt",
+                      on: { click: _vm.redirectToTable }
+                    },
+                    [_c("i", { staticClass: "fa fa-arrow-left" })]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c("language-picker", {
+                    class: { "has-error": _vm.formTranslatesHasError() },
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _vm.userCan("promo-codes.create")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-success active",
+                          on: { click: _vm.save }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-plus-circle" }),
+                          _vm._v(" Создать\n        ")
+                        ]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
             ])
           : _vm._e(),
         _vm._v(" "),
@@ -72493,43 +77873,63 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "block-title-control" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-sm btn-default btn-alt",
-                    on: { click: _vm.redirectToTable }
-                  },
-                  [_c("i", { staticClass: "fa fa-arrow-left" })]
-                ),
-                _vm._v(" "),
-                _c("span", { staticClass: "btn-separator-xs" }),
-                _vm._v(" "),
-                _vm.userCan("promo-codes.edit")
-                  ? _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-sm btn-primary active",
-                        on: { click: _vm.save }
-                      },
-                      [
-                        _c("i", { staticClass: "fa fa-floppy-o" }),
-                        _vm._v(" Сохранить\n        ")
-                      ]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.userCan("promo-codes.delete")
-                  ? _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-sm btn-danger active",
-                        on: { click: _vm.remove }
-                      },
-                      [_vm._v("\n          Удалить\n        ")]
-                    )
-                  : _vm._e()
-              ])
+              _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-default btn-alt",
+                      on: { click: _vm.redirectToTable }
+                    },
+                    [_c("i", { staticClass: "fa fa-arrow-left" })]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c("language-picker", {
+                    class: { "has-error": _vm.formTranslatesHasError() },
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _vm.userCan("promo-codes.edit")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-primary active",
+                          on: { click: _vm.save }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-floppy-o" }),
+                          _vm._v(" Сохранить\n        ")
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.userCan("promo-codes.delete")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-danger active",
+                          on: { click: _vm.remove }
+                        },
+                        [_vm._v("\n          Удалить\n        ")]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
             ])
           : _vm._e(),
         _vm._v(" "),
@@ -72554,12 +77954,6 @@ var render = function() {
                           _c("input", {
                             directives: [
                               {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.promoCode.name,
-                                expression: "promoCode.name"
-                              },
-                              {
                                 name: "validate",
                                 rawName: "v-validate",
                                 value: "required|min:3|max:255",
@@ -72569,18 +77963,7 @@ var render = function() {
                             staticClass: "form-control",
                             attrs: { type: "text", id: "name", name: "name" },
                             domProps: { value: _vm.promoCode.name },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.promoCode,
-                                  "name",
-                                  $event.target.value
-                                )
-                              }
-                            }
+                            on: { input: _vm.inputPromo }
                           }),
                           _vm._v(" "),
                           _c(
@@ -73526,9 +78909,227 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-lg-6" }, [
+                _c(
+                  "div",
+                  {
+                    class:
+                      "block" +
+                      (_vm.langSwitchHovered ? " block-illuminated" : "")
+                  },
+                  [
+                    _vm._m(10),
+                    _vm._v(" "),
+                    _vm._l(_vm.languages, function(language) {
+                      return [
+                        _c(
+                          "div",
+                          {
+                            key: language.code,
+                            class:
+                              "form-horizontal form-bordered" +
+                              (_vm.activeLanguageCode === language.code
+                                ? ""
+                                : " in-space")
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.formErrors.has(
+                                    "i18n." + language.code + ".title"
+                                  )
+                                    ? " has-error"
+                                    : "")
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "col-md-3 control-label",
+                                    attrs: { for: "title-" + language.code }
+                                  },
+                                  [
+                                    _vm._v("\n                  Название "),
+                                    _c("span", { staticClass: "text-danger" }, [
+                                      _vm._v("*")
+                                    ])
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-9" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.promoCode.i18n[language.code]
+                                            .title,
+                                        expression:
+                                          "promoCode.i18n[language.code].title"
+                                      },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value: "required|max:255",
+                                        expression: "'required|max:255'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      id: "title-" + language.code,
+                                      name: "i18n." + language.code + ".title"
+                                    },
+                                    domProps: {
+                                      value:
+                                        _vm.promoCode.i18n[language.code].title
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.promoCode.i18n[language.code],
+                                          "title",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.formErrors.has(
+                                            "i18n." + language.code + ".title"
+                                          ),
+                                          expression:
+                                            "formErrors.has(`i18n.${language.code}.title`)"
+                                        }
+                                      ],
+                                      staticClass: "help-block"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm.formErrors.first(
+                                              "i18n." + language.code + ".title"
+                                            )
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.formErrors.has(
+                                    "i18n." + language.code + ".description"
+                                  )
+                                    ? " has-error"
+                                    : "")
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "col-md-3 control-label",
+                                    attrs: {
+                                      for: "description-" + language.code
+                                    }
+                                  },
+                                  [_vm._v("Описание")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "col-md-9" },
+                                  [
+                                    _c("ckeditor", {
+                                      attrs: {
+                                        id: "description-" + language.code,
+                                        content:
+                                          _vm.promoCode.i18n[language.code]
+                                            .description,
+                                        name:
+                                          "i18n." +
+                                          language.code +
+                                          ".description"
+                                      },
+                                      on: {
+                                        "update:content": function($event) {
+                                          _vm.$set(
+                                            _vm.promoCode.i18n[language.code],
+                                            "description",
+                                            $event
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        directives: [
+                                          {
+                                            name: "show",
+                                            rawName: "v-show",
+                                            value: _vm.formErrors.has(
+                                              "i18n." +
+                                                language.code +
+                                                ".description"
+                                            ),
+                                            expression:
+                                              "formErrors.has(`i18n.${language.code}.description`)"
+                                          }
+                                        ],
+                                        staticClass: "help-block"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                    " +
+                                            _vm._s(
+                                              _vm.formErrors.first(
+                                                "i18n." +
+                                                  language.code +
+                                                  ".description"
+                                              )
+                                            ) +
+                                            "\n                  "
+                                        )
+                                      ]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
                 _vm.hasNotSelectedConditions
                   ? _c("div", { staticClass: "block" }, [
-                      _vm._m(10),
+                      _vm._m(11),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -73591,7 +79192,7 @@ var render = function() {
                 _vm.promoCode.conditions.min_summ
                   ? _c("div", { staticClass: "block" }, [
                       _c("div", { staticClass: "block-title clearfix" }, [
-                        _vm._m(11),
+                        _vm._m(12),
                         _vm._v(" "),
                         _c("div", { staticClass: "block-title-control" }, [
                           _vm.userCan("promo-codes.conditions")
@@ -73631,7 +79232,7 @@ var render = function() {
                                     : "")
                               },
                               [
-                                _vm._m(12),
+                                _vm._m(13),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-md-9" }, [
                                   _c(
@@ -73697,11 +79298,11 @@ var render = function() {
                                           _c("tree-select", {
                                             attrs: {
                                               name:
-                                                "conditions[min_summ][currency]",
+                                                "conditions[min_summ][currency_code]",
                                               options: _vm.currenciesToSelect,
                                               selected:
                                                 _vm.promoCode.conditions
-                                                  .min_summ.currency,
+                                                  .min_summ.currency_code,
                                               params: {
                                                 minimumResultsForSearch: -1,
                                                 allowClear: false
@@ -73714,7 +79315,7 @@ var render = function() {
                                                 _vm.$set(
                                                   _vm.promoCode.conditions
                                                     .min_summ,
-                                                  "currency",
+                                                  "currency_code",
                                                   $event
                                                 )
                                               }
@@ -73763,10 +79364,10 @@ var render = function() {
                                           name: "show",
                                           rawName: "v-show",
                                           value: _vm.formErrors.has(
-                                            "conditions.min_summ.currency"
+                                            "conditions.min_summ.currency_code"
                                           ),
                                           expression:
-                                            "formErrors.has('conditions.min_summ.currency')"
+                                            "formErrors.has('conditions.min_summ.currency_code')"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -73776,7 +79377,7 @@ var render = function() {
                                         "\n                    " +
                                           _vm._s(
                                             _vm.formErrors.first(
-                                              "conditions.min_summ.currency"
+                                              "conditions.min_summ.currency_code"
                                             )
                                           ) +
                                           "\n                  "
@@ -73795,7 +79396,7 @@ var render = function() {
                 _vm.promoCode.conditions.product_expensive
                   ? _c("div", { staticClass: "block" }, [
                       _c("div", { staticClass: "block-title clearfix" }, [
-                        _vm._m(13),
+                        _vm._m(14),
                         _vm._v(" "),
                         _c("div", { staticClass: "block-title-control" }, [
                           _vm.userCan("promo-codes.conditions")
@@ -73835,7 +79436,7 @@ var render = function() {
                                     : "")
                               },
                               [
-                                _vm._m(14),
+                                _vm._m(15),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-md-9" }, [
                                   _c(
@@ -73903,11 +79504,12 @@ var render = function() {
                                           _c("tree-select", {
                                             attrs: {
                                               name:
-                                                "conditions[product_expensive][currency]",
+                                                "conditions[product_expensive][currency_code]",
                                               options: _vm.currenciesToSelect,
                                               selected:
                                                 _vm.promoCode.conditions
-                                                  .product_expensive.currency,
+                                                  .product_expensive
+                                                  .currency_code,
                                               params: {
                                                 minimumResultsForSearch: -1,
                                                 allowClear: false
@@ -73920,7 +79522,7 @@ var render = function() {
                                                 _vm.$set(
                                                   _vm.promoCode.conditions
                                                     .product_expensive,
-                                                  "currency",
+                                                  "currency_code",
                                                   $event
                                                 )
                                               }
@@ -73969,10 +79571,10 @@ var render = function() {
                                           name: "show",
                                           rawName: "v-show",
                                           value: _vm.formErrors.has(
-                                            "conditions.product_expensive.currency"
+                                            "conditions.product_expensive.currency_code"
                                           ),
                                           expression:
-                                            "formErrors.has('conditions.product_expensive.currency')"
+                                            "formErrors.has('conditions.product_expensive.currency_code')"
                                         }
                                       ],
                                       staticClass: "help-block"
@@ -73982,7 +79584,7 @@ var render = function() {
                                         "\n                    " +
                                           _vm._s(
                                             _vm.formErrors.first(
-                                              "conditions.product_expensive.currency"
+                                              "conditions.product_expensive.currency_code"
                                             )
                                           ) +
                                           "\n                  "
@@ -74001,7 +79603,7 @@ var render = function() {
                 _vm.promoCode.conditions.products_quantity
                   ? _c("div", { staticClass: "block" }, [
                       _c("div", { staticClass: "block-title clearfix" }, [
-                        _vm._m(15),
+                        _vm._m(16),
                         _vm._v(" "),
                         _c("div", { staticClass: "block-title-control" }, [
                           _vm.userCan("promo-codes.conditions")
@@ -74041,7 +79643,7 @@ var render = function() {
                                     : "")
                               },
                               [
-                                _vm._m(16),
+                                _vm._m(17),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-md-9" }, [
                                   _c("input", {
@@ -74131,7 +79733,7 @@ var render = function() {
                 _vm.promoCode.conditions.first_order
                   ? _c("div", { staticClass: "block" }, [
                       _c("div", { staticClass: "block-title clearfix" }, [
-                        _vm._m(17),
+                        _vm._m(18),
                         _vm._v(" "),
                         _c("div", { staticClass: "block-title-control" }, [
                           _vm.userCan("promo-codes.conditions")
@@ -74329,6 +79931,19 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("strong", [_vm._v("Срок")]),
         _vm._v(" использования\n            ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-globe" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Языковая")]),
+        _vm._v(" информация\n            ")
       ])
     ])
   },
@@ -75624,6 +81239,261 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-c7756ae8", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c816c06a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/badges/BadgeTypesTable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "block full" }, [
+        _c("div", { staticClass: "block-title clearfix" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _vm.userCan("badge-types.create")
+            ? _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c("language-picker", {
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-sm btn-success active",
+                      attrs: { to: "/shop/badge-types/create" }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-plus-circle" }),
+                      _vm._v(" Создать\n        ")
+                    ]
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "table-responsive" }, [
+          _c(
+            "table",
+            {
+              staticClass:
+                "table table-middle table-center table-condensed table-bordered table-hover table-sortable"
+            },
+            [
+              _c("thead", [
+                _c("tr", [
+                  _vm.userCan("badge-types.edit")
+                    ? _c("th", [
+                        _c("span", { staticClass: "table-column-sort" })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("th", { staticStyle: { width: "100%" } }, [
+                    _vm._v("\n              Название\n            ")
+                  ]),
+                  _vm._v(" "),
+                  _vm.userCan("badge-types.delete")
+                    ? _c("th", [
+                        _c("span", { staticClass: "table-column-delete" })
+                      ])
+                    : _vm._e()
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                { staticClass: "ui-sortable" },
+                [
+                  _vm.items && _vm.items.length
+                    ? _vm._l(_vm.items, function(badgeType) {
+                        return _c(
+                          "tr",
+                          { key: badgeType.id, staticClass: "js-sort-item" },
+                          [
+                            _vm.userCan("badge-types.edit")
+                              ? _c(
+                                  "td",
+                                  {
+                                    staticClass:
+                                      "table-sort-handler js-sort-handler"
+                                  },
+                                  [
+                                    _c("span", [
+                                      _c("input", {
+                                        attrs: { type: "hidden", name: "ids" },
+                                        domProps: { value: badgeType.id }
+                                      })
+                                    ])
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "text-center" }, [
+                              _c(
+                                "span",
+                                { staticClass: "table-column-id" },
+                                [
+                                  _c("badge-preview", {
+                                    attrs: {
+                                      color: badgeType.color,
+                                      icon: badgeType.icon,
+                                      title:
+                                        badgeType.i18n[_vm.activeLanguageCode]
+                                          .title,
+                                      text: badgeType.has_value
+                                        ? "-20%"
+                                        : undefined
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              { staticStyle: { width: "100%" } },
+                              [
+                                _c(
+                                  "router-link",
+                                  { attrs: { to: badgeType.url } },
+                                  [
+                                    _vm._v(
+                                      _vm._s(
+                                        badgeType.i18n[_vm.activeLanguageCode]
+                                          .title
+                                      )
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _vm.userCan("badges.delete")
+                              ? _c("td", [
+                                  _c(
+                                    "span",
+                                    { staticClass: "table-column-delete" },
+                                    [
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass: "btn btn-danger",
+                                          on: {
+                                            click: function($event) {
+                                              _vm.remove(badgeType.id)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fa fa-times"
+                                          })
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              : _vm._e()
+                          ]
+                        )
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !(_vm.items && _vm.items.length)
+                    ? _c("tr", [
+                        _c(
+                          "td",
+                          {
+                            staticClass: "text-center",
+                            attrs: { colspan: "4" }
+                          },
+                          [
+                            _vm._v(
+                              "\n              Список бейджев пуст.\n            "
+                            )
+                          ]
+                        )
+                      ])
+                    : _vm._e()
+                ],
+                2
+              )
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "removeModal",
+          attrs: {
+            id: "removeModal",
+            title: "Удаление бейджа",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Удалить",
+            "cancel-title": "Отмена",
+            "hide-header-close": ""
+          },
+          on: { ok: _vm.removeConfirm }
+        },
+        [_vm._v("\n\n    Вы действительно хотите удалить бейдж?\n  ")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [_c("strong", [_vm._v("\n          Бейджи\n        ")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "table-column-id" }, [
+        _vm._v("\n                Превью\n              ")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-c816c06a", module.exports)
   }
 }
 
@@ -80565,31 +86435,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_shop_promoCodes_PromoCodesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_25__components_shop_promoCodes_PromoCodesTable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_shop_promoCodes_PromoCodeEdit__ = __webpack_require__("./resources/assets/js/components/shop/promoCodes/PromoCodeEdit.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_shop_promoCodes_PromoCodeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_26__components_shop_promoCodes_PromoCodeEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_system_Admins_AdminsTable__ = __webpack_require__("./resources/assets/js/components/system/Admins/AdminsTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_system_Admins_AdminsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_27__components_system_Admins_AdminsTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_system_Admins_AdminEdit__ = __webpack_require__("./resources/assets/js/components/system/Admins/AdminEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_system_Admins_AdminEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_28__components_system_Admins_AdminEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_system_rbac_Roles_RolesTable__ = __webpack_require__("./resources/assets/js/components/system/rbac/Roles/RolesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_system_rbac_Roles_RolesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_29__components_system_rbac_Roles_RolesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_system_rbac_Roles_RoleEdit__ = __webpack_require__("./resources/assets/js/components/system/rbac/Roles/RoleEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_system_rbac_Roles_RoleEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_30__components_system_rbac_Roles_RoleEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_system_rbac_Permissions_PermissionGroupsTable__ = __webpack_require__("./resources/assets/js/components/system/rbac/Permissions/PermissionGroupsTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_system_rbac_Permissions_PermissionGroupsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_31__components_system_rbac_Permissions_PermissionGroupsTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_system_rbac_Permissions_PermissionGroupEdit__ = __webpack_require__("./resources/assets/js/components/system/rbac/Permissions/PermissionGroupEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_system_rbac_Permissions_PermissionGroupEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_32__components_system_rbac_Permissions_PermissionGroupEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_33__components_Loading__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_ClearCacheBtn__ = __webpack_require__("./resources/assets/js/components/ClearCacheBtn.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_34__components_ClearCacheBtn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_35__components_MainMenu__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_Avatar__ = __webpack_require__("./resources/assets/js/components/Avatar.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_Avatar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_36__components_Avatar__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_reviews_ReviewsTable__ = __webpack_require__("./resources/assets/js/components/reviews/ReviewsTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_reviews_ReviewsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_37__components_reviews_ReviewsTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_reviews_ReviewEdit__ = __webpack_require__("./resources/assets/js/components/reviews/ReviewEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_reviews_ReviewEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_38__components_reviews_ReviewEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_shop_badges_BadgeTypesTable__ = __webpack_require__("./resources/assets/js/components/shop/badges/BadgeTypesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_shop_badges_BadgeTypesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_27__components_shop_badges_BadgeTypesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_shop_badges_BadgeTypeEdit__ = __webpack_require__("./resources/assets/js/components/shop/badges/BadgeTypeEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_shop_badges_BadgeTypeEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_28__components_shop_badges_BadgeTypeEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_system_Admins_AdminsTable__ = __webpack_require__("./resources/assets/js/components/system/Admins/AdminsTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_system_Admins_AdminsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_29__components_system_Admins_AdminsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_system_Admins_AdminEdit__ = __webpack_require__("./resources/assets/js/components/system/Admins/AdminEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_system_Admins_AdminEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_30__components_system_Admins_AdminEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_system_rbac_Roles_RolesTable__ = __webpack_require__("./resources/assets/js/components/system/rbac/Roles/RolesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_system_rbac_Roles_RolesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_31__components_system_rbac_Roles_RolesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_system_rbac_Roles_RoleEdit__ = __webpack_require__("./resources/assets/js/components/system/rbac/Roles/RoleEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_system_rbac_Roles_RoleEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_32__components_system_rbac_Roles_RoleEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_system_rbac_Permissions_PermissionGroupsTable__ = __webpack_require__("./resources/assets/js/components/system/rbac/Permissions/PermissionGroupsTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_system_rbac_Permissions_PermissionGroupsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_33__components_system_rbac_Permissions_PermissionGroupsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_system_rbac_Permissions_PermissionGroupEdit__ = __webpack_require__("./resources/assets/js/components/system/rbac/Permissions/PermissionGroupEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_system_rbac_Permissions_PermissionGroupEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_34__components_system_rbac_Permissions_PermissionGroupEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_35__components_Loading__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_ClearCacheBtn__ = __webpack_require__("./resources/assets/js/components/ClearCacheBtn.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_36__components_ClearCacheBtn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_37__components_MainMenu__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_Avatar__ = __webpack_require__("./resources/assets/js/components/Avatar.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_Avatar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_38__components_Avatar__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_reviews_ReviewsTable__ = __webpack_require__("./resources/assets/js/components/reviews/ReviewsTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_reviews_ReviewsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_39__components_reviews_ReviewsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_reviews_ReviewEdit__ = __webpack_require__("./resources/assets/js/components/reviews/ReviewEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_reviews_ReviewEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_40__components_reviews_ReviewEdit__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
 
 
 
@@ -80710,15 +86587,17 @@ var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_7__components_sh
     return _extends({}, route.params, { type: 'edit' });
   } }, { path: '/shop/customers', component: __WEBPACK_IMPORTED_MODULE_18__components_shop_customers_CustomersTable___default.a }, { path: '/shop/customers/create', component: __WEBPACK_IMPORTED_MODULE_17__components_shop_customers_CustomerEdit___default.a, props: { type: 'create' } }, { path: '/shop/customers/:id', component: __WEBPACK_IMPORTED_MODULE_17__components_shop_customers_CustomerEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/admins', component: __WEBPACK_IMPORTED_MODULE_27__components_system_Admins_AdminsTable___default.a }, { path: '/system/admins/create', component: __WEBPACK_IMPORTED_MODULE_28__components_system_Admins_AdminEdit___default.a, props: { type: 'create' } }, { path: '/system/admins/:id', component: __WEBPACK_IMPORTED_MODULE_28__components_system_Admins_AdminEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/badge-types', component: __WEBPACK_IMPORTED_MODULE_27__components_shop_badges_BadgeTypesTable___default.a }, { path: '/shop/badge-types/create', component: __WEBPACK_IMPORTED_MODULE_28__components_shop_badges_BadgeTypeEdit___default.a, props: { type: 'create' } }, { path: '/shop/badge-types/:id', component: __WEBPACK_IMPORTED_MODULE_28__components_shop_badges_BadgeTypeEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_29__components_system_rbac_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_30__components_system_rbac_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_30__components_system_rbac_Roles_RoleEdit___default.a, props: function props(route) {
+  } }, { path: '/system/admins', component: __WEBPACK_IMPORTED_MODULE_29__components_system_Admins_AdminsTable___default.a }, { path: '/system/admins/create', component: __WEBPACK_IMPORTED_MODULE_30__components_system_Admins_AdminEdit___default.a, props: { type: 'create' } }, { path: '/system/admins/:id', component: __WEBPACK_IMPORTED_MODULE_30__components_system_Admins_AdminEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_29__components_system_rbac_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_30__components_system_rbac_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_30__components_system_rbac_Roles_RoleEdit___default.a, props: function props(route) {
+  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_31__components_system_rbac_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_32__components_system_rbac_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_32__components_system_rbac_Roles_RoleEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/rbac/permission-groups', component: __WEBPACK_IMPORTED_MODULE_31__components_system_rbac_Permissions_PermissionGroupsTable___default.a }, { path: '/system/rbac/permission-groups/create', component: __WEBPACK_IMPORTED_MODULE_32__components_system_rbac_Permissions_PermissionGroupEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/permission-groups/:id', component: __WEBPACK_IMPORTED_MODULE_32__components_system_rbac_Permissions_PermissionGroupEdit___default.a, props: function props(route) {
+  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_31__components_system_rbac_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_32__components_system_rbac_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_32__components_system_rbac_Roles_RoleEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/reviews', component: __WEBPACK_IMPORTED_MODULE_37__components_reviews_ReviewsTable___default.a }, { path: '/reviews/:id', component: __WEBPACK_IMPORTED_MODULE_38__components_reviews_ReviewEdit___default.a, props: function props(route) {
+  } }, { path: '/system/rbac/permission-groups', component: __WEBPACK_IMPORTED_MODULE_33__components_system_rbac_Permissions_PermissionGroupsTable___default.a }, { path: '/system/rbac/permission-groups/create', component: __WEBPACK_IMPORTED_MODULE_34__components_system_rbac_Permissions_PermissionGroupEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/permission-groups/:id', component: __WEBPACK_IMPORTED_MODULE_34__components_system_rbac_Permissions_PermissionGroupEdit___default.a, props: function props(route) {
+    return _extends({}, route.params, { type: 'edit' });
+  } }, { path: '/reviews', component: __WEBPACK_IMPORTED_MODULE_39__components_reviews_ReviewsTable___default.a }, { path: '/reviews/:id', component: __WEBPACK_IMPORTED_MODULE_40__components_reviews_ReviewEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
   } }];
 
@@ -80738,10 +86617,10 @@ __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].init().then(function () {
   var app = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
     router: router,
     components: {
-      Loading: __WEBPACK_IMPORTED_MODULE_33__components_Loading___default.a,
-      ClearCacheBtn: __WEBPACK_IMPORTED_MODULE_34__components_ClearCacheBtn___default.a,
-      MainMenu: __WEBPACK_IMPORTED_MODULE_35__components_MainMenu___default.a,
-      Avatar: __WEBPACK_IMPORTED_MODULE_36__components_Avatar___default.a
+      Loading: __WEBPACK_IMPORTED_MODULE_35__components_Loading___default.a,
+      ClearCacheBtn: __WEBPACK_IMPORTED_MODULE_36__components_ClearCacheBtn___default.a,
+      MainMenu: __WEBPACK_IMPORTED_MODULE_37__components_MainMenu___default.a,
+      Avatar: __WEBPACK_IMPORTED_MODULE_38__components_Avatar___default.a
     },
 
     data: function data() {
@@ -82158,6 +88037,198 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-571953d1", Component.options)
   } else {
     hotAPI.reload("data-v-571953d1", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/shop/badges/BadgePreview.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/badges/BadgePreview.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-556e4642\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/badges/BadgePreview.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/badges/BadgePreview.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-556e4642", Component.options)
+  } else {
+    hotAPI.reload("data-v-556e4642", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/shop/badges/BadgeTypeEdit.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/badges/BadgeTypeEdit.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-4b43cd5a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/badges/BadgeTypeEdit.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/badges/BadgeTypeEdit.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4b43cd5a", Component.options)
+  } else {
+    hotAPI.reload("data-v-4b43cd5a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/shop/badges/BadgeTypesTable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/badges/BadgeTypesTable.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c816c06a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/badges/BadgeTypesTable.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/badges/BadgeTypesTable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c816c06a", Component.options)
+  } else {
+    hotAPI.reload("data-v-c816c06a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/shop/badges/BadgesSelect.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/badges/BadgesSelect.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-35d55e69\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/badges/BadgesSelect.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/badges/BadgesSelect.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-35d55e69", Component.options)
+  } else {
+    hotAPI.reload("data-v-35d55e69", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -84192,7 +90263,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
         children: [{
           title: 'Баннеры',
-          url: '/shop/promo-codes',
+          url: '/shop/banners',
           icon: 'fa fa-image',
           permission: 'shop.banners.menu'
         }, {
@@ -84205,6 +90276,16 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           url: '/shop/promo-codes',
           icon: 'fa fa-ticket',
           permission: 'shop.promo-codes.menu'
+        }]
+      }, {
+        title: 'Дополнительно',
+        icon: 'fa fa-plus',
+
+        children: [{
+          title: 'Бейджи',
+          url: '/shop/badge-types',
+          icon: 'fa fa-tag',
+          permission: 'shop.badge-types.menu'
         }]
       }, {
         title: 'Покупатели',
@@ -85169,7 +91250,9 @@ var HandleableException = function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__resources_shop_SupplierDataModel__ = __webpack_require__("./resources/assets/js/resources/shop/SupplierDataModel.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__resources_shop_RoomDataModel__ = __webpack_require__("./resources/assets/js/resources/shop/RoomDataModel.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__resources_shop_StyleDataModel__ = __webpack_require__("./resources/assets/js/resources/shop/StyleDataModel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__resources_shop_badge_BadgeTypeModel__ = __webpack_require__("./resources/assets/js/resources/shop/badge/BadgeTypeModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+
 
 
 
@@ -85206,7 +91289,7 @@ var HandleableException = function () {
      */
     fetchMainData: function fetchMainData() {
       if (this.usedMainData) {
-        return __WEBPACK_IMPORTED_MODULE_5__core__["a" /* default */].dataHandler.get(this.usedMainData);
+        return __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].dataHandler.get(this.usedMainData);
       } else {
         return new Promise(function (resolve) {
           return resolve([]);
@@ -85228,12 +91311,12 @@ var HandleableException = function () {
       this.usedMainData.forEach(function (label) {
         if (!label in data) return;
 
-        var methodName = 'init' + __WEBPACK_IMPORTED_MODULE_5__core__["a" /* default */].camelize(label, true);
+        var methodName = 'init' + __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].camelize(label, true);
 
         if (typeof _this2[methodName] === "function") {
           _this2[methodName](data[label]);
         } else {
-          var variableName = __WEBPACK_IMPORTED_MODULE_5__core__["a" /* default */].camelize(label);
+          var variableName = __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].camelize(label);
           _this2[variableName] = data[label];
         }
       });
@@ -85246,10 +91329,19 @@ var HandleableException = function () {
     initPriceTypes: function initPriceTypes() {
       var _this3 = this;
 
-      var prices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      var priceTypes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-      this.priceTypes = this.getSortedData(this.getEnabledData(prices)).map(function (item) {
+      this.priceTypes = this.getSortedData(this.getEnabledData(priceTypes)).map(function (item) {
         return new __WEBPACK_IMPORTED_MODULE_1__resources_shop_PriceTypeDataModel__["a" /* default */](item, _this3.languages);
+      });
+    },
+    initBadgeTypes: function initBadgeTypes() {
+      var _this4 = this;
+
+      var badgeTypes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.badgeTypes = this.getSortedData(badgeTypes).map(function (item) {
+        return new __WEBPACK_IMPORTED_MODULE_5__resources_shop_badge_BadgeTypeModel__["a" /* default */](item, _this4.languages);
       });
     },
     initLanguages: function initLanguages() {
@@ -85265,26 +91357,26 @@ var HandleableException = function () {
       });
     },
     initCategoriesTree: function initCategoriesTree() {
-      var _this4 = this;
+      var _this5 = this;
 
       var tree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.categoriesTree = tree.map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_0__resources_shop_CategoriesTreeSelectModel__["a" /* default */](item, _this4.languages);
+        return new __WEBPACK_IMPORTED_MODULE_0__resources_shop_CategoriesTreeSelectModel__["a" /* default */](item, _this5.languages);
       });
     },
     initStyles: function initStyles(styles) {
-      var _this5 = this;
+      var _this6 = this;
 
       this.styles = this.getSortedData(this.getEnabledData(styles)).map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_4__resources_shop_StyleDataModel__["a" /* default */](item, _this5.languages);
+        return new __WEBPACK_IMPORTED_MODULE_4__resources_shop_StyleDataModel__["a" /* default */](item, _this6.languages);
       });
     },
     initRooms: function initRooms(rooms) {
-      var _this6 = this;
+      var _this7 = this;
 
       this.rooms = this.getSortedData(this.getEnabledData(rooms)).map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_3__resources_shop_RoomDataModel__["a" /* default */](item, _this6.languages);
+        return new __WEBPACK_IMPORTED_MODULE_3__resources_shop_RoomDataModel__["a" /* default */](item, _this7.languages);
       });
     },
     initRoles: function initRoles() {
@@ -87912,6 +94004,8 @@ var ProductModel = function (_ModelI18n) {
         rooms: [],
         styles: [],
 
+        badges: [],
+
         images: [],
         attributes: [],
         options: [],
@@ -88414,11 +94508,11 @@ var ProductAttributesModel = function (_Model) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/resources/shop/promo/PromoCodeModel.js":
+/***/ "./resources/assets/js/resources/shop/badge/BadgeTypeModel.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -88429,13 +94523,118 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-var PromoCodeModel = function (_Model) {
-  _inherits(PromoCodeModel, _Model);
+var BadgeTypeModel = function (_ModelI18n) {
+  _inherits(BadgeTypeModel, _ModelI18n);
 
-  function PromoCodeModel(entityData) {
+  function BadgeTypeModel() {
+    _classCallCheck(this, BadgeTypeModel);
+
+    return _possibleConstructorReturn(this, (BadgeTypeModel.__proto__ || Object.getPrototypeOf(BadgeTypeModel)).apply(this, arguments));
+  }
+
+  _createClass(BadgeTypeModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        icon: '',
+        color: '#969CA3',
+        has_value: false,
+
+        created_at: null,
+        updated_at: null,
+
+        i18n: {
+          title: ''
+        }
+      };
+    }
+  }]);
+
+  return BadgeTypeModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (BadgeTypeModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/badge/BadgeTypesTableModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var BadgeTypesTableModel = function (_ModelI18n) {
+  _inherits(BadgeTypesTableModel, _ModelI18n);
+
+  function BadgeTypesTableModel() {
+    _classCallCheck(this, BadgeTypesTableModel);
+
+    return _possibleConstructorReturn(this, (BadgeTypesTableModel.__proto__ || Object.getPrototypeOf(BadgeTypesTableModel)).apply(this, arguments));
+  }
+
+  _createClass(BadgeTypesTableModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        icon: 'symbol-plus',
+        color: '#969CA3',
+        has_value: false,
+        position: 0,
+
+        created_at: null,
+        updated_at: null,
+
+        i18n: {
+          title: ''
+        },
+
+        url: function url(data) {
+          return '/shop/badge-types/' + data.id;
+        }
+      };
+    }
+  }]);
+
+  return BadgeTypesTableModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (BadgeTypesTableModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/promo/PromoCodeModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var PromoCodeModel = function (_ModelI18n) {
+  _inherits(PromoCodeModel, _ModelI18n);
+
+  function PromoCodeModel(entityData, languages) {
     _classCallCheck(this, PromoCodeModel);
 
-    var _this = _possibleConstructorReturn(this, (PromoCodeModel.__proto__ || Object.getPrototypeOf(PromoCodeModel)).call(this, entityData));
+    var _this = _possibleConstructorReturn(this, (PromoCodeModel.__proto__ || Object.getPrototypeOf(PromoCodeModel)).call(this, entityData, languages));
 
     if (entityData && 'conditions' in entityData) {
       _this.conditions = entityData.conditions.reduce(function (acc, condition) {
@@ -88469,13 +94668,18 @@ var PromoCodeModel = function (_Model) {
         conditions: {},
 
         created_at: null,
-        updated_at: null
+        updated_at: null,
+
+        i18n: {
+          title: '',
+          description: ''
+        }
       };
     }
   }]);
 
   return PromoCodeModel;
-}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (PromoCodeModel);
 
@@ -88537,9 +94741,9 @@ var PromoCodesTableModel = function (_Model) {
     key: 'setConditions',
     value: function setConditions(conditions, currencies) {
       this.conditions = conditions.reduce(function (acc, condition) {
-        if ('params' in condition && 'currency' in condition.params) {
+        if ('params' in condition && 'currency_code' in condition.params) {
           condition.params.currency = currencies.find(function (currency) {
-            return currency.code === condition.params.currency;
+            return currency.code === condition.params.currency_code;
           });
         }
 

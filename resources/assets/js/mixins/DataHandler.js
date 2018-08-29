@@ -3,6 +3,7 @@ import PriceTypeDataModel from '../resources/shop/PriceTypeDataModel'
 import SupplierDataModel from '../resources/shop/SupplierDataModel'
 import RoomDataModel from '../resources/shop/RoomDataModel'
 import StyleDataModel from '../resources/shop/StyleDataModel'
+import BadgeTypeModel from '../resources/shop/badge/BadgeTypeModel'
 
 import Core from "../core";
 
@@ -61,8 +62,12 @@ export default {
       this.currencies = this.getSortedData(this.getEnabledData(currencies))
     },
 
-    initPriceTypes(prices = []) {
-      this.priceTypes = this.getSortedData(this.getEnabledData(prices)).map(item => new PriceTypeDataModel(item, this.languages))
+    initPriceTypes(priceTypes = []) {
+      this.priceTypes = this.getSortedData(this.getEnabledData(priceTypes)).map(item => new PriceTypeDataModel(item, this.languages))
+    },
+
+    initBadgeTypes(badgeTypes = []) {
+      this.badgeTypes = this.getSortedData(badgeTypes).map(item => new BadgeTypeModel(item, this.languages))
     },
 
     initLanguages(languages = []) {

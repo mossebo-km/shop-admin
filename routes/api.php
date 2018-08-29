@@ -81,5 +81,8 @@ Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData'], 'namespa
 
         Route::get('promo-codes/{promoCode}/status', 'PromoCodeController@status');
         Route::resource('promo-codes', 'PromoCodeController');
+
+        Route::post('badge-types/sort', 'BadgeTypeController@positions');
+        Route::resource('badge-types', 'BadgeTypeController');
     });
 });

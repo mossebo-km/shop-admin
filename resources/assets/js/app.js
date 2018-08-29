@@ -39,6 +39,8 @@ import PriceTypeEdit from './components/shop/priceTypes/PriceTypeEdit'
 import PromoCodesTable from './components/shop/promoCodes/PromoCodesTable'
 import PromoCodeEdit from './components/shop/promoCodes/PromoCodeEdit'
 
+import BadgeTypesTable from './components/shop/badges/BadgeTypesTable'
+import BadgeTypeEdit from './components/shop/badges/BadgeTypeEdit'
 
 
 import AdminsTable from './components/system/Admins/AdminsTable'
@@ -150,6 +152,10 @@ const routes = [
   { path: '/shop/customers/create', component: CustomerEdit, props: { type: 'create' } },
   { path: '/shop/customers/:id', component: CustomerEdit, props: route => ({...route.params, type: 'edit'}) },
 
+  { path: '/shop/badge-types', component: BadgeTypesTable },
+  { path: '/shop/badge-types/create', component: BadgeTypeEdit, props: { type: 'create' } },
+  { path: '/shop/badge-types/:id', component: BadgeTypeEdit, props: route => ({...route.params, type: 'edit'}) },
+
   { path: '/system/admins', component: AdminsTable },
   { path: '/system/admins/create', component: AdminEdit, props: { type: 'create' } },
   { path: '/system/admins/:id', component: AdminEdit, props: route => ({...route.params, type: 'edit'}) },
@@ -169,8 +175,6 @@ const routes = [
 
   { path: '/reviews', component: ReviewsTable },
   { path: '/reviews/:id', component: ReviewEdit, props: route => ({...route.params, type: 'edit'}) },
-
-
 ]
 
 

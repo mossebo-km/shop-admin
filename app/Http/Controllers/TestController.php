@@ -7,8 +7,21 @@ use App\Models\Shop\CategoryProduct;
 use App\Models\Shop\ProductAttributeOption;
 use App\Models\City;
 
+use App\Models\Shop\Product;
+use App\Models\Shop\Badge\Badge;
+
 class TestController extends Controller
 {
+    public function test()
+    {
+        $popular = Product::where('is_new', 1)->get();
+
+        foreach ($popular as $product) {
+            $product->badges()->save(new Badge([
+                'badge_type_id' => 6
+            ]));
+        }
+    }
 //    public function imageConverter($id)
 //    {
 //        $product = Product::where('id', $id)->first();

@@ -30,8 +30,8 @@ export default class PromoCodesTableModel extends Model {
 
   setConditions(conditions, currencies) {
     this.conditions = conditions.reduce((acc, condition) => {
-      if ('params' in condition && 'currency' in condition.params) {
-        condition.params.currency = currencies.find(currency => currency.code === condition.params.currency)
+      if ('params' in condition && 'currency_code' in condition.params) {
+        condition.params.currency = currencies.find(currency => currency.code === condition.params.currency_code)
       }
 
       let cond

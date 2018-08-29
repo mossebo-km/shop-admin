@@ -100,6 +100,12 @@ return [
         'deleted' => 'Промокод #:id удален.',
     ],
 
+    App\Models\Shop\Badge\BadgeType::class => [
+        'created' => 'Бейдж #:id создан.',
+        'updated' => 'Бейдж #:id изменен.',
+        'deleted' => 'Бейдж #:id удален.',
+    ],
+
     'positions' => "Позиция сохранена.",
 
     'ImageEditor' => [

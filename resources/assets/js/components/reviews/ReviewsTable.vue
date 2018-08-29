@@ -216,8 +216,6 @@
               this.page = parseInt(data.page) || 1
               this.perPage = this.nanToNum(parseInt(data.perPage))
 
-              const items = data.reviews || []
-
               let byType = {}
 
               for (let key in this.countByType) {
@@ -226,7 +224,9 @@
 
               this.countByType = byType
 
-              if (this.languages.length) {
+              const items = data.reviews || []
+
+              if (this.languages) {
                 resolve(items.map(item => new ReviewsModel(item, this.languages)))
               }
               else {

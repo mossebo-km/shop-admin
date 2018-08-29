@@ -95,12 +95,26 @@ class ProductController extends ApiController
                 });
             }
 
-            if ($type === 'popular') {
-                $query = $query->where("{$productsTableName}.is_popular", true);
-            }
+            if ($type !== 'all') {
+                $badgeTableName = config('tables.Badges');
+                $productTableName = config('tables.Products');
 
-            if ($type === 'new') {
-                $query = $query->where("{$productsTableName}.is_new", true);
+                switch ($type) {
+                    case 'popular':
+                        $badgeTypeId = 1;
+                        break;
+
+                    case 'new':
+                        $badgeTypeId = 6;
+                        break;
+                }
+
+                $query->where("{$badgeTableName}.badge_type_id", $badgeTypeId)
+                    ->groupBy("{$productTableName}.id")
+                    ->join("{$badgeTableName}", function($join) use($badgeTableName, $productTableName) {
+                        $join->on("{$badgeTableName}.item_id", '=', "{$productTableName}.id")
+                            ->where("{$badgeTableName}.item_type", 'product');
+                    });
             }
 
             return $query->select("{$productsTableName}.*")

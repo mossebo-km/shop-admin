@@ -15,6 +15,7 @@ class DataHandler
         'currencies'  => \Currencies::class,
         'languages'   => \Languages::class,
         'price-types' => \PriceTypes::class,
+        'badge-types' => \BadgeTypes::class,
         'roles'       => \AdminRoles::class,
     ];
 
@@ -155,6 +156,13 @@ class DataHandler
     protected static function _getPriceTypes()
     {
         return static::_getRepository('price-types')::getCollection([
+            'i18n'
+        ]);
+    }
+
+    protected static function _getBadgeTypes()
+    {
+        return static::_getRepository('badge-types')::getCollection([
             'i18n'
         ]);
     }

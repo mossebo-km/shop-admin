@@ -322,7 +322,7 @@ export default {
             children: [
               {
                 title: 'Баннеры',
-                url: '/shop/promo-codes',
+                url: '/shop/banners',
                 icon: 'fa fa-image',
                 permission: 'shop.banners.menu'
               },
@@ -337,6 +337,20 @@ export default {
                 url: '/shop/promo-codes',
                 icon: 'fa fa-ticket',
                 permission: 'shop.promo-codes.menu'
+              },
+            ]
+          },
+
+          {
+            title: 'Дополнительно',
+            icon: 'fa fa-plus',
+
+            children: [
+              {
+                title: 'Бейджи',
+                url: '/shop/badge-types',
+                icon: 'fa fa-tag',
+                permission: 'shop.badge-types.menu'
               },
             ]
           },

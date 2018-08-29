@@ -6,6 +6,7 @@ use App\Http\Requests\ApiRequest;
 
 use Illuminate\Validation\Rule;
 use Currencies;
+use Languages;
 
 class PromoCodeRequest extends ApiRequest
 {
@@ -47,6 +48,8 @@ class PromoCodeRequest extends ApiRequest
 
     protected function prepareForValidation()
     {
+        $this->json->set('name', strtoupper($this->json->get('name')));
+
         $this->prepareDate('date_start');
         $this->prepareDate('date_finish');
     }
@@ -151,12 +154,18 @@ class PromoCodeRequest extends ApiRequest
             }
         }
 
+        foreach (Languages::enabled() as $language) {
+            $rules["i18n.{$language['code']}"]             = "required|array";
+            $rules["i18n.{$language['code']}.title"]       = 'bail|trim|required|max:255';
+            $rules["i18n.{$language['code']}.description"] = 'trim|max:65000';
+        }
+
         return $rules;
     }
 
     public function _setMinSummRules(& $rules)
     {
-        $rules['conditions.min_summ.currency'] = [
+        $rules['conditions.min_summ.currency_code'] = [
             'bail', 'required',
             Rule::in($this->currencyCodes)
         ];
@@ -164,13 +173,13 @@ class PromoCodeRequest extends ApiRequest
         $this->_setPriceRule(
             $rules,
             'conditions.min_summ.value',
-            $this->input('conditions.min_summ.currency')
+            $this->input('conditions.min_summ.currency_code')
         );
     }
 
     public function _setProductExpensiveRules(& $rules)
     {
-        $rules['conditions.product_expensive.currency'] = [
+        $rules['conditions.product_expensive.currency_code'] = [
             'bail', 'required',
             Rule::in($this->currencyCodes)
         ];
@@ -178,7 +187,7 @@ class PromoCodeRequest extends ApiRequest
         $this->_setPriceRule(
             $rules,
             'conditions.product_expensive.value',
-            $this->input('conditions.product_expensive.currency')
+            $this->input('conditions.product_expensive.currency_code')
         );
     }
 

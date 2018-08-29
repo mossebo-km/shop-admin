@@ -4,8 +4,7 @@
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
   import AjaxMultiselect from '../../AjaxMultiselect'
-  import AxajMultiselectModel from '../../../resources/AxajMultiselectModel'
-
+  // import AxajMultiselectModel from '../../../resources/AxajMultiselectModel'
 
   import TreeSelect from '../../TreeSelect'
   import TreeSelectTranslatable from '../../TreeSelectTranslatable'
@@ -17,6 +16,8 @@
   import EntityPage from '../../../mixins/EntityPage'
   import Translatable from '../../../mixins/Translatable'
   import AttributesSelect from '../AttributesSelect'
+
+  import BadgesSelect from '../badges/BadgesSelect'
 
   import number from '../../../directives/number'
 
@@ -37,6 +38,21 @@
       EntityPage,
       Translatable
     ],
+
+    components: {
+      TreeSelect,
+      TreeSelectTranslatable,
+      'ckeditor': CKEditor,
+      LanguagePicker,
+      bModal,
+      DropzoneGallery,
+      PricesTable,
+      WeightConverter,
+      SizeConverter,
+      AttributesSelect,
+      AjaxMultiselect,
+      BadgesSelect
+    },
 
     directives: {
       ... number
@@ -69,20 +85,6 @@
           'styles',
         ]
       }
-    },
-
-    components: {
-      TreeSelect,
-      TreeSelectTranslatable,
-      'ckeditor': CKEditor,
-      LanguagePicker,
-      bModal,
-      DropzoneGallery,
-      PricesTable,
-      WeightConverter,
-      SizeConverter,
-      AttributesSelect,
-      AjaxMultiselect
     },
 
     methods: {
@@ -543,6 +545,23 @@
               </div>
             </div>
           </div>
+
+          <div class="block">
+            <div class="block-title clearfix">
+              <h2>
+                <i class="fa fa-clone"></i> <strong>Бейджи</strong>
+              </h2>
+            </div>
+
+            <div class="block-section">
+              <badges-select
+                :languages="languages"
+                :activeLanguageCode="activeLanguageCode"
+                :selected.sync="product.badges"
+              ></badges-select>
+            </div>
+          </div>
+
         </div>
 
         <!-- Габариты -->

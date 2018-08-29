@@ -6,6 +6,8 @@
   import TreeSelect from '../../TreeSelect'
 
   import EntityPage from '../../../mixins/EntityPage'
+  import Translatable from '../../../mixins/Translatable'
+  import LanguagePicker from '../../LanguagePicker'
 
   import PromoCodeModel from '../../../resources/shop/promo/PromoCodeModel'
   import moment from 'moment'
@@ -18,12 +20,12 @@
     switch (key) {
       case 'min_summ':
         conditionFields.value = 0
-        conditionFields.currency = 'RUB'
+        conditionFields.currency_code = 'RUB'
         break;
 
       case 'product_expensive':
         conditionFields.value = 0
-        conditionFields.currency = 'RUB'
+        conditionFields.currency_code = 'RUB'
         break;
 
       case 'products_quantity':
@@ -52,7 +54,8 @@
     name: 'supplier-edit',
 
     mixins: [
-      EntityPage
+      EntityPage,
+      Translatable
     ],
 
     directives: {
@@ -63,7 +66,8 @@
       'ckeditor': CKEditor,
       bModal,
       datePicker,
-      TreeSelect
+      TreeSelect,
+      LanguagePicker
     },
 
     props: [
@@ -79,10 +83,10 @@
         promoType: null,
 
         conditions: {
-          'min_summ': Core.translate('shop.promo.conditions.types.min_summ'),
+          'min_summ':          Core.translate('shop.promo.conditions.types.min_summ'),
           'product_expensive': Core.translate('shop.promo.conditions.types.product_expensive'),
           'products_quantity': Core.translate('shop.promo.conditions.types.products_quantity'),
-          'first_order': Core.translate('shop.promo.conditions.types.first_order'),
+          'first_order':       Core.translate('shop.promo.conditions.types.first_order'),
         },
 
         savedPromoTypeValues: {
@@ -116,13 +120,14 @@
 
         usedMainData: [
           'currencies',
+          'languages'
         ]
       }
     },
 
     methods: {
       initEntity(data) {
-        this.setEntityData(new PromoCodeModel(data))
+        this.setEntityData(new PromoCodeModel(data, this.languages))
       },
 
       datePickerShow(field) {
@@ -216,6 +221,10 @@
 
           return acc
         }, {})
+      },
+
+      inputPromo(e) {
+          this.promoCode.name = e.target.value.toUpperCase()
       }
     },
 
@@ -292,6 +301,13 @@
 
           <span class="btn-separator-xs"></span>
 
+          <language-picker
+            :languages="languages"
+            :activeLanguageCode.sync="activeLanguageCode"
+            :class="{'has-error': formTranslatesHasError()}" />
+
+          <span class="btn-separator-xs"></span>
+
           <a v-if="userCan('promo-codes.create')" class="btn btn-sm btn-success active" @click="save">
             <i class="fa fa-plus-circle"></i> Создать
           </a>
@@ -309,6 +325,13 @@
           <a class="btn btn-sm btn-default btn-alt" @click="redirectToTable">
             <i class="fa fa-arrow-left"></i>
           </a>
+
+          <span class="btn-separator-xs"></span>
+
+          <language-picker
+            :languages="languages"
+            :activeLanguageCode.sync="activeLanguageCode"
+            :class="{'has-error': formTranslatesHasError()}" />
 
           <span class="btn-separator-xs"></span>
 
@@ -338,7 +361,15 @@
                 </label>
 
                 <div class="col-md-9">
-                  <input type="text" class="form-control" id="name" v-model="promoCode.name" name="name" v-validate="'required|min:3|max:255'">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    :value="promoCode.name"
+                    @input="inputPromo"
+                    v-validate="'required|min:3|max:255'"
+                  >
 
                   <span v-show="formErrors.has('name')" class="help-block">
                     {{ formErrors.first('name') }}
@@ -675,6 +706,65 @@
         <!-- Дополнительные условия -->
 
         <div class="col-lg-6">
+          <div :class="`block${langSwitchHovered ? ' block-illuminated' : ''}`">
+            <div class="block-title">
+              <h2>
+                <i class="fa fa-globe"></i> <strong>Языковая</strong> информация
+              </h2>
+            </div>
+
+            <template v-for="language in languages">
+              <div :class="`form-horizontal form-bordered${activeLanguageCode === language.code ? '' : ' in-space'}`" :key="language.code">
+
+                <div :class="`form-group${formErrors.has(`i18n.${language.code}.title`) ? ' has-error' : ''}`">
+                  <label class="col-md-3 control-label" :for="`title-${language.code}`">
+                    Название <span class="text-danger">*</span>
+                  </label>
+
+                  <div class="col-md-9">
+                    <input
+                      type="text"
+                      class="form-control"
+                      :id="`title-${language.code}`"
+                      v-model="promoCode.i18n[language.code].title"
+                      :name="`i18n.${language.code}.title`"
+                      v-validate="'required|max:255'"
+                    >
+
+                    <span
+                      v-show="formErrors.has(`i18n.${language.code}.title`)"
+                      class="help-block"
+                    >
+                      {{ formErrors.first(`i18n.${language.code}.title`) }}
+                    </span>
+                  </div>
+                </div>
+
+                <div :class="`form-group${formErrors.has(`i18n.${language.code}.description`) ? ' has-error' : ''}`">
+                  <label class="col-md-3 control-label" :for="`description-${language.code}`">Описание</label>
+
+                  <div class="col-md-9">
+                    <ckeditor
+                      :id="`description-${language.code}`"
+                      :content.sync="promoCode.i18n[language.code].description"
+                      :name="`i18n.${language.code}.description`"
+                    />
+
+                    <span
+                      v-show="formErrors.has(`i18n.${language.code}.description`)"
+                      class="help-block"
+                    >
+                      {{ formErrors.first(`i18n.${language.code}.description`) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+          </div>
+
+
+
           <div v-if="hasNotSelectedConditions" class="block">
             <div class="block-title">
               <h2>
@@ -744,9 +834,9 @@
 
                       <div class="input-group-addon">
                         <tree-select
-                          name="conditions[min_summ][currency]"
+                          name="conditions[min_summ][currency_code]"
                           :options="currenciesToSelect"
-                          :selected.sync="promoCode.conditions.min_summ.currency"
+                          :selected.sync="promoCode.conditions.min_summ.currency_code"
                           :params="{minimumResultsForSearch: -1, allowClear: false}"/>
                       </div>
                     </div>
@@ -755,8 +845,8 @@
                       {{ formErrors.first('conditions.min_summ.value') }}
                     </span>
 
-                    <span v-show="formErrors.has('conditions.min_summ.currency')" class="help-block">
-                      {{ formErrors.first('conditions.min_summ.currency') }}
+                    <span v-show="formErrors.has('conditions.min_summ.currency_code')" class="help-block">
+                      {{ formErrors.first('conditions.min_summ.currency_code') }}
                     </span>
                   </div>
                 </div>
@@ -802,9 +892,9 @@
 
                       <div class="input-group-addon">
                         <tree-select
-                          name="conditions[product_expensive][currency]"
+                          name="conditions[product_expensive][currency_code]"
                           :options="currenciesToSelect"
-                          :selected.sync="promoCode.conditions.product_expensive.currency"
+                          :selected.sync="promoCode.conditions.product_expensive.currency_code"
                           :params="{minimumResultsForSearch: -1, allowClear: false}"/>
                       </div>
                     </div>
@@ -813,8 +903,8 @@
                       {{ formErrors.first('conditions.product_expensive.value') }}
                     </span>
 
-                    <span v-show="formErrors.has('conditions.product_expensive.currency')" class="help-block">
-                      {{ formErrors.first('conditions.product_expensive.currency') }}
+                    <span v-show="formErrors.has('conditions.product_expensive.currency_code')" class="help-block">
+                      {{ formErrors.first('conditions.product_expensive.currency_code') }}
                     </span>
                   </div>
 

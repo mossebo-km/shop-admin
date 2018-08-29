@@ -20,7 +20,6 @@
     type: 'all'
   }
 
-
   export default {
     name: 'promo-codes-table',
 
@@ -141,7 +140,14 @@
     methods: {
       loadData() {
           this.fetchMainData()
-            .then(this.initMainData)
+            .then(data => {
+              this.initMainData(data)
+
+              if (typeof this.fetchItemsCb === 'function') {
+                this.fetchItemsCb()
+                this.fetchItemsCb = undefined
+              }
+            })
       },
 
       getValidPage(value) {
@@ -211,7 +217,14 @@
 
               const items = data['promo-codes'] || []
 
-              resolve(items.map(item => new PromoCodesTableModel(item, this.currencies)))
+              if (this.currencies) {
+                resolve(items.map(item => new PromoCodesTableModel(item, this.currencies)))
+              }
+              else {
+                this.fetchItemsCb = () => {
+                  resolve(items.map(item => new PromoCodesTableModel(item, this.currencies)))
+                }
+              }
             })
             .start()
         })
@@ -316,7 +329,7 @@
               show-empty
               stacked="md"
               ref="table"
-              :items="currencies ? fetchItems : null"
+              :items="fetchItems"
               :fields="fields"
               :busy.sync="loading"
               :current-page="page"

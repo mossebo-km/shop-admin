@@ -18,6 +18,7 @@ class ProductEditResource extends JsonResource
         $options = $this->attributeOptionRelations()->get(['attribute_id', 'option_id'])->toArray();
         $attributesIds = array_unique(array_column($options, 'attribute_id'));
         $optionsIds = array_column($options, 'option_id');
+        $badges = array_column($this->resource->badges()->get()->toArray(), 'badge_type_id');
 
         return [
             'id'          => $this->id,
@@ -40,7 +41,8 @@ class ProductEditResource extends JsonResource
             'related'     => ProductRelatedSearchResource::collection($this->related),
             'i18n'        => $this->i18n()->get()->toArray(),
             'attributes'  => $attributesIds,
-            'options'     => $optionsIds
+            'options'     => $optionsIds,
+            'badges'      => $badges,
         ];
     }
 }

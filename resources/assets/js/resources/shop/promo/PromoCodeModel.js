@@ -1,8 +1,8 @@
-import Model from '../../base/Model'
+import ModelI18n from '../../base/ModelI18n'
 
-export default class PromoCodeModel extends Model {
-  constructor(entityData) {
-    super(entityData)
+export default class PromoCodeModel extends ModelI18n {
+  constructor(entityData, languages) {
+    super(entityData, languages)
 
     if (entityData && 'conditions' in entityData) {
       this.conditions = entityData.conditions.reduce((acc, condition) => {
@@ -35,6 +35,11 @@ export default class PromoCodeModel extends Model {
 
       created_at: null,
       updated_at: null,
+
+      i18n: {
+        title: '',
+        description: '',
+      }
     }
   }
 }

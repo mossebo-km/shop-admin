@@ -23,6 +23,8 @@ export default class ProductModel extends ModelI18n {
       rooms: [],
       styles: [],
 
+      badges: [],
+
       images: [],
       attributes: [],
       options: [],

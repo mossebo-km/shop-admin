@@ -6,10 +6,11 @@ use Carbon\Carbon;
 use MosseboShopCore\Models\Shop\Promo\PromoCode as BasePromoCode;
 use App\Support\Traits\Models\RequestSaver;
 use App\Support\Traits\Models\StatusChangeable;
+use App\Support\Traits\Models\I18nTrait;
 
 class PromoCode extends BasePromoCode
 {
-    use RequestSaver, StatusChangeable;
+    use RequestSaver, StatusChangeable, I18nTrait;
 
     protected $fillable = [
         'name',
@@ -26,7 +27,8 @@ class PromoCode extends BasePromoCode
     ];
 
     protected $needsToSaveFromRequest = [
-        'conditions'
+        'i18n',
+        'conditions',
     ];
 
     public function conditions()

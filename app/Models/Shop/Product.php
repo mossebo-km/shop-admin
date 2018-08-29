@@ -2,6 +2,8 @@
 
 namespace App\Models\Shop;
 
+use MosseboShopCore\Models\Shop\Product as BaseProduct;
+
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Models\Media;
@@ -12,7 +14,8 @@ use App\Support\Traits\Models\Sluggable;
 use App\Support\Traits\Models\RequestSaver;
 use App\Support\Traits\Models\I18nTrait;
 
-use MosseboShopCore\Models\Shop\Product as BaseProduct;
+use App\Models\Shop\Badge\Badge;
+use App\Models\Shop\Badge\BadgeType;
 
 class Product extends BaseProduct implements HasMedia
 {
@@ -46,7 +49,8 @@ class Product extends BaseProduct implements HasMedia
         'images',
         'prices',
         'attributes',
-        'related'
+        'related',
+        'badges'
     ];
 
     protected $mapping = [
@@ -187,6 +191,11 @@ class Product extends BaseProduct implements HasMedia
         );
     }
 
+    public function badges()
+    {
+        return $this->morphMany(Badge::class, 'item');
+    }
+
     /**
      * Удаление товара.
      *
@@ -196,6 +205,7 @@ class Product extends BaseProduct implements HasMedia
     {
         return \DB::transaction(function () {
             $this->prices()->delete();
+            $this->badges()->delete();
 
             return parent::delete();
         });
@@ -359,7 +369,21 @@ class Product extends BaseProduct implements HasMedia
             $relatedRelations->delete();
 
             foreach ($relatedIds as $relatedId) {
-                $relatedRelations->save(new RelatedProduct(['related_id' => $relatedId]));
+                $relatedRelations->save(new RelatedProduct([
+                    'related_id' => $relatedId
+                ]));
+            }
+        }
+
+        protected function _saveBadges(Array $badgeTypeIds)
+        {
+            $badges = $this->badges();
+            $badges->delete();
+
+            foreach ($badgeTypeIds as $badgeTypeId) {
+                $badges->save(new Badge([
+                    'badge_type_id' => $badgeTypeId
+                ]));
             }
         }
 

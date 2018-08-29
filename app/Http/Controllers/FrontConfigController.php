@@ -9,7 +9,7 @@ class FrontConfigController extends Controller
         $config = [
             'user' => self::getUserConifg(),
             'interactionKey' => DataHandler::getRelevantKey(),
-            'shop' => config('shop')
+            'shop' => config('shop'),
         ];
 
         static::__connectTranslates($config);

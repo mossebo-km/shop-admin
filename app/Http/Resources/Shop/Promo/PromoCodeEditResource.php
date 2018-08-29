@@ -28,6 +28,7 @@ class PromoCodeEditResource extends JsonResource
             'enabled'           => $this->resource->enabled,
             'created_at'        => dateFormatFull($this->resource->created_at),
             'updated_at'        => dateFormatFull($this->resource->updated_at),
+            'i18n'              => $this->resource->i18n()->get()->toArray(),
         ];
 
         if ($this->resource->date_start) {
