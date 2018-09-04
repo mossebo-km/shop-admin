@@ -22,6 +22,7 @@ class BannerEditResource extends JsonResource
             'caption_color'           => $this->resource->caption_color,
             'button_color'            => $this->resource->button_color,
             'button_background_color' => $this->resource->button_background_color,
+            'small_image'             => $this->resource->small_image,
             'mobile_image'            => $this->resource->mobile_image,
             'desktop_image'           => $this->resource->desktop_image,
             'background_image'        => $this->resource->background_image,
