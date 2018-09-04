@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Shop;
 
 use App\Http\Controllers\Api\ApiController;
 
-use App\Models\Shop\banner\Banner;
+use App\Models\Shop\Banner\Banner;
 
 use App\Http\Resources\Shop\Banner\BannerEditResource;
 use App\Http\Resources\Shop\Banner\BannerTableResource;
