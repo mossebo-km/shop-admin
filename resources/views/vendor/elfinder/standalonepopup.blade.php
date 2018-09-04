@@ -99,7 +99,7 @@
                       // }
                     },
                     getFileCallback: function (file) {
-                        window.parent.processSelectedFile('/' + file.path, '{{ $input_id  }}');
+                        window.parent.processSelectedFile('/uploads/' + file.path, '{{ $input_id  }}');
                         // parent.jQuery.colorbox.close();
                         window.parent.$.fancybox.close()
                     }
