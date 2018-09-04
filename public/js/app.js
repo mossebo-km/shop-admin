@@ -65180,8 +65180,8 @@ var render = function() {
                                       {
                                         name: "validate",
                                         rawName: "v-validate",
-                                        value: "required|max:255",
-                                        expression: "'required|max:255'"
+                                        value: "max:255",
+                                        expression: "'max:255'"
                                       }
                                     ],
                                     staticClass: "form-control",
@@ -65483,8 +65483,8 @@ var render = function() {
                                       {
                                         name: "validate",
                                         rawName: "v-validate",
-                                        value: "required|max:255",
-                                        expression: "'required|max:255'"
+                                        value: "max:255",
+                                        expression: "'max:255'"
                                       }
                                     ],
                                     staticClass: "form-control",

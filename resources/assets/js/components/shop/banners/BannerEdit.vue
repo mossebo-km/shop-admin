@@ -237,7 +237,7 @@
                       :id="`title-${language.code}`"
                       v-model="banner.i18n[language.code].title"
                       :name="`i18n.${language.code}.title`"
-                      v-validate="'required|max:255'">
+                      v-validate="'max:255'">
 
                     <span v-show="formErrors.has(`i18n.${language.code}.title`)" class="help-block">
                       {{ formErrors.first(`i18n.${language.code}.title`) }}
@@ -297,7 +297,7 @@
                       :id="`link-${language.code}`"
                       v-model="banner.i18n[language.code].link"
                       :name="`i18n.${language.code}.link`"
-                      v-validate="'required|max:255'">
+                      v-validate="'max:255'">
 
                     <span v-show="formErrors.has(`i18n.${language.code}.link`)" class="help-block">
                       {{ formErrors.first(`i18n.${language.code}.link`) }}

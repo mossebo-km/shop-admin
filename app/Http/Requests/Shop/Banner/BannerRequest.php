@@ -48,10 +48,10 @@ class BannerRequest extends ApiRequest
 
         foreach (\Languages::enabled() as $language) {
             $rules["i18n.{$language['code']}"]         = "required|array";
-            $rules["i18n.{$language['code']}.title"]   = 'bail|required|max:255';
+            $rules["i18n.{$language['code']}.title"]   = 'max:255';
             $rules["i18n.{$language['code']}.caption"] = 'bail|required|max:255';
             $rules["i18n.{$language['code']}.button"]  = 'bail|required|max:255';
-            $rules["i18n.{$language['code']}.link"]    = 'bail|required|max:255';
+            $rules["i18n.{$language['code']}.link"]    = 'max:255';
         }
 
         return $rules;

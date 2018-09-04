@@ -106,7 +106,7 @@ return [
         'deleted' => 'Бейдж #:id удален.',
     ],
 
-    App\Models\Shop\banner\Banner::class => [
+    App\Models\Shop\Banner\Banner::class => [
         'status' => [
             'enabled' => 'Баннер #:id задействован.',
             'disabled' => 'Баннер #:id отключен.',

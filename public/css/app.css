@@ -142,11 +142,9 @@
 
 .banner__image-box {
   position: relative;
-  width: calc(100% + 48px);
+  width: 100%;
   max-width: 298px;
   max-height: 250px;
-  margin-left: -24px;
-  margin-right: -24px;
   overflow: hidden;
 }
 
@@ -161,10 +159,11 @@
 
 .banner__image {
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  top: 24px;
+  left: 24px;
+  bottom: 24px;
+  right: 24px;
+  margin: auto;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
