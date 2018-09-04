@@ -96185,15 +96185,12 @@ var BannerModel = function (_ModelI18n) {
       return {
         id: '',
 
-        gradient: function gradient() {
-          return {
-            color_from: '#fcc600',
-            color_to: '#fdda55',
-            type: 'linear',
-            angle: 0
-          };
+        gradient: {
+          color_from: '#fcc600',
+          color_to: '#fdda55',
+          type: 'linear',
+          angle: 0
         },
-
 
         title_color: '#fff',
         caption_color: '#fff',

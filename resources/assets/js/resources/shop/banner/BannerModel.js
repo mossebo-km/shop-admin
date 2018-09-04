@@ -5,13 +5,11 @@ export default class BannerModel extends ModelI18n {
     return {
       id: '',
 
-      gradient() {
-        return {
-          color_from: '#fcc600',
-          color_to: '#fdda55',
-          type: 'linear',
-          angle: 0,
-        }
+      gradient: {
+        color_from: '#fcc600',
+        color_to: '#fdda55',
+        type: 'linear',
+        angle: 0,
       },
 
       title_color: '#fff',
