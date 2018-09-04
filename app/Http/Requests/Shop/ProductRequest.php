@@ -53,10 +53,10 @@ class ProductRequest extends ApiRequest
 
         foreach (\Languages::enabled() as $language) {
             $rules["i18n.{$language['code']}"]                  = "required|array";
-            $rules["i18n.{$language['code']}.title"]            = 'bail|trim|required|max:255';
-            $rules["i18n.{$language['code']}.description"]      = 'trim|max:65000';
-            $rules["i18n.{$language['code']}.meta_title"]       = 'trim|max:255';
-            $rules["i18n.{$language['code']}.meta_description"] = 'trim|max:65000';
+            $rules["i18n.{$language['code']}.title"]            = 'bail|required|max:255';
+            $rules["i18n.{$language['code']}.description"]      = 'max:65000';
+            $rules["i18n.{$language['code']}.meta_title"]       = 'max:255';
+            $rules["i18n.{$language['code']}.meta_description"] = 'max:65000';
         }
 
         foreach (\PriceTypes::enabled() as $priceType) {
@@ -93,7 +93,7 @@ class ProductRequest extends ApiRequest
                                     $ruleName = "attributes.{$attributeId}.{$optionId}.{$language['code']}.value";
 
                                     $validator = \Validator::make($this->all(), [
-                                        $ruleName => 'bail|trim|required|max:255',
+                                        $ruleName => 'bail|required|max:255',
                                     ]);
 
                                     if ($validator->fails()) {

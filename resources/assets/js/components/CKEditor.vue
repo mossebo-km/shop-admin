@@ -38,25 +38,11 @@
       // window.processSelectedFile = function() {
       //   console.log(arguments)
       // }
-      //
-      // $.magnificPopup.open({
-      //   items: {
-      //     src: iframe
-      //   },
-      //   type: 'inline'
-      // })
 
-
-      // $.magnificPopup.open({
-      //   items: {
-      //     src: '/elfinder/ckeditor'
-      //   },
-      //   type: 'iframe'
-      // });
     },
 
     methods: {
-      change() {
+      input() {
         this.$emit('update:content', this.$refs.textarea.value)
       },
 
@@ -82,6 +68,6 @@
 
 <template>
   <!--<textarea :class="`ckeditor${className ? ' ' + className : ''}`">{{ content }}</textarea>-->
-  <textarea ref="textarea" :class="`form-control${className ? ' ' + className : ''}`" v-on:change="change">{{ content }}</textarea>
+  <textarea ref="textarea" :class="`form-control${className ? ' ' + className : ''}`" @input="input">{{ content }}</textarea>
 </template>
 

@@ -20,7 +20,7 @@ class RoomRequest extends ApiRequest
 
         $rules = [
             'enabled' => 'boolean',
-            'slug' => ['bail', 'trim', 'required', 'between:3,255']
+            'slug' => ['bail', 'required', 'between:3,255']
         ];
 
         if ($this->isStore()) {
@@ -32,10 +32,10 @@ class RoomRequest extends ApiRequest
 
         foreach (\Languages::enabled() as $language) {
             $rules["i18n.{$language['code']}"]                  = "required|array";
-            $rules["i18n.{$language['code']}.title"]            = 'bail|trim|required|max:255';
-            $rules["i18n.{$language['code']}.description"]      = 'trim|max:65000';
-            $rules["i18n.{$language['code']}.meta_title"]       = 'trim|max:255';
-            $rules["i18n.{$language['code']}.meta_description"] = 'trim|max:65000';
+            $rules["i18n.{$language['code']}.title"]            = 'bail|required|max:255';
+            $rules["i18n.{$language['code']}.description"]      = 'max:65000';
+            $rules["i18n.{$language['code']}.meta_title"]       = 'max:255';
+            $rules["i18n.{$language['code']}.meta_description"] = 'max:65000';
         }
 
         $this->setImagesRule($rules);

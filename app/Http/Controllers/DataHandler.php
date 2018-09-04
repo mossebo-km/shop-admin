@@ -9,14 +9,15 @@ use App\Models;
 class DataHandler
 {
     protected static $repositories = [
-        'categories'  => \Categories::class,
-        'rooms'       => \Rooms::class,
-        'styles'      => \Styles::class,
-        'currencies'  => \Currencies::class,
-        'languages'   => \Languages::class,
-        'price-types' => \PriceTypes::class,
-        'badge-types' => \BadgeTypes::class,
-        'roles'       => \AdminRoles::class,
+        'categories'    => \Categories::class,
+        'rooms'         => \Rooms::class,
+        'styles'        => \Styles::class,
+        'currencies'    => \Currencies::class,
+        'languages'     => \Languages::class,
+        'price-types'   => \PriceTypes::class,
+        'badge-types'   => \BadgeTypes::class,
+        'roles'         => \AdminRoles::class,
+        'banner-places' => \BannerPlaces::class,
     ];
 
     protected static $cacheKey = 'interactionData';

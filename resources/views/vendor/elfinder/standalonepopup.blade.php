@@ -25,7 +25,7 @@
 
         <script type="text/javascript">
             var myCommands = Object.keys(elFinder.prototype.commands);
-            console.log(myCommands)
+            // console.log(myCommands)
             var disabled = [
               'extract',
               'archive',
@@ -99,9 +99,9 @@
                       // }
                     },
                     getFileCallback: function (file) {
-                        window.parent.processSelectedFile(file.path, '{{ $input_id  }}');
+                        window.parent.processSelectedFile('/' + file.path, '{{ $input_id  }}');
                         // parent.jQuery.colorbox.close();
-                        window.parent.$.magnificPopup.close()
+                        window.parent.$.fancybox.close()
                     }
                 }).elfinder('instance').exec('fullscreen');
             });
@@ -109,9 +109,7 @@
 
     </head>
     <body>
-
         <!-- Element where elFinder will be created (REQUIRED) -->
         <div id="elfinder"></div>
-
     </body>
 </html>

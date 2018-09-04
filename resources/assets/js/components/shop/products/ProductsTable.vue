@@ -19,6 +19,7 @@
   import StatusChangeable from '../../../mixins/StatusChangeable'
 
   import ProductsTableModel from '../../../resources/shop/ProductsTableModel'
+  import TableWithFilters from '../../../mixins/TableWithFilters'
 
   const defaultTableState = {
     sortBy: 'id',
@@ -33,9 +34,10 @@
     name: 'products-table',
 
     mixins: [
-      StatusChangeable,
       TablePage,
-      Translatable,
+      TableWithFilters,
+      StatusChangeable,
+      Translatable
     ],
 
     components : {
@@ -135,79 +137,8 @@
     },
 
     methods: {
-      getValidSortBy(value) {
-        if (this.fields.find(field => field.key === value)) {
-          return value
-        }
-
-        return defaultTableState.sortBy
-      },
-
-      getValidSortDesc(value) {
-        if (_.isBoolean(value)) {
-          return value
-        }
-
-        if (value === 'true') {
-          return true
-        }
-
-        if (value === 'false') {
-          return false
-        }
-
-        return defaultTableState.sortDesc
-      },
-
-      getValidPage(value) {
-        value = parseInt(value)
-        return isNaN(value) ? defaultTableState.page : value
-      },
-
-      getValidType(value) {
-        return value in this.types ? value : defaultTableState.type
-      },
-
-      getValidPerPage(value) {
-        value = parseInt(value)
-
-        if (this.perPageOptions.indexOf(value) !== -1) {
-          return value
-        }
-
-        return this.perPageOptions[0]
-      },
-
-      getValidSearchPhrase(value) {
-        return value
-      },
-
-      getValid(key, value) {
-        let methodName = 'getValid' + Core.camelize(key, true)
-
-        return this[methodName](value)
-      },
-
-      setHistoryState() {
-        let queryArr = Object.keys(defaultTableState).reduce((acc, key) => {
-          let validValue = this.getValid(key, this[key])
-
-          if (validValue !== defaultTableState[key]) {
-            acc.push(encodeURIComponent(key) + '=' + encodeURIComponent(this[key]))
-          }
-
-          return acc
-        }, [])
-
-        let pathWithQuery = window.location.pathname
-
-        if (queryArr.length > 0) {
-          pathWithQuery += '?' + queryArr.join('&')
-        }
-
-        if (this.$router.path !== pathWithQuery) {
-          this.$router.push(pathWithQuery)
-        }
+      getDefaultState() {
+        return defaultTableState
       },
 
       loadData() {
@@ -273,51 +204,9 @@
 
         return price.formatted
       },
-
-      sortingChanged(ctx) {
-        ctx.page = 1
-      },
-
-      search(phrase) {
-        if (this.searchPhrase != phrase) {
-          this.page = 1
-          this.searchPhrase = phrase
-          this.refreshTable()
-        }
-      },
-
-      setPerPage(value) {
-        this.perPage = value
-        this.page = 1
-      },
-
-      refreshTable() {
-        this.$nextTick(() => {
-          if (this.$refs.table) {
-            this.$refs.table.refresh()
-          }
-        })
-      },
-
-      nanToNum(value, num = 0) {
-        return isNaN(value) ? num : value
-      }
     },
 
     computed: {
-      showedFrom() {
-        return this.nanToNum((this.page - 1) * this.perPage + 1)
-      },
-
-      showedTo() {
-        let to = this.page * this.perPage
-        return this.nanToNum(to > this.totalRows ? this.totalRows : to)
-      },
-
-      showPagination() {
-        return this.perPage < this.totalRows;
-      },
-
       activePriceTypeTitle() {
         let priceType = this.priceTypes.find(item => item.id == this.activePriceType)
         return priceType.i18n[this.activeLanguageCode].title
@@ -531,7 +420,8 @@
       </loading>
     </div>
 
-    <b-modal id="removeModal"
+    <b-modal
+      id="removeModal"
       ref="removeModal"
       title="Удаление товара"
       title-tag="h3"

@@ -15,7 +15,7 @@ class PermissionGroupRequest extends ApiRequest
         $permissionGroupsTableName = \Config::get('tables.AdminRolePermissionGroups');
 
         $rules = [
-            'name' => 'nullable|trim|max:255',
+            'name' => 'nullable|max:255',
             'parent_id' => ['bail', 'nullable', 'integer', "exists:{$permissionGroupsTableName},id"],
         ];
 
@@ -41,7 +41,7 @@ class PermissionGroupRequest extends ApiRequest
                     ];
 
                     if (isset($permissionData['isNew']) && $permissionData['isNew']) {
-                        $rules["permissions.{$permissionId}.name"] = 'bail|trim|required|max:255';
+                        $rules["permissions.{$permissionId}.name"] = 'bail|required|max:255';
                     }
                     else {
                         if (!in_array($permissionId, $existingAttributeOptionsIds)) {

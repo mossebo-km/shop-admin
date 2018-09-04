@@ -106,6 +106,16 @@ return [
         'deleted' => 'Бейдж #:id удален.',
     ],
 
+    App\Models\Shop\banner\Banner::class => [
+        'status' => [
+            'enabled' => 'Баннер #:id задействован.',
+            'disabled' => 'Баннер #:id отключен.',
+        ],
+        'created' => 'Баннер #:id создан.',
+        'updated' => 'Баннер #:id изменен.',
+        'deleted' => 'Баннер #:id удален.',
+    ],
+
     'positions' => "Позиция сохранена.",
 
     'ImageEditor' => [

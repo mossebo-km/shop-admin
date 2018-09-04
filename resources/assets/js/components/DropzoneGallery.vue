@@ -52,12 +52,6 @@
       ImageEditor
     },
 
-    watch: {
-      'images': 'refresh',
-      'errors': 'refresh',
-      'formErrors': 'refresh'
-    },
-
     data() {
       return {
         params$: {
@@ -153,16 +147,6 @@
         Core.notify(message, {type: 'warning'})
       },
 
-      makeGallery() {
-        $(this.$refs.gallery).magnificPopup({
-          delegate: '.js-magnific-link',
-          type: 'image',
-          gallery: {
-            enabled: true
-          }
-        });
-      },
-
       sort() {
         this.$emit('update:images', this.sortDataBundleByIdsPosition(this.images, this.collectSortIds()))
       },
@@ -248,10 +232,6 @@
         this.editorImage = false
       },
 
-      refresh() {
-        this.makeGallery()
-      },
-
       hasError(imageIndex) {
         return this.errors.has(`images.${imageIndex}`)
       }
@@ -297,7 +277,7 @@
           <input type="hidden" name="ids" :value="image.id">
 
           <div :class="{'edit-photo-card': true, 'edit-photo-card--deleted': image.deleted, 'edit-photo-card--has-error': hasError(index)}">
-            <a :href="getImageOriginal(image)" class="edit-photo-card__preview js-magnific-link">
+            <a data-fancybox="gallery" :href="getImageOriginal(image)" class="edit-photo-card__preview">
               <div class="edit-photo-card__image" :style="`background-image:url(${getImagePreview(image)})`"></div>
             </a>
 
@@ -348,7 +328,6 @@
     </b-modal>
   </div>
 </template>
-
 
 <style>
   .gallery-dropzone .dz-message {

@@ -15,12 +15,12 @@ class AttributeRequest extends ApiRequest
         $rules = [
             'enabled' => 'boolean',
             'selectable' => 'nullable|boolean',
-            'layout_class' => 'nullable|trim|max:255'
+            'layout_class' => 'nullable|max:255'
         ];
 
         foreach (\Languages::enabled() as $language) {
             $rules["i18n.{$language['code']}"]       = "required|array";
-            $rules["i18n.{$language['code']}.title"] = 'bail|trim|required|max:255';
+            $rules["i18n.{$language['code']}.title"] = 'bail|required|max:255';
         }
 
         foreach ($this->input('options') as $optionId => $option) {
@@ -40,7 +40,7 @@ class AttributeRequest extends ApiRequest
 
                     if (isset($optionData['isNew']) && $optionData['isNew']) {
                         foreach (\Languages::enabled() as $language) {
-                            $rules["options.{$optionId}.i18n.{$language['code']}.value"] = 'bail|trim|required|max:255';
+                            $rules["options.{$optionId}.i18n.{$language['code']}.value"] = 'bail|required|max:255';
                         }
                     }
                     else {

@@ -22,6 +22,13 @@
       ImageUpload
     ],
 
+    components: {
+      TreeSelectTranslatable,
+      'ckeditor': CKEditor,
+      LanguagePicker,
+      bModal
+    },
+
     props: [
       'id',
     ],
@@ -39,13 +46,6 @@
 
         reloadDataOnSave: true
       }
-    },
-
-    components: {
-      TreeSelectTranslatable,
-      'ckeditor': CKEditor,
-      LanguagePicker,
-      bModal
     },
 
     methods: {

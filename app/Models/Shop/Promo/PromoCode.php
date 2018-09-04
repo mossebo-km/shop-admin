@@ -41,7 +41,7 @@ class PromoCode extends BasePromoCode
         return $this->hasMany(PromoUse::class, $this->relationFieldName, 'id');
     }
 
-    protected function getFillableData(Array $data): Array
+    protected function getFillableData(array $data): array
     {
         $data = parent::getFillableData($data);
 

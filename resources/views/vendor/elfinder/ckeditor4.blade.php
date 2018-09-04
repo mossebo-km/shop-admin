@@ -53,10 +53,6 @@
                 }).elfinder('instance');
             });
 
-            // (function () {
-            //   console.log(this)
-            //     this.$.magnificPopup.close()
-            // }).call(window.parent)
         </script>
     </head>
     <body>

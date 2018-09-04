@@ -22,8 +22,8 @@ class AdminRequest extends ApiRequest
         $adminsTableName = \Config::get('tables.Admins');
 
         $rules = [
-            'name'    => 'bail|trim|required|max:255',
-            'email'   => ['bail', 'trim', 'required', 'email', 'max:255'],
+            'name'    => 'bail|required|max:255',
+            'email'   => ['bail', 'required', 'email', 'max:255'],
             'enabled' => 'boolean',
             'roles'   => function($attribute, $value, $fail) {
                 foreach ($this->input('roles') as $roleId) {

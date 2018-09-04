@@ -17,8 +17,8 @@ class PriceTypeRequest extends ApiRequest
 
         foreach (\Languages::enabled() as $language) {
             $rules["i18n.{$language['code']}"]             = "required|array";
-            $rules["i18n.{$language['code']}.title"]       = 'bail|trim|required|max:255';
-            $rules["i18n.{$language['code']}.description"] = 'trim|max:65000';
+            $rules["i18n.{$language['code']}.title"]       = 'bail|required|max:255';
+            $rules["i18n.{$language['code']}.description"] = 'max:65000';
         }
 
         return $rules;

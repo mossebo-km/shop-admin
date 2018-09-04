@@ -84,5 +84,9 @@ Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData'], 'namespa
 
         Route::post('badge-types/sort', 'BadgeTypeController@positions');
         Route::resource('badge-types', 'BadgeTypeController');
+
+        Route::post('banners/sort', 'BannerController@positions');
+        Route::get('banners/{category}/status', 'BannerController@status');
+        Route::resource('banners', 'BannerController');
     });
 });

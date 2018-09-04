@@ -71,6 +71,14 @@ export default {
     return this.transliteration(string.toLowerCase().replace('_', '-').replace(/\s/g, '-'), true).replace(/[^0-9a-zA-Z\-]+/g, '')
   },
 
+  marketUrl(url = '', lang) {
+    if (url.indexOf('http') === 0) {
+      return url
+    }
+
+    return 'https://mossebo.market/' + _.trim(url, '/')
+  },
+
   /**
    * todo: Сделать удаление неограниченного кол-ва повторяющихся симоволов. Сделать возможность указывать стороны.
    *
@@ -326,12 +334,12 @@ export default {
                 icon: 'fa fa-image',
                 permission: 'shop.banners.menu'
               },
-              {
-                title: 'Акционные товары',
-                url: '/shop/sale',
-                icon: 'fa fa-percent',
-                permission: 'shop.sale.menu'
-              },
+              // {
+              //   title: 'Акционные товары',
+              //   url: '/shop/sale',
+              //   icon: 'fa fa-percent',
+              //   permission: 'shop.sale.menu'
+              // },
               {
                 title: 'Промокоды',
                 url: '/shop/promo-codes',

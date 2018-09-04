@@ -1,5 +1,5 @@
 import Sortable from 'jquery-ui-sortable-npm'
-import magnificPopup from 'magnific-popup'
+import '@fancyapps/fancybox'
 import 'select2'
 
 import Vue from 'vue'
@@ -41,6 +41,9 @@ import PromoCodeEdit from './components/shop/promoCodes/PromoCodeEdit'
 
 import BadgeTypesTable from './components/shop/badges/BadgeTypesTable'
 import BadgeTypeEdit from './components/shop/badges/BadgeTypeEdit'
+
+import BannersTable from './components/shop/banners/BannersTable'
+import BannerEdit from './components/shop/banners/BannerEdit'
 
 
 import AdminsTable from './components/system/Admins/AdminsTable'
@@ -156,6 +159,10 @@ const routes = [
   { path: '/shop/badge-types/create', component: BadgeTypeEdit, props: { type: 'create' } },
   { path: '/shop/badge-types/:id', component: BadgeTypeEdit, props: route => ({...route.params, type: 'edit'}) },
 
+  { path: '/shop/banners', component: BannersTable },
+  { path: '/shop/banners/create', component: BannerEdit, props: { type: 'create' } },
+  { path: '/shop/banners/:id', component: BannerEdit, props: route => ({...route.params, type: 'edit'}) },
+
   { path: '/system/admins', component: AdminsTable },
   { path: '/system/admins/create', component: AdminEdit, props: { type: 'create' } },
   { path: '/system/admins/:id', component: AdminEdit, props: route => ({...route.params, type: 'edit'}) },
@@ -176,8 +183,6 @@ const routes = [
   { path: '/reviews', component: ReviewsTable },
   { path: '/reviews/:id', component: ReviewEdit, props: route => ({...route.params, type: 'edit'}) },
 ]
-
-
 
 
 
@@ -257,3 +262,32 @@ jQuery.extend(true, jQuery.fn.datetimepicker.defaults, {
     close: 'fa fa-times'
   }
 });
+
+
+window.processSelectedFile = function(file, input) {
+  let inputEl = document.querySelector('#' + input)
+
+  if (inputEl) {
+    inputEl.value = file
+
+    inputEl.dispatchEvent(makeEvent('change'));
+  }
+}
+
+
+function makeEvent(eventName) {
+  let myEvent
+
+  if (typeof CustomEvent === 'undefined') {
+    myEvent = document.createEvent(eventName)
+    myEvent.initCustomEvent(eventName, false, true)
+  }
+  else {
+    myEvent = new CustomEvent(eventName, {
+      bubbles: false,
+      cancelable: true
+    })
+  }
+
+  return myEvent
+}
