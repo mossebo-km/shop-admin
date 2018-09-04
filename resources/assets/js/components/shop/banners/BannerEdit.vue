@@ -227,7 +227,7 @@
 
                 <div :class="`form-group${formErrors.has(`i18n.${language.code}.title`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`title-${language.code}`">
-                    Заголовок <span class="text-danger">*</span>
+                    Заголовок
                   </label>
 
                   <div class="col-md-9">
@@ -277,7 +277,7 @@
                       :id="`button-${language.code}`"
                       v-model="banner.i18n[language.code].button"
                       :name="`i18n.${language.code}.button`"
-                      v-validate="'required|max:255'">
+                      v-validate="'max:255'">
 
                     <span v-show="formErrors.has(`i18n.${language.code}.button`)" class="help-block">
                       {{ formErrors.first(`i18n.${language.code}.button`) }}

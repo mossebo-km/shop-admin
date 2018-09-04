@@ -65159,10 +65159,9 @@ var render = function() {
                                     attrs: { for: "title-" + language.code }
                                   },
                                   [
-                                    _vm._v("\n                  Заголовок "),
-                                    _c("span", { staticClass: "text-danger" }, [
-                                      _vm._v("*")
-                                    ])
+                                    _vm._v(
+                                      "\n                  Заголовок\n                "
+                                    )
                                   ]
                                 ),
                                 _vm._v(" "),
@@ -65382,8 +65381,8 @@ var render = function() {
                                       {
                                         name: "validate",
                                         rawName: "v-validate",
-                                        value: "required|max:255",
-                                        expression: "'required|max:255'"
+                                        value: "max:255",
+                                        expression: "'max:255'"
                                       }
                                     ],
                                     staticClass: "form-control",
