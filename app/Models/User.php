@@ -31,11 +31,6 @@ class User extends BaseUser implements LikerContract
         'updated_at'
     ];
 
-    public function orders()
-    {
-        return $this->hasMany(Order::class, $this->relationFieldName, 'id');
-    }
-
     public function promoCodeUses()
     {
         return $this->hasMany(PromoUse::class, $this->relationFieldName, 'id');

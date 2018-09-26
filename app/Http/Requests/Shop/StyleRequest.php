@@ -11,7 +11,7 @@ class StyleRequest extends ApiRequest
 {
     use HasImages;
 
-    protected $model = \App\Models\Shop\Style::class;
+    protected $model = \App\Models\Shop\Style\Style::class;
     protected $permissionsNamespace = 'shop.styles';
 
     protected function getEntityRules()

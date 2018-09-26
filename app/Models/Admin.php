@@ -19,7 +19,7 @@ class Admin extends Authenticatable implements HasMedia, HasPermissions
 {
     use Notifiable, StatusChangeable, RequestSaver, HasMediaTrait, CheckPermissionTrait;
 
-    protected $tableIdentif = 'Admins';
+    protected $tableKey = 'Admins';
     protected $relationFieldName = 'admin_id';
 
     protected $fillable = [

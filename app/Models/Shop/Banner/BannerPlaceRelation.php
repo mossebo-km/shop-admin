@@ -6,15 +6,6 @@ use MosseboShopCore\Models\Shop\Banner\BannerPlaceRelation as BaseBannerPlaceRel
 
 class BannerPlaceRelation extends BaseBannerPlaceRelation
 {
-    public $timestamps = false;
-    protected $primaryKey = null;
-    public $incrementing = false;
-
-    protected $fillable = [
-        'place_id',
-        'banner_id',
-    ];
-
     public function banner()
     {
         return $this->hasOne(Banner::class, 'id', 'banner_id');

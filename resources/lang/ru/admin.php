@@ -30,7 +30,7 @@ return [
         'deleted' => 'Роль #:id удалена.',
     ],
 
-    App\Models\Shop\Attribute::class => [
+    App\Models\Shop\Attribute\Attribute::class => [
         'status' => [
             'enabled' => 'Аттрибут #:id показан.',
             'disabled' => 'Аттрибут #:id скрыт.',
@@ -40,7 +40,7 @@ return [
         'deleted' => 'Аттрибут #:id удален.',
     ],
 
-    App\Models\Shop\Category::class => [
+    App\Models\Shop\Category\Category::class => [
         'status' => [
             'enabled' => 'Категория #:id показана.',
             'disabled' => 'Категория #:id скрыта.',
@@ -50,7 +50,7 @@ return [
         'deleted' => 'Категория #:id удалена.',
     ],
 
-    App\Models\Shop\PriceType::class => [
+    App\Models\Shop\PriceType\PriceType::class => [
         'status' => [
             'enabled' => 'Тип цены #:id показан.',
             'disabled' => 'Тип цены #:id скрыт.',
@@ -60,7 +60,7 @@ return [
         'deleted' => 'Тип цены #:id удален.',
     ],
 
-    App\Models\Shop\Product::class => [
+    App\Models\Shop\Product\Product::class => [
         'status' => [
             'enabled' => 'Товар #:id показан.',
             'disabled' => 'Товар #:id скрыт.',
@@ -70,7 +70,7 @@ return [
         'deleted' => 'Товар #:id удален.',
     ],
 
-    App\Models\Shop\Supplier::class => [
+    App\Models\Shop\Supplier\Supplier::class => [
         'status' => [
             'enabled' => 'Поставщик #:id показан.',
             'disabled' => 'Поставщик #:id скрыт.',
@@ -114,6 +114,22 @@ return [
         'created' => 'Баннер #:id создан.',
         'updated' => 'Баннер #:id изменен.',
         'deleted' => 'Баннер #:id удален.',
+    ],
+
+    App\Models\Shop\Interior\Interior::class => [
+        'created' => 'Интерьер #:id создан.',
+        'updated' => 'Интерьер #:id изменен.',
+        'deleted' => 'Интерьер #:id удален.',
+    ],
+
+    App\Models\Shop\Product\ProductSale::class => [
+        'status' => [
+            'enabled' => 'Акционный товар #:id задействован.',
+            'disabled' => 'Акционный товар #:id отключен.',
+        ],
+        'created' => 'Акционный товар #:id создан.',
+        'updated' => 'Акционный товар #:id изменен.',
+        'deleted' => 'Акционный товар #:id удален.',
     ],
 
     'positions' => "Позиция сохранена.",

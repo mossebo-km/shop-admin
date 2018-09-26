@@ -12,7 +12,7 @@ class CategoryRequest extends ApiRequest
 {
     use HasImages;
 
-    protected $model = \App\Models\Shop\Category::class;
+    protected $model = \App\Models\Shop\Category\Category::class;
     protected $permissionsNamespace = 'shop.categories';
 
     protected function getEntityRules()

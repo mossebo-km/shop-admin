@@ -12,20 +12,6 @@ class PromoCode extends BasePromoCode
 {
     use RequestSaver, StatusChangeable, I18nTrait;
 
-    protected $fillable = [
-        'name',
-        'date_start',
-        'date_finish',
-        'quantity',
-        'quantity_per_user',
-        'amount',
-        'percent',
-        'currency_code',
-        'enabled',
-        'position',
-        'uses_count'
-    ];
-
     protected $needsToSaveFromRequest = [
         'i18n',
         'conditions',

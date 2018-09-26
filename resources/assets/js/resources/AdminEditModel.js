@@ -7,7 +7,7 @@ export default class AdminEditModel extends Model {
       name: '',
       email: '',
       roles: [],
-      enabled: false,
+      enabled: true,
 
       image: false,
 

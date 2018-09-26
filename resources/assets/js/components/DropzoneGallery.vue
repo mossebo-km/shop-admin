@@ -248,10 +248,6 @@
         return true
       }
     },
-
-    mounted() {
-      this.makeGallery()
-    },
   }
 </script>
 

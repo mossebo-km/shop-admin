@@ -11,12 +11,6 @@ class BadgeType extends BaseBadgeType
 {
     use RequestSaver, I18nTrait, Positionable;
 
-    protected $fillable = [
-        'icon',
-        'color',
-        'has_value',
-    ];
-
     protected $needsToSaveFromRequest = [
         'i18n',
     ];

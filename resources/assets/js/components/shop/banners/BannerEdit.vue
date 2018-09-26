@@ -81,7 +81,7 @@
       },
 
       setColor(label, color) {
-        _.set(this.banner, label, color.hex)
+        _.set(this.banner, label, color)
       },
 
       prepareUrl(url) {
@@ -400,7 +400,7 @@
                 <div class="col-md-9">
                   <color-select
                     :color="banner.title_color || undefined"
-                    @change="setColor('title_color', $event)"
+                    @update:color="setColor('title_color', $event)"
                   ></color-select>
 
                   <span v-show="formErrors.has('title_color')" class="help-block">
@@ -417,7 +417,7 @@
                 <div class="col-md-9">
                   <color-select
                     :color="banner.caption_color || undefined"
-                    @change="setColor('caption_color', $event)"
+                    @update:color="setColor('caption_color', $event)"
                   ></color-select>
 
                   <span v-show="formErrors.has('caption_color')" class="help-block">
@@ -434,7 +434,7 @@
                 <div class="col-md-9">
                   <color-select
                     :color="banner.button_color || undefined"
-                    @change="setColor('button_color', $event)"
+                    @update:color="setColor('button_color', $event)"
                   ></color-select>
 
                   <span v-show="formErrors.has('button_color')" class="help-block">
@@ -451,7 +451,7 @@
                 <div class="col-md-9">
                   <color-select
                     :color="banner.button_background_color || undefined"
-                    @change="setColor('button_background_color', $event)"
+                    @update:color="setColor('button_background_color', $event)"
                   ></color-select>
 
                   <span v-show="formErrors.has('button_background_color')" class="help-block">
@@ -520,7 +520,7 @@
                   <div class="col-md-9">
                     <color-select
                       :color="banner.gradient.color_from || undefined"
-                      @change="setColor('gradient.color_from', $event)"
+                      @update:color="setColor('gradient.color_from', $event)"
                     ></color-select>
 
                     <span v-show="formErrors.has('gradient.color_from')" class="help-block">
@@ -537,7 +537,7 @@
                   <div class="col-md-9">
                     <color-select
                       :color="banner.gradient.color_to || undefined"
-                      @change="setColor('gradient.color_to', $event)"
+                      @update:color="setColor('gradient.color_to', $event)"
                     ></color-select>
 
                     <span v-show="formErrors.has('gradient.color_to')" class="help-block">
@@ -719,7 +719,7 @@
               <div class="banner-preview__row">
                 <div class="header-banner-wrap">
                   <header-banner
-                    :image="banner.desktop_image"
+                    :image="backgroundType === 'image' ? banner.desktop_image : undefined"
 
                     :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
 
@@ -742,8 +742,7 @@
                 <div class="header-banner-wrap header-banner-wrap--mobile">
                   <header-banner
                     class="header-banner--mobile"
-
-                    :image="banner.mobile_image"
+                    :image="backgroundType === 'image' ? banner.mobile_image : undefined"
 
                     :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
 

@@ -334,12 +334,12 @@ export default {
                 icon: 'fa fa-image',
                 permission: 'shop.banners.menu'
               },
-              // {
-              //   title: 'Акционные товары',
-              //   url: '/shop/sale',
-              //   icon: 'fa fa-percent',
-              //   permission: 'shop.sale.menu'
-              // },
+              {
+                title: 'Акционные товары',
+                url: '/shop/sale',
+                icon: 'fa fa-percent',
+                permission: 'shop.sale.menu'
+              },
               {
                 title: 'Промокоды',
                 url: '/shop/promo-codes',
@@ -359,6 +359,12 @@ export default {
                 url: '/shop/badge-types',
                 icon: 'fa fa-tag',
                 permission: 'shop.badge-types.menu'
+              },
+              {
+                title: 'Интерьеры',
+                url: '/shop/interiors',
+                icon: 'fa fa-hotel',
+                permission: 'shop.interiors.menu'
               },
             ]
           },

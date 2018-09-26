@@ -119,20 +119,22 @@ export default {
       this.setEntityData(data)
     },
 
+    getPathToTable() {
+      switch (this.type) {
+        case 'create':
+          return this.$route.path.replace('/create', '')
+          break
+        case 'edit':
+          return this.$route.path.replace('/' + this.id, '')
+          break
+      }
+    },
+
     /**
      * Возврат к списку сущностей.
      */
     redirectToTable() {
-      let path
-
-      switch (this.type) {
-        case 'create':
-          path = this.$route.path.replace('/create', '')
-          break
-        case 'edit':
-          path = this.$route.path.replace('/' + this.id, '')
-          break
-      }
+      let path = this.getPathToTable()
 
       if (window.history.state) {
         let previousPath = window.history.state.previousPath
@@ -263,7 +265,7 @@ export default {
     },
 
     /**
-     * Сброс комонента.
+     * Сброс компонента.
      */
     reset() {
       this.clearQueues()

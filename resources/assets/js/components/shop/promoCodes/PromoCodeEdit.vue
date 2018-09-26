@@ -1,5 +1,4 @@
 <script>
-  import datePicker from 'vue-bootstrap-datetimepicker'
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
   import CKEditor from '../../CKEditor'
@@ -7,6 +6,7 @@
 
   import EntityPage from '../../../mixins/EntityPage'
   import Translatable from '../../../mixins/Translatable'
+  import DatePickerRangeMixin from '../../../mixins/DatePicker/DatePickerRange'
   import LanguagePicker from '../../LanguagePicker'
 
   import PromoCodeModel from '../../../resources/shop/promo/PromoCodeModel'
@@ -40,22 +40,13 @@
     return conditionFields
   }
 
-  const datePickerConfig = {
-    locale: 'ru',
-
-    format: 'DD-MM-YYYY HH:mm:ss',
-    useCurrent: false,
-    sideBySide: false,
-    showClear: true,
-    showClose: true,
-  }
-
   export default {
     name: 'supplier-edit',
 
     mixins: [
       EntityPage,
-      Translatable
+      Translatable,
+      DatePickerRangeMixin
     ],
 
     directives: {
@@ -65,7 +56,6 @@
     components: {
       'ckeditor': CKEditor,
       bModal,
-      datePicker,
       TreeSelect,
       LanguagePicker
     },
@@ -111,11 +101,11 @@
         },
 
         dateStartConfig: {
-          ... datePickerConfig
+          ... this.getBaseDatePickerConfig()
         },
 
         dateFinishConfig: {
-          ... datePickerConfig
+          ... this.getBaseDatePickerConfig()
         },
 
         usedMainData: [
@@ -128,28 +118,7 @@
     methods: {
       initEntity(data) {
         this.setEntityData(new PromoCodeModel(data, this.languages))
-      },
-
-      datePickerShow(field) {
-        if (_.isNil(this.promoCode[field])) {
-          this.promoCode[field] = new Date()
-
-          this.promoCode[field].setHours(0, 0, 0, 0)
-        }
-      },
-
-      dateStartChange() {
-        if (this.promoCode.date_start) {
-          this.dateFinishConfig = {
-            ... this.dateFinishConfig,
-            disabledDates: [
-              [moment(0), this.$refs.dateStart.dp.viewDate()]
-            ]
-          }
-        }
-        else {
-          this.dateFinishConfig.disabledDates = null
-        }
+        this.dateFinishConfig = this.getFinishDatePickerConfig()
       },
 
       setEntityData() {
@@ -664,7 +633,7 @@
                     name="date_start"
                     ref="dateStart"
                     @dp-show="datePickerShow('date_start')"
-                    @dp-change="dateStartChange()"
+                    @dp-change="dateChanged('date_start')"
                     v-model="promoCode.date_start"
                     :config="dateStartConfig"
                     class="date-picker"
@@ -687,6 +656,7 @@
                     name="date_finish"
                     ref="dateStart"
                     @dp-show="datePickerShow('date_finish')"
+                    @dp-change="dateChanged('date_finish')"
                     v-model="promoCode.date_finish"
                     :config="dateFinishConfig"
                     class="date-picker"

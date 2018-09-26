@@ -21,7 +21,7 @@ export default class PromoCodeModel extends ModelI18n {
       id: '',
       name: '',
       date_start: null,
-      date_finish:null,
+      date_finish: null,
 
       quantity: 1000,
       quantity_per_user: 1,

@@ -6,10 +6,10 @@ use App\Http\Controllers\Api\ApiController;
 
 use Categories;
 
-use App\Models\Shop\Category;
+use App\Models\Shop\Category\Category;
 
-use App\Http\Resources\Shop\CategoryEditResource;
-use App\Http\Resources\Shop\CategoryTableResource;
+use App\Http\Resources\Shop\Category\CategoryEditResource;
+use App\Http\Resources\Shop\Category\CategoryTableResource;
 
 use App\Support\Traits\Controllers\Creatable;
 use App\Support\Traits\Controllers\Updatable;

@@ -3,7 +3,6 @@
 namespace App\Support\Traits\Controllers;
 
 use App\Events\Entity\EntityCreated;
-use App\Http\Requests\ApiRequest;
 
 trait Creatable
 {

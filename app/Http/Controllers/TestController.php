@@ -2,25 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Shop\RoomProduct;
-use App\Models\Shop\CategoryProduct;
-use App\Models\Shop\ProductAttributeOption;
+use App\Models\Shop\Room\RoomProduct;
+use App\Models\Shop\Category\CategoryProduct;
+use App\Models\Shop\Product\ProductAttributeOption;
 use App\Models\City;
 
-use App\Models\Shop\Product;
+use App\Models\Shop\Product\Product;
 use App\Models\Shop\Badge\Badge;
+use Categories;
+use App\Models\Shop\Product\ProductCount;
 
 class TestController extends Controller
 {
     public function test()
     {
-        $popular = Product::where('is_new', 1)->get();
 
-        foreach ($popular as $product) {
-            $product->badges()->save(new Badge([
-                'badge_type_id' => 6
-            ]));
-        }
+//        Categories::getCollection()->each(function ($category) {
+//            $categories = $category->descendants()->pluck('id');
+//            $categories->push($category->id);
+//
+//            $count = new ProductCount([
+//                'category_id' => $category->id,
+//                'count' => Product::enabled()->whereCategory($categories->toArray())->count(),
+//            ]);
+//
+//            dd($count->toArray());
+//        });
+
+
     }
 //    public function imageConverter($id)
 //    {

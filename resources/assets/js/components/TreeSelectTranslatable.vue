@@ -12,7 +12,8 @@
       'multiple',
       'activeLanguageCode',
       'defaultLanguageCode',
-      'params'
+      'params',
+      'disableParents'
     ],
 
     data() {
@@ -61,6 +62,10 @@
             }
 
             if (item.children) {
+              if (this.disableParents) {
+                res.disabled = true
+              }
+
               res.children = build(item.children)
             }
 

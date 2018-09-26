@@ -11,10 +11,11 @@ class MorphServiceProvider extends ServiceProvider
     {
         Relation::morphMap([
             'admin'    => \App\Models\Admin::class,
-            'product'  => \App\Models\Shop\Product::class,
-            'category' => \App\Models\Shop\Category::class,
-            'room'     => \App\Models\Shop\Room::class,
-            'style'    => \App\Models\Shop\Style::class,
+            'product'  => \App\Models\Shop\Product\Product::class,
+            'category' => \App\Models\Shop\Category\Category::class,
+            'room'     => \App\Models\Shop\Room\Room::class,
+            'style'    => \App\Models\Shop\Style\Style::class,
+            'review'   => \App\Models\Review::class,
         ]);
     }
 

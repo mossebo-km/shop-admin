@@ -7,11 +7,11 @@ use App\Http\Controllers\Api\ApiController;
 use Illuminate\Http\Request;
 use Config;
 
-use App\Models\Shop\Product;
+use App\Models\Shop\Product\Product;
 
-use App\Http\Resources\Shop\ProductEditResource;
-use App\Http\Resources\Shop\ProductsTableResource;
-use App\Http\Resources\Shop\ProductRelatedSearchResource;
+use App\Http\Resources\Shop\Product\ProductEditResource;
+use App\Http\Resources\Shop\Product\ProductsTableResource;
+use App\Http\Resources\Shop\Product\ProductSearchResource;
 
 use App\Support\Traits\Controllers\Creatable;
 use App\Support\Traits\Controllers\Updatable;
@@ -19,15 +19,19 @@ use App\Support\Traits\Controllers\Deleteable;
 use App\Support\Traits\Controllers\Sluggable;
 use App\Support\Traits\Controllers\StatusChangeable;
 use App\Support\Traits\Controllers\ImageUploadable;
+use App\Support\Traits\ProductSearch;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 
-
-// todo: создать очередь отчистки изображений из коллекции temp
-
 class ProductController extends ApiController
 {
-    use Creatable, Updatable, Deleteable, Sluggable, StatusChangeable, ImageUploadable;
+    use Creatable,
+        Updatable,
+        Deleteable,
+        Sluggable,
+        StatusChangeable,
+        ImageUploadable,
+        ProductSearch;
 
     protected static $modelClass = Product::class;
     protected static $entityName = 'product';
@@ -87,6 +91,8 @@ class ProductController extends ApiController
                 $query = Product::orderBy($sortBy, $sortType);
             }
 
+            $query->select("{$productsTableName}.*");
+
             if (!empty($search)) {
                 $i18nTableName = Config::get('tables.ProductsI18n');
                 $query = $query->join("{$i18nTableName} as i18n", function ($join) use($productsTableName, $search) {
@@ -95,7 +101,10 @@ class ProductController extends ApiController
                 });
             }
 
-            if ($type !== 'all') {
+            if ($type === 'no-image') {
+                $query = $query->hasNoImage();
+            }
+            elseif ($type !== 'all') {
                 $badgeTableName = config('tables.Badges');
                 $productTableName = config('tables.Products');
 
@@ -117,7 +126,7 @@ class ProductController extends ApiController
                     });
             }
 
-            return $query->select("{$productsTableName}.*")
+            return $query
                 ->orderBy('id', $sortType)
                 ->with(['i18n', 'prices', 'image', 'categoryRelations', 'roomRelations', 'styleRelations'])
                 ->paginate($perPage, null, null, $page);
@@ -128,42 +137,21 @@ class ProductController extends ApiController
      */
     public function query(Request $request, $productId)
     {
-        $ids = $this->searchResultToIds(
-            $this->search($request->input('q'))->take(5)
-        );
+        $ids = $this->searchProducts($request->input('q'))->take(6);
+        $ids = array_column($ids->toArray(),'id');
 
         $products = Product::with([
             'i18n',
         ])
             ->whereIn('id', $ids)
-            ->where('id', '!=', $productId)->get();
+            ->where('id', '!=', $productId)
+            ->take(5)
+            ->get();
 
         return [
             'status' => 'success',
-            'result' => ProductRelatedSearchResource::collection($products)
+            'result' => ProductSearchResource::collection($products)
         ];
-    }
-
-    protected function search($query)
-    {
-        return Product::search($query, function($client, $query, $params) {
-            $params['body'] = [
-                'from' => 0,
-                'size' => 10000,
-                'query' => [
-                    'match' => [
-                        'index' => [
-                            'query' => "*{$query}*",
-//                            'query' => '*',
-                            'fuzziness' => 'auto',
-                            'operator' => 'and'
-                        ]
-                    ]
-                ]
-            ];
-
-            return $client->search($params);
-        })->get();
     }
 
     protected function searchResultToIds($result)

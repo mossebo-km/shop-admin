@@ -6,7 +6,7 @@ use App\Http\Requests\ApiRequest;
 
 class SupplierRequest extends ApiRequest
 {
-    protected $model = \App\Models\Shop\Supplier::class;
+    protected $model = \App\Models\Shop\Supplier\Supplier::class;
     protected $permissionsNamespace = 'shop.suppliers';
 
     protected function getEntityRules()

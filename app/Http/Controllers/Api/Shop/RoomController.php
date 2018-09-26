@@ -6,10 +6,10 @@ use App\Http\Controllers\Api\ApiController;
 
 use Rooms;
 
-use App\Models\Shop\Room;
+use App\Models\Shop\Room\Room;
 
-use App\Http\Resources\Shop\RoomEditResource;
-use App\Http\Resources\Shop\RoomTableResource;
+use App\Http\Resources\Shop\Room\RoomEditResource;
+use App\Http\Resources\Shop\Room\RoomTableResource;
 
 use App\Support\Traits\Controllers\Creatable;
 use App\Support\Traits\Controllers\Updatable;

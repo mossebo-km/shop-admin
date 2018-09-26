@@ -11,6 +11,7 @@
 
   import TablePage from '../../../mixins/TablePage'
   import Translatable from '../../../mixins/Translatable'
+  import TableWithFilters from '../../../mixins/TableWithFilters'
   import StatusChangeable from '../../../mixins/StatusChangeable'
   import PromoCodesTableModel from '../../../resources/shop/promo/PromoCodesTableModel'
 
@@ -27,6 +28,7 @@
       StatusChangeable,
       TablePage,
       Translatable,
+      TableWithFilters
     ],
 
     components : {
@@ -150,53 +152,6 @@
             })
       },
 
-      getValidPage(value) {
-        value = parseInt(value)
-        return isNaN(value) ? defaultTableState.page : value
-      },
-
-      getValidType(value) {
-        return value in this.types ? value : defaultTableState.type
-      },
-
-      getValidPerPage(value) {
-        value = parseInt(value)
-
-        if (this.perPageOptions.indexOf(value) !== -1) {
-          return value
-        }
-
-        return this.perPageOptions[0]
-      },
-
-      getValid(key, value) {
-        let methodName = 'getValid' + Core.camelize(key, true)
-
-        return this[methodName](value)
-      },
-
-      setHistoryState() {
-        let queryArr = Object.keys(defaultTableState).reduce((acc, key) => {
-          let validValue = this.getValid(key, this[key])
-
-          if (validValue !== defaultTableState[key]) {
-            acc.push(encodeURIComponent(key) + '=' + encodeURIComponent(this[key]))
-          }
-
-          return acc
-        }, [])
-
-        let pathWithQuery = window.location.pathname
-
-        if (queryArr.length > 0) {
-          pathWithQuery += '?' + queryArr.join('&')
-        }
-
-        if (this.$router.path !== pathWithQuery) {
-          this.$router.push(pathWithQuery)
-        }
-      },
-
       /*
         Загрузка списка.
       */
@@ -236,40 +191,6 @@
         this.type = type
 
         this.refreshTable()
-      },
-
-      sortingChanged(ctx) {
-        ctx.page = 1
-      },
-
-      setPerPage(value) {
-        this.perPage = value
-        this.page = 1
-      },
-
-      refreshTable() {
-        this.$nextTick(() => {
-          this.$refs.table.refresh()
-        })
-      },
-
-      nanToNum(value, num = 0) {
-        return isNaN(value) ? num : value
-      }
-    },
-
-    computed: {
-      showedFrom() {
-        return this.nanToNum((this.page - 1) * this.perPage + 1)
-      },
-
-      showedTo() {
-        let to = this.page * this.perPage
-        return this.nanToNum(to > this.totalRows ? this.totalRows : to)
-      },
-
-      showPagination() {
-        return this.perPage < this.totalRows;
       },
     },
   }

@@ -11,7 +11,7 @@ class AdminRole extends BaseModel
 {
     use Positionable, RequestSaver;
 
-    protected $tableIdentif = 'AdminRoles';
+    protected $tableKey = 'AdminRoles';
     protected $relationFieldName = 'admin_role_id';
 
     protected $fillable = [

@@ -11,7 +11,7 @@ class RoomRequest extends ApiRequest
 {
     use HasImages;
 
-    protected $model = \App\Models\Shop\Room::class;
+    protected $model = \App\Models\Shop\Room\Room::class;
     protected $permissionsNamespace = 'shop.rooms';
 
     protected function getEntityRules()

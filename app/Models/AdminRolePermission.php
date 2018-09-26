@@ -11,7 +11,7 @@ class AdminRolePermission extends BaseModel
 {
     use RequestSaver, Positionable;
 
-    protected $tableIdentif = 'AdminRolePermissions';
+    protected $tableKey = 'AdminRolePermissions';
 
     protected $fillable = [
         'group_id',

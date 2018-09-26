@@ -103,9 +103,10 @@
       },
 
       close(elLink, elMenu) {
-        ;[].reverse.call(elMenu.querySelectorAll('.sidebar-nav-sub')).forEach(el => {
-          this.closeItem(el.previousSibling, el)
-        })
+        Array.prototype.slice.call(elMenu.querySelectorAll('.sidebar-nav-sub'))
+          .reverse().forEach(el => {
+            this.closeItem(el.previousSibling, el)
+          })
 
         this.closeItem(elLink, elMenu)
 

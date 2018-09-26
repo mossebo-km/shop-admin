@@ -5290,7 +5290,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'AjaxMultiselect',
 
-  props: ['url', 'languages', 'activeLanguageCode', 'selected', 'options', 'linkUrlMaker'],
+  props: ['url', 'languages', 'activeLanguageCode', 'selected', 'options', 'linkUrlMaker', 'multiple'],
 
   components: {
     TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_2__TreeSelectTranslatable___default.a
@@ -5305,7 +5305,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
     return {
       request: null,
-      options$: this.mapOptions(this.options || []),
+      options$: this.mapOptions(this.options),
       params: {
         ajax: {
           delay: 500,
@@ -5350,6 +5350,24 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         },
 
         events: {
+          unselecting: function unselecting(e) {
+            e.preventDefault();
+            var optionId = e.params.args.data.id.toString();
+
+            _this.options$ = _this.options$.filter(function (o) {
+              return o.id.toString() !== optionId;
+            });
+            var ids = _this.options$.map(function (o) {
+              return o.id;
+            });
+
+            if (_this.multiple) {
+              _this.$emit('update:selected', ids);
+            } else {
+              _this.$emit('update:selected', ids.length ? ids[0] : '');
+            }
+          },
+
           selecting: function selecting(e) {
             e.preventDefault();
             var option = e.params.args.data.option;
@@ -5358,8 +5376,14 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               if (!_this.options$.find(function (o) {
                 return o.id === option.id;
               })) {
-                _this.options$.push(option);
-                _this.$emit('update:selected', [].concat(_toConsumableArray(_this.selected), [option.id]));
+                if (_this.multiple) {
+                  _this.options$.push(option);
+
+                  _this.$emit('update:selected', [].concat(_toConsumableArray(_this.selected), [option.id]));
+                } else {
+                  _this.options$ = [option];
+                  _this.$emit('update:selected', option.id);
+                }
               }
             }
           }
@@ -5375,6 +5399,14 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
     mapOptions: function mapOptions(data) {
       var _this2 = this;
+
+      if (_.isNil(data)) {
+        return [];
+      }
+
+      if (!_.isArray(data)) {
+        data = [data];
+      }
 
       return data.map(function (item) {
         return new __WEBPACK_IMPORTED_MODULE_1__resources_AxajMultiselectModel__["a" /* default */](item, _this2.languages);
@@ -5568,7 +5600,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     setColor: function setColor(color) {
-      this.$emit('change', color);
+      this.$emit('update:color', color);
+    },
+    colorPickerChange: function colorPickerChange(colorData) {
+      var ref = this.$refs.colorPicker;
+      if (!ref) return;
+
+      var color = void 0;
+
+      switch (ref.currentMode) {
+        case 'hex':
+          color = colorData[ref.currentMode];
+          break;
+
+        case 'hsla':
+          color = this.removeUnnecessaryAlpha('hsl', colorData[ref.currentMode]);
+          break;
+
+        case 'rgba':
+          color = this.removeUnnecessaryAlpha('rgb', colorData[ref.currentMode]);
+          break;
+      }
+
+      this.setColor(color);
+    },
+    inputChange: function inputChange(e) {
+      this.setColor(e.target.value);
+    },
+    removeUnnecessaryAlpha: function removeUnnecessaryAlpha(label, colorArray) {
+      if (colorArray[3] === 1) {
+        return label + '(' + colorArray.slice(0, 3).join(', ') + ')';
+      }
+
+      return label + 'a(' + colorArray.join(', ') + ')';
     },
     handleKeydown: function handleKeydown(e) {
       var code = e.keyCode || e.which;
@@ -5950,10 +6014,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       return true;
     }
-  },
-
-  mounted: function mounted() {
-    this.makeGallery();
   }
 });
 
@@ -6388,7 +6448,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     close: function close(elLink, elMenu) {
       var _this4 = this;
 
-      ;[].reverse.call(elMenu.querySelectorAll('.sidebar-nav-sub')).forEach(function (el) {
+      Array.prototype.slice.call(elMenu.querySelectorAll('.sidebar-nav-sub')).reverse().forEach(function (el) {
         _this4.closeItem(el.previousSibling, el);
       });
 
@@ -6762,10 +6822,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         if (!list.length) return false;
 
         return list.reduce(function (acc, item) {
-          var itemDisabled = false;
+          var itemDisabled = item.disabled;
           var itemId = item.id.toString();
 
-          if (disabled.indexOf(itemId) !== -1) {
+          if (!itemDisabled && disabled.indexOf(itemId) !== -1) {
             itemDisabled = true;
           } else if (disabled.indexOf(parentId.toString()) !== -1) {
             itemDisabled = true;
@@ -6946,7 +7006,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "tree-select-translatable",
 
-  props: ['options', 'selected', 'placeholder', 'disabled', 'multiple', 'activeLanguageCode', 'defaultLanguageCode', 'params'],
+  props: ['options', 'selected', 'placeholder', 'disabled', 'multiple', 'activeLanguageCode', 'defaultLanguageCode', 'params', 'disableParents'],
 
   data: function data() {
     return {
@@ -6995,6 +7055,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
           });
 
           if (item.children) {
+            if (_this.disableParents) {
+              res.disabled = true;
+            }
+
             res.children = build(item.children);
           }
 
@@ -7931,7 +7995,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       }
     },
 
-    activeLanguageCode: String
+    activeLanguageCode: String,
+
+    availablePriceTypes: {
+      default: false
+    }
   },
 
   directives: _extends({}, __WEBPACK_IMPORTED_MODULE_1__directives_number__["a" /* default */]),
@@ -7978,6 +8046,23 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         return language.enabled;
       }).sort(function (a, b) {
         return a.position - b.position;
+      });
+    },
+    initPriceTypes: function initPriceTypes(priceTypes) {
+      __WEBPACK_IMPORTED_MODULE_4__mixins_DataHandler__["a" /* default */].methods.initPriceTypes.call(this, priceTypes);
+
+      if (!this.availablePriceTypes) {
+        return;
+      }
+
+      var availablePriceTypes = this.availablePriceTypes;
+
+      if (!_.isArray(availablePriceTypes)) {
+        availablePriceTypes = [availablePriceTypes];
+      }
+
+      this.priceTypes = this.priceTypes.filter(function (item) {
+        return availablePriceTypes.indexOf(item.id) !== -1;
       });
     },
     initPrices: function initPrices() {
@@ -8730,7 +8815,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       this.banner[label] = images.length ? images[0] : false;
     },
     setColor: function setColor(label, color) {
-      _.set(this.banner, label, color.hex);
+      _.set(this.banner, label, color);
     },
     prepareUrl: function prepareUrl(url) {
       return __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].marketUrl(url);
@@ -9351,6 +9436,538 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/interior/InteriorEdit.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FileManager__ = __webpack_require__("./resources/assets/js/components/FileManager.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FileManager___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FileManager__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__AjaxMultiselect__ = __webpack_require__("./resources/assets/js/components/AjaxMultiselect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__AjaxMultiselect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__AjaxMultiselect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__TreeSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__resources_shop_interior_InteriorEditModel__ = __webpack_require__("./resources/assets/js/resources/shop/interior/InteriorEditModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_shop_interior_InteriorPointModel__ = __webpack_require__("./resources/assets/js/resources/shop/interior/InteriorPointModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__preview_InteriorPreview__ = __webpack_require__("./resources/assets/js/components/shop/interior/preview/InteriorPreview.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__preview_InteriorPreview___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__preview_InteriorPreview__);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'interior-edit',
+
+  mixins: [__WEBPACK_IMPORTED_MODULE_5__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_Translatable__["a" /* default */]],
+
+  components: {
+    InteriorPreview: __WEBPACK_IMPORTED_MODULE_9__preview_InteriorPreview___default.a,
+    AjaxMultiselect: __WEBPACK_IMPORTED_MODULE_3__AjaxMultiselect___default.a,
+    FileManager: __WEBPACK_IMPORTED_MODULE_1__FileManager___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_2__LanguagePicker___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    TreeSelect: __WEBPACK_IMPORTED_MODULE_4__TreeSelect___default.a
+  },
+
+  props: ['id'],
+
+  data: function data() {
+    return {
+      entityName: 'interior',
+      interior: null,
+
+      rooms: [],
+      styles: [],
+
+      usedMainData: ['languages', 'rooms', 'styles'],
+
+      reloadDataOnSave: true
+    };
+  },
+
+
+  methods: {
+    productSearchUrl: function productSearchUrl() {
+      return '/api' + this.getPathToTable() + '/search';
+    },
+    productLinkMaker: function productLinkMaker(option) {
+      var linkEl = document.createElement('a');
+
+      linkEl.setAttribute('href', '/shop/products/' + option.id);
+      linkEl.setAttribute('target', '_blank');
+
+      linkEl.innerHTML = option.text;
+
+      return linkEl;
+    },
+    initEntity: function initEntity(data) {
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_7__resources_shop_interior_InteriorEditModel__["a" /* default */](data, this.languages));
+    },
+    addPoint: function addPoint() {
+      this.interior.points.push(new __WEBPACK_IMPORTED_MODULE_8__resources_shop_interior_InteriorPointModel__["a" /* default */]());
+    },
+    removePoint: function removePoint(point) {
+      this.interior.points = this.interior.points.filter(function (item) {
+        return item.id !== point.id;
+      });
+    }
+  },
+
+  computed: {
+    roomsToSelect: function roomsToSelect() {
+      var _this = this;
+
+      return this.rooms.map(function (room) {
+        return {
+          id: room.id,
+          title: room.i18n[_this.activeLanguageCode].title
+        };
+      });
+    },
+    stylesToSelect: function stylesToSelect() {
+      var _this2 = this;
+
+      return this.styles.map(function (style) {
+        return {
+          id: style.id,
+          title: style.i18n[_this2.activeLanguageCode].title
+        };
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/interior/InteriorTable.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_TableWithFilters__ = __webpack_require__("./resources/assets/js/mixins/TableWithFilters.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__resources_shop_interior_InteriorTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/interior/InteriorTableModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_bootstrap_vue_es_components_table_table__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/table/table.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_bootstrap_vue_es_components_pagination_pagination__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/pagination/pagination.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_bootstrap_vue_es_components_form_select_form_select__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/form-select/form-select.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__Loading__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var defaultTableState = {
+  page: 1,
+  perPage: 15
+};
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'interiors',
+
+  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_TableWithFilters__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__["a" /* default */]],
+
+  components: {
+    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    Toggle: __WEBPACK_IMPORTED_MODULE_7__Toggle___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_2__LanguagePicker___default.a,
+    bTable: __WEBPACK_IMPORTED_MODULE_9_bootstrap_vue_es_components_table_table__["a" /* default */],
+    bPagination: __WEBPACK_IMPORTED_MODULE_10_bootstrap_vue_es_components_pagination_pagination__["a" /* default */],
+    bFormSelect: __WEBPACK_IMPORTED_MODULE_11_bootstrap_vue_es_components_form_select_form_select__["a" /* default */],
+    Loading: __WEBPACK_IMPORTED_MODULE_12__Loading___default.a
+  },
+
+  watch: {
+    items: 'refreshSort'
+  },
+
+  data: function data() {
+    var fields = [{
+      key: 'id',
+      sortable: false
+    }, {
+      key: 'image',
+      sortable: false
+    }, {
+      key: 'title',
+      sortable: false,
+      label: 'Название',
+      thStyle: {
+        width: "100%"
+      }
+    }];
+
+    if (this.userCan('delete')) {
+      fields.push({
+        key: 'delete',
+        sortable: false
+      });
+    }
+
+    return _extends({
+      fields: fields,
+      rbacNamespace: 'shop.interiors',
+      loading: false,
+      totalRows: 0,
+      perPageOptions: [15, 30, 60]
+
+    }, defaultTableState, {
+
+      rooms: [],
+      styles: [],
+
+      usedMainData: ['languages', 'rooms', 'styles']
+    });
+  },
+  created: function created() {
+    this.setFiltersStateFromHash();
+  },
+
+
+  methods: {
+    getDefaultState: function getDefaultState() {
+      return defaultTableState;
+    },
+    fetchItems: function fetchItems(_ref) {
+      var _this = this;
+
+      var currentPage = _ref.currentPage,
+          perPage = _ref.perPage;
+
+      return this.onMainDataLoaded().then(function () {
+        return new Promise(function (resolve) {
+          new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler('get', _this.makePageApiUrl(), {
+            page: currentPage,
+            perPage: perPage,
+            type: _this.type
+          }).success(function (response) {
+            var data = response.data;
+
+            _this.totalRows = _this.nanToNum(parseInt(data.totalRows));
+            _this.page = parseInt(data.page) || 1;
+            _this.perPage = _this.nanToNum(parseInt(data.perPage));
+
+            var items = data.interiors || [];
+
+            resolve(items.map(function (item) {
+              return new __WEBPACK_IMPORTED_MODULE_8__resources_shop_interior_InteriorTableModel__["a" /* default */](item, _this.languages);
+            }));
+          }).start();
+        });
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/interior/preview/InteriorPoint.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_DataHandler__ = __webpack_require__("./resources/assets/js/mixins/DataHandler.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__resources_shop_interior_InteriorProductPreviewModel__ = __webpack_require__("./resources/assets/js/resources/shop/interior/InteriorProductPreviewModel.js");
+
+
+
+
+
+var translate = function translate(_ref, onUpdate) {
+  var x = _ref.x,
+      y = _ref.y,
+      startX = _ref.startX,
+      startY = _ref.startY;
+  return function (dragEvent) {
+
+    x += dragEvent.pageX - startX;
+    y += dragEvent.pageY - startY;
+
+    onUpdate({ x: x, y: y });
+
+    startX = dragEvent.pageX;
+    startY = dragEvent.pageY;
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'interior-point',
+
+  mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_DataHandler__["a" /* default */]],
+
+  props: {
+    is_similar: null,
+
+    legendPosition: null,
+
+    x: {
+      type: null,
+      required: true
+    },
+
+    y: {
+      type: null,
+      required: true
+    },
+
+    selectOn: {
+      validator: function validator(value) {
+        return ['dblclick', 'mousedown', 'click'].indexOf(value) !== -1;
+      },
+
+
+      default: 'mousedown'
+    },
+
+    selected: {
+      type: Boolean,
+      default: true
+    },
+
+    productId: null,
+
+    activeLanguageCode: null
+  },
+
+  data: function data() {
+    return {
+      product: null,
+      languages: null,
+      usedMainData: ['languages']
+    };
+  },
+
+
+  watch: {
+    productId: 'getProductInfo'
+  },
+
+  created: function created() {
+    var _this = this;
+
+    this.loadData().then(function () {
+      _this.getProductInfo();
+    });
+  },
+
+
+  methods: {
+    getProductInfo: function getProductInfo() {
+      var _this2 = this;
+
+      if (!this.productId) {
+        this.product = null;
+        return;
+      }
+
+      new __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].requestHandler('get', '/api/shop/interiors/product/' + this.productId, {}).success(function (response) {
+        _this2.product = new __WEBPACK_IMPORTED_MODULE_2__resources_shop_interior_InteriorProductPreviewModel__["a" /* default */](response.data.product, _this2.languages);
+      }).start();
+    },
+    handleTranslation: function handleTranslation(event) {
+      var _this3 = this;
+
+      event.stopPropagation();
+
+      var drag = translate({
+        x: this.x,
+        y: this.y,
+        startX: event.pageX,
+        startY: event.pageY
+      }, function (payload) {
+        _this3.$emit("update", payload);
+      });
+
+      this.onDrag(drag);
+    },
+    onDrag: function onDrag(drag) {
+      var up = function up() {
+        document.removeEventListener('mousemove', drag);
+        document.removeEventListener('mouseup', up);
+      };
+
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', up);
+    },
+    mousedown: function mousedown(event) {
+      this.$emit("mousedown", event);
+
+      if (this.selectOn === 'mousedown' || this.selected === true) {
+        this.$emit('onSelect');
+        this.handleTranslation(event);
+      }
+    }
+  },
+
+  computed: {
+    className: function className() {
+      var classNameModifs = [this.is_similar ? 'similar' : 'exactly', this.legendPosition.x, this.legendPosition.y];
+
+      return 'interior-point ' + classNameModifs.map(function (modif) {
+        return 'interior-point--' + modif;
+      }).join(' ');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/interior/preview/InteriorPreview.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__InteriorPoint__ = __webpack_require__("./resources/assets/js/components/shop/interior/preview/InteriorPoint.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__InteriorPoint___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__InteriorPoint__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'interior-preview',
+
+  components: {
+    InteriorPoint: __WEBPACK_IMPORTED_MODULE_0__InteriorPoint___default.a
+  },
+
+  props: {
+    image: {
+      type: String,
+      default: '/img/no-photo.jpg'
+    },
+    points: null,
+    activeLanguageCode: null
+  },
+
+  data: function data() {
+    return {
+      pointSize: 28,
+      imageCb: false
+    };
+  },
+
+
+  watch: {
+    'points': 'setPoints',
+    'image': 'setImage'
+  },
+
+  mounted: function mounted() {
+    this.setImage();
+  },
+
+
+  methods: {
+    setPoints: function setPoints() {
+      var _this = this;
+
+      this.points.forEach(function (point) {
+        var posX = point.position_x ? point.position_x : 50;
+        var posY = point.position_y ? point.position_y : 50;
+
+        point.x = (_this.$el.scrollWidth - _this.pointSizeCorrection) / 100 * parseFloat(posX);
+        point.y = (_this.$el.scrollHeight - _this.pointSizeCorrection) / 100 * parseFloat(posY);
+      });
+
+      this.recalculatePointsPosition();
+    },
+    setImage: function setImage() {
+      var _this2 = this;
+
+      if (!this.imageCb) {
+        this.imageCb = true;
+
+        __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].onImageLoaded(this.$el.querySelector('img'), function () {
+          _this2.imageCb = false;
+          _this2.setPoints();
+        });
+      }
+    },
+    recalculatePointsPosition: function recalculatePointsPosition() {
+      var _this3 = this;
+
+      this.points.forEach(function (point) {
+        return _this3.setPointPosition(point, point);
+      });
+    },
+    setPointPosition: function setPointPosition(point, coordinates) {
+      this.setPointAxesCoordinates(point, coordinates.x, 'x', this.$el.scrollWidth);
+      this.setPointAxesCoordinates(point, coordinates.y, 'y', this.$el.scrollHeight);
+    },
+    setPointAxesCoordinates: function setPointAxesCoordinates(point, value, axes, max) {
+      var pos = Math.max(0, value);
+      pos = Math.min(max - this.pointSizeCorrection, pos);
+
+      point[axes] = pos;
+      point['position_' + axes] = (pos / (max - this.pointSizeCorrection) * 100).toFixed(8);
+    },
+    pointStyle: function pointStyle(point) {
+      return 'left: calc(' + point.position_x + '% - 18px); top: calc(' + point.position_y + '% - 18px);';
+    },
+    getPointLegendPosition: function getPointLegendPosition(point) {
+      return {
+        x: parseInt(point.position_x) >= 50 ? 'left' : 'right',
+        y: parseInt(point.position_y) >= 50 ? 'top' : 'bottom'
+      };
+    }
+  },
+
+  computed: {
+    previewStyle: function previewStyle() {
+      if (this.image) {
+        return 'float: left;';
+      }
+    },
+    pointSizeCorrection: function pointSizeCorrection() {
+      return this.pointSize / 2;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/orders/OrdersTable.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -9524,7 +10141,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-// import AxajMultiselectModel from '../../../resources/AxajMultiselectModel'
 
 
 
@@ -9587,6 +10203,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       currencies: [],
       priceTypes: [],
       suppliers: [],
+      rooms: [],
+      styles: [],
 
       usedMainData: ['languages', 'price-types', 'currencies', 'categories-tree', 'suppliers', 'rooms', 'styles']
     };
@@ -9838,7 +10456,8 @@ var defaultTableState = {
       types: {
         all: 'Все',
         popular: 'Популярные',
-        new: 'Новинки'
+        new: 'Новинки',
+        'no-image': 'Без изображений'
       }
     }, defaultTableState, {
       fields: fields,
@@ -9850,20 +10469,7 @@ var defaultTableState = {
     });
   },
   created: function created() {
-    var _this = this;
-
-    var query = window.location.search.replace('?', '');
-
-    if (_.isEmpty(query)) return;
-
-    query.split('&').forEach(function (item) {
-      item = item.split('=');
-
-      var key = item[0];
-      var value = item[1];
-
-      _this[key] = _this.getValid(key, value);
-    });
+    this.setFiltersStateFromHash();
   },
 
 
@@ -9872,11 +10478,11 @@ var defaultTableState = {
       return defaultTableState;
     },
     loadData: function loadData() {
-      var _this2 = this;
+      var _this = this;
 
       this.fetchMainData().then(function (data) {
-        _this2.initMainData(data);
-        _this2.activePriceType = _this2.priceTypes[0].id;
+        _this.initMainData(data);
+        _this.activePriceType = _this.priceTypes[0].id;
       });
     },
 
@@ -9886,7 +10492,7 @@ var defaultTableState = {
     */
 
     fetchItems: function fetchItems(_ref) {
-      var _this3 = this;
+      var _this2 = this;
 
       var currentPage = _ref.currentPage,
           perPage = _ref.perPage,
@@ -9894,25 +10500,25 @@ var defaultTableState = {
           sortDesc = _ref.sortDesc;
 
       return new Promise(function (resolve) {
-        new __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].requestHandler('get', _this3.makePageApiUrl(), {
+        new __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].requestHandler('get', _this2.makePageApiUrl(), {
           page: currentPage,
           perPage: perPage,
           sortBy: sortBy,
           sortType: sortDesc ? 'desc' : 'asc',
-          search: _this3.searchPhrase,
-          priceType: _this3.activePriceType,
-          type: _this3.type
+          search: _this2.searchPhrase,
+          priceType: _this2.activePriceType,
+          type: _this2.type
         }).success(function (response) {
           var data = response.data;
 
-          _this3.totalRows = _this3.nanToNum(parseInt(data.totalRows));
-          _this3.page = parseInt(data.page) || 1;
-          _this3.perPage = _this3.nanToNum(parseInt(data.perPage));
+          _this2.totalRows = _this2.nanToNum(parseInt(data.totalRows));
+          _this2.page = parseInt(data.page) || 1;
+          _this2.perPage = _this2.nanToNum(parseInt(data.perPage));
 
           var items = data.products || [];
 
           resolve(items.map(function (item) {
-            return new __WEBPACK_IMPORTED_MODULE_15__resources_shop_ProductsTableModel__["a" /* default */](item, _this3.languages);
+            return new __WEBPACK_IMPORTED_MODULE_15__resources_shop_ProductsTableModel__["a" /* default */](item, _this2.languages);
           }));
         }).start();
       });
@@ -9934,10 +10540,10 @@ var defaultTableState = {
       }
     },
     getItemPrice: function getItemPrice(item) {
-      var _this4 = this;
+      var _this3 = this;
 
       var price = item.prices.find(function (item) {
-        return item.price_type_id == _this4.activePriceType && item.currency_code == 'RUB';
+        return item.price_type_id == _this3.activePriceType && item.currency_code == 'RUB';
       }) || { formatted: '' };
 
       return price.formatted;
@@ -9946,10 +10552,10 @@ var defaultTableState = {
 
   computed: {
     activePriceTypeTitle: function activePriceTypeTitle() {
-      var _this5 = this;
+      var _this4 = this;
 
       var priceType = this.priceTypes.find(function (item) {
-        return item.id == _this5.activePriceType;
+        return item.id == _this4.activePriceType;
       });
       return priceType.i18n[this.activeLanguageCode].title;
     }
@@ -9963,15 +10569,14 @@ var defaultTableState = {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_bootstrap_datetimepicker__ = __webpack_require__("./node_modules/vue-bootstrap-datetimepicker/dist/vue-bootstrap-datetimepicker.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_bootstrap_datetimepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_bootstrap_datetimepicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__CKEditor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__TreeSelect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CKEditor__ = __webpack_require__("./resources/assets/js/components/CKEditor.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__CKEditor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__TreeSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_DatePicker_DatePickerRange__ = __webpack_require__("./resources/assets/js/mixins/DatePicker/DatePickerRange.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__LanguagePicker__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__resources_shop_promo_PromoCodeModel__ = __webpack_require__("./resources/assets/js/resources/shop/promo/PromoCodeModel.js");
@@ -10024,28 +10629,17 @@ function makeCondition(key) {
   return conditionFields;
 }
 
-var datePickerConfig = {
-  locale: 'ru',
-
-  format: 'DD-MM-YYYY HH:mm:ss',
-  useCurrent: false,
-  sideBySide: false,
-  showClear: true,
-  showClose: true
-};
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'supplier-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_DatePicker_DatePickerRange__["a" /* default */]],
 
   directives: _extends({}, __WEBPACK_IMPORTED_MODULE_9__directives_number__["a" /* default */]),
 
   components: {
-    'ckeditor': __WEBPACK_IMPORTED_MODULE_2__CKEditor___default.a,
-    bModal: __WEBPACK_IMPORTED_MODULE_1_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    datePicker: __WEBPACK_IMPORTED_MODULE_0_vue_bootstrap_datetimepicker___default.a,
-    TreeSelect: __WEBPACK_IMPORTED_MODULE_3__TreeSelect___default.a,
+    'ckeditor': __WEBPACK_IMPORTED_MODULE_1__CKEditor___default.a,
+    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    TreeSelect: __WEBPACK_IMPORTED_MODULE_2__TreeSelect___default.a,
     LanguagePicker: __WEBPACK_IMPORTED_MODULE_6__LanguagePicker___default.a
   },
 
@@ -10087,9 +10681,9 @@ var datePickerConfig = {
         quantity_per_user: 1
       },
 
-      dateStartConfig: _extends({}, datePickerConfig),
+      dateStartConfig: _extends({}, this.getBaseDatePickerConfig()),
 
-      dateFinishConfig: _extends({}, datePickerConfig),
+      dateFinishConfig: _extends({}, this.getBaseDatePickerConfig()),
 
       usedMainData: ['currencies', 'languages']
     };
@@ -10099,25 +10693,10 @@ var datePickerConfig = {
   methods: {
     initEntity: function initEntity(data) {
       this.setEntityData(new __WEBPACK_IMPORTED_MODULE_7__resources_shop_promo_PromoCodeModel__["a" /* default */](data, this.languages));
-    },
-    datePickerShow: function datePickerShow(field) {
-      if (_.isNil(this.promoCode[field])) {
-        this.promoCode[field] = new Date();
-
-        this.promoCode[field].setHours(0, 0, 0, 0);
-      }
-    },
-    dateStartChange: function dateStartChange() {
-      if (this.promoCode.date_start) {
-        this.dateFinishConfig = _extends({}, this.dateFinishConfig, {
-          disabledDates: [[__WEBPACK_IMPORTED_MODULE_8_moment___default()(0), this.$refs.dateStart.dp.viewDate()]]
-        });
-      } else {
-        this.dateFinishConfig.disabledDates = null;
-      }
+      this.dateFinishConfig = this.getFinishDatePickerConfig();
     },
     setEntityData: function setEntityData() {
-      __WEBPACK_IMPORTED_MODULE_4__mixins_EntityPage__["a" /* default */].methods.setEntityData.apply(this, arguments);
+      __WEBPACK_IMPORTED_MODULE_3__mixins_EntityPage__["a" /* default */].methods.setEntityData.apply(this, arguments);
 
       this.detectPromoType();
     },
@@ -10249,9 +10828,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Loading__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__resources_shop_promo_PromoCodesTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/promo/PromoCodesTableModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_TableWithFilters__ = __webpack_require__("./resources/assets/js/mixins/TableWithFilters.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__resources_shop_promo_PromoCodesTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/promo/PromoCodesTableModel.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 
 
 
@@ -10277,7 +10858,7 @@ var defaultTableState = {
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'promo-codes-table',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_9__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_10__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__mixins_TableWithFilters__["a" /* default */]],
 
   components: {
     Toggle: __WEBPACK_IMPORTED_MODULE_5__Toggle___default.a,
@@ -10396,50 +10977,6 @@ var defaultTableState = {
         }
       });
     },
-    getValidPage: function getValidPage(value) {
-      value = parseInt(value);
-      return isNaN(value) ? defaultTableState.page : value;
-    },
-    getValidType: function getValidType(value) {
-      return value in this.types ? value : defaultTableState.type;
-    },
-    getValidPerPage: function getValidPerPage(value) {
-      value = parseInt(value);
-
-      if (this.perPageOptions.indexOf(value) !== -1) {
-        return value;
-      }
-
-      return this.perPageOptions[0];
-    },
-    getValid: function getValid(key, value) {
-      var methodName = 'getValid' + __WEBPACK_IMPORTED_MODULE_4__core__["a" /* default */].camelize(key, true);
-
-      return this[methodName](value);
-    },
-    setHistoryState: function setHistoryState() {
-      var _this3 = this;
-
-      var queryArr = Object.keys(defaultTableState).reduce(function (acc, key) {
-        var validValue = _this3.getValid(key, _this3[key]);
-
-        if (validValue !== defaultTableState[key]) {
-          acc.push(encodeURIComponent(key) + '=' + encodeURIComponent(_this3[key]));
-        }
-
-        return acc;
-      }, []);
-
-      var pathWithQuery = window.location.pathname;
-
-      if (queryArr.length > 0) {
-        pathWithQuery += '?' + queryArr.join('&');
-      }
-
-      if (this.$router.path !== pathWithQuery) {
-        this.$router.push(pathWithQuery);
-      }
-    },
 
 
     /*
@@ -10447,33 +10984,33 @@ var defaultTableState = {
     */
 
     fetchItems: function fetchItems(_ref) {
-      var _this4 = this;
+      var _this3 = this;
 
       var currentPage = _ref.currentPage,
           perPage = _ref.perPage;
 
       return new Promise(function (resolve) {
-        new __WEBPACK_IMPORTED_MODULE_4__core__["a" /* default */].requestHandler('get', _this4.makePageApiUrl(), {
+        new __WEBPACK_IMPORTED_MODULE_4__core__["a" /* default */].requestHandler('get', _this3.makePageApiUrl(), {
           page: currentPage,
           perPage: perPage,
-          type: _this4.type
+          type: _this3.type
         }).success(function (response) {
           var data = response.data;
 
-          _this4.totalRows = _this4.nanToNum(parseInt(data.totalRows));
-          _this4.page = parseInt(data.page) || 1;
-          _this4.perPage = _this4.nanToNum(parseInt(data.perPage));
+          _this3.totalRows = _this3.nanToNum(parseInt(data.totalRows));
+          _this3.page = parseInt(data.page) || 1;
+          _this3.perPage = _this3.nanToNum(parseInt(data.perPage));
 
           var items = data['promo-codes'] || [];
 
-          if (_this4.currencies) {
+          if (_this3.currencies) {
             resolve(items.map(function (item) {
-              return new __WEBPACK_IMPORTED_MODULE_10__resources_shop_promo_PromoCodesTableModel__["a" /* default */](item, _this4.currencies);
+              return new __WEBPACK_IMPORTED_MODULE_11__resources_shop_promo_PromoCodesTableModel__["a" /* default */](item, _this3.currencies);
             }));
           } else {
-            _this4.fetchItemsCb = function () {
+            _this3.fetchItemsCb = function () {
               resolve(items.map(function (item) {
-                return new __WEBPACK_IMPORTED_MODULE_10__resources_shop_promo_PromoCodesTableModel__["a" /* default */](item, _this4.currencies);
+                return new __WEBPACK_IMPORTED_MODULE_11__resources_shop_promo_PromoCodesTableModel__["a" /* default */](item, _this3.currencies);
               }));
             };
           }
@@ -10486,38 +11023,6 @@ var defaultTableState = {
       this.type = type;
 
       this.refreshTable();
-    },
-    sortingChanged: function sortingChanged(ctx) {
-      ctx.page = 1;
-    },
-    setPerPage: function setPerPage(value) {
-      this.perPage = value;
-      this.page = 1;
-    },
-    refreshTable: function refreshTable() {
-      var _this5 = this;
-
-      this.$nextTick(function () {
-        _this5.$refs.table.refresh();
-      });
-    },
-    nanToNum: function nanToNum(value) {
-      var num = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-      return isNaN(value) ? num : value;
-    }
-  },
-
-  computed: {
-    showedFrom: function showedFrom() {
-      return this.nanToNum((this.page - 1) * this.perPage + 1);
-    },
-    showedTo: function showedTo() {
-      var to = this.page * this.perPage;
-      return this.nanToNum(to > this.totalRows ? this.totalRows : to);
-    },
-    showPagination: function showPagination() {
-      return this.perPage < this.totalRows;
     }
   }
 });
@@ -10664,6 +11169,193 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.items = this.getSortedData(items.map(function (item) {
         return new __WEBPACK_IMPORTED_MODULE_7__resources_shop_RoomsTableModel__["a" /* default */](item, _this.languages);
       }));
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/sale/SaleEdit.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_DatePicker_DatePickerRange__ = __webpack_require__("./resources/assets/js/mixins/DatePicker/DatePickerRange.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__TreeSelectTranslatable__ = __webpack_require__("./resources/assets/js/components/TreeSelectTranslatable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__TreeSelectTranslatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__TreeSelectTranslatable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__AjaxMultiselect__ = __webpack_require__("./resources/assets/js/components/AjaxMultiselect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__AjaxMultiselect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__AjaxMultiselect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__PricesTable__ = __webpack_require__("./resources/assets/js/components/shop/PricesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__PricesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__PricesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__Loading__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__core__ = __webpack_require__("./resources/assets/js/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__resources_shop_PricesTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/PricesTableModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__resources_shop_Sale_SaleProductEditModel__ = __webpack_require__("./resources/assets/js/resources/shop/Sale/SaleProductEditModel.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'sale-edit',
+
+  mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_DatePicker_DatePickerRange__["a" /* default */]],
+
+  components: {
+    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_4__LanguagePicker___default.a,
+    TreeSelectTranslatable: __WEBPACK_IMPORTED_MODULE_5__TreeSelectTranslatable___default.a,
+    AjaxMultiselect: __WEBPACK_IMPORTED_MODULE_6__AjaxMultiselect___default.a,
+    PricesTable: __WEBPACK_IMPORTED_MODULE_7__PricesTable___default.a,
+    Loading: __WEBPACK_IMPORTED_MODULE_8__Loading___default.a
+  },
+
+  props: ['id'],
+
+  data: function data() {
+    return {
+      loading: false,
+      entityName: 'sale-product',
+      saleProduct: null,
+
+      usedMainData: ['languages'],
+
+      reloadDataOnSave: true,
+
+      dateStartConfig: _extends({}, this.getBaseDatePickerConfig()),
+
+      dateFinishConfig: _extends({}, this.getBaseDatePickerConfig())
+    };
+  },
+
+
+  methods: {
+    setSelected: function setSelected(selected) {
+      if (selected) {
+        this.updatePrice();
+      }
+    },
+
+    /**
+     * Инициализация модели данных.
+     */
+    initEntity: function initEntity(data) {
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_11__resources_shop_Sale_SaleProductEditModel__["a" /* default */](data, this.languages));
+      this.dateFinishConfig = this.getFinishDatePickerConfig();
+    },
+    productSearchUrl: function productSearchUrl() {
+      return '/api' + this.getPathToTable() + '/search';
+    },
+    relatedLinkMaker: function relatedLinkMaker(option) {
+      var linkEl = document.createElement('a');
+
+      linkEl.setAttribute('href', '/shop/products/' + option.id);
+      linkEl.setAttribute('target', '_blank');
+
+      linkEl.innerHTML = option.text;
+
+      return linkEl;
+    },
+    updatePrice: function updatePrice() {
+      var _this = this;
+
+      this.loading = true;
+
+      return new __WEBPACK_IMPORTED_MODULE_9__core__["a" /* default */].requestHandler('get', '/api' + this.getPathToTable() + '/price/' + this.saleProduct.product_id).success(function (response) {
+        _this.saleProduct.prices = new __WEBPACK_IMPORTED_MODULE_10__resources_shop_PricesTableModel__["a" /* default */](response.data.prices);
+
+        _this.loading = false;
+      }).start();
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/sale/SaleTable.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__ = __webpack_require__("./node_modules/bootstrap-vue/es/components/modal/modal.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__LanguagePicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__ = __webpack_require__("./resources/assets/js/mixins/Sortable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Toggle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__resources_shop_Sale_SaleProductTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/Sale/SaleProductTableModel.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'sale-table',
+
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_Sortable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__["a" /* default */]],
+
+  components: {
+    bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
+    Toggle: __WEBPACK_IMPORTED_MODULE_6__Toggle___default.a,
+    LanguagePicker: __WEBPACK_IMPORTED_MODULE_1__LanguagePicker___default.a
+  },
+
+  watch: {
+    items: 'refreshSort'
+  },
+
+  data: function data() {
+    return {
+      tableItemsDataName: 'sale-products',
+
+      usedMainData: ['languages']
+    };
+  },
+
+
+  methods: {
+    initItems: function initItems() {
+      var _this = this;
+
+      var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      this.items = this.getSortedData(items.map(function (item) {
+        return new __WEBPACK_IMPORTED_MODULE_7__resources_shop_Sale_SaleProductTableModel__["a" /* default */](item, _this.languages);
+      }));
+    },
+    getItemPrice: function getItemPrice(item) {
+      var price = item.prices.find(function (item) {
+        return item.currency_code === 'RUB';
+      }) || { formatted: '' };
+
+      return price.formatted;
     }
   }
 });
@@ -20233,7 +20925,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.promo-progress {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  margin-top: 8px;\n}\n.promo-progress__progress {\n  width: 100%;\n  margin-left: 15px;\n}\n.promo-progress .progress {\n  margin-bottom: 0;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/shop/promoCodes/resources/assets/js/components/shop/promoCodes/PromoCodesTable.vue"],"names":[],"mappings":";AA2dA;EACA,qBAAA;EAAA,qBAAA;EAAA,cAAA;EACA,0BAAA;MAAA,uBAAA;UAAA,oBAAA;EACA,gBAAA;CACA;AAEA;EACA,YAAA;EACA,kBAAA;CACA;AAEA;EACA,iBAAA;CACA","file":"PromoCodesTable.vue","sourcesContent":["<script>\n  import bTable from 'bootstrap-vue/es/components/table/table'\n  import bPagination from 'bootstrap-vue/es/components/pagination/pagination'\n  import bFormSelect from 'bootstrap-vue/es/components/form-select/form-select'\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import Core from '../../../core'\n\n  import Toggle from '../../Toggle'\n  import Loading from '../../Loading'\n\n  import TablePage from '../../../mixins/TablePage'\n  import Translatable from '../../../mixins/Translatable'\n  import StatusChangeable from '../../../mixins/StatusChangeable'\n  import PromoCodesTableModel from '../../../resources/shop/promo/PromoCodesTableModel'\n\n  const defaultTableState = {\n    page: 1,\n    perPage: 30,\n    type: 'all'\n  }\n\n  export default {\n    name: 'promo-codes-table',\n\n    mixins: [\n      StatusChangeable,\n      TablePage,\n      Translatable,\n    ],\n\n    components : {\n      Toggle,\n      Loading,\n      bTable,\n      bPagination,\n      bFormSelect,\n      bModal,\n    },\n\n    data () {\n      let fields = [\n        {\n          key: 'id',\n          sortable: false,\n        },\n        {\n          key: 'name',\n          sortable: false,\n          label: 'Код',\n        },\n        {\n          key: 'discount',\n          sortable: false,\n          label: 'Скидка',\n          thStyle: {\n            width: \"40%\"\n          }\n        },\n      ]\n\n      if (this.userCan('see')) {\n        fields.push({\n          key: 'quantity',\n          sortable: false,\n          label: 'Использований',\n          thStyle: {\n            width: \"40%\"\n          }\n        })\n      }\n\n      if (this.userCan('see')) {\n        fields.push({\n          key: 'conditions',\n          label: 'Условия',\n          sortable: false,\n          thStyle: {\n            width: \"30%\"\n          }\n        })\n      }\n\n      if (this.userCan('edit')) {\n        fields.push({\n          key: 'enabled',\n          sortable: false,\n        })\n      }\n\n      if (this.userCan('delete')) {\n        fields.push({\n          key: 'delete',\n          sortable: false,\n        })\n      }\n\n      return {\n        rbacNamespace: 'promo-codes',\n        loading: false,\n        totalRows: 0,\n        perPageOptions: [ 15, 30, 60 ],\n        types: {\n          all: 'Все',\n          enabled: 'Активные',\n          old: 'Завершенные',\n          disabled: 'Отмененные',\n        },\n        ... defaultTableState,\n        fields,\n\n        currencies: null,\n\n        usedMainData: [\n          'currencies',\n        ],\n\n        countByType: {\n          unconfirmed: 0,\n          deleted: 0,\n        }\n      }\n    },\n\n    created() {\n      let query = window.location.search.replace('?', '')\n\n      if (_.isEmpty(query)) return\n\n      query.split('&').forEach(item => {\n        item = item.split('=')\n\n        let key = item[0]\n        let value = item[1]\n\n        this[key] = this.getValid(key, value)\n      })\n    },\n\n    methods: {\n      loadData() {\n          this.fetchMainData()\n            .then(data => {\n              this.initMainData(data)\n\n              if (typeof this.fetchItemsCb === 'function') {\n                this.fetchItemsCb()\n                this.fetchItemsCb = undefined\n              }\n            })\n      },\n\n      getValidPage(value) {\n        value = parseInt(value)\n        return isNaN(value) ? defaultTableState.page : value\n      },\n\n      getValidType(value) {\n        return value in this.types ? value : defaultTableState.type\n      },\n\n      getValidPerPage(value) {\n        value = parseInt(value)\n\n        if (this.perPageOptions.indexOf(value) !== -1) {\n          return value\n        }\n\n        return this.perPageOptions[0]\n      },\n\n      getValid(key, value) {\n        let methodName = 'getValid' + Core.camelize(key, true)\n\n        return this[methodName](value)\n      },\n\n      setHistoryState() {\n        let queryArr = Object.keys(defaultTableState).reduce((acc, key) => {\n          let validValue = this.getValid(key, this[key])\n\n          if (validValue !== defaultTableState[key]) {\n            acc.push(encodeURIComponent(key) + '=' + encodeURIComponent(this[key]))\n          }\n\n          return acc\n        }, [])\n\n        let pathWithQuery = window.location.pathname\n\n        if (queryArr.length > 0) {\n          pathWithQuery += '?' + queryArr.join('&')\n        }\n\n        if (this.$router.path !== pathWithQuery) {\n          this.$router.push(pathWithQuery)\n        }\n      },\n\n      /*\n        Загрузка списка.\n      */\n\n      fetchItems ({currentPage, perPage}) {\n        return new Promise(resolve => {\n          new Core.requestHandler('get', this.makePageApiUrl(), {\n            page: currentPage,\n            perPage,\n            type: this.type\n          })\n            .success(response => {\n              const data = response.data\n\n              this.totalRows = this.nanToNum(parseInt(data.totalRows))\n              this.page = parseInt(data.page) || 1\n              this.perPage = this.nanToNum(parseInt(data.perPage))\n\n              const items = data['promo-codes'] || []\n\n              if (this.currencies) {\n                resolve(items.map(item => new PromoCodesTableModel(item, this.currencies)))\n              }\n              else {\n                this.fetchItemsCb = () => {\n                  resolve(items.map(item => new PromoCodesTableModel(item, this.currencies)))\n                }\n              }\n            })\n            .start()\n        })\n      },\n\n      setType(type) {\n        if (this.type === type) return\n\n        this.type = type\n\n        this.refreshTable()\n      },\n\n      sortingChanged(ctx) {\n        ctx.page = 1\n      },\n\n      setPerPage(value) {\n        this.perPage = value\n        this.page = 1\n      },\n\n      refreshTable() {\n        this.$nextTick(() => {\n          this.$refs.table.refresh()\n        })\n      },\n\n      nanToNum(value, num = 0) {\n        return isNaN(value) ? num : value\n      }\n    },\n\n    computed: {\n      showedFrom() {\n        return this.nanToNum((this.page - 1) * this.perPage + 1)\n      },\n\n      showedTo() {\n        let to = this.page * this.perPage\n        return this.nanToNum(to > this.totalRows ? this.totalRows : to)\n      },\n\n      showPagination() {\n        return this.perPage < this.totalRows;\n      },\n    },\n  }\n</script>\n\n<template>\n  <div>\n    <div class=\"block full\">\n\n      <div class=\"block-title clearfix\">\n        <h1>\n          <strong>\n            Промокоды\n          </strong>\n        </h1>\n\n        <div class=\"block-title-control\">\n          <router-link v-if=\"userCan('create')\" to=\"/shop/promo-codes/create\" class=\"btn btn-sm btn-success active\">\n            <i class=\"fa fa-plus-circle\"></i> Создать\n          </router-link>\n        </div>\n      </div>\n\n      <loading :loading=\"loading\">\n        <div class=\"table-responsive\" style=\"overflow: visible\">\n          <div class=\"dataTables_wrapper form-inline no-footer\">\n            <div class=\"row\">\n              <div class=\"col-sm-6 col-xs-12 clearfix\">\n                <div class=\"dataTables_paginate paging_bootstrap\" v-if=\"showPagination\">\n                  <b-pagination :total-rows=\"totalRows\" :per-page=\"perPage\" v-model=\"page\" class=\"my-0\" />\n                </div>\n              </div>\n\n              <div class=\"col-sm-6 col-xs-12 text-center clearfix\">\n                <div class=\"pull-right\">\n                  <div class=\"btn-group\">\n                    <template v-for=\"(title, typeIdentif) in types\">\n                      <button\n                        :class=\"{'btn btn-primary': true, 'active': type === typeIdentif}\"\n                        @click=\"setType(typeIdentif)\"\n                      >\n                        {{ title }}\n\n                        <template v-if=\"typeIdentif in countByType && countByType[typeIdentif] > 0\">\n                          <span class=\"badge\">{{ countByType[typeIdentif] }}</span>\n                        </template>\n\n                      </button>\n                    </template>\n                  </div>\n                </div>\n              </div>\n            </div>\n\n            <b-table\n              @refreshed=\"setHistoryState\"\n              show-empty\n              stacked=\"md\"\n              ref=\"table\"\n              :items=\"fetchItems\"\n              :fields=\"fields\"\n              :busy.sync=\"loading\"\n              :current-page=\"page\"\n              :per-page=\"perPage\"\n              empty-text=\"Список промокодов пуст.\"\n              empty-filtered-text=\"Промокоды с такими параметрами не найдены.\"\n              style=\"margin-bottom: 0\"\n              class=\"table table-vcenter table-condensed table-hover table-bordered no-footer\">\n\n              <!--  ID  -->\n\n              <template slot=\"HEAD_id\" slot-scope=\"promoCode\">\n                <span class=\"table-column-id\">ID</span>\n              </template>\n\n              <template slot=\"id\" slot-scope=\"promoCode\">\n                <router-link :to=\"promoCode.item.url\">\n                  <span class=\"table-column-id\">\n                    {{ promoCode.item.id }}\n                  </span>\n                </router-link>\n              </template>\n\n              <!--  Код  -->\n\n              <template slot=\"name\" slot-scope=\"promoCode\">\n                <router-link :to=\"promoCode.item.url\">\n                  <span class=\"table-column-promocode\">\n                    {{ promoCode.item.name }}\n                  </span>\n                </router-link>\n              </template>\n\n              <!--  Количество  -->\n\n              <template slot=\"quantity\" slot-scope=\"promoCode\">\n                <template v-for=\"quantityString in promoCode.item.quantityStrings\">\n                  <div v-html=\"quantityString\"></div>\n                </template>\n\n                <template v-if=\"promoCode.item.uses_percent\">\n                  <div class=\"promo-progress\">\n                    <div class=\"promo-progress__num\">\n                      {{ promoCode.item.uses_count }}/{{ promoCode.item.quantity }}\n                    </div>\n\n                    <div class=\"promo-progress__progress\">\n                      <div class=\"progress\">\n                        <div class=\"progress-bar progress-bar-info\" role=\"progressbar\" :style=\"{width: promoCode.item.uses_percent + '%'}\">\n                          {{ promoCode.item.uses_percent }}%\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n\n                </template>\n              </template>\n\n              <!--  Условия  -->\n\n              <template slot=\"conditions\" slot-scope=\"promoCode\">\n                <span class=\"table-column-conditions\">\n                  <template v-for=\"condition in promoCode.item.conditions\">\n                    <div v-html=\"condition.toString()\"></div>\n                  </template>\n                </span>\n              </template>\n\n              <!--  Статус  -->\n\n              <template slot=\"HEAD_enabled\" slot-scope=\"promoCode\">\n                <span class=\"table-column-enabled\">Статус</span>\n              </template>\n\n              <template slot=\"enabled\" slot-scope=\"promoCode\">\n                <span class=\"table-column-enabled\">\n                  <toggle @change=\"statusChange(promoCode.item.id)\" :checked=\"promoCode.item.enabled\" :key=\"promoCode.item.id\" />\n                </span>\n              </template>\n\n              <!--  Удаление  -->\n\n              <template slot=\"HEAD_delete\" slot-scope=\"promoCode\">\n                <span class=\"table-column-delete\"></span>\n              </template>\n\n              <template slot=\"delete\" slot-scope=\"promoCode\">\n                <span class=\"table-column-delete\">\n                  <a class=\"btn btn-danger\" @click=\"remove(promoCode.item.id)\">\n                    <i class=\"fa fa-times\"></i>\n                  </a>\n                </span>\n              </template>\n            </b-table>\n\n            <div class=\"row\">\n              <div class=\"col-sm-6 col-xs-12 clearfix\">\n                <div class=\"dataTables_paginate paging_bootstrap\" v-if=\"showPagination\">\n                  <b-pagination\n                    :total-rows=\"totalRows\"\n                    :per-page=\"perPage\"\n                    v-model=\"page\"\n                    class=\"my-0\"\n                  />\n                </div>\n              </div>\n\n              <div class=\"col-sm-6 col-xs-6\">\n                <div class=\"dataTables_length\">\n                  <label>\n                    <b-form-select :options=\"perPageOptions\" :value=\"perPage\" @change=\"setPerPage\" />\n                  </label>\n                </div>\n\n                <div class=\"dataTables_info\" role=\"status\" aria-live=\"polite\">\n                  <strong>{{ showedFrom }}</strong> - <strong>{{ showedTo }}</strong> из <strong>{{ totalRows }}</strong>\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </div>\n      </loading>\n    </div>\n\n    <b-modal\n      id=\"removeModal\"\n      ref=\"removeModal\"\n      title=\"Удаление промокода\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Удалить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @ok=\"removeConfirm\">\n\n      Вы действительно хотите удалить промокод?\n    </b-modal>\n  </div>\n</template>\n\n\n<style>\n  .promo-progress {\n    display: flex;\n    align-items: center;\n    margin-top: 8px;\n  }\n\n  .promo-progress__progress {\n    width: 100%;\n    margin-left: 15px;\n  }\n\n  .promo-progress .progress {\n    margin-bottom: 0;\n  }\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.promo-progress {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  margin-top: 8px;\n}\n.promo-progress__progress {\n  width: 100%;\n  margin-left: 15px;\n}\n.promo-progress .progress {\n  margin-bottom: 0;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/shop/promoCodes/resources/assets/js/components/shop/promoCodes/PromoCodesTable.vue"],"names":[],"mappings":";AA4YA;EACA,qBAAA;EAAA,qBAAA;EAAA,cAAA;EACA,0BAAA;MAAA,uBAAA;UAAA,oBAAA;EACA,gBAAA;CACA;AAEA;EACA,YAAA;EACA,kBAAA;CACA;AAEA;EACA,iBAAA;CACA","file":"PromoCodesTable.vue","sourcesContent":["<script>\n  import bTable from 'bootstrap-vue/es/components/table/table'\n  import bPagination from 'bootstrap-vue/es/components/pagination/pagination'\n  import bFormSelect from 'bootstrap-vue/es/components/form-select/form-select'\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import Core from '../../../core'\n\n  import Toggle from '../../Toggle'\n  import Loading from '../../Loading'\n\n  import TablePage from '../../../mixins/TablePage'\n  import Translatable from '../../../mixins/Translatable'\n  import TableWithFilters from '../../../mixins/TableWithFilters'\n  import StatusChangeable from '../../../mixins/StatusChangeable'\n  import PromoCodesTableModel from '../../../resources/shop/promo/PromoCodesTableModel'\n\n  const defaultTableState = {\n    page: 1,\n    perPage: 30,\n    type: 'all'\n  }\n\n  export default {\n    name: 'promo-codes-table',\n\n    mixins: [\n      StatusChangeable,\n      TablePage,\n      Translatable,\n      TableWithFilters\n    ],\n\n    components : {\n      Toggle,\n      Loading,\n      bTable,\n      bPagination,\n      bFormSelect,\n      bModal,\n    },\n\n    data () {\n      let fields = [\n        {\n          key: 'id',\n          sortable: false,\n        },\n        {\n          key: 'name',\n          sortable: false,\n          label: 'Код',\n        },\n        {\n          key: 'discount',\n          sortable: false,\n          label: 'Скидка',\n          thStyle: {\n            width: \"40%\"\n          }\n        },\n      ]\n\n      if (this.userCan('see')) {\n        fields.push({\n          key: 'quantity',\n          sortable: false,\n          label: 'Использований',\n          thStyle: {\n            width: \"40%\"\n          }\n        })\n      }\n\n      if (this.userCan('see')) {\n        fields.push({\n          key: 'conditions',\n          label: 'Условия',\n          sortable: false,\n          thStyle: {\n            width: \"30%\"\n          }\n        })\n      }\n\n      if (this.userCan('edit')) {\n        fields.push({\n          key: 'enabled',\n          sortable: false,\n        })\n      }\n\n      if (this.userCan('delete')) {\n        fields.push({\n          key: 'delete',\n          sortable: false,\n        })\n      }\n\n      return {\n        rbacNamespace: 'promo-codes',\n        loading: false,\n        totalRows: 0,\n        perPageOptions: [ 15, 30, 60 ],\n        types: {\n          all: 'Все',\n          enabled: 'Активные',\n          old: 'Завершенные',\n          disabled: 'Отмененные',\n        },\n        ... defaultTableState,\n        fields,\n\n        currencies: null,\n\n        usedMainData: [\n          'currencies',\n        ],\n\n        countByType: {\n          unconfirmed: 0,\n          deleted: 0,\n        }\n      }\n    },\n\n    created() {\n      let query = window.location.search.replace('?', '')\n\n      if (_.isEmpty(query)) return\n\n      query.split('&').forEach(item => {\n        item = item.split('=')\n\n        let key = item[0]\n        let value = item[1]\n\n        this[key] = this.getValid(key, value)\n      })\n    },\n\n    methods: {\n      loadData() {\n          this.fetchMainData()\n            .then(data => {\n              this.initMainData(data)\n\n              if (typeof this.fetchItemsCb === 'function') {\n                this.fetchItemsCb()\n                this.fetchItemsCb = undefined\n              }\n            })\n      },\n\n      /*\n        Загрузка списка.\n      */\n\n      fetchItems ({currentPage, perPage}) {\n        return new Promise(resolve => {\n          new Core.requestHandler('get', this.makePageApiUrl(), {\n            page: currentPage,\n            perPage,\n            type: this.type\n          })\n            .success(response => {\n              const data = response.data\n\n              this.totalRows = this.nanToNum(parseInt(data.totalRows))\n              this.page = parseInt(data.page) || 1\n              this.perPage = this.nanToNum(parseInt(data.perPage))\n\n              const items = data['promo-codes'] || []\n\n              if (this.currencies) {\n                resolve(items.map(item => new PromoCodesTableModel(item, this.currencies)))\n              }\n              else {\n                this.fetchItemsCb = () => {\n                  resolve(items.map(item => new PromoCodesTableModel(item, this.currencies)))\n                }\n              }\n            })\n            .start()\n        })\n      },\n\n      setType(type) {\n        if (this.type === type) return\n\n        this.type = type\n\n        this.refreshTable()\n      },\n    },\n  }\n</script>\n\n<template>\n  <div>\n    <div class=\"block full\">\n\n      <div class=\"block-title clearfix\">\n        <h1>\n          <strong>\n            Промокоды\n          </strong>\n        </h1>\n\n        <div class=\"block-title-control\">\n          <router-link v-if=\"userCan('create')\" to=\"/shop/promo-codes/create\" class=\"btn btn-sm btn-success active\">\n            <i class=\"fa fa-plus-circle\"></i> Создать\n          </router-link>\n        </div>\n      </div>\n\n      <loading :loading=\"loading\">\n        <div class=\"table-responsive\" style=\"overflow: visible\">\n          <div class=\"dataTables_wrapper form-inline no-footer\">\n            <div class=\"row\">\n              <div class=\"col-sm-6 col-xs-12 clearfix\">\n                <div class=\"dataTables_paginate paging_bootstrap\" v-if=\"showPagination\">\n                  <b-pagination :total-rows=\"totalRows\" :per-page=\"perPage\" v-model=\"page\" class=\"my-0\" />\n                </div>\n              </div>\n\n              <div class=\"col-sm-6 col-xs-12 text-center clearfix\">\n                <div class=\"pull-right\">\n                  <div class=\"btn-group\">\n                    <template v-for=\"(title, typeIdentif) in types\">\n                      <button\n                        :class=\"{'btn btn-primary': true, 'active': type === typeIdentif}\"\n                        @click=\"setType(typeIdentif)\"\n                      >\n                        {{ title }}\n\n                        <template v-if=\"typeIdentif in countByType && countByType[typeIdentif] > 0\">\n                          <span class=\"badge\">{{ countByType[typeIdentif] }}</span>\n                        </template>\n\n                      </button>\n                    </template>\n                  </div>\n                </div>\n              </div>\n            </div>\n\n            <b-table\n              @refreshed=\"setHistoryState\"\n              show-empty\n              stacked=\"md\"\n              ref=\"table\"\n              :items=\"fetchItems\"\n              :fields=\"fields\"\n              :busy.sync=\"loading\"\n              :current-page=\"page\"\n              :per-page=\"perPage\"\n              empty-text=\"Список промокодов пуст.\"\n              empty-filtered-text=\"Промокоды с такими параметрами не найдены.\"\n              style=\"margin-bottom: 0\"\n              class=\"table table-vcenter table-condensed table-hover table-bordered no-footer\">\n\n              <!--  ID  -->\n\n              <template slot=\"HEAD_id\" slot-scope=\"promoCode\">\n                <span class=\"table-column-id\">ID</span>\n              </template>\n\n              <template slot=\"id\" slot-scope=\"promoCode\">\n                <router-link :to=\"promoCode.item.url\">\n                  <span class=\"table-column-id\">\n                    {{ promoCode.item.id }}\n                  </span>\n                </router-link>\n              </template>\n\n              <!--  Код  -->\n\n              <template slot=\"name\" slot-scope=\"promoCode\">\n                <router-link :to=\"promoCode.item.url\">\n                  <span class=\"table-column-promocode\">\n                    {{ promoCode.item.name }}\n                  </span>\n                </router-link>\n              </template>\n\n              <!--  Количество  -->\n\n              <template slot=\"quantity\" slot-scope=\"promoCode\">\n                <template v-for=\"quantityString in promoCode.item.quantityStrings\">\n                  <div v-html=\"quantityString\"></div>\n                </template>\n\n                <template v-if=\"promoCode.item.uses_percent\">\n                  <div class=\"promo-progress\">\n                    <div class=\"promo-progress__num\">\n                      {{ promoCode.item.uses_count }}/{{ promoCode.item.quantity }}\n                    </div>\n\n                    <div class=\"promo-progress__progress\">\n                      <div class=\"progress\">\n                        <div class=\"progress-bar progress-bar-info\" role=\"progressbar\" :style=\"{width: promoCode.item.uses_percent + '%'}\">\n                          {{ promoCode.item.uses_percent }}%\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n\n                </template>\n              </template>\n\n              <!--  Условия  -->\n\n              <template slot=\"conditions\" slot-scope=\"promoCode\">\n                <span class=\"table-column-conditions\">\n                  <template v-for=\"condition in promoCode.item.conditions\">\n                    <div v-html=\"condition.toString()\"></div>\n                  </template>\n                </span>\n              </template>\n\n              <!--  Статус  -->\n\n              <template slot=\"HEAD_enabled\" slot-scope=\"promoCode\">\n                <span class=\"table-column-enabled\">Статус</span>\n              </template>\n\n              <template slot=\"enabled\" slot-scope=\"promoCode\">\n                <span class=\"table-column-enabled\">\n                  <toggle @change=\"statusChange(promoCode.item.id)\" :checked=\"promoCode.item.enabled\" :key=\"promoCode.item.id\" />\n                </span>\n              </template>\n\n              <!--  Удаление  -->\n\n              <template slot=\"HEAD_delete\" slot-scope=\"promoCode\">\n                <span class=\"table-column-delete\"></span>\n              </template>\n\n              <template slot=\"delete\" slot-scope=\"promoCode\">\n                <span class=\"table-column-delete\">\n                  <a class=\"btn btn-danger\" @click=\"remove(promoCode.item.id)\">\n                    <i class=\"fa fa-times\"></i>\n                  </a>\n                </span>\n              </template>\n            </b-table>\n\n            <div class=\"row\">\n              <div class=\"col-sm-6 col-xs-12 clearfix\">\n                <div class=\"dataTables_paginate paging_bootstrap\" v-if=\"showPagination\">\n                  <b-pagination\n                    :total-rows=\"totalRows\"\n                    :per-page=\"perPage\"\n                    v-model=\"page\"\n                    class=\"my-0\"\n                  />\n                </div>\n              </div>\n\n              <div class=\"col-sm-6 col-xs-6\">\n                <div class=\"dataTables_length\">\n                  <label>\n                    <b-form-select :options=\"perPageOptions\" :value=\"perPage\" @change=\"setPerPage\" />\n                  </label>\n                </div>\n\n                <div class=\"dataTables_info\" role=\"status\" aria-live=\"polite\">\n                  <strong>{{ showedFrom }}</strong> - <strong>{{ showedTo }}</strong> из <strong>{{ totalRows }}</strong>\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </div>\n      </loading>\n    </div>\n\n    <b-modal\n      id=\"removeModal\"\n      ref=\"removeModal\"\n      title=\"Удаление промокода\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Удалить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @ok=\"removeConfirm\">\n\n      Вы действительно хотите удалить промокод?\n    </b-modal>\n  </div>\n</template>\n\n\n<style>\n  .promo-progress {\n    display: flex;\n    align-items: center;\n    margin-top: 8px;\n  }\n\n  .promo-progress__progress {\n    width: 100%;\n    margin-left: 15px;\n  }\n\n  .promo-progress .progress {\n    margin-bottom: 0;\n  }\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -20248,7 +20940,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.sidebar-nav li {\n    position: relative;\n}\n.sidebar-nav .sidebar-nav-sub > ul {\n    display: block;\n}\n.sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n    height: 0;\n    overflow: hidden;\n    position: relative;\n    -webkit-transition: all .228s ease-out;\n    transition: all .228s ease-out;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n.sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n    height: 0!important;\n}\n.sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n    max-height: none;\n    -webkit-transition: none;\n    transition: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/MainMenu.vue"],"names":[],"mappings":";AAoUA;IACA,mBAAA;CACA;AAEA;IACA,eAAA;CACA;AAEA;IACA,UAAA;IACA,iBAAA;IACA,mBAAA;IACA,uCAAA;IAAA,+BAAA;IACA,wCAAA;YAAA,gCAAA;CACA;AAEA;IACA,oBAAA;CACA;AAEA;IACA,iBAAA;IACA,yBAAA;IAAA,iBAAA;CACA","file":"MainMenu.vue","sourcesContent":["<script>\n  import Core from '../core'\n  import Base from '../mixins/Base'\n\n  export default {\n    name: \"main-menu\",\n\n    data() {\n      return {\n        items: []\n      }\n    },\n\n    watch: {\n      '$route': 'checkExpanded'\n    },\n\n    mixins: [\n      Base\n    ],\n\n    mounted() {\n      this.init()\n    },\n\n    methods: {\n      init() {\n        [].forEach.call(document.querySelectorAll('.sidebar-nav-sub'), el => {\n          el.setAttribute('data-height', this.getMenuHeight(el))\n        })\n\n        this.checkExpanded()\n      },\n\n      getMenuHeight(elMenu) {\n        return elMenu.childNodes[0].scrollHeight\n      },\n\n      getMainMenuEl() {\n        return this.$el\n      },\n\n      getParents(el, selector = '*') {\n        let parents = []\n        let p = el.parentNode\n\n        while (p !== this.$el) {\n          if (p.matches(selector)) {\n            parents.push(p)\n          }\n\n          el = p\n          p = p.parentNode\n        }\n\n        return parents\n      },\n\n      checkExpanded() {\n        this.$nextTick(() => {\n          let elsToCLose = this.$el.querySelectorAll('.sidebar-nav-menu.open:not(.manual) + .sidebar-nav-sub')\n\n          ;[].forEach.call(elsToCLose, elMenu => {\n            this.closeItem(elMenu.previousSibling, elMenu)\n          })\n\n          let elActiveLink = this.$el.querySelector('a.active')\n\n          if (!elActiveLink) return\n\n          let elClosestMenu = elActiveLink.closest('.sidebar-nav-sub')\n\n          if (! elClosestMenu) return\n\n          this.expand(elClosestMenu.previousSibling, elClosestMenu)\n        })\n      },\n\n      getChildrensHeight(elMenu) {\n        return [].reduce.call(elMenu.querySelectorAll('.sidebar-nav-menu.open + .sidebar-nav-sub'), (acc, el) => {\n          return acc + parseInt(el.getAttribute('data-height'))\n        }, 0)\n      },\n\n      expandItem(elLink, elMenu) {\n        elLink.classList.add('open')\n\n        let height = parseInt(elMenu.getAttribute('data-height')) + this.getChildrensHeight(elMenu)\n        elMenu.style.height = height + 'px'\n      },\n\n      expand(elLink, elMenu) {\n        this.expandItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      closeItem(elLink, elMenu) {\n        elLink.classList.remove('open')\n        elMenu.removeAttribute('style')\n      },\n\n      close(elLink, elMenu) {\n        ;[].reverse.call(elMenu.querySelectorAll('.sidebar-nav-sub')).forEach(el => {\n          this.closeItem(el.previousSibling, el)\n        })\n\n        this.closeItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      expandToggle(elLink, elMenu) {\n        if (elLink.classList.contains('open')) {\n          this.close(elLink, elMenu)\n        }\n        else {\n          this.expand(elLink, elMenu)\n        }\n      },\n\n      expandLinkClick(elLink) {\n        elLink.classList.toggle('manual')\n        this.expandToggle(elLink, elLink.nextSibling)\n      },\n\n      prepareItems(menuItems = []) {\n        return menuItems.reduce((acc, item) => {\n          if (item.permission && !this.userCan(item.permission)) {\n            return acc\n          }\n\n          if (item.children instanceof Array && item.children.length > 0) {\n            let children = this.prepareItems(item.children)\n\n            if (children.length === 0) {\n              return acc\n            }\n\n            acc.push({\n              ... item,\n              children\n            })\n\n            return acc\n          }\n\n          acc.push(item)\n\n          return acc\n        }, [])\n      }\n    },\n\n    render(createElement) {\n      this.items = this.prepareItems(Core.getMainMenuData())\n\n\n      let makeTitleEl = (title) => {\n        return createElement(\n          'span',\n          {\n            attrs: {\n              class: 'sidebar-nav-mini-hide'\n            }\n          },\n          title\n        )\n      }\n\n      let __makeIconEl = iconClasses => {\n        return createElement(\n          'i',\n          {\n            attrs: {\n              class: iconClasses\n            }\n          }\n        )\n      }\n\n      let makeIconEl = iconCLasses => {\n        return __makeIconEl(`${iconCLasses} sidebar-nav-icon`)\n      }\n\n      let makeIndicatorEl = () => {\n        return __makeIconEl('fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide')\n      }\n\n      let urlIsLocal = (url) => {\n        url = Core.trim(url)\n\n        if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {\n            return url.indexOf(window.location.origin) === 0\n        }\n\n        return true\n      }\n\n      function mergeDeep(target, ...sources) {\n        if (!sources.length) return target;\n        const source = sources.shift();\n\n        if (_.isObject(target) && _.isObject(source)) {\n          for (const key in source) {\n            if (_.isObject(source[key]) && !_.isFunction(source[key])) {\n              if (!target[key]) Object.assign(target, { [key]: {} });\n              mergeDeep(target[key], source[key]);\n            }\n            else {\n              Object.assign(target, { [key]: source[key] });\n            }\n          }\n        }\n\n        return mergeDeep(target, ...sources);\n      }\n\n      let makeLink = ({url, onClick, icon, title, children}) => {\n        let tagName = 'a'\n        let isLocal = url ? urlIsLocal(url) : false\n        let params = {\n          key: Core.uniqueId()\n        }\n\n        if (typeof onClick === 'function') {\n          params = mergeDeep(params, {\n            on: {\n              click: onClick\n            }\n          })\n        }\n        if (url && isLocal) {\n          tagName = 'router-link'\n          params = mergeDeep(params, {\n            attrs: {\n              to: url,\n              'active-class': 'active'\n            }\n          })\n        }\n        else if (url && !isLocal) {\n          params = mergeDeep(params, {\n            attrs: {\n              href: url,\n              target: '_blank'\n            }\n          })\n        }\n        else {\n          params = mergeDeep(params, {\n            attrs: {\n              href: 'javascript:void(0);'\n            }\n          })\n        }\n\n        let childrenElsArray = []\n\n        if (children instanceof Array && children.length > 0) {\n          params = mergeDeep(params, {\n            on: {\n              click: event => this.expandLinkClick(event.target.closest('.sidebar-nav-menu'))\n            },\n            attrs: {\n              class: 'sidebar-nav-menu'\n            }\n          })\n\n          childrenElsArray.push(makeIndicatorEl())\n        }\n\n        if (icon) {\n          childrenElsArray.push(makeIconEl(icon))\n        }\n\n        if (title) {\n          childrenElsArray.push(makeTitleEl(title))\n        }\n\n        return createElement(tagName, params, childrenElsArray)\n      }\n\n      let makeElsLiArray = (items = []) => {\n        return items.reduce((acc, item) => {\n          let slots = [makeLink(item)]\n\n          if (item.children) {\n\n            slots.push(createElement(\n              'div',\n              {\n                attrs: {\n                  class: 'sidebar-nav-sub'\n                }\n              },\n              [createElement('ul', makeElsLiArray(item.children))]\n            ))\n          }\n\n          acc.push(createElement('li', slots))\n\n          return acc\n        }, [])\n      }\n\n      return createElement(\n        'ul',\n        {\n          attrs: {\n            class: 'sidebar-nav'\n          }\n        },\n        makeElsLiArray(this.items)\n      )\n    }\n  }\n</script>\n\n<style>\n    .sidebar-nav li {\n        position: relative;\n    }\n\n    .sidebar-nav .sidebar-nav-sub > ul {\n        display: block;\n    }\n\n    .sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n        height: 0;\n        overflow: hidden;\n        position: relative;\n        transition: all .228s ease-out;\n        transform: translate3d(0, 0, 0);\n    }\n\n    .sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n        height: 0!important;\n    }\n\n    .sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n        max-height: none;\n        transition: none;\n    }\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.sidebar-nav li {\n    position: relative;\n}\n.sidebar-nav .sidebar-nav-sub > ul {\n    display: block;\n}\n.sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n    height: 0;\n    overflow: hidden;\n    position: relative;\n    -webkit-transition: all .228s ease-out;\n    transition: all .228s ease-out;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n.sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n    height: 0!important;\n}\n.sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n    max-height: none;\n    -webkit-transition: none;\n    transition: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/MainMenu.vue"],"names":[],"mappings":";AAqUA;IACA,mBAAA;CACA;AAEA;IACA,eAAA;CACA;AAEA;IACA,UAAA;IACA,iBAAA;IACA,mBAAA;IACA,uCAAA;IAAA,+BAAA;IACA,wCAAA;YAAA,gCAAA;CACA;AAEA;IACA,oBAAA;CACA;AAEA;IACA,iBAAA;IACA,yBAAA;IAAA,iBAAA;CACA","file":"MainMenu.vue","sourcesContent":["<script>\n  import Core from '../core'\n  import Base from '../mixins/Base'\n\n  export default {\n    name: \"main-menu\",\n\n    data() {\n      return {\n        items: []\n      }\n    },\n\n    watch: {\n      '$route': 'checkExpanded'\n    },\n\n    mixins: [\n      Base\n    ],\n\n    mounted() {\n      this.init()\n    },\n\n    methods: {\n      init() {\n        [].forEach.call(document.querySelectorAll('.sidebar-nav-sub'), el => {\n          el.setAttribute('data-height', this.getMenuHeight(el))\n        })\n\n        this.checkExpanded()\n      },\n\n      getMenuHeight(elMenu) {\n        return elMenu.childNodes[0].scrollHeight\n      },\n\n      getMainMenuEl() {\n        return this.$el\n      },\n\n      getParents(el, selector = '*') {\n        let parents = []\n        let p = el.parentNode\n\n        while (p !== this.$el) {\n          if (p.matches(selector)) {\n            parents.push(p)\n          }\n\n          el = p\n          p = p.parentNode\n        }\n\n        return parents\n      },\n\n      checkExpanded() {\n        this.$nextTick(() => {\n          let elsToCLose = this.$el.querySelectorAll('.sidebar-nav-menu.open:not(.manual) + .sidebar-nav-sub')\n\n          ;[].forEach.call(elsToCLose, elMenu => {\n            this.closeItem(elMenu.previousSibling, elMenu)\n          })\n\n          let elActiveLink = this.$el.querySelector('a.active')\n\n          if (!elActiveLink) return\n\n          let elClosestMenu = elActiveLink.closest('.sidebar-nav-sub')\n\n          if (! elClosestMenu) return\n\n          this.expand(elClosestMenu.previousSibling, elClosestMenu)\n        })\n      },\n\n      getChildrensHeight(elMenu) {\n        return [].reduce.call(elMenu.querySelectorAll('.sidebar-nav-menu.open + .sidebar-nav-sub'), (acc, el) => {\n          return acc + parseInt(el.getAttribute('data-height'))\n        }, 0)\n      },\n\n      expandItem(elLink, elMenu) {\n        elLink.classList.add('open')\n\n        let height = parseInt(elMenu.getAttribute('data-height')) + this.getChildrensHeight(elMenu)\n        elMenu.style.height = height + 'px'\n      },\n\n      expand(elLink, elMenu) {\n        this.expandItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      closeItem(elLink, elMenu) {\n        elLink.classList.remove('open')\n        elMenu.removeAttribute('style')\n      },\n\n      close(elLink, elMenu) {\n        Array.prototype.slice.call(elMenu.querySelectorAll('.sidebar-nav-sub'))\n          .reverse().forEach(el => {\n            this.closeItem(el.previousSibling, el)\n          })\n\n        this.closeItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      expandToggle(elLink, elMenu) {\n        if (elLink.classList.contains('open')) {\n          this.close(elLink, elMenu)\n        }\n        else {\n          this.expand(elLink, elMenu)\n        }\n      },\n\n      expandLinkClick(elLink) {\n        elLink.classList.toggle('manual')\n        this.expandToggle(elLink, elLink.nextSibling)\n      },\n\n      prepareItems(menuItems = []) {\n        return menuItems.reduce((acc, item) => {\n          if (item.permission && !this.userCan(item.permission)) {\n            return acc\n          }\n\n          if (item.children instanceof Array && item.children.length > 0) {\n            let children = this.prepareItems(item.children)\n\n            if (children.length === 0) {\n              return acc\n            }\n\n            acc.push({\n              ... item,\n              children\n            })\n\n            return acc\n          }\n\n          acc.push(item)\n\n          return acc\n        }, [])\n      }\n    },\n\n    render(createElement) {\n      this.items = this.prepareItems(Core.getMainMenuData())\n\n\n      let makeTitleEl = (title) => {\n        return createElement(\n          'span',\n          {\n            attrs: {\n              class: 'sidebar-nav-mini-hide'\n            }\n          },\n          title\n        )\n      }\n\n      let __makeIconEl = iconClasses => {\n        return createElement(\n          'i',\n          {\n            attrs: {\n              class: iconClasses\n            }\n          }\n        )\n      }\n\n      let makeIconEl = iconCLasses => {\n        return __makeIconEl(`${iconCLasses} sidebar-nav-icon`)\n      }\n\n      let makeIndicatorEl = () => {\n        return __makeIconEl('fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide')\n      }\n\n      let urlIsLocal = (url) => {\n        url = Core.trim(url)\n\n        if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {\n            return url.indexOf(window.location.origin) === 0\n        }\n\n        return true\n      }\n\n      function mergeDeep(target, ...sources) {\n        if (!sources.length) return target;\n        const source = sources.shift();\n\n        if (_.isObject(target) && _.isObject(source)) {\n          for (const key in source) {\n            if (_.isObject(source[key]) && !_.isFunction(source[key])) {\n              if (!target[key]) Object.assign(target, { [key]: {} });\n              mergeDeep(target[key], source[key]);\n            }\n            else {\n              Object.assign(target, { [key]: source[key] });\n            }\n          }\n        }\n\n        return mergeDeep(target, ...sources);\n      }\n\n      let makeLink = ({url, onClick, icon, title, children}) => {\n        let tagName = 'a'\n        let isLocal = url ? urlIsLocal(url) : false\n        let params = {\n          key: Core.uniqueId()\n        }\n\n        if (typeof onClick === 'function') {\n          params = mergeDeep(params, {\n            on: {\n              click: onClick\n            }\n          })\n        }\n        if (url && isLocal) {\n          tagName = 'router-link'\n          params = mergeDeep(params, {\n            attrs: {\n              to: url,\n              'active-class': 'active'\n            }\n          })\n        }\n        else if (url && !isLocal) {\n          params = mergeDeep(params, {\n            attrs: {\n              href: url,\n              target: '_blank'\n            }\n          })\n        }\n        else {\n          params = mergeDeep(params, {\n            attrs: {\n              href: 'javascript:void(0);'\n            }\n          })\n        }\n\n        let childrenElsArray = []\n\n        if (children instanceof Array && children.length > 0) {\n          params = mergeDeep(params, {\n            on: {\n              click: event => this.expandLinkClick(event.target.closest('.sidebar-nav-menu'))\n            },\n            attrs: {\n              class: 'sidebar-nav-menu'\n            }\n          })\n\n          childrenElsArray.push(makeIndicatorEl())\n        }\n\n        if (icon) {\n          childrenElsArray.push(makeIconEl(icon))\n        }\n\n        if (title) {\n          childrenElsArray.push(makeTitleEl(title))\n        }\n\n        return createElement(tagName, params, childrenElsArray)\n      }\n\n      let makeElsLiArray = (items = []) => {\n        return items.reduce((acc, item) => {\n          let slots = [makeLink(item)]\n\n          if (item.children) {\n\n            slots.push(createElement(\n              'div',\n              {\n                attrs: {\n                  class: 'sidebar-nav-sub'\n                }\n              },\n              [createElement('ul', makeElsLiArray(item.children))]\n            ))\n          }\n\n          acc.push(createElement('li', slots))\n\n          return acc\n        }, [])\n      }\n\n      return createElement(\n        'ul',\n        {\n          attrs: {\n            class: 'sidebar-nav'\n          }\n        },\n        makeElsLiArray(this.items)\n      )\n    }\n  }\n</script>\n\n<style>\n    .sidebar-nav li {\n        position: relative;\n    }\n\n    .sidebar-nav .sidebar-nav-sub > ul {\n        display: block;\n    }\n\n    .sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n        height: 0;\n        overflow: hidden;\n        position: relative;\n        transition: all .228s ease-out;\n        transform: translate3d(0, 0, 0);\n    }\n\n    .sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n        height: 0!important;\n    }\n\n    .sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n        max-height: none;\n        transition: none;\n    }\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -20263,7 +20955,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.gallery-dropzone .dz-message {\n  position: relative;\n  margin: 0;\n  display: block!important;\n}\n.gallery-dropzone .dz-message::before {\n  content: '';\n  display: block;\n  padding-top: 100%;\n}\n.gallery-dropzone .dz-message > span {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.gallery-dropzone .dz-preview {\n  display: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/DropzoneGallery.vue"],"names":[],"mappings":";AA4UA;EACA,mBAAA;EACA,UAAA;EACA,yBAAA;CACA;AAEA;EACA,YAAA;EACA,eAAA;EACA,kBAAA;CACA;AAEA;EACA,mBAAA;EACA,QAAA;EACA,OAAA;EACA,YAAA;EACA,aAAA;EACA,qBAAA;EAAA,qBAAA;EAAA,cAAA;EACA,yBAAA;MAAA,sBAAA;UAAA,wBAAA;EACA,0BAAA;MAAA,uBAAA;UAAA,oBAAA;CACA;AAEA;EACA,cAAA;CACA","file":"DropzoneGallery.vue","sourcesContent":["<script>\n  import {ErrorBag} from 'vee-validate'\n\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import Core from '../core'\n  import VueDropzone from 'vue2-dropzone'\n  import Toggle from './Toggle'\n  import Sortable from '../mixins/Sortable'\n  import ImageEditor from './ImageEditor'\n\n  export default {\n    props: {\n      id: {\n        type: String,\n        default: 'dropzone'\n      },\n      url: {\n        type: String,\n        require: true,\n      },\n\n      images: {\n        type: Array\n      },\n\n      params: {\n        type: Object,\n        default: function () {\n          return {}\n        }\n      },\n\n      errors: {\n        type: ErrorBag\n      },\n\n      safeDelete: {\n        type: Boolean,\n        default: true\n      }\n    },\n\n    mixins: [\n      Sortable\n    ],\n\n    components: {\n      VueDropzone,\n      Toggle,\n      bModal,\n      ImageEditor\n    },\n\n    data() {\n      return {\n        params$: {\n          url: Core.addApiTokenToUrl(this.url),\n          thumbnailWidth: 150,\n          maxFilesize: 8,\n          addRemoveLinks: false,\n          autoProcessQueue: true,\n          ignoreHiddenFiles: true,\n          dictDefaultMessage: \"<div>Добавить изображение<div><i class=\\\"fa fa-plus-circle\\\" style=\\\"vertical-align:bottom;font-size:40px;\\\"></i></div></div>\",\n          dictFallbackMessage: \"Ваш браузер не поддерживает загрузку файлов при помощи drag'n'drop.\",\n          dictFallbackText: \"Используйте форму ниже, чтобы загрузить файлы.\",\n          dictFileTooBig: \"Размер файла слишком велик ({{filesize}} Mb). Максимальный размер файла: {{maxFilesize}} Mb.\",\n          dictInvalidFileType: \"Вы не можете загружать файлы этого типа.\",\n          dictResponseError: \"Сервер вернул ошибку с кодом: {{statusCode}}.\",\n          dictCancelUpload: \"Отменить загрузку\",\n          dictUploadCanceled: \"Загрузка отменена.\",\n          dictCancelUploadConfirmation: \"Вы уверены, что хотите отменить загрузку?\",\n          dictRemoveFile: \"Удалить файл\",\n          dictMaxFilesExceeded: \"Достигнут лимит количества файлов.\",\n          acceptedFiles: 'image/jpeg, image/png',\n          previewTemplate: '<div class=\\\"dz-preview dz-processing dz-complete dz-image-preview\\\"><div class=\\\"dz-remove\\\" data-dz-remove></div><div class=\\\"dz-image\\\"><a href=\\\"javascript:void(0)\\\" class=\\\"dz-link\\\"><img data-dz-thumbnail /><div class=\\\"dz-details\\\"><div class=\\\"dz-size\\\"><span data-dz-size></span></div><div class=\\\"dz-filename\\\"><i class=\\\"dz-icon fa fa-search\\\"></i></div></div></a></div><div class=\\\"dz-progress\\\"><span class=\\\"dz-upload\\\" data-dz-uploadprogress></span></div><div class=\\\"dz-error-message\\\"><span data-dz-errormessage></span></div><div class=\\\"dz-success-mark\\\"><i class=\\\"dz-icon fa fa-check\\\"></i></div><div class=\\\"dz-error-mark\\\"><i class=\\\"dz-icon fa fa-warning\\\"></i></div>',\n        },\n\n        sortableParams: {\n          update: this.sort\n        },\n\n        editorImage: null,\n\n        type$: null\n      }\n    },\n\n    methods: {\n      initSort() {\n        let params = this.getParams()\n\n        if (params.maxFiles !== 1) {\n          Sortable.methods.initSort.call(this)\n        }\n      },\n\n      getParams() {\n        return {\n          ... this.params$,\n          ... this.params\n        }\n      },\n\n      getInstance() {\n        return this.$refs.dropzone.dropzone\n      },\n\n      fileAdded(file) {\n        let params = this.getParams()\n        if (params.maxFiles && this.images.length < params.maxFiles) {\n          file.noFilesLimit = true\n        }\n      },\n\n      success(file, response) {\n        this.getInstance().removeFile(file)\n\n        this.add(response.image)\n      },\n\n      error(file, errorMessage) {\n        Core.notify(errorMessage, {type: 'error'})\n\n        this.getInstance().removeFile(file)\n\n        this.remove(file)\n      },\n\n      maxfilesreached(files) {\n        for (let i = 0; i < files.length; i++) {\n          if (!files[i].noFilesLimit) {\n            Core.notify(this.getParams().dictMaxFilesExceeded, {type: 'warning'})\n            break\n          }\n        }\n      },\n\n      maxfilesexceeded(file) {\n        let params = this.getParams()\n        let fileSize = (file.size / 1024 / 1024).toFixed(1)\n        let message = params.dictFileTooBig\n\n        message = message.replace('{{filesize}}', fileSize)\n        message = message.replace('{{maxFilesize}}', params.maxFilesize)\n\n        Core.notify(message, {type: 'warning'})\n      },\n\n      sort() {\n        this.$emit('update:images', this.sortDataBundleByIdsPosition(this.images, this.collectSortIds()))\n      },\n\n      add(image) {\n        this.$emit('update:images', [\n          ... this.images,\n          image\n        ])\n      },\n\n      update(image) {\n        this.$emit('update:images', this.images.map(item => item.id === image.id ? image : item))\n      },\n\n      edit(image) {\n        this.editorImage = image\n        this.$refs.pictureEditModal.show()\n      },\n\n      remove(image) {\n        if (this.safeDelete) {\n          image.deleted = true\n          this.update(image)\n        }\n        else {\n          this.$emit('update:images', this.images.filter(item => item.id !== image.id))\n        }\n      },\n\n      recover(image) {\n        image.deleted = false\n        this.update(image)\n      },\n\n      isDeleted(image) {\n        return image.deleted\n      },\n\n      editorImageSave() {\n        let image = this.editorImage\n        let modifications = this.$refs.imageEditor.getClearedModifications()\n\n        if (Object.keys(modifications) === 0) {\n          if (image.modifications) {\n            delete image.modifications\n          }\n\n          if (image.cropped) {\n            delete image.cropped\n          }\n        }\n        else {\n          image.modifications = modifications\n          image.cropped = this.$refs.imageEditor.getCroppedImage()\n        }\n\n        this.update(image)\n        this.editorImage = null\n      },\n\n      getImageOriginal(image) {\n        return image.cropped ? image.cropped : image.original\n      },\n\n      getImagePreview(image) {\n        if (image.cropped) {\n          return image.cropped\n        }\n\n        if (image.small) {\n          return image.small.srcset ? image.small.srcset : image.small.src\n        }\n\n        return image.original || ''\n      },\n\n      getEditorImageModifications() {\n        return (this.editorImage && this.editorImage.modifications) ? this.editorImage.modifications : {}\n      },\n\n      clear() {\n        this.editorImage = false\n      },\n\n      hasError(imageIndex) {\n        return this.errors.has(`images.${imageIndex}`)\n      }\n    },\n\n    computed: {\n      dropzoneIsVisible() {\n        let params = this.getParams()\n\n        if (params.maxFiles && params.maxFiles === this.images.length) {\n          return false\n        }\n\n        return true\n      }\n    },\n\n    mounted() {\n      this.makeGallery()\n    },\n  }\n</script>\n\n<template>\n  <div>\n    <div class=\"gallery gallery-widget\" ref=\"gallery\">\n      <div class=\"row ui-sortable\">\n        <div v-show=\"dropzoneIsVisible\" class=\"col-xs-6 col-sm-3\" style=\"min-width:155px;\">\n          <vue-dropzone\n            ref=\"dropzone\"\n            :id=\"this.id\"\n            class=\"gallery-dropzone\"\n            @vdropzone-success=\"success\"\n            @vdropzone-error=\"error\"\n            @vdropzone-max-files-reached=\"maxfilesreached\"\n            @vdropzone-max-files-exceeded=\"maxfilesexceeded\"\n            @vdropzone-file-added=\"fileAdded\"\n            :options=\"getParams()\"\n            :destroyDropzone=\"true\" />\n        </div>\n\n        <div v-for=\"(image, index) in images\" :data-id=\"image.id\" :key=\"image.id\" class=\"col-xs-6 col-sm-3\" style=\"min-width:155px;\">\n          <input type=\"hidden\" name=\"ids\" :value=\"image.id\">\n\n          <div :class=\"{'edit-photo-card': true, 'edit-photo-card--deleted': image.deleted, 'edit-photo-card--has-error': hasError(index)}\">\n            <a data-fancybox=\"gallery\" :href=\"getImageOriginal(image)\" class=\"edit-photo-card__preview\">\n              <div class=\"edit-photo-card__image\" :style=\"`background-image:url(${getImagePreview(image)})`\"></div>\n            </a>\n\n            <div class=\"edit-photo-card__deleted-icon\">\n              <i class=\"fa fa-trash\"></i>\n            </div>\n\n            <div class=\"edit-photo-card__controls\">\n              <div class=\"pull-left\">\n                <a class=\"btn btn-sm btn-primary\" @click=\"edit(image)\" v-if=\"!isDeleted(image)\">\n                  <i class=\"fa fa-crop\"></i>\n                </a>\n              </div>\n\n              <div class=\"pull-right\">\n                <a class=\"btn btn-sm btn-danger\" @click=\"remove(image)\" v-if=\"!isDeleted(image)\">\n                  <i class=\"fa fa-trash-o\"></i>\n                </a>\n\n                <a class=\"btn btn-sm btn-success\" @click=\"recover(image)\" v-if=\"isDeleted(image)\">\n                  <i class=\"fa fa-repeat\"></i> Восстановить\n                </a>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <b-modal\n      ref=\"pictureEditModal\"\n      :no-close-on-backdrop=\"true\"\n      size=\"lg\"\n      title=\"Редактирование изображения\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Применить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @hidden=\"clear\"\n      @ok=\"editorImageSave\">\n\n      <image-editor\n        ref=\"imageEditor\"\n        v-if=\"!!editorImage\"\n        :image=\"editorImage.original\"\n        :modifications=\"getEditorImageModifications()\"/>\n    </b-modal>\n  </div>\n</template>\n\n<style>\n  .gallery-dropzone .dz-message {\n    position: relative;\n    margin: 0;\n    display: block!important;\n  }\n\n  .gallery-dropzone .dz-message::before {\n    content: '';\n    display: block;\n    padding-top: 100%;\n  }\n\n  .gallery-dropzone .dz-message > span {\n    position: absolute;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n\n  .gallery-dropzone .dz-preview {\n    display: none;\n  }\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.gallery-dropzone .dz-message {\n  position: relative;\n  margin: 0;\n  display: block!important;\n}\n.gallery-dropzone .dz-message::before {\n  content: '';\n  display: block;\n  padding-top: 100%;\n}\n.gallery-dropzone .dz-message > span {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.gallery-dropzone .dz-preview {\n  display: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/DropzoneGallery.vue"],"names":[],"mappings":";AAwUA;EACA,mBAAA;EACA,UAAA;EACA,yBAAA;CACA;AAEA;EACA,YAAA;EACA,eAAA;EACA,kBAAA;CACA;AAEA;EACA,mBAAA;EACA,QAAA;EACA,OAAA;EACA,YAAA;EACA,aAAA;EACA,qBAAA;EAAA,qBAAA;EAAA,cAAA;EACA,yBAAA;MAAA,sBAAA;UAAA,wBAAA;EACA,0BAAA;MAAA,uBAAA;UAAA,oBAAA;CACA;AAEA;EACA,cAAA;CACA","file":"DropzoneGallery.vue","sourcesContent":["<script>\n  import {ErrorBag} from 'vee-validate'\n\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import Core from '../core'\n  import VueDropzone from 'vue2-dropzone'\n  import Toggle from './Toggle'\n  import Sortable from '../mixins/Sortable'\n  import ImageEditor from './ImageEditor'\n\n  export default {\n    props: {\n      id: {\n        type: String,\n        default: 'dropzone'\n      },\n      url: {\n        type: String,\n        require: true,\n      },\n\n      images: {\n        type: Array\n      },\n\n      params: {\n        type: Object,\n        default: function () {\n          return {}\n        }\n      },\n\n      errors: {\n        type: ErrorBag\n      },\n\n      safeDelete: {\n        type: Boolean,\n        default: true\n      }\n    },\n\n    mixins: [\n      Sortable\n    ],\n\n    components: {\n      VueDropzone,\n      Toggle,\n      bModal,\n      ImageEditor\n    },\n\n    data() {\n      return {\n        params$: {\n          url: Core.addApiTokenToUrl(this.url),\n          thumbnailWidth: 150,\n          maxFilesize: 8,\n          addRemoveLinks: false,\n          autoProcessQueue: true,\n          ignoreHiddenFiles: true,\n          dictDefaultMessage: \"<div>Добавить изображение<div><i class=\\\"fa fa-plus-circle\\\" style=\\\"vertical-align:bottom;font-size:40px;\\\"></i></div></div>\",\n          dictFallbackMessage: \"Ваш браузер не поддерживает загрузку файлов при помощи drag'n'drop.\",\n          dictFallbackText: \"Используйте форму ниже, чтобы загрузить файлы.\",\n          dictFileTooBig: \"Размер файла слишком велик ({{filesize}} Mb). Максимальный размер файла: {{maxFilesize}} Mb.\",\n          dictInvalidFileType: \"Вы не можете загружать файлы этого типа.\",\n          dictResponseError: \"Сервер вернул ошибку с кодом: {{statusCode}}.\",\n          dictCancelUpload: \"Отменить загрузку\",\n          dictUploadCanceled: \"Загрузка отменена.\",\n          dictCancelUploadConfirmation: \"Вы уверены, что хотите отменить загрузку?\",\n          dictRemoveFile: \"Удалить файл\",\n          dictMaxFilesExceeded: \"Достигнут лимит количества файлов.\",\n          acceptedFiles: 'image/jpeg, image/png',\n          previewTemplate: '<div class=\\\"dz-preview dz-processing dz-complete dz-image-preview\\\"><div class=\\\"dz-remove\\\" data-dz-remove></div><div class=\\\"dz-image\\\"><a href=\\\"javascript:void(0)\\\" class=\\\"dz-link\\\"><img data-dz-thumbnail /><div class=\\\"dz-details\\\"><div class=\\\"dz-size\\\"><span data-dz-size></span></div><div class=\\\"dz-filename\\\"><i class=\\\"dz-icon fa fa-search\\\"></i></div></div></a></div><div class=\\\"dz-progress\\\"><span class=\\\"dz-upload\\\" data-dz-uploadprogress></span></div><div class=\\\"dz-error-message\\\"><span data-dz-errormessage></span></div><div class=\\\"dz-success-mark\\\"><i class=\\\"dz-icon fa fa-check\\\"></i></div><div class=\\\"dz-error-mark\\\"><i class=\\\"dz-icon fa fa-warning\\\"></i></div>',\n        },\n\n        sortableParams: {\n          update: this.sort\n        },\n\n        editorImage: null,\n\n        type$: null\n      }\n    },\n\n    methods: {\n      initSort() {\n        let params = this.getParams()\n\n        if (params.maxFiles !== 1) {\n          Sortable.methods.initSort.call(this)\n        }\n      },\n\n      getParams() {\n        return {\n          ... this.params$,\n          ... this.params\n        }\n      },\n\n      getInstance() {\n        return this.$refs.dropzone.dropzone\n      },\n\n      fileAdded(file) {\n        let params = this.getParams()\n        if (params.maxFiles && this.images.length < params.maxFiles) {\n          file.noFilesLimit = true\n        }\n      },\n\n      success(file, response) {\n        this.getInstance().removeFile(file)\n\n        this.add(response.image)\n      },\n\n      error(file, errorMessage) {\n        Core.notify(errorMessage, {type: 'error'})\n\n        this.getInstance().removeFile(file)\n\n        this.remove(file)\n      },\n\n      maxfilesreached(files) {\n        for (let i = 0; i < files.length; i++) {\n          if (!files[i].noFilesLimit) {\n            Core.notify(this.getParams().dictMaxFilesExceeded, {type: 'warning'})\n            break\n          }\n        }\n      },\n\n      maxfilesexceeded(file) {\n        let params = this.getParams()\n        let fileSize = (file.size / 1024 / 1024).toFixed(1)\n        let message = params.dictFileTooBig\n\n        message = message.replace('{{filesize}}', fileSize)\n        message = message.replace('{{maxFilesize}}', params.maxFilesize)\n\n        Core.notify(message, {type: 'warning'})\n      },\n\n      sort() {\n        this.$emit('update:images', this.sortDataBundleByIdsPosition(this.images, this.collectSortIds()))\n      },\n\n      add(image) {\n        this.$emit('update:images', [\n          ... this.images,\n          image\n        ])\n      },\n\n      update(image) {\n        this.$emit('update:images', this.images.map(item => item.id === image.id ? image : item))\n      },\n\n      edit(image) {\n        this.editorImage = image\n        this.$refs.pictureEditModal.show()\n      },\n\n      remove(image) {\n        if (this.safeDelete) {\n          image.deleted = true\n          this.update(image)\n        }\n        else {\n          this.$emit('update:images', this.images.filter(item => item.id !== image.id))\n        }\n      },\n\n      recover(image) {\n        image.deleted = false\n        this.update(image)\n      },\n\n      isDeleted(image) {\n        return image.deleted\n      },\n\n      editorImageSave() {\n        let image = this.editorImage\n        let modifications = this.$refs.imageEditor.getClearedModifications()\n\n        if (Object.keys(modifications) === 0) {\n          if (image.modifications) {\n            delete image.modifications\n          }\n\n          if (image.cropped) {\n            delete image.cropped\n          }\n        }\n        else {\n          image.modifications = modifications\n          image.cropped = this.$refs.imageEditor.getCroppedImage()\n        }\n\n        this.update(image)\n        this.editorImage = null\n      },\n\n      getImageOriginal(image) {\n        return image.cropped ? image.cropped : image.original\n      },\n\n      getImagePreview(image) {\n        if (image.cropped) {\n          return image.cropped\n        }\n\n        if (image.small) {\n          return image.small.srcset ? image.small.srcset : image.small.src\n        }\n\n        return image.original || ''\n      },\n\n      getEditorImageModifications() {\n        return (this.editorImage && this.editorImage.modifications) ? this.editorImage.modifications : {}\n      },\n\n      clear() {\n        this.editorImage = false\n      },\n\n      hasError(imageIndex) {\n        return this.errors.has(`images.${imageIndex}`)\n      }\n    },\n\n    computed: {\n      dropzoneIsVisible() {\n        let params = this.getParams()\n\n        if (params.maxFiles && params.maxFiles === this.images.length) {\n          return false\n        }\n\n        return true\n      }\n    },\n  }\n</script>\n\n<template>\n  <div>\n    <div class=\"gallery gallery-widget\" ref=\"gallery\">\n      <div class=\"row ui-sortable\">\n        <div v-show=\"dropzoneIsVisible\" class=\"col-xs-6 col-sm-3\" style=\"min-width:155px;\">\n          <vue-dropzone\n            ref=\"dropzone\"\n            :id=\"this.id\"\n            class=\"gallery-dropzone\"\n            @vdropzone-success=\"success\"\n            @vdropzone-error=\"error\"\n            @vdropzone-max-files-reached=\"maxfilesreached\"\n            @vdropzone-max-files-exceeded=\"maxfilesexceeded\"\n            @vdropzone-file-added=\"fileAdded\"\n            :options=\"getParams()\"\n            :destroyDropzone=\"true\" />\n        </div>\n\n        <div v-for=\"(image, index) in images\" :data-id=\"image.id\" :key=\"image.id\" class=\"col-xs-6 col-sm-3\" style=\"min-width:155px;\">\n          <input type=\"hidden\" name=\"ids\" :value=\"image.id\">\n\n          <div :class=\"{'edit-photo-card': true, 'edit-photo-card--deleted': image.deleted, 'edit-photo-card--has-error': hasError(index)}\">\n            <a data-fancybox=\"gallery\" :href=\"getImageOriginal(image)\" class=\"edit-photo-card__preview\">\n              <div class=\"edit-photo-card__image\" :style=\"`background-image:url(${getImagePreview(image)})`\"></div>\n            </a>\n\n            <div class=\"edit-photo-card__deleted-icon\">\n              <i class=\"fa fa-trash\"></i>\n            </div>\n\n            <div class=\"edit-photo-card__controls\">\n              <div class=\"pull-left\">\n                <a class=\"btn btn-sm btn-primary\" @click=\"edit(image)\" v-if=\"!isDeleted(image)\">\n                  <i class=\"fa fa-crop\"></i>\n                </a>\n              </div>\n\n              <div class=\"pull-right\">\n                <a class=\"btn btn-sm btn-danger\" @click=\"remove(image)\" v-if=\"!isDeleted(image)\">\n                  <i class=\"fa fa-trash-o\"></i>\n                </a>\n\n                <a class=\"btn btn-sm btn-success\" @click=\"recover(image)\" v-if=\"isDeleted(image)\">\n                  <i class=\"fa fa-repeat\"></i> Восстановить\n                </a>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <b-modal\n      ref=\"pictureEditModal\"\n      :no-close-on-backdrop=\"true\"\n      size=\"lg\"\n      title=\"Редактирование изображения\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Применить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @hidden=\"clear\"\n      @ok=\"editorImageSave\">\n\n      <image-editor\n        ref=\"imageEditor\"\n        v-if=\"!!editorImage\"\n        :image=\"editorImage.original\"\n        :modifications=\"getEditorImageModifications()\"/>\n    </b-modal>\n  </div>\n</template>\n\n<style>\n  .gallery-dropzone .dz-message {\n    position: relative;\n    margin: 0;\n    display: block!important;\n  }\n\n  .gallery-dropzone .dz-message::before {\n    content: '';\n    display: block;\n    padding-top: 100%;\n  }\n\n  .gallery-dropzone .dz-message > span {\n    position: absolute;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n\n  .gallery-dropzone .dz-preview {\n    display: none;\n  }\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -20278,7 +20970,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.unlimited {\n  margin: 3px 0 0 16px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  cursor: pointer;\n}\n.unlimited .help-inline {\n  vertical-align: middle;\n  margin: 0 0 0 5px;\n}\n.date-picker {\n  max-width: 150px;\n}\n.price-input-group {\n  max-width: 200px;\n}\n.price-input-group .input-group-addon {\n  width: 80px;\n  padding: 0;\n  border: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/shop/promoCodes/resources/assets/js/components/shop/promoCodes/PromoCodeEdit.vue"],"names":[],"mappings":";AAu/BA;EACA,qBAAA;EACA,0BAAA;KAAA,uBAAA;MAAA,sBAAA;UAAA,kBAAA;EACA,gBAAA;CACA;AAEA;EACA,uBAAA;EACA,kBAAA;CACA;AAEA;EACA,iBAAA;CACA;AAEA;EACA,iBAAA;CACA;AAEA;EACA,YAAA;EACA,WAAA;EACA,aAAA;CACA","file":"PromoCodeEdit.vue","sourcesContent":["<script>\n  import datePicker from 'vue-bootstrap-datetimepicker'\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import CKEditor from '../../CKEditor'\n  import TreeSelect from '../../TreeSelect'\n\n  import EntityPage from '../../../mixins/EntityPage'\n  import Translatable from '../../../mixins/Translatable'\n  import LanguagePicker from '../../LanguagePicker'\n\n  import PromoCodeModel from '../../../resources/shop/promo/PromoCodeModel'\n  import moment from 'moment'\n  import number from '../../../directives/number'\n  import Core from '../../../core'\n\n  function makeCondition(key) {\n    let conditionFields = {}\n\n    switch (key) {\n      case 'min_summ':\n        conditionFields.value = 0\n        conditionFields.currency_code = 'RUB'\n        break;\n\n      case 'product_expensive':\n        conditionFields.value = 0\n        conditionFields.currency_code = 'RUB'\n        break;\n\n      case 'products_quantity':\n        conditionFields.value = 0\n        break;\n\n      case 'first_order':\n        conditionFields.value = false\n        break;\n    }\n\n    return conditionFields\n  }\n\n  const datePickerConfig = {\n    locale: 'ru',\n\n    format: 'DD-MM-YYYY HH:mm:ss',\n    useCurrent: false,\n    sideBySide: false,\n    showClear: true,\n    showClose: true,\n  }\n\n  export default {\n    name: 'supplier-edit',\n\n    mixins: [\n      EntityPage,\n      Translatable\n    ],\n\n    directives: {\n      ... number,\n    },\n\n    components: {\n      'ckeditor': CKEditor,\n      bModal,\n      datePicker,\n      TreeSelect,\n      LanguagePicker\n    },\n\n    props: [\n      'id',\n    ],\n\n    data() {\n      return {\n        entityName: 'promo-code',\n\n        promoCode: null,\n\n        promoType: null,\n\n        conditions: {\n          'min_summ':          Core.translate('shop.promo.conditions.types.min_summ'),\n          'product_expensive': Core.translate('shop.promo.conditions.types.product_expensive'),\n          'products_quantity': Core.translate('shop.promo.conditions.types.products_quantity'),\n          'first_order':       Core.translate('shop.promo.conditions.types.first_order'),\n        },\n\n        savedPromoTypeValues: {\n          percent: {\n            percent: this.$root.config('shop.promo.discount.percent.max_percent'),\n            amount: 0,\n            currency_code: null,\n          },\n\n          amount: {\n            percent: this.$root.config('shop.promo.discount.amount.max_percent'),\n            amount: 0,\n            currency_code: 'RUB',\n          }\n        },\n\n        selectedCondition: null,\n\n        savedQuantities: {\n          quantity: 1,\n          quantity_per_user: 1,\n        },\n\n        dateStartConfig: {\n          ... datePickerConfig\n        },\n\n        dateFinishConfig: {\n          ... datePickerConfig\n        },\n\n        usedMainData: [\n          'currencies',\n          'languages'\n        ]\n      }\n    },\n\n    methods: {\n      initEntity(data) {\n        this.setEntityData(new PromoCodeModel(data, this.languages))\n      },\n\n      datePickerShow(field) {\n        if (_.isNil(this.promoCode[field])) {\n          this.promoCode[field] = new Date()\n\n          this.promoCode[field].setHours(0, 0, 0, 0)\n        }\n      },\n\n      dateStartChange() {\n        if (this.promoCode.date_start) {\n          this.dateFinishConfig = {\n            ... this.dateFinishConfig,\n            disabledDates: [\n              [moment(0), this.$refs.dateStart.dp.viewDate()]\n            ]\n          }\n        }\n        else {\n          this.dateFinishConfig.disabledDates = null\n        }\n      },\n\n      setEntityData() {\n        EntityPage.methods.setEntityData.apply(this, arguments)\n\n        this.detectPromoType()\n      },\n\n      detectPromoType() {\n        if (this.type === 'create') {\n          this.promoType = 'percent'\n\n          for (let key in this.savedPromoTypeValues[this.promoType]) {\n            this.promoCode[key] = this.savedPromoTypeValues[this.promoType][key]\n          }\n        }\n        else {\n          if (this.promoCode.amount) {\n            this.promoType = 'amount'\n          }\n          else {\n            this.promoType = 'percent'\n          }\n        }\n      },\n\n      setPromoType(type, isInit = false) {\n        for (let key in this.savedPromoTypeValues[this.promoType]) {\n          this.savedPromoTypeValues[this.promoType][key] = this.promoCode[key]\n        }\n\n        this.promoType = type\n\n        for (let key in this.savedPromoTypeValues[type]) {\n          this.promoCode[key] = this.savedPromoTypeValues[type][key]\n        }\n      },\n\n      setUnlimited(key) {\n        if (this.promoCode[key] < 0) {\n          this.promoCode[key] = this.savedQuantities[key]\n        }\n        else {\n          this.savedQuantities[key] = this.promoCode[key]\n          this.promoCode[key] = -1\n        }\n      },\n\n      selectCondition(key) {\n        this.selectedCondition = key\n      },\n\n      addCondition() {\n        if (this.selectedCondition && ! (this.selectedCondition in this.promoCode.conditions)) {\n          this.promoCode.conditions = {\n            ... this.promoCode.conditions,\n            [this.selectedCondition]: makeCondition(this.selectedCondition)\n          }\n        }\n\n        this.selectedCondition = null\n      },\n\n      removeCondition(key) {\n        this.promoCode.conditions = Object.keys(this.promoCode.conditions).reduce((acc, conditionKey) => {\n          if (conditionKey !== key) {\n            acc[conditionKey] = this.promoCode.conditions[key]\n          }\n\n          return acc\n        }, {})\n      },\n\n      inputPromo(e) {\n          this.promoCode.name = e.target.value.toUpperCase()\n      }\n    },\n\n    computed: {\n      currenciesToSelect() {\n        return this.currencies.map(currency => ({\n          id: currency.code,\n          title: currency.code,\n        }))\n      },\n\n      conditionsToSelect() {\n        return Object.keys(this.conditions).reduce((acc, key) => {\n          if (! (key in this.promoCode.conditions)) {\n            acc.push({\n              id: key,\n              title: this.conditions[key],\n            })\n          }\n\n          return acc\n        }, [])\n      },\n\n      hasNotSelectedConditions() {\n        return this.conditionsToSelect.length !== 0\n      },\n\n      promoTypeSelectOptions() {\n        return [\n          {\n            id: 'percent',\n            title: 'процентах'\n          },\n\n          {\n            id: 'amount',\n            title: 'валюте'\n          }\n        ]\n      }\n    }\n  }\n\n  // id: '',\n  // date_start: '',\n  // date_finish: '',\n  // quantity: '',\n  // once: '',\n  // user_related: '',\n  // percent: '',\n  // amount: '',\n\n\n\n</script>\n\n\n\n<template>\n  <div>\n    <div class=\"block full\">\n      <div class=\"block-title clearfix\" v-if=\"type === 'create'\">\n        <h1>\n          <strong>\n            Создание промокода\n          </strong>\n        </h1>\n\n        <div class=\"block-title-control\">\n          <a class=\"btn btn-sm btn-default btn-alt\" @click=\"redirectToTable\">\n            <i class=\"fa fa-arrow-left\"></i>\n          </a>\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <language-picker\n            :languages=\"languages\"\n            :activeLanguageCode.sync=\"activeLanguageCode\"\n            :class=\"{'has-error': formTranslatesHasError()}\" />\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <a v-if=\"userCan('promo-codes.create')\" class=\"btn btn-sm btn-success active\" @click=\"save\">\n            <i class=\"fa fa-plus-circle\"></i> Создать\n          </a>\n        </div>\n      </div>\n\n      <div class=\"block-title clearfix\" v-if=\"type === 'edit'\">\n        <h1>\n          <strong>\n            Редактирование промокода #{{ this.id }}\n          </strong>\n        </h1>\n\n        <div class=\"block-title-control\">\n          <a class=\"btn btn-sm btn-default btn-alt\" @click=\"redirectToTable\">\n            <i class=\"fa fa-arrow-left\"></i>\n          </a>\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <language-picker\n            :languages=\"languages\"\n            :activeLanguageCode.sync=\"activeLanguageCode\"\n            :class=\"{'has-error': formTranslatesHasError()}\" />\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <a v-if=\"userCan('promo-codes.edit')\" class=\"btn btn-sm btn-primary active\" @click=\"save\">\n            <i class=\"fa fa-floppy-o\"></i> Сохранить\n          </a>\n\n          <a v-if=\"userCan('promo-codes.delete')\" class=\"btn btn-sm btn-danger active\" @click=\"remove\">\n            Удалить\n          </a>\n        </div>\n      </div>\n\n      <div class=\"row\" v-if=\"promoCode\">\n        <div class=\"col-lg-6\">\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-pencil\"></i> <strong>Основная</strong> информация\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div :class=\"`form-group${formErrors.has('name') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"name\">\n                  Код <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <input\n                    type=\"text\"\n                    class=\"form-control\"\n                    id=\"name\"\n                    name=\"name\"\n                    :value=\"promoCode.name\"\n                    @input=\"inputPromo\"\n                    v-validate=\"'required|min:3|max:255'\"\n                  >\n\n                  <span v-show=\"formErrors.has('name')\" class=\"help-block\">\n                    {{ formErrors.first('name') }}\n                  </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\">\n                <label class=\"col-md-3 control-label\" for=\"promo-type-select\">\n                  Скидка в <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <tree-select\n                    id=\"promo-type-select\"\n                    name=\"promo-type-select\"\n                    :options=\"promoTypeSelectOptions\"\n                    :selected=\"promoType\"\n                    @update:selected=\"setPromoType\"\n                    :params=\"{minimumResultsForSearch: -1, allowClear: false}\"\n                    placeholder=\"Выберите тип\" />\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('enabled') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\">\n                  Задействован\n                </label>\n\n                <div class=\"col-md-9\">\n                  <label class=\"switch switch-primary\">\n                    <input type=\"checkbox\" v-model=\"promoCode.enabled\">\n                    <span></span>\n                  </label>\n\n                  <span v-show=\"formErrors.has('enabled')\" class=\"help-block\">\n                    {{ formErrors.first('enabled') }}\n                  </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\" v-if=\"promoCode.uses_count\">\n                <label class=\"col-md-3 control-label\">\n                  Количество использований\n                </label>\n\n                <div class=\"col-md-9\">\n                  <p class=\"form-control-static\">\n                    {{ promoCode.uses_count }}\n                  </p>\n                </div>\n              </div>\n\n              <div class=\"form-group\" v-if=\"promoCode.created_at\">\n                <label class=\"col-md-3 control-label\">\n                  Дата создания\n                </label>\n\n                <div class=\"col-md-9\">\n                  <p class=\"form-control-static\">\n                    {{ promoCode.created_at }}\n                  </p>\n                </div>\n              </div>\n\n              <div class=\"form-group\" v-if=\"promoCode.updated_at\">\n                <label class=\"col-md-3 control-label\">\n                  Последнее изменение\n                </label>\n\n                <div class=\"col-md-9\">\n                  <p class=\"form-control-static\">\n                    {{ promoCode.updated_at }}\n                  </p>\n                </div>\n              </div>\n\n            </div>\n          </div>\n\n\n          <!-- Скидка -->\n\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-percent\"></i> <strong>Скидка</strong>\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\" v-if=\"promoType === 'percent'\">\n\n              <div :class=\"`form-group${formErrors.has('percent') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"percent\">\n                  Процент скидки <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <input\n                    type=\"number\"\n                    class=\"form-control\"\n                    id=\"percent\"\n                    v-model=\"promoCode.percent\"\n                    v-number\n                    name=\"percent\"\n                    v-validate=\"'required|max_value:' + $root.config('shop.promo.discount.percent.max_percent')\"\n                  >\n\n                  <span v-show=\"formErrors.has('percent')\" class=\"help-block\">\n                    {{ formErrors.first('percent') }}\n                  </span>\n                </div>\n              </div>\n\n            </div>\n\n            <div class=\"form-horizontal form-bordered\" v-if=\"promoType === 'amount'\">\n\n              <div :class=\"`form-group${formErrors.has('amount') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"amount\">\n                  Сумма <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <div class=\"input-group price-input-group\">\n                    <input\n                      type=\"number\"\n                      class=\"form-control\"\n                      id=\"amount\"\n                      v-model=\"promoCode.amount\"\n                      v-number\n                      name=\"amount\"\n                      v-validate=\"'required|max_value:2147483647'\"\n                    >\n\n                    <div class=\"input-group-addon\">\n                      <tree-select\n                        name=\"currency_code\"\n                        :options=\"currenciesToSelect\"\n                        :selected.sync=\"promoCode.currency_code\"\n                        :params=\"{minimumResultsForSearch: -1, allowClear: false}\"/>\n                    </div>\n                  </div>\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('percent') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"percent\">\n                  Максимальный процент скидки <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <input\n                    type=\"number\"\n                    class=\"form-control\"\n                    id=\"percent\"\n                    v-model=\"promoCode.percent\"\n                    v-number\n                    name=\"percent\"\n                    v-validate=\"'required|max_value:' + $root.config('shop.promo.discount.amount.max_percent')\"\n                  >\n\n                  <span v-show=\"formErrors.has('percent')\" class=\"help-block\">\n                    {{ formErrors.first('percent') }}\n                  </span>\n                </div>\n              </div>\n\n\n            </div>\n\n          </div>\n\n\n          <!-- Количество использований -->\n\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-hashtag\"></i> <strong>Количество</strong> использований\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div :class=\"`form-group${formErrors.has('quantity') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\">\n                  Общее\n                </label>\n\n                <div class=\"col-md-9\">\n                  <div class=\"clearfix\">\n                    <div class=\"pull-left\">\n                      <input\n                        style=\"max-width: 100px\"\n                        class=\"form-control\"\n                        id=\"quantity\"\n                        v-model=\"promoCode.quantity < 0 ? savedQuantities.quantity : promoCode.quantity\"\n                        name=\"quantity\"\n                        v-number\n                        :disabled=\"promoCode.quantity < 0\"\n                        v-validate=\"promoCode.quantity < 0 ? '' : 'required|integer|min_value:1|max_value:2147483647'\">\n                    </div>\n\n                    <div class=\"pull-left unlimited\">\n                      <label class=\"switch switch-primary\">\n                        <input\n                          type=\"checkbox\"\n                          id=\"quantity-unlimited\"\n                          @change=\"setUnlimited('quantity')\"\n                          :checked=\"promoCode.quantity < 0\"\n                        >\n                        <span></span>\n                      </label>\n\n                      <label class=\"help-inline\" for=\"quantity-unlimited\">\n                        Неограниченно\n                      </label>\n                    </div>\n                  </div>\n\n                  <span v-show=\"formErrors.has('quantity')\" class=\"help-block\">\n                    {{ formErrors.first('quantity') }}\n                  </span>\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('quantity_per_user') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\">\n                  На одного пользователя\n                </label>\n\n                <div class=\"col-md-9 clearfix\">\n                  <div class=\"clearfix\">\n                    <div class=\"pull-left\">\n                      <input\n                        style=\"max-width: 100px\"\n                        class=\"form-control\"\n                        id=\"quantity_per_user\"\n                        v-model=\"promoCode.quantity_per_user < 0 ? savedQuantities.quantity_per_user : promoCode.quantity_per_user\"\n                        name=\"quantity_per_user\"\n                        v-number\n                        :disabled=\"promoCode.quantity_per_user < 0\"\n                        v-validate=\"promoCode.quantity_per_user < 0 ? '' : 'required|integer|min_value:1|max_value:2147483647'\">\n                    </div>\n\n                    <div class=\"pull-left unlimited\">\n                      <label class=\"switch switch-primary\">\n                        <input\n                          type=\"checkbox\"\n                          id=\"quantity_per_user-unlimited\"\n                          @change=\"setUnlimited('quantity_per_user')\"\n                          :checked=\"promoCode.quantity_per_user < 0\"\n                        >\n                        <span></span>\n                      </label>\n\n                      <label class=\"help-inline\" for=\"quantity_per_user-unlimited\">\n                        Неограниченно\n                      </label>\n                    </div>\n                  </div>\n\n                  <span v-show=\"formErrors.has('quantity_per_user')\" class=\"help-block\">\n                    {{ formErrors.first('quantity_per_user') }}\n                  </span>\n                </div>\n              </div>\n            </div>\n\n          </div>\n\n\n          <!-- Срок использования -->\n\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-calendar\"></i> <strong>Срок</strong> использования\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n\n              <div :class=\"`form-group${formErrors.has('date_start') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"date_start\">\n                  Дата начала\n                </label>\n\n                <div class=\"col-md-9\">\n                  <date-picker\n                    id=\"date_start\"\n                    name=\"date_start\"\n                    ref=\"dateStart\"\n                    @dp-show=\"datePickerShow('date_start')\"\n                    @dp-change=\"dateStartChange()\"\n                    v-model=\"promoCode.date_start\"\n                    :config=\"dateStartConfig\"\n                    class=\"date-picker\"\n                  ></date-picker>\n\n                  <span v-show=\"formErrors.has('date_start')\" class=\"help-block\">\n                    {{ formErrors.first('date_start') }}\n                  </span>\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('date_finish') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"date_finish\">\n                  Дата завершения\n                </label>\n\n                <div class=\"col-md-9\">\n                  <date-picker\n                    id=\"date_finish\"\n                    name=\"date_finish\"\n                    ref=\"dateStart\"\n                    @dp-show=\"datePickerShow('date_finish')\"\n                    v-model=\"promoCode.date_finish\"\n                    :config=\"dateFinishConfig\"\n                    class=\"date-picker\"\n                  ></date-picker>\n\n                  <span v-show=\"formErrors.has('date_finish')\" class=\"help-block\">\n                    {{ formErrors.first('date_finish') }}\n                  </span>\n                </div>\n              </div>\n\n            </div>\n          </div>\n        </div>\n\n\n        <!-- Дополнительные условия -->\n\n        <div class=\"col-lg-6\">\n          <div :class=\"`block${langSwitchHovered ? ' block-illuminated' : ''}`\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-globe\"></i> <strong>Языковая</strong> информация\n              </h2>\n            </div>\n\n            <template v-for=\"language in languages\">\n              <div :class=\"`form-horizontal form-bordered${activeLanguageCode === language.code ? '' : ' in-space'}`\" :key=\"language.code\">\n\n                <div :class=\"`form-group${formErrors.has(`i18n.${language.code}.title`) ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" :for=\"`title-${language.code}`\">\n                    Название <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <input\n                      type=\"text\"\n                      class=\"form-control\"\n                      :id=\"`title-${language.code}`\"\n                      v-model=\"promoCode.i18n[language.code].title\"\n                      :name=\"`i18n.${language.code}.title`\"\n                      v-validate=\"'required|max:255'\"\n                    >\n\n                    <span\n                      v-show=\"formErrors.has(`i18n.${language.code}.title`)\"\n                      class=\"help-block\"\n                    >\n                      {{ formErrors.first(`i18n.${language.code}.title`) }}\n                    </span>\n                  </div>\n                </div>\n\n                <div :class=\"`form-group${formErrors.has(`i18n.${language.code}.description`) ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" :for=\"`description-${language.code}`\">Описание</label>\n\n                  <div class=\"col-md-9\">\n                    <ckeditor\n                      :id=\"`description-${language.code}`\"\n                      :content.sync=\"promoCode.i18n[language.code].description\"\n                      :name=\"`i18n.${language.code}.description`\"\n                    />\n\n                    <span\n                      v-show=\"formErrors.has(`i18n.${language.code}.description`)\"\n                      class=\"help-block\"\n                    >\n                      {{ formErrors.first(`i18n.${language.code}.description`) }}\n                    </span>\n                  </div>\n                </div>\n              </div>\n            </template>\n\n          </div>\n\n\n\n          <div v-if=\"hasNotSelectedConditions\" class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-bars\"></i> <strong>Дополнительные</strong> условия\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <label class=\"col-md-3 control-label\" for=\"conditions\">\n                  Условия\n                </label>\n\n                <div class=\"col-md-9 clearfix\">\n                  <div class=\"input-group\">\n                    <tree-select\n                      name=\"conditions\"\n                      :options=\"conditionsToSelect\"\n                      @update:selected=\"selectCondition\"\n                      :params=\"{minimumResultsForSearch: -1}\"\n                      placeholder=\"Выберите условие\" />\n\n                    <a @click=\"addCondition\" class=\"input-group-addon btn btn-primary\">\n                      <i class=\"fa fa-plus-circle\"></i>\n                    </a>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Минимальная сумма заказа -->\n\n          <div v-if=\"promoCode.conditions.min_summ\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-shopping-cart\"></i>\n                <strong>Минимальная</strong> сумма заказа\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('min_summ')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <div :class=\"`form-group${formErrors.has('conditions.min_summ.value') ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" for=\"condition-min-summ-value\">\n                    Сумма <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <div class=\"input-group price-input-group\">\n                      <input\n                        type=\"number\"\n                        class=\"form-control\"\n                        id=\"condition-min-summ-value\"\n                        v-model=\"promoCode.conditions.min_summ.value\"\n                        v-number\n                        name=\"conditions[min_summ][value]\"\n                        v-validate=\"'required|max_value:2147483647'\"\n                      >\n\n                      <div class=\"input-group-addon\">\n                        <tree-select\n                          name=\"conditions[min_summ][currency_code]\"\n                          :options=\"currenciesToSelect\"\n                          :selected.sync=\"promoCode.conditions.min_summ.currency_code\"\n                          :params=\"{minimumResultsForSearch: -1, allowClear: false}\"/>\n                      </div>\n                    </div>\n\n                    <span v-show=\"formErrors.has('conditions.min_summ.value')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.min_summ.value') }}\n                    </span>\n\n                    <span v-show=\"formErrors.has('conditions.min_summ.currency_code')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.min_summ.currency_code') }}\n                    </span>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Минимальная цена товара в корзине -->\n\n          <div v-if=\"promoCode.conditions.product_expensive\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-tv\"></i>\n                <strong>Минимальная</strong> цена товара в корзине\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('product_expensive')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <div :class=\"`form-group${formErrors.has('conditions.product_expensive.value') ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" for=\"product-expensive-summ-value\">\n                    Цена <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <div class=\"input-group price-input-group\">\n                      <input\n                        type=\"number\"\n                        class=\"form-control\"\n                        id=\"product-expensive-summ-value\"\n                        v-model=\"promoCode.conditions.product_expensive.value\"\n                        v-number\n                        name=\"conditions[product_expensive][value]\"\n                        v-validate=\"'required|max_value:2147483647'\"\n                      >\n\n                      <div class=\"input-group-addon\">\n                        <tree-select\n                          name=\"conditions[product_expensive][currency_code]\"\n                          :options=\"currenciesToSelect\"\n                          :selected.sync=\"promoCode.conditions.product_expensive.currency_code\"\n                          :params=\"{minimumResultsForSearch: -1, allowClear: false}\"/>\n                      </div>\n                    </div>\n\n                    <span v-show=\"formErrors.has('conditions.product_expensive.value')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.product_expensive.value') }}\n                    </span>\n\n                    <span v-show=\"formErrors.has('conditions.product_expensive.currency_code')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.product_expensive.currency_code') }}\n                    </span>\n                  </div>\n\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Минимальное количество товаров в корзине -->\n\n          <div v-if=\"promoCode.conditions.products_quantity\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-shopping-cart\"></i>\n                <strong>Минимальное</strong> количество товаров в корзине\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('products_quantity')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <div :class=\"`form-group${formErrors.has('conditions.products_quantity.value') ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" for=\"product-quantity-summ-value\">\n                    Количество <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <input\n                      type=\"number\"\n                      class=\"form-control\"\n                      id=\"product-quantity-summ-value\"\n                      v-model=\"promoCode.conditions.products_quantity.value\"\n                      v-number\n                      name=\"conditions[products_quantity][value]\"\n                      v-validate=\"'required|max_value:2147483647'\"\n                    >\n\n                    <span v-show=\"formErrors.has('conditions.products_quantity.value')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.products_quantity.value') }}\n                    </span>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Первый заказ -->\n\n          <div v-if=\"promoCode.conditions.first_order\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-certificate\"></i>\n                <strong>Первый</strong> заказ\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('first_order')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              Промокод будет срабатывать только для первого заказа учетной записи.\n            </div>\n          </div>\n\n        </div>\n      </div>\n    </div>\n\n    <b-modal\n      id=\"validationModal\"\n      ref=\"validationModal\"\n      title=\"Ошибка валидации\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Ок\"\n      ok-only\n      hide-header-close>\n\n      Проверьте правильность заполнения формы!\n    </b-modal>\n\n    <b-modal\n      id=\"removeModal\"\n      ref=\"removeModal\"\n      title=\"Удаление промокода\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Удалить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @ok=\"removeConfirm\">\n\n      Вы действительно хотите удалить промокод?\n    </b-modal>\n  </div>\n</template>\n\n<style>\n  .unlimited {\n    margin: 3px 0 0 16px;\n    user-select: none;\n    cursor: pointer;\n  }\n\n  .unlimited .help-inline {\n    vertical-align: middle;\n    margin: 0 0 0 5px;\n  }\n\n  .date-picker {\n    max-width: 150px;\n  }\n\n  .price-input-group {\n    max-width: 200px;\n  }\n\n  .price-input-group .input-group-addon {\n    width: 80px;\n    padding: 0;\n    border: none;\n  }\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.unlimited {\n  margin: 3px 0 0 16px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  cursor: pointer;\n}\n.unlimited .help-inline {\n  vertical-align: middle;\n  margin: 0 0 0 5px;\n}\n.date-picker {\n  max-width: 150px;\n}\n.price-input-group {\n  max-width: 200px;\n}\n.price-input-group .input-group-addon {\n  width: 80px;\n  padding: 0;\n  border: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/shop/promoCodes/resources/assets/js/components/shop/promoCodes/PromoCodeEdit.vue"],"names":[],"mappings":";AAy9BA;EACA,qBAAA;EACA,0BAAA;KAAA,uBAAA;MAAA,sBAAA;UAAA,kBAAA;EACA,gBAAA;CACA;AAEA;EACA,uBAAA;EACA,kBAAA;CACA;AAEA;EACA,iBAAA;CACA;AAEA;EACA,iBAAA;CACA;AAEA;EACA,YAAA;EACA,WAAA;EACA,aAAA;CACA","file":"PromoCodeEdit.vue","sourcesContent":["<script>\n  import bModal from 'bootstrap-vue/es/components/modal/modal'\n\n  import CKEditor from '../../CKEditor'\n  import TreeSelect from '../../TreeSelect'\n\n  import EntityPage from '../../../mixins/EntityPage'\n  import Translatable from '../../../mixins/Translatable'\n  import DatePickerRangeMixin from '../../../mixins/DatePicker/DatePickerRange'\n  import LanguagePicker from '../../LanguagePicker'\n\n  import PromoCodeModel from '../../../resources/shop/promo/PromoCodeModel'\n  import moment from 'moment'\n  import number from '../../../directives/number'\n  import Core from '../../../core'\n\n  function makeCondition(key) {\n    let conditionFields = {}\n\n    switch (key) {\n      case 'min_summ':\n        conditionFields.value = 0\n        conditionFields.currency_code = 'RUB'\n        break;\n\n      case 'product_expensive':\n        conditionFields.value = 0\n        conditionFields.currency_code = 'RUB'\n        break;\n\n      case 'products_quantity':\n        conditionFields.value = 0\n        break;\n\n      case 'first_order':\n        conditionFields.value = false\n        break;\n    }\n\n    return conditionFields\n  }\n\n  export default {\n    name: 'supplier-edit',\n\n    mixins: [\n      EntityPage,\n      Translatable,\n      DatePickerRangeMixin\n    ],\n\n    directives: {\n      ... number,\n    },\n\n    components: {\n      'ckeditor': CKEditor,\n      bModal,\n      TreeSelect,\n      LanguagePicker\n    },\n\n    props: [\n      'id',\n    ],\n\n    data() {\n      return {\n        entityName: 'promo-code',\n\n        promoCode: null,\n\n        promoType: null,\n\n        conditions: {\n          'min_summ':          Core.translate('shop.promo.conditions.types.min_summ'),\n          'product_expensive': Core.translate('shop.promo.conditions.types.product_expensive'),\n          'products_quantity': Core.translate('shop.promo.conditions.types.products_quantity'),\n          'first_order':       Core.translate('shop.promo.conditions.types.first_order'),\n        },\n\n        savedPromoTypeValues: {\n          percent: {\n            percent: this.$root.config('shop.promo.discount.percent.max_percent'),\n            amount: 0,\n            currency_code: null,\n          },\n\n          amount: {\n            percent: this.$root.config('shop.promo.discount.amount.max_percent'),\n            amount: 0,\n            currency_code: 'RUB',\n          }\n        },\n\n        selectedCondition: null,\n\n        savedQuantities: {\n          quantity: 1,\n          quantity_per_user: 1,\n        },\n\n        dateStartConfig: {\n          ... this.getBaseDatePickerConfig()\n        },\n\n        dateFinishConfig: {\n          ... this.getBaseDatePickerConfig()\n        },\n\n        usedMainData: [\n          'currencies',\n          'languages'\n        ]\n      }\n    },\n\n    methods: {\n      initEntity(data) {\n        this.setEntityData(new PromoCodeModel(data, this.languages))\n        this.dateFinishConfig = this.getFinishDatePickerConfig()\n      },\n\n      setEntityData() {\n        EntityPage.methods.setEntityData.apply(this, arguments)\n\n        this.detectPromoType()\n      },\n\n      detectPromoType() {\n        if (this.type === 'create') {\n          this.promoType = 'percent'\n\n          for (let key in this.savedPromoTypeValues[this.promoType]) {\n            this.promoCode[key] = this.savedPromoTypeValues[this.promoType][key]\n          }\n        }\n        else {\n          if (this.promoCode.amount) {\n            this.promoType = 'amount'\n          }\n          else {\n            this.promoType = 'percent'\n          }\n        }\n      },\n\n      setPromoType(type, isInit = false) {\n        for (let key in this.savedPromoTypeValues[this.promoType]) {\n          this.savedPromoTypeValues[this.promoType][key] = this.promoCode[key]\n        }\n\n        this.promoType = type\n\n        for (let key in this.savedPromoTypeValues[type]) {\n          this.promoCode[key] = this.savedPromoTypeValues[type][key]\n        }\n      },\n\n      setUnlimited(key) {\n        if (this.promoCode[key] < 0) {\n          this.promoCode[key] = this.savedQuantities[key]\n        }\n        else {\n          this.savedQuantities[key] = this.promoCode[key]\n          this.promoCode[key] = -1\n        }\n      },\n\n      selectCondition(key) {\n        this.selectedCondition = key\n      },\n\n      addCondition() {\n        if (this.selectedCondition && ! (this.selectedCondition in this.promoCode.conditions)) {\n          this.promoCode.conditions = {\n            ... this.promoCode.conditions,\n            [this.selectedCondition]: makeCondition(this.selectedCondition)\n          }\n        }\n\n        this.selectedCondition = null\n      },\n\n      removeCondition(key) {\n        this.promoCode.conditions = Object.keys(this.promoCode.conditions).reduce((acc, conditionKey) => {\n          if (conditionKey !== key) {\n            acc[conditionKey] = this.promoCode.conditions[key]\n          }\n\n          return acc\n        }, {})\n      },\n\n      inputPromo(e) {\n          this.promoCode.name = e.target.value.toUpperCase()\n      }\n    },\n\n    computed: {\n      currenciesToSelect() {\n        return this.currencies.map(currency => ({\n          id: currency.code,\n          title: currency.code,\n        }))\n      },\n\n      conditionsToSelect() {\n        return Object.keys(this.conditions).reduce((acc, key) => {\n          if (! (key in this.promoCode.conditions)) {\n            acc.push({\n              id: key,\n              title: this.conditions[key],\n            })\n          }\n\n          return acc\n        }, [])\n      },\n\n      hasNotSelectedConditions() {\n        return this.conditionsToSelect.length !== 0\n      },\n\n      promoTypeSelectOptions() {\n        return [\n          {\n            id: 'percent',\n            title: 'процентах'\n          },\n\n          {\n            id: 'amount',\n            title: 'валюте'\n          }\n        ]\n      }\n    }\n  }\n\n  // id: '',\n  // date_start: '',\n  // date_finish: '',\n  // quantity: '',\n  // once: '',\n  // user_related: '',\n  // percent: '',\n  // amount: '',\n\n\n\n</script>\n\n\n\n<template>\n  <div>\n    <div class=\"block full\">\n      <div class=\"block-title clearfix\" v-if=\"type === 'create'\">\n        <h1>\n          <strong>\n            Создание промокода\n          </strong>\n        </h1>\n\n        <div class=\"block-title-control\">\n          <a class=\"btn btn-sm btn-default btn-alt\" @click=\"redirectToTable\">\n            <i class=\"fa fa-arrow-left\"></i>\n          </a>\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <language-picker\n            :languages=\"languages\"\n            :activeLanguageCode.sync=\"activeLanguageCode\"\n            :class=\"{'has-error': formTranslatesHasError()}\" />\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <a v-if=\"userCan('promo-codes.create')\" class=\"btn btn-sm btn-success active\" @click=\"save\">\n            <i class=\"fa fa-plus-circle\"></i> Создать\n          </a>\n        </div>\n      </div>\n\n      <div class=\"block-title clearfix\" v-if=\"type === 'edit'\">\n        <h1>\n          <strong>\n            Редактирование промокода #{{ this.id }}\n          </strong>\n        </h1>\n\n        <div class=\"block-title-control\">\n          <a class=\"btn btn-sm btn-default btn-alt\" @click=\"redirectToTable\">\n            <i class=\"fa fa-arrow-left\"></i>\n          </a>\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <language-picker\n            :languages=\"languages\"\n            :activeLanguageCode.sync=\"activeLanguageCode\"\n            :class=\"{'has-error': formTranslatesHasError()}\" />\n\n          <span class=\"btn-separator-xs\"></span>\n\n          <a v-if=\"userCan('promo-codes.edit')\" class=\"btn btn-sm btn-primary active\" @click=\"save\">\n            <i class=\"fa fa-floppy-o\"></i> Сохранить\n          </a>\n\n          <a v-if=\"userCan('promo-codes.delete')\" class=\"btn btn-sm btn-danger active\" @click=\"remove\">\n            Удалить\n          </a>\n        </div>\n      </div>\n\n      <div class=\"row\" v-if=\"promoCode\">\n        <div class=\"col-lg-6\">\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-pencil\"></i> <strong>Основная</strong> информация\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div :class=\"`form-group${formErrors.has('name') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"name\">\n                  Код <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <input\n                    type=\"text\"\n                    class=\"form-control\"\n                    id=\"name\"\n                    name=\"name\"\n                    :value=\"promoCode.name\"\n                    @input=\"inputPromo\"\n                    v-validate=\"'required|min:3|max:255'\"\n                  >\n\n                  <span v-show=\"formErrors.has('name')\" class=\"help-block\">\n                    {{ formErrors.first('name') }}\n                  </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\">\n                <label class=\"col-md-3 control-label\" for=\"promo-type-select\">\n                  Скидка в <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <tree-select\n                    id=\"promo-type-select\"\n                    name=\"promo-type-select\"\n                    :options=\"promoTypeSelectOptions\"\n                    :selected=\"promoType\"\n                    @update:selected=\"setPromoType\"\n                    :params=\"{minimumResultsForSearch: -1, allowClear: false}\"\n                    placeholder=\"Выберите тип\" />\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('enabled') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\">\n                  Задействован\n                </label>\n\n                <div class=\"col-md-9\">\n                  <label class=\"switch switch-primary\">\n                    <input type=\"checkbox\" v-model=\"promoCode.enabled\">\n                    <span></span>\n                  </label>\n\n                  <span v-show=\"formErrors.has('enabled')\" class=\"help-block\">\n                    {{ formErrors.first('enabled') }}\n                  </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\" v-if=\"promoCode.uses_count\">\n                <label class=\"col-md-3 control-label\">\n                  Количество использований\n                </label>\n\n                <div class=\"col-md-9\">\n                  <p class=\"form-control-static\">\n                    {{ promoCode.uses_count }}\n                  </p>\n                </div>\n              </div>\n\n              <div class=\"form-group\" v-if=\"promoCode.created_at\">\n                <label class=\"col-md-3 control-label\">\n                  Дата создания\n                </label>\n\n                <div class=\"col-md-9\">\n                  <p class=\"form-control-static\">\n                    {{ promoCode.created_at }}\n                  </p>\n                </div>\n              </div>\n\n              <div class=\"form-group\" v-if=\"promoCode.updated_at\">\n                <label class=\"col-md-3 control-label\">\n                  Последнее изменение\n                </label>\n\n                <div class=\"col-md-9\">\n                  <p class=\"form-control-static\">\n                    {{ promoCode.updated_at }}\n                  </p>\n                </div>\n              </div>\n\n            </div>\n          </div>\n\n\n          <!-- Скидка -->\n\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-percent\"></i> <strong>Скидка</strong>\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\" v-if=\"promoType === 'percent'\">\n\n              <div :class=\"`form-group${formErrors.has('percent') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"percent\">\n                  Процент скидки <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <input\n                    type=\"number\"\n                    class=\"form-control\"\n                    id=\"percent\"\n                    v-model=\"promoCode.percent\"\n                    v-number\n                    name=\"percent\"\n                    v-validate=\"'required|max_value:' + $root.config('shop.promo.discount.percent.max_percent')\"\n                  >\n\n                  <span v-show=\"formErrors.has('percent')\" class=\"help-block\">\n                    {{ formErrors.first('percent') }}\n                  </span>\n                </div>\n              </div>\n\n            </div>\n\n            <div class=\"form-horizontal form-bordered\" v-if=\"promoType === 'amount'\">\n\n              <div :class=\"`form-group${formErrors.has('amount') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"amount\">\n                  Сумма <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <div class=\"input-group price-input-group\">\n                    <input\n                      type=\"number\"\n                      class=\"form-control\"\n                      id=\"amount\"\n                      v-model=\"promoCode.amount\"\n                      v-number\n                      name=\"amount\"\n                      v-validate=\"'required|max_value:2147483647'\"\n                    >\n\n                    <div class=\"input-group-addon\">\n                      <tree-select\n                        name=\"currency_code\"\n                        :options=\"currenciesToSelect\"\n                        :selected.sync=\"promoCode.currency_code\"\n                        :params=\"{minimumResultsForSearch: -1, allowClear: false}\"/>\n                    </div>\n                  </div>\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('percent') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"percent\">\n                  Максимальный процент скидки <span class=\"text-danger\">*</span>\n                </label>\n\n                <div class=\"col-md-9\">\n                  <input\n                    type=\"number\"\n                    class=\"form-control\"\n                    id=\"percent\"\n                    v-model=\"promoCode.percent\"\n                    v-number\n                    name=\"percent\"\n                    v-validate=\"'required|max_value:' + $root.config('shop.promo.discount.amount.max_percent')\"\n                  >\n\n                  <span v-show=\"formErrors.has('percent')\" class=\"help-block\">\n                    {{ formErrors.first('percent') }}\n                  </span>\n                </div>\n              </div>\n\n\n            </div>\n\n          </div>\n\n\n          <!-- Количество использований -->\n\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-hashtag\"></i> <strong>Количество</strong> использований\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div :class=\"`form-group${formErrors.has('quantity') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\">\n                  Общее\n                </label>\n\n                <div class=\"col-md-9\">\n                  <div class=\"clearfix\">\n                    <div class=\"pull-left\">\n                      <input\n                        style=\"max-width: 100px\"\n                        class=\"form-control\"\n                        id=\"quantity\"\n                        v-model=\"promoCode.quantity < 0 ? savedQuantities.quantity : promoCode.quantity\"\n                        name=\"quantity\"\n                        v-number\n                        :disabled=\"promoCode.quantity < 0\"\n                        v-validate=\"promoCode.quantity < 0 ? '' : 'required|integer|min_value:1|max_value:2147483647'\">\n                    </div>\n\n                    <div class=\"pull-left unlimited\">\n                      <label class=\"switch switch-primary\">\n                        <input\n                          type=\"checkbox\"\n                          id=\"quantity-unlimited\"\n                          @change=\"setUnlimited('quantity')\"\n                          :checked=\"promoCode.quantity < 0\"\n                        >\n                        <span></span>\n                      </label>\n\n                      <label class=\"help-inline\" for=\"quantity-unlimited\">\n                        Неограниченно\n                      </label>\n                    </div>\n                  </div>\n\n                  <span v-show=\"formErrors.has('quantity')\" class=\"help-block\">\n                    {{ formErrors.first('quantity') }}\n                  </span>\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('quantity_per_user') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\">\n                  На одного пользователя\n                </label>\n\n                <div class=\"col-md-9 clearfix\">\n                  <div class=\"clearfix\">\n                    <div class=\"pull-left\">\n                      <input\n                        style=\"max-width: 100px\"\n                        class=\"form-control\"\n                        id=\"quantity_per_user\"\n                        v-model=\"promoCode.quantity_per_user < 0 ? savedQuantities.quantity_per_user : promoCode.quantity_per_user\"\n                        name=\"quantity_per_user\"\n                        v-number\n                        :disabled=\"promoCode.quantity_per_user < 0\"\n                        v-validate=\"promoCode.quantity_per_user < 0 ? '' : 'required|integer|min_value:1|max_value:2147483647'\">\n                    </div>\n\n                    <div class=\"pull-left unlimited\">\n                      <label class=\"switch switch-primary\">\n                        <input\n                          type=\"checkbox\"\n                          id=\"quantity_per_user-unlimited\"\n                          @change=\"setUnlimited('quantity_per_user')\"\n                          :checked=\"promoCode.quantity_per_user < 0\"\n                        >\n                        <span></span>\n                      </label>\n\n                      <label class=\"help-inline\" for=\"quantity_per_user-unlimited\">\n                        Неограниченно\n                      </label>\n                    </div>\n                  </div>\n\n                  <span v-show=\"formErrors.has('quantity_per_user')\" class=\"help-block\">\n                    {{ formErrors.first('quantity_per_user') }}\n                  </span>\n                </div>\n              </div>\n            </div>\n\n          </div>\n\n\n          <!-- Срок использования -->\n\n          <div class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-calendar\"></i> <strong>Срок</strong> использования\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n\n              <div :class=\"`form-group${formErrors.has('date_start') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"date_start\">\n                  Дата начала\n                </label>\n\n                <div class=\"col-md-9\">\n                  <date-picker\n                    id=\"date_start\"\n                    name=\"date_start\"\n                    ref=\"dateStart\"\n                    @dp-show=\"datePickerShow('date_start')\"\n                    @dp-change=\"dateChanged('date_start')\"\n                    v-model=\"promoCode.date_start\"\n                    :config=\"dateStartConfig\"\n                    class=\"date-picker\"\n                  ></date-picker>\n\n                  <span v-show=\"formErrors.has('date_start')\" class=\"help-block\">\n                    {{ formErrors.first('date_start') }}\n                  </span>\n                </div>\n              </div>\n\n              <div :class=\"`form-group${formErrors.has('date_finish') ? ' has-error' : ''}`\">\n                <label class=\"col-md-3 control-label\" for=\"date_finish\">\n                  Дата завершения\n                </label>\n\n                <div class=\"col-md-9\">\n                  <date-picker\n                    id=\"date_finish\"\n                    name=\"date_finish\"\n                    ref=\"dateStart\"\n                    @dp-show=\"datePickerShow('date_finish')\"\n                    @dp-change=\"dateChanged('date_finish')\"\n                    v-model=\"promoCode.date_finish\"\n                    :config=\"dateFinishConfig\"\n                    class=\"date-picker\"\n                  ></date-picker>\n\n                  <span v-show=\"formErrors.has('date_finish')\" class=\"help-block\">\n                    {{ formErrors.first('date_finish') }}\n                  </span>\n                </div>\n              </div>\n\n            </div>\n          </div>\n        </div>\n\n\n        <!-- Дополнительные условия -->\n\n        <div class=\"col-lg-6\">\n          <div :class=\"`block${langSwitchHovered ? ' block-illuminated' : ''}`\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-globe\"></i> <strong>Языковая</strong> информация\n              </h2>\n            </div>\n\n            <template v-for=\"language in languages\">\n              <div :class=\"`form-horizontal form-bordered${activeLanguageCode === language.code ? '' : ' in-space'}`\" :key=\"language.code\">\n\n                <div :class=\"`form-group${formErrors.has(`i18n.${language.code}.title`) ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" :for=\"`title-${language.code}`\">\n                    Название <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <input\n                      type=\"text\"\n                      class=\"form-control\"\n                      :id=\"`title-${language.code}`\"\n                      v-model=\"promoCode.i18n[language.code].title\"\n                      :name=\"`i18n.${language.code}.title`\"\n                      v-validate=\"'required|max:255'\"\n                    >\n\n                    <span\n                      v-show=\"formErrors.has(`i18n.${language.code}.title`)\"\n                      class=\"help-block\"\n                    >\n                      {{ formErrors.first(`i18n.${language.code}.title`) }}\n                    </span>\n                  </div>\n                </div>\n\n                <div :class=\"`form-group${formErrors.has(`i18n.${language.code}.description`) ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" :for=\"`description-${language.code}`\">Описание</label>\n\n                  <div class=\"col-md-9\">\n                    <ckeditor\n                      :id=\"`description-${language.code}`\"\n                      :content.sync=\"promoCode.i18n[language.code].description\"\n                      :name=\"`i18n.${language.code}.description`\"\n                    />\n\n                    <span\n                      v-show=\"formErrors.has(`i18n.${language.code}.description`)\"\n                      class=\"help-block\"\n                    >\n                      {{ formErrors.first(`i18n.${language.code}.description`) }}\n                    </span>\n                  </div>\n                </div>\n              </div>\n            </template>\n\n          </div>\n\n\n\n          <div v-if=\"hasNotSelectedConditions\" class=\"block\">\n            <div class=\"block-title\">\n              <h2>\n                <i class=\"fa fa-bars\"></i> <strong>Дополнительные</strong> условия\n              </h2>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <label class=\"col-md-3 control-label\" for=\"conditions\">\n                  Условия\n                </label>\n\n                <div class=\"col-md-9 clearfix\">\n                  <div class=\"input-group\">\n                    <tree-select\n                      name=\"conditions\"\n                      :options=\"conditionsToSelect\"\n                      @update:selected=\"selectCondition\"\n                      :params=\"{minimumResultsForSearch: -1}\"\n                      placeholder=\"Выберите условие\" />\n\n                    <a @click=\"addCondition\" class=\"input-group-addon btn btn-primary\">\n                      <i class=\"fa fa-plus-circle\"></i>\n                    </a>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Минимальная сумма заказа -->\n\n          <div v-if=\"promoCode.conditions.min_summ\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-shopping-cart\"></i>\n                <strong>Минимальная</strong> сумма заказа\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('min_summ')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <div :class=\"`form-group${formErrors.has('conditions.min_summ.value') ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" for=\"condition-min-summ-value\">\n                    Сумма <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <div class=\"input-group price-input-group\">\n                      <input\n                        type=\"number\"\n                        class=\"form-control\"\n                        id=\"condition-min-summ-value\"\n                        v-model=\"promoCode.conditions.min_summ.value\"\n                        v-number\n                        name=\"conditions[min_summ][value]\"\n                        v-validate=\"'required|max_value:2147483647'\"\n                      >\n\n                      <div class=\"input-group-addon\">\n                        <tree-select\n                          name=\"conditions[min_summ][currency_code]\"\n                          :options=\"currenciesToSelect\"\n                          :selected.sync=\"promoCode.conditions.min_summ.currency_code\"\n                          :params=\"{minimumResultsForSearch: -1, allowClear: false}\"/>\n                      </div>\n                    </div>\n\n                    <span v-show=\"formErrors.has('conditions.min_summ.value')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.min_summ.value') }}\n                    </span>\n\n                    <span v-show=\"formErrors.has('conditions.min_summ.currency_code')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.min_summ.currency_code') }}\n                    </span>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Минимальная цена товара в корзине -->\n\n          <div v-if=\"promoCode.conditions.product_expensive\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-tv\"></i>\n                <strong>Минимальная</strong> цена товара в корзине\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('product_expensive')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <div :class=\"`form-group${formErrors.has('conditions.product_expensive.value') ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" for=\"product-expensive-summ-value\">\n                    Цена <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <div class=\"input-group price-input-group\">\n                      <input\n                        type=\"number\"\n                        class=\"form-control\"\n                        id=\"product-expensive-summ-value\"\n                        v-model=\"promoCode.conditions.product_expensive.value\"\n                        v-number\n                        name=\"conditions[product_expensive][value]\"\n                        v-validate=\"'required|max_value:2147483647'\"\n                      >\n\n                      <div class=\"input-group-addon\">\n                        <tree-select\n                          name=\"conditions[product_expensive][currency_code]\"\n                          :options=\"currenciesToSelect\"\n                          :selected.sync=\"promoCode.conditions.product_expensive.currency_code\"\n                          :params=\"{minimumResultsForSearch: -1, allowClear: false}\"/>\n                      </div>\n                    </div>\n\n                    <span v-show=\"formErrors.has('conditions.product_expensive.value')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.product_expensive.value') }}\n                    </span>\n\n                    <span v-show=\"formErrors.has('conditions.product_expensive.currency_code')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.product_expensive.currency_code') }}\n                    </span>\n                  </div>\n\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Минимальное количество товаров в корзине -->\n\n          <div v-if=\"promoCode.conditions.products_quantity\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-shopping-cart\"></i>\n                <strong>Минимальное</strong> количество товаров в корзине\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('products_quantity')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-horizontal form-bordered\">\n              <div class=\"form-group\">\n                <div :class=\"`form-group${formErrors.has('conditions.products_quantity.value') ? ' has-error' : ''}`\">\n                  <label class=\"col-md-3 control-label\" for=\"product-quantity-summ-value\">\n                    Количество <span class=\"text-danger\">*</span>\n                  </label>\n\n                  <div class=\"col-md-9\">\n                    <input\n                      type=\"number\"\n                      class=\"form-control\"\n                      id=\"product-quantity-summ-value\"\n                      v-model=\"promoCode.conditions.products_quantity.value\"\n                      v-number\n                      name=\"conditions[products_quantity][value]\"\n                      v-validate=\"'required|max_value:2147483647'\"\n                    >\n\n                    <span v-show=\"formErrors.has('conditions.products_quantity.value')\" class=\"help-block\">\n                      {{ formErrors.first('conditions.products_quantity.value') }}\n                    </span>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n\n          <!-- Первый заказ -->\n\n          <div v-if=\"promoCode.conditions.first_order\" class=\"block\">\n            <div class=\"block-title clearfix\">\n              <h2>\n                <i class=\"fa fa-certificate\"></i>\n                <strong>Первый</strong> заказ\n              </h2>\n\n              <div class=\"block-title-control\">\n                <a v-if=\"userCan('promo-codes.conditions')\" class=\"btn btn-sm btn-danger active\" @click=\"removeCondition('first_order')\">\n                  <i class=\"fa fa-trash\"></i> Удалить\n                </a>\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              Промокод будет срабатывать только для первого заказа учетной записи.\n            </div>\n          </div>\n\n        </div>\n      </div>\n    </div>\n\n    <b-modal\n      id=\"validationModal\"\n      ref=\"validationModal\"\n      title=\"Ошибка валидации\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Ок\"\n      ok-only\n      hide-header-close>\n\n      Проверьте правильность заполнения формы!\n    </b-modal>\n\n    <b-modal\n      id=\"removeModal\"\n      ref=\"removeModal\"\n      title=\"Удаление промокода\"\n      title-tag=\"h3\"\n      centered\n      ok-title=\"Удалить\"\n      cancel-title=\"Отмена\"\n      hide-header-close\n      @ok=\"removeConfirm\">\n\n      Вы действительно хотите удалить промокод?\n    </b-modal>\n  </div>\n</template>\n\n<style>\n  .unlimited {\n    margin: 3px 0 0 16px;\n    user-select: none;\n    cursor: pointer;\n  }\n\n  .unlimited .help-inline {\n    vertical-align: middle;\n    margin: 0 0 0 5px;\n  }\n\n  .date-picker {\n    max-width: 150px;\n  }\n\n  .price-input-group {\n    max-width: 200px;\n  }\n\n  .price-input-group .input-group-addon {\n    width: 80px;\n    padding: 0;\n    border: none;\n  }\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -20293,7 +20985,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.input-group-addon {\n  padding: 0;\n  overflow: hidden;\n}\n.color-preview {\n  width: 100%;\n  height: 32px;\n}\n.color-select {\n  position: relative;\n}\n.color-select__picker {\n  position: absolute;\n  z-index: 10;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/ColorSelect.vue"],"names":[],"mappings":";AA0EA;EACA,WAAA;EACA,iBAAA;CACA;AAEA;EACA,YAAA;EACA,aAAA;CACA;AAEA;EACA,mBAAA;CACA;AAEA;EACA,mBAAA;EACA,YAAA;CACA","file":"ColorSelect.vue","sourcesContent":["<script>\n  import ColorPicker from 'v-color'\n  import bDropdown from 'bootstrap-vue/es/components/dropdown/dropdown'\n  import bDropdownItem from 'bootstrap-vue/es/components/dropdown/dropdown-item'\n\n  export default {\n    name: 'color-select',\n\n    components: {\n      ColorPicker,\n      bDropdown,\n      bDropdownItem\n    },\n\n    props: [\n      'color'\n    ],\n\n    data() {\n      return {\n        active: false\n      }\n    },\n\n    mounted() {\n      window.addEventListener('click', this.handleClick, {passive: true})\n      window.addEventListener('touchend', this.handleClick, {passive: true})\n      window.addEventListener('keydown', this.handleKeydown, {passive: true})\n    },\n\n    beforeDestroy() {\n      window.removeEventListener('click', this.handleClick)\n      window.removeEventListener('touchend', this.handleClick)\n      window.removeEventListener('keydown', this.handleKeydown)\n    },\n\n    methods: {\n      setColor(color) {\n        this.$emit('change', color)\n      },\n\n      handleKeydown(e) {\n          let code = e.keyCode || e.which\n\n          if (this.active && code === 27) {\n            this.deactivate()\n          }\n      },\n\n      handleClick(e) {\n        if (this.$el.contains(e.target)) {\n          if (! this.active) {\n            this.activate()\n          }\n        }\n        else {\n          if (this.active) {\n            this.deactivate()\n          }\n        }\n      },\n\n      activate() {\n        this.active = true\n      },\n\n      deactivate() {\n        this.active = false\n      }\n    }\n  }\n</script>\n\n<style>\n  .input-group-addon {\n    padding: 0;\n    overflow: hidden;\n  }\n\n  .color-preview {\n    width: 100%;\n    height: 32px;\n  }\n\n  .color-select {\n    position: relative;\n  }\n\n  .color-select__picker {\n    position: absolute;\n    z-index: 10;\n  }\n</style>\n\n<template>\n  <div class=\"color-select\">\n    <div class=\"input-group\">\n      <input type=\"text\" :value=\"color\" @input.prevent class=\"form-control\">\n\n      <span class=\"input-group-addon\">\n        <div class=\"color-preview\" :style=\"{backgroundColor: color}\"></div>\n      </span>\n    </div>\n\n    <div v-show=\"active\" class=\"color-select__picker\">\n      <color-picker\n        :color=\"color || undefined\"\n        @change=\"setColor\"\n      ></color-picker>\n    </div>\n  </div>\n</template>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.input-group-addon {\n  padding: 0;\n  overflow: hidden;\n}\n.color-preview {\n  width: 100%;\n  height: 32px;\n}\n.color-select {\n  position: relative;\n}\n.color-select__picker {\n  position: absolute;\n  z-index: 10;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/ColorSelect.vue"],"names":[],"mappings":";AA6GA;EACA,WAAA;EACA,iBAAA;CACA;AAEA;EACA,YAAA;EACA,aAAA;CACA;AAEA;EACA,mBAAA;CACA;AAEA;EACA,mBAAA;EACA,YAAA;CACA","file":"ColorSelect.vue","sourcesContent":["<script>\n  import ColorPicker from 'v-color'\n  import bDropdown from 'bootstrap-vue/es/components/dropdown/dropdown'\n  import bDropdownItem from 'bootstrap-vue/es/components/dropdown/dropdown-item'\n\n  export default {\n    name: 'color-select',\n\n    components: {\n      ColorPicker,\n      bDropdown,\n      bDropdownItem\n    },\n\n    props: [\n      'color'\n    ],\n\n    data() {\n      return {\n        active: false\n      }\n    },\n\n    mounted() {\n      window.addEventListener('click', this.handleClick, {passive: true})\n      window.addEventListener('touchend', this.handleClick, {passive: true})\n      window.addEventListener('keydown', this.handleKeydown, {passive: true})\n    },\n\n    beforeDestroy() {\n      window.removeEventListener('click', this.handleClick)\n      window.removeEventListener('touchend', this.handleClick)\n      window.removeEventListener('keydown', this.handleKeydown)\n    },\n\n    methods: {\n      setColor(color) {\n        this.$emit('update:color', color)\n      },\n\n      colorPickerChange(colorData) {\n        let ref = this.$refs.colorPicker\n        if (! ref) return\n\n        let color\n\n        switch (ref.currentMode) {\n          case 'hex':\n            color = colorData[ref.currentMode]\n            break\n\n          case 'hsla':\n            color = this.removeUnnecessaryAlpha('hsl', colorData[ref.currentMode])\n            break\n\n          case 'rgba':\n            color = this.removeUnnecessaryAlpha('rgb', colorData[ref.currentMode])\n            break\n        }\n\n        this.setColor(color)\n      },\n\n      inputChange(e) {\n        this.setColor(e.target.value)\n      },\n\n      removeUnnecessaryAlpha(label, colorArray) {\n        if (colorArray[3] === 1) {\n          return label + '(' + colorArray.slice(0, 3).join(', ') + ')'\n        }\n\n        return label + 'a(' + colorArray.join(', ') + ')'\n      },\n\n      handleKeydown(e) {\n          let code = e.keyCode || e.which\n\n          if (this.active && code === 27) {\n            this.deactivate()\n          }\n      },\n\n      handleClick(e) {\n        if (this.$el.contains(e.target)) {\n          if (! this.active) {\n            this.activate()\n          }\n        }\n        else {\n          if (this.active) {\n            this.deactivate()\n          }\n        }\n      },\n\n      activate() {\n        this.active = true\n      },\n\n      deactivate() {\n        this.active = false\n      }\n    }\n  }\n</script>\n\n<style>\n  .input-group-addon {\n    padding: 0;\n    overflow: hidden;\n  }\n\n  .color-preview {\n    width: 100%;\n    height: 32px;\n  }\n\n  .color-select {\n    position: relative;\n  }\n\n  .color-select__picker {\n    position: absolute;\n    z-index: 10;\n  }\n</style>\n\n<template>\n  <div class=\"color-select\">\n    <div class=\"input-group\">\n      <input\n        type=\"text\"\n        :value=\"color\"\n        @input=\"inputChange\"\n        class=\"form-control\">\n\n      <span class=\"input-group-addon\">\n        <div class=\"color-preview\" :style=\"{backgroundColor: color}\"></div>\n      </span>\n    </div>\n\n    <div v-show=\"active\" class=\"color-select__picker\">\n      <color-picker\n        ref=\"colorPicker\"\n        :color=\"color || undefined\"\n        @change=\"colorPickerChange\"\n      ></color-picker>\n    </div>\n  </div>\n</template>"],"sourceRoot":""}]);
 
 // exports
 
@@ -62850,7 +63542,6 @@ var events = ['hide', 'show', 'change', 'error', 'update'];
     config: {
       deep: true,
       handler: function handler(newConfig) {
-        console.log(newConfig)
         this.dp && this.dp.options(newConfig);
       }
     }
@@ -62897,7 +63588,7 @@ var events = ['hide', 'show', 'change', 'error', 'update'];
   }
 });
 // CONCATENATED MODULE: ./src/component.vue?vue&type=script&lang=js
- /* harmony default export */ var src_componentvue_type_script_lang_js = (componentvue_type_script_lang_js);
+ /* harmony default export */ var src_componentvue_type_script_lang_js = (componentvue_type_script_lang_js); 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
 
@@ -63009,7 +63700,7 @@ var component = normalizeComponent(
   null,
   null,
   null
-
+  
 )
 
 /* harmony default export */ var src_component = (component.exports);
@@ -63473,7 +64164,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("span", { staticClass: "btn-separator-xs" }),
                   _vm._v(" "),
-                  _vm.userCan("categories.create")
+                  _vm.userCan("rooms.create")
                     ? _c(
                         "a",
                         {
@@ -63534,7 +64225,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("span", { staticClass: "btn-separator-xs" }),
                   _vm._v(" "),
-                  _vm.userCan("categories.edit")
+                  _vm.userCan("rooms.edit")
                     ? _c(
                         "a",
                         {
@@ -63548,7 +64239,7 @@ var render = function() {
                       )
                     : _vm._e(),
                   _vm._v(" "),
-                  _vm.userCan("categories.delete")
+                  _vm.userCan("rooms.delete")
                     ? _c(
                         "a",
                         {
@@ -64978,6 +65669,398 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-03a74ab1\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/interior/InteriorTable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        { staticClass: "block full" },
+        [
+          _c("div", { staticClass: "block-title clearfix" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm.userCan("interiors.create")
+              ? _c(
+                  "div",
+                  { staticClass: "block-title-control" },
+                  [
+                    _c("language-picker", {
+                      attrs: {
+                        languages: _vm.languages,
+                        activeLanguageCode: _vm.activeLanguageCode
+                      },
+                      on: {
+                        "update:activeLanguageCode": function($event) {
+                          _vm.activeLanguageCode = $event
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "btn-separator-xs" }),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "btn btn-sm btn-success active",
+                        attrs: { to: "/shop/interiors/create" }
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-plus-circle" }),
+                        _vm._v(" Создать\n        ")
+                      ]
+                    )
+                  ],
+                  1
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("loading", { attrs: { loading: _vm.loading } }, [
+            _c(
+              "div",
+              {
+                staticClass: "table-responsive",
+                staticStyle: { overflow: "visible" }
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "dataTables_wrapper form-inline no-footer" },
+                  [
+                    _c("div", { staticClass: "row" }, [
+                      _c(
+                        "div",
+                        { staticClass: "col-sm-4 col-xs-12 clearfix" },
+                        [
+                          _vm.showPagination
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "dataTables_paginate paging_bootstrap"
+                                },
+                                [
+                                  _c("b-pagination", {
+                                    staticClass: "my-0",
+                                    attrs: {
+                                      "total-rows": _vm.totalRows,
+                                      "per-page": _vm.perPage
+                                    },
+                                    model: {
+                                      value: _vm.page,
+                                      callback: function($$v) {
+                                        _vm.page = $$v
+                                      },
+                                      expression: "page"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            : _vm._e()
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("b-table", {
+                      ref: "table",
+                      staticClass:
+                        "table table-vcenter table-condensed table-hover table-bordered no-footer",
+                      attrs: {
+                        "show-empty": "",
+                        stacked: "md",
+                        items: _vm.fetchItems,
+                        fields: _vm.fields,
+                        busy: _vm.loading,
+                        "current-page": _vm.page,
+                        "per-page": _vm.perPage,
+                        "empty-text": "Список интерьеров пуст.",
+                        "empty-filtered-text":
+                          "Интерьеры с такими параметрами не найдены."
+                      },
+                      on: {
+                        refreshed: _vm.setHistoryState,
+                        "update:busy": function($event) {
+                          _vm.loading = $event
+                        }
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "HEAD_id",
+                          fn: function(item) {
+                            return [
+                              _c("span", { staticClass: "table-column-id" }, [
+                                _vm._v("ID")
+                              ])
+                            ]
+                          }
+                        },
+                        {
+                          key: "id",
+                          fn: function(item) {
+                            return [
+                              _c(
+                                "router-link",
+                                { attrs: { to: item.item.url } },
+                                [
+                                  _c(
+                                    "span",
+                                    { staticClass: "table-column-id" },
+                                    [
+                                      _vm._v(
+                                        "\n                  " +
+                                          _vm._s(item.item.id) +
+                                          "\n                "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            ]
+                          }
+                        },
+                        {
+                          key: "HEAD_image",
+                          fn: function(item) {
+                            return [
+                              _c(
+                                "span",
+                                { staticClass: "table-column-image" },
+                                [_vm._v("Изображение")]
+                              )
+                            ]
+                          }
+                        },
+                        {
+                          key: "image",
+                          fn: function(item) {
+                            return [
+                              _c(
+                                "span",
+                                { staticClass: "table-column-image" },
+                                [
+                                  _c(
+                                    "router-link",
+                                    { attrs: { to: item.item.url } },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass: "product-preview-image"
+                                        },
+                                        [
+                                          _c("img", {
+                                            attrs: { src: item.item.image }
+                                          })
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ]
+                          }
+                        },
+                        {
+                          key: "title",
+                          fn: function(item) {
+                            return [
+                              _c("router-link", {
+                                attrs: { to: item.item.url },
+                                domProps: {
+                                  innerHTML: _vm._s(
+                                    item.item.i18n[_vm.activeLanguageCode].title
+                                  )
+                                }
+                              })
+                            ]
+                          }
+                        },
+                        {
+                          key: "HEAD_created_at",
+                          fn: function(item) {
+                            return [
+                              _c("span", { staticClass: "table-column-date" }, [
+                                _vm._v("Создан")
+                              ])
+                            ]
+                          }
+                        },
+                        {
+                          key: "created_at",
+                          fn: function(item) {
+                            return [
+                              _c("span", { staticClass: "table-column-date" }, [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(item.item.created_at) +
+                                    "\n              "
+                                )
+                              ])
+                            ]
+                          }
+                        },
+                        {
+                          key: "HEAD_delete",
+                          fn: function(item) {
+                            return [
+                              _c("span", { staticClass: "table-column-delete" })
+                            ]
+                          }
+                        },
+                        {
+                          key: "delete",
+                          fn: function(item) {
+                            return [
+                              _c(
+                                "span",
+                                { staticClass: "table-column-delete" },
+                                [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "btn btn-danger",
+                                      on: {
+                                        click: function($event) {
+                                          _vm.remove(item.item.id)
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-times" })]
+                                  )
+                                ]
+                              )
+                            ]
+                          }
+                        }
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c(
+                        "div",
+                        { staticClass: "col-sm-6 col-xs-12 clearfix" },
+                        [
+                          _vm.showPagination
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "dataTables_paginate paging_bootstrap"
+                                },
+                                [
+                                  _c("b-pagination", {
+                                    staticClass: "my-0",
+                                    attrs: {
+                                      "total-rows": _vm.totalRows,
+                                      "per-page": _vm.perPage
+                                    },
+                                    model: {
+                                      value: _vm.page,
+                                      callback: function($$v) {
+                                        _vm.page = $$v
+                                      },
+                                      expression: "page"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            : _vm._e()
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-6 col-xs-6" }, [
+                        _c("div", { staticClass: "dataTables_length" }, [
+                          _c(
+                            "label",
+                            [
+                              _c("b-form-select", {
+                                attrs: {
+                                  options: _vm.perPageOptions,
+                                  value: _vm.perPage
+                                },
+                                on: { change: _vm.setPerPage }
+                              })
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "dataTables_info",
+                            attrs: { role: "status", "aria-live": "polite" }
+                          },
+                          [
+                            _c("strong", [_vm._v(_vm._s(_vm.showedFrom))]),
+                            _vm._v(" - "),
+                            _c("strong", [_vm._v(_vm._s(_vm.showedTo))]),
+                            _vm._v(" из "),
+                            _c("strong", [_vm._v(_vm._s(_vm.totalRows))])
+                          ]
+                        )
+                      ])
+                    ])
+                  ],
+                  1
+                )
+              ]
+            )
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "removeModal",
+          attrs: {
+            id: "removeModal",
+            title: "Удаление интерьера",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Удалить",
+            "cancel-title": "Отмена",
+            "hide-header-close": ""
+          },
+          on: { ok: _vm.removeConfirm }
+        },
+        [_vm._v("\n\n    Вы действительно хотите удалить интерьер?\n  ")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [_c("strong", [_vm._v("\n          Интерьеры\n        ")])])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-03a74ab1", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-069f5630\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/banners/BannerEdit.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -65787,7 +66870,7 @@ var render = function() {
                                 color: _vm.banner.title_color || undefined
                               },
                               on: {
-                                change: function($event) {
+                                "update:color": function($event) {
                                   _vm.setColor("title_color", $event)
                                 }
                               }
@@ -65843,7 +66926,7 @@ var render = function() {
                                 color: _vm.banner.caption_color || undefined
                               },
                               on: {
-                                change: function($event) {
+                                "update:color": function($event) {
                                   _vm.setColor("caption_color", $event)
                                 }
                               }
@@ -65900,7 +66983,7 @@ var render = function() {
                                 color: _vm.banner.button_color || undefined
                               },
                               on: {
-                                change: function($event) {
+                                "update:color": function($event) {
                                   _vm.setColor("button_color", $event)
                                 }
                               }
@@ -65958,7 +67041,7 @@ var render = function() {
                                   undefined
                               },
                               on: {
-                                change: function($event) {
+                                "update:color": function($event) {
                                   _vm.setColor(
                                     "button_background_color",
                                     $event
@@ -66095,7 +67178,7 @@ var render = function() {
                                           undefined
                                       },
                                       on: {
-                                        change: function($event) {
+                                        "update:color": function($event) {
                                           _vm.setColor(
                                             "gradient.color_from",
                                             $event
@@ -66161,7 +67244,7 @@ var render = function() {
                                           undefined
                                       },
                                       on: {
-                                        change: function($event) {
+                                        "update:color": function($event) {
                                           _vm.setColor(
                                             "gradient.color_to",
                                             $event
@@ -66595,7 +67678,10 @@ var render = function() {
                         [
                           _c("header-banner", {
                             attrs: {
-                              image: _vm.banner.desktop_image,
+                              image:
+                                _vm.backgroundType === "image"
+                                  ? _vm.banner.desktop_image
+                                  : undefined,
                               link: _vm.prepareUrl(
                                 _vm.banner.i18n[_vm.activeLanguageCode].link
                               ),
@@ -66628,7 +67714,10 @@ var render = function() {
                           _c("header-banner", {
                             staticClass: "header-banner--mobile",
                             attrs: {
-                              image: _vm.banner.mobile_image,
+                              image:
+                                _vm.backgroundType === "image"
+                                  ? _vm.banner.mobile_image
+                                  : undefined,
                               link: _vm.prepareUrl(
                                 _vm.banner.i18n[_vm.activeLanguageCode].link
                               ),
@@ -68222,7 +69311,7 @@ var render = function() {
                         },
                         [
                           _c("i", { staticClass: "fa fa-plus-circle" }),
-                          _vm._v(" Создать\n          ")
+                          _vm._v(" Создать\n        ")
                         ]
                       )
                     : _vm._e()
@@ -68809,6 +69898,7 @@ var render = function() {
                                 selected: _vm.product.categories,
                                 multiple: true,
                                 params: { closeOnSelect: false },
+                                "disable-parents": true,
                                 placeholder: "Выберите категорию"
                               },
                               on: {
@@ -69157,202 +70247,6 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        class:
-                          "form-group" +
-                          (_vm.formErrors.has("is_new") ? " has-error" : "")
-                      },
-                      [
-                        _c("label", { staticClass: "col-md-3 control-label" }, [
-                          _vm._v("\n                Новинка\n              ")
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-9" }, [
-                          _c(
-                            "label",
-                            { staticClass: "switch switch-success" },
-                            [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.product.is_new,
-                                    expression: "product.is_new"
-                                  }
-                                ],
-                                attrs: {
-                                  type: "checkbox",
-                                  id: "is-new",
-                                  name: "is_new"
-                                },
-                                domProps: {
-                                  checked: Array.isArray(_vm.product.is_new)
-                                    ? _vm._i(_vm.product.is_new, null) > -1
-                                    : _vm.product.is_new
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.product.is_new,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? true : false
-                                    if (Array.isArray($$a)) {
-                                      var $$v = null,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          _vm.$set(
-                                            _vm.product,
-                                            "is_new",
-                                            $$a.concat([$$v])
-                                          )
-                                      } else {
-                                        $$i > -1 &&
-                                          _vm.$set(
-                                            _vm.product,
-                                            "is_new",
-                                            $$a
-                                              .slice(0, $$i)
-                                              .concat($$a.slice($$i + 1))
-                                          )
-                                      }
-                                    } else {
-                                      _vm.$set(_vm.product, "is_new", $$c)
-                                    }
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("span")
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.formErrors.has("is_new"),
-                                  expression: "formErrors.has('is_new')"
-                                }
-                              ],
-                              staticClass: "help-block"
-                            },
-                            [
-                              _vm._v(
-                                "\n                  " +
-                                  _vm._s(_vm.formErrors.first("is_new")) +
-                                  "\n                "
-                              )
-                            ]
-                          )
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        class:
-                          "form-group" +
-                          (_vm.formErrors.has("is_popular") ? " has-error" : "")
-                      },
-                      [
-                        _c("label", { staticClass: "col-md-3 control-label" }, [
-                          _vm._v(
-                            "\n                Популярный товар\n              "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-9" }, [
-                          _c(
-                            "label",
-                            { staticClass: "switch switch-warning" },
-                            [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.product.is_popular,
-                                    expression: "product.is_popular"
-                                  }
-                                ],
-                                attrs: {
-                                  type: "checkbox",
-                                  id: "is-popular",
-                                  name: "is_popular"
-                                },
-                                domProps: {
-                                  checked: Array.isArray(_vm.product.is_popular)
-                                    ? _vm._i(_vm.product.is_popular, null) > -1
-                                    : _vm.product.is_popular
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.product.is_popular,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? true : false
-                                    if (Array.isArray($$a)) {
-                                      var $$v = null,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          _vm.$set(
-                                            _vm.product,
-                                            "is_popular",
-                                            $$a.concat([$$v])
-                                          )
-                                      } else {
-                                        $$i > -1 &&
-                                          _vm.$set(
-                                            _vm.product,
-                                            "is_popular",
-                                            $$a
-                                              .slice(0, $$i)
-                                              .concat($$a.slice($$i + 1))
-                                          )
-                                      }
-                                    } else {
-                                      _vm.$set(_vm.product, "is_popular", $$c)
-                                    }
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("span")
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.formErrors.has("is_popular"),
-                                  expression: "formErrors.has('is_popular')"
-                                }
-                              ],
-                              staticClass: "help-block"
-                            },
-                            [
-                              _vm._v(
-                                "\n                  " +
-                                  _vm._s(_vm.formErrors.first("is_popular")) +
-                                  "\n                "
-                              )
-                            ]
-                          )
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
                     "showed" in _vm.product
                       ? _c("div", { staticClass: "form-group" }, [
                           _c(
@@ -69477,7 +70371,8 @@ var render = function() {
                                     activeLanguageCode: _vm.activeLanguageCode,
                                     selected: _vm.product.related,
                                     options: _vm.product.relatedOptions,
-                                    "link-url-maker": _vm.relatedLinkMaker
+                                    "link-url-maker": _vm.relatedLinkMaker,
+                                    multiple: true
                                   },
                                   on: {
                                     "update:selected": function($event) {
@@ -69995,7 +70890,7 @@ var render = function() {
           ref: "removeModal",
           attrs: {
             id: "removeModal",
-            title: "Удаление категории",
+            title: "Удаление товара",
             "title-tag": "h3",
             centered: "",
             "ok-title": "Удалить",
@@ -70815,6 +71710,297 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-172f7f00", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1891b2d1\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/sale/SaleTable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "block full" }, [
+        _c("div", { staticClass: "block-title clearfix" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _vm.userCan("sale.create")
+            ? _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c("language-picker", {
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-sm btn-success active",
+                      attrs: { to: "/shop/sale/create" }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-plus-circle" }),
+                      _vm._v(" Создать\n        ")
+                    ]
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "table-responsive" }, [
+          _c("div", { staticClass: "table-responsive" }, [
+            _c(
+              "table",
+              {
+                staticClass:
+                  "table table-middle table-center table-condensed table-bordered table-hover table-sortable table-attributes"
+              },
+              [
+                _c("thead", [
+                  _c("tr", [
+                    _vm.userCan("sale.edit")
+                      ? _c("th", [
+                          _c("span", { staticClass: "table-column-sort" })
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("th", { staticStyle: { width: "100%" } }, [
+                      _vm._v("Название")
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _vm.userCan("sale.edit")
+                      ? _c("th", [
+                          _c("span", { staticClass: "table-column-enabled" }, [
+                            _vm._v(
+                              "\n                  Статус\n                "
+                            )
+                          ])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.userCan("sale.delete")
+                      ? _c("th", [
+                          _c("span", { staticClass: "table-column-delete" })
+                        ])
+                      : _vm._e()
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  { staticClass: "ui-sortable" },
+                  [
+                    _vm._l(_vm.items, function(item) {
+                      return _c(
+                        "tr",
+                        { key: item.id, staticClass: "js-sort-item" },
+                        [
+                          _vm.userCan("sale.edit")
+                            ? _c(
+                                "td",
+                                {
+                                  staticClass:
+                                    "table-sort-handler js-sort-handler"
+                                },
+                                [
+                                  _c("span", [
+                                    _c("input", {
+                                      attrs: { type: "hidden", name: "ids" },
+                                      domProps: { value: item.id }
+                                    })
+                                  ])
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "span",
+                              { staticClass: "table-column-id" },
+                              [
+                                _c("router-link", { attrs: { to: item.url } }, [
+                                  _vm._v(
+                                    "\n                    " +
+                                      _vm._s(item.id) +
+                                      "\n                  "
+                                  )
+                                ])
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticStyle: { width: "100%" } },
+                            [
+                              _c("router-link", { attrs: { to: item.url } }, [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(
+                                      item.product.i18n[_vm.activeLanguageCode]
+                                        .title
+                                    ) +
+                                    "\n                "
+                                )
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(_vm.getItemPrice(item)) +
+                                "\n              "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _vm.userCan("sale.edit")
+                            ? _c("td", [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "table-column-enabled table-remove-restore__restore"
+                                  },
+                                  [
+                                    _c("toggle", {
+                                      attrs: { checked: item.enabled },
+                                      on: {
+                                        change: function($event) {
+                                          _vm.statusChange(item.id)
+                                        }
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.userCan("sale.delete")
+                            ? _c("td", [
+                                _c(
+                                  "span",
+                                  { staticClass: "table-column-delete" },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-danger",
+                                        on: {
+                                          click: function($event) {
+                                            _vm.remove(item.id)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-times" })]
+                                    )
+                                  ]
+                                )
+                              ])
+                            : _vm._e()
+                        ]
+                      )
+                    }),
+                    _vm._v(" "),
+                    !(_vm.items && _vm.items.length)
+                      ? _c("tr", [
+                          _c(
+                            "td",
+                            {
+                              staticClass: "text-center",
+                              attrs: { colspan: "6" }
+                            },
+                            [_vm._v("Список акционных товаров пуст")]
+                          )
+                        ])
+                      : _vm._e()
+                  ],
+                  2
+                )
+              ]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "removeModal",
+          attrs: {
+            id: "removeModal",
+            title: "Удаление акции",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Удалить",
+            "cancel-title": "Отмена",
+            "hide-header-close": ""
+          },
+          on: { ok: _vm.removeConfirm }
+        },
+        [_vm._v("\n\n    Вы действительно хотите удалить акцию?\n  ")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [
+      _c("strong", [_vm._v("\n          Акционные товары\n        ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "table-column-id" }, [_vm._v("ID")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "table-column-id" }, [_vm._v("Цена")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1891b2d1", module.exports)
   }
 }
 
@@ -74927,6 +76113,647 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-4b4416d7\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/sale/SaleEdit.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "block full" }, [
+        _vm.type === "create"
+          ? _c("div", { staticClass: "block-title clearfix" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-default btn-alt",
+                      on: { click: _vm.redirectToTable }
+                    },
+                    [_c("i", { staticClass: "fa fa-arrow-left" })]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c("language-picker", {
+                    class: { "has-error": _vm.formTranslatesHasError() },
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _vm.userCan("sale.create")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-success active",
+                          on: { click: _vm.save }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-plus-circle" }),
+                          _vm._v(" Создать\n        ")
+                        ]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.type === "edit"
+          ? _c("div", { staticClass: "block-title" }, [
+              _c("h1", [
+                _c("strong", [
+                  _vm._v(
+                    "\n          Редактирование акционного товара #" +
+                      _vm._s(this.id) +
+                      "\n        "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-default btn-alt",
+                      on: { click: _vm.redirectToTable }
+                    },
+                    [_c("i", { staticClass: "fa fa-arrow-left" })]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c("language-picker", {
+                    class: { "has-error": _vm.formTranslatesHasError() },
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _vm.userCan("sale.edit")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-primary active",
+                          on: { click: _vm.save }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-floppy-o" }),
+                          _vm._v(" Сохранить\n        ")
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.userCan("sale.delete")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-danger active",
+                          on: { click: _vm.remove }
+                        },
+                        [_vm._v("\n          Удалить\n        ")]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.saleProduct
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-lg-12" }, [
+                _c("div", { staticClass: "block" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-horizontal form-bordered" }, [
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("related") ? " has-error" : "")
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 control-label",
+                            attrs: { for: "date_start" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                Акционный товар\n              "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-9" }, [
+                          _c(
+                            "div",
+                            { staticClass: "input-group" },
+                            [
+                              _c("ajax-multiselect", {
+                                ref: "productSearch",
+                                attrs: {
+                                  url: _vm.productSearchUrl(),
+                                  languages: _vm.languages,
+                                  activeLanguageCode: _vm.activeLanguageCode,
+                                  selected: _vm.saleProduct.product_id,
+                                  options: _vm.saleProduct.product,
+                                  "link-url-maker": _vm.relatedLinkMaker,
+                                  params: {
+                                    minimumResultsForSearch: -1,
+                                    allowClear: false,
+                                    closeOnSelect: false
+                                  }
+                                },
+                                on: {
+                                  "update:selected": [
+                                    function($event) {
+                                      _vm.$set(
+                                        _vm.saleProduct,
+                                        "product_id",
+                                        $event
+                                      )
+                                    },
+                                    _vm.setSelected
+                                  ]
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.formErrors.has("related"),
+                                  expression: "formErrors.has('related')"
+                                }
+                              ],
+                              staticClass: "help-block"
+                            },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.formErrors.first("related")) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("date_start") ? " has-error" : "")
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 control-label",
+                            attrs: { for: "date_start" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                Дата начала\n              "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-md-9" },
+                          [
+                            _c("date-picker", {
+                              ref: "dateStart",
+                              staticClass: "date-picker",
+                              attrs: {
+                                id: "date_start",
+                                name: "date_start",
+                                config: _vm.dateStartConfig
+                              },
+                              on: {
+                                "dp-show": function($event) {
+                                  _vm.datePickerShow("date_start")
+                                },
+                                "dp-change": function($event) {
+                                  _vm.dateChanged("date_start")
+                                }
+                              },
+                              model: {
+                                value: _vm.saleProduct.date_start,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.saleProduct, "date_start", $$v)
+                                },
+                                expression: "saleProduct.date_start"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.formErrors.has("date_start"),
+                                    expression: "formErrors.has('date_start')"
+                                  }
+                                ],
+                                staticClass: "help-block"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.formErrors.first("date_start")) +
+                                    "\n                "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("date_finish")
+                            ? " has-error"
+                            : "")
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 control-label",
+                            attrs: { for: "date_finish" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                Дата завершения\n              "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-md-9" },
+                          [
+                            _c("date-picker", {
+                              ref: "dateStart",
+                              staticClass: "date-picker",
+                              attrs: {
+                                id: "date_finish",
+                                name: "date_finish",
+                                config: _vm.dateFinishConfig
+                              },
+                              on: {
+                                "dp-show": function($event) {
+                                  _vm.datePickerShow("date_finish")
+                                },
+                                "dp-change": function($event) {
+                                  _vm.dateChanged("date_finish")
+                                }
+                              },
+                              model: {
+                                value: _vm.saleProduct.date_finish,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.saleProduct, "date_finish", $$v)
+                                },
+                                expression: "saleProduct.date_finish"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.formErrors.has("date_finish"),
+                                    expression: "formErrors.has('date_finish')"
+                                  }
+                                ],
+                                staticClass: "help-block"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(
+                                      _vm.formErrors.first("date_finish")
+                                    ) +
+                                    "\n                "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("enabled") ? " has-error" : "")
+                      },
+                      [
+                        _c("label", { staticClass: "col-md-3 control-label" }, [
+                          _vm._v(
+                            "\n                Опубликовано\n              "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-9" }, [
+                          _c(
+                            "label",
+                            { staticClass: "switch switch-primary" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.saleProduct.enabled,
+                                    expression: "saleProduct.enabled"
+                                  }
+                                ],
+                                attrs: { type: "checkbox" },
+                                domProps: {
+                                  checked: Array.isArray(
+                                    _vm.saleProduct.enabled
+                                  )
+                                    ? _vm._i(_vm.saleProduct.enabled, null) > -1
+                                    : _vm.saleProduct.enabled
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$a = _vm.saleProduct.enabled,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = null,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          _vm.$set(
+                                            _vm.saleProduct,
+                                            "enabled",
+                                            $$a.concat([$$v])
+                                          )
+                                      } else {
+                                        $$i > -1 &&
+                                          _vm.$set(
+                                            _vm.saleProduct,
+                                            "enabled",
+                                            $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1))
+                                          )
+                                      }
+                                    } else {
+                                      _vm.$set(_vm.saleProduct, "enabled", $$c)
+                                    }
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("span")
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.formErrors.has("enabled"),
+                                  expression: "formErrors.has('enabled')"
+                                }
+                              ],
+                              staticClass: "help-block"
+                            },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.formErrors.first("enabled")) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.saleProduct.created_at
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [
+                              _vm._v(
+                                "\n                Дата создания\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-9" }, [
+                            _c("p", { staticClass: "form-control-static" }, [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.saleProduct.created_at) +
+                                  "\n                "
+                              )
+                            ])
+                          ])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.saleProduct.updated_at
+                      ? _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [
+                              _vm._v(
+                                "\n                Последнее изменение\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-9" }, [
+                            _c("p", { staticClass: "form-control-static" }, [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(_vm.saleProduct.updated_at) +
+                                  "\n                "
+                              )
+                            ])
+                          ])
+                        ])
+                      : _vm._e()
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-lg-12" },
+                [
+                  this.saleProduct.product_id
+                    ? _c(
+                        "loading",
+                        { attrs: { loading: _vm.loading } },
+                        [
+                          _vm.saleProduct.product_id
+                            ? _c("prices-table", {
+                                attrs: {
+                                  prices: _vm.saleProduct.prices,
+                                  "available-price-types": _vm.$root.config(
+                                    "shop.price_types.sale"
+                                  ),
+                                  activeLanguageCode: _vm.activeLanguageCode,
+                                  errors: _vm.formErrors
+                                },
+                                on: {
+                                  "update:prices": function($event) {
+                                    _vm.$set(_vm.saleProduct, "prices", $event)
+                                  }
+                                }
+                              })
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "validationModal",
+          attrs: {
+            id: "validationModal",
+            title: "Ошибка валидации",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Ок",
+            "ok-only": "",
+            "hide-header-close": ""
+          }
+        },
+        [_vm._v("\n\n    Проверьте правильность заполнения формы!\n  ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "removeModal",
+          attrs: {
+            id: "removeModal",
+            title: "Удаление комнаты",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Удалить",
+            "cancel-title": "Отмена",
+            "hide-header-close": ""
+          },
+          on: { ok: _vm.removeConfirm }
+        },
+        [_vm._v("\n\n    Вы действительно хотите акцию?\n  ")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [
+      _c("strong", [_vm._v("\n          Создание акционного товара\n        ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-pencil" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Основная")]),
+        _vm._v(" информация\n            ")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4b4416d7", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-514a459a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/system/rbac/Permissions/PermissionGroupsTableTree.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -77339,7 +79166,7 @@ var render = function() {
       options: _vm.options$,
       selected: _vm.selected,
       params: _vm.params,
-      multiple: true,
+      multiple: !!_vm.multiple,
       placeholder: "Поиск"
     }
   })
@@ -78395,6 +80222,68 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-87cec1b8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/interior/preview/InteriorPreview.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "interior-preview", style: _vm.previewStyle },
+    [
+      _c("img", {
+        staticClass: "interior-preview__image",
+        attrs: { src: _vm.image }
+      }),
+      _vm._v(" "),
+      _vm._l(_vm.points, function(point) {
+        return [
+          _c(
+            "div",
+            {
+              key: point.key,
+              staticClass: "interior-preview__point",
+              style: _vm.pointStyle(point)
+            },
+            [
+              _c("interior-point", {
+                attrs: {
+                  x: point.x,
+                  y: point.y,
+                  "is-similar": point.is_similar,
+                  "product-id": point.product_id,
+                  "legend-position": _vm.getPointLegendPosition(point),
+                  "active-language-code": _vm.activeLanguageCode
+                },
+                on: {
+                  update: function($event) {
+                    _vm.setPointPosition(point, $event)
+                  }
+                }
+              })
+            ],
+            1
+          )
+        ]
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-87cec1b8", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8da83876\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/AttributesSelect.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -78665,6 +80554,85 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-91720e06", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-91876428\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/interior/preview/InteriorPoint.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { class: _vm.className, on: { mousedown: _vm.mousedown } }, [
+    _c("div", { staticClass: "interior-point__center" }),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "interior-point__legend" },
+      [
+        _vm.product
+          ? [
+              _c("div", { staticClass: "product-preview" }, [
+                _c("div", { staticClass: "product-preview__image-box" }, [
+                  _c("img", {
+                    staticClass: "product-preview__image",
+                    attrs: {
+                      src:
+                        "http://admin.mossebo.market" + _vm.product.image.src,
+                      srcset:
+                        "http://admin.mossebo.market" +
+                        _vm.product.image.srcset +
+                        " 2x"
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "product-preview__name" }, [
+                  _vm._v(
+                    "\n          " +
+                      _vm._s(_vm.product.i18n[_vm.activeLanguageCode].title) +
+                      "\n        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "product-preview__price" }, [
+                  _vm._v(
+                    "\n          " +
+                      _vm._s(_vm.product.price.formatted) +
+                      "\n        "
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ])
+            ]
+          : [_c("div", { staticClass: "interior-point-loading" })]
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "product-preview__button" }, [
+      _c("div", { staticClass: "button" }, [
+        _vm._v("\n            Смотреть\n          ")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-91876428", module.exports)
   }
 }
 
@@ -79661,7 +81629,7 @@ var render = function() {
                                   _vm.datePickerShow("date_start")
                                 },
                                 "dp-change": function($event) {
-                                  _vm.dateStartChange()
+                                  _vm.dateChanged("date_start")
                                 }
                               },
                               model: {
@@ -79738,6 +81706,9 @@ var render = function() {
                               on: {
                                 "dp-show": function($event) {
                                   _vm.datePickerShow("date_finish")
+                                },
+                                "dp-change": function($event) {
+                                  _vm.dateChanged("date_finish")
                                 }
                               },
                               model: {
@@ -82088,6 +84059,807 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c5a7fa12\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/interior/InteriorEdit.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "block full" }, [
+        _vm.type === "create"
+          ? _c("div", { staticClass: "block-title clearfix" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-default btn-alt",
+                      on: { click: _vm.redirectToTable }
+                    },
+                    [_c("i", { staticClass: "fa fa-arrow-left" })]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c("language-picker", {
+                    class: { "has-error": _vm.formTranslatesHasError() },
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _vm.userCan("interiors.create")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-success active",
+                          on: { click: _vm.save }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-plus-circle" }),
+                          _vm._v(" Создать\n        ")
+                        ]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.type === "edit"
+          ? _c("div", { staticClass: "block-title clearfix" }, [
+              _c("h1", [
+                _c("strong", [
+                  _vm._v(
+                    "\n          Редактирование интерьера #" +
+                      _vm._s(this.id) +
+                      "\n        "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "block-title-control" },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-default btn-alt",
+                      on: { click: _vm.redirectToTable }
+                    },
+                    [_c("i", { staticClass: "fa fa-arrow-left" })]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _c("language-picker", {
+                    class: { "has-error": _vm.formTranslatesHasError() },
+                    attrs: {
+                      languages: _vm.languages,
+                      activeLanguageCode: _vm.activeLanguageCode
+                    },
+                    on: {
+                      "update:activeLanguageCode": function($event) {
+                        _vm.activeLanguageCode = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "btn-separator-xs" }),
+                  _vm._v(" "),
+                  _vm.userCan("interiors.edit")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-primary active",
+                          on: { click: _vm.save }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-floppy-o" }),
+                          _vm._v(" Сохранить\n        ")
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.userCan("interiors.delete")
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-danger active",
+                          on: { click: _vm.remove }
+                        },
+                        [_vm._v("\n          Удалить\n        ")]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.interior
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-lg-6" }, [
+                _c(
+                  "div",
+                  {
+                    class:
+                      "block" +
+                      (_vm.langSwitchHovered ? " block-illuminated" : "")
+                  },
+                  [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _vm._l(_vm.languages, function(language) {
+                      return [
+                        _c(
+                          "div",
+                          {
+                            key: language.code,
+                            class:
+                              "form-horizontal form-bordered" +
+                              (_vm.activeLanguageCode === language.code
+                                ? ""
+                                : " in-space")
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.formErrors.has(
+                                    "i18n." + language.code + ".title"
+                                  )
+                                    ? " has-error"
+                                    : "")
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "col-md-3 control-label",
+                                    attrs: { for: "title-" + language.code }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                  Заголовок\n                "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-9" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.interior.i18n[language.code]
+                                            .title,
+                                        expression:
+                                          "interior.i18n[language.code].title"
+                                      },
+                                      {
+                                        name: "validate",
+                                        rawName: "v-validate",
+                                        value: "required|max:255",
+                                        expression: "'required|max:255'"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      id: "title-" + language.code,
+                                      name: "i18n." + language.code + ".title"
+                                    },
+                                    domProps: {
+                                      value:
+                                        _vm.interior.i18n[language.code].title
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.interior.i18n[language.code],
+                                          "title",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.formErrors.has(
+                                            "i18n." + language.code + ".title"
+                                          ),
+                                          expression:
+                                            "formErrors.has(`i18n.${language.code}.title`)"
+                                        }
+                                      ],
+                                      staticClass: "help-block"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm.formErrors.first(
+                                              "i18n." + language.code + ".title"
+                                            )
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "block" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-horizontal form-bordered" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { staticClass: "col-md-3 control-label" }, [
+                        _vm._v("\n                Изображение\n              ")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-md-9" },
+                        [
+                          _c("file-manager", {
+                            attrs: { id: "image", file: _vm.interior.image },
+                            on: {
+                              "update:file": function($event) {
+                                _vm.$set(_vm.interior, "image", $event)
+                              }
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("rooms") ? " has-error" : "")
+                      },
+                      [
+                        _c("label", { staticClass: "col-md-3 control-label" }, [
+                          _vm._v("\n                Комнаты\n              ")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-md-8" },
+                          [
+                            _c("tree-select", {
+                              attrs: {
+                                options: _vm.roomsToSelect,
+                                selected: _vm.interior.rooms,
+                                multiple: true,
+                                placeholder: "Выберите комнату"
+                              },
+                              on: {
+                                "update:selected": function($event) {
+                                  _vm.$set(_vm.interior, "rooms", $event)
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.formErrors.has("rooms"),
+                                    expression: "formErrors.has('rooms')"
+                                  }
+                                ],
+                                staticClass: "help-block"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.formErrors.first("rooms")) +
+                                    "\n                "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        class:
+                          "form-group" +
+                          (_vm.formErrors.has("styles") ? " has-error" : "")
+                      },
+                      [
+                        _c("label", { staticClass: "col-md-3 control-label" }, [
+                          _vm._v("\n                Стили\n              ")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-md-8" },
+                          [
+                            _c("tree-select", {
+                              attrs: {
+                                options: _vm.stylesToSelect,
+                                selected: _vm.interior.styles,
+                                multiple: true,
+                                placeholder: "Выберите стиль"
+                              },
+                              on: {
+                                "update:selected": function($event) {
+                                  _vm.$set(_vm.interior, "styles", $event)
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.formErrors.has("styles"),
+                                    expression: "formErrors.has('styles')"
+                                  }
+                                ],
+                                staticClass: "help-block"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.formErrors.first("styles")) +
+                                    "\n                "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "block" }, [
+                  _c("div", { staticClass: "block-title clearfix" }, [
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "block-title-control" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-primary active",
+                          on: { click: _vm.addPoint }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-plus-circle" }),
+                          _vm._v("\n                Добавить\n              ")
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm.interior.points.length
+                    ? _c(
+                        "div",
+                        { staticClass: "form-horizontal form-bordered" },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticStyle: {
+                                margin: "0 -1px -8px -1px",
+                                position: "relative",
+                                top: "-6px"
+                              }
+                            },
+                            [
+                              _c(
+                                "table",
+                                {
+                                  staticClass:
+                                    "table table-middle table-center table-condensed table-bordered table-hover",
+                                  staticStyle: { "margin-bottom": "0" }
+                                },
+                                [
+                                  _vm._m(4),
+                                  _vm._v(" "),
+                                  _c(
+                                    "tbody",
+                                    _vm._l(_vm.interior.points, function(
+                                      point
+                                    ) {
+                                      return _c("tr", [
+                                        _c(
+                                          "td",
+                                          { staticStyle: { width: "100%" } },
+                                          [
+                                            _c("ajax-multiselect", {
+                                              attrs: {
+                                                url: _vm.productSearchUrl(),
+                                                languages: _vm.languages,
+                                                activeLanguageCode:
+                                                  _vm.activeLanguageCode,
+                                                selected: point.product_id,
+                                                options: point.product,
+                                                "link-url-maker":
+                                                  _vm.productLinkMaker
+                                              },
+                                              on: {
+                                                "update:selected": function(
+                                                  $event
+                                                ) {
+                                                  _vm.$set(
+                                                    point,
+                                                    "product_id",
+                                                    $event
+                                                  )
+                                                }
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticStyle: {
+                                              "text-align": "center"
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "span",
+                                              {
+                                                staticClass:
+                                                  "table-column-enabled"
+                                              },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass:
+                                                      "switch switch-primary"
+                                                  },
+                                                  [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value:
+                                                            point.is_similar,
+                                                          expression:
+                                                            "point.is_similar"
+                                                        }
+                                                      ],
+                                                      attrs: {
+                                                        type: "checkbox",
+                                                        id: "is-payable",
+                                                        name: "is_payable"
+                                                      },
+                                                      domProps: {
+                                                        checked: Array.isArray(
+                                                          point.is_similar
+                                                        )
+                                                          ? _vm._i(
+                                                              point.is_similar,
+                                                              null
+                                                            ) > -1
+                                                          : point.is_similar
+                                                      },
+                                                      on: {
+                                                        change: function(
+                                                          $event
+                                                        ) {
+                                                          var $$a =
+                                                              point.is_similar,
+                                                            $$el =
+                                                              $event.target,
+                                                            $$c = $$el.checked
+                                                              ? true
+                                                              : false
+                                                          if (
+                                                            Array.isArray($$a)
+                                                          ) {
+                                                            var $$v = null,
+                                                              $$i = _vm._i(
+                                                                $$a,
+                                                                $$v
+                                                              )
+                                                            if ($$el.checked) {
+                                                              $$i < 0 &&
+                                                                _vm.$set(
+                                                                  point,
+                                                                  "is_similar",
+                                                                  $$a.concat([
+                                                                    $$v
+                                                                  ])
+                                                                )
+                                                            } else {
+                                                              $$i > -1 &&
+                                                                _vm.$set(
+                                                                  point,
+                                                                  "is_similar",
+                                                                  $$a
+                                                                    .slice(
+                                                                      0,
+                                                                      $$i
+                                                                    )
+                                                                    .concat(
+                                                                      $$a.slice(
+                                                                        $$i + 1
+                                                                      )
+                                                                    )
+                                                                )
+                                                            }
+                                                          } else {
+                                                            _vm.$set(
+                                                              point,
+                                                              "is_similar",
+                                                              $$c
+                                                            )
+                                                          }
+                                                        }
+                                                      }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("span")
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticStyle: {
+                                              "text-align": "center"
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "span",
+                                              {
+                                                staticClass:
+                                                  "table-column-delete"
+                                              },
+                                              [
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    staticClass:
+                                                      "btn btn-danger",
+                                                    staticStyle: {
+                                                      margin: "0"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        _vm.removePoint(point)
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass: "fa fa-times"
+                                                    })
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ])
+                                    })
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    : _vm._e()
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-lg-6" }, [
+                _c("div", { staticClass: "block" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "clearfix",
+                      staticStyle: { "margin-bottom": "20px" }
+                    },
+                    [
+                      _c("interior-preview", {
+                        attrs: {
+                          points: _vm.interior.points,
+                          image: _vm.interior.image
+                            ? _vm.interior.image
+                            : undefined,
+                          "active-language-code": _vm.activeLanguageCode
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ])
+              ])
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "validationModal",
+          attrs: {
+            id: "validationModal",
+            title: "Ошибка валидации",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Ок",
+            "ok-only": "",
+            "hide-header-close": ""
+          }
+        },
+        [_vm._v("\n\n    Проверьте правильность заполнения формы!\n  ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "removeModal",
+          attrs: {
+            id: "removeModal",
+            title: "Удаление интерьера",
+            "title-tag": "h3",
+            centered: "",
+            "ok-title": "Удалить",
+            "cancel-title": "Отмена",
+            "hide-header-close": ""
+          },
+          on: { ok: _vm.removeConfirm }
+        },
+        [_vm._v("\n\n    Вы действительно хотите удалить этот интерьер?\n  ")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [
+      _c("strong", [_vm._v("\n          Создание интерьера\n        ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-globe" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Языковая")]),
+        _vm._v(" информация\n            ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-title" }, [
+      _c("h2", [
+        _c("i", { staticClass: "fa fa-image" }),
+        _vm._v(" "),
+        _c("strong", [_vm._v("Интерьер")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h2", [
+      _c("i", { staticClass: "fa fa-dot-circle-o" }),
+      _vm._v(" "),
+      _c("strong", [_vm._v("Точки")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [
+          _vm._v("\n                      Товар\n                    ")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { "text-align": "center" } }, [
+          _c("span", { staticClass: "table-column-enabled" }, [
+            _vm._v("\n                        Похожий\n                      ")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { "text-align": "center" } }, [
+          _c("span", { staticClass: "table-column-delete" }, [
+            _vm._v("\n                        Удалить\n                      ")
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-c5a7fa12", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c7756ae8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/CKEditor.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -82640,11 +85412,7 @@ var render = function() {
         staticClass: "form-control",
         attrs: { type: "text" },
         domProps: { value: _vm.color },
-        on: {
-          input: function($event) {
-            $event.preventDefault()
-          }
-        }
+        on: { input: _vm.inputChange }
       }),
       _vm._v(" "),
       _c("span", { staticClass: "input-group-addon" }, [
@@ -82670,8 +85438,9 @@ var render = function() {
       },
       [
         _c("color-picker", {
+          ref: "colorPicker",
           attrs: { color: _vm.color || undefined },
-          on: { change: _vm.setColor }
+          on: { change: _vm.colorPickerChange }
         })
       ],
       1
@@ -87407,31 +90176,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_shop_banners_BannersTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_29__components_shop_banners_BannersTable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_shop_banners_BannerEdit__ = __webpack_require__("./resources/assets/js/components/shop/banners/BannerEdit.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_shop_banners_BannerEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_30__components_shop_banners_BannerEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_system_Admins_AdminsTable__ = __webpack_require__("./resources/assets/js/components/system/Admins/AdminsTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_system_Admins_AdminsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_31__components_system_Admins_AdminsTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_system_Admins_AdminEdit__ = __webpack_require__("./resources/assets/js/components/system/Admins/AdminEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_system_Admins_AdminEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_32__components_system_Admins_AdminEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_system_rbac_Roles_RolesTable__ = __webpack_require__("./resources/assets/js/components/system/rbac/Roles/RolesTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_system_rbac_Roles_RolesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_33__components_system_rbac_Roles_RolesTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_system_rbac_Roles_RoleEdit__ = __webpack_require__("./resources/assets/js/components/system/rbac/Roles/RoleEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_system_rbac_Roles_RoleEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_34__components_system_rbac_Roles_RoleEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_system_rbac_Permissions_PermissionGroupsTable__ = __webpack_require__("./resources/assets/js/components/system/rbac/Permissions/PermissionGroupsTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_system_rbac_Permissions_PermissionGroupsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_35__components_system_rbac_Permissions_PermissionGroupsTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_system_rbac_Permissions_PermissionGroupEdit__ = __webpack_require__("./resources/assets/js/components/system/rbac/Permissions/PermissionGroupEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_system_rbac_Permissions_PermissionGroupEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_36__components_system_rbac_Permissions_PermissionGroupEdit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_37__components_Loading__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_ClearCacheBtn__ = __webpack_require__("./resources/assets/js/components/ClearCacheBtn.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_38__components_ClearCacheBtn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_39__components_MainMenu__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_Avatar__ = __webpack_require__("./resources/assets/js/components/Avatar.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_Avatar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_40__components_Avatar__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_reviews_ReviewsTable__ = __webpack_require__("./resources/assets/js/components/reviews/ReviewsTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_reviews_ReviewsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_41__components_reviews_ReviewsTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_reviews_ReviewEdit__ = __webpack_require__("./resources/assets/js/components/reviews/ReviewEdit.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_reviews_ReviewEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_42__components_reviews_ReviewEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_shop_sale_SaleTable__ = __webpack_require__("./resources/assets/js/components/shop/sale/SaleTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_shop_sale_SaleTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_31__components_shop_sale_SaleTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_shop_sale_SaleEdit__ = __webpack_require__("./resources/assets/js/components/shop/sale/SaleEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_shop_sale_SaleEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_32__components_shop_sale_SaleEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_shop_interior_InteriorEdit__ = __webpack_require__("./resources/assets/js/components/shop/interior/InteriorEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_shop_interior_InteriorEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_33__components_shop_interior_InteriorEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_shop_interior_InteriorTable__ = __webpack_require__("./resources/assets/js/components/shop/interior/InteriorTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_shop_interior_InteriorTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_34__components_shop_interior_InteriorTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_system_Admins_AdminsTable__ = __webpack_require__("./resources/assets/js/components/system/Admins/AdminsTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_system_Admins_AdminsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_35__components_system_Admins_AdminsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_system_Admins_AdminEdit__ = __webpack_require__("./resources/assets/js/components/system/Admins/AdminEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_system_Admins_AdminEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_36__components_system_Admins_AdminEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_system_rbac_Roles_RolesTable__ = __webpack_require__("./resources/assets/js/components/system/rbac/Roles/RolesTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_system_rbac_Roles_RolesTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_37__components_system_rbac_Roles_RolesTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_system_rbac_Roles_RoleEdit__ = __webpack_require__("./resources/assets/js/components/system/rbac/Roles/RoleEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_system_rbac_Roles_RoleEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_38__components_system_rbac_Roles_RoleEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_system_rbac_Permissions_PermissionGroupsTable__ = __webpack_require__("./resources/assets/js/components/system/rbac/Permissions/PermissionGroupsTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_system_rbac_Permissions_PermissionGroupsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_39__components_system_rbac_Permissions_PermissionGroupsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_system_rbac_Permissions_PermissionGroupEdit__ = __webpack_require__("./resources/assets/js/components/system/rbac/Permissions/PermissionGroupEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_system_rbac_Permissions_PermissionGroupEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_40__components_system_rbac_Permissions_PermissionGroupEdit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_41__components_Loading__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_ClearCacheBtn__ = __webpack_require__("./resources/assets/js/components/ClearCacheBtn.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_ClearCacheBtn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_42__components_ClearCacheBtn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_MainMenu__ = __webpack_require__("./resources/assets/js/components/MainMenu.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_MainMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_43__components_MainMenu__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__components_Avatar__ = __webpack_require__("./resources/assets/js/components/Avatar.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__components_Avatar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_44__components_Avatar__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__components_reviews_ReviewsTable__ = __webpack_require__("./resources/assets/js/components/reviews/ReviewsTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__components_reviews_ReviewsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_45__components_reviews_ReviewsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__components_reviews_ReviewEdit__ = __webpack_require__("./resources/assets/js/components/reviews/ReviewEdit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__components_reviews_ReviewEdit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_46__components_reviews_ReviewEdit__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+
 
 
 
@@ -87562,15 +90345,19 @@ var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_7__components_sh
     return _extends({}, route.params, { type: 'edit' });
   } }, { path: '/shop/banners', component: __WEBPACK_IMPORTED_MODULE_29__components_shop_banners_BannersTable___default.a }, { path: '/shop/banners/create', component: __WEBPACK_IMPORTED_MODULE_30__components_shop_banners_BannerEdit___default.a, props: { type: 'create' } }, { path: '/shop/banners/:id', component: __WEBPACK_IMPORTED_MODULE_30__components_shop_banners_BannerEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/admins', component: __WEBPACK_IMPORTED_MODULE_31__components_system_Admins_AdminsTable___default.a }, { path: '/system/admins/create', component: __WEBPACK_IMPORTED_MODULE_32__components_system_Admins_AdminEdit___default.a, props: { type: 'create' } }, { path: '/system/admins/:id', component: __WEBPACK_IMPORTED_MODULE_32__components_system_Admins_AdminEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/sale', component: __WEBPACK_IMPORTED_MODULE_31__components_shop_sale_SaleTable___default.a }, { path: '/shop/sale/create', component: __WEBPACK_IMPORTED_MODULE_32__components_shop_sale_SaleEdit___default.a, props: { type: 'create' } }, { path: '/shop/sale/:id', component: __WEBPACK_IMPORTED_MODULE_32__components_shop_sale_SaleEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_33__components_system_rbac_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_34__components_system_rbac_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_34__components_system_rbac_Roles_RoleEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/interiors', component: __WEBPACK_IMPORTED_MODULE_34__components_shop_interior_InteriorTable___default.a }, { path: '/shop/interiors/create', component: __WEBPACK_IMPORTED_MODULE_33__components_shop_interior_InteriorEdit___default.a, props: { type: 'create' } }, { path: '/shop/interiors/:id', component: __WEBPACK_IMPORTED_MODULE_33__components_shop_interior_InteriorEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_33__components_system_rbac_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_34__components_system_rbac_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_34__components_system_rbac_Roles_RoleEdit___default.a, props: function props(route) {
+  } }, { path: '/system/admins', component: __WEBPACK_IMPORTED_MODULE_35__components_system_Admins_AdminsTable___default.a }, { path: '/system/admins/create', component: __WEBPACK_IMPORTED_MODULE_36__components_system_Admins_AdminEdit___default.a, props: { type: 'create' } }, { path: '/system/admins/:id', component: __WEBPACK_IMPORTED_MODULE_36__components_system_Admins_AdminEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/system/rbac/permission-groups', component: __WEBPACK_IMPORTED_MODULE_35__components_system_rbac_Permissions_PermissionGroupsTable___default.a }, { path: '/system/rbac/permission-groups/create', component: __WEBPACK_IMPORTED_MODULE_36__components_system_rbac_Permissions_PermissionGroupEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/permission-groups/:id', component: __WEBPACK_IMPORTED_MODULE_36__components_system_rbac_Permissions_PermissionGroupEdit___default.a, props: function props(route) {
+  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_37__components_system_rbac_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_38__components_system_rbac_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_38__components_system_rbac_Roles_RoleEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/reviews', component: __WEBPACK_IMPORTED_MODULE_41__components_reviews_ReviewsTable___default.a }, { path: '/reviews/:id', component: __WEBPACK_IMPORTED_MODULE_42__components_reviews_ReviewEdit___default.a, props: function props(route) {
+  } }, { path: '/system/rbac/roles', component: __WEBPACK_IMPORTED_MODULE_37__components_system_rbac_Roles_RolesTable___default.a }, { path: '/system/rbac/roles/create', component: __WEBPACK_IMPORTED_MODULE_38__components_system_rbac_Roles_RoleEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/roles/:id', component: __WEBPACK_IMPORTED_MODULE_38__components_system_rbac_Roles_RoleEdit___default.a, props: function props(route) {
+    return _extends({}, route.params, { type: 'edit' });
+  } }, { path: '/system/rbac/permission-groups', component: __WEBPACK_IMPORTED_MODULE_39__components_system_rbac_Permissions_PermissionGroupsTable___default.a }, { path: '/system/rbac/permission-groups/create', component: __WEBPACK_IMPORTED_MODULE_40__components_system_rbac_Permissions_PermissionGroupEdit___default.a, props: { type: 'create' } }, { path: '/system/rbac/permission-groups/:id', component: __WEBPACK_IMPORTED_MODULE_40__components_system_rbac_Permissions_PermissionGroupEdit___default.a, props: function props(route) {
+    return _extends({}, route.params, { type: 'edit' });
+  } }, { path: '/reviews', component: __WEBPACK_IMPORTED_MODULE_45__components_reviews_ReviewsTable___default.a }, { path: '/reviews/:id', component: __WEBPACK_IMPORTED_MODULE_46__components_reviews_ReviewEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
   } }];
 
@@ -87590,10 +90377,10 @@ __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].init().then(function () {
   var app = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
     router: router,
     components: {
-      Loading: __WEBPACK_IMPORTED_MODULE_37__components_Loading___default.a,
-      ClearCacheBtn: __WEBPACK_IMPORTED_MODULE_38__components_ClearCacheBtn___default.a,
-      MainMenu: __WEBPACK_IMPORTED_MODULE_39__components_MainMenu___default.a,
-      Avatar: __WEBPACK_IMPORTED_MODULE_40__components_Avatar___default.a
+      Loading: __WEBPACK_IMPORTED_MODULE_41__components_Loading___default.a,
+      ClearCacheBtn: __WEBPACK_IMPORTED_MODULE_42__components_ClearCacheBtn___default.a,
+      MainMenu: __WEBPACK_IMPORTED_MODULE_43__components_MainMenu___default.a,
+      Avatar: __WEBPACK_IMPORTED_MODULE_44__components_Avatar___default.a
     },
 
     data: function data() {
@@ -89840,6 +92627,198 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/shop/interior/InteriorEdit.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/interior/InteriorEdit.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c5a7fa12\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/interior/InteriorEdit.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/interior/InteriorEdit.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c5a7fa12", Component.options)
+  } else {
+    hotAPI.reload("data-v-c5a7fa12", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/shop/interior/InteriorTable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/interior/InteriorTable.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-03a74ab1\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/interior/InteriorTable.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/interior/InteriorTable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-03a74ab1", Component.options)
+  } else {
+    hotAPI.reload("data-v-03a74ab1", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/shop/interior/preview/InteriorPoint.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/interior/preview/InteriorPoint.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-91876428\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/interior/preview/InteriorPoint.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/interior/preview/InteriorPoint.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-91876428", Component.options)
+  } else {
+    hotAPI.reload("data-v-91876428", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/shop/interior/preview/InteriorPreview.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/interior/preview/InteriorPreview.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-87cec1b8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/interior/preview/InteriorPreview.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/interior/preview/InteriorPreview.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-87cec1b8", Component.options)
+  } else {
+    hotAPI.reload("data-v-87cec1b8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/shop/orders/OrdersTable.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -90269,6 +93248,102 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-7921b8bf", Component.options)
   } else {
     hotAPI.reload("data-v-7921b8bf", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/shop/sale/SaleEdit.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/sale/SaleEdit.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-4b4416d7\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/sale/SaleEdit.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/sale/SaleEdit.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4b4416d7", Component.options)
+  } else {
+    hotAPI.reload("data-v-4b4416d7", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/shop/sale/SaleTable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/sale/SaleTable.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1891b2d1\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/sale/SaleTable.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/sale/SaleTable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1891b2d1", Component.options)
+  } else {
+    hotAPI.reload("data-v-1891b2d1", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -91636,14 +94711,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           url: '/shop/banners',
           icon: 'fa fa-image',
           permission: 'shop.banners.menu'
-        },
-        // {
-        //   title: 'Акционные товары',
-        //   url: '/shop/sale',
-        //   icon: 'fa fa-percent',
-        //   permission: 'shop.sale.menu'
-        // },
-        {
+        }, {
+          title: 'Акционные товары',
+          url: '/shop/sale',
+          icon: 'fa fa-percent',
+          permission: 'shop.sale.menu'
+        }, {
           title: 'Промокоды',
           url: '/shop/promo-codes',
           icon: 'fa fa-ticket',
@@ -91658,6 +94731,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           url: '/shop/badge-types',
           icon: 'fa fa-tag',
           permission: 'shop.badge-types.menu'
+        }, {
+          title: 'Интерьеры',
+          url: '/shop/interiors',
+          icon: 'fa fa-hotel',
+          permission: 'shop.interiors.menu'
         }]
       }, {
         title: 'Покупатели',
@@ -92636,6 +95714,8 @@ var HandleableException = function () {
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
     return {
+      mainDataLoaded: false,
+      onMainDataLoadedCallbacks: [],
       usedMainData: []
     };
   },
@@ -92651,6 +95731,26 @@ var HandleableException = function () {
       return this.fetchMainData().then(function (data) {
         return _this.initMainData(data);
       });
+    },
+    onMainDataLoaded: function onMainDataLoaded() {
+      var _this2 = this;
+
+      return new Promise(function (resolve) {
+        if (_this2.mainDataLoaded) {
+          resolve();
+          return;
+        }
+
+        _this2.onMainDataLoadedCallbacks.push(resolve);
+      });
+    },
+    mainDataLoadDone: function mainDataLoadDone() {
+      this.mainDataLoaded = true;
+
+      this.onMainDataLoadedCallbacks.forEach(function (cb) {
+        return cb();
+      });
+      this.onMainDataLoadedCallbacks = [];
     },
 
 
@@ -92676,7 +95776,7 @@ var HandleableException = function () {
      * @param data
      */
     initMainData: function initMainData() {
-      var _this2 = this;
+      var _this3 = this;
 
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -92685,13 +95785,15 @@ var HandleableException = function () {
 
         var methodName = 'init' + __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].camelize(label, true);
 
-        if (typeof _this2[methodName] === "function") {
-          _this2[methodName](data[label]);
+        if (typeof _this3[methodName] === "function") {
+          _this3[methodName](data[label]);
         } else {
           var variableName = __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].camelize(label);
-          _this2[variableName] = data[label];
+          _this3[variableName] = data[label];
         }
       });
+
+      this.mainDataLoadDone();
     },
     initCurrencies: function initCurrencies() {
       var currencies = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -92699,21 +95801,21 @@ var HandleableException = function () {
       this.currencies = this.getSortedData(this.getEnabledData(currencies));
     },
     initPriceTypes: function initPriceTypes() {
-      var _this3 = this;
+      var _this4 = this;
 
       var priceTypes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.priceTypes = this.getSortedData(this.getEnabledData(priceTypes)).map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_1__resources_shop_PriceTypeDataModel__["a" /* default */](item, _this3.languages);
+        return new __WEBPACK_IMPORTED_MODULE_1__resources_shop_PriceTypeDataModel__["a" /* default */](item, _this4.languages);
       });
     },
     initBadgeTypes: function initBadgeTypes() {
-      var _this4 = this;
+      var _this5 = this;
 
       var badgeTypes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.badgeTypes = this.getSortedData(badgeTypes).map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_5__resources_shop_badge_BadgeTypeModel__["a" /* default */](item, _this4.languages);
+        return new __WEBPACK_IMPORTED_MODULE_5__resources_shop_badge_BadgeTypeModel__["a" /* default */](item, _this5.languages);
       });
     },
     initLanguages: function initLanguages() {
@@ -92729,26 +95831,26 @@ var HandleableException = function () {
       });
     },
     initCategoriesTree: function initCategoriesTree() {
-      var _this5 = this;
+      var _this6 = this;
 
       var tree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.categoriesTree = tree.map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_0__resources_shop_CategoriesTreeSelectModel__["a" /* default */](item, _this5.languages);
+        return new __WEBPACK_IMPORTED_MODULE_0__resources_shop_CategoriesTreeSelectModel__["a" /* default */](item, _this6.languages);
       });
     },
     initStyles: function initStyles(styles) {
-      var _this6 = this;
+      var _this7 = this;
 
       this.styles = this.getSortedData(this.getEnabledData(styles)).map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_4__resources_shop_StyleDataModel__["a" /* default */](item, _this6.languages);
+        return new __WEBPACK_IMPORTED_MODULE_4__resources_shop_StyleDataModel__["a" /* default */](item, _this7.languages);
       });
     },
     initRooms: function initRooms(rooms) {
-      var _this7 = this;
+      var _this8 = this;
 
       this.rooms = this.getSortedData(this.getEnabledData(rooms)).map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_3__resources_shop_RoomDataModel__["a" /* default */](item, _this7.languages);
+        return new __WEBPACK_IMPORTED_MODULE_3__resources_shop_RoomDataModel__["a" /* default */](item, _this8.languages);
       });
     },
     initRoles: function initRoles() {
@@ -92776,6 +95878,101 @@ var HandleableException = function () {
 
         return res;
       });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/mixins/DatePicker/DatePicker.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_bootstrap_datetimepicker__ = __webpack_require__("./node_modules/vue-bootstrap-datetimepicker/dist/vue-bootstrap-datetimepicker.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_bootstrap_datetimepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_bootstrap_datetimepicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__("./node_modules/moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  components: {
+    datePicker: __WEBPACK_IMPORTED_MODULE_0_vue_bootstrap_datetimepicker___default.a
+  },
+
+  methods: {
+    datePickerShow: function datePickerShow(field) {
+      var entity = this.getEntityModel();
+
+      if (_.isNil(_.get(entity, field))) {
+        var date = new Date();
+        date.setHours(0, 0, 0, 0);
+
+        _.set(entity, field, this.getDateMoment(date));
+        this.dateChanged(field);
+      }
+    },
+    getBaseDatePickerConfig: function getBaseDatePickerConfig() {
+      return {
+        locale: 'ru',
+
+        format: this.getDateFormat(),
+        useCurrent: false,
+        sideBySide: false,
+        showClear: true,
+        showClose: true
+      };
+    },
+    getDateFormat: function getDateFormat() {
+      return 'DD-MM-YYYY HH:mm:ss';
+    },
+    getDateMoment: function getDateMoment(date) {
+      return __WEBPACK_IMPORTED_MODULE_1_moment___default()(date, this.getDateFormat());
+    },
+    dateChanged: function dateChanged(field) {}
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/mixins/DatePicker/DatePickerRange.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DatePicker__ = __webpack_require__("./resources/assets/js/mixins/DatePicker/DatePicker.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  mixins: [__WEBPACK_IMPORTED_MODULE_0__DatePicker__["a" /* default */]],
+
+  methods: {
+    getFinishDatePickerConfig: function getFinishDatePickerConfig() {
+      var config = _extends({}, this.getBaseDatePickerConfig());
+
+      var entity = this.getEntityModel();
+
+      if (entity.date_start) {
+        config.minDate = this.getDateMoment(entity.date_start).add(1, 'days');
+      }
+
+      return config;
+    },
+    dateChanged: function dateChanged(field) {
+      var entity = this.getEntityModel();
+
+      if (field === 'date_start') {
+        this.dateFinishConfig = this.getFinishDatePickerConfig();
+      }
+
+      if (this.dateFinishConfig.minDate) {
+        var dayFinish = this.getDateMoment(entity.date_finish || 0);
+
+        if (dayFinish.isBefore(this.dateFinishConfig.minDate)) {
+          entity.date_finish = this.dateFinishConfig.minDate;
+        }
+      }
     }
   }
 });
@@ -92924,22 +96121,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.setEntityData(data);
     },
+    getPathToTable: function getPathToTable() {
+      switch (this.type) {
+        case 'create':
+          return this.$route.path.replace('/create', '');
+          break;
+        case 'edit':
+          return this.$route.path.replace('/' + this.id, '');
+          break;
+      }
+    },
 
 
     /**
      * Возврат к списку сущностей.
      */
     redirectToTable: function redirectToTable() {
-      var path = void 0;
-
-      switch (this.type) {
-        case 'create':
-          path = this.$route.path.replace('/create', '');
-          break;
-        case 'edit':
-          path = this.$route.path.replace('/' + this.id, '');
-          break;
-      }
+      var path = this.getPathToTable();
 
       if (window.history.state) {
         var previousPath = window.history.state.previousPath;
@@ -93066,7 +96264,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
     /**
-     * Сброс комонента.
+     * Сброс компонента.
      */
     reset: function reset() {
       this.clearQueues();
@@ -93818,6 +97016,29 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   mixins: [__WEBPACK_IMPORTED_MODULE_0__HistoryStateTable__["a" /* default */]],
 
   methods: {
+    loadData: function loadData() {
+      var _this = this;
+
+      this.fetchMainData().then(function (data) {
+        return _this.initMainData(data);
+      });
+    },
+    setFiltersStateFromHash: function setFiltersStateFromHash() {
+      var _this2 = this;
+
+      var query = window.location.search.replace('?', '');
+
+      if (_.isEmpty(query)) return;
+
+      query.split('&').forEach(function (item) {
+        item = item.split('=');
+
+        var key = item[0];
+        var value = item[1];
+
+        _this2[key] = _this2.getValid(key, value);
+      });
+    },
     sortingChanged: function sortingChanged(ctx) {
       ctx.page = 1;
     },
@@ -93833,11 +97054,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       this.page = 1;
     },
     refreshTable: function refreshTable() {
-      var _this = this;
+      var _this3 = this;
 
       this.$nextTick(function () {
-        if (_this.$refs.table) {
-          _this.$refs.table.refresh();
+        if (_this3.$refs.table) {
+          _this3.$refs.table.refresh();
         }
       });
     },
@@ -95529,8 +98750,6 @@ var ProductModel = function (_ModelI18n) {
       return {
         supplier_id: 0,
         quantity: 1,
-        is_new: false,
-        is_popular: false,
         is_payable: true,
         enabled: true,
 
@@ -95611,14 +98830,11 @@ var ProductsTableModel = function (_ModelI18n) {
   _createClass(ProductsTableModel, [{
     key: 'getSchemaFields',
     value: function getSchemaFields() {
-      var self = this;
-
       return {
         id: '',
 
         image: Object(__WEBPACK_IMPORTED_MODULE_1__base_HasImage__["a" /* default */])('thumb'),
 
-        is_new: false,
         is_payable: false,
         prices: [],
         created_at: '',
@@ -95801,6 +99017,123 @@ var RoomsTableModel = function (_ModelI18n) {
 }(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (RoomsTableModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/Sale/SaleProductEditModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PricesTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/PricesTableModel.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var SaleProductEditModel = function (_Model) {
+  _inherits(SaleProductEditModel, _Model);
+
+  function SaleProductEditModel() {
+    _classCallCheck(this, SaleProductEditModel);
+
+    return _possibleConstructorReturn(this, (SaleProductEditModel.__proto__ || Object.getPrototypeOf(SaleProductEditModel)).apply(this, arguments));
+  }
+
+  _createClass(SaleProductEditModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        date_start: '',
+        date_finish: '',
+        enabled: true,
+
+        prices: function prices(data) {
+          return data.prices ? new __WEBPACK_IMPORTED_MODULE_1__PricesTableModel__["a" /* default */](data.prices) : [];
+        },
+        product: function product() {
+          var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+          return data.product ? [data.product] : [];
+        },
+        product_id: function product_id(data) {
+          return data.product ? data.product.id : '';
+        }
+      };
+    }
+  }]);
+
+  return SaleProductEditModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (SaleProductEditModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/Sale/SaleProductTableModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PricesTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/PricesTableModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ProductsTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/ProductsTableModel.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+var SaleProductTableModel = function (_Model) {
+  _inherits(SaleProductTableModel, _Model);
+
+  function SaleProductTableModel(entityData, languages) {
+    _classCallCheck(this, SaleProductTableModel);
+
+    var _this = _possibleConstructorReturn(this, (SaleProductTableModel.__proto__ || Object.getPrototypeOf(SaleProductTableModel)).call(this, entityData));
+
+    var productData = entityData && entityData.product ? entityData.product : undefined;
+
+    _this.product = new __WEBPACK_IMPORTED_MODULE_2__ProductsTableModel__["a" /* default */](productData, languages);
+    return _this;
+  }
+
+  _createClass(SaleProductTableModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        date_start: '',
+        date_finish: '',
+        enabled: true,
+        prices: [],
+
+        product_id: function product_id(data) {
+          return data.product ? data.product.id : '';
+        },
+        url: function url(data) {
+          return '/shop/sale/' + data.id;
+        }
+      };
+    }
+  }]);
+
+  return SaleProductTableModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (SaleProductTableModel);
 
 /***/ }),
 
@@ -96297,6 +99630,213 @@ var BannersTableModel = function (_ModelI18n) {
 }(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (BannersTableModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/interior/InteriorEditModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__InteriorPointModel__ = __webpack_require__("./resources/assets/js/resources/shop/interior/InteriorPointModel.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+var InteriorEditModel = function (_ModelI18n) {
+  _inherits(InteriorEditModel, _ModelI18n);
+
+  function InteriorEditModel() {
+    _classCallCheck(this, InteriorEditModel);
+
+    return _possibleConstructorReturn(this, (InteriorEditModel.__proto__ || Object.getPrototypeOf(InteriorEditModel)).apply(this, arguments));
+  }
+
+  _createClass(InteriorEditModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        image: '',
+        rooms: [],
+        styles: [],
+
+        points: function points(data) {
+          return (data.points || []).map(function (item) {
+            return new __WEBPACK_IMPORTED_MODULE_1__InteriorPointModel__["a" /* default */](item);
+          });
+        },
+
+
+        i18n: {
+          title: ''
+        }
+      };
+    }
+  }]);
+
+  return InteriorEditModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (InteriorEditModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/interior/InteriorPointModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var InteriorPointModel = function (_Model) {
+  _inherits(InteriorPointModel, _Model);
+
+  function InteriorPointModel() {
+    _classCallCheck(this, InteriorPointModel);
+
+    return _possibleConstructorReturn(this, (InteriorPointModel.__proto__ || Object.getPrototypeOf(InteriorPointModel)).apply(this, arguments));
+  }
+
+  _createClass(InteriorPointModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        x: '',
+        y: '',
+        position_x: '',
+        position_y: '',
+        is_similar: false,
+        product: null,
+
+        product_id: function product_id(data) {
+          return data.product ? data.product.id : '';
+        }
+      };
+    }
+  }]);
+
+  return InteriorPointModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (InteriorPointModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/interior/InteriorProductPreviewModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__base_HasImage__ = __webpack_require__("./resources/assets/js/resources/base/HasImage.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var InteriorProductPreviewModel = function (_ModelI18n) {
+  _inherits(InteriorProductPreviewModel, _ModelI18n);
+
+  function InteriorProductPreviewModel() {
+    _classCallCheck(this, InteriorProductPreviewModel);
+
+    return _possibleConstructorReturn(this, (InteriorProductPreviewModel.__proto__ || Object.getPrototypeOf(InteriorProductPreviewModel)).apply(this, arguments));
+  }
+
+  _createClass(InteriorProductPreviewModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        image: Object(__WEBPACK_IMPORTED_MODULE_1__base_HasImage__["a" /* default */])('small'),
+        price: '',
+
+        i18n: {
+          title: '<span class="label label-danger">Не заполнено</span>'
+        }
+      };
+    }
+  }]);
+
+  return InteriorProductPreviewModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (InteriorProductPreviewModel);
+
+/***/ }),
+
+/***/ "./resources/assets/js/resources/shop/interior/InteriorTableModel.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__ = __webpack_require__("./resources/assets/js/resources/base/ModelI18n.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var InteriorTableModel = function (_ModelI18n) {
+  _inherits(InteriorTableModel, _ModelI18n);
+
+  function InteriorTableModel() {
+    _classCallCheck(this, InteriorTableModel);
+
+    return _possibleConstructorReturn(this, (InteriorTableModel.__proto__ || Object.getPrototypeOf(InteriorTableModel)).apply(this, arguments));
+  }
+
+  _createClass(InteriorTableModel, [{
+    key: 'getSchemaFields',
+    value: function getSchemaFields() {
+      return {
+        id: '',
+        image: '',
+        rooms: [],
+        styles: [],
+
+        url: function url(data) {
+          return '/shop/interiors/' + data.id;
+        },
+
+
+        i18n: {
+          title: '<span class="label label-danger">Не заполнено</span>'
+        }
+      };
+    }
+  }]);
+
+  return InteriorTableModel;
+}(__WEBPACK_IMPORTED_MODULE_0__base_ModelI18n__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (InteriorTableModel);
 
 /***/ }),
 

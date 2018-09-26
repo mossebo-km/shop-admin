@@ -12,20 +12,6 @@ class Banner extends BaseBanner
 {
     use Positionable, StatusChangeable, RequestSaver, I18nTrait;
 
-    protected $fillable = [
-        'gradient',
-        'title_color',
-        'caption_color',
-        'button_color',
-        'button_background_color',
-        'small_image',
-        'mobile_image',
-        'desktop_image',
-        'background_image',
-        'enabled',
-        'position',
-    ];
-
     protected $needsToSaveFromRequest = [
         'i18n', 'places'
     ];
@@ -54,7 +40,7 @@ class Banner extends BaseBanner
         return $data;
     }
 
-    protected function _savePlaces(Array $placeIds = [])
+    protected function _savePlaces(array $placeIds = [])
     {
         $placeRelations = $this->placeRelations();
         $placeRelations->delete();

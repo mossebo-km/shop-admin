@@ -79,5 +79,15 @@ class AppServiceProvider extends ServiceProvider
             ->when(ApiControllers\Shop\PromoCodeController::class)
             ->needs(ApiRequest::class)
             ->give(Requests\Shop\PromoCodeRequest::class);
+
+        $this->app
+            ->when(ApiControllers\Shop\SaleController::class)
+            ->needs(ApiRequest::class)
+            ->give(Requests\Shop\ProductSaleRequest::class);
+
+        $this->app
+            ->when(ApiControllers\Shop\InteriorController::class)
+            ->needs(ApiRequest::class)
+            ->give(Requests\Shop\InteriorRequest::class);
     }
 }

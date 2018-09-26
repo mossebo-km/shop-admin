@@ -6,8 +6,6 @@ export default class ProductModel extends ModelI18n {
     return {
       supplier_id: 0,
       quantity: 1,
-      is_new: false,
-      is_popular: false,
       is_payable: true,
       enabled: true,
 

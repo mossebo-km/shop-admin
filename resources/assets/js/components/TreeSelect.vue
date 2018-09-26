@@ -65,10 +65,10 @@
           if (! list.length) return false
 
           return list.reduce((acc, item) => {
-            let itemDisabled = false
+            let itemDisabled = item.disabled
             let itemId = item.id.toString()
 
-            if (disabled.indexOf(itemId) !== -1) {
+            if (!itemDisabled && disabled.indexOf(itemId) !== -1) {
               itemDisabled = true
             }
             else if (disabled.indexOf(parentId.toString()) !== -1) {

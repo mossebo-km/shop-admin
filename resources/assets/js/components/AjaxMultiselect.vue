@@ -12,7 +12,8 @@
       'activeLanguageCode',
       'selected',
       'options',
-      'linkUrlMaker'
+      'linkUrlMaker',
+      'multiple'
     ],
 
     components: {
@@ -26,7 +27,7 @@
     data() {
       return {
         request: null,
-        options$: this.mapOptions(this.options || []),
+        options$: this.mapOptions(this.options),
         params: {
           ajax: {
             delay: 500,
@@ -72,17 +73,39 @@
           },
 
           events: {
+            unselecting: e => {
+              e.preventDefault()
+              let optionId = e.params.args.data.id.toString()
+
+              this.options$ = this.options$.filter(o => o.id.toString() !== optionId)
+              let ids = this.options$.map(o => o.id)
+
+              if (this.multiple) {
+                this.$emit('update:selected', ids)
+              }
+              else {
+                this.$emit('update:selected', ids.length ? ids[0] : '')
+              }
+            },
+
             selecting: e => {
               e.preventDefault()
               let option = e.params.args.data.option
 
               if (option) {
                 if (! this.options$.find(o => o.id === option.id)) {
-                  this.options$.push(option)
-                  this.$emit('update:selected', [
-                    ... this.selected,
-                    option.id
-                  ])
+                  if (this.multiple) {
+                    this.options$.push(option)
+
+                    this.$emit('update:selected', [
+                      ... this.selected,
+                      option.id
+                    ])
+                  }
+                  else {
+                    this.options$ = [option]
+                    this.$emit('update:selected', option.id)
+                  }
                 }
               }
             }
@@ -97,6 +120,14 @@
       },
 
       mapOptions(data) {
+        if (_.isNil(data)) {
+          return []
+        }
+
+        if (! _.isArray(data)) {
+          data = [data]
+        }
+
         return data.map(item => new AxajMultiselectModel(item, this.languages))
       },
     },
@@ -119,7 +150,7 @@
     :options="options$"
     :selected="selected"
     :params="params"
-    :multiple="true"
+    :multiple="!! multiple"
     placeholder="Поиск"
   ></tree-select-translatable>
 </template>

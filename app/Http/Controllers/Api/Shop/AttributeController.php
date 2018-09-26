@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Api\Shop;
 
 use App\Http\Controllers\Api\ApiController;
 
-use App\Models\Shop\Attribute;
+use App\Models\Shop\Attribute\Attribute;
 
 use Attributes;
 
-use App\Http\Resources\Shop\AttributeEditResource;
-use App\Http\Resources\Shop\AttributesTableResource;
-use App\Http\Resources\Shop\AttributeOptionResource;
+use App\Http\Resources\Shop\Attribute\AttributeEditResource;
+use App\Http\Resources\Shop\Attribute\AttributesTableResource;
+use App\Http\Resources\Shop\Attribute\AttributeOptionResource;
 
 use App\Support\Traits\Controllers\Creatable;
 use App\Support\Traits\Controllers\Updatable;

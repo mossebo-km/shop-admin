@@ -12,7 +12,7 @@ class AdminRolePermissionGroup extends BaseModel
 {
     use NodeTrait, Positionable, RequestSaver;
 
-    protected $tableIdentif = 'AdminRolePermissionGroups';
+    protected $tableKey = 'AdminRolePermissionGroups';
 
     protected $fillable = [
         'parent_id',

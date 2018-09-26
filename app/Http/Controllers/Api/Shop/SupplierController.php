@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api\Shop;
 
 use App\Http\Controllers\Api\ApiController;
 
-use App\Models\Shop\Supplier;
+use App\Models\Shop\Supplier\Supplier;
 
-use App\Http\Resources\Shop\SupplierEditResource;
+use App\Http\Resources\Shop\Supplier\SupplierEditResource;
 
 use App\Support\Traits\Controllers\Creatable;
 use App\Support\Traits\Controllers\Updatable;

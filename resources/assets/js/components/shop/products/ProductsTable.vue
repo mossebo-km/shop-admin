@@ -107,6 +107,7 @@
           all: 'Все',
           popular: 'Популярные',
           new: 'Новинки',
+          'no-image': 'Без изображений'
         },
         ... defaultTableState,
         fields,
@@ -122,18 +123,7 @@
     },
 
     created() {
-      let query = window.location.search.replace('?', '')
-
-      if (_.isEmpty(query)) return
-
-      query.split('&').forEach(item => {
-        item = item.split('=')
-
-        let key = item[0]
-        let value = item[1]
-
-        this[key] = this.getValid(key, value)
-      })
+      this.setFiltersStateFromHash()
     },
 
     methods: {

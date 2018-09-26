@@ -21,7 +21,11 @@
         default: () => new ErrorBag()
       },
 
-      activeLanguageCode: String
+      activeLanguageCode: String,
+
+      availablePriceTypes: {
+        default: false
+      }
     },
 
     directives: {
@@ -70,6 +74,22 @@
 
           return language.enabled
         }).sort((a, b) => a.position - b.position)
+      },
+
+      initPriceTypes(priceTypes) {
+        DataHandler.methods.initPriceTypes.call(this, priceTypes)
+
+        if (! this.availablePriceTypes) {
+          return
+        }
+
+        let availablePriceTypes = this.availablePriceTypes
+
+        if (! _.isArray(availablePriceTypes)) {
+          availablePriceTypes = [availablePriceTypes]
+        }
+
+        this.priceTypes = this.priceTypes.filter(item => availablePriceTypes.indexOf(item.id) !== -1)
       },
 
       initPrices() {

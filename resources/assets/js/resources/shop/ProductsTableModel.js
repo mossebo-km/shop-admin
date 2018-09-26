@@ -3,14 +3,11 @@ import HasImage from '../base/HasImage'
 
 export default class ProductsTableModel extends ModelI18n {
   getSchemaFields() {
-    let self = this
-
     return {
       id: '',
 
       image: HasImage('thumb'),
 
-      is_new: false,
       is_payable: false,
       prices: [],
       created_at: '',

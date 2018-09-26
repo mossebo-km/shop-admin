@@ -91,7 +91,7 @@
 
           <span class="btn-separator-xs"></span>
 
-          <a v-if="userCan('categories.create')" class="btn btn-sm btn-success active" @click="save">
+          <a v-if="userCan('rooms.create')" class="btn btn-sm btn-success active" @click="save">
             <i class="fa fa-plus-circle"></i> Создать
           </a>
         </div>
@@ -119,11 +119,11 @@
 
           <span class="btn-separator-xs"></span>
 
-          <a v-if="userCan('categories.edit')" class="btn btn-sm btn-primary active" @click="save">
+          <a v-if="userCan('rooms.edit')" class="btn btn-sm btn-primary active" @click="save">
             <i class="fa fa-floppy-o"></i> Сохранить
           </a>
 
-          <a v-if="userCan('categories.delete')" class="btn btn-sm btn-danger active" @click="remove">
+          <a v-if="userCan('rooms.delete')" class="btn btn-sm btn-danger active" @click="remove">
             Удалить
           </a>
         </div>

@@ -36,7 +36,42 @@
 
     methods: {
       setColor(color) {
-        this.$emit('change', color)
+        this.$emit('update:color', color)
+      },
+
+      colorPickerChange(colorData) {
+        let ref = this.$refs.colorPicker
+        if (! ref) return
+
+        let color
+
+        switch (ref.currentMode) {
+          case 'hex':
+            color = colorData[ref.currentMode]
+            break
+
+          case 'hsla':
+            color = this.removeUnnecessaryAlpha('hsl', colorData[ref.currentMode])
+            break
+
+          case 'rgba':
+            color = this.removeUnnecessaryAlpha('rgb', colorData[ref.currentMode])
+            break
+        }
+
+        this.setColor(color)
+      },
+
+      inputChange(e) {
+        this.setColor(e.target.value)
+      },
+
+      removeUnnecessaryAlpha(label, colorArray) {
+        if (colorArray[3] === 1) {
+          return label + '(' + colorArray.slice(0, 3).join(', ') + ')'
+        }
+
+        return label + 'a(' + colorArray.join(', ') + ')'
       },
 
       handleKeydown(e) {
@@ -95,7 +130,11 @@
 <template>
   <div class="color-select">
     <div class="input-group">
-      <input type="text" :value="color" @input.prevent class="form-control">
+      <input
+        type="text"
+        :value="color"
+        @input="inputChange"
+        class="form-control">
 
       <span class="input-group-addon">
         <div class="color-preview" :style="{backgroundColor: color}"></div>
@@ -104,8 +143,9 @@
 
     <div v-show="active" class="color-select__picker">
       <color-picker
+        ref="colorPicker"
         :color="color || undefined"
-        @change="setColor"
+        @change="colorPickerChange"
       ></color-picker>
     </div>
   </div>

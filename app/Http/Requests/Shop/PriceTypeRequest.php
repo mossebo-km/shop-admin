@@ -6,7 +6,7 @@ use App\Http\Requests\ApiRequest;
 
 class PriceTypeRequest extends ApiRequest
 {
-    protected $model = \App\Models\Shop\PriceType::class;
+    protected $model = \App\Models\Shop\PriceType\PriceType::class;
     protected $permissionsNamespace = 'shop.price-types';
 
     protected function getEntityRules()

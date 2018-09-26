@@ -5,15 +5,15 @@ namespace App\Http\Requests\Shop;
 use App\Http\Requests\ApiRequest;
 
 use App\Validation\ValidatorExtend;
-use App\Models\Shop\Attribute;
-use App\Models\Shop\AttributeOption;
+use App\Models\Shop\Attribute\Attribute;
+use App\Models\Shop\Attribute\AttributeOption;
 use App\Support\Traits\Requests\HasImages;
 
 class ProductRequest extends ApiRequest
 {
     use HasImages;
 
-    protected $model = \App\Models\Shop\Product::class;
+    protected $model = \App\Models\Shop\Product\Product::class;
     protected $permissionsNamespace = 'shop.products';
 
     protected function getEntityRules()
@@ -25,15 +25,13 @@ class ProductRequest extends ApiRequest
         $rules = [
             'supplier_id' => "bail|required|integer|exists:{$suppliersTableName},id",
             'enabled'     => 'boolean',
-            'is_new'      => 'boolean',
-            'is_popular'  => 'boolean',
             'is_payable'  => 'boolean',
-            'categories'  => "nullable|many_records_exists:\App\Models\Shop\Category",
-            'styles'      => "nullable|many_records_exists:\App\Models\Shop\Style",
-            'rooms'       => "nullable|many_records_exists:\App\Models\Shop\Room",
+            'categories'  => "nullable|many_records_exists:\App\Models\Shop\Category\Category",
+            'styles'      => "nullable|many_records_exists:\App\Models\Shop\Style\Style",
+            'rooms'       => "nullable|many_records_exists:\App\Models\Shop\Room\Room",
             'related'     => [
                 'nullable',
-                'many_records_exists:\App\Models\Shop\Product',
+                'many_records_exists:\App\Models\Shop\Product\Product',
 
                 function($attribute, $value, $fail) {
                     if (! is_array($value)) {

@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Contracts\Repositories;
-use MosseboShopCore\Contracts\Repositories\RamRepository;
+use MosseboShopCore\Contracts\Repositories\Repository;
 
-interface AdminRoleRepository extends RamRepository
+interface AdminRoleRepository extends Repository
 {
 
 }

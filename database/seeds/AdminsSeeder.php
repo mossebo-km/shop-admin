@@ -5,36 +5,36 @@ use Illuminate\Database\Seeder;
 class AdminsSeeder extends Seeder
 {
     private $data = [
-        [
-            'roles' => [1],
-            'name' => 'SuperAdmin',
-            'email' => 'asd2ya7asJgat65hva@mossebo.ru',
-            'password' => 'Juyiayu26ahVUat1nkx;ap1'
-        ],
-        [
-            'roles' => [2],
-            'name' => 'Владислав',
-            'email' => 'code@mossebo.ru',
-            'password' => 'XFx7pCp4GRWB'
-        ],
-        [
-            'roles' => [2],
-            'name' => 'Юрий',
-            'email' => 'code2@mossebo.ru',
-            'password' => 'bnHy28s1Laz&3l'
-        ],
-        [
-            'roles' => [3],
-            'name' => 'Диана Шамонова',
-            'email' => 'product@mossebo.market',
-            'password' => 'jd&haU'
-        ],
-        [
-            'roles' => [3],
-            'name' => 'Мария Нестерова',
-            'email' => 'product8@mossebo.market',
-            'password' => 'ua6%1jaD'
-        ],
+//        [
+//            'roles' => [1],
+//            'name' => 'SuperAdmin',
+//            'email' => 'asd2ya7asJgat65hva@mossebo.ru',
+//            'password' => 'Juyiayu26ahVUat1nkx;ap1'
+//        ],
+//        [
+//            'roles' => [2],
+//            'name' => 'Владислав',
+//            'email' => 'code@mossebo.ru',
+//            'password' => 'XFx7pCp4GRWB'
+//        ],
+//        [
+//            'roles' => [2],
+//            'name' => 'Юрий',
+//            'email' => 'code2@mossebo.ru',
+//            'password' => 'bnHy28s1Laz&3l'
+//        ],
+//        [
+//            'roles' => [3],
+//            'name' => 'Диана Шамонова',
+//            'email' => 'product@mossebo.market',
+//            'password' => 'jd&haU'
+//        ],
+//        [
+//            'roles' => [3],
+//            'name' => 'Мария Нестерова',
+//            'email' => 'product8@mossebo.market',
+//            'password' => 'ua6%1jaD'
+//        ],
 
 
 

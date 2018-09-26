@@ -16,6 +16,7 @@
 @import 'dropzone';
 @import 'edit-photo-card';
 @import 'fancybox';
+@import 'interior';
 @import 'loading';
 @import 'noty';
 @import 'select2';
@@ -60,7 +61,7 @@
 
 .block-title-control {
   float: right;
-  padding: 3px 15px;
+  padding: 4px 15px 2px;
 }
 
 .fade.d-block {

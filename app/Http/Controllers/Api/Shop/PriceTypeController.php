@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\ApiController;
 
 use PriceTypes;
 
-use App\Models\Shop\PriceType;
+use App\Models\Shop\PriceType\PriceType;
 
 use App\Http\Resources\Shop\PriceTypeEditResource;
 use App\Http\Resources\Shop\PriceTypesTableResource;

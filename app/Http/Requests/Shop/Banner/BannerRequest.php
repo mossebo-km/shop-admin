@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Shop\Banner;
 
 use App\Http\Requests\ApiRequest;
-use Illuminate\Validation\Rule;
 use BannerPlaces;
 
 class BannerRequest extends ApiRequest

@@ -45,6 +45,12 @@ import BadgeTypeEdit from './components/shop/badges/BadgeTypeEdit'
 import BannersTable from './components/shop/banners/BannersTable'
 import BannerEdit from './components/shop/banners/BannerEdit'
 
+import SaleTable from './components/shop/sale/SaleTable'
+import SaleEdit from './components/shop/sale/SaleEdit'
+
+import InteriorEdit from './components/shop/interior/InteriorEdit'
+import InteriorTable from './components/shop/interior/InteriorTable'
+
 
 import AdminsTable from './components/system/Admins/AdminsTable'
 import AdminEdit from './components/system/Admins/AdminEdit'
@@ -162,6 +168,14 @@ const routes = [
   { path: '/shop/banners', component: BannersTable },
   { path: '/shop/banners/create', component: BannerEdit, props: { type: 'create' } },
   { path: '/shop/banners/:id', component: BannerEdit, props: route => ({...route.params, type: 'edit'}) },
+
+  { path: '/shop/sale', component: SaleTable },
+  { path: '/shop/sale/create', component: SaleEdit, props: { type: 'create' } },
+  { path: '/shop/sale/:id', component: SaleEdit, props: route => ({...route.params, type: 'edit'}) },
+
+  { path: '/shop/interiors', component: InteriorTable },
+  { path: '/shop/interiors/create', component: InteriorEdit, props: { type: 'create' } },
+  { path: '/shop/interiors/:id', component: InteriorEdit, props: route => ({...route.params, type: 'edit'}) },
 
   { path: '/system/admins', component: AdminsTable },
   { path: '/system/admins/create', component: AdminEdit, props: { type: 'create' } },

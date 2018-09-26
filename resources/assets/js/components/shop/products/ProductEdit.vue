@@ -4,7 +4,6 @@
   import bModal from 'bootstrap-vue/es/components/modal/modal'
 
   import AjaxMultiselect from '../../AjaxMultiselect'
-  // import AxajMultiselectModel from '../../../resources/AxajMultiselectModel'
 
   import TreeSelect from '../../TreeSelect'
   import TreeSelectTranslatable from '../../TreeSelectTranslatable'
@@ -74,6 +73,8 @@
         currencies: [],
         priceTypes: [],
         suppliers:  [],
+        rooms: [],
+        styles: [],
 
         usedMainData: [
           'languages',
@@ -217,11 +218,11 @@
             :activeLanguageCode.sync="activeLanguageCode"
             :class="{'has-error': formTranslatesHasError()}" />
 
-            <span class="btn-separator-xs"></span>
+          <span class="btn-separator-xs"></span>
 
-            <a v-if="userCan('create')" class="btn btn-sm btn-success active" @click="save">
-              <i class="fa fa-plus-circle"></i> Создать
-            </a>
+          <a v-if="userCan('create')" class="btn btn-sm btn-success active" @click="save">
+            <i class="fa fa-plus-circle"></i> Создать
+          </a>
         </div>
       </div>
 
@@ -356,6 +357,7 @@
                     :selected.sync="product.categories"
                     :multiple="true"
                     :params="{closeOnSelect: false}"
+                    :disable-parents="true"
                     placeholder="Выберите категорию" />
 
                   <span v-show="formErrors.has('categories')" class="help-block">
@@ -434,40 +436,6 @@
                 </div>
               </div>
 
-              <div :class="`form-group${formErrors.has('is_new') ? ' has-error' : ''}`">
-                <label class="col-md-3 control-label">
-                  Новинка
-                </label>
-
-                <div class="col-md-9">
-                  <label class="switch switch-success">
-                    <input type="checkbox" id="is-new" name="is_new" v-model="product.is_new">
-                    <span></span>
-                  </label>
-
-                  <span v-show="formErrors.has('is_new')" class="help-block">
-                    {{ formErrors.first('is_new') }}
-                  </span>
-                </div>
-              </div>
-
-              <div :class="`form-group${formErrors.has('is_popular') ? ' has-error' : ''}`">
-                <label class="col-md-3 control-label">
-                  Популярный товар
-                </label>
-
-                <div class="col-md-9">
-                  <label class="switch switch-warning">
-                    <input type="checkbox" id="is-popular" name="is_popular" v-model="product.is_popular">
-                    <span></span>
-                  </label>
-
-                  <span v-show="formErrors.has('is_popular')" class="help-block">
-                    {{ formErrors.first('is_popular') }}
-                  </span>
-                </div>
-              </div>
-
               <div class="form-group" v-if="'showed' in product">
                 <label class="col-md-3 control-label">
                   Показано раз
@@ -536,6 +504,7 @@
                     :selected.sync="product.related"
                     :options="product.relatedOptions"
                     :link-url-maker="relatedLinkMaker"
+                    :multiple="true"
                   ></ajax-multiselect>
                 </div>
 
@@ -723,12 +692,17 @@
           </h2>
         </div>
 
-        <prices-table :prices.sync="product.prices" :activeLanguageCode="activeLanguageCode" :errors="formErrors" />
+        <prices-table
+          :prices.sync="product.prices"
+          :activeLanguageCode="activeLanguageCode"
+          :errors="formErrors"
+        ></prices-table>
       </div>
     </div>
 
 
-    <b-modal id="validationModal"
+    <b-modal
+      id="validationModal"
       ref="validationModal"
       title="Ошибка валидации"
       title-tag="h3"
@@ -740,9 +714,10 @@
       Проверьте правильность заполнения формы!
     </b-modal>
 
-    <b-modal id="removeModal"
+    <b-modal
+      id="removeModal"
       ref="removeModal"
-      title="Удаление категории"
+      title="Удаление товара"
       title-tag="h3"
       centered
       ok-title="Удалить"

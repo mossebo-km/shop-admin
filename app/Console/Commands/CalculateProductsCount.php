@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use App\Models\Shop\ProductCount;
-use App\Models\Shop\Product;
+use App\Models\Shop\Product\ProductCount;
+use App\Models\Shop\Product\Product;
 use Categories;
 use Styles;
 use Rooms;
@@ -57,7 +57,9 @@ class CalculateProductsCount extends Command
         Categories::getCollection()->each(function ($category) {
             (new ProductCount([
                 'category_id' => $category->id,
-                'count' => Product::enabled()->whereCategory($category->id)->count(),
+                'count' => Product::enabled()
+                    ->whereCategory($this->getCategoryIds($category))
+                    ->count(),
             ]))->save();
         });
     }
@@ -67,7 +69,9 @@ class CalculateProductsCount extends Command
         Styles::getCollection()->each(function ($style) {
             (new ProductCount([
                 'style_id' => $style->id,
-                'count' => Product::enabled()->whereStyle($style->id)->count(),
+                'count' => Product::enabled()
+                    ->whereStyle($style->id)
+                    ->count(),
             ]))->save();
         });
     }
@@ -79,7 +83,10 @@ class CalculateProductsCount extends Command
                 (new ProductCount([
                     'category_id' => $category->id,
                     'style_id' => $style->id,
-                    'count' => Product::enabled()->whereCategory($category->id)->whereStyle($style->id)->count(),
+                    'count' => Product::enabled()
+                        ->whereCategory($this->getCategoryIds($category))
+                        ->whereStyle($style->id)
+                        ->count(),
                 ]))->save();
             });
         });
@@ -102,9 +109,20 @@ class CalculateProductsCount extends Command
                 (new ProductCount([
                     'category_id' => $category->id,
                     'room_id' => $room->id,
-                    'count' => Product::enabled()->whereCategory($category->id)->whereRoom($room->id)->count(),
+                    'count' => Product::enabled()
+                        ->whereCategory($this->getCategoryIds($category))
+                        ->whereRoom($room->id)
+                        ->count(),
                 ]))->save();
             });
         });
+    }
+
+    protected function getCategoryIds($category)
+    {
+        $categories = $category->descendants()->pluck('id');
+        $categories->push($category->id);
+
+        return $categories->toArray();
     }
 }

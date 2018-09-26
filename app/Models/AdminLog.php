@@ -6,7 +6,7 @@ use MosseboShopCore\Models\Base\BaseModel;
 
 class AdminLog extends BaseModel
 {
-    protected $tableIdentif = 'AdminLogs';
+    protected $tableKey = 'AdminLogs';
 
     protected $fillable = [
         'admin_id',

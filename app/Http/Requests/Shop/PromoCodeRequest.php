@@ -7,10 +7,13 @@ use App\Http\Requests\ApiRequest;
 use Illuminate\Validation\Rule;
 use Currencies;
 use Languages;
+use App\Support\Traits\Requests\HasDates;
 
 class PromoCodeRequest extends ApiRequest
 {
-    protected $model = \App\Models\Shop\Room::class;
+    use HasDates;
+
+    protected $model = \App\Models\Shop\Room\Room::class;
     protected $permissionsNamespace = 'shop.promo-codes';
     protected $currencyCodes;
 
@@ -21,29 +24,6 @@ class PromoCodeRequest extends ApiRequest
         $this->currencyCodes = Currencies::enabled()->map(function($currency) {
             return $currency->code;
         });
-    }
-
-    protected function prepareDate($attribute)
-    {
-        $value = $this->json->get($attribute);
-
-        if (! $value || is_numeric($value)) {
-            return;
-        }
-
-        $dateArr = date_parse_from_format('d-m-Y H:i:s', $value);
-
-        if (empty($dateArr['warnings']) && empty($dateArr['errors'])) {
-            $date = new \DateTime();
-            $date->setDate($dateArr['year'], $dateArr['month'], $dateArr['day']);
-            $date->setTime($dateArr['hour'], $dateArr['minute'], $dateArr['second']);
-            $date = $date->getTimestamp();
-        }
-        else {
-            $date = 'error';
-        }
-
-        $this->json->set($attribute, $date);
     }
 
     protected function prepareForValidation()
@@ -110,10 +90,8 @@ class PromoCodeRequest extends ApiRequest
         $dateStartExist = !! $this->input('date_start');
         $dateFinishExist = !! $this->input('date_finish');
 
-        $checkDate = function($attribute, $value, $fail) {
-            if ($value === 'error') {
-                return $fail('Некорректная дата.');
-            }
+        $checkDate = function ($attribute, $value, $fail) {
+            return $this->checkDate($attribute, $value, $fail);
         };
 
         if ($dateStartExist) {

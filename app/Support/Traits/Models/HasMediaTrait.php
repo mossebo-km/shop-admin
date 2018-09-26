@@ -124,4 +124,18 @@ trait HasMediaTrait {
         return str_replace('.', '', uniqid('', true)) . ".{$extension}";
     }
 
+    public function scopeHasNoImage($query)
+    {
+        $mediaTableName = config('tables.Media');
+
+        return $query
+            ->whereRaw(\DB::raw("NOT EXISTS (
+                SELECT \"model_id\"
+                FROM \"{$mediaTableName}\"
+                WHERE 
+                    \"{$mediaTableName}\".\"model_id\" = \"{$this->getTable()}\".\"id\"
+                AND 
+                    \"{$mediaTableName}\".\"model_type\" = 'product'
+            )"));
+    }
 }

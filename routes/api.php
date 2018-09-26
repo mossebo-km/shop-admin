@@ -88,5 +88,15 @@ Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData'], 'namespa
         Route::post('banners/sort', 'BannerController@positions');
         Route::get('banners/{category}/status', 'BannerController@status');
         Route::resource('banners', 'BannerController');
+
+        Route::post('sale/sort', 'SaleController@positions');
+        Route::get('sale/search', 'SaleController@query');
+        Route::get('sale/price/{product}', 'SaleController@price');
+        Route::get('sale/{category}/status', 'SaleController@status');
+        Route::resource('sale', 'SaleController');
+
+        Route::get('interiors/search', 'InteriorController@query');
+        Route::get('interiors/product/{product}', 'InteriorController@product');
+        Route::resource('interiors', 'InteriorController');
     });
 });

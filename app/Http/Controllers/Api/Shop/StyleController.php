@@ -6,10 +6,10 @@ use App\Http\Controllers\Api\ApiController;
 
 use Styles;
 
-use App\Models\Shop\Style;
+use App\Models\Shop\Style\Style;
 
-use App\Http\Resources\Shop\StyleEditResource;
-use App\Http\Resources\Shop\StyleTableResource;
+use App\Http\Resources\Shop\Style\StyleEditResource;
+use App\Http\Resources\Shop\Style\StyleTableResource;
 
 use App\Support\Traits\Controllers\Creatable;
 use App\Support\Traits\Controllers\Updatable;

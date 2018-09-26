@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Shop\Product;
+use App\Models\Shop\Product\Product;
 use App\Models\City;
 use Carbon\Carbon;
 

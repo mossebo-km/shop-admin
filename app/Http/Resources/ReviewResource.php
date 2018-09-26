@@ -3,7 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Shop\Product;
+use App\Models\Shop\Product\Product;
+use App\Http\Resources\Shop\Product\ProductsTableResource;
 
 class ReviewResource extends JsonResource
 {
@@ -29,7 +30,7 @@ class ReviewResource extends JsonResource
         $item = $this->resource->item;
 
         if ($item instanceof Product) {
-            $data['product'] = new Shop\ProductsTableResource($item);
+            $data['product'] = new ProductsTableResource($item);
         }
 
         if ($this->relationNotEmpty('user')) {

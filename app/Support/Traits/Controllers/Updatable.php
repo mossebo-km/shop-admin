@@ -4,7 +4,6 @@ namespace App\Support\Traits\Controllers;
 
 use App\Events\Entity\EntityUpdated;
 use App\Exceptions\AdminException;
-use App\Http\Requests\ApiRequest;
 
 trait Updatable
 {
@@ -13,7 +12,7 @@ trait Updatable
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ApiRequest $request, $entityId)
+    public function update($entityId)
     {
         $entity = $this->getModel($entityId);
 

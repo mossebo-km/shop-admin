@@ -63,15 +63,17 @@ class DataHandler
             return;
         }
 
-        $modelClassName = $dataTypeOrModelClassName;
+//        $modelClassName = $dataTypeOrModelClassName;
+//
+//        foreach (static::$repositories as $repo) {
+//            if ($repo::getModelClassName() === $modelClassName) {
+//                $repo::clearCache();
+//                \Cache::forget(static::$cacheKey);
+//                return;
+//            }
+//        }
 
-        foreach (static::$repositories as $repo) {
-            if ($repo::getModelClassName() === $modelClassName) {
-                $repo::clearCache();
-                \Cache::forget(static::$cacheKey);
-                return;
-            }
-        }
+        static::clearAllCache();
     }
 
     public static function clearAllCache()
@@ -151,7 +153,7 @@ class DataHandler
      */
     protected static function _getSuppliers()
     {
-        return Models\Shop\Supplier::all();
+        return Models\Shop\Supplier\Supplier::all();
     }
 
     protected static function _getPriceTypes()

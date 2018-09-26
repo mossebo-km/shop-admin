@@ -10,6 +10,8 @@ import Core from "../core";
 export default {
   data() {
     return {
+      mainDataLoaded: false,
+      onMainDataLoadedCallbacks: [],
       usedMainData: [],
     }
   },
@@ -21,6 +23,24 @@ export default {
     loadData() {
       return this.fetchMainData()
         .then(data => this.initMainData(data))
+    },
+
+    onMainDataLoaded() {
+      return new Promise(resolve => {
+        if (this.mainDataLoaded) {
+          resolve()
+          return
+        }
+
+        this.onMainDataLoadedCallbacks.push(resolve)
+      })
+    },
+
+    mainDataLoadDone() {
+      this.mainDataLoaded = true
+
+      this.onMainDataLoadedCallbacks.forEach(cb => cb())
+      this.onMainDataLoadedCallbacks = []
     },
 
     /**
@@ -56,6 +76,8 @@ export default {
           this[variableName] = data[label]
         }
       })
+
+      this.mainDataLoadDone()
     },
 
     initCurrencies(currencies = []) {

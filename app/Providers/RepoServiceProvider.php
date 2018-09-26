@@ -9,63 +9,43 @@ class RepoServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('roles', function() {
-            return new \App\Repositories\AdminRoleRepository(
-                \App\Models\AdminRole::class
-            );
+            return app()->make(\App\Repositories\AdminRoleRepository::class);
         });
 
         $this->app->singleton('languages', function() {
-            return new \MosseboShopCore\Repositories\LanguageRepository(
-                \App\Models\Language::class
-            );
+            return app()->make(\App\Repositories\LanguageRepository::class);
         });
 
         $this->app->singleton('attributes', function() {
-            return new \MosseboShopCore\Repositories\AttributeRepository(
-                \App\Models\Shop\Attribute::class
-            );
+            return app()->make(\App\Repositories\Shop\AttributeRepository::class);
         });
 
         $this->app->singleton('categories', function() {
-            return new \MosseboShopCore\Repositories\CategoryRepository(
-                \App\Models\Shop\Category::class
-            );
+            return app()->make(\App\Repositories\Shop\CategoryRepository::class);
         });
 
         $this->app->singleton('rooms', function() {
-            return new \MosseboShopCore\Repositories\RoomRepository(
-                \App\Models\Shop\Room::class
-            );
+            return app()->make(\App\Repositories\Shop\RoomRepository::class);
         });
 
         $this->app->singleton('styles', function() {
-            return new \MosseboShopCore\Repositories\StyleRepository(
-                \App\Models\Shop\Style::class
-            );
+            return app()->make(\App\Repositories\Shop\StyleRepository::class);
         });
 
         $this->app->singleton('currencies', function() {
-            return new \MosseboShopCore\Repositories\CurrencyRepository(
-                \App\Models\Shop\Currency::class
-            );
+            return app()->make(\App\Repositories\Shop\CurrencyRepository::class);
         });
 
         $this->app->singleton('price-types', function() {
-            return new \MosseboShopCore\Repositories\PriceTypeRepository(
-                \App\Models\Shop\PriceType::class
-            );
+            return app()->make(\App\Repositories\Shop\PriceTypeRepository::class);
         });
 
         $this->app->singleton('badge-types', function() {
-            return new \MosseboShopCore\Repositories\BadgeTypeRepository(
-                \App\Models\Shop\Badge\BadgeType::class
-            );
+            return app()->make(\App\Repositories\Shop\BadgeTypeRepository::class);
         });
 
         $this->app->singleton('banner-places', function() {
-            return new \MosseboShopCore\Repositories\BannerPlaceRepository(
-                \App\Models\Shop\Banner\BannerPlace::class
-            );
+            return app()->make(\App\Repositories\Shop\BannerPlaceRepository::class);
         });
     }
 }

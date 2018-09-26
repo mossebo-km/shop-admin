@@ -6,7 +6,7 @@ use MosseboShopCore\Models\Base\BaseModel;
 
 class AdminRolePermissionRelation extends BaseModel
 {
-    protected $tableIdentif = 'AdminRolePermissionRelations';
+    protected $tableKey = 'AdminRolePermissionRelations';
     protected $primaryKey = null;
     public $incrementing = false;
 

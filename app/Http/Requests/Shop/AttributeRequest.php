@@ -3,11 +3,11 @@
 namespace App\Http\Requests\Shop;
 
 use App\Http\Requests\ApiRequest;
-use App\Models\Shop\AttributeOption;
+use App\Models\Shop\Attribute\AttributeOption;
 
 class AttributeRequest extends ApiRequest
 {
-    protected $model = \App\Models\Shop\Attribute::class;
+    protected $model = \App\Models\Shop\Attribute\Attribute::class;
     protected $permissionsNamespace = 'shop.attributes';
 
     protected function getEntityRules()
