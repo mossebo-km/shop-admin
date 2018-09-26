@@ -16,6 +16,14 @@ class TestController extends Controller
 {
     public function test()
     {
+//        (new \App\Models\Admin)->saveFromRequestData([
+//            'name' => 'Полина Карпенко',
+//            'email' => 'art2@mossebo.ru',
+//            'password' => encodePassword('bG1^gat$'),
+//            'api_token' => str_random(60),
+//            'enabled' => true
+//        ]);
+
 
 //        Categories::getCollection()->each(function ($category) {
 //            $categories = $category->descendants()->pluck('id');

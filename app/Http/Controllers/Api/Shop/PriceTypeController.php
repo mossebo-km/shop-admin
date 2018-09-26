@@ -8,8 +8,8 @@ use PriceTypes;
 
 use App\Models\Shop\PriceType\PriceType;
 
-use App\Http\Resources\Shop\PriceTypeEditResource;
-use App\Http\Resources\Shop\PriceTypesTableResource;
+use App\Http\Resources\Shop\PriceType\PriceTypeEditResource;
+use App\Http\Resources\Shop\PriceType\PriceTypesTableResource;
 
 use App\Support\Traits\Controllers\Creatable;
 use App\Support\Traits\Controllers\Updatable;
