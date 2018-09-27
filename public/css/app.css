@@ -25,7 +25,10 @@
   opacity: 0.5 !important;
 }
 
-.badge {
+.shop-badge {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   border-radius: 16px;
   padding: 8px;
   overflow: hidden;
@@ -34,7 +37,7 @@
   color: #fff;
 }
 
-.badge__content {
+.shop-badge__content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -44,20 +47,20 @@
   height: 16px;
 }
 
-.badge__icon {
+.shop-badge__icon {
   width: 16px;
   height: 16px;
   fill: currentColor;
   vertical-align: bottom;
 }
 
-.badge__text {
+.shop-badge__text {
   font-size: 12px;
   line-height: 14px;
   font-weight: 300;
 }
 
-.badge__text:not(:first-child) {
+.shop-badge__text:not(:first-child) {
   margin-left: 8px;
 }
 
@@ -114,12 +117,11 @@
 
 .banner {
   width: 100%;
-  padding: 24px;
+  padding: 45px 24px 24px;
   border-radius: 5px;
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .14);
           box-shadow: 0 1px 2px rgba(0, 0, 0, .14);
-  height: 100%;
-  min-height: 420px;
+  height: 490px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -130,17 +132,31 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
   overflow: hidden;
   position: relative;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  font-family: 'Montserrat';
 }
 
-.banner__image-box {
+.banner__bottom {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-flex: 2;
+      -ms-flex-positive: 2;
+          flex-grow: 2;
+}
+
+.banner__accent-box {
   position: relative;
   width: 100%;
   max-width: 298px;
@@ -148,7 +164,7 @@
   overflow: hidden;
 }
 
-.banner__image-box:before {
+.banner__accent-box:before {
   content: "";
   display: block;
   padding-top: 100%;
@@ -157,13 +173,16 @@
   position: relative;
 }
 
-.banner__image {
+.banner__image, .banner__title {
   position: absolute;
   top: 24px;
   left: 24px;
   bottom: 24px;
   right: 24px;
   margin: auto;
+}
+
+.banner__image {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -172,9 +191,8 @@
 
 .banner__title {
   font-size: 24px;
-  line-height: 30px;
+  line-height: 1.25em;
   font-weight: 500;
-  height: 250px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -186,6 +204,62 @@
           justify-content: center;
 }
 
+.banner--medium .banner__title--1, .banner--medium .banner__title--2, .banner--medium .banner__title--3, .banner--medium .banner__title--4 {
+  font-size: 80px;
+}
+
+.banner--medium .banner__title--5 {
+  font-size: 60px;
+}
+
+.banner--medium .banner__title--6 {
+  font-size: 42px;
+}
+
+.banner--medium .banner__title--7 {
+  font-size: 36px;
+}
+
+.banner--medium .banner__title--8 {
+  font-size: 30px;
+}
+
+.banner--big .banner__title {
+  font-size: 36px;
+}
+
+.banner--big .banner__title--1, .banner--big .banner__title--2, .banner--big .banner__title--3, .banner--big .banner__title--4, .banner--big .banner__title--5 {
+  font-size: 80px;
+}
+
+.banner--big .banner__title--6 {
+  font-size: 60px;
+}
+
+.banner--big .banner__title--7 {
+  font-size: 52px;
+}
+
+.banner--big .banner__title--8 {
+  font-size: 42px;
+}
+
+.banner--long .banner__title--1, .banner--long .banner__title--2, .banner--long .banner__title--3, .banner--long .banner__title--4 {
+  font-size: 60px;
+}
+
+.banner--long .banner__title--5 {
+  font-size: 52px;
+}
+
+.banner--long .banner__title--6 {
+  font-size: 42px;
+}
+
+.banner--long .banner__title--7 {
+  font-size: 32px;
+}
+
 .banner__caption {
   font-size: 16px;
   line-height: 24px;
@@ -193,14 +267,13 @@
   overflow: hidden;
   color: #fff;
   text-align: center;
-  margin-bottom: 25px;
 }
 
 .banner__button {
   text-align: center;
   max-width: 216px;
   width: 100%;
-  margin: auto;
+  margin: 24px auto 0;
 }
 
 .button {
@@ -1730,7 +1803,7 @@ body.compensate-for-scrollbar {
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .14);
           box-shadow: 0 1px 2px rgba(0, 0, 0, .14);
   overflow: hidden;
-  padding: 16px 12px;
+  padding: 16px;
 }
 
 .interior-point-loading::before {
@@ -3463,29 +3536,26 @@ textarea.form-control {
 
 @media (min-width: 576px) {
   .banner--long {
+    padding: 24px;
     min-height: auto;
     height: auto;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
     -webkit-box-pack: end;
         -ms-flex-pack: end;
             justify-content: flex-end;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+    -webkit-box-align: end;
+        -ms-flex-align: end;
+            align-items: flex-end;
   }
   .banner--long .banner__title {
+    top: 16px;
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
     position: absolute;
-    width: 190px;
-    height: 100%;
-    top: 0;
-    left: 0;
   }
-  .banner--long .banner__image-box {
+  .banner--long .banner__accent-box {
     width: 190px;
     max-height: none;
     margin: 0;
@@ -3497,36 +3567,40 @@ textarea.form-control {
   .banner--long .banner__bottom {
     width: calc(100% - 190px);
     height: 100%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
   .banner--long .banner__image {
     background-size: contain;
   }
-  .banner--big .banner__title {
-    font-size: 60px;
+  .banner--long .banner__caption {
+    height: auto;
+    max-height: 48px;
+    overflow: hidden;
   }
 }
 
 @media (min-width: 768px) {
   .banner--long .banner__bottom {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
+  }
+  .banner--long .banner__button {
+    margin-top: 0;
   }
   .banner--long .banner__caption {
     width: calc(100% - 216px);
     margin-bottom: 0;
     text-align: left;
-    height: auto;
-    max-height: 48px;
-    overflow: hidden;
     padding-right: 32px;
   }
   .bootstrap-datetimepicker-widget.dropdown-menu.timepicker-sbs {

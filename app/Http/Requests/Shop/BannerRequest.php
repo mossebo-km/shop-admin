@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Shop\Banner;
+namespace App\Http\Requests\Shop;
 
 use App\Http\Requests\ApiRequest;
 use BannerPlaces;
@@ -17,8 +17,8 @@ class BannerRequest extends ApiRequest
         $bannerPlaces = array_column($bannerPlaces->toArray(), 'id');
 
         $rules = [
-            'title_color'      => 'required|max:255',
-            'caption_color'    => 'nullable|max:255',
+            'title_color'      => 'required|max:8',
+            'caption_color'    => 'nullable|max:36',
             'button_color'     => 'nullable|max:255',
             'button_background_color' => 'nullable|max:255',
             'mobile_image'     => 'nullable|max:255',

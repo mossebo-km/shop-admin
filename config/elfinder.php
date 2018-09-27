@@ -96,6 +96,7 @@ return array(
             'extract',
             'netmount',
             'zipdl',
-        ]
+        ],
+        'tmbPath' => '_tmb'
     ),
 );

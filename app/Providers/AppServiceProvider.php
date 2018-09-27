@@ -46,6 +46,11 @@ class AppServiceProvider extends ServiceProvider
             ->give(Requests\Shop\AttributeRequest::class);
 
         $this->app
+            ->when(ApiControllers\Shop\BannerController::class)
+            ->needs(ApiRequest::class)
+            ->give(Requests\Shop\BannerRequest::class);
+
+        $this->app
             ->when(ApiControllers\Shop\CategoryController::class)
             ->needs(ApiRequest::class)
             ->give(Requests\Shop\CategoryRequest::class);

@@ -71,6 +71,8 @@
 
         if (this.backgroundType === 'gradient') {
           data.background_image = ''
+          data.mobile_image = ''
+          data.desktop_image = ''
         }
 
         return data
@@ -237,10 +239,14 @@
                       :id="`title-${language.code}`"
                       v-model="banner.i18n[language.code].title"
                       :name="`i18n.${language.code}.title`"
-                      v-validate="'max:255'">
+                      v-validate="'max:8'">
 
                     <span v-show="formErrors.has(`i18n.${language.code}.title`)" class="help-block">
                       {{ formErrors.first(`i18n.${language.code}.title`) }}
+                    </span>
+
+                    <span class="help-block">
+                      До 8 символов
                     </span>
                   </div>
                 </div>
@@ -257,10 +263,14 @@
                       :id="`caption-${language.code}`"
                       v-model="banner.i18n[language.code].caption"
                       :name="`i18n.${language.code}.caption`"
-                      v-validate="'required|max:255'">
+                      v-validate="'max:36'">
 
                     <span v-show="formErrors.has(`i18n.${language.code}.caption`)" class="help-block">
                       {{ formErrors.first(`i18n.${language.code}.caption`) }}
+                    </span>
+
+                    <span class="help-block">
+                      До 36 символов
                     </span>
                   </div>
                 </div>
@@ -669,6 +679,7 @@
               <div class="banner-preview__row">
                 <div class="banner-preview__standart">
                   <standart-banner
+                    class="banner--medium"
                     :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
 
                     :title="banner.i18n[activeLanguageCode].title"
@@ -766,7 +777,6 @@
 
       </div>
     </div>
-
 
     <b-modal
       id="validationModal"

@@ -8805,6 +8805,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
       if (this.backgroundType === 'gradient') {
         data.background_image = '';
+        data.mobile_image = '';
+        data.desktop_image = '';
       }
 
       return data;
@@ -9155,6 +9157,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     backgroundImage: null,
     caption: String,
     captionColor: String
+  },
+
+  computed: {
+    titleLength: function titleLength() {
+      return this.title.length;
+    },
+    captionLength: function captionLength() {
+      return Math.ceil(this.caption.length / 5);
+    }
   }
 });
 
@@ -66262,8 +66273,8 @@ var render = function() {
                                       {
                                         name: "validate",
                                         rawName: "v-validate",
-                                        value: "max:255",
-                                        expression: "'max:255'"
+                                        value: "max:8",
+                                        expression: "'max:8'"
                                       }
                                     ],
                                     staticClass: "form-control",
@@ -66317,7 +66328,13 @@ var render = function() {
                                           "\n                  "
                                       )
                                     ]
-                                  )
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "help-block" }, [
+                                    _vm._v(
+                                      "\n                    До 8 символов\n                  "
+                                    )
+                                  ])
                                 ])
                               ]
                             ),
@@ -66363,8 +66380,8 @@ var render = function() {
                                       {
                                         name: "validate",
                                         rawName: "v-validate",
-                                        value: "required|max:255",
-                                        expression: "'required|max:255'"
+                                        value: "max:36",
+                                        expression: "'max:36'"
                                       }
                                     ],
                                     staticClass: "form-control",
@@ -66420,7 +66437,13 @@ var render = function() {
                                           "\n                  "
                                       )
                                     ]
-                                  )
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "help-block" }, [
+                                    _vm._v(
+                                      "\n                    До 36 символов\n                  "
+                                    )
+                                  ])
                                 ])
                               ]
                             ),
@@ -67604,6 +67627,7 @@ var render = function() {
                         { staticClass: "banner-preview__standart" },
                         [
                           _c("standart-banner", {
+                            staticClass: "banner--medium",
                             attrs: {
                               link: _vm.prepareUrl(
                                 _vm.banner.i18n[_vm.activeLanguageCode].link
@@ -73193,22 +73217,22 @@ var render = function() {
     "div",
     { staticClass: "banner", style: { backgroundImage: _vm.background } },
     [
-      _vm.image
-        ? _c("div", { staticClass: "banner__image-box" }, [
-            _c("img", {
+      _c("div", { staticClass: "banner__accent-box" }, [
+        _vm.image
+          ? _c("img", {
               staticClass: "banner__image",
               attrs: { src: _vm.image, alt: _vm.title }
             })
-          ])
-        : _c("div", {
-            staticClass: "banner__title",
-            style: { color: _vm.titleColor },
-            domProps: { innerHTML: _vm._s(_vm.title) }
-          }),
+          : _c("div", {
+              class: "banner__title banner__title--" + _vm.titleLength,
+              style: { color: _vm.titleColor },
+              domProps: { innerHTML: _vm._s(_vm.title) }
+            })
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "banner__bottom" }, [
         _c("div", {
-          staticClass: "banner__caption",
+          class: "banner__caption banner__caption--" + _vm.captionLength,
           style: { color: _vm.captionColor },
           domProps: { innerHTML: _vm._s(_vm.caption) }
         }),
@@ -77434,18 +77458,18 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "badge",
+      staticClass: "shop-badge",
       style: { backgroundColor: _vm.color },
       attrs: { "data-original-title": _vm.title }
     },
     [
       _c(
         "div",
-        { staticClass: "badge__content" },
+        { staticClass: "shop-badge__content" },
         [
           _vm.icon
             ? [
-                _c("svg", { staticClass: "badge__icon" }, [
+                _c("svg", { staticClass: "shop-badge__icon" }, [
                   _c("use", {
                     attrs: {
                       "xlink:href": "/vendor/images/badges.svg#" + _vm.icon
@@ -77457,7 +77481,7 @@ var render = function() {
           _vm._v(" "),
           _vm.text
             ? [
-                _c("div", { staticClass: "badge__text" }, [
+                _c("div", { staticClass: "shop-badge__text" }, [
                   _vm._v("\n        " + _vm._s(_vm.text) + "\n      ")
                 ])
               ]
@@ -97245,7 +97269,7 @@ var AdminEditModel = function (_Model) {
         name: '',
         email: '',
         roles: [],
-        enabled: false,
+        enabled: true,
 
         image: false,
 
@@ -99534,6 +99558,7 @@ var BannerModel = function (_ModelI18n) {
         desktop_image: '',
         small_image: '',
         background_image: '',
+        background_long_image: '',
 
         type: '',
         position: '',

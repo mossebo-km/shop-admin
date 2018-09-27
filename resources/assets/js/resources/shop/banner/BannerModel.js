@@ -21,6 +21,7 @@ export default class BannerModel extends ModelI18n {
       desktop_image: '',
       small_image: '',
       background_image: '',
+      background_long_image: '',
 
       type: '',
       position: '',
