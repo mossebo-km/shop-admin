@@ -154,7 +154,7 @@
 
         <div :class="`form-group${formErrors.has('enabled') ? ' has-error' : ''}`">
           <label class="col-md-3 control-label">
-            Удалено пользователь
+            Удалено пользователем
           </label>
 
           <div class="col-md-9">

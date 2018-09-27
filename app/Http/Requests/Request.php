@@ -44,6 +44,13 @@ abstract class Request extends FormRequest
      */
     protected $requestUser;
 
+    /**
+     * Пути, для которых не нужна валидация.
+     *
+     * @var \Illuminate\Database\Eloquent\Model
+     */
+    protected $withoutRulesPathes = [];
+
 
     /**
      * Namespace прав запроса.
@@ -254,7 +261,17 @@ abstract class Request extends FormRequest
     {
         $action = $this->getAction();
 
-        return in_array($action, ['store', 'update']);
+        if (! in_array($action, ['store', 'update'])) {
+            return false;
+        }
+
+        foreach ($this->withoutRulesPathes as $path) {
+            if ($this->is($path)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 

@@ -10,6 +10,9 @@ class BannerRequest extends ApiRequest
     protected $model = \App\Models\Shop\Banner\Banner::class;
     protected $permissionsNamespace = 'shop.banners';
 
+    protected $withoutRulesPathes = [
+        '*/sort'
+    ];
 
     protected function getEntityRules()
     {

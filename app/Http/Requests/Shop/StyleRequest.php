@@ -14,6 +14,10 @@ class StyleRequest extends ApiRequest
     protected $model = \App\Models\Shop\Style\Style::class;
     protected $permissionsNamespace = 'shop.styles';
 
+    protected $withoutRulesPathes = [
+        '*/sort'
+    ];
+
     protected function getEntityRules()
     {
         $tableName = \Config::get('tables.Styles');

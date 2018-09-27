@@ -88,7 +88,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app
             ->when(ApiControllers\Shop\SaleController::class)
             ->needs(ApiRequest::class)
-            ->give(Requests\Shop\ProductSaleRequest::class);
+            ->give(Requests\Shop\SaleRequest::class);
 
         $this->app
             ->when(ApiControllers\Shop\InteriorController::class)

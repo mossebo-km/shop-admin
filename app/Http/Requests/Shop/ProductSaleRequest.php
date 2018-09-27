@@ -5,12 +5,16 @@ namespace App\Http\Requests\Shop;
 use App\Http\Requests\ApiRequest;
 use App\Support\Traits\Requests\HasDates;
 
-class ProductSaleRequest extends ApiRequest
+class SaleRequest extends ApiRequest
 {
     use HasDates;
 
     protected $model = \App\Models\Shop\Product\ProductSale::class;
     protected $permissionsNamespace = 'shop.sale';
+
+    protected $withoutRulesPathes = [
+        '*/sort'
+    ];
 
     protected function prepareForValidation()
     {

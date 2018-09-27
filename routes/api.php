@@ -28,7 +28,6 @@ Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData'], 'namespa
         Route::group(['prefix' => 'rbac'], function () {
             Route::resource('roles', 'RoleController');
 
-
             Route::get('permission-groups/all', 'PermissionGroupController@all');
             Route::resource('permission-groups', 'PermissionGroupController');
         });
@@ -36,7 +35,6 @@ Route::group(['middleware' => ['auth:api', 'api.auth', 'api.withData'], 'namespa
 
 
     Route::get('reviews/{review}/status', 'ReviewController@status');
-    Route::post('reviews/{review}/confirmed', 'ReviewController@imageUpload');
     Route::resource('reviews', 'ReviewController');
 
     // Магазин

@@ -14,6 +14,10 @@ class RoomRequest extends ApiRequest
     protected $model = \App\Models\Shop\Room\Room::class;
     protected $permissionsNamespace = 'shop.rooms';
 
+    protected $withoutRulesPathes = [
+        '*/sort'
+    ];
+
     protected function getEntityRules()
     {
         $tableName = \Config::get('tables.Rooms');

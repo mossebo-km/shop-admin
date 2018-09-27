@@ -86915,7 +86915,7 @@ var render = function() {
                 },
                 [
                   _c("label", { staticClass: "col-md-3 control-label" }, [
-                    _vm._v("\n          Удалено пользователь\n        ")
+                    _vm._v("\n          Удалено пользователем\n        ")
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-9" }, [

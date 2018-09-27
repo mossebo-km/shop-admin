@@ -15,6 +15,10 @@ class CategoryRequest extends ApiRequest
     protected $model = \App\Models\Shop\Category\Category::class;
     protected $permissionsNamespace = 'shop.categories';
 
+    protected $withoutRulesPathes = [
+        '*/sort'
+    ];
+
     protected function getEntityRules()
     {
         $tableName = \Config::get('tables.Categories');

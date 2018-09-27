@@ -9,6 +9,9 @@ class BadgeTypeRequest extends ApiRequest
     protected $model = \App\Models\Shop\Badge\BadgeType::class;
     protected $permissionsNamespace = 'shop.badges';
 
+    protected $withoutRulesPathes = [
+        '*/sort'
+    ];
 
     protected function getEntityRules()
     {

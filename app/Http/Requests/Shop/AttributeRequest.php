@@ -10,6 +10,10 @@ class AttributeRequest extends ApiRequest
     protected $model = \App\Models\Shop\Attribute\Attribute::class;
     protected $permissionsNamespace = 'shop.attributes';
 
+    protected $withoutRulesPathes = [
+        '*/sort'
+    ];
+
     protected function getEntityRules()
     {
         $rules = [

@@ -20,7 +20,8 @@ class ReviewResource extends JsonResource
             'confirmed'     => $this->resource->confirmed,
             'enabled'       => $this->resource->enabled,
             'usage_time'    => $this->resource->usage_time,
-            'created'       => strtotime($this->resource->created_at),
+            'created_at'    => dateFormatFull($this->resource->created_at),
+            'updated_at'    => dateFormatFull($this->resource->updated_at),
         ];
 
         if (! $this->resource->confirmed) {
