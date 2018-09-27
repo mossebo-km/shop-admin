@@ -97,6 +97,5 @@ return array(
             'netmount',
             'zipdl',
         ],
-        'tmbPath' => '_tmb'
     ),
 );
