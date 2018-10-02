@@ -6039,6 +6039,130 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FontResizer.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'font-resizer',
+
+  components: {
+    Render: {
+      functional: true,
+      render: function render(h, ctx) {
+        return ctx.props.vnode;
+      }
+    }
+  },
+
+  props: ['scaleFactor', 'minSize', 'maxSize', 'tag'],
+
+  data: function data() {
+    return {
+      width: 0,
+      charWidth: 0,
+      charLineHeight: 0,
+      textLength: 0,
+      els: {
+        standart: null,
+        content: null
+      }
+    };
+  },
+  updated: function updated() {
+    this.setStandartSizes();
+    this.setTextContentLength();
+  },
+  mounted: function mounted() {
+    this.$root.$on('resize', this.setWidth);
+
+    this.els.standart = this.$el.querySelector('.js-fr-standart');
+    this.els.content = this.$el.querySelector('.js-fr-content');
+
+    this.$nextTick(this.setWidth);
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$root.$off('resize', this.setWidth);
+  },
+
+
+  methods: {
+    setWidth: function setWidth() {
+      this.width = this.$el.clientWidth;
+    },
+    setStandartSizes: function setStandartSizes() {
+      this.els.standart.innerHTML = this.els.content.innerHTML;
+
+      var standartWidth = this.els.standart.scrollWidth;
+
+      this.charWidth = standartWidth / this.textLength * 1.05;
+      this.charLineHeight = this.els.standart.clientHeight / this.minSize;
+    },
+    setTextContentLength: function setTextContentLength() {
+      this.textLength = this.els.content.innerText.length;
+    },
+    getTextLinesCount: function getTextLinesCount() {
+      console.log(this.els.content.clientWidth, this.charWidth * this.textLength, Math.ceil(this.charWidth * this.textLength / this.els.content.clientWidth));
+
+      return Math.ceil(this.charWidth * this.textLength / this.els.content.clientWidth);
+    },
+    getFontSizeByTextLength: function getFontSizeByTextLength(textLength) {
+      var currentCharLength = this.width / textLength;
+
+      return Math.floor(currentCharLength / this.charWidth * this.minSize);
+    }
+  },
+
+  computed: {
+    contentFontSize: function contentFontSize() {
+      if (this.charWidth === 0 || this.textLength === 0) {
+        return this.minSize;
+      }
+
+      var fontSize = this.getFontSizeByTextLength(this.textLength);
+
+      if (fontSize < this.minSize) {
+        fontSize = this.getFontSizeByTextLength(this.textLength / this.getTextLinesCount() * 1.1);
+      }
+
+      fontSize = Math.max(this.minSize, fontSize);
+
+      if (this.maxSize) {
+        fontSize = Math.min(this.maxSize, fontSize);
+      }
+
+      return fontSize;
+    },
+    contentStyle: function contentStyle() {
+      return {
+        'font-size': this.contentFontSize + 'px'
+      };
+    },
+    standartStyle: function standartStyle() {
+      return {
+        'font-size': this.minSize + 'px'
+      };
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/ImageEditor.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -8840,17 +8964,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         title: 'Градиент'
       }];
     },
-    comparedTitle: function comparedTitle(activeLanguageCode) {
-      var _this = this;
-
-      return ['title', 'caption'].reduce(function (acc, item) {
-        if (_this.banner.i18n[activeLanguageCode][item]) {
-          acc.push(_this.banner.i18n[activeLanguageCode][item]);
-        }
-
-        return acc;
-      }, []).join(' ');
-    },
 
 
     /**
@@ -9118,6 +9231,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -9145,6 +9271,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__("./resources/assets/js/components/shop/banners/preview/mixin.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FontResizer__ = __webpack_require__("./resources/assets/js/components/FontResizer.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FontResizer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FontResizer__);
+
 
 
 
@@ -9153,19 +9282,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   mixins: [__WEBPACK_IMPORTED_MODULE_0__mixin__["a" /* default */]],
 
+  components: {
+    FontResizer: __WEBPACK_IMPORTED_MODULE_1__FontResizer___default.a
+  },
+
   props: {
     backgroundImage: null,
     caption: String,
     captionColor: String
-  },
-
-  computed: {
-    titleLength: function titleLength() {
-      return this.title.length;
-    },
-    captionLength: function captionLength() {
-      return Math.ceil(this.caption.length / 5);
-    }
   }
 });
 
@@ -11207,7 +11331,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__Loading__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__core__ = __webpack_require__("./resources/assets/js/core/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__resources_shop_PricesTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/PricesTableModel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__resources_shop_Sale_SaleProductEditModel__ = __webpack_require__("./resources/assets/js/resources/shop/Sale/SaleProductEditModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__resources_shop_Sale_SaleEditModel__ = __webpack_require__("./resources/assets/js/resources/shop/Sale/SaleEditModel.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -11242,8 +11366,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   data: function data() {
     return {
       loading: false,
-      entityName: 'sale-product',
-      saleProduct: null,
+      entityName: 'sale',
+      sale: null,
 
       usedMainData: ['languages'],
 
@@ -11267,7 +11391,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
      * Инициализация модели данных.
      */
     initEntity: function initEntity(data) {
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_11__resources_shop_Sale_SaleProductEditModel__["a" /* default */](data, this.languages));
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_11__resources_shop_Sale_SaleEditModel__["a" /* default */](data, this.languages));
       this.dateFinishConfig = this.getFinishDatePickerConfig();
     },
     productSearchUrl: function productSearchUrl() {
@@ -11288,8 +11412,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
       this.loading = true;
 
-      return new __WEBPACK_IMPORTED_MODULE_9__core__["a" /* default */].requestHandler('get', '/api' + this.getPathToTable() + '/price/' + this.saleProduct.product_id).success(function (response) {
-        _this.saleProduct.prices = new __WEBPACK_IMPORTED_MODULE_10__resources_shop_PricesTableModel__["a" /* default */](response.data.prices);
+      return new __WEBPACK_IMPORTED_MODULE_9__core__["a" /* default */].requestHandler('get', '/api' + this.getPathToTable() + '/price/' + this.sale.product_id).success(function (response) {
+        _this.sale.prices = new __WEBPACK_IMPORTED_MODULE_10__resources_shop_PricesTableModel__["a" /* default */](response.data.prices);
 
         _this.loading = false;
       }).start();
@@ -11313,7 +11437,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle__ = __webpack_require__("./resources/assets/js/components/Toggle.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Toggle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Toggle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__resources_shop_Sale_SaleProductTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/Sale/SaleProductTableModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__resources_shop_Sale_SaleTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/Sale/SaleTableModel.js");
 
 
 
@@ -11344,7 +11468,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   data: function data() {
     return {
-      tableItemsDataName: 'sale-products',
+      tableItemsDataName: 'sales',
 
       usedMainData: ['languages']
     };
@@ -11358,7 +11482,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.items = this.getSortedData(items.map(function (item) {
-        return new __WEBPACK_IMPORTED_MODULE_7__resources_shop_Sale_SaleProductTableModel__["a" /* default */](item, _this.languages);
+        return new __WEBPACK_IMPORTED_MODULE_7__resources_shop_Sale_SaleTableModel__["a" /* default */](item, _this.languages);
       }));
     },
     getItemPrice: function getItemPrice(item) {
@@ -20952,6 +21076,21 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 // module
 exports.push([module.i, "\n.sidebar-nav li {\n    position: relative;\n}\n.sidebar-nav .sidebar-nav-sub > ul {\n    display: block;\n}\n.sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n    height: 0;\n    overflow: hidden;\n    position: relative;\n    -webkit-transition: all .228s ease-out;\n    transition: all .228s ease-out;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n.sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n    height: 0!important;\n}\n.sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n    max-height: none;\n    -webkit-transition: none;\n    transition: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/MainMenu.vue"],"names":[],"mappings":";AAqUA;IACA,mBAAA;CACA;AAEA;IACA,eAAA;CACA;AAEA;IACA,UAAA;IACA,iBAAA;IACA,mBAAA;IACA,uCAAA;IAAA,+BAAA;IACA,wCAAA;YAAA,gCAAA;CACA;AAEA;IACA,oBAAA;CACA;AAEA;IACA,iBAAA;IACA,yBAAA;IAAA,iBAAA;CACA","file":"MainMenu.vue","sourcesContent":["<script>\n  import Core from '../core'\n  import Base from '../mixins/Base'\n\n  export default {\n    name: \"main-menu\",\n\n    data() {\n      return {\n        items: []\n      }\n    },\n\n    watch: {\n      '$route': 'checkExpanded'\n    },\n\n    mixins: [\n      Base\n    ],\n\n    mounted() {\n      this.init()\n    },\n\n    methods: {\n      init() {\n        [].forEach.call(document.querySelectorAll('.sidebar-nav-sub'), el => {\n          el.setAttribute('data-height', this.getMenuHeight(el))\n        })\n\n        this.checkExpanded()\n      },\n\n      getMenuHeight(elMenu) {\n        return elMenu.childNodes[0].scrollHeight\n      },\n\n      getMainMenuEl() {\n        return this.$el\n      },\n\n      getParents(el, selector = '*') {\n        let parents = []\n        let p = el.parentNode\n\n        while (p !== this.$el) {\n          if (p.matches(selector)) {\n            parents.push(p)\n          }\n\n          el = p\n          p = p.parentNode\n        }\n\n        return parents\n      },\n\n      checkExpanded() {\n        this.$nextTick(() => {\n          let elsToCLose = this.$el.querySelectorAll('.sidebar-nav-menu.open:not(.manual) + .sidebar-nav-sub')\n\n          ;[].forEach.call(elsToCLose, elMenu => {\n            this.closeItem(elMenu.previousSibling, elMenu)\n          })\n\n          let elActiveLink = this.$el.querySelector('a.active')\n\n          if (!elActiveLink) return\n\n          let elClosestMenu = elActiveLink.closest('.sidebar-nav-sub')\n\n          if (! elClosestMenu) return\n\n          this.expand(elClosestMenu.previousSibling, elClosestMenu)\n        })\n      },\n\n      getChildrensHeight(elMenu) {\n        return [].reduce.call(elMenu.querySelectorAll('.sidebar-nav-menu.open + .sidebar-nav-sub'), (acc, el) => {\n          return acc + parseInt(el.getAttribute('data-height'))\n        }, 0)\n      },\n\n      expandItem(elLink, elMenu) {\n        elLink.classList.add('open')\n\n        let height = parseInt(elMenu.getAttribute('data-height')) + this.getChildrensHeight(elMenu)\n        elMenu.style.height = height + 'px'\n      },\n\n      expand(elLink, elMenu) {\n        this.expandItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      closeItem(elLink, elMenu) {\n        elLink.classList.remove('open')\n        elMenu.removeAttribute('style')\n      },\n\n      close(elLink, elMenu) {\n        Array.prototype.slice.call(elMenu.querySelectorAll('.sidebar-nav-sub'))\n          .reverse().forEach(el => {\n            this.closeItem(el.previousSibling, el)\n          })\n\n        this.closeItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      expandToggle(elLink, elMenu) {\n        if (elLink.classList.contains('open')) {\n          this.close(elLink, elMenu)\n        }\n        else {\n          this.expand(elLink, elMenu)\n        }\n      },\n\n      expandLinkClick(elLink) {\n        elLink.classList.toggle('manual')\n        this.expandToggle(elLink, elLink.nextSibling)\n      },\n\n      prepareItems(menuItems = []) {\n        return menuItems.reduce((acc, item) => {\n          if (item.permission && !this.userCan(item.permission)) {\n            return acc\n          }\n\n          if (item.children instanceof Array && item.children.length > 0) {\n            let children = this.prepareItems(item.children)\n\n            if (children.length === 0) {\n              return acc\n            }\n\n            acc.push({\n              ... item,\n              children\n            })\n\n            return acc\n          }\n\n          acc.push(item)\n\n          return acc\n        }, [])\n      }\n    },\n\n    render(createElement) {\n      this.items = this.prepareItems(Core.getMainMenuData())\n\n\n      let makeTitleEl = (title) => {\n        return createElement(\n          'span',\n          {\n            attrs: {\n              class: 'sidebar-nav-mini-hide'\n            }\n          },\n          title\n        )\n      }\n\n      let __makeIconEl = iconClasses => {\n        return createElement(\n          'i',\n          {\n            attrs: {\n              class: iconClasses\n            }\n          }\n        )\n      }\n\n      let makeIconEl = iconCLasses => {\n        return __makeIconEl(`${iconCLasses} sidebar-nav-icon`)\n      }\n\n      let makeIndicatorEl = () => {\n        return __makeIconEl('fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide')\n      }\n\n      let urlIsLocal = (url) => {\n        url = Core.trim(url)\n\n        if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {\n            return url.indexOf(window.location.origin) === 0\n        }\n\n        return true\n      }\n\n      function mergeDeep(target, ...sources) {\n        if (!sources.length) return target;\n        const source = sources.shift();\n\n        if (_.isObject(target) && _.isObject(source)) {\n          for (const key in source) {\n            if (_.isObject(source[key]) && !_.isFunction(source[key])) {\n              if (!target[key]) Object.assign(target, { [key]: {} });\n              mergeDeep(target[key], source[key]);\n            }\n            else {\n              Object.assign(target, { [key]: source[key] });\n            }\n          }\n        }\n\n        return mergeDeep(target, ...sources);\n      }\n\n      let makeLink = ({url, onClick, icon, title, children}) => {\n        let tagName = 'a'\n        let isLocal = url ? urlIsLocal(url) : false\n        let params = {\n          key: Core.uniqueId()\n        }\n\n        if (typeof onClick === 'function') {\n          params = mergeDeep(params, {\n            on: {\n              click: onClick\n            }\n          })\n        }\n        if (url && isLocal) {\n          tagName = 'router-link'\n          params = mergeDeep(params, {\n            attrs: {\n              to: url,\n              'active-class': 'active'\n            }\n          })\n        }\n        else if (url && !isLocal) {\n          params = mergeDeep(params, {\n            attrs: {\n              href: url,\n              target: '_blank'\n            }\n          })\n        }\n        else {\n          params = mergeDeep(params, {\n            attrs: {\n              href: 'javascript:void(0);'\n            }\n          })\n        }\n\n        let childrenElsArray = []\n\n        if (children instanceof Array && children.length > 0) {\n          params = mergeDeep(params, {\n            on: {\n              click: event => this.expandLinkClick(event.target.closest('.sidebar-nav-menu'))\n            },\n            attrs: {\n              class: 'sidebar-nav-menu'\n            }\n          })\n\n          childrenElsArray.push(makeIndicatorEl())\n        }\n\n        if (icon) {\n          childrenElsArray.push(makeIconEl(icon))\n        }\n\n        if (title) {\n          childrenElsArray.push(makeTitleEl(title))\n        }\n\n        return createElement(tagName, params, childrenElsArray)\n      }\n\n      let makeElsLiArray = (items = []) => {\n        return items.reduce((acc, item) => {\n          let slots = [makeLink(item)]\n\n          if (item.children) {\n\n            slots.push(createElement(\n              'div',\n              {\n                attrs: {\n                  class: 'sidebar-nav-sub'\n                }\n              },\n              [createElement('ul', makeElsLiArray(item.children))]\n            ))\n          }\n\n          acc.push(createElement('li', slots))\n\n          return acc\n        }, [])\n      }\n\n      return createElement(\n        'ul',\n        {\n          attrs: {\n            class: 'sidebar-nav'\n          }\n        },\n        makeElsLiArray(this.items)\n      )\n    }\n  }\n</script>\n\n<style>\n    .sidebar-nav li {\n        position: relative;\n    }\n\n    .sidebar-nav .sidebar-nav-sub > ul {\n        display: block;\n    }\n\n    .sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n        height: 0;\n        overflow: hidden;\n        position: relative;\n        transition: all .228s ease-out;\n        transform: translate3d(0, 0, 0);\n    }\n\n    .sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n        height: 0!important;\n    }\n\n    .sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n        max-height: none;\n        transition: none;\n    }\n</style>"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-72ba4308\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/FontResizer.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(true);
+// imports
+
+
+// module
+exports.push([module.i, "\n.font-resizer__standard {\n  position: absolute;\n  left: -99999px;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/FontResizer.vue"],"names":[],"mappings":";AAAA;EACE,mBAAmB;EACnB,eAAe;CAAE","file":"FontResizer.vue","sourcesContent":[".font-resizer__standard {\n  position: absolute;\n  left: -99999px; }\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -66273,8 +66412,8 @@ var render = function() {
                                       {
                                         name: "validate",
                                         rawName: "v-validate",
-                                        value: "max:8",
-                                        expression: "'max:8'"
+                                        value: "max:9",
+                                        expression: "'max:9'"
                                       }
                                     ],
                                     staticClass: "form-control",
@@ -66332,7 +66471,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("span", { staticClass: "help-block" }, [
                                     _vm._v(
-                                      "\n                    До 8 символов\n                  "
+                                      "\n                    До 9 символов\n                  "
                                     )
                                   ])
                                 ])
@@ -66380,8 +66519,8 @@ var render = function() {
                                       {
                                         name: "validate",
                                         rawName: "v-validate",
-                                        value: "max:36",
-                                        expression: "'max:36'"
+                                        value: "max:64",
+                                        expression: "'max:64'"
                                       }
                                     ],
                                     staticClass: "form-control",
@@ -66441,7 +66580,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("span", { staticClass: "help-block" }, [
                                     _vm._v(
-                                      "\n                    До 36 символов\n                  "
+                                      "\n                    До 64 символов\n                  "
                                     )
                                   ])
                                 ])
@@ -67585,49 +67724,63 @@ var render = function() {
                   _vm._m(14),
                   _vm._v(" "),
                   _c("div", { staticClass: "banner-preview" }, [
-                    _c(
-                      "div",
-                      { staticClass: "banner-preview__row" },
-                      [
-                        _c("standart-banner", {
-                          staticClass: "banner--long",
-                          attrs: {
-                            link: _vm.prepareUrl(
-                              _vm.banner.i18n[_vm.activeLanguageCode].link
-                            ),
-                            title:
-                              _vm.banner.i18n[_vm.activeLanguageCode].title,
-                            caption:
-                              _vm.banner.i18n[_vm.activeLanguageCode].caption,
-                            "button-text":
-                              _vm.banner.i18n[_vm.activeLanguageCode].button,
-                            "title-color": _vm.banner.title_color,
-                            "caption-color": _vm.banner.caption_color,
-                            "button-color": _vm.banner.button_color,
-                            "button-background":
-                              _vm.banner.button_background_color,
-                            image: _vm.banner.small_image,
-                            "background-image":
-                              _vm.backgroundType === "image"
-                                ? _vm.banner.background_image
-                                : undefined,
-                            "gradient-from": _vm.banner.gradient.color_from,
-                            "gradient-to": _vm.banner.gradient.color_to,
-                            "greadient-type": _vm.banner.gradient.type,
-                            "gradient-angle": _vm.banner.gradient.angle
-                          }
-                        })
-                      ],
-                      1
-                    ),
+                    _c("div", { staticClass: "banner-preview__row" }, [
+                      _c(
+                        "div",
+                        { staticStyle: { width: "100%" } },
+                        [
+                          _c("div", { staticClass: "banner-preview__info" }, [
+                            _vm._v(
+                              "\n                  Горизонтальный - 856x96 px\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("standart-banner", {
+                            staticClass: "banner--long",
+                            attrs: {
+                              link: _vm.prepareUrl(
+                                _vm.banner.i18n[_vm.activeLanguageCode].link
+                              ),
+                              title:
+                                _vm.banner.i18n[_vm.activeLanguageCode].title,
+                              caption:
+                                _vm.banner.i18n[_vm.activeLanguageCode].caption,
+                              "button-text":
+                                _vm.banner.i18n[_vm.activeLanguageCode].button,
+                              "title-color": _vm.banner.title_color,
+                              "caption-color": _vm.banner.caption_color,
+                              "button-color": _vm.banner.button_color,
+                              "button-background":
+                                _vm.banner.button_background_color,
+                              image: _vm.banner.small_image,
+                              "background-image":
+                                _vm.backgroundType === "image"
+                                  ? _vm.banner.background_image
+                                  : undefined,
+                              "gradient-from": _vm.banner.gradient.color_from,
+                              "gradient-to": _vm.banner.gradient.color_to,
+                              "greadient-type": _vm.banner.gradient.type,
+                              "gradient-angle": _vm.banner.gradient.angle
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "banner-preview__row" }, [
                       _c(
                         "div",
-                        { staticClass: "banner-preview__standart" },
+                        { staticClass: "banner-preview__big" },
                         [
+                          _c("div", { staticClass: "banner-preview__info" }, [
+                            _vm._v(
+                              "\n                  Стандартный - 583x490 px\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
                           _c("standart-banner", {
-                            staticClass: "banner--medium",
+                            staticClass: "banner--big",
                             attrs: {
                               link: _vm.prepareUrl(
                                 _vm.banner.i18n[_vm.activeLanguageCode].link
@@ -67660,10 +67813,14 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "div",
-                        { staticClass: "banner-preview__big" },
+                        { staticClass: "banner-preview__standart" },
                         [
+                          _c("div", { staticClass: "banner-preview__info" }, [
+                            _vm._v("\n                   \n                ")
+                          ]),
+                          _vm._v(" "),
                           _c("standart-banner", {
-                            staticClass: "banner--big",
+                            staticClass: "banner--medium",
                             attrs: {
                               link: _vm.prepareUrl(
                                 _vm.banner.i18n[_vm.activeLanguageCode].link
@@ -67698,8 +67855,14 @@ var render = function() {
                     _c("div", { staticClass: "banner-preview__row" }, [
                       _c(
                         "div",
-                        { staticClass: "header-banner-wrap" },
+                        { staticStyle: { width: "100%" } },
                         [
+                          _c("div", { staticClass: "banner-preview__info" }, [
+                            _vm._v(
+                              "\n                  В шапке, десктопный - 2450x56 px или 1920x56 px\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
                           _c("header-banner", {
                             attrs: {
                               image:
@@ -67709,10 +67872,14 @@ var render = function() {
                               link: _vm.prepareUrl(
                                 _vm.banner.i18n[_vm.activeLanguageCode].link
                               ),
-                              title: _vm.comparedTitle(_vm.activeLanguageCode),
+                              title:
+                                _vm.banner.i18n[_vm.activeLanguageCode].title,
+                              caption:
+                                _vm.banner.i18n[_vm.activeLanguageCode].caption,
                               "button-text":
                                 _vm.banner.i18n[_vm.activeLanguageCode].button,
                               "title-color": _vm.banner.caption_color,
+                              "caption-color": _vm.banner.caption_color,
                               "button-color": _vm.banner.button_color,
                               "button-background":
                                 _vm.banner.button_background_color,
@@ -67730,11 +67897,14 @@ var render = function() {
                     _c("div", { staticClass: "banner-preview__row" }, [
                       _c(
                         "div",
-                        {
-                          staticClass:
-                            "header-banner-wrap header-banner-wrap--mobile"
-                        },
+                        { staticStyle: { width: "375px" } },
                         [
+                          _c("div", { staticClass: "banner-preview__info" }, [
+                            _vm._v(
+                              "\n                  В шапке, мобильный - 375x56\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
                           _c("header-banner", {
                             staticClass: "header-banner--mobile",
                             attrs: {
@@ -67745,10 +67915,14 @@ var render = function() {
                               link: _vm.prepareUrl(
                                 _vm.banner.i18n[_vm.activeLanguageCode].link
                               ),
-                              title: _vm.comparedTitle(_vm.activeLanguageCode),
+                              title:
+                                _vm.banner.i18n[_vm.activeLanguageCode].title,
+                              caption:
+                                _vm.banner.i18n[_vm.activeLanguageCode].caption,
                               "button-text":
                                 _vm.banner.i18n[_vm.activeLanguageCode].button,
                               "title-color": _vm.banner.caption_color,
+                              "caption-color": _vm.banner.caption_color,
                               "button-color": _vm.banner.button_color,
                               "button-background":
                                 _vm.banner.button_background_color,
@@ -73223,11 +73397,28 @@ var render = function() {
               staticClass: "banner__image",
               attrs: { src: _vm.image, alt: _vm.title }
             })
-          : _c("div", {
-              class: "banner__title banner__title--" + _vm.titleLength,
-              style: { color: _vm.titleColor },
-              domProps: { innerHTML: _vm._s(_vm.title) }
-            })
+          : _c(
+              "div",
+              {
+                staticClass: "banner__title",
+                style: { color: _vm.titleColor }
+              },
+              [
+                _c(
+                  "font-resizer",
+                  {
+                    staticStyle: { width: "100%" },
+                    attrs: {
+                      "scale-factor": 0.25,
+                      "min-size": 30,
+                      "max-size": 140
+                    }
+                  },
+                  [_c("span", { domProps: { innerHTML: _vm._s(_vm.title) } })]
+                )
+              ],
+              1
+            )
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "banner__bottom" }, [
@@ -75345,25 +75536,39 @@ var render = function() {
       attrs: { href: _vm.buttonText ? null : _vm.link, target: "_blank" }
     },
     [
-      _c("div", {
-        staticClass: "header-banner__title",
-        style: { color: _vm.titleColor },
-        domProps: { innerHTML: _vm._s(_vm.title) }
-      }),
-      _vm._v(" "),
-      _vm.buttonText
-        ? _c("div", { staticClass: "header-banner__button" }, [
-            _c(
-              "a",
-              {
-                staticClass: "button button-long button-small button-shadow",
-                style: _vm.buttonStyle,
-                attrs: { href: _vm.link, target: "_blank" }
-              },
-              [_vm._v("\n      " + _vm._s(_vm.buttonText) + "\n    ")]
-            )
-          ])
-        : _vm._e()
+      _c("div", { staticClass: "header-banner__content" }, [
+        _c("div", {
+          class:
+            "header-banner__title header-banner__title--" + _vm.titleLength,
+          style: { color: _vm.titleColor },
+          domProps: { innerHTML: _vm._s(_vm.title) }
+        }),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            class:
+              "header-banner__caption header-banner__caption--" +
+              _vm.captionLength,
+            style: { color: _vm.captionColor }
+          },
+          [_c("span", { domProps: { innerHTML: _vm._s(_vm.caption) } })]
+        ),
+        _vm._v(" "),
+        _vm.buttonText
+          ? _c("div", { staticClass: "header-banner__button" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "button button-long button-small button-shadow",
+                  style: _vm.buttonStyle,
+                  attrs: { href: _vm.link, target: "_blank" }
+                },
+                [_vm._v("\n        " + _vm._s(_vm.buttonText) + "\n      ")]
+              )
+            ])
+          : _vm._e()
+      ])
     ]
   )
 }
@@ -76273,7 +76478,7 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _vm.saleProduct
+        _vm.sale
           ? _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-lg-12" }, [
                 _c("div", { staticClass: "block" }, [
@@ -76312,8 +76517,8 @@ var render = function() {
                                   url: _vm.productSearchUrl(),
                                   languages: _vm.languages,
                                   activeLanguageCode: _vm.activeLanguageCode,
-                                  selected: _vm.saleProduct.product_id,
-                                  options: _vm.saleProduct.product,
+                                  selected: _vm.sale.product_id,
+                                  options: _vm.sale.product,
                                   "link-url-maker": _vm.relatedLinkMaker,
                                   params: {
                                     minimumResultsForSearch: -1,
@@ -76324,11 +76529,7 @@ var render = function() {
                                 on: {
                                   "update:selected": [
                                     function($event) {
-                                      _vm.$set(
-                                        _vm.saleProduct,
-                                        "product_id",
-                                        $event
-                                      )
+                                      _vm.$set(_vm.sale, "product_id", $event)
                                     },
                                     _vm.setSelected
                                   ]
@@ -76405,11 +76606,11 @@ var render = function() {
                                 }
                               },
                               model: {
-                                value: _vm.saleProduct.date_start,
+                                value: _vm.sale.date_start,
                                 callback: function($$v) {
-                                  _vm.$set(_vm.saleProduct, "date_start", $$v)
+                                  _vm.$set(_vm.sale, "date_start", $$v)
                                 },
-                                expression: "saleProduct.date_start"
+                                expression: "sale.date_start"
                               }
                             }),
                             _vm._v(" "),
@@ -76484,11 +76685,11 @@ var render = function() {
                                 }
                               },
                               model: {
-                                value: _vm.saleProduct.date_finish,
+                                value: _vm.sale.date_finish,
                                 callback: function($$v) {
-                                  _vm.$set(_vm.saleProduct, "date_finish", $$v)
+                                  _vm.$set(_vm.sale, "date_finish", $$v)
                                 },
-                                expression: "saleProduct.date_finish"
+                                expression: "sale.date_finish"
                               }
                             }),
                             _vm._v(" "),
@@ -76545,21 +76746,19 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.saleProduct.enabled,
-                                    expression: "saleProduct.enabled"
+                                    value: _vm.sale.enabled,
+                                    expression: "sale.enabled"
                                   }
                                 ],
                                 attrs: { type: "checkbox" },
                                 domProps: {
-                                  checked: Array.isArray(
-                                    _vm.saleProduct.enabled
-                                  )
-                                    ? _vm._i(_vm.saleProduct.enabled, null) > -1
-                                    : _vm.saleProduct.enabled
+                                  checked: Array.isArray(_vm.sale.enabled)
+                                    ? _vm._i(_vm.sale.enabled, null) > -1
+                                    : _vm.sale.enabled
                                 },
                                 on: {
                                   change: function($event) {
-                                    var $$a = _vm.saleProduct.enabled,
+                                    var $$a = _vm.sale.enabled,
                                       $$el = $event.target,
                                       $$c = $$el.checked ? true : false
                                     if (Array.isArray($$a)) {
@@ -76568,14 +76767,14 @@ var render = function() {
                                       if ($$el.checked) {
                                         $$i < 0 &&
                                           _vm.$set(
-                                            _vm.saleProduct,
+                                            _vm.sale,
                                             "enabled",
                                             $$a.concat([$$v])
                                           )
                                       } else {
                                         $$i > -1 &&
                                           _vm.$set(
-                                            _vm.saleProduct,
+                                            _vm.sale,
                                             "enabled",
                                             $$a
                                               .slice(0, $$i)
@@ -76583,7 +76782,7 @@ var render = function() {
                                           )
                                       }
                                     } else {
-                                      _vm.$set(_vm.saleProduct, "enabled", $$c)
+                                      _vm.$set(_vm.sale, "enabled", $$c)
                                     }
                                   }
                                 }
@@ -76618,7 +76817,7 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm.saleProduct.created_at
+                    _vm.sale.created_at
                       ? _c("div", { staticClass: "form-group" }, [
                           _c(
                             "label",
@@ -76634,7 +76833,7 @@ var render = function() {
                             _c("p", { staticClass: "form-control-static" }, [
                               _vm._v(
                                 "\n                  " +
-                                  _vm._s(_vm.saleProduct.created_at) +
+                                  _vm._s(_vm.sale.created_at) +
                                   "\n                "
                               )
                             ])
@@ -76642,7 +76841,7 @@ var render = function() {
                         ])
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm.saleProduct.updated_at
+                    _vm.sale.updated_at
                       ? _c("div", { staticClass: "form-group" }, [
                           _c(
                             "label",
@@ -76658,7 +76857,7 @@ var render = function() {
                             _c("p", { staticClass: "form-control-static" }, [
                               _vm._v(
                                 "\n                  " +
-                                  _vm._s(_vm.saleProduct.updated_at) +
+                                  _vm._s(_vm.sale.updated_at) +
                                   "\n                "
                               )
                             ])
@@ -76673,15 +76872,15 @@ var render = function() {
                 "div",
                 { staticClass: "col-lg-12" },
                 [
-                  this.saleProduct.product_id
+                  this.sale.product_id
                     ? _c(
                         "loading",
                         { attrs: { loading: _vm.loading } },
                         [
-                          _vm.saleProduct.product_id
+                          _vm.sale.product_id
                             ? _c("prices-table", {
                                 attrs: {
-                                  prices: _vm.saleProduct.prices,
+                                  prices: _vm.sale.prices,
                                   "available-price-types": _vm.$root.config(
                                     "shop.price_types.sale"
                                   ),
@@ -76690,7 +76889,7 @@ var render = function() {
                                 },
                                 on: {
                                   "update:prices": function($event) {
-                                    _vm.$set(_vm.saleProduct, "prices", $event)
+                                    _vm.$set(_vm.sale, "prices", $event)
                                   }
                                 }
                               })
@@ -79661,6 +79860,47 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-71aa85a4", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-72ba4308\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/FontResizer.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "font-resizer" }, [
+    _c(
+      "div",
+      {
+        staticClass: "font-resizer__content js-fr-content",
+        style: _vm.contentStyle
+      },
+      [_c("render", { attrs: { vnode: _vm.$slots.default } })],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "font-resizer__standard js-fr-standart",
+        style: _vm.standartStyle
+      },
+      [_c("render", { attrs: { vnode: _vm.$slots.default } })],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-72ba4308", module.exports)
   }
 }
 
@@ -89782,6 +90022,33 @@ if(false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-72ba4308\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/FontResizer.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-72ba4308\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/FontResizer.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("138b23cb", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-72ba4308\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FontResizer.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-72ba4308\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FontResizer.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-75b27f50\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/DropzoneGallery.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -90935,6 +91202,58 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-0c0591aa", Component.options)
   } else {
     hotAPI.reload("data-v-0c0591aa", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/FontResizer.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-72ba4308\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/FontResizer.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FontResizer.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-72ba4308\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/FontResizer.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/FontResizer.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-72ba4308", Component.options)
+  } else {
+    hotAPI.reload("data-v-72ba4308", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -92367,6 +92686,7 @@ module.exports = Component.exports
     },
 
     title: String,
+    caption: String,
     buttonText: String,
 
     link: String,
@@ -92405,6 +92725,12 @@ module.exports = Component.exports
       }
 
       return this.gradient;
+    },
+    titleLength: function titleLength() {
+      return this.title.length;
+    },
+    captionLength: function captionLength() {
+      return Math.ceil(this.caption.length / 5);
     }
   }
 });
@@ -94478,7 +94804,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
     var lang = arguments[1];
 
-    if (url.indexOf('http') === 0) {
+    if (!url || url.indexOf('http') === 0) {
       return url;
     }
 
@@ -99044,7 +99370,7 @@ var RoomsTableModel = function (_ModelI18n) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/resources/shop/Sale/SaleProductEditModel.js":
+/***/ "./resources/assets/js/resources/shop/Sale/SaleEditModel.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -99061,16 +99387,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-var SaleProductEditModel = function (_Model) {
-  _inherits(SaleProductEditModel, _Model);
+var SaleEditModel = function (_Model) {
+  _inherits(SaleEditModel, _Model);
 
-  function SaleProductEditModel() {
-    _classCallCheck(this, SaleProductEditModel);
+  function SaleEditModel() {
+    _classCallCheck(this, SaleEditModel);
 
-    return _possibleConstructorReturn(this, (SaleProductEditModel.__proto__ || Object.getPrototypeOf(SaleProductEditModel)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (SaleEditModel.__proto__ || Object.getPrototypeOf(SaleEditModel)).apply(this, arguments));
   }
 
-  _createClass(SaleProductEditModel, [{
+  _createClass(SaleEditModel, [{
     key: 'getSchemaFields',
     value: function getSchemaFields() {
       return {
@@ -99082,6 +99408,9 @@ var SaleProductEditModel = function (_Model) {
         prices: function prices(data) {
           return data.prices ? new __WEBPACK_IMPORTED_MODULE_1__PricesTableModel__["a" /* default */](data.prices) : [];
         },
+
+
+        // todo: Может быть не только товар
         product: function product() {
           var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -99094,20 +99423,19 @@ var SaleProductEditModel = function (_Model) {
     }
   }]);
 
-  return SaleProductEditModel;
+  return SaleEditModel;
 }(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
 
-/* harmony default export */ __webpack_exports__["a"] = (SaleProductEditModel);
+/* harmony default export */ __webpack_exports__["a"] = (SaleEditModel);
 
 /***/ }),
 
-/***/ "./resources/assets/js/resources/shop/Sale/SaleProductTableModel.js":
+/***/ "./resources/assets/js/resources/shop/Sale/SaleTableModel.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_Model__ = __webpack_require__("./resources/assets/js/resources/base/Model.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PricesTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/PricesTableModel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ProductsTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/ProductsTableModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ProductsTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/ProductsTableModel.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -99119,22 +99447,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
+// todo: Может быть не только товар
 
-var SaleProductTableModel = function (_Model) {
-  _inherits(SaleProductTableModel, _Model);
+var SaleTableModel = function (_Model) {
+  _inherits(SaleTableModel, _Model);
 
-  function SaleProductTableModel(entityData, languages) {
-    _classCallCheck(this, SaleProductTableModel);
+  function SaleTableModel(entityData, languages) {
+    _classCallCheck(this, SaleTableModel);
 
-    var _this = _possibleConstructorReturn(this, (SaleProductTableModel.__proto__ || Object.getPrototypeOf(SaleProductTableModel)).call(this, entityData));
+    var _this = _possibleConstructorReturn(this, (SaleTableModel.__proto__ || Object.getPrototypeOf(SaleTableModel)).call(this, entityData));
 
     var productData = entityData && entityData.product ? entityData.product : undefined;
 
-    _this.product = new __WEBPACK_IMPORTED_MODULE_2__ProductsTableModel__["a" /* default */](productData, languages);
+    _this.product = new __WEBPACK_IMPORTED_MODULE_1__ProductsTableModel__["a" /* default */](productData, languages);
     return _this;
   }
 
-  _createClass(SaleProductTableModel, [{
+  _createClass(SaleTableModel, [{
     key: 'getSchemaFields',
     value: function getSchemaFields() {
       return {
@@ -99154,10 +99483,10 @@ var SaleProductTableModel = function (_Model) {
     }
   }]);
 
-  return SaleProductTableModel;
+  return SaleTableModel;
 }(__WEBPACK_IMPORTED_MODULE_0__base_Model__["a" /* default */]);
 
-/* harmony default export */ __webpack_exports__["a"] = (SaleProductTableModel);
+/* harmony default export */ __webpack_exports__["a"] = (SaleTableModel);
 
 /***/ }),
 

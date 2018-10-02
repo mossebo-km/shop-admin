@@ -122,7 +122,7 @@ return [
         'deleted' => 'Интерьер #:id удален.',
     ],
 
-    App\Models\Shop\Product\ProductSale::class => [
+    App\Models\Shop\Sale\Sale::class => [
         'status' => [
             'enabled' => 'Акционный товар #:id задействован.',
             'disabled' => 'Акционный товар #:id отключен.',

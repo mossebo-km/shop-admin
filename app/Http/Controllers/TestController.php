@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Categories;
+
 use App\Models\Shop\Room\RoomProduct;
 use App\Models\Shop\Category\CategoryProduct;
 use App\Models\Shop\Product\ProductAttributeOption;
@@ -9,20 +11,19 @@ use App\Models\City;
 
 use App\Models\Shop\Product\Product;
 use App\Models\Shop\Badge\Badge;
-use Categories;
 use App\Models\Shop\Product\ProductCount;
 
 class TestController extends Controller
 {
     public function test()
     {
-//        (new \App\Models\Admin)->saveFromRequestData([
-//            'name' => 'Полина Карпенко',
-//            'email' => 'art2@mossebo.ru',
-//            'password' => encodePassword('bG1^gat$'),
-//            'api_token' => str_random(60),
-//            'enabled' => true
-//        ]);
+        (new \App\Models\Admin)->saveFromRequestData([
+            'name' => 'Валерия Двуреченская',
+            'email' => 'product9@mossebo.market',
+            'password' => encodePassword('ardrKOMnyk8j'),
+            'api_token' => str_random(60),
+            'enabled' => true
+        ]);
 
 
 //        Categories::getCollection()->each(function ($category) {

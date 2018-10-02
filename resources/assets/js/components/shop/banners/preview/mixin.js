@@ -19,6 +19,7 @@ export default {
     },
 
     title: String,
+    caption: String,
     buttonText: String,
 
     link: String,
@@ -59,6 +60,14 @@ export default {
       }
 
       return this.gradient
+    },
+
+    titleLength() {
+      return this.title.length
+    },
+
+    captionLength() {
+      return Math.ceil(this.caption.length / 5)
     },
   }
 }

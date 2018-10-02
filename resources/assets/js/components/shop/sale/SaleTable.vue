@@ -9,7 +9,7 @@
   import Translatable from '../../../mixins/Translatable'
   import Toggle from '../../Toggle'
 
-  import SaleProductTableModel from '../../../resources/shop/Sale/SaleProductTableModel'
+  import SaleTableModel from '../../../resources/shop/Sale/SaleTableModel'
 
   export default {
     name: 'sale-table',
@@ -33,7 +33,7 @@
 
     data() {
       return {
-        tableItemsDataName: 'sale-products',
+        tableItemsDataName: 'sales',
 
         usedMainData: [
           'languages',
@@ -43,7 +43,7 @@
 
     methods: {
       initItems (items = []) {
-        this.items = this.getSortedData(items.map(item => new SaleProductTableModel(item, this.languages)))
+        this.items = this.getSortedData(items.map(item => new SaleTableModel(item, this.languages)))
       },
 
       getItemPrice(item) {

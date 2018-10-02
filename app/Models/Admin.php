@@ -14,10 +14,12 @@ use App\Support\Traits\Models\HasMediaTrait;
 use App\Contracts\Models\HasPermissions;
 
 use MosseboShopCore\Models\Base\Authenticatable;
+use MosseboShopCore\Contracts\Models\HasMorphRelation as HasMorphRelationInterface;
+use MosseboShopCore\Support\Traits\Models\HasMorphRelation;
 
-class Admin extends Authenticatable implements HasMedia, HasPermissions
+class Admin extends Authenticatable implements HasMedia, HasPermissions, HasMorphRelationInterface
 {
-    use Notifiable, StatusChangeable, RequestSaver, HasMediaTrait, CheckPermissionTrait;
+    use Notifiable, StatusChangeable, RequestSaver, HasMediaTrait, CheckPermissionTrait, HasMorphRelation;
 
     protected $tableKey = 'Admins';
     protected $relationFieldName = 'admin_id';
@@ -41,6 +43,8 @@ class Admin extends Authenticatable implements HasMedia, HasPermissions
     ];
 
     protected $mediaCollectionName = 'image';
+
+    protected $morphTypeName = 'admin';
 
     public function roles()
     {

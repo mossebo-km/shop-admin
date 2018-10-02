@@ -118,16 +118,6 @@
         ]
       },
 
-      comparedTitle(activeLanguageCode) {
-        return ['title', 'caption'].reduce((acc, item) => {
-          if (this.banner.i18n[activeLanguageCode][item]) {
-            acc.push(this.banner.i18n[activeLanguageCode][item])
-          }
-
-          return acc
-        }, []).join(' ')
-      },
-
       /**
        * Инициализация модели данных.
        */
@@ -239,14 +229,14 @@
                       :id="`title-${language.code}`"
                       v-model="banner.i18n[language.code].title"
                       :name="`i18n.${language.code}.title`"
-                      v-validate="'max:8'">
+                      v-validate="'max:9'">
 
                     <span v-show="formErrors.has(`i18n.${language.code}.title`)" class="help-block">
                       {{ formErrors.first(`i18n.${language.code}.title`) }}
                     </span>
 
                     <span class="help-block">
-                      До 8 символов
+                      До 9 символов
                     </span>
                   </div>
                 </div>
@@ -263,14 +253,14 @@
                       :id="`caption-${language.code}`"
                       v-model="banner.i18n[language.code].caption"
                       :name="`i18n.${language.code}.caption`"
-                      v-validate="'max:36'">
+                      v-validate="'max:64'">
 
                     <span v-show="formErrors.has(`i18n.${language.code}.caption`)" class="help-block">
                       {{ formErrors.first(`i18n.${language.code}.caption`) }}
                     </span>
 
                     <span class="help-block">
-                      До 36 символов
+                      До 64 символов
                     </span>
                   </div>
                 </div>
@@ -653,33 +643,13 @@
 
             <div class="banner-preview">
               <div class="banner-preview__row">
-                <standart-banner
-                  class="banner--long"
-                  :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
+                <div style="width: 100%">
+                  <div class="banner-preview__info">
+                    Горизонтальный - 856x96 px
+                  </div>
 
-                  :title="banner.i18n[activeLanguageCode].title"
-                  :caption="banner.i18n[activeLanguageCode].caption"
-                  :button-text="banner.i18n[activeLanguageCode].button"
-
-                  :title-color="banner.title_color"
-                  :caption-color="banner.caption_color"
-                  :button-color="banner.button_color"
-                  :button-background="banner.button_background_color"
-
-                  :image="banner.small_image"
-                  :background-image="backgroundType === 'image' ? banner.background_image : undefined"
-
-                  :gradient-from="banner.gradient.color_from"
-                  :gradient-to="banner.gradient.color_to"
-                  :greadient-type="banner.gradient.type"
-                  :gradient-angle="banner.gradient.angle"
-                ></standart-banner>
-              </div>
-
-              <div class="banner-preview__row">
-                <div class="banner-preview__standart">
                   <standart-banner
-                    class="banner--medium"
+                    class="banner--long"
                     :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
 
                     :title="banner.i18n[activeLanguageCode].title"
@@ -700,8 +670,14 @@
                     :gradient-angle="banner.gradient.angle"
                   ></standart-banner>
                 </div>
+              </div>
 
+              <div class="banner-preview__row">
                 <div class="banner-preview__big">
+                  <div class="banner-preview__info">
+                    Стандартный - 583x490 px
+                  </div>
+
                   <standart-banner
                     class="banner--big"
 
@@ -725,19 +701,53 @@
                     :gradient-angle="banner.gradient.angle"
                   ></standart-banner>
                 </div>
+
+                <div class="banner-preview__standart">
+                  <div class="banner-preview__info">
+                    &nbsp;
+                  </div>
+
+                  <standart-banner
+                    class="banner--medium"
+                    :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
+
+                    :title="banner.i18n[activeLanguageCode].title"
+                    :caption="banner.i18n[activeLanguageCode].caption"
+                    :button-text="banner.i18n[activeLanguageCode].button"
+
+                    :title-color="banner.title_color"
+                    :caption-color="banner.caption_color"
+                    :button-color="banner.button_color"
+                    :button-background="banner.button_background_color"
+
+                    :image="banner.small_image"
+                    :background-image="backgroundType === 'image' ? banner.background_image : undefined"
+
+                    :gradient-from="banner.gradient.color_from"
+                    :gradient-to="banner.gradient.color_to"
+                    :greadient-type="banner.gradient.type"
+                    :gradient-angle="banner.gradient.angle"
+                  ></standart-banner>
+                </div>
               </div>
 
               <div class="banner-preview__row">
-                <div class="header-banner-wrap">
+                <div style="width: 100%;">
+                  <div class="banner-preview__info">
+                    В шапке, десктопный - 2450x56 px или 1920x56 px
+                  </div>
+
                   <header-banner
                     :image="backgroundType === 'image' ? banner.desktop_image : undefined"
 
                     :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
 
-                    :title="comparedTitle(activeLanguageCode)"
+                    :title="banner.i18n[activeLanguageCode].title"
+                    :caption="banner.i18n[activeLanguageCode].caption"
                     :button-text="banner.i18n[activeLanguageCode].button"
 
                     :title-color="banner.caption_color"
+                    :caption-color="banner.caption_color"
                     :button-color="banner.button_color"
                     :button-background="banner.button_background_color"
 
@@ -750,17 +760,23 @@
               </div>
 
               <div class="banner-preview__row">
-                <div class="header-banner-wrap header-banner-wrap--mobile">
+                <div style="width: 375px">
+                  <div class="banner-preview__info">
+                    В шапке, мобильный - 375x56
+                  </div>
+
                   <header-banner
                     class="header-banner--mobile"
                     :image="backgroundType === 'image' ? banner.mobile_image : undefined"
 
                     :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
 
-                    :title="comparedTitle(activeLanguageCode)"
+                    :title="banner.i18n[activeLanguageCode].title"
+                    :caption="banner.i18n[activeLanguageCode].caption"
                     :button-text="banner.i18n[activeLanguageCode].button"
 
                     :title-color="banner.caption_color"
+                    :caption-color="banner.caption_color"
                     :button-color="banner.button_color"
                     :button-background="banner.button_background_color"
 

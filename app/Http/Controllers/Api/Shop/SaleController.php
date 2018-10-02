@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Api\ApiController;
 
 use App\Models\Shop\Product\Product;
-use App\Models\Shop\Product\ProductSale;
+use App\Models\Shop\Sale\Sale;
 use App\Models\Shop\Price\Price;
 
-use App\Http\Resources\Shop\Product\ProductSaleResource;
+use App\Http\Resources\Shop\Sale\SaleResource;
 use App\Http\Resources\Shop\Product\ProductSearchResource;
 use App\Http\Resources\Shop\Price\PriceResource;
 
@@ -29,18 +29,17 @@ class SaleController extends ApiController
         PositionChangeable,
         ProductSearch;
 
-    protected static $modelClass = ProductSale::class;
-    protected static $entityName = 'sale-product';
-    protected static $editResource = ProductSaleResource::class;
-    protected static $tableResource = ProductSaleResource::class;
+    protected static $modelClass = Sale::class;
+    protected static $entityName = 'sale';
+    protected static $editResource = SaleResource::class;
+    protected static $tableResource = SaleResource::class;
+
+    // todo: Сейчас работает только для товаров. Доделать
 
     public function index()
     {
-        $sales = ProductSale::with('product')
-            ->get();
-
         return [
-            'sale-products' => ProductSaleResource::collection($sales),
+            'sales' => SaleResource::collection(Sale::get()),
         ];
     }
 

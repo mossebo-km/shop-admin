@@ -1,5 +1,6 @@
 <script>
   import Mixin from './mixin'
+  import FontResizer from '../../../FontResizer'
 
   export default {
     name: "standart-banner",
@@ -8,21 +9,15 @@
       Mixin
     ],
 
+    components: {
+      FontResizer
+    },
+
     props: {
       backgroundImage: null,
       caption: String,
       captionColor: String,
     },
-
-    computed: {
-      titleLength() {
-        return this.title.length
-      },
-
-      captionLength() {
-        return Math.ceil(this.caption.length / 5)
-      },
-    }
   }
 </script>
 
@@ -41,10 +36,18 @@
 
       <div
         v-else
-        v-html="title"
         :style="{color: titleColor}"
-        :class="'banner__title banner__title--' + titleLength"
-      ></div>
+        class="banner__title"
+      >
+        <font-resizer
+          style="width: 100%"
+          :scale-factor="0.25"
+          :min-size="30"
+          :max-size="140"
+        >
+          <span v-html="title"></span>
+        </font-resizer>
+      </div>
     </div>
 
     <div class="banner__bottom">

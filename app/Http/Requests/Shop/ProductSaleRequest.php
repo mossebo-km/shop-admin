@@ -9,7 +9,7 @@ class SaleRequest extends ApiRequest
 {
     use HasDates;
 
-    protected $model = \App\Models\Shop\Product\ProductSale::class;
+    protected $model = \App\Models\Shop\Product\Sale::class;
     protected $permissionsNamespace = 'shop.sale';
 
     protected $withoutRulesPathes = [

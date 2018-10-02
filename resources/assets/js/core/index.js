@@ -72,7 +72,7 @@ export default {
   },
 
   marketUrl(url = '', lang) {
-    if (url.indexOf('http') === 0) {
+    if (! url || url.indexOf('http') === 0) {
       return url
     }
 

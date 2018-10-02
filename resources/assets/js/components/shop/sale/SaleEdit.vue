@@ -10,7 +10,7 @@
   import Loading from '../../Loading'
   import Core from '../../../core'
   import PricesTableModel from '../../../resources/shop/PricesTableModel'
-  import SaleProductEditModel from '../../../resources/shop/Sale/SaleProductEditModel'
+  import SaleEditModel from '../../../resources/shop/Sale/SaleEditModel'
 
   export default {
     name: 'sale-edit',
@@ -37,8 +37,8 @@
     data() {
       return {
         loading: false,
-        entityName: 'sale-product',
-        saleProduct: null,
+        entityName: 'sale',
+        sale: null,
 
         usedMainData: [
           'languages',
@@ -66,7 +66,7 @@
        * Инициализация модели данных.
        */
       initEntity(data) {
-        this.setEntityData(new SaleProductEditModel(data, this.languages))
+        this.setEntityData(new SaleEditModel(data, this.languages))
         this.dateFinishConfig = this.getFinishDatePickerConfig()
       },
 
@@ -88,9 +88,9 @@
       updatePrice() {
         this.loading = true
 
-        return new Core.requestHandler('get', '/api' + this.getPathToTable() + '/price/' + this.saleProduct.product_id)
+        return new Core.requestHandler('get', '/api' + this.getPathToTable() + '/price/' + this.sale.product_id)
           .success(response => {
-            this.saleProduct.prices = new PricesTableModel(response.data.prices)
+            this.sale.prices = new PricesTableModel(response.data.prices)
 
             this.loading = false
           })
@@ -163,7 +163,7 @@
         </div>
       </div>
 
-      <div class="row" v-if="saleProduct">
+      <div class="row" v-if="sale">
 
         <div class="col-lg-12">
           <div class="block">
@@ -187,9 +187,9 @@
                       :url="productSearchUrl()"
                       :languages="languages"
                       :activeLanguageCode="activeLanguageCode"
-                      :selected.sync="saleProduct.product_id"
+                      :selected.sync="sale.product_id"
                       @update:selected="setSelected"
-                      :options="saleProduct.product"
+                      :options="sale.product"
                       :link-url-maker="relatedLinkMaker"
                       :params="{minimumResultsForSearch: -1, allowClear: false, closeOnSelect: false}"
                     ></ajax-multiselect>
@@ -213,7 +213,7 @@
                     ref="dateStart"
                     @dp-show="datePickerShow('date_start')"
                     @dp-change="dateChanged('date_start')"
-                    v-model="saleProduct.date_start"
+                    v-model="sale.date_start"
                     :config="dateStartConfig"
                     class="date-picker"
                   ></date-picker>
@@ -236,7 +236,7 @@
                     ref="dateStart"
                     @dp-show="datePickerShow('date_finish')"
                     @dp-change="dateChanged('date_finish')"
-                    v-model="saleProduct.date_finish"
+                    v-model="sale.date_finish"
                     :config="dateFinishConfig"
                     class="date-picker"
                   ></date-picker>
@@ -254,7 +254,7 @@
 
                 <div class="col-md-9">
                   <label class="switch switch-primary">
-                    <input type="checkbox" v-model="saleProduct.enabled">
+                    <input type="checkbox" v-model="sale.enabled">
                     <span></span>
                   </label>
 
@@ -264,26 +264,26 @@
                 </div>
               </div>
 
-              <div class="form-group" v-if="saleProduct.created_at">
+              <div class="form-group" v-if="sale.created_at">
                 <label class="col-md-3 control-label">
                   Дата создания
                 </label>
 
                 <div class="col-md-9">
                   <p class="form-control-static">
-                    {{ saleProduct.created_at }}
+                    {{ sale.created_at }}
                   </p>
                 </div>
               </div>
 
-              <div class="form-group" v-if="saleProduct.updated_at">
+              <div class="form-group" v-if="sale.updated_at">
                 <label class="col-md-3 control-label">
                   Последнее изменение
                 </label>
 
                 <div class="col-md-9">
                   <p class="form-control-static">
-                    {{ saleProduct.updated_at }}
+                    {{ sale.updated_at }}
                   </p>
                 </div>
               </div>
@@ -293,10 +293,10 @@
         </div>
 
         <div class="col-lg-12">
-          <loading v-if="this.saleProduct.product_id" :loading="loading">
+          <loading v-if="this.sale.product_id" :loading="loading">
             <prices-table
-              v-if="saleProduct.product_id"
-              :prices.sync="saleProduct.prices"
+              v-if="sale.product_id"
+              :prices.sync="sale.prices"
               :available-price-types="$root.config('shop.price_types.sale')"
               :activeLanguageCode="activeLanguageCode"
               :errors="formErrors"

@@ -20,8 +20,8 @@ class BannerRequest extends ApiRequest
         $bannerPlaces = array_column($bannerPlaces->toArray(), 'id');
 
         $rules = [
-            'title_color'      => 'required|max:8',
-            'caption_color'    => 'nullable|max:36',
+            'title_color'      => 'required|max:9',
+            'caption_color'    => 'nullable|max:64',
             'button_color'     => 'nullable|max:255',
             'button_background_color' => 'nullable|max:255',
             'mobile_image'     => 'nullable|max:255',
