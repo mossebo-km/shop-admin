@@ -166,8 +166,11 @@ const routes = [
   { path: '/shop/badge-types/:id', component: BadgeTypeEdit, props: route => ({...route.params, type: 'edit'}) },
 
   { path: '/shop/banners', component: BannersTable },
-  { path: '/shop/banners/create', component: BannerEdit, props: { type: 'create' } },
-  { path: '/shop/banners/:id', component: BannerEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/banners/default', redirect: '/shop/banners' },
+  { path: '/shop/banners/header', redirect: '/shop/banners' },
+  { path: '/shop/banners/default/create', component: BannerEdit, props: { type: 'create', bannerType: 'default' } },
+  { path: '/shop/banners/header/create', component: BannerEdit, props: { type: 'create', bannerType: 'header' } },
+  { path: '/shop/banners/:id', component: BannerEdit, props: route => ({...route.params, type: 'edit'}), name: 'banner-edit' },
 
   { path: '/shop/sale', component: SaleTable },
   { path: '/shop/sale/create', component: SaleEdit, props: { type: 'create' } },
@@ -227,6 +230,15 @@ Core.init().then(() => {
       return {
         loading: false
       }
+    },
+
+    created() {
+      let resizeHandler = _.debounce(() => {
+        this.windowWidth = window.innerWidth
+        this.$emit('resize')
+      }, 50)
+
+      window.addEventListener('resize', resizeHandler, { passive: true })
     },
 
     methods: {

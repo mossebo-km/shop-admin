@@ -17,11 +17,9 @@ export default class BannerModel extends ModelI18n {
       button_color: '#323f4c',
       button_background_color: '#fff',
 
-      mobile_image: '',
-      desktop_image: '',
-      small_image: '',
-      background_image: '',
-      background_long_image: '',
+      image: '',
+      background_image_1: '',
+      background_image_2: '',
 
       type: '',
       position: '',

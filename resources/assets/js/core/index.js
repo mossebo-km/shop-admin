@@ -326,13 +326,12 @@ export default {
             title: 'Акции и промо',
             icon: 'fa fa-star',
             permission: 'shop.promo.menu',
-
             children: [
               {
                 title: 'Баннеры',
-                url: '/shop/banners',
                 icon: 'fa fa-image',
-                permission: 'shop.banners.menu'
+                permission: 'shop.banners.menu',
+                url: '/shop/banners'
               },
               {
                 title: 'Акционные товары',

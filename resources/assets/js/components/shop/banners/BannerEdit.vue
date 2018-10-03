@@ -9,9 +9,11 @@
 
   import EntityPage from '../../../mixins/EntityPage'
   import Translatable from '../../../mixins/Translatable'
+  import BannersMixin from './mixin'
   import ColorSelect from '../../ColorSelect'
   import StandartBanner from './preview/StandartBanner'
   import HeaderBanner from './preview/HeaderBanner'
+  import TextLengthChecker from '../../TextLengthChecker'
 
   import Number from '../../../directives/number'
 
@@ -24,6 +26,7 @@
     mixins: [
       EntityPage,
       Translatable,
+      BannersMixin
     ],
 
     directives: {
@@ -38,11 +41,13 @@
       bModal,
       ColorSelect,
       StandartBanner,
-      HeaderBanner
+      HeaderBanner,
+      TextLengthChecker
     },
 
     props: [
       'id',
+      'bannerType'
     ],
 
     data() {
@@ -58,6 +63,7 @@
         ],
 
         bannerPlaces: [],
+        bannerType$: this.bannerType,
 
         reloadDataOnSave: true
       }
@@ -70,9 +76,8 @@
         }
 
         if (this.backgroundType === 'gradient') {
-          data.background_image = ''
-          data.mobile_image = ''
-          data.desktop_image = ''
+          data.background_image_1 = ''
+          data.background_image_2 = ''
         }
 
         return data
@@ -118,24 +123,69 @@
         ]
       },
 
+      detectBannerType() {
+        if (this.banner.places.length > 0) {
+          let placeId = this.banner.places[0]
+
+          let place = this.bannerPlaces.find(item => item.id === placeId)
+
+          if (place) {
+            return place.type
+          }
+        }
+
+        return 'default'
+      },
+
+      removeBannerTypeFromUrl(url) {
+        return url.replace('/' + this.bannerType$, '')
+      },
+
+      makePageApiUrl(segment, segmentIsUrl) {
+        let url = this.makePageUrl(segment, segmentIsUrl)
+
+        return '/api' + this.removeBannerTypeFromUrl(url)
+      },
+
+      getPathToTable() {
+        let path = EntityPage.methods.getPathToTable.call(this)
+
+        return this.removeBannerTypeFromUrl(path)
+      },
+
       /**
        * Инициализация модели данных.
        */
       initEntity(data) {
         this.setEntityData(new BannerModel(data, this.languages))
 
-        if (this.banner.background_image) {
+        if (this.type === 'edit' && ! this.bannerType$) {
+          this.bannerType$ = this.detectBannerType()
+        }
+
+        if (this.banner.background_image_1 || this.banner.background_image_2) {
           this.backgroundType = 'image'
         }
+
+        this.banner.places = this.bannerPlacesSelectOptions.map(item => item.id)
       },
     },
 
     computed: {
-      bannerPlacesSelectOptions() {
-        return this.bannerPlaces.map(item => ({
-          id: item.id,
-          title: item.name
-        }))
+      titleMaxSize() {
+        let size
+
+        switch (this.bannerType$) {
+          case 'default':
+            size = 30
+            break
+
+          case 'header':
+            size = 50
+            break
+        }
+
+        return size
       }
     }
   }
@@ -229,41 +279,51 @@
                       :id="`title-${language.code}`"
                       v-model="banner.i18n[language.code].title"
                       :name="`i18n.${language.code}.title`"
-                      v-validate="'max:9'">
+                      v-validate="'max:255'">
 
-                    <span v-show="formErrors.has(`i18n.${language.code}.title`)" class="help-block">
-                      {{ formErrors.first(`i18n.${language.code}.title`) }}
-                    </span>
+                    <div class="clearfix">
+                      <text-length-checker
+                        class="help-block pull-right media-right"
+                        :text="banner.i18n[language.code].title"
+                        :max="titleMaxSize"
+                      ></text-length-checker>
 
-                    <span class="help-block">
-                      До 9 символов
-                    </span>
+                      <span v-show="formErrors.has(`i18n.${language.code}.title`)" class="help-block">
+                        {{ formErrors.first(`i18n.${language.code}.title`) }}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <div :class="`form-group${formErrors.has(`i18n.${language.code}.caption`) ? ' has-error' : ''}`">
-                  <label class="col-md-3 control-label" :for="`caption-${language.code}`">
-                    Описание <span class="text-danger">*</span>
-                  </label>
+                <template v-if="bannerType$ === 'default'">
+                  <div :class="`form-group clearfix${formErrors.has(`i18n.${language.code}.caption`) ? ' has-error' : ''}`">
+                    <label class="col-md-3 control-label" :for="`caption-${language.code}`">
+                      Описание <span class="text-danger">*</span>
+                    </label>
 
-                  <div class="col-md-9">
-                    <input
-                      type="text"
-                      class="form-control"
-                      :id="`caption-${language.code}`"
-                      v-model="banner.i18n[language.code].caption"
-                      :name="`i18n.${language.code}.caption`"
-                      v-validate="'max:64'">
+                    <div class="col-md-9">
+                      <input
+                        type="text"
+                        class="form-control"
+                        :id="`caption-${language.code}`"
+                        v-model="banner.i18n[language.code].caption"
+                        :name="`i18n.${language.code}.caption`"
+                        v-validate="'max:255'">
 
-                    <span v-show="formErrors.has(`i18n.${language.code}.caption`)" class="help-block">
-                      {{ formErrors.first(`i18n.${language.code}.caption`) }}
-                    </span>
+                      <div class="clearfix">
+                        <text-length-checker
+                          class="help-block pull-right media-right"
+                          :text="banner.i18n[language.code].caption"
+                          max="60"
+                        ></text-length-checker>
 
-                    <span class="help-block">
-                      До 64 символов
-                    </span>
+                        <span v-show="formErrors.has(`i18n.${language.code}.caption`)" class="help-block">
+                        {{ formErrors.first(`i18n.${language.code}.caption`) }}
+                      </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </template>
 
                 <div :class="`form-group${formErrors.has(`i18n.${language.code}.button`) ? ' has-error' : ''}`">
                   <label class="col-md-3 control-label" :for="`button-${language.code}`">
@@ -318,24 +378,27 @@
 
             <div class="form-horizontal form-bordered">
 
-              <div :class="`form-group${formErrors.has('places') ? ' has-error' : ''}`">
-                <label class="col-md-3 control-label">
-                  Места размещения
-                </label>
+              <template v-if="bannerPlacesSelectOptions.length > 1">
+                <div :class="`form-group${formErrors.has('places') ? ' has-error' : ''}`">
+                  <label class="col-md-3 control-label">
+                    Места размещения
+                  </label>
 
-                <div class="col-md-9">
-                  <tree-select
-                    :options="bannerPlacesSelectOptions"
-                    :selected.sync="banner.places"
-                    :multiple="true"
-                    :params="{minimumResultsForSearch: -1, allowClear: false, closeOnSelect: false}"
-                  ></tree-select>
+                  <div class="col-md-9">
+                    <tree-select
+                      :options="bannerPlacesSelectOptions"
+                      :selected.sync="banner.places"
+                      :multiple="true"
+                      :params="{minimumResultsForSearch: -1, allowClear: false, closeOnSelect: false}"
+                    ></tree-select>
 
-                  <span v-show="formErrors.has('places')" class="help-block">
+                    <span v-show="formErrors.has('places')" class="help-block">
                     {{ formErrors.first('places') }}
                   </span>
+                  </div>
                 </div>
-              </div>
+              </template>
+
 
               <div :class="`form-group${formErrors.has('enabled') ? ' has-error' : ''}`">
                 <label class="col-md-3 control-label">
@@ -463,7 +526,7 @@
             </div>
           </div>
 
-          <div class="block">
+          <div class="block" v-if="bannerType$ === 'default'">
             <div class="block-title">
               <h2>
                 <i class="fa fa-image"></i> <strong>Стандартный баннер</strong>
@@ -589,43 +652,35 @@
 
                 <div class="form-group">
                   <label class="col-md-3 control-label">
-                    Стандартное фоновое изображение
+                    Стандартный фон
                   </label>
 
                   <div class="col-md-9">
                     <file-manager
-                      id="background_image"
-                      :file.sync="banner.background_image"
+                      id="background_image_1"
+                      :file.sync="banner.background_image_1"
                     ></file-manager>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="col-md-3 control-label">
-                    Мобильное изображение в шапке
+                    <template v-if="bannerType$ === 'default'">
+                      Горизонтальный фон
+                    </template>
+
+                    <template v-if="bannerType$ === 'header'">
+                      Фон в мобильной версии
+                    </template>
                   </label>
 
                   <div class="col-md-9">
                     <file-manager
-                      id="mobile_image"
-                      :file.sync="banner.mobile_image"
+                      id="background_image_2"
+                      :file.sync="banner.background_image_2"
                     ></file-manager>
                   </div>
                 </div>
-
-                <div class="form-group">
-                  <label class="col-md-3 control-label">
-                    Десктопное изображение в шапке
-                  </label>
-
-                  <div class="col-md-9">
-                    <file-manager
-                      id="desktop_image"
-                      :file.sync="banner.desktop_image"
-                    ></file-manager>
-                  </div>
-                </div>
-
               </template>
 
             </div>
@@ -641,152 +696,157 @@
               </h2>
             </div>
 
-            <div class="banner-preview">
-              <div class="banner-preview__row">
-                <div style="width: 100%">
-                  <div class="banner-preview__info">
-                    Горизонтальный - 856x96 px
+            <div :class="'banner-preview banner-preview--' + bannerType$">
+              <template v-if="bannerType$ === 'default'">
+                <div class="banner-preview__row">
+                  <div class="banner-preview__big">
+                    <div class="banner-preview__info">
+                      Стандартный - 583x490 px
+                    </div>
+
+                    <standart-banner
+                      size="big"
+
+                      :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
+
+                      :title="banner.i18n[activeLanguageCode].title"
+                      :caption="banner.i18n[activeLanguageCode].caption"
+                      :button-text="banner.i18n[activeLanguageCode].button"
+
+                      :title-color="banner.title_color"
+                      :caption-color="banner.caption_color"
+                      :button-color="banner.button_color"
+                      :button-background="banner.button_background_color"
+
+                      :image="banner.small_image"
+                      :background-image="backgroundType === 'image' ? banner.background_image_1 : undefined"
+
+                      :gradient-from="banner.gradient.color_from"
+                      :gradient-to="banner.gradient.color_to"
+                      :greadient-type="banner.gradient.type"
+                      :gradient-angle="banner.gradient.angle"
+                    ></standart-banner>
                   </div>
 
-                  <standart-banner
-                    class="banner--long"
-                    :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
+                  <div class="banner-preview__standart">
+                    <div class="banner-preview__info">
+                      &nbsp;
+                    </div>
 
-                    :title="banner.i18n[activeLanguageCode].title"
-                    :caption="banner.i18n[activeLanguageCode].caption"
-                    :button-text="banner.i18n[activeLanguageCode].button"
+                    <standart-banner
+                      size="medium"
+                      :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
 
-                    :title-color="banner.title_color"
-                    :caption-color="banner.caption_color"
-                    :button-color="banner.button_color"
-                    :button-background="banner.button_background_color"
+                      :title="banner.i18n[activeLanguageCode].title"
+                      :caption="banner.i18n[activeLanguageCode].caption"
+                      :button-text="banner.i18n[activeLanguageCode].button"
 
-                    :image="banner.small_image"
-                    :background-image="backgroundType === 'image' ? banner.background_image : undefined"
+                      :title-color="banner.title_color"
+                      :caption-color="banner.caption_color"
+                      :button-color="banner.button_color"
+                      :button-background="banner.button_background_color"
 
-                    :gradient-from="banner.gradient.color_from"
-                    :gradient-to="banner.gradient.color_to"
-                    :greadient-type="banner.gradient.type"
-                    :gradient-angle="banner.gradient.angle"
-                  ></standart-banner>
-                </div>
-              </div>
+                      :image="banner.small_image"
+                      :background-image="backgroundType === 'image' ? banner.background_image_1 : undefined"
 
-              <div class="banner-preview__row">
-                <div class="banner-preview__big">
-                  <div class="banner-preview__info">
-                    Стандартный - 583x490 px
+                      :gradient-from="banner.gradient.color_from"
+                      :gradient-to="banner.gradient.color_to"
+                      :greadient-type="banner.gradient.type"
+                      :gradient-angle="banner.gradient.angle"
+                    ></standart-banner>
                   </div>
-
-                  <standart-banner
-                    class="banner--big"
-
-                    :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
-
-                    :title="banner.i18n[activeLanguageCode].title"
-                    :caption="banner.i18n[activeLanguageCode].caption"
-                    :button-text="banner.i18n[activeLanguageCode].button"
-
-                    :title-color="banner.title_color"
-                    :caption-color="banner.caption_color"
-                    :button-color="banner.button_color"
-                    :button-background="banner.button_background_color"
-
-                    :image="banner.small_image"
-                    :background-image="backgroundType === 'image' ? banner.background_image : undefined"
-
-                    :gradient-from="banner.gradient.color_from"
-                    :gradient-to="banner.gradient.color_to"
-                    :greadient-type="banner.gradient.type"
-                    :gradient-angle="banner.gradient.angle"
-                  ></standart-banner>
                 </div>
 
-                <div class="banner-preview__standart">
-                  <div class="banner-preview__info">
-                    &nbsp;
+                <div class="banner-preview__row">
+                  <div style="width: 100%">
+                    <div class="banner-preview__info">
+                      Горизонтальный - 856x96 px
+                    </div>
+
+                    <standart-banner
+                      size="long"
+                      :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
+
+                      :title="banner.i18n[activeLanguageCode].title"
+                      :caption="banner.i18n[activeLanguageCode].caption"
+                      :button-text="banner.i18n[activeLanguageCode].button"
+
+                      :title-color="banner.title_color"
+                      :caption-color="banner.caption_color"
+                      :button-color="banner.button_color"
+                      :button-background="banner.button_background_color"
+
+                      :image="banner.small_image"
+                      :background-image="backgroundType === 'image' ? banner.background_image_2 : undefined"
+
+                      :gradient-from="banner.gradient.color_from"
+                      :gradient-to="banner.gradient.color_to"
+                      :greadient-type="banner.gradient.type"
+                      :gradient-angle="banner.gradient.angle"
+                    ></standart-banner>
                   </div>
-
-                  <standart-banner
-                    class="banner--medium"
-                    :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
-
-                    :title="banner.i18n[activeLanguageCode].title"
-                    :caption="banner.i18n[activeLanguageCode].caption"
-                    :button-text="banner.i18n[activeLanguageCode].button"
-
-                    :title-color="banner.title_color"
-                    :caption-color="banner.caption_color"
-                    :button-color="banner.button_color"
-                    :button-background="banner.button_background_color"
-
-                    :image="banner.small_image"
-                    :background-image="backgroundType === 'image' ? banner.background_image : undefined"
-
-                    :gradient-from="banner.gradient.color_from"
-                    :gradient-to="banner.gradient.color_to"
-                    :greadient-type="banner.gradient.type"
-                    :gradient-angle="banner.gradient.angle"
-                  ></standart-banner>
                 </div>
-              </div>
+              </template>
 
-              <div class="banner-preview__row">
-                <div style="width: 100%;">
-                  <div class="banner-preview__info">
-                    В шапке, десктопный - 2450x56 px или 1920x56 px
+              <template v-if="bannerType$ === 'header'">
+                <div class="banner-preview__row">
+                  <div style="width: 100%;">
+                    <div class="banner-preview__info">
+                      В шапке, десктопный - 2450x56 px или 1920x56 px
+                    </div>
+
+                    <header-banner
+                      size="desktop"
+                      :image="backgroundType === 'image' ? banner.background_image_1 : undefined"
+
+                      :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
+
+                      :title="banner.i18n[activeLanguageCode].title"
+                      :button-text="banner.i18n[activeLanguageCode].button"
+
+                      :title-color="banner.caption_color"
+                      :caption-color="banner.caption_color"
+                      :button-color="banner.button_color"
+                      :button-background="banner.button_background_color"
+
+                      :gradient-from="banner.gradient.color_from"
+                      :gradient-to="banner.gradient.color_to"
+                      :greadient-type="banner.gradient.type"
+                      :gradient-angle="banner.gradient.angle"
+                    ></header-banner>
                   </div>
-
-                  <header-banner
-                    :image="backgroundType === 'image' ? banner.desktop_image : undefined"
-
-                    :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
-
-                    :title="banner.i18n[activeLanguageCode].title"
-                    :caption="banner.i18n[activeLanguageCode].caption"
-                    :button-text="banner.i18n[activeLanguageCode].button"
-
-                    :title-color="banner.caption_color"
-                    :caption-color="banner.caption_color"
-                    :button-color="banner.button_color"
-                    :button-background="banner.button_background_color"
-
-                    :gradient-from="banner.gradient.color_from"
-                    :gradient-to="banner.gradient.color_to"
-                    :greadient-type="banner.gradient.type"
-                    :gradient-angle="banner.gradient.angle"
-                  ></header-banner>
                 </div>
-              </div>
 
-              <div class="banner-preview__row">
-                <div style="width: 375px">
-                  <div class="banner-preview__info">
-                    В шапке, мобильный - 375x56
+                <div class="banner-preview__row">
+                  <div style="width: 375px">
+                    <div class="banner-preview__info">
+                      В шапке, мобильный - 375x56 px
+                    </div>
+
+                    <header-banner
+                      size="mobile"
+                      class="header-banner--mobile"
+                      :image="backgroundType === 'image' ? banner.background_image_2 : undefined"
+
+                      :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
+
+                      :title="banner.i18n[activeLanguageCode].title"
+                      :button-text="banner.i18n[activeLanguageCode].button"
+
+                      :title-color="banner.caption_color"
+                      :caption-color="banner.caption_color"
+                      :button-color="banner.button_color"
+                      :button-background="banner.button_background_color"
+
+                      :gradient-from="banner.gradient.color_from"
+                      :gradient-to="banner.gradient.color_to"
+                      :greadient-type="banner.gradient.type"
+                      :gradient-angle="banner.gradient.angle"
+                    ></header-banner>
                   </div>
-
-                  <header-banner
-                    class="header-banner--mobile"
-                    :image="backgroundType === 'image' ? banner.mobile_image : undefined"
-
-                    :link="prepareUrl(banner.i18n[activeLanguageCode].link)"
-
-                    :title="banner.i18n[activeLanguageCode].title"
-                    :caption="banner.i18n[activeLanguageCode].caption"
-                    :button-text="banner.i18n[activeLanguageCode].button"
-
-                    :title-color="banner.caption_color"
-                    :caption-color="banner.caption_color"
-                    :button-color="banner.button_color"
-                    :button-background="banner.button_background_color"
-
-                    :gradient-from="banner.gradient.color_from"
-                    :gradient-to="banner.gradient.color_to"
-                    :greadient-type="banner.gradient.type"
-                    :gradient-angle="banner.gradient.angle"
-                  ></header-banner>
                 </div>
-              </div>
+              </template>
+
             </div>
           </div>
         </div>
@@ -810,7 +870,7 @@
     <b-modal
       id="removeModal"
       ref="removeModal"
-      title="Удаление категории"
+      title="Удаление баннера"
       title-tag="h3"
       centered
       ok-title="Удалить"
@@ -818,7 +878,7 @@
       hide-header-close
       @ok="removeConfirm">
 
-      Вы действительно хотите удалить эту категорию?
+      Вы действительно хотите удалить баннер?
     </b-modal>
   </div>
 </template>

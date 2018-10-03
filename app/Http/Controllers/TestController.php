@@ -18,9 +18,9 @@ class TestController extends Controller
     public function test()
     {
         (new \App\Models\Admin)->saveFromRequestData([
-            'name' => 'Валерия Двуреченская',
-            'email' => 'product9@mossebo.market',
-            'password' => encodePassword('ardrKOMnyk8j'),
+            'name' => 'Владимир Сидоркин',
+            'email' => 'webdesign4@mossebo.ru',
+            'password' => encodePassword('01hT^1hbz'),
             'api_token' => str_random(60),
             'enabled' => true
         ]);

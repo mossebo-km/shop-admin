@@ -32,10 +32,15 @@ export default {
 
     search(phrase) {
       if (this.searchPhrase != phrase) {
-        this.page = 1
         this.searchPhrase = phrase
-        this.refreshTable()
       }
+
+      this.page = 1
+      this.refreshTable()
+    },
+
+    getValidSearchPhrase(value) {
+      return decodeURIComponent(value)
     },
 
     setPerPage(value) {

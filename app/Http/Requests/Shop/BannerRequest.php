@@ -20,15 +20,16 @@ class BannerRequest extends ApiRequest
         $bannerPlaces = array_column($bannerPlaces->toArray(), 'id');
 
         $rules = [
-            'title_color'      => 'required|max:9',
-            'caption_color'    => 'nullable|max:64',
+            'title_color'      => 'required|max:255',
+            'caption_color'    => 'nullable|max:255',
             'button_color'     => 'nullable|max:255',
             'button_background_color' => 'nullable|max:255',
-            'mobile_image'     => 'nullable|max:255',
-            'desktop_image'    => 'nullable|max:255',
-            'background_image' => 'nullable|max:255',
-            'small_image'      => 'nullable|max:255',
-            'enabled'          => 'boolean',
+
+            'image'              => 'nullable|max:255',
+            'background_image_1' => 'nullable|max:255',
+            'background_image_2' => 'nullable|max:255',
+
+            'enabled'            => 'boolean',
 
             'gradient.color_from' => 'nullable|max:255',
             'gradient.color_to'   => 'nullable|max:255',
@@ -51,7 +52,7 @@ class BannerRequest extends ApiRequest
         foreach (\Languages::enabled() as $language) {
             $rules["i18n.{$language['code']}"]         = "required|array";
             $rules["i18n.{$language['code']}.title"]   = 'max:255';
-            $rules["i18n.{$language['code']}.caption"] = 'bail|required|max:255';
+            $rules["i18n.{$language['code']}.caption"] = 'max:255';
             $rules["i18n.{$language['code']}.button"]  = 'max:255';
             $rules["i18n.{$language['code']}.link"]    = 'max:255';
         }

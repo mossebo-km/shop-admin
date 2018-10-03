@@ -78,7 +78,7 @@ export default {
     },
 
     getValid(key, value) {
-      let methodName = 'getValid' + Core.camelize(key, true)
+      let methodName = 'getValid' + Core.camelize(decodeURIComponent(key), true)
 
       return this[methodName](value)
     },

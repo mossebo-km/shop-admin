@@ -36,10 +36,6 @@
         return elMenu.childNodes[0].scrollHeight
       },
 
-      getMainMenuEl() {
-        return this.$el
-      },
-
       getParents(el, selector = '*') {
         let parents = []
         let p = el.parentNode
@@ -160,7 +156,6 @@
     render(createElement) {
       this.items = this.prepareItems(Core.getMainMenuData())
 
-
       let makeTitleEl = (title) => {
         return createElement(
           'span',
@@ -221,9 +216,10 @@
         return mergeDeep(target, ...sources);
       }
 
-      let makeLink = ({url, onClick, icon, title, children}) => {
+      let makeLink = ({url, onClick, icon, title, names, children}) => {
         let tagName = 'a'
         let isLocal = url ? urlIsLocal(url) : false
+        let hasChildren = children instanceof Array && children.length > 0
         let params = {
           key: Core.uniqueId()
         }
@@ -235,22 +231,25 @@
             }
           })
         }
-        if (url && isLocal) {
-          tagName = 'router-link'
-          params = mergeDeep(params, {
-            attrs: {
-              to: url,
-              'active-class': 'active'
-            }
-          })
-        }
-        else if (url && !isLocal) {
-          params = mergeDeep(params, {
-            attrs: {
-              href: url,
-              target: '_blank'
-            }
-          })
+
+        if (url && !hasChildren) {
+          if (isLocal) {
+            tagName = 'router-link'
+            params = mergeDeep(params, {
+              attrs: {
+                to: url,
+                'active-class': 'active'
+              }
+            })
+          }
+          else {
+            params = mergeDeep(params, {
+              attrs: {
+                href: url,
+                target: '_blank'
+              }
+            })
+          }
         }
         else {
           params = mergeDeep(params, {
@@ -262,7 +261,7 @@
 
         let childrenElsArray = []
 
-        if (children instanceof Array && children.length > 0) {
+        if (hasChildren) {
           params = mergeDeep(params, {
             on: {
               click: event => this.expandLinkClick(event.target.closest('.sidebar-nav-menu'))

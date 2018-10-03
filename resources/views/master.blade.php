@@ -109,7 +109,7 @@
                         <!-- Page content -->
                         <div id="page-content">
                             <loading :loading="loading">
-                                <router-view></router-view>
+                                <router-view :key="$route.path"></router-view>
                             </loading>
                         </div>
                         <!-- END Page Content -->

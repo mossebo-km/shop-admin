@@ -31,6 +31,7 @@ export default class BannersTableModel extends ModelI18n {
       },
 
       i18n: {
+        title: '',
         caption: '',
         button: '',
       }

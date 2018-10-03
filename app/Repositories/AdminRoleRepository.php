@@ -12,6 +12,6 @@ class AdminRoleRepository extends BaseRepository implements AdminRoleRepositoryC
 
     public function getCollectionRaw(): Collection
     {
-        return $this->model::orderBy('position', 'asc');
+        return $this->model::orderBy('position', 'asc')->get();
     }
 }

@@ -1,5 +1,4 @@
 <template>
-
   <component
     :is="buttonText ? 'div' : 'a'"
     :href="buttonText ? null : link"
@@ -9,16 +8,16 @@
   >
     <div class="header-banner__content">
       <div
-        v-html="title"
         :style="{color: titleColor}"
-        :class="'header-banner__title header-banner__title--' + titleLength"
-      ></div>
-
-      <div
-        :style="{color: captionColor}"
-        :class="'header-banner__caption header-banner__caption--' + captionLength"
+        class="header-banner__title"
       >
-        <span v-html="caption"></span>
+        <font-resizer
+          style="width: 100%"
+          :min-size="size === 'mobile' ? 12 : 14"
+          :max-size="size === 'mobile' ? 16 : 18"
+        >
+          <span v-html="title"></span>
+        </font-resizer>
       </div>
 
       <div v-if="buttonText" class="header-banner__button">
@@ -40,6 +39,10 @@
     mixins: [
       Mixin
     ],
+
+    props: {
+      size: String
+    },
 
     computed: {
       background() {

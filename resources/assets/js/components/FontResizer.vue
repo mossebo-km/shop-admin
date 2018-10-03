@@ -1,6 +1,6 @@
 <template>
   <div class="font-resizer">
-    <div :style="contentStyle" class="font-resizer__content js-fr-content">
+    <div :style="contentStyle" class="font-resizer__content js-fr-content text-content">
       <render :vnode="$slots.default"></render>
     </div>
 
@@ -23,7 +23,6 @@
     },
 
     props: [
-      'scaleFactor',
       'minSize',
       'maxSize',
       'tag'
@@ -43,47 +42,45 @@
     },
 
     updated() {
-      this.setStandartSizes()
-      this.setTextContentLength()
+        this.update()
     },
 
     mounted() {
-      this.$root.$on('resize', this.setWidth)
-
       this.els.standart = this.$el.querySelector('.js-fr-standart')
       this.els.content = this.$el.querySelector('.js-fr-content')
 
-      this.$nextTick(this.setWidth)
+      // this.$root.$on('resize', this.update)
+      this.update()
     },
 
     beforeDestroy() {
-      this.$root.$off('resize', this.setWidth)
+      this.$root.$off('resize', this.update)
     },
 
     methods: {
-      setWidth() {
-        this.width = this.$el.clientWidth
+      update() {
+        this.$nextTick(this.setSizes)
       },
 
-      setStandartSizes() {
+      setSizes() {
+        this.textLength = this.els.content.innerText.length
+
         this.els.standart.innerHTML = this.els.content.innerHTML
 
         let standartWidth = this.els.standart.scrollWidth
 
         this.charWidth = standartWidth / this.textLength * 1.05
         this.charLineHeight = this.els.standart.clientHeight / this.minSize
-      },
 
-      setTextContentLength() {
-        this.textLength = this.els.content.innerText.length
+        this.width = this.$el.clientWidth
       },
 
       getTextLinesCount() {
-        console.log(
-          this.els.content.clientWidth,
-          this.charWidth * this.textLength,
-          Math.ceil(this.charWidth * this.textLength / this.els.content.clientWidth)
-        )
+        // console.log(
+        //   this.els.content.clientWidth,
+        //   this.charWidth * this.textLength,
+        //   Math.ceil(this.charWidth * this.textLength / this.els.content.clientWidth)
+        // )
 
         return Math.ceil(this.charWidth * this.textLength / this.els.content.clientWidth)
       },

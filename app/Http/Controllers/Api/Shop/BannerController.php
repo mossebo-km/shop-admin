@@ -16,6 +16,8 @@ use App\Support\Traits\Controllers\StatusChangeable;
 use App\Support\Traits\Controllers\PositionChangeable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+use BannerPlaces;
+
 class BannerController extends ApiController
 {
     use Creatable, Updatable, Deleteable, StatusChangeable, PositionChangeable;
@@ -60,18 +62,23 @@ class BannerController extends ApiController
 //            if ($type === 'enabled') {
 //                $query = $query->where('enabled', true);
 //            }
+            $bannersTableName = config('tables.Banners');
+            $relationTableName = config('tables.BannerPlaceRelations');
 
             if ($place !== 'all') {
-                $bannersTableName = config('tables.Banners');
-                $relationTableName = config('tables.BannerPlaceRelations');
-
-                $query
-                    ->join("{$relationTableName}", function($join) use($bannersTableName, $relationTableName, $place) {
-                        $join->on("{$bannersTableName}.id", '=', "{$relationTableName}.banner_id")
-                            ->where("{$relationTableName}.place_id", $place);
-                    })
-                    ->groupBy(\DB::raw("{$bannersTableName}.id, {$relationTableName}.place_id, {$relationTableName}.banner_id"));
+                $places = [$place];
             }
+            else {
+                $places = array_column(BannerPlaces::byType($bannerType)->toArray(), 'id');
+            }
+
+            $query
+                ->join("{$relationTableName}", function($join) use($bannersTableName, $relationTableName, $places) {
+                    $join->on("{$bannersTableName}.id", '=', "{$relationTableName}.banner_id")
+                        ->whereIn("{$relationTableName}.place_id", $places)
+                        ->groupBy(\DB::raw("{$relationTableName}.place_id, {$relationTableName}.banner_id"));
+                })
+                ->groupBy(\DB::raw("{$bannersTableName}.id"));
 
             return $query->orderBy('id', 'desc')
                 ->paginate($perPage, null, null, $page);

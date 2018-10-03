@@ -13,6 +13,7 @@
   import TablePage from '../../../mixins/TablePage'
   import Translatable from '../../../mixins/Translatable'
   import StatusChangeable from '../../../mixins/StatusChangeable'
+  import BannersMixin from './mixin'
   import TreeSelect from '../../TreeSelect'
 
   import BannersTableModel from '../../../resources/shop/banner/BannersTableModel'
@@ -21,7 +22,13 @@
   const defaultTableState = {
     page: 1,
     perPage: 15,
-    place: 'all'
+    place: 'all',
+    bannerType$: 'default'
+  }
+
+  const bannerTypes = {
+    default: 'Стандартные',
+    header: 'В шапке',
   }
 
   export default {
@@ -32,6 +39,7 @@
       TableWithFilters,
       StatusChangeable,
       Translatable,
+      BannersMixin
     ],
 
     components : {
@@ -89,9 +97,11 @@
         totalRows: 0,
         perPageOptions: [ 15, 30, 60 ],
         ... defaultTableState,
+
         fields,
 
         bannerPlaces: [],
+        bannerTypes,
 
         banners: [],
 
@@ -114,7 +124,8 @@
             perPage,
             sortBy,
             sortType: sortDesc ? 'desc' : 'asc',
-            place: this.place
+            place: this.place,
+            bannerType: this.bannerType$
           })
             .success(response => {
               const data = response.data;
@@ -158,29 +169,57 @@
           }
 
           return acc
-        }, []).join(' ')
+        }, []).join('<br>')
+      },
+
+      getDefaultState() {
+        return defaultTableState
       },
 
       setBannerPlaces(places) {
         this.place = places
         this.refreshTable()
-      }
+      },
+
+      getValidPlace(value) {
+        value = parseInt(value)
+        let place = this.bannerPlaces.find(item => item.id === value)
+
+        if (place) {
+          return place.id
+        }
+
+        return this.getDefaultState().place
+      },
+
+      setBannerType(type) {
+        this.place = this.getDefaultState().place
+        this.bannerType$ = type
+        this.refreshTable()
+      },
+
+      getValidBannerType$(value) {
+        if (value in bannerTypes) {
+          return value
+        }
+
+        return Object.keys(bannerTypes)[0]
+      },
     },
 
     computed: {
       bannerPlacesSelect() {
+        if (this.bannerPlacesSelectOptions.length < 2) {
+          return []
+        }
 
-        return this.bannerPlaces.reduce((acc, item) => {
-          acc.push({
-            id: item.id,
-            title: item.name
-          })
-
-          return acc
-        }, [{
-          id: 'all',
-          title: 'Все'
-        }])
+        return [
+          {
+            id: 'all',
+            title: 'Все'
+          },
+          ... this.bannerPlacesSelectOptions
+        ]
       }
     }
   }
@@ -201,7 +240,7 @@
 
           <span class="btn-separator-xs"></span>
 
-          <router-link v-if="userCan('create')" to="/shop/banners/create" class="btn btn-sm btn-success active">
+          <router-link v-if="userCan('create')" :to="'/shop/banners/' + bannerType$ + '/create'" class="btn btn-sm btn-success active">
             <i class="fa fa-plus-circle"></i> Создать
           </router-link>
         </div>
@@ -211,14 +250,24 @@
         <div class="table-responsive" style="overflow: visible">
           <div class="dataTables_wrapper form-inline no-footer">
             <div class="row">
-              <div class="col-sm-6 col-xs-12 clearfix">
+              <div class="col-sm-4 col-xs-12 clearfix">
                 <div class="dataTables_paginate paging_bootstrap" v-if="showPagination">
                   <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="page" class="my-0" />
                 </div>
               </div>
 
-              <div class="col-sm-6 col-xs-12 clearfix">
-                <div class="dataTables_filter pull-right" style="min-width: 200px">
+              <div class="col-sm-4 col-xs-12 clearfix text-center">
+                <div class="btn-group">
+                  <template v-for="(title, typeIdentif) in bannerTypes">
+                    <button :class="{'btn btn-primary': true, 'btn-alt': bannerType$ !== typeIdentif}" @click="setBannerType(typeIdentif)">
+                      {{ title }}
+                    </button>
+                  </template>
+                </div>
+              </div>
+
+              <div class="col-sm-4 col-xs-12 clearfix">
+                <div v-if="bannerPlacesSelect.length" class="dataTables_filter pull-right" style="min-width: 200px">
                   <tree-select
                     :options="bannerPlacesSelect"
                     :selected="place"
@@ -243,7 +292,8 @@
               @sort-changed="sortingChanged"
               empty-text="Список баннеров пуст."
               empty-filtered-text="Баннеров с такими параметрами не найдены."
-              class="table table-vcenter table-condensed table-hover table-bordered no-footer">
+              class="table table-vcenter table-condensed table-hover table-bordered no-footer"
+              style="margin-bottom: 0;">
 
               <!--  ID  -->
 

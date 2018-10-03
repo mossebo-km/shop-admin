@@ -688,9 +688,10 @@ a.sidebar-title:focus {
 .sidebar-nav a {
     display: block;
     color: #eaedf1;
-    padding: 0 10px;
+    padding: 0 10px 0 5px;
     min-height: 35px;
     line-height: 35px;
+    border-left: 5px solid transparent;
 }
 
 .sidebar-nav a:hover,
@@ -703,8 +704,7 @@ a.sidebar-title:focus {
 }
 
 .sidebar-nav a.active {
-    padding-left: 5px;
-    border-left: 5px solid #1bbae1;
+    border-color: #1bbae1;
     background: rgba(0, 0, 0, 0.3);
 }
 
@@ -773,8 +773,7 @@ a.sidebar-title:focus {
 
 .sidebar-nav ul a.active,
 .sidebar-nav ul a.active:hover {
-    border-left: 5px solid #1bbae1;
-    padding-left: 10px;
+    border-color: #1bbae1;
 }
 
 .sidebar-nav ul ul {
@@ -782,12 +781,15 @@ a.sidebar-title:focus {
 }
 
 .sidebar-nav ul ul a {
-    padding-left: 25px;
+    padding-left: 20px;
 }
 
-.sidebar-nav ul ul a.active,
-.sidebar-nav ul ul a.active:hover {
-    padding-left: 20px;
+.sidebar-nav ul ul ul a {
+    padding-left: 30px;
+}
+
+.sidebar-nav ul ul ul ul a {
+    padding-left: 40px;
 }
 
 /* Sidebar Header */

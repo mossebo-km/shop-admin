@@ -239,7 +239,9 @@
               <div class="col-sm-4 col-xs-12 text-center clearfix">
                 <div class="btn-group">
                   <template v-for="(title, typeIdentif) in types">
-                    <button :class="{'btn btn-primary': true, 'btn-alt': type !== typeIdentif}" @click="setType(typeIdentif)">{{ title }}</button>
+                    <button :class="{'btn btn-primary': true, 'btn-alt': type !== typeIdentif}" @click="setType(typeIdentif)">
+                      {{ title }}
+                    </button>
                   </template>
                 </div>
               </div>
@@ -247,8 +249,21 @@
               <div class="col-sm-4 col-xs-12 clearfix">
                 <div class="dataTables_filter pull-right">
                   <div class="input-group">
-                    <search-input placeholder="Поиск" class="form-control" type="search" aria-controls="example-datatable" @change="search" />
-                    <a href="javascript:void(0)" class="input-group-addon" @click="search"><i class="fa fa-search"></i></a>
+                    <search-input
+                      :value="searchPhrase"
+                      placeholder="Поиск"
+                      class="form-control"
+                      type="search"
+                      aria-controls="example-datatable"
+                      @change="search" />
+
+                    <a
+                      href="javascript:void(0)"
+                      class="input-group-addon"
+                      @click="search"
+                    >
+                      <i class="fa fa-search"></i>
+                    </a>
                   </div>
                 </div>
               </div>

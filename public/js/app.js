@@ -6070,7 +6070,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
 
-  props: ['scaleFactor', 'minSize', 'maxSize', 'tag'],
+  props: ['minSize', 'maxSize', 'tag'],
 
   data: function data() {
     return {
@@ -6085,39 +6085,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
   updated: function updated() {
-    this.setStandartSizes();
-    this.setTextContentLength();
+    this.update();
   },
   mounted: function mounted() {
-    this.$root.$on('resize', this.setWidth);
-
     this.els.standart = this.$el.querySelector('.js-fr-standart');
     this.els.content = this.$el.querySelector('.js-fr-content');
 
-    this.$nextTick(this.setWidth);
+    // this.$root.$on('resize', this.update)
+    this.update();
   },
   beforeDestroy: function beforeDestroy() {
-    this.$root.$off('resize', this.setWidth);
+    this.$root.$off('resize', this.update);
   },
 
 
   methods: {
-    setWidth: function setWidth() {
-      this.width = this.$el.clientWidth;
+    update: function update() {
+      this.$nextTick(this.setSizes);
     },
-    setStandartSizes: function setStandartSizes() {
+    setSizes: function setSizes() {
+      this.textLength = this.els.content.innerText.length;
+
       this.els.standart.innerHTML = this.els.content.innerHTML;
 
       var standartWidth = this.els.standart.scrollWidth;
 
       this.charWidth = standartWidth / this.textLength * 1.05;
       this.charLineHeight = this.els.standart.clientHeight / this.minSize;
-    },
-    setTextContentLength: function setTextContentLength() {
-      this.textLength = this.els.content.innerText.length;
+
+      this.width = this.$el.clientWidth;
     },
     getTextLinesCount: function getTextLinesCount() {
-      console.log(this.els.content.clientWidth, this.charWidth * this.textLength, Math.ceil(this.charWidth * this.textLength / this.els.content.clientWidth));
+      // console.log(
+      //   this.els.content.clientWidth,
+      //   this.charWidth * this.textLength,
+      //   Math.ceil(this.charWidth * this.textLength / this.els.content.clientWidth)
+      // )
 
       return Math.ceil(this.charWidth * this.textLength / this.els.content.clientWidth);
     },
@@ -6508,9 +6511,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getMenuHeight: function getMenuHeight(elMenu) {
       return elMenu.childNodes[0].scrollHeight;
     },
-    getMainMenuEl: function getMainMenuEl() {
-      return this.$el;
-    },
     getParents: function getParents(el) {
       var selector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '*';
 
@@ -6688,10 +6688,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           onClick = _ref.onClick,
           icon = _ref.icon,
           title = _ref.title,
+          names = _ref.names,
           children = _ref.children;
 
       var tagName = 'a';
       var isLocal = url ? urlIsLocal(url) : false;
+      var hasChildren = children instanceof Array && children.length > 0;
       var params = {
         key: __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].uniqueId()
       };
@@ -6703,21 +6705,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         });
       }
-      if (url && isLocal) {
-        tagName = 'router-link';
-        params = mergeDeep(params, {
-          attrs: {
-            to: url,
-            'active-class': 'active'
-          }
-        });
-      } else if (url && !isLocal) {
-        params = mergeDeep(params, {
-          attrs: {
-            href: url,
-            target: '_blank'
-          }
-        });
+
+      if (url && !hasChildren) {
+        if (isLocal) {
+          tagName = 'router-link';
+          params = mergeDeep(params, {
+            attrs: {
+              to: url,
+              'active-class': 'active'
+            }
+          });
+        } else {
+          params = mergeDeep(params, {
+            attrs: {
+              href: url,
+              target: '_blank'
+            }
+          });
+        }
       } else {
         params = mergeDeep(params, {
           attrs: {
@@ -6728,7 +6733,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       var childrenElsArray = [];
 
-      if (children instanceof Array && children.length > 0) {
+      if (hasChildren) {
         params = mergeDeep(params, {
           on: {
             click: function click(event) {
@@ -6821,6 +6826,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.timeout = setTimeout(function () {
         _this.onSearch();
       }, this.keyUpTimeout || 300);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/TextLengthChecker.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'text-length-checker',
+
+  props: ['text', 'max'],
+
+  data: function data() {
+    return {
+      el: document.createElement('test')
+    };
+  },
+
+
+  computed: {
+    text$: function text$() {
+      this.el.innerHTML = this.text;
+
+      return this.el.innerText;
+    },
+    textLength: function textLength() {
+      return this.text$ && this.text$.length ? this.text$.length : 0;
+    },
+    hasMax: function hasMax() {
+      return !!this.max;
+    },
+    reachedMax: function reachedMax() {
+      return this.symbolsLeft === 0;
+    },
+    symbolsLeft: function symbolsLeft() {
+      return Math.max(this.max - this.textLength, 0);
     }
   }
 });
@@ -8857,15 +8916,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__LanguagePicker__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ColorSelect__ = __webpack_require__("./resources/assets/js/components/ColorSelect.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ColorSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__ColorSelect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__preview_StandartBanner__ = __webpack_require__("./resources/assets/js/components/shop/banners/preview/StandartBanner.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__preview_StandartBanner___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__preview_StandartBanner__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__preview_HeaderBanner__ = __webpack_require__("./resources/assets/js/components/shop/banners/preview/HeaderBanner.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__preview_HeaderBanner___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__preview_HeaderBanner__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__resources_shop_banner_BannerModel__ = __webpack_require__("./resources/assets/js/resources/shop/banner/BannerModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixin__ = __webpack_require__("./resources/assets/js/components/shop/banners/mixin.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ColorSelect__ = __webpack_require__("./resources/assets/js/components/ColorSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ColorSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__ColorSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__preview_StandartBanner__ = __webpack_require__("./resources/assets/js/components/shop/banners/preview/StandartBanner.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__preview_StandartBanner___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__preview_StandartBanner__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__preview_HeaderBanner__ = __webpack_require__("./resources/assets/js/components/shop/banners/preview/HeaderBanner.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__preview_HeaderBanner___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__preview_HeaderBanner__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__TextLengthChecker__ = __webpack_require__("./resources/assets/js/components/TextLengthChecker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__TextLengthChecker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__TextLengthChecker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__resources_shop_banner_BannerModel__ = __webpack_require__("./resources/assets/js/resources/shop/banner/BannerModel.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
 
 
 
@@ -8888,10 +8952,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'banner-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_6__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__mixin__["a" /* default */]],
 
   directives: {
-    Number: __WEBPACK_IMPORTED_MODULE_11__directives_number__["a" /* default */]
+    Number: __WEBPACK_IMPORTED_MODULE_13__directives_number__["a" /* default */]
   },
 
   components: {
@@ -8900,12 +8964,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     FileManager: __WEBPACK_IMPORTED_MODULE_2__FileManager___default.a,
     LanguagePicker: __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default.a,
     bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    ColorSelect: __WEBPACK_IMPORTED_MODULE_8__ColorSelect___default.a,
-    StandartBanner: __WEBPACK_IMPORTED_MODULE_9__preview_StandartBanner___default.a,
-    HeaderBanner: __WEBPACK_IMPORTED_MODULE_10__preview_HeaderBanner___default.a
+    ColorSelect: __WEBPACK_IMPORTED_MODULE_9__ColorSelect___default.a,
+    StandartBanner: __WEBPACK_IMPORTED_MODULE_10__preview_StandartBanner___default.a,
+    HeaderBanner: __WEBPACK_IMPORTED_MODULE_11__preview_HeaderBanner___default.a,
+    TextLengthChecker: __WEBPACK_IMPORTED_MODULE_12__TextLengthChecker___default.a
   },
 
-  props: ['id'],
+  props: ['id', 'bannerType'],
 
   data: function data() {
     return {
@@ -8917,6 +8982,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       usedMainData: ['languages', 'banner-places'],
 
       bannerPlaces: [],
+      bannerType$: this.bannerType,
 
       reloadDataOnSave: true
     };
@@ -8928,9 +8994,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       var data = _extends({}, this.getEntityModel());
 
       if (this.backgroundType === 'gradient') {
-        data.background_image = '';
-        data.mobile_image = '';
-        data.desktop_image = '';
+        data.background_image_1 = '';
+        data.background_image_2 = '';
       }
 
       return data;
@@ -8964,28 +9029,71 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         title: 'Градиент'
       }];
     },
+    detectBannerType: function detectBannerType() {
+      if (this.banner.places.length > 0) {
+        var placeId = this.banner.places[0];
+
+        var place = this.bannerPlaces.find(function (item) {
+          return item.id === placeId;
+        });
+
+        if (place) {
+          return place.type;
+        }
+      }
+
+      return 'default';
+    },
+    removeBannerTypeFromUrl: function removeBannerTypeFromUrl(url) {
+      return url.replace('/' + this.bannerType$, '');
+    },
+    makePageApiUrl: function makePageApiUrl(segment, segmentIsUrl) {
+      var url = this.makePageUrl(segment, segmentIsUrl);
+
+      return '/api' + this.removeBannerTypeFromUrl(url);
+    },
+    getPathToTable: function getPathToTable() {
+      var path = __WEBPACK_IMPORTED_MODULE_6__mixins_EntityPage__["a" /* default */].methods.getPathToTable.call(this);
+
+      return this.removeBannerTypeFromUrl(path);
+    },
 
 
     /**
      * Инициализация модели данных.
      */
     initEntity: function initEntity(data) {
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_12__resources_shop_banner_BannerModel__["a" /* default */](data, this.languages));
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_14__resources_shop_banner_BannerModel__["a" /* default */](data, this.languages));
 
-      if (this.banner.background_image) {
+      if (this.type === 'edit' && !this.bannerType$) {
+        this.bannerType$ = this.detectBannerType();
+      }
+
+      if (this.banner.background_image_1 || this.banner.background_image_2) {
         this.backgroundType = 'image';
       }
+
+      this.banner.places = this.bannerPlacesSelectOptions.map(function (item) {
+        return item.id;
+      });
     }
   },
 
   computed: {
-    bannerPlacesSelectOptions: function bannerPlacesSelectOptions() {
-      return this.bannerPlaces.map(function (item) {
-        return {
-          id: item.id,
-          title: item.name
-        };
-      });
+    titleMaxSize: function titleMaxSize() {
+      var size = void 0;
+
+      switch (this.bannerType$) {
+        case 'default':
+          size = 30;
+          break;
+
+        case 'header':
+          size = 50;
+          break;
+      }
+
+      return size;
     }
   }
 });
@@ -9011,11 +9119,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixins_TablePage__ = __webpack_require__("./resources/assets/js/mixins/TablePage.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mixins_StatusChangeable__ = __webpack_require__("./resources/assets/js/mixins/StatusChangeable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__TreeSelect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__resources_shop_banner_BannersTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/banner/BannersTableModel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__mixins_TableWithFilters__ = __webpack_require__("./resources/assets/js/mixins/TableWithFilters.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__mixin__ = __webpack_require__("./resources/assets/js/components/shop/banners/mixin.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__TreeSelect__ = __webpack_require__("./resources/assets/js/components/TreeSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__TreeSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__TreeSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__resources_shop_banner_BannersTableModel__ = __webpack_require__("./resources/assets/js/resources/shop/banner/BannersTableModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__mixins_TableWithFilters__ = __webpack_require__("./resources/assets/js/mixins/TableWithFilters.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 
 
 
@@ -9039,13 +9151,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var defaultTableState = {
   page: 1,
   perPage: 15,
-  place: 'all'
+  place: 'all',
+  bannerType$: 'default'
+};
+
+var bannerTypes = {
+  default: 'Стандартные',
+  header: 'В шапке'
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'banners-table',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_8__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_13__mixins_TableWithFilters__["a" /* default */], __WEBPACK_IMPORTED_MODULE_10__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__mixins_Translatable__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_8__mixins_TablePage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_14__mixins_TableWithFilters__["a" /* default */], __WEBPACK_IMPORTED_MODULE_10__mixins_StatusChangeable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_11__mixin__["a" /* default */]],
 
   components: {
     Toggle: __WEBPACK_IMPORTED_MODULE_5__Toggle___default.a,
@@ -9055,7 +9173,7 @@ var defaultTableState = {
     bFormSelect: __WEBPACK_IMPORTED_MODULE_2_bootstrap_vue_es_components_form_select_form_select__["a" /* default */],
     bModal: __WEBPACK_IMPORTED_MODULE_3_bootstrap_vue_es_components_modal_modal__["a" /* default */],
     LanguagePicker: __WEBPACK_IMPORTED_MODULE_7__LanguagePicker___default.a,
-    TreeSelect: __WEBPACK_IMPORTED_MODULE_11__TreeSelect___default.a
+    TreeSelect: __WEBPACK_IMPORTED_MODULE_12__TreeSelect___default.a
   },
 
   data: function data() {
@@ -9098,9 +9216,11 @@ var defaultTableState = {
       totalRows: 0,
       perPageOptions: [15, 30, 60]
     }, defaultTableState, {
+
       fields: fields,
 
       bannerPlaces: [],
+      bannerTypes: bannerTypes,
 
       banners: [],
 
@@ -9128,7 +9248,8 @@ var defaultTableState = {
           perPage: perPage,
           sortBy: sortBy,
           sortType: sortDesc ? 'desc' : 'asc',
-          place: _this.place
+          place: _this.place,
+          bannerType: _this.bannerType$
         }).success(function (response) {
           var data = response.data;
 
@@ -9139,7 +9260,7 @@ var defaultTableState = {
           var items = data.banners || [];
 
           resolve(items.map(function (item) {
-            return new __WEBPACK_IMPORTED_MODULE_12__resources_shop_banner_BannersTableModel__["a" /* default */](item, _this.languages);
+            return new __WEBPACK_IMPORTED_MODULE_13__resources_shop_banner_BannersTableModel__["a" /* default */](item, _this.languages);
           }));
         }).start();
       });
@@ -9177,28 +9298,51 @@ var defaultTableState = {
         }
 
         return acc;
-      }, []).join(' ');
+      }, []).join('<br>');
+    },
+    getDefaultState: function getDefaultState() {
+      return defaultTableState;
     },
     setBannerPlaces: function setBannerPlaces(places) {
       this.place = places;
       this.refreshTable();
+    },
+    getValidPlace: function getValidPlace(value) {
+      value = parseInt(value);
+      var place = this.bannerPlaces.find(function (item) {
+        return item.id === value;
+      });
+
+      if (place) {
+        return place.id;
+      }
+
+      return this.getDefaultState().place;
+    },
+    setBannerType: function setBannerType(type) {
+      this.place = this.getDefaultState().place;
+      this.bannerType$ = type;
+      this.refreshTable();
+    },
+    getValidBannerType$: function getValidBannerType$(value) {
+      if (value in bannerTypes) {
+        return value;
+      }
+
+      return Object.keys(bannerTypes)[0];
     }
   },
 
   computed: {
     bannerPlacesSelect: function bannerPlacesSelect() {
+      if (this.bannerPlacesSelectOptions.length < 2) {
+        return [];
+      }
 
-      return this.bannerPlaces.reduce(function (acc, item) {
-        acc.push({
-          id: item.id,
-          title: item.name
-        });
-
-        return acc;
-      }, [{
+      return [{
         id: 'all',
         title: 'Все'
-      }]);
+      }].concat(_toConsumableArray(this.bannerPlacesSelectOptions));
     }
   }
 });
@@ -9243,7 +9387,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -9251,6 +9394,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   name: 'header-banner',
 
   mixins: [__WEBPACK_IMPORTED_MODULE_0__mixin__["a" /* default */]],
+
+  props: {
+    size: String
+  },
 
   computed: {
     background: function background() {
@@ -9271,9 +9418,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__("./resources/assets/js/components/shop/banners/preview/mixin.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FontResizer__ = __webpack_require__("./resources/assets/js/components/FontResizer.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FontResizer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FontResizer__);
-
 
 
 
@@ -9282,14 +9426,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   mixins: [__WEBPACK_IMPORTED_MODULE_0__mixin__["a" /* default */]],
 
-  components: {
-    FontResizer: __WEBPACK_IMPORTED_MODULE_1__FontResizer___default.a
-  },
-
   props: {
     backgroundImage: null,
     caption: String,
-    captionColor: String
+    captionColor: String,
+    size: String
   }
 });
 
@@ -21075,7 +21216,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.sidebar-nav li {\n    position: relative;\n}\n.sidebar-nav .sidebar-nav-sub > ul {\n    display: block;\n}\n.sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n    height: 0;\n    overflow: hidden;\n    position: relative;\n    -webkit-transition: all .228s ease-out;\n    transition: all .228s ease-out;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n.sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n    height: 0!important;\n}\n.sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n    max-height: none;\n    -webkit-transition: none;\n    transition: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/MainMenu.vue"],"names":[],"mappings":";AAqUA;IACA,mBAAA;CACA;AAEA;IACA,eAAA;CACA;AAEA;IACA,UAAA;IACA,iBAAA;IACA,mBAAA;IACA,uCAAA;IAAA,+BAAA;IACA,wCAAA;YAAA,gCAAA;CACA;AAEA;IACA,oBAAA;CACA;AAEA;IACA,iBAAA;IACA,yBAAA;IAAA,iBAAA;CACA","file":"MainMenu.vue","sourcesContent":["<script>\n  import Core from '../core'\n  import Base from '../mixins/Base'\n\n  export default {\n    name: \"main-menu\",\n\n    data() {\n      return {\n        items: []\n      }\n    },\n\n    watch: {\n      '$route': 'checkExpanded'\n    },\n\n    mixins: [\n      Base\n    ],\n\n    mounted() {\n      this.init()\n    },\n\n    methods: {\n      init() {\n        [].forEach.call(document.querySelectorAll('.sidebar-nav-sub'), el => {\n          el.setAttribute('data-height', this.getMenuHeight(el))\n        })\n\n        this.checkExpanded()\n      },\n\n      getMenuHeight(elMenu) {\n        return elMenu.childNodes[0].scrollHeight\n      },\n\n      getMainMenuEl() {\n        return this.$el\n      },\n\n      getParents(el, selector = '*') {\n        let parents = []\n        let p = el.parentNode\n\n        while (p !== this.$el) {\n          if (p.matches(selector)) {\n            parents.push(p)\n          }\n\n          el = p\n          p = p.parentNode\n        }\n\n        return parents\n      },\n\n      checkExpanded() {\n        this.$nextTick(() => {\n          let elsToCLose = this.$el.querySelectorAll('.sidebar-nav-menu.open:not(.manual) + .sidebar-nav-sub')\n\n          ;[].forEach.call(elsToCLose, elMenu => {\n            this.closeItem(elMenu.previousSibling, elMenu)\n          })\n\n          let elActiveLink = this.$el.querySelector('a.active')\n\n          if (!elActiveLink) return\n\n          let elClosestMenu = elActiveLink.closest('.sidebar-nav-sub')\n\n          if (! elClosestMenu) return\n\n          this.expand(elClosestMenu.previousSibling, elClosestMenu)\n        })\n      },\n\n      getChildrensHeight(elMenu) {\n        return [].reduce.call(elMenu.querySelectorAll('.sidebar-nav-menu.open + .sidebar-nav-sub'), (acc, el) => {\n          return acc + parseInt(el.getAttribute('data-height'))\n        }, 0)\n      },\n\n      expandItem(elLink, elMenu) {\n        elLink.classList.add('open')\n\n        let height = parseInt(elMenu.getAttribute('data-height')) + this.getChildrensHeight(elMenu)\n        elMenu.style.height = height + 'px'\n      },\n\n      expand(elLink, elMenu) {\n        this.expandItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      closeItem(elLink, elMenu) {\n        elLink.classList.remove('open')\n        elMenu.removeAttribute('style')\n      },\n\n      close(elLink, elMenu) {\n        Array.prototype.slice.call(elMenu.querySelectorAll('.sidebar-nav-sub'))\n          .reverse().forEach(el => {\n            this.closeItem(el.previousSibling, el)\n          })\n\n        this.closeItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      expandToggle(elLink, elMenu) {\n        if (elLink.classList.contains('open')) {\n          this.close(elLink, elMenu)\n        }\n        else {\n          this.expand(elLink, elMenu)\n        }\n      },\n\n      expandLinkClick(elLink) {\n        elLink.classList.toggle('manual')\n        this.expandToggle(elLink, elLink.nextSibling)\n      },\n\n      prepareItems(menuItems = []) {\n        return menuItems.reduce((acc, item) => {\n          if (item.permission && !this.userCan(item.permission)) {\n            return acc\n          }\n\n          if (item.children instanceof Array && item.children.length > 0) {\n            let children = this.prepareItems(item.children)\n\n            if (children.length === 0) {\n              return acc\n            }\n\n            acc.push({\n              ... item,\n              children\n            })\n\n            return acc\n          }\n\n          acc.push(item)\n\n          return acc\n        }, [])\n      }\n    },\n\n    render(createElement) {\n      this.items = this.prepareItems(Core.getMainMenuData())\n\n\n      let makeTitleEl = (title) => {\n        return createElement(\n          'span',\n          {\n            attrs: {\n              class: 'sidebar-nav-mini-hide'\n            }\n          },\n          title\n        )\n      }\n\n      let __makeIconEl = iconClasses => {\n        return createElement(\n          'i',\n          {\n            attrs: {\n              class: iconClasses\n            }\n          }\n        )\n      }\n\n      let makeIconEl = iconCLasses => {\n        return __makeIconEl(`${iconCLasses} sidebar-nav-icon`)\n      }\n\n      let makeIndicatorEl = () => {\n        return __makeIconEl('fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide')\n      }\n\n      let urlIsLocal = (url) => {\n        url = Core.trim(url)\n\n        if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {\n            return url.indexOf(window.location.origin) === 0\n        }\n\n        return true\n      }\n\n      function mergeDeep(target, ...sources) {\n        if (!sources.length) return target;\n        const source = sources.shift();\n\n        if (_.isObject(target) && _.isObject(source)) {\n          for (const key in source) {\n            if (_.isObject(source[key]) && !_.isFunction(source[key])) {\n              if (!target[key]) Object.assign(target, { [key]: {} });\n              mergeDeep(target[key], source[key]);\n            }\n            else {\n              Object.assign(target, { [key]: source[key] });\n            }\n          }\n        }\n\n        return mergeDeep(target, ...sources);\n      }\n\n      let makeLink = ({url, onClick, icon, title, children}) => {\n        let tagName = 'a'\n        let isLocal = url ? urlIsLocal(url) : false\n        let params = {\n          key: Core.uniqueId()\n        }\n\n        if (typeof onClick === 'function') {\n          params = mergeDeep(params, {\n            on: {\n              click: onClick\n            }\n          })\n        }\n        if (url && isLocal) {\n          tagName = 'router-link'\n          params = mergeDeep(params, {\n            attrs: {\n              to: url,\n              'active-class': 'active'\n            }\n          })\n        }\n        else if (url && !isLocal) {\n          params = mergeDeep(params, {\n            attrs: {\n              href: url,\n              target: '_blank'\n            }\n          })\n        }\n        else {\n          params = mergeDeep(params, {\n            attrs: {\n              href: 'javascript:void(0);'\n            }\n          })\n        }\n\n        let childrenElsArray = []\n\n        if (children instanceof Array && children.length > 0) {\n          params = mergeDeep(params, {\n            on: {\n              click: event => this.expandLinkClick(event.target.closest('.sidebar-nav-menu'))\n            },\n            attrs: {\n              class: 'sidebar-nav-menu'\n            }\n          })\n\n          childrenElsArray.push(makeIndicatorEl())\n        }\n\n        if (icon) {\n          childrenElsArray.push(makeIconEl(icon))\n        }\n\n        if (title) {\n          childrenElsArray.push(makeTitleEl(title))\n        }\n\n        return createElement(tagName, params, childrenElsArray)\n      }\n\n      let makeElsLiArray = (items = []) => {\n        return items.reduce((acc, item) => {\n          let slots = [makeLink(item)]\n\n          if (item.children) {\n\n            slots.push(createElement(\n              'div',\n              {\n                attrs: {\n                  class: 'sidebar-nav-sub'\n                }\n              },\n              [createElement('ul', makeElsLiArray(item.children))]\n            ))\n          }\n\n          acc.push(createElement('li', slots))\n\n          return acc\n        }, [])\n      }\n\n      return createElement(\n        'ul',\n        {\n          attrs: {\n            class: 'sidebar-nav'\n          }\n        },\n        makeElsLiArray(this.items)\n      )\n    }\n  }\n</script>\n\n<style>\n    .sidebar-nav li {\n        position: relative;\n    }\n\n    .sidebar-nav .sidebar-nav-sub > ul {\n        display: block;\n    }\n\n    .sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n        height: 0;\n        overflow: hidden;\n        position: relative;\n        transition: all .228s ease-out;\n        transform: translate3d(0, 0, 0);\n    }\n\n    .sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n        height: 0!important;\n    }\n\n    .sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n        max-height: none;\n        transition: none;\n    }\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.sidebar-nav li {\n    position: relative;\n}\n.sidebar-nav .sidebar-nav-sub > ul {\n    display: block;\n}\n.sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n    height: 0;\n    overflow: hidden;\n    position: relative;\n    -webkit-transition: all .228s ease-out;\n    transition: all .228s ease-out;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n.sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n    height: 0!important;\n}\n.sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n    max-height: none;\n    -webkit-transition: none;\n    transition: none;\n}\n", "", {"version":3,"sources":["/Users/Urij/code/mossebo-shop-admin/resources/assets/js/components/resources/assets/js/components/MainMenu.vue"],"names":[],"mappings":";AAoUA;IACA,mBAAA;CACA;AAEA;IACA,eAAA;CACA;AAEA;IACA,UAAA;IACA,iBAAA;IACA,mBAAA;IACA,uCAAA;IAAA,+BAAA;IACA,wCAAA;YAAA,gCAAA;CACA;AAEA;IACA,oBAAA;CACA;AAEA;IACA,iBAAA;IACA,yBAAA;IAAA,iBAAA;CACA","file":"MainMenu.vue","sourcesContent":["<script>\n  import Core from '../core'\n  import Base from '../mixins/Base'\n\n  export default {\n    name: \"main-menu\",\n\n    data() {\n      return {\n        items: []\n      }\n    },\n\n    watch: {\n      '$route': 'checkExpanded'\n    },\n\n    mixins: [\n      Base\n    ],\n\n    mounted() {\n      this.init()\n    },\n\n    methods: {\n      init() {\n        [].forEach.call(document.querySelectorAll('.sidebar-nav-sub'), el => {\n          el.setAttribute('data-height', this.getMenuHeight(el))\n        })\n\n        this.checkExpanded()\n      },\n\n      getMenuHeight(elMenu) {\n        return elMenu.childNodes[0].scrollHeight\n      },\n\n      getParents(el, selector = '*') {\n        let parents = []\n        let p = el.parentNode\n\n        while (p !== this.$el) {\n          if (p.matches(selector)) {\n            parents.push(p)\n          }\n\n          el = p\n          p = p.parentNode\n        }\n\n        return parents\n      },\n\n      checkExpanded() {\n        this.$nextTick(() => {\n          let elsToCLose = this.$el.querySelectorAll('.sidebar-nav-menu.open:not(.manual) + .sidebar-nav-sub')\n\n          ;[].forEach.call(elsToCLose, elMenu => {\n            this.closeItem(elMenu.previousSibling, elMenu)\n          })\n\n          let elActiveLink = this.$el.querySelector('a.active')\n\n          if (!elActiveLink) return\n\n          let elClosestMenu = elActiveLink.closest('.sidebar-nav-sub')\n\n          if (! elClosestMenu) return\n\n          this.expand(elClosestMenu.previousSibling, elClosestMenu)\n        })\n      },\n\n      getChildrensHeight(elMenu) {\n        return [].reduce.call(elMenu.querySelectorAll('.sidebar-nav-menu.open + .sidebar-nav-sub'), (acc, el) => {\n          return acc + parseInt(el.getAttribute('data-height'))\n        }, 0)\n      },\n\n      expandItem(elLink, elMenu) {\n        elLink.classList.add('open')\n\n        let height = parseInt(elMenu.getAttribute('data-height')) + this.getChildrensHeight(elMenu)\n        elMenu.style.height = height + 'px'\n      },\n\n      expand(elLink, elMenu) {\n        this.expandItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      closeItem(elLink, elMenu) {\n        elLink.classList.remove('open')\n        elMenu.removeAttribute('style')\n      },\n\n      close(elLink, elMenu) {\n        Array.prototype.slice.call(elMenu.querySelectorAll('.sidebar-nav-sub'))\n          .reverse().forEach(el => {\n            this.closeItem(el.previousSibling, el)\n          })\n\n        this.closeItem(elLink, elMenu)\n\n        ;[].forEach.call(this.getParents(elLink, '.sidebar-nav-sub'), el => {\n          this.expandItem(el.previousSibling, el)\n        })\n      },\n\n      expandToggle(elLink, elMenu) {\n        if (elLink.classList.contains('open')) {\n          this.close(elLink, elMenu)\n        }\n        else {\n          this.expand(elLink, elMenu)\n        }\n      },\n\n      expandLinkClick(elLink) {\n        elLink.classList.toggle('manual')\n        this.expandToggle(elLink, elLink.nextSibling)\n      },\n\n      prepareItems(menuItems = []) {\n        return menuItems.reduce((acc, item) => {\n          if (item.permission && !this.userCan(item.permission)) {\n            return acc\n          }\n\n          if (item.children instanceof Array && item.children.length > 0) {\n            let children = this.prepareItems(item.children)\n\n            if (children.length === 0) {\n              return acc\n            }\n\n            acc.push({\n              ... item,\n              children\n            })\n\n            return acc\n          }\n\n          acc.push(item)\n\n          return acc\n        }, [])\n      }\n    },\n\n    render(createElement) {\n      this.items = this.prepareItems(Core.getMainMenuData())\n\n      let makeTitleEl = (title) => {\n        return createElement(\n          'span',\n          {\n            attrs: {\n              class: 'sidebar-nav-mini-hide'\n            }\n          },\n          title\n        )\n      }\n\n      let __makeIconEl = iconClasses => {\n        return createElement(\n          'i',\n          {\n            attrs: {\n              class: iconClasses\n            }\n          }\n        )\n      }\n\n      let makeIconEl = iconCLasses => {\n        return __makeIconEl(`${iconCLasses} sidebar-nav-icon`)\n      }\n\n      let makeIndicatorEl = () => {\n        return __makeIconEl('fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide')\n      }\n\n      let urlIsLocal = (url) => {\n        url = Core.trim(url)\n\n        if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0) {\n            return url.indexOf(window.location.origin) === 0\n        }\n\n        return true\n      }\n\n      function mergeDeep(target, ...sources) {\n        if (!sources.length) return target;\n        const source = sources.shift();\n\n        if (_.isObject(target) && _.isObject(source)) {\n          for (const key in source) {\n            if (_.isObject(source[key]) && !_.isFunction(source[key])) {\n              if (!target[key]) Object.assign(target, { [key]: {} });\n              mergeDeep(target[key], source[key]);\n            }\n            else {\n              Object.assign(target, { [key]: source[key] });\n            }\n          }\n        }\n\n        return mergeDeep(target, ...sources);\n      }\n\n      let makeLink = ({url, onClick, icon, title, names, children}) => {\n        let tagName = 'a'\n        let isLocal = url ? urlIsLocal(url) : false\n        let hasChildren = children instanceof Array && children.length > 0\n        let params = {\n          key: Core.uniqueId()\n        }\n\n        if (typeof onClick === 'function') {\n          params = mergeDeep(params, {\n            on: {\n              click: onClick\n            }\n          })\n        }\n\n        if (url && !hasChildren) {\n          if (isLocal) {\n            tagName = 'router-link'\n            params = mergeDeep(params, {\n              attrs: {\n                to: url,\n                'active-class': 'active'\n              }\n            })\n          }\n          else {\n            params = mergeDeep(params, {\n              attrs: {\n                href: url,\n                target: '_blank'\n              }\n            })\n          }\n        }\n        else {\n          params = mergeDeep(params, {\n            attrs: {\n              href: 'javascript:void(0);'\n            }\n          })\n        }\n\n        let childrenElsArray = []\n\n        if (hasChildren) {\n          params = mergeDeep(params, {\n            on: {\n              click: event => this.expandLinkClick(event.target.closest('.sidebar-nav-menu'))\n            },\n            attrs: {\n              class: 'sidebar-nav-menu'\n            }\n          })\n\n          childrenElsArray.push(makeIndicatorEl())\n        }\n\n        if (icon) {\n          childrenElsArray.push(makeIconEl(icon))\n        }\n\n        if (title) {\n          childrenElsArray.push(makeTitleEl(title))\n        }\n\n        return createElement(tagName, params, childrenElsArray)\n      }\n\n      let makeElsLiArray = (items = []) => {\n        return items.reduce((acc, item) => {\n          let slots = [makeLink(item)]\n\n          if (item.children) {\n\n            slots.push(createElement(\n              'div',\n              {\n                attrs: {\n                  class: 'sidebar-nav-sub'\n                }\n              },\n              [createElement('ul', makeElsLiArray(item.children))]\n            ))\n          }\n\n          acc.push(createElement('li', slots))\n\n          return acc\n        }, [])\n      }\n\n      return createElement(\n        'ul',\n        {\n          attrs: {\n            class: 'sidebar-nav'\n          }\n        },\n        makeElsLiArray(this.items)\n      )\n    }\n  }\n</script>\n\n<style>\n    .sidebar-nav li {\n        position: relative;\n    }\n\n    .sidebar-nav .sidebar-nav-sub > ul {\n        display: block;\n    }\n\n    .sidebar-nav .sidebar-nav-menu + .sidebar-nav-sub {\n        height: 0;\n        overflow: hidden;\n        position: relative;\n        transition: all .228s ease-out;\n        transform: translate3d(0, 0, 0);\n    }\n\n    .sidebar-nav .sidebar-nav-menu:not(.open) + .sidebar-nav-sub {\n        height: 0!important;\n    }\n\n    .sidebar-nav .sidebar-nav-menu.open .sidebar-nav-menu:not(.open) {\n        max-height: none;\n        transition: none;\n    }\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -66412,8 +66553,8 @@ var render = function() {
                                       {
                                         name: "validate",
                                         rawName: "v-validate",
-                                        value: "max:9",
-                                        expression: "'max:9'"
+                                        value: "max:255",
+                                        expression: "'max:255'"
                                       }
                                     ],
                                     staticClass: "form-control",
@@ -66441,151 +66582,195 @@ var render = function() {
                                   }),
                                   _vm._v(" "),
                                   _c(
-                                    "span",
-                                    {
-                                      directives: [
-                                        {
-                                          name: "show",
-                                          rawName: "v-show",
-                                          value: _vm.formErrors.has(
-                                            "i18n." + language.code + ".title"
-                                          ),
-                                          expression:
-                                            "formErrors.has(`i18n.${language.code}.title`)"
-                                        }
-                                      ],
-                                      staticClass: "help-block"
-                                    },
+                                    "div",
+                                    { staticClass: "clearfix" },
                                     [
-                                      _vm._v(
-                                        "\n                    " +
-                                          _vm._s(
-                                            _vm.formErrors.first(
-                                              "i18n." + language.code + ".title"
-                                            )
-                                          ) +
-                                          "\n                  "
+                                      _c("text-length-checker", {
+                                        staticClass:
+                                          "help-block pull-right media-right",
+                                        attrs: {
+                                          text:
+                                            _vm.banner.i18n[language.code]
+                                              .title,
+                                          max: _vm.titleMaxSize
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.formErrors.has(
+                                                "i18n." +
+                                                  language.code +
+                                                  ".title"
+                                              ),
+                                              expression:
+                                                "formErrors.has(`i18n.${language.code}.title`)"
+                                            }
+                                          ],
+                                          staticClass: "help-block"
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                      " +
+                                              _vm._s(
+                                                _vm.formErrors.first(
+                                                  "i18n." +
+                                                    language.code +
+                                                    ".title"
+                                                )
+                                              ) +
+                                              "\n                    "
+                                          )
+                                        ]
                                       )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("span", { staticClass: "help-block" }, [
-                                    _vm._v(
-                                      "\n                    До 9 символов\n                  "
-                                    )
-                                  ])
+                                    ],
+                                    1
+                                  )
                                 ])
                               ]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                class:
-                                  "form-group" +
-                                  (_vm.formErrors.has(
-                                    "i18n." + language.code + ".caption"
-                                  )
-                                    ? " has-error"
-                                    : "")
-                              },
-                              [
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass: "col-md-3 control-label",
-                                    attrs: { for: "caption-" + language.code }
-                                  },
-                                  [
-                                    _vm._v("\n                  Описание "),
-                                    _c("span", { staticClass: "text-danger" }, [
-                                      _vm._v("*")
-                                    ])
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-md-9" }, [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value:
-                                          _vm.banner.i18n[language.code]
-                                            .caption,
-                                        expression:
-                                          "banner.i18n[language.code].caption"
-                                      },
-                                      {
-                                        name: "validate",
-                                        rawName: "v-validate",
-                                        value: "max:64",
-                                        expression: "'max:64'"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      id: "caption-" + language.code,
-                                      name: "i18n." + language.code + ".caption"
-                                    },
-                                    domProps: {
-                                      value:
-                                        _vm.banner.i18n[language.code].caption
-                                    },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.banner.i18n[language.code],
-                                          "caption",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  }),
-                                  _vm._v(" "),
+                            _vm.bannerType$ === "default"
+                              ? [
                                   _c(
-                                    "span",
+                                    "div",
                                     {
-                                      directives: [
-                                        {
-                                          name: "show",
-                                          rawName: "v-show",
-                                          value: _vm.formErrors.has(
-                                            "i18n." + language.code + ".caption"
-                                          ),
-                                          expression:
-                                            "formErrors.has(`i18n.${language.code}.caption`)"
-                                        }
-                                      ],
-                                      staticClass: "help-block"
+                                      class:
+                                        "form-group clearfix" +
+                                        (_vm.formErrors.has(
+                                          "i18n." + language.code + ".caption"
+                                        )
+                                          ? " has-error"
+                                          : "")
                                     },
                                     [
-                                      _vm._v(
-                                        "\n                    " +
-                                          _vm._s(
-                                            _vm.formErrors.first(
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "col-md-3 control-label",
+                                          attrs: {
+                                            for: "caption-" + language.code
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                    Описание "
+                                          ),
+                                          _c(
+                                            "span",
+                                            { staticClass: "text-danger" },
+                                            [_vm._v("*")]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "col-md-9" }, [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value:
+                                                _vm.banner.i18n[language.code]
+                                                  .caption,
+                                              expression:
+                                                "banner.i18n[language.code].caption"
+                                            },
+                                            {
+                                              name: "validate",
+                                              rawName: "v-validate",
+                                              value: "max:255",
+                                              expression: "'max:255'"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: {
+                                            type: "text",
+                                            id: "caption-" + language.code,
+                                            name:
                                               "i18n." +
-                                                language.code +
-                                                ".caption"
+                                              language.code +
+                                              ".caption"
+                                          },
+                                          domProps: {
+                                            value:
+                                              _vm.banner.i18n[language.code]
+                                                .caption
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.banner.i18n[language.code],
+                                                "caption",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "clearfix" },
+                                          [
+                                            _c("text-length-checker", {
+                                              staticClass:
+                                                "help-block pull-right media-right",
+                                              attrs: {
+                                                text:
+                                                  _vm.banner.i18n[language.code]
+                                                    .caption,
+                                                max: "60"
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "span",
+                                              {
+                                                directives: [
+                                                  {
+                                                    name: "show",
+                                                    rawName: "v-show",
+                                                    value: _vm.formErrors.has(
+                                                      "i18n." +
+                                                        language.code +
+                                                        ".caption"
+                                                    ),
+                                                    expression:
+                                                      "formErrors.has(`i18n.${language.code}.caption`)"
+                                                  }
+                                                ],
+                                                staticClass: "help-block"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                      " +
+                                                    _vm._s(
+                                                      _vm.formErrors.first(
+                                                        "i18n." +
+                                                          language.code +
+                                                          ".caption"
+                                                      )
+                                                    ) +
+                                                    "\n                    "
+                                                )
+                                              ]
                                             )
-                                          ) +
-                                          "\n                  "
-                                      )
+                                          ],
+                                          1
+                                        )
+                                      ])
                                     ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("span", { staticClass: "help-block" }, [
-                                    _vm._v(
-                                      "\n                    До 64 символов\n                  "
-                                    )
-                                  ])
-                                ])
-                              ]
-                            ),
+                                  )
+                                ]
+                              : _vm._e(),
                             _vm._v(" "),
                             _c(
                               "div",
@@ -66785,7 +66970,8 @@ var render = function() {
                                 ])
                               ]
                             )
-                          ]
+                          ],
+                          2
                         )
                       ]
                     })
@@ -66796,42 +66982,159 @@ var render = function() {
                 _c("div", { staticClass: "block" }, [
                   _vm._m(2),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-horizontal form-bordered" }, [
-                    _c(
-                      "div",
-                      {
-                        class:
-                          "form-group" +
-                          (_vm.formErrors.has("places") ? " has-error" : "")
-                      },
-                      [
-                        _c("label", { staticClass: "col-md-3 control-label" }, [
-                          _vm._v(
-                            "\n                Места размещения\n              "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "col-md-9" },
-                          [
-                            _c("tree-select", {
-                              attrs: {
-                                options: _vm.bannerPlacesSelectOptions,
-                                selected: _vm.banner.places,
-                                multiple: true,
-                                params: {
-                                  minimumResultsForSearch: -1,
-                                  allowClear: false,
-                                  closeOnSelect: false
-                                }
+                  _c(
+                    "div",
+                    { staticClass: "form-horizontal form-bordered" },
+                    [
+                      _vm.bannerPlacesSelectOptions.length > 1
+                        ? [
+                            _c(
+                              "div",
+                              {
+                                class:
+                                  "form-group" +
+                                  (_vm.formErrors.has("places")
+                                    ? " has-error"
+                                    : "")
                               },
-                              on: {
-                                "update:selected": function($event) {
-                                  _vm.$set(_vm.banner, "places", $event)
-                                }
-                              }
-                            }),
+                              [
+                                _c(
+                                  "label",
+                                  { staticClass: "col-md-3 control-label" },
+                                  [
+                                    _vm._v(
+                                      "\n                  Места размещения\n                "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "col-md-9" },
+                                  [
+                                    _c("tree-select", {
+                                      attrs: {
+                                        options: _vm.bannerPlacesSelectOptions,
+                                        selected: _vm.banner.places,
+                                        multiple: true,
+                                        params: {
+                                          minimumResultsForSearch: -1,
+                                          allowClear: false,
+                                          closeOnSelect: false
+                                        }
+                                      },
+                                      on: {
+                                        "update:selected": function($event) {
+                                          _vm.$set(_vm.banner, "places", $event)
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        directives: [
+                                          {
+                                            name: "show",
+                                            rawName: "v-show",
+                                            value: _vm.formErrors.has("places"),
+                                            expression:
+                                              "formErrors.has('places')"
+                                          }
+                                        ],
+                                        staticClass: "help-block"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                  " +
+                                            _vm._s(
+                                              _vm.formErrors.first("places")
+                                            ) +
+                                            "\n                "
+                                        )
+                                      ]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ]
+                            )
+                          ]
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          class:
+                            "form-group" +
+                            (_vm.formErrors.has("enabled") ? " has-error" : "")
+                        },
+                        [
+                          _c(
+                            "label",
+                            { staticClass: "col-md-3 control-label" },
+                            [
+                              _vm._v(
+                                "\n                Опубликовано\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-9" }, [
+                            _c(
+                              "label",
+                              { staticClass: "switch switch-primary" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.banner.enabled,
+                                      expression: "banner.enabled"
+                                    }
+                                  ],
+                                  attrs: { type: "checkbox" },
+                                  domProps: {
+                                    checked: Array.isArray(_vm.banner.enabled)
+                                      ? _vm._i(_vm.banner.enabled, null) > -1
+                                      : _vm.banner.enabled
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$a = _vm.banner.enabled,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = null,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            _vm.$set(
+                                              _vm.banner,
+                                              "enabled",
+                                              $$a.concat([$$v])
+                                            )
+                                        } else {
+                                          $$i > -1 &&
+                                            _vm.$set(
+                                              _vm.banner,
+                                              "enabled",
+                                              $$a
+                                                .slice(0, $$i)
+                                                .concat($$a.slice($$i + 1))
+                                            )
+                                        }
+                                      } else {
+                                        _vm.$set(_vm.banner, "enabled", $$c)
+                                      }
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("span")
+                              ]
+                            ),
                             _vm._v(" "),
                             _c(
                               "span",
@@ -66840,8 +67143,8 @@ var render = function() {
                                   {
                                     name: "show",
                                     rawName: "v-show",
-                                    value: _vm.formErrors.has("places"),
-                                    expression: "formErrors.has('places')"
+                                    value: _vm.formErrors.has("enabled"),
+                                    expression: "formErrors.has('enabled')"
                                   }
                                 ],
                                 staticClass: "help-block"
@@ -66849,160 +67152,65 @@ var render = function() {
                               [
                                 _vm._v(
                                   "\n                  " +
-                                    _vm._s(_vm.formErrors.first("places")) +
+                                    _vm._s(_vm.formErrors.first("enabled")) +
                                     "\n                "
                                 )
                               ]
                             )
-                          ],
-                          1
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        class:
-                          "form-group" +
-                          (_vm.formErrors.has("enabled") ? " has-error" : "")
-                      },
-                      [
-                        _c("label", { staticClass: "col-md-3 control-label" }, [
-                          _vm._v(
-                            "\n                Опубликовано\n              "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-9" }, [
-                          _c(
-                            "label",
-                            { staticClass: "switch switch-primary" },
-                            [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.banner.enabled,
-                                    expression: "banner.enabled"
-                                  }
-                                ],
-                                attrs: { type: "checkbox" },
-                                domProps: {
-                                  checked: Array.isArray(_vm.banner.enabled)
-                                    ? _vm._i(_vm.banner.enabled, null) > -1
-                                    : _vm.banner.enabled
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.banner.enabled,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? true : false
-                                    if (Array.isArray($$a)) {
-                                      var $$v = null,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          _vm.$set(
-                                            _vm.banner,
-                                            "enabled",
-                                            $$a.concat([$$v])
-                                          )
-                                      } else {
-                                        $$i > -1 &&
-                                          _vm.$set(
-                                            _vm.banner,
-                                            "enabled",
-                                            $$a
-                                              .slice(0, $$i)
-                                              .concat($$a.slice($$i + 1))
-                                          )
-                                      }
-                                    } else {
-                                      _vm.$set(_vm.banner, "enabled", $$c)
-                                    }
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("span")
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.formErrors.has("enabled"),
-                                  expression: "formErrors.has('enabled')"
-                                }
-                              ],
-                              staticClass: "help-block"
-                            },
-                            [
-                              _vm._v(
-                                "\n                  " +
-                                  _vm._s(_vm.formErrors.first("enabled")) +
-                                  "\n                "
-                              )
-                            ]
-                          )
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _vm.banner.created_at
-                      ? _c("div", { staticClass: "form-group" }, [
-                          _c(
-                            "label",
-                            { staticClass: "col-md-3 control-label" },
-                            [
-                              _vm._v(
-                                "\n                Дата создания\n              "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-9" }, [
-                            _c("p", { staticClass: "form-control-static" }, [
-                              _vm._v(
-                                "\n                  " +
-                                  _vm._s(_vm.banner.created_at) +
-                                  "\n                "
-                              )
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm.banner.created_at
+                        ? _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              { staticClass: "col-md-3 control-label" },
+                              [
+                                _vm._v(
+                                  "\n                Дата создания\n              "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-9" }, [
+                              _c("p", { staticClass: "form-control-static" }, [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.banner.created_at) +
+                                    "\n                "
+                                )
+                              ])
                             ])
                           ])
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.banner.updated_at
-                      ? _c("div", { staticClass: "form-group" }, [
-                          _c(
-                            "label",
-                            { staticClass: "col-md-3 control-label" },
-                            [
-                              _vm._v(
-                                "\n                Последнее изменение\n              "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-9" }, [
-                            _c("p", { staticClass: "form-control-static" }, [
-                              _vm._v(
-                                "\n                  " +
-                                  _vm._s(_vm.banner.updated_at) +
-                                  "\n                "
-                              )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.banner.updated_at
+                        ? _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              { staticClass: "col-md-3 control-label" },
+                              [
+                                _vm._v(
+                                  "\n                Последнее изменение\n              "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-9" }, [
+                              _c("p", { staticClass: "form-control-static" }, [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.banner.updated_at) +
+                                    "\n                "
+                                )
+                              ])
                             ])
                           ])
-                        ])
-                      : _vm._e()
-                  ])
+                        : _vm._e()
+                    ],
+                    2
+                  )
                 ])
               ]),
               _vm._v(" "),
@@ -67248,36 +67456,52 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "block" }, [
-                  _vm._m(8),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-horizontal form-bordered" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { staticClass: "col-md-3 control-label" }, [
-                        _vm._v("\n                Изображение\n              ")
-                      ]),
+                _vm.bannerType$ === "default"
+                  ? _c("div", { staticClass: "block" }, [
+                      _vm._m(8),
                       _vm._v(" "),
                       _c(
                         "div",
-                        { staticClass: "col-md-9" },
+                        { staticClass: "form-horizontal form-bordered" },
                         [
-                          _c("file-manager", {
-                            attrs: {
-                              id: "small_image",
-                              file: _vm.banner.small_image
-                            },
-                            on: {
-                              "update:file": function($event) {
-                                _vm.$set(_vm.banner, "small_image", $event)
-                              }
-                            }
-                          })
-                        ],
-                        1
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              { staticClass: "col-md-3 control-label" },
+                              [
+                                _vm._v(
+                                  "\n                Изображение\n              "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "col-md-9" },
+                              [
+                                _c("file-manager", {
+                                  attrs: {
+                                    id: "small_image",
+                                    file: _vm.banner.small_image
+                                  },
+                                  on: {
+                                    "update:file": function($event) {
+                                      _vm.$set(
+                                        _vm.banner,
+                                        "small_image",
+                                        $event
+                                      )
+                                    }
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        ]
                       )
                     ])
-                  ])
-                ]),
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "block" }, [
                   _vm._m(9),
@@ -67613,7 +67837,7 @@ var render = function() {
                                 { staticClass: "col-md-3 control-label" },
                                 [
                                   _vm._v(
-                                    "\n                  Стандартное фоновое изображение\n                "
+                                    "\n                  Стандартный фон\n                "
                                   )
                                 ]
                               ),
@@ -67624,14 +67848,14 @@ var render = function() {
                                 [
                                   _c("file-manager", {
                                     attrs: {
-                                      id: "background_image",
-                                      file: _vm.banner.background_image
+                                      id: "background_image_1",
+                                      file: _vm.banner.background_image_1
                                     },
                                     on: {
                                       "update:file": function($event) {
                                         _vm.$set(
                                           _vm.banner,
-                                          "background_image",
+                                          "background_image_1",
                                           $event
                                         )
                                       }
@@ -67647,45 +67871,23 @@ var render = function() {
                                 "label",
                                 { staticClass: "col-md-3 control-label" },
                                 [
-                                  _vm._v(
-                                    "\n                  Мобильное изображение в шапке\n                "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-md-9" },
-                                [
-                                  _c("file-manager", {
-                                    attrs: {
-                                      id: "mobile_image",
-                                      file: _vm.banner.mobile_image
-                                    },
-                                    on: {
-                                      "update:file": function($event) {
-                                        _vm.$set(
-                                          _vm.banner,
-                                          "mobile_image",
-                                          $event
+                                  _vm.bannerType$ === "default"
+                                    ? [
+                                        _vm._v(
+                                          "\n                    Горизонтальный фон\n                  "
                                         )
-                                      }
-                                    }
-                                  })
+                                      ]
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.bannerType$ === "header"
+                                    ? [
+                                        _vm._v(
+                                          "\n                    Фон в мобильной версии\n                  "
+                                        )
+                                      ]
+                                    : _vm._e()
                                 ],
-                                1
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "form-group" }, [
-                              _c(
-                                "label",
-                                { staticClass: "col-md-3 control-label" },
-                                [
-                                  _vm._v(
-                                    "\n                  Десктопное изображение в шапке\n                "
-                                  )
-                                ]
+                                2
                               ),
                               _vm._v(" "),
                               _c(
@@ -67694,14 +67896,14 @@ var render = function() {
                                 [
                                   _c("file-manager", {
                                     attrs: {
-                                      id: "desktop_image",
-                                      file: _vm.banner.desktop_image
+                                      id: "background_image_2",
+                                      file: _vm.banner.background_image_2
                                     },
                                     on: {
                                       "update:file": function($event) {
                                         _vm.$set(
                                           _vm.banner,
-                                          "desktop_image",
+                                          "background_image_2",
                                           $event
                                         )
                                       }
@@ -67723,220 +67925,293 @@ var render = function() {
                 _c("div", { staticClass: "block" }, [
                   _vm._m(14),
                   _vm._v(" "),
-                  _c("div", { staticClass: "banner-preview" }, [
-                    _c("div", { staticClass: "banner-preview__row" }, [
-                      _c(
-                        "div",
-                        { staticStyle: { width: "100%" } },
-                        [
-                          _c("div", { staticClass: "banner-preview__info" }, [
-                            _vm._v(
-                              "\n                  Горизонтальный - 856x96 px\n                "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("standart-banner", {
-                            staticClass: "banner--long",
-                            attrs: {
-                              link: _vm.prepareUrl(
-                                _vm.banner.i18n[_vm.activeLanguageCode].link
+                  _c(
+                    "div",
+                    {
+                      class: "banner-preview banner-preview--" + _vm.bannerType$
+                    },
+                    [
+                      _vm.bannerType$ === "default"
+                        ? [
+                            _c("div", { staticClass: "banner-preview__row" }, [
+                              _c(
+                                "div",
+                                { staticClass: "banner-preview__big" },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "banner-preview__info" },
+                                    [
+                                      _vm._v(
+                                        "\n                    Стандартный - 583x490 px\n                  "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("standart-banner", {
+                                    attrs: {
+                                      size: "big",
+                                      link: _vm.prepareUrl(
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .link
+                                      ),
+                                      title:
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .title,
+                                      caption:
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .caption,
+                                      "button-text":
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .button,
+                                      "title-color": _vm.banner.title_color,
+                                      "caption-color": _vm.banner.caption_color,
+                                      "button-color": _vm.banner.button_color,
+                                      "button-background":
+                                        _vm.banner.button_background_color,
+                                      image: _vm.banner.small_image,
+                                      "background-image":
+                                        _vm.backgroundType === "image"
+                                          ? _vm.banner.background_image_1
+                                          : undefined,
+                                      "gradient-from":
+                                        _vm.banner.gradient.color_from,
+                                      "gradient-to":
+                                        _vm.banner.gradient.color_to,
+                                      "greadient-type":
+                                        _vm.banner.gradient.type,
+                                      "gradient-angle":
+                                        _vm.banner.gradient.angle
+                                    }
+                                  })
+                                ],
+                                1
                               ),
-                              title:
-                                _vm.banner.i18n[_vm.activeLanguageCode].title,
-                              caption:
-                                _vm.banner.i18n[_vm.activeLanguageCode].caption,
-                              "button-text":
-                                _vm.banner.i18n[_vm.activeLanguageCode].button,
-                              "title-color": _vm.banner.title_color,
-                              "caption-color": _vm.banner.caption_color,
-                              "button-color": _vm.banner.button_color,
-                              "button-background":
-                                _vm.banner.button_background_color,
-                              image: _vm.banner.small_image,
-                              "background-image":
-                                _vm.backgroundType === "image"
-                                  ? _vm.banner.background_image
-                                  : undefined,
-                              "gradient-from": _vm.banner.gradient.color_from,
-                              "gradient-to": _vm.banner.gradient.color_to,
-                              "greadient-type": _vm.banner.gradient.type,
-                              "gradient-angle": _vm.banner.gradient.angle
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "banner-preview__row" }, [
-                      _c(
-                        "div",
-                        { staticClass: "banner-preview__big" },
-                        [
-                          _c("div", { staticClass: "banner-preview__info" }, [
-                            _vm._v(
-                              "\n                  Стандартный - 583x490 px\n                "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("standart-banner", {
-                            staticClass: "banner--big",
-                            attrs: {
-                              link: _vm.prepareUrl(
-                                _vm.banner.i18n[_vm.activeLanguageCode].link
-                              ),
-                              title:
-                                _vm.banner.i18n[_vm.activeLanguageCode].title,
-                              caption:
-                                _vm.banner.i18n[_vm.activeLanguageCode].caption,
-                              "button-text":
-                                _vm.banner.i18n[_vm.activeLanguageCode].button,
-                              "title-color": _vm.banner.title_color,
-                              "caption-color": _vm.banner.caption_color,
-                              "button-color": _vm.banner.button_color,
-                              "button-background":
-                                _vm.banner.button_background_color,
-                              image: _vm.banner.small_image,
-                              "background-image":
-                                _vm.backgroundType === "image"
-                                  ? _vm.banner.background_image
-                                  : undefined,
-                              "gradient-from": _vm.banner.gradient.color_from,
-                              "gradient-to": _vm.banner.gradient.color_to,
-                              "greadient-type": _vm.banner.gradient.type,
-                              "gradient-angle": _vm.banner.gradient.angle
-                            }
-                          })
-                        ],
-                        1
-                      ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "banner-preview__standart" },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "banner-preview__info" },
+                                    [
+                                      _vm._v(
+                                        "\n                     \n                  "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("standart-banner", {
+                                    attrs: {
+                                      size: "medium",
+                                      link: _vm.prepareUrl(
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .link
+                                      ),
+                                      title:
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .title,
+                                      caption:
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .caption,
+                                      "button-text":
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .button,
+                                      "title-color": _vm.banner.title_color,
+                                      "caption-color": _vm.banner.caption_color,
+                                      "button-color": _vm.banner.button_color,
+                                      "button-background":
+                                        _vm.banner.button_background_color,
+                                      image: _vm.banner.small_image,
+                                      "background-image":
+                                        _vm.backgroundType === "image"
+                                          ? _vm.banner.background_image_1
+                                          : undefined,
+                                      "gradient-from":
+                                        _vm.banner.gradient.color_from,
+                                      "gradient-to":
+                                        _vm.banner.gradient.color_to,
+                                      "greadient-type":
+                                        _vm.banner.gradient.type,
+                                      "gradient-angle":
+                                        _vm.banner.gradient.angle
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "banner-preview__row" }, [
+                              _c(
+                                "div",
+                                { staticStyle: { width: "100%" } },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "banner-preview__info" },
+                                    [
+                                      _vm._v(
+                                        "\n                    Горизонтальный - 856x96 px\n                  "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("standart-banner", {
+                                    attrs: {
+                                      size: "long",
+                                      link: _vm.prepareUrl(
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .link
+                                      ),
+                                      title:
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .title,
+                                      caption:
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .caption,
+                                      "button-text":
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .button,
+                                      "title-color": _vm.banner.title_color,
+                                      "caption-color": _vm.banner.caption_color,
+                                      "button-color": _vm.banner.button_color,
+                                      "button-background":
+                                        _vm.banner.button_background_color,
+                                      image: _vm.banner.small_image,
+                                      "background-image":
+                                        _vm.backgroundType === "image"
+                                          ? _vm.banner.background_image_2
+                                          : undefined,
+                                      "gradient-from":
+                                        _vm.banner.gradient.color_from,
+                                      "gradient-to":
+                                        _vm.banner.gradient.color_to,
+                                      "greadient-type":
+                                        _vm.banner.gradient.type,
+                                      "gradient-angle":
+                                        _vm.banner.gradient.angle
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ])
+                          ]
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "banner-preview__standart" },
-                        [
-                          _c("div", { staticClass: "banner-preview__info" }, [
-                            _vm._v("\n                   \n                ")
-                          ]),
-                          _vm._v(" "),
-                          _c("standart-banner", {
-                            staticClass: "banner--medium",
-                            attrs: {
-                              link: _vm.prepareUrl(
-                                _vm.banner.i18n[_vm.activeLanguageCode].link
-                              ),
-                              title:
-                                _vm.banner.i18n[_vm.activeLanguageCode].title,
-                              caption:
-                                _vm.banner.i18n[_vm.activeLanguageCode].caption,
-                              "button-text":
-                                _vm.banner.i18n[_vm.activeLanguageCode].button,
-                              "title-color": _vm.banner.title_color,
-                              "caption-color": _vm.banner.caption_color,
-                              "button-color": _vm.banner.button_color,
-                              "button-background":
-                                _vm.banner.button_background_color,
-                              image: _vm.banner.small_image,
-                              "background-image":
-                                _vm.backgroundType === "image"
-                                  ? _vm.banner.background_image
-                                  : undefined,
-                              "gradient-from": _vm.banner.gradient.color_from,
-                              "gradient-to": _vm.banner.gradient.color_to,
-                              "greadient-type": _vm.banner.gradient.type,
-                              "gradient-angle": _vm.banner.gradient.angle
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "banner-preview__row" }, [
-                      _c(
-                        "div",
-                        { staticStyle: { width: "100%" } },
-                        [
-                          _c("div", { staticClass: "banner-preview__info" }, [
-                            _vm._v(
-                              "\n                  В шапке, десктопный - 2450x56 px или 1920x56 px\n                "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("header-banner", {
-                            attrs: {
-                              image:
-                                _vm.backgroundType === "image"
-                                  ? _vm.banner.desktop_image
-                                  : undefined,
-                              link: _vm.prepareUrl(
-                                _vm.banner.i18n[_vm.activeLanguageCode].link
-                              ),
-                              title:
-                                _vm.banner.i18n[_vm.activeLanguageCode].title,
-                              caption:
-                                _vm.banner.i18n[_vm.activeLanguageCode].caption,
-                              "button-text":
-                                _vm.banner.i18n[_vm.activeLanguageCode].button,
-                              "title-color": _vm.banner.caption_color,
-                              "caption-color": _vm.banner.caption_color,
-                              "button-color": _vm.banner.button_color,
-                              "button-background":
-                                _vm.banner.button_background_color,
-                              "gradient-from": _vm.banner.gradient.color_from,
-                              "gradient-to": _vm.banner.gradient.color_to,
-                              "greadient-type": _vm.banner.gradient.type,
-                              "gradient-angle": _vm.banner.gradient.angle
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "banner-preview__row" }, [
-                      _c(
-                        "div",
-                        { staticStyle: { width: "375px" } },
-                        [
-                          _c("div", { staticClass: "banner-preview__info" }, [
-                            _vm._v(
-                              "\n                  В шапке, мобильный - 375x56\n                "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("header-banner", {
-                            staticClass: "header-banner--mobile",
-                            attrs: {
-                              image:
-                                _vm.backgroundType === "image"
-                                  ? _vm.banner.mobile_image
-                                  : undefined,
-                              link: _vm.prepareUrl(
-                                _vm.banner.i18n[_vm.activeLanguageCode].link
-                              ),
-                              title:
-                                _vm.banner.i18n[_vm.activeLanguageCode].title,
-                              caption:
-                                _vm.banner.i18n[_vm.activeLanguageCode].caption,
-                              "button-text":
-                                _vm.banner.i18n[_vm.activeLanguageCode].button,
-                              "title-color": _vm.banner.caption_color,
-                              "caption-color": _vm.banner.caption_color,
-                              "button-color": _vm.banner.button_color,
-                              "button-background":
-                                _vm.banner.button_background_color,
-                              "gradient-from": _vm.banner.gradient.color_from,
-                              "gradient-to": _vm.banner.gradient.color_to,
-                              "greadient-type": _vm.banner.gradient.type,
-                              "gradient-angle": _vm.banner.gradient.angle
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ])
+                      _vm.bannerType$ === "header"
+                        ? [
+                            _c("div", { staticClass: "banner-preview__row" }, [
+                              _c(
+                                "div",
+                                { staticStyle: { width: "100%" } },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "banner-preview__info" },
+                                    [
+                                      _vm._v(
+                                        "\n                    В шапке, десктопный - 2450x56 px или 1920x56 px\n                  "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("header-banner", {
+                                    attrs: {
+                                      size: "desktop",
+                                      image:
+                                        _vm.backgroundType === "image"
+                                          ? _vm.banner.background_image_1
+                                          : undefined,
+                                      link: _vm.prepareUrl(
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .link
+                                      ),
+                                      title:
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .title,
+                                      "button-text":
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .button,
+                                      "title-color": _vm.banner.caption_color,
+                                      "caption-color": _vm.banner.caption_color,
+                                      "button-color": _vm.banner.button_color,
+                                      "button-background":
+                                        _vm.banner.button_background_color,
+                                      "gradient-from":
+                                        _vm.banner.gradient.color_from,
+                                      "gradient-to":
+                                        _vm.banner.gradient.color_to,
+                                      "greadient-type":
+                                        _vm.banner.gradient.type,
+                                      "gradient-angle":
+                                        _vm.banner.gradient.angle
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "banner-preview__row" }, [
+                              _c(
+                                "div",
+                                { staticStyle: { width: "375px" } },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "banner-preview__info" },
+                                    [
+                                      _vm._v(
+                                        "\n                    В шапке, мобильный - 375x56 px\n                  "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("header-banner", {
+                                    staticClass: "header-banner--mobile",
+                                    attrs: {
+                                      size: "mobile",
+                                      image:
+                                        _vm.backgroundType === "image"
+                                          ? _vm.banner.background_image_2
+                                          : undefined,
+                                      link: _vm.prepareUrl(
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .link
+                                      ),
+                                      title:
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .title,
+                                      "button-text":
+                                        _vm.banner.i18n[_vm.activeLanguageCode]
+                                          .button,
+                                      "title-color": _vm.banner.caption_color,
+                                      "caption-color": _vm.banner.caption_color,
+                                      "button-color": _vm.banner.button_color,
+                                      "button-background":
+                                        _vm.banner.button_background_color,
+                                      "gradient-from":
+                                        _vm.banner.gradient.color_from,
+                                      "gradient-to":
+                                        _vm.banner.gradient.color_to,
+                                      "greadient-type":
+                                        _vm.banner.gradient.type,
+                                      "gradient-angle":
+                                        _vm.banner.gradient.angle
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ])
+                          ]
+                        : _vm._e()
+                    ],
+                    2
+                  )
                 ])
               ])
             ])
@@ -67966,7 +68241,7 @@ var render = function() {
           ref: "removeModal",
           attrs: {
             id: "removeModal",
-            title: "Удаление категории",
+            title: "Удаление баннера",
             "title-tag": "h3",
             centered: "",
             "ok-title": "Удалить",
@@ -67975,7 +68250,7 @@ var render = function() {
           },
           on: { ok: _vm.removeConfirm }
         },
-        [_vm._v("\n\n    Вы действительно хотите удалить эту категорию?\n  ")]
+        [_vm._v("\n\n    Вы действительно хотите удалить баннер?\n  ")]
       )
     ],
     1
@@ -72328,7 +72603,13 @@ var render = function() {
                                         }
                                       }
                                     },
-                                    [_vm._v(_vm._s(title))]
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(title) +
+                                          "\n                  "
+                                      )
+                                    ]
                                   )
                                 ]
                               })
@@ -72353,6 +72634,7 @@ var render = function() {
                                   _c("search-input", {
                                     staticClass: "form-control",
                                     attrs: {
+                                      value: _vm.searchPhrase,
                                       placeholder: "Поиск",
                                       type: "search",
                                       "aria-controls": "example-datatable"
@@ -73388,14 +73670,19 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    { staticClass: "banner", style: { backgroundImage: _vm.background } },
+    _vm.buttonText ? "div" : "a",
+    {
+      tag: "component",
+      class: "banner banner--" + _vm.size,
+      style: { backgroundImage: _vm.background },
+      attrs: { href: _vm.buttonText ? null : _vm.link, target: "_blank" }
+    },
     [
-      _c("div", { staticClass: "banner__accent-box" }, [
-        _vm.image
-          ? _c("img", {
+      _c("div", { staticClass: "banner__top" }, [
+        _vm.image && _vm.size !== "long"
+          ? _c("div", {
               staticClass: "banner__image",
-              attrs: { src: _vm.image, alt: _vm.title }
+              style: "background-image: url(" + _vm.image + ")"
             })
           : _c(
               "div",
@@ -73404,42 +73691,52 @@ var render = function() {
                 style: { color: _vm.titleColor }
               },
               [
-                _c(
-                  "font-resizer",
-                  {
-                    staticStyle: { width: "100%" },
-                    attrs: {
-                      "scale-factor": 0.25,
-                      "min-size": 30,
-                      "max-size": 140
-                    }
-                  },
-                  [_c("span", { domProps: { innerHTML: _vm._s(_vm.title) } })]
-                )
+                _vm.size === "long"
+                  ? _c("span", [
+                      _c("span", {
+                        staticClass: "text-content",
+                        domProps: { innerHTML: _vm._s(_vm.title) }
+                      })
+                    ])
+                  : _c(
+                      "font-resizer",
+                      {
+                        staticStyle: { width: "100%" },
+                        attrs: {
+                          "min-size": _vm.size === "medium" ? 24 : 30,
+                          "max-size": 140
+                        }
+                      },
+                      [
+                        _c("span", {
+                          domProps: { innerHTML: _vm._s(_vm.title) }
+                        })
+                      ]
+                    )
               ],
               1
             )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "banner__bottom" }, [
+      _c("div", { staticClass: "banner__center" }, [
         _c("div", {
-          class: "banner__caption banner__caption--" + _vm.captionLength,
+          staticClass: "banner__caption",
           style: { color: _vm.captionColor },
           domProps: { innerHTML: _vm._s(_vm.caption) }
-        }),
-        _vm._v(" "),
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "banner__bottom" }, [
         _vm.buttonText
-          ? _c("div", { staticClass: "banner__button" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "button button-long button-shadow",
-                  style: _vm.buttonStyle,
-                  attrs: { href: _vm.link, target: "_blank" }
-                },
-                [_vm._v("\n        " + _vm._s(_vm.buttonText) + "\n      ")]
-              )
-            ])
+          ? _c(
+              "a",
+              {
+                staticClass: "button button-long button-shadow",
+                style: _vm.buttonStyle,
+                attrs: { href: _vm.link, target: "_blank" }
+              },
+              [_vm._v("\n      " + _vm._s(_vm.buttonText) + "\n    ")]
+            )
           : _vm._e()
       ])
     ]
@@ -73704,7 +74001,9 @@ var render = function() {
                       "router-link",
                       {
                         staticClass: "btn btn-sm btn-success active",
-                        attrs: { to: "/shop/banners/create" }
+                        attrs: {
+                          to: "/shop/banners/" + _vm.bannerType$ + "/create"
+                        }
                       },
                       [
                         _c("i", { staticClass: "fa fa-plus-circle" }),
@@ -73732,7 +74031,7 @@ var render = function() {
                     _c("div", { staticClass: "row" }, [
                       _c(
                         "div",
-                        { staticClass: "col-sm-6 col-xs-12 clearfix" },
+                        { staticClass: "col-sm-4 col-xs-12 clearfix" },
                         [
                           _vm.showPagination
                             ? _c(
@@ -73765,29 +74064,78 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "div",
-                        { staticClass: "col-sm-6 col-xs-12 clearfix" },
+                        {
+                          staticClass: "col-sm-4 col-xs-12 clearfix text-center"
+                        },
                         [
                           _c(
                             "div",
-                            {
-                              staticClass: "dataTables_filter pull-right",
-                              staticStyle: { "min-width": "200px" }
-                            },
+                            { staticClass: "btn-group" },
                             [
-                              _c("tree-select", {
-                                attrs: {
-                                  options: _vm.bannerPlacesSelect,
-                                  selected: _vm.place,
-                                  params: {
-                                    minimumResultsForSearch: -1,
-                                    allowClear: false
-                                  }
-                                },
-                                on: { "update:selected": _vm.setBannerPlaces }
+                              _vm._l(_vm.bannerTypes, function(
+                                title,
+                                typeIdentif
+                              ) {
+                                return [
+                                  _c(
+                                    "button",
+                                    {
+                                      class: {
+                                        "btn btn-primary": true,
+                                        "btn-alt":
+                                          _vm.bannerType$ !== typeIdentif
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.setBannerType(typeIdentif)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(title) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  )
+                                ]
                               })
                             ],
-                            1
+                            2
                           )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-sm-4 col-xs-12 clearfix" },
+                        [
+                          _vm.bannerPlacesSelect.length
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass: "dataTables_filter pull-right",
+                                  staticStyle: { "min-width": "200px" }
+                                },
+                                [
+                                  _c("tree-select", {
+                                    attrs: {
+                                      options: _vm.bannerPlacesSelect,
+                                      selected: _vm.place,
+                                      params: {
+                                        minimumResultsForSearch: -1,
+                                        allowClear: false
+                                      }
+                                    },
+                                    on: {
+                                      "update:selected": _vm.setBannerPlaces
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            : _vm._e()
                         ]
                       )
                     ]),
@@ -73797,6 +74145,7 @@ var render = function() {
                           ref: "table",
                           staticClass:
                             "table table-vcenter table-condensed table-hover table-bordered no-footer",
+                          staticStyle: { "margin-bottom": "0" },
                           attrs: {
                             "show-empty": "",
                             stacked: "md",
@@ -75537,22 +75886,26 @@ var render = function() {
     },
     [
       _c("div", { staticClass: "header-banner__content" }, [
-        _c("div", {
-          class:
-            "header-banner__title header-banner__title--" + _vm.titleLength,
-          style: { color: _vm.titleColor },
-          domProps: { innerHTML: _vm._s(_vm.title) }
-        }),
-        _vm._v(" "),
         _c(
           "div",
           {
-            class:
-              "header-banner__caption header-banner__caption--" +
-              _vm.captionLength,
-            style: { color: _vm.captionColor }
+            staticClass: "header-banner__title",
+            style: { color: _vm.titleColor }
           },
-          [_c("span", { domProps: { innerHTML: _vm._s(_vm.caption) } })]
+          [
+            _c(
+              "font-resizer",
+              {
+                staticStyle: { width: "100%" },
+                attrs: {
+                  "min-size": _vm.size === "mobile" ? 12 : 14,
+                  "max-size": _vm.size === "mobile" ? 16 : 18
+                }
+              },
+              [_c("span", { domProps: { innerHTML: _vm._s(_vm.title) } })]
+            )
+          ],
+          1
         ),
         _vm._v(" "),
         _vm.buttonText
@@ -79876,7 +80229,7 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass: "font-resizer__content js-fr-content",
+        staticClass: "font-resizer__content js-fr-content text-content",
         style: _vm.contentStyle
       },
       [_c("render", { attrs: { vnode: _vm.$slots.default } })],
@@ -80175,6 +80528,44 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-75b27f50", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7805f79b\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/TextLengthChecker.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "span",
+    { staticClass: "text-length-checker" },
+    [
+      _vm.hasMax
+        ? [
+            _vm._v("\n    Осталось символов: "),
+            _c("span", { class: { "text-danger": _vm.reachedMax } }, [
+              _vm._v(_vm._s(_vm.symbolsLeft))
+            ])
+          ]
+        : [
+            _vm._v("\n    Символов в тексте: "),
+            _c("span", [_vm._v(_vm._s(_vm.textLength))])
+          ]
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7805f79b", module.exports)
   }
 }
 
@@ -90634,9 +91025,9 @@ var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_7__components_sh
     return _extends({}, route.params, { type: 'edit' });
   } }, { path: '/shop/badge-types', component: __WEBPACK_IMPORTED_MODULE_27__components_shop_badges_BadgeTypesTable___default.a }, { path: '/shop/badge-types/create', component: __WEBPACK_IMPORTED_MODULE_28__components_shop_badges_BadgeTypeEdit___default.a, props: { type: 'create' } }, { path: '/shop/badge-types/:id', component: __WEBPACK_IMPORTED_MODULE_28__components_shop_badges_BadgeTypeEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/banners', component: __WEBPACK_IMPORTED_MODULE_29__components_shop_banners_BannersTable___default.a }, { path: '/shop/banners/create', component: __WEBPACK_IMPORTED_MODULE_30__components_shop_banners_BannerEdit___default.a, props: { type: 'create' } }, { path: '/shop/banners/:id', component: __WEBPACK_IMPORTED_MODULE_30__components_shop_banners_BannerEdit___default.a, props: function props(route) {
+  } }, { path: '/shop/banners', component: __WEBPACK_IMPORTED_MODULE_29__components_shop_banners_BannersTable___default.a }, { path: '/shop/banners/default', redirect: '/shop/banners' }, { path: '/shop/banners/header', redirect: '/shop/banners' }, { path: '/shop/banners/default/create', component: __WEBPACK_IMPORTED_MODULE_30__components_shop_banners_BannerEdit___default.a, props: { type: 'create', bannerType: 'default' } }, { path: '/shop/banners/header/create', component: __WEBPACK_IMPORTED_MODULE_30__components_shop_banners_BannerEdit___default.a, props: { type: 'create', bannerType: 'header' } }, { path: '/shop/banners/:id', component: __WEBPACK_IMPORTED_MODULE_30__components_shop_banners_BannerEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
-  } }, { path: '/shop/sale', component: __WEBPACK_IMPORTED_MODULE_31__components_shop_sale_SaleTable___default.a }, { path: '/shop/sale/create', component: __WEBPACK_IMPORTED_MODULE_32__components_shop_sale_SaleEdit___default.a, props: { type: 'create' } }, { path: '/shop/sale/:id', component: __WEBPACK_IMPORTED_MODULE_32__components_shop_sale_SaleEdit___default.a, props: function props(route) {
+  }, name: 'banner-edit' }, { path: '/shop/sale', component: __WEBPACK_IMPORTED_MODULE_31__components_shop_sale_SaleTable___default.a }, { path: '/shop/sale/create', component: __WEBPACK_IMPORTED_MODULE_32__components_shop_sale_SaleEdit___default.a, props: { type: 'create' } }, { path: '/shop/sale/:id', component: __WEBPACK_IMPORTED_MODULE_32__components_shop_sale_SaleEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
   } }, { path: '/shop/interiors', component: __WEBPACK_IMPORTED_MODULE_34__components_shop_interior_InteriorTable___default.a }, { path: '/shop/interiors/create', component: __WEBPACK_IMPORTED_MODULE_33__components_shop_interior_InteriorEdit___default.a, props: { type: 'create' } }, { path: '/shop/interiors/:id', component: __WEBPACK_IMPORTED_MODULE_33__components_shop_interior_InteriorEdit___default.a, props: function props(route) {
     return _extends({}, route.params, { type: 'edit' });
@@ -90678,6 +91069,16 @@ __WEBPACK_IMPORTED_MODULE_6__core__["a" /* default */].init().then(function () {
       return {
         loading: false
       };
+    },
+    created: function created() {
+      var _this = this;
+
+      var resizeHandler = _.debounce(function () {
+        _this.windowWidth = window.innerWidth;
+        _this.$emit('resize');
+      }, 50);
+
+      window.addEventListener('resize', resizeHandler, { passive: true });
     },
 
 
@@ -91546,6 +91947,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-fa6524ca", Component.options)
   } else {
     hotAPI.reload("data-v-fa6524ca", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/TextLengthChecker.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/TextLengthChecker.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7805f79b\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/TextLengthChecker.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/TextLengthChecker.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7805f79b", Component.options)
+  } else {
+    hotAPI.reload("data-v-7805f79b", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -92565,6 +93014,31 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/shop/banners/mixin.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+  computed: {
+    bannerPlacesSelectOptions: function bannerPlacesSelectOptions() {
+      var _this = this;
+
+      return this.bannerPlaces.reduce(function (acc, item) {
+        if (item.type === _this.bannerType$) {
+          acc.push({
+            id: item.id,
+            title: item.name
+          });
+        }
+
+        return acc;
+      }, []);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/shop/banners/preview/HeaderBanner.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -92665,7 +93139,15 @@ module.exports = Component.exports
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FontResizer__ = __webpack_require__("./resources/assets/js/components/FontResizer.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FontResizer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FontResizer__);
+
+
 /* harmony default export */ __webpack_exports__["a"] = ({
+  components: {
+    FontResizer: __WEBPACK_IMPORTED_MODULE_0__FontResizer___default.a
+  },
+
   props: {
     image: null,
 
@@ -92725,12 +93207,6 @@ module.exports = Component.exports
       }
 
       return this.gradient;
-    },
-    titleLength: function titleLength() {
-      return this.title.length;
-    },
-    captionLength: function captionLength() {
-      return Math.ceil(this.caption.length / 5);
     }
   }
 });
@@ -95055,12 +95531,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         title: 'Акции и промо',
         icon: 'fa fa-star',
         permission: 'shop.promo.menu',
-
         children: [{
           title: 'Баннеры',
-          url: '/shop/banners',
           icon: 'fa fa-image',
-          permission: 'shop.banners.menu'
+          permission: 'shop.banners.menu',
+          url: '/shop/banners'
         }, {
           title: 'Акционные товары',
           url: '/shop/sale',
@@ -96721,7 +97196,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return value;
     },
     getValid: function getValid(key, value) {
-      var methodName = 'getValid' + __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].camelize(key, true);
+      var methodName = 'getValid' + __WEBPACK_IMPORTED_MODULE_0__core__["a" /* default */].camelize(decodeURIComponent(key), true);
 
       return this[methodName](value);
     },
@@ -96858,6 +97333,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
       return url;
     },
+
 
     /*
       Подготавливает url.
@@ -97394,10 +97870,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     search: function search(phrase) {
       if (this.searchPhrase != phrase) {
-        this.page = 1;
         this.searchPhrase = phrase;
-        this.refreshTable();
       }
+
+      this.page = 1;
+      this.refreshTable();
+    },
+    getValidSearchPhrase: function getValidSearchPhrase(value) {
+      return decodeURIComponent(value);
     },
     setPerPage: function setPerPage(value) {
       this.perPage = value;
@@ -99883,11 +100363,9 @@ var BannerModel = function (_ModelI18n) {
         button_color: '#323f4c',
         button_background_color: '#fff',
 
-        mobile_image: '',
-        desktop_image: '',
-        small_image: '',
-        background_image: '',
-        background_long_image: '',
+        image: '',
+        background_image_1: '',
+        background_image_2: '',
 
         type: '',
         position: '',
@@ -99973,6 +100451,7 @@ var BannersTableModel = function (_ModelI18n) {
 
 
         i18n: {
+          title: '',
           caption: '',
           button: ''
         }

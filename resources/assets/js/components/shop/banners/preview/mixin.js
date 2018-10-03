@@ -1,4 +1,10 @@
+import FontResizer from '../../../FontResizer'
+
 export default {
+  components: {
+    FontResizer
+  },
+
   props: {
     image: null,
 
@@ -60,14 +66,6 @@ export default {
       }
 
       return this.gradient
-    },
-
-    titleLength() {
-      return this.title.length
-    },
-
-    captionLength() {
-      return Math.ceil(this.caption.length / 5)
     },
   }
 }
