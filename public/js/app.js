@@ -8914,20 +8914,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__CKEditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__CKEditor__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker__ = __webpack_require__("./resources/assets/js/components/LanguagePicker.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__LanguagePicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixin__ = __webpack_require__("./resources/assets/js/components/shop/banners/mixin.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ColorSelect__ = __webpack_require__("./resources/assets/js/components/ColorSelect.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ColorSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__ColorSelect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__preview_StandartBanner__ = __webpack_require__("./resources/assets/js/components/shop/banners/preview/StandartBanner.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__preview_StandartBanner___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__preview_StandartBanner__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__preview_HeaderBanner__ = __webpack_require__("./resources/assets/js/components/shop/banners/preview/HeaderBanner.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__preview_HeaderBanner___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__preview_HeaderBanner__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__TextLengthChecker__ = __webpack_require__("./resources/assets/js/components/TextLengthChecker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__TextLengthChecker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__TextLengthChecker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__resources_shop_banner_BannerModel__ = __webpack_require__("./resources/assets/js/resources/shop/banner/BannerModel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_Page__ = __webpack_require__("./resources/assets/js/mixins/Page.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_EntityPage__ = __webpack_require__("./resources/assets/js/mixins/EntityPage.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixins_Translatable__ = __webpack_require__("./resources/assets/js/mixins/Translatable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixin__ = __webpack_require__("./resources/assets/js/components/shop/banners/mixin.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ColorSelect__ = __webpack_require__("./resources/assets/js/components/ColorSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ColorSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__ColorSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__preview_StandartBanner__ = __webpack_require__("./resources/assets/js/components/shop/banners/preview/StandartBanner.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__preview_StandartBanner___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__preview_StandartBanner__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__preview_HeaderBanner__ = __webpack_require__("./resources/assets/js/components/shop/banners/preview/HeaderBanner.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__preview_HeaderBanner___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__preview_HeaderBanner__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__TextLengthChecker__ = __webpack_require__("./resources/assets/js/components/TextLengthChecker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__TextLengthChecker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__TextLengthChecker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__directives_number__ = __webpack_require__("./resources/assets/js/directives/number.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__resources_shop_banner_BannerModel__ = __webpack_require__("./resources/assets/js/resources/shop/banner/BannerModel.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 
 
 
@@ -8952,10 +8954,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'banner-edit',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_6__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__mixin__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_7__mixins_EntityPage__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__mixins_Translatable__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__mixin__["a" /* default */]],
 
   directives: {
-    Number: __WEBPACK_IMPORTED_MODULE_13__directives_number__["a" /* default */]
+    Number: __WEBPACK_IMPORTED_MODULE_14__directives_number__["a" /* default */]
   },
 
   components: {
@@ -8964,10 +8966,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     FileManager: __WEBPACK_IMPORTED_MODULE_2__FileManager___default.a,
     LanguagePicker: __WEBPACK_IMPORTED_MODULE_5__LanguagePicker___default.a,
     bModal: __WEBPACK_IMPORTED_MODULE_0_bootstrap_vue_es_components_modal_modal__["a" /* default */],
-    ColorSelect: __WEBPACK_IMPORTED_MODULE_9__ColorSelect___default.a,
-    StandartBanner: __WEBPACK_IMPORTED_MODULE_10__preview_StandartBanner___default.a,
-    HeaderBanner: __WEBPACK_IMPORTED_MODULE_11__preview_HeaderBanner___default.a,
-    TextLengthChecker: __WEBPACK_IMPORTED_MODULE_12__TextLengthChecker___default.a
+    ColorSelect: __WEBPACK_IMPORTED_MODULE_10__ColorSelect___default.a,
+    StandartBanner: __WEBPACK_IMPORTED_MODULE_11__preview_StandartBanner___default.a,
+    HeaderBanner: __WEBPACK_IMPORTED_MODULE_12__preview_HeaderBanner___default.a,
+    TextLengthChecker: __WEBPACK_IMPORTED_MODULE_13__TextLengthChecker___default.a
   },
 
   props: ['id', 'bannerType'],
@@ -8982,7 +8984,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       usedMainData: ['languages', 'banner-places'],
 
       bannerPlaces: [],
-      bannerType$: this.bannerType,
+      bannerType$: this.bannerType || 'default',
 
       reloadDataOnSave: true
     };
@@ -9047,15 +9049,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     removeBannerTypeFromUrl: function removeBannerTypeFromUrl(url) {
       return url.replace('/' + this.bannerType$, '');
     },
-    makePageApiUrl: function makePageApiUrl(segment, segmentIsUrl) {
-      var url = this.makePageUrl(segment, segmentIsUrl);
+    makePageUrl: function makePageUrl(segment, segmentIsUrl) {
+      var url = __WEBPACK_IMPORTED_MODULE_6__mixins_Page__["a" /* default */].methods.makePageUrl.apply(this, [segment, segmentIsUrl]);
 
-      return '/api' + this.removeBannerTypeFromUrl(url);
+      return this.removeBannerTypeFromUrl(url);
     },
     getPathToTable: function getPathToTable() {
-      var path = __WEBPACK_IMPORTED_MODULE_6__mixins_EntityPage__["a" /* default */].methods.getPathToTable.call(this);
-
-      return this.removeBannerTypeFromUrl(path);
+      return __WEBPACK_IMPORTED_MODULE_7__mixins_EntityPage__["a" /* default */].methods.getPathToTable.call(this) + '?' + encodeURIComponent('bannerType$') + '=' + encodeURIComponent(this.bannerType$);
     },
 
 
@@ -9063,9 +9063,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
      * Инициализация модели данных.
      */
     initEntity: function initEntity(data) {
-      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_14__resources_shop_banner_BannerModel__["a" /* default */](data, this.languages));
+      this.setEntityData(new __WEBPACK_IMPORTED_MODULE_15__resources_shop_banner_BannerModel__["a" /* default */](data, this.languages));
 
-      if (this.type === 'edit' && !this.bannerType$) {
+      if (this.type === 'edit') {
         this.bannerType$ = this.detectBannerType();
       }
 
@@ -9935,9 +9935,6 @@ var defaultTableState = {
       usedMainData: ['languages', 'rooms', 'styles']
     });
   },
-  created: function created() {
-    this.setFiltersStateFromHash();
-  },
 
 
   methods: {
@@ -10743,9 +10740,6 @@ var defaultTableState = {
 
       usedMainData: ['languages', 'price-types']
     });
-  },
-  created: function created() {
-    this.setFiltersStateFromHash();
   },
 
 
@@ -97130,17 +97124,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   methods: {
     setStateFromUri: function setStateFromUri() {
-      var _this = this;
-
       var query = window.location.search.replace('?', '');
 
       if (_.isEmpty(query)) return;
 
+      this.parseUriStringParams(query);
+    },
+    parseUriStringParams: function parseUriStringParams(query) {
+      var _this = this;
+
       query.split('&').forEach(function (item) {
         item = item.split('=');
 
-        var key = item[0];
-        var value = item[1];
+        var key = decodeURIComponent(item[0]);
+        var value = decodeURIComponent(item[1]);
 
         _this[key] = _this.getValid(key, value);
       });
@@ -97849,22 +97846,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         return _this.initMainData(data);
       });
     },
-    setFiltersStateFromHash: function setFiltersStateFromHash() {
-      var _this2 = this;
-
-      var query = window.location.search.replace('?', '');
-
-      if (_.isEmpty(query)) return;
-
-      query.split('&').forEach(function (item) {
-        item = item.split('=');
-
-        var key = item[0];
-        var value = item[1];
-
-        _this2[key] = _this2.getValid(key, value);
-      });
-    },
     sortingChanged: function sortingChanged(ctx) {
       ctx.page = 1;
     },
@@ -97884,11 +97865,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       this.page = 1;
     },
     refreshTable: function refreshTable() {
-      var _this3 = this;
+      var _this2 = this;
 
       this.$nextTick(function () {
-        if (_this3.$refs.table) {
-          _this3.$refs.table.refresh();
+        if (_this2.$refs.table) {
+          _this2.$refs.table.refresh();
         }
       });
     },

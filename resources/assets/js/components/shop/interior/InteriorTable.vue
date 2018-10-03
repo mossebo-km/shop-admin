@@ -93,10 +93,6 @@
       }
     },
 
-    created() {
-      this.setFiltersStateFromHash()
-    },
-
     methods: {
       getDefaultState() {
         return defaultTableState

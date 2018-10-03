@@ -11,11 +11,15 @@ export default {
 
       if (_.isEmpty(query)) return
 
+      this.parseUriStringParams(query)
+    },
+
+    parseUriStringParams(query) {
       query.split('&').forEach(item => {
         item = item.split('=')
 
-        let key = item[0]
-        let value = item[1]
+        let key = decodeURIComponent(item[0])
+        let value = decodeURIComponent(item[1])
 
         this[key] = this.getValid(key, value)
       })

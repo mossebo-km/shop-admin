@@ -11,21 +11,6 @@ export default {
         .then(data => this.initMainData(data))
     },
 
-    setFiltersStateFromHash() {
-      let query = window.location.search.replace('?', '')
-
-      if (_.isEmpty(query)) return
-
-      query.split('&').forEach(item => {
-        item = item.split('=')
-
-        let key = item[0]
-        let value = item[1]
-
-        this[key] = this.getValid(key, value)
-      })
-    },
-
     sortingChanged(ctx) {
       ctx.page = 1
     },

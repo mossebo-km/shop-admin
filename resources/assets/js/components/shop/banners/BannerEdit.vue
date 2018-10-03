@@ -7,6 +7,7 @@
   import CKEditor from '../../CKEditor'
   import LanguagePicker from '../../LanguagePicker'
 
+  import Page from '../../../mixins/Page'
   import EntityPage from '../../../mixins/EntityPage'
   import Translatable from '../../../mixins/Translatable'
   import BannersMixin from './mixin'
@@ -63,7 +64,7 @@
         ],
 
         bannerPlaces: [],
-        bannerType$: this.bannerType,
+        bannerType$: this.bannerType || 'default',
 
         reloadDataOnSave: true
       }
@@ -141,16 +142,18 @@
         return url.replace('/' + this.bannerType$, '')
       },
 
-      makePageApiUrl(segment, segmentIsUrl) {
-        let url = this.makePageUrl(segment, segmentIsUrl)
+      makePageUrl(segment, segmentIsUrl) {
+        let url = Page.methods.makePageUrl.apply(this, [segment, segmentIsUrl])
 
-        return '/api' + this.removeBannerTypeFromUrl(url)
+        return this.removeBannerTypeFromUrl(url)
       },
 
       getPathToTable() {
-        let path = EntityPage.methods.getPathToTable.call(this)
-
-        return this.removeBannerTypeFromUrl(path)
+        return EntityPage.methods.getPathToTable.call(this) +
+          '?' +
+          encodeURIComponent('bannerType$') +
+          '=' +
+          encodeURIComponent(this.bannerType$)
       },
 
       /**
@@ -159,7 +162,7 @@
       initEntity(data) {
         this.setEntityData(new BannerModel(data, this.languages))
 
-        if (this.type === 'edit' && ! this.bannerType$) {
+        if (this.type === 'edit') {
           this.bannerType$ = this.detectBannerType()
         }
 

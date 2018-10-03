@@ -18,6 +18,7 @@ export default {
   },
 
   methods: {
+
     makePageUrl(segment, segmentIsUrl = false) {
       let url = segmentIsUrl ? segment : this.componentInitializedWithUrl.replace('create', '')
 
