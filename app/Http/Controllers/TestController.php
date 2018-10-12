@@ -39,37 +39,6 @@ class TestController extends Controller
 //            dd($count->toArray());
 //        });
 
-        $products = Product::with('prices')->get();
-
-        $productsToAddPrice = [];
-
-        $products->each(function($product) use(& $productsToAddPrice) {
-            $minPrice = false;
-            $retailPrice = false;
-
-            foreach ($product->prices as $price) {
-                if ($price->price_type_id === 7) {
-                    $retailPrice = $price;
-                }
-
-                if ($price->price_type_id === 2) {
-                    $minPrice = $price;
-                }
-            }
-
-            if (! $retailPrice && $minPrice) {
-                $price = new Price([
-                    'item_type' => $minPrice->item_type,
-                    'item_id' => $minPrice->item_id,
-                    'currency_code' => $minPrice->currency_code,
-                    'price_type_id' => 7,
-                    'value' => $minPrice->value,
-                ]);
-
-                $price->save();
-            }
-        });
-
         dd('done');
     }
 //    public function imageConverter($id)
