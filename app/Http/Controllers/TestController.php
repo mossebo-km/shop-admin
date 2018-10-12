@@ -17,13 +17,13 @@ class TestController extends Controller
 {
     public function test()
     {
-        (new \App\Models\Admin)->saveFromRequestData([
-            'name' => 'Владимир Сидоркин',
-            'email' => 'webdesign4@mossebo.ru',
-            'password' => encodePassword('01hT^1hbz'),
-            'api_token' => str_random(60),
-            'enabled' => true
-        ]);
+//        (new \App\Models\Admin)->saveFromRequestData([
+//            'name' => 'Владимир Сидоркин',
+//            'email' => 'webdesign4@mossebo.ru',
+//            'password' => encodePassword('01hT^1hbz'),
+//            'api_token' => str_random(60),
+//            'enabled' => true
+//        ]);
 
 
 //        Categories::getCollection()->each(function ($category) {
@@ -38,7 +38,7 @@ class TestController extends Controller
 //            dd($count->toArray());
 //        });
 
-
+        dd('done');
     }
 //    public function imageConverter($id)
 //    {

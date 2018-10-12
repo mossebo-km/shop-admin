@@ -99867,7 +99867,7 @@ var SaleEditModel = function (_Model) {
         enabled: true,
 
         prices: function prices(data) {
-          return data.prices ? new __WEBPACK_IMPORTED_MODULE_1__PricesTableModel__["a" /* default */](data.prices) : [];
+          return data.prices ? new __WEBPACK_IMPORTED_MODULE_1__PricesTableModel__["a" /* default */](data.prices) : {};
         },
 
 

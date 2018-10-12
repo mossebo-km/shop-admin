@@ -8,11 +8,23 @@ use App\Models\Shop\Price\Price;
 
 class Sale extends BaseSale
 {
-    use RequestSaver;
+    use RequestSaver {
+        saveFromRequestData as saveFromRequestDataTrait;
+    }
 
     protected $needsToSaveFromRequest = [
         'prices',
     ];
+
+    public function saveFromRequestData(array $data): self
+    {
+        if (isset($data['product_id'])) {
+            $data['item_id'] = $data['product_id'];
+            $data['item_type'] = 'product';
+        }
+
+        return $this->saveFromRequestDataTrait($data);
+    }
 
     protected function _savePrices(array $pricesData = [])
     {

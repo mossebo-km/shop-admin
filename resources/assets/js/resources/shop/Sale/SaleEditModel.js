@@ -10,7 +10,7 @@ export default class SaleEditModel extends Model {
       enabled: true,
 
       prices(data) {
-        return data.prices ? new PricesTableModel(data.prices) : []
+        return data.prices ? new PricesTableModel(data.prices) : {}
       },
 
       // todo: Может быть не только товар
