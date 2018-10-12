@@ -70,13 +70,16 @@ class ProductController extends ApiController
             extract($params, EXTR_OVERWRITE);
 
             $productsTableName = Config::get('tables.Products');
+            $i18nTableName = Config::get('tables.ProductsI18n');
+            $pricesTableName = Config::get('tables.Prices');
 
             $sortBy = isset($sortBy) ? $sortBy : 'id';
 
-            if ($sortBy === 'price') {
-                $pricesTableName = Config::get('tables.Prices');
+            $query = Product::select("{$productsTableName}.*")
+                ->localized();
 
-                $query = Product::leftJoin("{$pricesTableName} as prices", function ($join) use($productsTableName, $priceType) {
+            if ($sortBy === 'price') {
+                $query->leftJoin("{$pricesTableName} as prices", function ($join) use($productsTableName, $priceType) {
                       $join->on('prices.item_id', '=', "{$productsTableName}.id")
                         ->where('prices.item_type', 'product')
                         ->where('prices.price_type_id', $priceType)
@@ -85,24 +88,18 @@ class ProductController extends ApiController
                     ->orderBy('prices.value', $sortType);
             }
             elseif ($sortBy === 'title') {
-                $query = Product::withTranslate()->orderBy($sortBy, $sortType);
+                $query->orderBy("{$i18nTableName}.title", $sortType);
             }
             else {
-                $query = Product::orderBy($sortBy, $sortType);
+                $query->orderBy($sortBy, $sortType);
             }
 
-            $query->select("{$productsTableName}.*");
-
-            if (!empty($search)) {
-                $i18nTableName = Config::get('tables.ProductsI18n');
-                $query = $query->join("{$i18nTableName} as i18n", function ($join) use($productsTableName, $search) {
-                    $join->on('i18n.product_id', '=', "{$productsTableName}.id")
-                        ->where(\DB::raw('lower(title)'), 'like', "%" . mb_strtolower($search) . "%");
-                });
+            if (! empty($search)) {
+                $query->where(\DB::raw("lower({$i18nTableName}.title)"), 'like', "%" . mb_strtolower($search) . "%");
             }
 
             if ($type === 'no-image') {
-                $query = $query->hasNoImage();
+                $query->hasNoImage();
             }
             elseif ($type !== 'all') {
                 $badgeTableName = config('tables.Badges');

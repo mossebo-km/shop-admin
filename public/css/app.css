@@ -364,15 +364,7 @@
   margin-left: 16px;
 }
 
-.header-banner--mobile {
-  padding: 0 16px;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
 .header-banner--mobile .header-banner__title {
-  color: #fff;
   font-size: 12px;
   line-height: 1.25em;
 }
