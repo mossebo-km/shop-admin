@@ -490,7 +490,7 @@
           <div class="block" v-if="type === 'edit'">
             <div class="block-title clearfix">
               <h2>
-                <i class="fa fa-clone"></i> <strong>Похожие товары</strong>
+                <i class="fa fa-clone"></i> <strong>Дополните комплект</strong>
               </h2>
             </div>
 
@@ -684,7 +684,6 @@
         </div>
       </div>
 
-
       <div class="block" v-if="product && product.prices">
         <div class="block-title">
           <h2>
@@ -699,7 +698,6 @@
         ></prices-table>
       </div>
     </div>
-
 
     <b-modal
       id="validationModal"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Shop;
 use App\Http\Controllers\Api\ApiController;
 
 use App\Models\Shop\Promo\PromoCode;
+use App\Models\Shop\Promo\PromoUse;
 
 use App\Http\Resources\Shop\Promo\PromoCodeEditResource;
 use App\Http\Resources\Shop\Promo\PromoCodeTableResource;
@@ -27,6 +28,10 @@ class PromoCodeController extends ApiController
     protected static $editResource = PromoCodeEditResource::class;
     protected static $tableResource = PromoCodeTableResource::class;
 
+    use Deleteable {
+        destroy as deleteableDestroy;
+    }
+
     public function index()
     {
         $pagination = $this->_paginate($this->request->all());
@@ -37,6 +42,20 @@ class PromoCodeController extends ApiController
             'page'        => $pagination->currentPage(),
             'totalRows'   => $pagination->total(),
         ];
+    }
+
+    public function destroy($id)
+    {
+        $promoUsed = PromoUse::where('promo_code_id', $id)->exists();
+
+        if ($promoUsed) {
+            return [
+                'status' => 'error',
+                'message' => 'Промокод был использован, и не может быть удален.'
+            ];
+        }
+
+        return $this->deleteableDestroy($id);
     }
 
     //todo: Убрать две функции ниже хз куда

@@ -71424,7 +71424,7 @@ var staticRenderFns = [
       _c("h2", [
         _c("i", { staticClass: "fa fa-clone" }),
         _vm._v(" "),
-        _c("strong", [_vm._v("Похожие товары")])
+        _c("strong", [_vm._v("Дополните комплект")])
       ])
     ])
   },

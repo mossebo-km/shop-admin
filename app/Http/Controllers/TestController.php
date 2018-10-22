@@ -39,6 +39,36 @@ class TestController extends Controller
 //            dd($count->toArray());
 //        });
 
+//        $getPrice = function ($prices, $priceTypeId) {
+//            return $prices->where('price_type_id', $priceTypeId)
+//                ->where('currency_code', 'RUB')
+//                ->first();
+//        };
+//
+//        $products = Product::with('prices')->get();
+//
+//        $result = 100;
+//        $a = 0;
+//
+//        foreach ($products as $product) {
+//            $mmr = $getPrice($product->prices, 2);
+//            $zakup = $getPrice($product->prices, 4);
+//
+//            if (! ($mmr && $zakup)) continue;
+//
+//            $diff = $mmr->value - $zakup->value;
+//
+//            if ($diff > 0) {
+//                $percent = $diff / $zakup->value * 100;
+//                $b[$product->id][] = $percent;
+//
+//                if ($percent < $result) {
+//                    $result = $percent;
+//                    $a = $product;
+//                }
+//            }
+//        }
+
         dd('done');
     }
 //    public function imageConverter($id)
