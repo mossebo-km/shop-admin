@@ -115,11 +115,10 @@ class ProductController extends ApiController
                         break;
                 }
 
-                $query->where("{$badgeTableName}.badge_type_id", $badgeTypeId)
-                    ->groupBy("{$productTableName}.id")
-                    ->join("{$badgeTableName}", function($join) use($badgeTableName, $productTableName) {
+                $query->join("{$badgeTableName}", function($join) use($badgeTableName, $productTableName, $badgeTypeId) {
                         $join->on("{$badgeTableName}.item_id", '=', "{$productTableName}.id")
-                            ->where("{$badgeTableName}.item_type", 'product');
+                            ->where("{$badgeTableName}.item_type", 'product')
+                            ->where("{$badgeTableName}.badge_type_id", $badgeTypeId);
                     });
             }
 
