@@ -3,7 +3,7 @@
 namespace App\Validation;
 
 use Validator;
-use \App\Models\Shop\Category;
+use App\Models\Shop\Category\Category;
 
 class ValidatorExtend
 {
