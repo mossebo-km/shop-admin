@@ -100088,7 +100088,14 @@ var CategoriesTableModel = function (_ModelI18n) {
         position: 0,
 
         image: function image(data) {
-          return data.miniature_image ? data.miniature_image : Object(__WEBPACK_IMPORTED_MODULE_1__base_HasImage__["a" /* default */])('small')(data);
+          if (data.miniature_image) {
+            return {
+              src: data.miniature_image,
+              srcset: data.miniature_image
+            };
+          }
+
+          return Object(__WEBPACK_IMPORTED_MODULE_1__base_HasImage__["a" /* default */])('small')(data);
         },
         url: function url(data) {
           return '/shop/categories/' + data.id;

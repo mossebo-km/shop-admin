@@ -22,7 +22,14 @@ export default class CategoriesTableModel extends ModelI18n {
       position: 0,
 
       image(data) {
-        return data.miniature_image ? data.miniature_image : HasImage('small')(data)
+        if (data.miniature_image) {
+          return {
+            src: data.miniature_image,
+            srcset: data.miniature_image
+          }
+        }
+
+        return HasImage('small')(data)
       },
 
       url(data) {
