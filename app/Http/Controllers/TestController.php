@@ -13,11 +13,17 @@ use App\Models\Shop\Product\Product;
 use App\Models\Shop\Price\Price;
 use App\Models\Shop\Badge\Badge;
 use App\Models\Shop\Product\ProductCount;
+use App\Models\Shop\Category\Category;
 
 class TestController extends Controller
 {
     public function test()
     {
+
+
+//        $descedantIds = Category::getDescendantIds(1);
+//        dd($descedantIds);
+
 //        (new \App\Models\Admin)->saveFromRequestData([
 //            'name' => 'Владимир Сидоркин',
 //            'email' => 'webdesign4@mossebo.ru',
