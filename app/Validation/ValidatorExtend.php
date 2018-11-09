@@ -84,7 +84,7 @@ class ValidatorExtend
             return true;
         }
 
-        $childrensIds = Category::getDescendantIds($recordId);
+        $childrensIds = Category::rawQuery()->getDescendantIds($recordId);
         $childrensIds[] = $recordId;
 
         return !in_array($parentId, $childrensIds);
