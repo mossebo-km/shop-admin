@@ -41,7 +41,7 @@
     components: {
       TreeSelect,
       TreeSelectTranslatable,
-      'ckeditor': CKEditor,
+      ckeditor: CKEditor,
       LanguagePicker,
       bModal,
       DropzoneGallery,

@@ -26,7 +26,9 @@ class CategoryRequest extends ApiRequest
         $rules = [
             'enabled' => 'boolean',
             'parent_id' => ['bail', 'nullable', 'integer', "exists:{$tableName},id"],
-            'slug' => ['bail', 'required', 'between:3,255']
+            'slug' => ['bail', 'required', 'between:3,255'],
+            'miniature_image' => 'max:255',
+            'is_popular' => 'boolean',
         ];
 
         if ($this->isStore()) {

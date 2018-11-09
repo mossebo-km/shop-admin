@@ -21,7 +21,9 @@ export default class CategoriesTableModel extends ModelI18n {
       products_count: 0,
       position: 0,
 
-      image: HasImage('small'),
+      image(data) {
+        return data.miniature_image ? data.miniature_image : HasImage('small')(data)
+      },
 
       url(data) {
         return '/shop/categories/' + data.id

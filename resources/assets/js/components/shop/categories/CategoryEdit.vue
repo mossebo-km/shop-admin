@@ -3,6 +3,7 @@
 
   import Core from '../../../core'
   import TreeSelectTranslatable from '../../TreeSelectTranslatable'
+  import FileManager from '../../FileManager'
   import CKEditor from '../../CKEditor'
   import LanguagePicker from '../../LanguagePicker'
 
@@ -26,7 +27,8 @@
       TreeSelectTranslatable,
       'ckeditor': CKEditor,
       LanguagePicker,
-      bModal
+      bModal,
+      FileManager
     },
 
     props: [
@@ -296,6 +298,36 @@
                     :safeDelete="false"
                     :errors="formErrors"
                   ></dropzone-gallery>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label">
+                  Миниатюра
+                </label>
+
+                <div class="col-md-9">
+                  <file-manager
+                    id="image"
+                    :file.sync="category.miniature_image"
+                  ></file-manager>
+                </div>
+              </div>
+
+              <div :class="`form-group${formErrors.has('is_popular') ? ' has-error' : ''}`">
+                <label class="col-md-3 control-label">
+                  Популярная категория
+                </label>
+
+                <div class="col-md-9">
+                  <label class="switch switch-primary">
+                    <input type="checkbox" v-model="category.is_popular">
+                    <span></span>
+                  </label>
+
+                  <span v-show="formErrors.has('is_popular')" class="help-block">
+                    {{ formErrors.first('is_popular') }}
+                  </span>
                 </div>
               </div>
 

@@ -14,7 +14,7 @@
   import ColorPicker from 'v-color'
 
   export default {
-    name: 'badge-type',
+    name: 'badge-type-edit',
 
     mixins: [
       EntityPage,

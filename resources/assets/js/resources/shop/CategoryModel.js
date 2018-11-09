@@ -8,6 +8,8 @@ export default class CategoryModel extends ModelI18n {
       enabled: true,
 
       image: false,
+      miniature_image: '',
+      is_popular: false,
 
       created_at: null,
       updated_at: null,

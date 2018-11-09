@@ -69,6 +69,9 @@ import Avatar from './components/Avatar'
 import ReviewsTable from './components/reviews/ReviewsTable'
 import ReviewEdit from './components/reviews/ReviewEdit'
 
+import MenusTable from './components/menu/MenusTable'
+import MenuEdit from './components/menu/MenuEdit'
+
 
 
 
@@ -123,19 +126,19 @@ const routes = [
   { path: '/shop', redirect: '/shop/products' },
   { path: '/shop/categories', component: CategoriesTable },
   { path: '/shop/categories/create', component: CategoryEdit, props: { type: 'create' } },
-  { path: '/shop/categories/:id', component: CategoryEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/categories/:id', component: CategoryEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/shop/rooms', component: RoomsTable },
   { path: '/shop/rooms/create', component: RoomEdit, props: { type: 'create' } },
-  { path: '/shop/rooms/:id', component: RoomEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/rooms/:id', component: RoomEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/shop/styles', component: StylesTable },
   { path: '/shop/styles/create', component: StyleEdit, props: { type: 'create' } },
-  { path: '/shop/styles/:id', component: StyleEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/styles/:id', component: StyleEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/shop/products', component: ProductsTable },
   { path: '/shop/products/create', component: ProductEdit, props: { type: 'create' } },
-  { path: '/shop/products/:id', component: ProductEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/products/:id', component: ProductEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/shop/orders', component: OrdersTable },
 
@@ -143,63 +146,69 @@ const routes = [
 
   { path: '/shop/suppliers', component: SuppliersTable },
   { path: '/shop/suppliers/create', component: SupplierEdit, props: { type: 'create' } },
-  { path: '/shop/suppliers/:id', component: SupplierEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/suppliers/:id', component: SupplierEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/shop/attributes', component: AttributesTable },
   { path: '/shop/attributes/create', component: AttributeEdit, props: { type: 'create' } },
-  { path: '/shop/attributes/:id', component: AttributeEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/attributes/:id', component: AttributeEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/shop/price-types', component: PriceTypesTable },
   { path: '/shop/price-types/create', component: PriceTypeEdit, props: { type: 'create' } },
-  { path: '/shop/price-types/:id', component: PriceTypeEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/price-types/:id', component: PriceTypeEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/shop/promo-codes', component: PromoCodesTable },
   { path: '/shop/promo-codes/create', component: PromoCodeEdit, props: { type: 'create' } },
-  { path: '/shop/promo-codes/:id', component: PromoCodeEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/promo-codes/:id', component: PromoCodeEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/shop/customers', component: CustomersTable },
   { path: '/shop/customers/create', component: CustomerEdit, props: { type: 'create' } },
-  { path: '/shop/customers/:id', component: CustomerEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/customers/:id', component: CustomerEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/shop/badge-types', component: BadgeTypesTable },
   { path: '/shop/badge-types/create', component: BadgeTypeEdit, props: { type: 'create' } },
-  { path: '/shop/badge-types/:id', component: BadgeTypeEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/badge-types/:id', component: BadgeTypeEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/shop/banners', component: BannersTable },
   { path: '/shop/banners/default', redirect: '/shop/banners' },
   { path: '/shop/banners/header', redirect: '/shop/banners' },
   { path: '/shop/banners/default/create', component: BannerEdit, props: { type: 'create', bannerType: 'default' } },
   { path: '/shop/banners/header/create', component: BannerEdit, props: { type: 'create', bannerType: 'header' } },
-  { path: '/shop/banners/:id', component: BannerEdit, props: route => ({...route.params, type: 'edit'}), name: 'banner-edit' },
+  { path: '/shop/banners/:id', component: BannerEdit, props: route => ({ ...route.params, type: 'edit' }), name: 'banner-edit' },
 
   { path: '/shop/sale', component: SaleTable },
   { path: '/shop/sale/create', component: SaleEdit, props: { type: 'create' } },
-  { path: '/shop/sale/:id', component: SaleEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/sale/:id', component: SaleEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/shop/interiors', component: InteriorTable },
   { path: '/shop/interiors/create', component: InteriorEdit, props: { type: 'create' } },
-  { path: '/shop/interiors/:id', component: InteriorEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/shop/interiors/:id', component: InteriorEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/system/admins', component: AdminsTable },
   { path: '/system/admins/create', component: AdminEdit, props: { type: 'create' } },
-  { path: '/system/admins/:id', component: AdminEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/system/admins/:id', component: AdminEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/system/rbac/roles', component: RolesTable },
   { path: '/system/rbac/roles/create', component: RoleEdit, props: { type: 'create' } },
-  { path: '/system/rbac/roles/:id', component: RoleEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/system/rbac/roles/:id', component: RoleEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/system/rbac/roles', component: RolesTable },
   { path: '/system/rbac/roles/create', component: RoleEdit, props: { type: 'create' } },
-  { path: '/system/rbac/roles/:id', component: RoleEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/system/rbac/roles/:id', component: RoleEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/system/rbac/permission-groups', component: PermissionGroupsTable },
   { path: '/system/rbac/permission-groups/create', component: PermissionGroupEdit, props: { type: 'create' } },
-  { path: '/system/rbac/permission-groups/:id', component: PermissionGroupEdit, props: route => ({...route.params, type: 'edit'}) },
-
+  { path: '/system/rbac/permission-groups/:id', component: PermissionGroupEdit, props: route => ({ ...route.params, type: 'edit' }) },
 
   { path: '/reviews', component: ReviewsTable },
-  { path: '/reviews/:id', component: ReviewEdit, props: route => ({...route.params, type: 'edit'}) },
+  { path: '/reviews/:id', component: ReviewEdit, props: route => ({ ...route.params, type: 'edit' }) },
+
+  { path: '/menus', component: MenusTable },
+  { path: '/menus/create', component: MenuEdit, props: { type: 'create' } },
+  { path: '/menus/:id', component: MenuEdit, props: route => ({ ...route.params, type: 'edit' }) },
 ]
+
+
+
 
 
 
