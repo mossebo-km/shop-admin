@@ -130,4 +130,13 @@ return [
     'InteriorPoints'  => 'shop_interior_points',
     'InteriorStyles'  => 'shop_interior_styles',
     'InteriorRooms'   => 'shop_interior_rooms',
+
+
+    'Payments'        => 'shop_payments',
+    'YandexPayments'  => 'shop_payments_yandex',
+
+    'Carts'                       => 'shop_carts',
+    'CartProducts'                => 'shop_cart_products',
+    'CartProductAttributeOptions' => 'shop_cart_product_attribute_options',
+    'CartPromoCodes'              => 'shop_cart_promos',
 ];

@@ -20,14 +20,20 @@ class CreateOrdersTable extends Migration
             $table->char('language_code', 2);
             $table->foreign('language_code')->references('code')->on(config('tables.Languages'));
 
-            $table->integer('order_status_id')->unsigned()->index();
-            $table->foreign('order_status_id')->references('id')->on(config('tables.OrderStatuses'));
+            $table->integer('status_id')->unsigned()->index();
+            $table->foreign('status_id')->references('id')->on(config('tables.OrderStatuses'));
 
             $table->integer('pay_type_id')->unsigned()->index();
             $table->foreign('pay_type_id')->references('id')->on(config('tables.PayTypes'));
 
             $table->integer('delivery_type_id')->unsigned()->index();
             $table->foreign('delivery_type_id')->references('id')->on(config('tables.DeliveryTypes'));
+
+            $table->integer('price_type_id')->unsigned()->index();
+            $table->foreign('price_type_id')->references('id')->on(config('tables.PriceTypes'));
+
+            $table->char('currency_code', 3);
+            $table->foreign('currency_code')->references('code')->on(config('tables.Currencies'));
 
             $table->string('first_name');
             $table->string('last_name');

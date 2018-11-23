@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('shop:product-counts')->dailyAt('04:00');
         $schedule->command('shop:search-index')->everyMinute();
-        $schedule->command('shop:promo-uses-counts')->everyFiveMinutes();
     }
 
     /**

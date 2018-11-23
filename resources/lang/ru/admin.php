@@ -50,6 +50,26 @@ return [
         'deleted' => 'Категория #:id удалена.',
     ],
 
+    App\Models\Shop\Room\Room::class => [
+        'status' => [
+            'enabled' => 'Комната #:id показана.',
+            'disabled' => 'Комната #:id скрыта.',
+        ],
+        'created' => 'Комната #:id создана.',
+        'updated' => 'Комната #:id изменена.',
+        'deleted' => 'Комната #:id удалена.',
+    ],
+
+    App\Models\Shop\Style\Style::class => [
+        'status' => [
+            'enabled' => 'Стиль #:id показан.',
+            'disabled' => 'Стиль #:id скрыт.',
+        ],
+        'created' => 'Стиль #:id создан.',
+        'updated' => 'Стиль #:id изменен.',
+        'deleted' => 'Стиль #:id удален.',
+    ],
+
     App\Models\Shop\PriceType\PriceType::class => [
         'status' => [
             'enabled' => 'Тип цены #:id показан.',

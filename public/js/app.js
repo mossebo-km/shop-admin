@@ -5483,55 +5483,66 @@ var defaultAvatar = '/img/placeholders/avatars/avatar.jpg';
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
-// import Vue from 'vue'
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ckeditor',
 
   props: ['className', 'content'],
 
   watch: {
-    // '$route': 'reset'
+    '$route': 'reset'
   },
 
   mounted: function mounted() {
-    // this.instance = CKEDITOR.replace( this.$el, {
-    //   extraPlugins: 'divarea',
-    //   startupFocus : true,
-    //   filebrowserBrowseUrl: '/elfinder/ckeditor'
-    // })
-    //
-    // this.instance.on('change', () => {
-    //   this.$emit('update:content', this.instance.getData())
-    // })
-    //
-    // this.instance.on("instanceReady", () => {
-    //   this.instance.editable().$.blur()
-    // });
-    //
-    // let iframe = document.createElement('iframe')
-    //
-    // iframe.src = '/elfinder/popup/aszasd'
-    //
-    // iframe.style.width = '1000px'
-    // iframe.style.height = '500px'
-    //
-    // window.processSelectedFile = function() {
-    //   console.log(arguments)
-    // }
+    var _this = this;
 
+    this.instance = CKEDITOR.replace(this.$el, {
+      extraPlugins: 'divarea',
+      startupFocus: true,
+      filebrowserBrowseUrl: '/elfinder/ckeditor'
+    });
+
+    this.instance.on('change', function () {
+      _this.$emit('update:content', _this.instance.getData());
+    });
+
+    this.instance.on("instanceReady", function () {
+      _this.instance.editable().$.blur();
+    });
+
+    var iframe = document.createElement('iframe');
+
+    iframe.src = '/elfinder/popup/aszasd';
+
+    iframe.style.width = '1000px';
+    iframe.style.height = '500px';
+
+    window.processSelectedFile = function () {
+      console.log(arguments);
+    };
   },
 
 
   methods: {
-    input: function input() {
-      this.$emit('update:content', this.$refs.textarea.value);
-    }
-  }
+    // input() {
+    //   this.$emit('update:content', this.$refs.textarea.value)
+    // },
 
-  // beforeDestroy() {
-  // this.destroy()
-  // }
+    destroy: function destroy() {
+      if (!this.destroyed) {
+        this.instance.focusManager.blur(true);
+        this.instance.removeAllListeners();
+        this.instance.destroy(true);
+        this.destroyed = true;
+      }
+    },
+    reset: function reset() {
+      this.instance.setData(this.content);
+    }
+  },
+
+  beforeDestroy: function beforeDestroy() {
+    this.destroy();
+  }
 });
 
 /***/ }),
@@ -86327,11 +86338,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "textarea",
-    {
-      ref: "textarea",
-      class: "form-control" + (_vm.className ? " " + _vm.className : ""),
-      on: { input: _vm.input }
-    },
+    { class: "ckeditor" + (_vm.className ? " " + _vm.className : "") },
     [_vm._v(_vm._s(_vm.content))]
   )
 }
