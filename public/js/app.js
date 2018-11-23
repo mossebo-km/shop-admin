@@ -66742,12 +66742,7 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                    Описание "
-                                          ),
-                                          _c(
-                                            "span",
-                                            { staticClass: "text-danger" },
-                                            [_vm._v("*")]
+                                            "\n                    Описание\n                  "
                                           )
                                         ]
                                       ),
@@ -87070,255 +87065,277 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("b-table", {
-                      ref: "table",
-                      staticClass:
-                        "table table-vcenter table-condensed table-hover table-bordered no-footer",
-                      staticStyle: { "margin-bottom": "0" },
-                      attrs: {
-                        "show-empty": "",
-                        stacked: "md",
-                        items: _vm.fetchItems,
-                        fields: _vm.fields,
-                        busy: _vm.loading,
-                        "current-page": _vm.page,
-                        "per-page": _vm.perPage,
-                        "empty-text": "Список отзывов пуст.",
-                        "empty-filtered-text":
-                          "Отзывы с такими параметрами не найдены."
-                      },
-                      on: {
-                        refreshed: _vm.setHistoryState,
-                        "update:busy": function($event) {
-                          _vm.loading = $event
-                        }
-                      },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "HEAD_id",
-                          fn: function(review) {
-                            return [
-                              _c("span", { staticClass: "table-column-id" }, [
-                                _vm._v("ID")
-                              ])
-                            ]
-                          }
-                        },
-                        {
-                          key: "id",
-                          fn: function(review) {
-                            return [
-                              _c(
-                                "router-link",
-                                { attrs: { to: review.item.url } },
-                                [
+                    _vm.activeLanguageCode
+                      ? _c("b-table", {
+                          ref: "table",
+                          staticClass:
+                            "table table-vcenter table-condensed table-hover table-bordered no-footer",
+                          staticStyle: { "margin-bottom": "0" },
+                          attrs: {
+                            "show-empty": "",
+                            stacked: "md",
+                            items: _vm.fetchItems,
+                            fields: _vm.fields,
+                            busy: _vm.loading,
+                            "current-page": _vm.page,
+                            "per-page": _vm.perPage,
+                            "empty-text": "Список отзывов пуст.",
+                            "empty-filtered-text":
+                              "Отзывы с такими параметрами не найдены."
+                          },
+                          on: {
+                            refreshed: _vm.setHistoryState,
+                            "update:busy": function($event) {
+                              _vm.loading = $event
+                            }
+                          },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "HEAD_id",
+                              fn: function(review) {
+                                return [
+                                  _c(
+                                    "span",
+                                    { staticClass: "table-column-id" },
+                                    [_vm._v("ID")]
+                                  )
+                                ]
+                              }
+                            },
+                            {
+                              key: "id",
+                              fn: function(review) {
+                                return [
+                                  _c(
+                                    "router-link",
+                                    { attrs: { to: review.item.url } },
+                                    [
+                                      _c(
+                                        "span",
+                                        { staticClass: "table-column-id" },
+                                        [
+                                          _vm._v(
+                                            "\n                  " +
+                                              _vm._s(review.item.id) +
+                                              "\n                "
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              }
+                            },
+                            {
+                              key: "rate",
+                              fn: function(review) {
+                                return [
                                   _c(
                                     "span",
                                     { staticClass: "table-column-id" },
                                     [
                                       _vm._v(
                                         "\n                  " +
-                                          _vm._s(review.item.id) +
+                                          _vm._s(review.item.rate) +
                                           "\n                "
                                       )
                                     ]
                                   )
                                 ]
-                              )
-                            ]
-                          }
-                        },
-                        {
-                          key: "rate",
-                          fn: function(review) {
-                            return [
-                              _c("span", { staticClass: "table-column-id" }, [
-                                _vm._v(
-                                  "\n                  " +
-                                    _vm._s(review.item.rate) +
-                                    "\n                "
-                                )
-                              ])
-                            ]
-                          }
-                        },
-                        {
-                          key: "HEAD_text",
-                          fn: function(review) {
-                            return [
-                              _vm._v("\n              Текст\n            ")
-                            ]
-                          }
-                        },
-                        {
-                          key: "text",
-                          fn: function(review) {
-                            return [
-                              _c(
-                                "router-link",
-                                { attrs: { to: review.item.url } },
-                                [
-                                  _vm._v(
-                                    "\n                " +
-                                      _vm._s(review.item.text) +
-                                      "\n              "
+                              }
+                            },
+                            {
+                              key: "HEAD_text",
+                              fn: function(review) {
+                                return [
+                                  _vm._v("\n              Текст\n            ")
+                                ]
+                              }
+                            },
+                            {
+                              key: "text",
+                              fn: function(review) {
+                                return [
+                                  _c(
+                                    "router-link",
+                                    { attrs: { to: review.item.url } },
+                                    [
+                                      _vm._v(
+                                        "\n                " +
+                                          _vm._s(review.item.text) +
+                                          "\n              "
+                                      )
+                                    ]
                                   )
                                 ]
-                              )
-                            ]
-                          }
-                        },
-                        {
-                          key: "user_name",
-                          fn: function(review) {
-                            return [
-                              _c(
-                                "a",
-                                {
-                                  attrs: {
-                                    href: review.item.user.url,
-                                    target: "_blank"
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                " +
-                                      _vm._s(review.item.user.full_name) +
-                                      "\n              "
-                                  )
-                                ]
-                              )
-                            ]
-                          }
-                        },
-                        {
-                          key: "entity",
-                          fn: function(review) {
-                            return [
-                              review.item.product
-                                ? [
-                                    _vm._v(
-                                      "\n                товаре:\n\n                "
-                                    ),
-                                    _c(
-                                      "a",
-                                      {
-                                        attrs: {
-                                          href: review.item.product.url,
-                                          target: "_blank"
-                                        }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                  " +
-                                            _vm._s(
-                                              review.item.product.i18n[
-                                                _vm.activeLanguageCode
-                                              ].title
-                                            ) +
-                                            "\n                "
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                : _vm._e()
-                            ]
-                          }
-                        },
-                        {
-                          key: "HEAD_created_at",
-                          fn: function(review) {
-                            return [
-                              _c("span", { staticClass: "table-column-date" }, [
-                                _vm._v("Создан")
-                              ])
-                            ]
-                          }
-                        },
-                        {
-                          key: "created_at",
-                          fn: function(review) {
-                            return [
-                              _c("span", { staticClass: "table-column-date" }, [
-                                _vm._v(
-                                  "\n                " +
-                                    _vm._s(review.item.created_at) +
-                                    "\n              "
-                                )
-                              ])
-                            ]
-                          }
-                        },
-                        {
-                          key: "HEAD_enabled",
-                          fn: function(review) {
-                            return [
-                              _c(
-                                "span",
-                                { staticClass: "table-column-enabled" },
-                                [_vm._v("Статус")]
-                              )
-                            ]
-                          }
-                        },
-                        {
-                          key: "enabled",
-                          fn: function(review) {
-                            return [
-                              _c(
-                                "span",
-                                { staticClass: "table-column-enabled" },
-                                [
-                                  _c("toggle", {
-                                    key: review.item.id,
-                                    attrs: { checked: review.item.confirmed },
-                                    on: {
-                                      change: function($event) {
-                                        _vm.statusChange(review.item.id)
-                                      }
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ]
-                          }
-                        },
-                        {
-                          key: "HEAD_delete",
-                          fn: function(review) {
-                            return [
-                              _c("span", { staticClass: "table-column-delete" })
-                            ]
-                          }
-                        },
-                        {
-                          key: "delete",
-                          fn: function(review) {
-                            return [
-                              _c(
-                                "span",
-                                { staticClass: "table-column-delete" },
-                                [
+                              }
+                            },
+                            {
+                              key: "user_name",
+                              fn: function(review) {
+                                return [
                                   _c(
                                     "a",
                                     {
-                                      staticClass: "btn btn-danger",
-                                      on: {
-                                        click: function($event) {
-                                          _vm.remove(review.item.id)
-                                        }
+                                      attrs: {
+                                        href: review.item.user.url,
+                                        target: "_blank"
                                       }
                                     },
-                                    [_c("i", { staticClass: "fa fa-times" })]
+                                    [
+                                      _vm._v(
+                                        "\n                " +
+                                          _vm._s(review.item.user.full_name) +
+                                          "\n              "
+                                      )
+                                    ]
                                   )
                                 ]
-                              )
-                            ]
-                          }
-                        }
-                      ])
-                    }),
+                              }
+                            },
+                            {
+                              key: "entity",
+                              fn: function(review) {
+                                return [
+                                  review.item.product
+                                    ? [
+                                        _vm._v(
+                                          "\n                товаре:\n\n                "
+                                        ),
+                                        _c(
+                                          "a",
+                                          {
+                                            attrs: {
+                                              href: review.item.product.url,
+                                              target: "_blank"
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                  " +
+                                                _vm._s(
+                                                  review.item.product.i18n[
+                                                    _vm.activeLanguageCode
+                                                  ].title
+                                                ) +
+                                                "\n                "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    : _vm._e()
+                                ]
+                              }
+                            },
+                            {
+                              key: "HEAD_created_at",
+                              fn: function(review) {
+                                return [
+                                  _c(
+                                    "span",
+                                    { staticClass: "table-column-date" },
+                                    [_vm._v("Создан")]
+                                  )
+                                ]
+                              }
+                            },
+                            {
+                              key: "created_at",
+                              fn: function(review) {
+                                return [
+                                  _c(
+                                    "span",
+                                    { staticClass: "table-column-date" },
+                                    [
+                                      _vm._v(
+                                        "\n                " +
+                                          _vm._s(review.item.created_at) +
+                                          "\n              "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              }
+                            },
+                            {
+                              key: "HEAD_enabled",
+                              fn: function(review) {
+                                return [
+                                  _c(
+                                    "span",
+                                    { staticClass: "table-column-enabled" },
+                                    [_vm._v("Статус")]
+                                  )
+                                ]
+                              }
+                            },
+                            {
+                              key: "enabled",
+                              fn: function(review) {
+                                return [
+                                  _c(
+                                    "span",
+                                    { staticClass: "table-column-enabled" },
+                                    [
+                                      _c("toggle", {
+                                        key: review.item.id,
+                                        attrs: {
+                                          checked: review.item.confirmed
+                                        },
+                                        on: {
+                                          change: function($event) {
+                                            _vm.statusChange(review.item.id)
+                                          }
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ]
+                              }
+                            },
+                            {
+                              key: "HEAD_delete",
+                              fn: function(review) {
+                                return [
+                                  _c("span", {
+                                    staticClass: "table-column-delete"
+                                  })
+                                ]
+                              }
+                            },
+                            {
+                              key: "delete",
+                              fn: function(review) {
+                                return [
+                                  _c(
+                                    "span",
+                                    { staticClass: "table-column-delete" },
+                                    [
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass: "btn btn-danger",
+                                          on: {
+                                            click: function($event) {
+                                              _vm.remove(review.item.id)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fa fa-times"
+                                          })
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              }
+                            }
+                          ])
+                        })
+                      : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "row" }, [
                       _c(

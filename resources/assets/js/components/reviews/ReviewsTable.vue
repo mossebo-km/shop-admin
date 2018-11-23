@@ -331,6 +331,7 @@
             </div>
 
             <b-table
+              v-if="activeLanguageCode"
               @refreshed="setHistoryState"
               show-empty
               stacked="md"

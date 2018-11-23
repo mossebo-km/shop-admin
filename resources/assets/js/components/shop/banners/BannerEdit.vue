@@ -301,7 +301,7 @@
                 <template v-if="bannerType$ === 'default'">
                   <div :class="`form-group clearfix${formErrors.has(`i18n.${language.code}.caption`) ? ' has-error' : ''}`">
                     <label class="col-md-3 control-label" :for="`caption-${language.code}`">
-                      Описание <span class="text-danger">*</span>
+                      Описание
                     </label>
 
                     <div class="col-md-9">
