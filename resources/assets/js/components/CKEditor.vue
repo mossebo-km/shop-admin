@@ -12,6 +12,8 @@
     },
 
     mounted() {
+      return;
+      // недоделано
       this.instance = CKEDITOR.replace( this.$el, {
         extraPlugins: 'divarea',
         startupFocus : true,
@@ -40,9 +42,9 @@
     },
 
     methods: {
-      // input() {
-      //   this.$emit('update:content', this.$refs.textarea.value)
-      // },
+      input() {
+        this.$emit('update:content', this.$refs.textarea.value)
+      },
 
       destroy() {
         if (!this.destroyed) {
@@ -59,13 +61,13 @@
     },
 
     beforeDestroy() {
-      this.destroy()
+      // this.destroy()
     }
   }
 </script>
 
 <template>
-  <textarea :class="`ckeditor${className ? ' ' + className : ''}`">{{ content }}</textarea>
-  <!--<textarea ref="textarea" :class="`form-control${className ? ' ' + className : ''}`" @input="input">{{ content }}</textarea>-->
+  <!--<textarea :class="`ckeditor${className ? ' ' + className : ''}`">{{ content }}</textarea>-->
+  <textarea ref="textarea" :class="`form-control${className ? ' ' + className : ''}`" @input="input">{{ content }}</textarea>
 </template>
 

@@ -2139,7 +2139,7 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:mossebo-cm/mossebo-shop-core.git",
-                "reference": "20c003054aa4aad5d7f318fe174a46fbd445ed35"
+                "reference": "7a750507d1640b6d33538a5e088643028df0a63e"
             },
             "require": {
                 "composer/installers": "^1.0",
@@ -2172,7 +2172,7 @@
                 "Mossebo",
                 "Shop"
             ],
-            "time": "2018-11-23T07:27:42+00:00"
+            "time": "2018-11-23T14:08:59+00:00"
         },
         {
             "name": "nesbot/carbon",

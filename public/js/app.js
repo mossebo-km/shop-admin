@@ -5495,6 +5495,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   mounted: function mounted() {
     var _this = this;
 
+    return;
+    // недоделано
     this.instance = CKEDITOR.replace(this.$el, {
       extraPlugins: 'divarea',
       startupFocus: true,
@@ -5523,10 +5525,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   methods: {
-    // input() {
-    //   this.$emit('update:content', this.$refs.textarea.value)
-    // },
-
+    input: function input() {
+      this.$emit('update:content', this.$refs.textarea.value);
+    },
     destroy: function destroy() {
       if (!this.destroyed) {
         this.instance.focusManager.blur(true);
@@ -5541,7 +5542,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   beforeDestroy: function beforeDestroy() {
-    this.destroy();
+    // this.destroy()
   }
 });
 
@@ -86333,7 +86334,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "textarea",
-    { class: "ckeditor" + (_vm.className ? " " + _vm.className : "") },
+    {
+      ref: "textarea",
+      class: "form-control" + (_vm.className ? " " + _vm.className : ""),
+      on: { input: _vm.input }
+    },
     [_vm._v(_vm._s(_vm.content))]
   )
 }

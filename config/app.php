@@ -174,6 +174,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\MediaLibraryServiceProvider::class,
         App\Providers\HelpersServiceProvider::class,
+        App\Providers\ShopServiceProvider::class,
     ],
 
     /*
