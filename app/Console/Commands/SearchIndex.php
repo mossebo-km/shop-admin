@@ -63,7 +63,7 @@ class SearchIndex extends Command
         )
             ->whereNull('indexed_at')
             ->orWhere('indexed_at', '<', Carbon::now()->subDay()->toDateTimeString())
-            ->take(5)
+            ->take(10)
             ->inRandomOrder()
             ->get();
 

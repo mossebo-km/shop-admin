@@ -19,7 +19,8 @@ class TestController extends Controller
 {
     public function test()
     {
-
+        $product = Product::where('id', 101789)->first();
+        dd($product->toSearchableArray());
 
 //        $descedantIds = Category::getDescendantIds(1);
 //        dd($descedantIds);

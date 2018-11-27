@@ -7,13 +7,14 @@
   import EntityPage from '../../mixins/EntityPage'
 
   import ReviewsModel from '../../resources/ReviewsModel'
-
+  import DatePickerMixin from '../../mixins/DatePicker/DatePicker'
 
   export default {
     name: 'review-edit',
 
     mixins: [
-      EntityPage
+      EntityPage,
+      DatePickerMixin
     ],
 
     components: {
@@ -175,9 +176,19 @@
           </label>
 
           <div class="col-md-9">
-            <p class="form-control-static">
-              {{ review.created_at }}
-            </p>
+            <date-picker
+              id="created_at"
+              name="created_at"
+              @dp-show="datePickerShow('created_at')"
+              @dp-change="dateChanged('created_at')"
+              v-model="review.created_at"
+              :config="getBaseDatePickerConfig()"
+              class="date-picker"
+            ></date-picker>
+
+            <span v-show="formErrors.has('created_at')" class="help-block">
+              {{ formErrors.first('created_at') }}
+            </span>
           </div>
         </div>
 
@@ -187,9 +198,19 @@
           </label>
 
           <div class="col-md-9">
-            <p class="form-control-static">
-              {{ review.updated_at }}
-            </p>
+            <date-picker
+              id="updated_at"
+              name="updated_at"
+              @dp-show="datePickerShow('updated_at')"
+              @dp-change="dateChanged('updated_at')"
+              v-model="review.created_at"
+              :config="getBaseDatePickerConfig()"
+              class="date-picker"
+            ></date-picker>
+
+            <span v-show="formErrors.has('updated_at')" class="help-block">
+              {{ formErrors.first('updated_at') }}
+            </span>
           </div>
         </div>
 
