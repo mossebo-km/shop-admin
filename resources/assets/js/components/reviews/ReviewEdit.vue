@@ -203,7 +203,7 @@
               name="updated_at"
               @dp-show="datePickerShow('updated_at')"
               @dp-change="dateChanged('updated_at')"
-              v-model="review.created_at"
+              v-model="review.updated_at"
               :config="getBaseDatePickerConfig()"
               class="date-picker"
             ></date-picker>
